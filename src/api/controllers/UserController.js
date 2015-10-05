@@ -6,6 +6,46 @@
  */
 
 module.exports = {
-	
+
+
+  /**
+   * `UserController.login()`
+   */
+  login: function (req, res) {
+    return res.json({
+      todo: 'index() is not implemented yet!'
+    });
+  },
+
+
+  /**
+   * `UserController.signup()`
+   */
+  signup: function (req, res) {
+    User.create(req);
+    return res.json({
+      todo: 'signup() is not implemented yet!'
+    });
+  },
+
+
+  /**
+   * `UserController.profile()`
+   */
+  profile: function (req, res) {
+    return res.json({
+      todo: 'profile() is not implemented yet!'
+    });
+  },
+
+
+  /**
+   * `UserController.edit()`
+   */
+  edit: function (req, res) {
+    return res.json({
+      todo: 'edit() is not implemented yet!'
+    });
+  }
 };
 

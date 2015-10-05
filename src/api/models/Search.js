@@ -1,5 +1,5 @@
 /**
-* User.js
+* Search.js
 *
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
@@ -8,14 +8,15 @@
 module.exports = {
 
   attributes: {
+  attributes: {
 
-    name : { type: 'string' },
+    originAirport : { type: 'string' },
+    toAirport : { type: 'string' },
+    fromDate : { type: 'date' },
+    toDate : { type: 'date' },
+    result : { type: 'jsonp' }
 
-    email : { type: 'string' },
-
-    password : { type: 'string' }
-  },
-  // Associations (aka relational attributes)
-  profile: { model: 'Profile' },
+  }
+  }
 };
 
