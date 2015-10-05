@@ -9,7 +9,7 @@ module.exports = {
 
   attributes: {
 
-    name : { type: 'string' },
+    login : { type: 'string' },
 
     email : { type: 'string' },
 

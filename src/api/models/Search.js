@@ -11,9 +11,9 @@ module.exports = {
   attributes: {
 
     originAirport : { type: 'string' },
-    toAirport : { type: 'string' },
-    fromDate : { type: 'date' },
-    toDate : { type: 'date' },
+    destinationAirport : { type: 'string' },
+    departureDate : { type: 'date' },
+    returnDate : { type: 'date' },
     result : { type: 'jsonp' }
 
   }
