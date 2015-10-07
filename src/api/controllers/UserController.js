@@ -22,7 +22,6 @@ module.exports = {
    * `UserController.signup()`
    */
   signup: function (req, res) {
-    User.create(req);
     return res.json({
       todo: 'signup() is not implemented yet!'
     });

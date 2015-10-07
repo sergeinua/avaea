@@ -16,10 +16,8 @@ module.exports = {
    * `SearchController.index()`
    */
   index: function (req, res) {
-    return res.json({
-      user: {
-         data:"user data will be here"
-      }
+    return res.view('search/index', {
+      user: res.user
     });
   },
 

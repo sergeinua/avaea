@@ -8,6 +8,6 @@
   <h4>You can use one of these methods to login</h4>
 
   <% Object.keys(providers).forEach(function (key) { %>
-    <a href="/auth/<%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
+    <a href="/auth/<%= providers[key].slug %>" class="btn btn-lg btn-primary btn-block" role="button"><%= providers[key].name %></a>
   <% }) %>
 <% } %>
