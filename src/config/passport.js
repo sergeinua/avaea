@@ -28,8 +28,8 @@ module.exports.passport = {
     protocol: 'oauth',
     strategy: require('passport-twitter').Strategy,
     options: {
-      consumerKey: 'your-consumer-key',
-      consumerSecret: 'your-consumer-secret'
+      consumerKey: '37YKxX7hnMKXQgyx5SZbrZxKH',
+      consumerSecret: 'Z1rIFeMyK3HqfOO5SAenXlfV24O9KuHCgKhJO2wFQjdh8XViCr'
     }
   },
 
@@ -38,8 +38,8 @@ module.exports.passport = {
     protocol: 'oauth2',
     strategy: require('passport-facebook').Strategy,
     options: {
-      clientID: 'your-client-id',
-      clientSecret: 'your-client-secret',
+      clientID: '1022188547826218',
+      clientSecret: '44aec5d0d5814b743cc04c6cd4abf5ca',
       scope: ['email'] /* email is necessary for login behavior */
     }
   },
@@ -49,8 +49,8 @@ module.exports.passport = {
     protocol: 'oauth2',
     strategy: require('passport-google-oauth').OAuth2Strategy,
     options: {
-      clientID: 'your-client-id',
-      clientSecret: 'your-client-secret'
+      clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
+      clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs'
     }
   },
 };
