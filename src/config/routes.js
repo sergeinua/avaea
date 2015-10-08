@@ -47,7 +47,7 @@ module.exports.routes = {
   'post /result': 'SearchController.result',
   
   '/': {
-    view: 'homepage'
+    view: 'login'
   }
 
   /***************************************************************************

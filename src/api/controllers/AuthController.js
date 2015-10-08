@@ -34,6 +34,10 @@ var AuthController = {
     var strategies = sails.config.passport
       , providers  = {};
 
+    if (req.session.authenticated == true) {
+      res.redirect('/search');
+    }
+
     // Get a list of available providers for use in your templates.
     Object.keys(strategies).forEach(function (key) {
       if (key === 'local') {

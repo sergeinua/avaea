@@ -26,13 +26,94 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    return res.json({
+    return  res.view('search/result', {
       guid: this.getCurentSearchGuid(),
-      result:[
-        {itinerary: 'itinerary data #1'},
-        {itinerary: 'itinerary data #2'},
-        {itinerary: 'itinerary data #3'},
-        {itinerary: 'itinerary data #4'},
+      searchParams: req.allParams(),
+      searchResult:[
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 0,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 1,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 0,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 0,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 0,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Istern airlines',
+          price: '820',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
       ]
     });
   }

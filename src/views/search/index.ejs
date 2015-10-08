@@ -1,0 +1,16 @@
+<form action="/result" method="post">
+<h2 class="form-signin-heading">Search for flights</h2>
+<div class="input-group">
+    <input type="text" name="originAirport" class="form-control" placeholder="Airport of departure" required autofocus/>
+    <div class="input-group-addon"><span class="caret"></span></div>
+</div>
+<div class="input-group">
+    <input type="text" name="destinationAirport" class="form-control" placeholder="Airport of destination" required/>
+    <div class="input-group-addon"><span class="caret"></span></div>
+</div>
+<label for="departureDate" class="sr-only">Departure Date</label>
+<input type="date" name="departureDate" id="departureDate" class="form-control"/>
+<label for="returnDate" class="sr-only">Return Date</label>
+<input type="date" name="returnDate" id="returnDate" class="form-control"/>
+<button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+</form>
