@@ -1,0 +1,44 @@
+
+  <% order.forEach(function (sRes) { %>
+
+<div class="panel panel-info">
+  <div class="panel-heading">You ordered</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-xs-7"><%= sRes.itinerary.carier %></div>
+      <div class="col-xs-5"><span class="pull-right"><strong><%= sRes.itinerary.originAirport %></strong><span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span><strong><%= sRes.itinerary.destinationAirport %></strong></span></div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12"><%= sRes.itinerary.departureTime %> - <%= sRes.itinerary.arrivalTime %><br/>
+      <%= sRes.itinerary.flightTime %>
+    <% if (sRes.itinerary.stops > 0) { %>
+      <span class="text-danger">+<%= sRes.itinerary.stops + __(' stops')%></span>
+    <% } %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12"><span class="small"><%= sRes.itinerary.ticketType %> - <%= sRes.itinerary.planeType %></span></div>
+    </div>
+
+    <% if (sRes.itinerary.merchandising) { %>
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading">Merchandising Information</div>
+        <div class="panel-body">
+          <ul>
+          <% sRes.itinerary.merchandising.forEach(function (item) { %>
+            <li><%= item %></li>
+          <% }) %>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+  </div>
+</div>
+
+  <% }) %>
+  <div class="col-xs-12"><a href="/search" class="btn btn-lg btn-primary btn-block" role="button"><%= __('Another search')%></a></div>
