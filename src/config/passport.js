@@ -50,7 +50,8 @@ module.exports.passport = {
     strategy: require('passport-google-oauth').OAuth2Strategy,
     options: {
       clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
-      clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs'
+      clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs',
+      scope: 'https://www.googleapis.com/auth/plus.login'
     }
   },
 };
