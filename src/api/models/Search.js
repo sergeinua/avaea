@@ -8,15 +8,17 @@
 module.exports = {
 
   attributes: {
-  attributes: {
-
-    originAirport : { type: 'string' },
+    uuid: {
+      type: 'string',
+      primaryKey: true,
+      unique: true,
+      required: true
+    },
+    originAirport :      { type: 'string' },
     destinationAirport : { type: 'string' },
-    departureDate : { type: 'date' },
-    returnDate : { type: 'date' },
-    result : { type: 'jsonp' }
-
-  }
+    departureDate :      { type: 'date' },
+    returnDate :         { type: 'date' },
+    result :             { type: 'json' }
   }
 };
 

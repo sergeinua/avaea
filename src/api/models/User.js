@@ -3,8 +3,14 @@ var User = {
   schema: true,
 
   attributes: {
+    id: {
+      type: 'integer',
+      unique: true,
+      primaryKey: true,
+      autoPK: true
+    },
     username  : { type: 'string', unique: true },
-    email     : { type: 'email',  unique: true },
+    email     : { type: 'email',  unique: true , email: true},
     passports : { collection: 'Passport', via: 'user' }
   }
 };
