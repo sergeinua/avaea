@@ -86,7 +86,7 @@ var Passport = {
     }
 
   },
-
+  tableName: 'user_password_settings',
   /**
    * Callback to be run before creating a Passport.
    *
