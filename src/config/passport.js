@@ -23,26 +23,26 @@ module.exports.passport = {
     // strategy: require('passport-http-bearer').Strategy
   // },
 
-  twitter: {
-    name: 'Twitter',
-    protocol: 'oauth',
-    strategy: require('passport-twitter').Strategy,
-    options: {
-      consumerKey: '37YKxX7hnMKXQgyx5SZbrZxKH',
-      consumerSecret: 'Z1rIFeMyK3HqfOO5SAenXlfV24O9KuHCgKhJO2wFQjdh8XViCr'
-    }
-  },
+  // twitter: {
+  //   name: 'Twitter',
+  //   protocol: 'oauth',
+  //   strategy: require('passport-twitter').Strategy,
+  //   options: {
+  //     consumerKey: '37YKxX7hnMKXQgyx5SZbrZxKH',
+  //     consumerSecret: 'Z1rIFeMyK3HqfOO5SAenXlfV24O9KuHCgKhJO2wFQjdh8XViCr'
+  //   }
+  // },
 
-  facebook: {
-    name: 'Facebook',
-    protocol: 'oauth2',
-    strategy: require('passport-facebook').Strategy,
-    options: {
-      clientID: '1022188547826218',
-      clientSecret: '44aec5d0d5814b743cc04c6cd4abf5ca',
-      scope: ['email'] /* email is necessary for login behavior */
-    }
-  },
+  // facebook: {
+  //   name: 'Facebook',
+  //   protocol: 'oauth2',
+  //   strategy: require('passport-facebook').Strategy,
+  //   options: {
+  //     clientID: '1022188547826218',
+  //     clientSecret: '44aec5d0d5814b743cc04c6cd4abf5ca',
+  //     scope: ['email'] /* email is necessary for login behavior */
+  //   }
+  // },
 
   google: {
     name: 'Google',
@@ -51,7 +51,7 @@ module.exports.passport = {
     options: {
       clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
       clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs',
-      scope: 'https://www.googleapis.com/auth/plus.login'
+      scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
     }
   },
 };
