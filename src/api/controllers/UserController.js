@@ -32,8 +32,8 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
-    return res.json({
-      todo: 'profile() is not implemented yet!'
+    return res.view('user/profile', {
+      user: res.user
     });
   },
 

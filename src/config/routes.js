@@ -46,7 +46,9 @@ module.exports.routes = {
   'get /order': 'HomepageController.order',
   'get /search': 'SearchController.index',
   'post /result': 'SearchController.result',
-  
+
+  'get /profile': 'UserController.profile',
+
   '/': 'AuthController.login'
 
   /***************************************************************************

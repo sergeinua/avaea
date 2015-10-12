@@ -7,11 +7,38 @@
 
 module.exports = {
 
-    firstName     : { type: 'string' },
-    middleName    : { type: 'string' },
-    lastName      : { type: 'string' },
-    address       : { type: 'string' },
-    notifyContact : { type: 'string' }
-
+  attributes: {
+    firstName        : { type: 'string' },
+    middleName       : { type: 'string' },
+    lastName         : { type: 'string' },
+    address          : { type: 'string' },
+    notifyContact    : { type: 'json' },
+    travelWith       : { type: 'json' },
+    milesPrograms    : { type: 'json' },
+    loungeMembership : { type: 'json' },
+    employer         : { type: 'json' },
+    ethnicity        : { type: 'json'
+                            // [
+                            //     'European',
+                            //     'Mexican',
+                            //     'Latin American',
+                            //     'Eastern European',
+                            //     'South East Asian (India, Pakistan, Bangladesh)',
+                            //     'Chinese',
+                            //     'Asian',
+                            //     'African',
+                            //     'South Pacific'
+                            // ]
+                       },
+    preferredAirlines : { type: 'json' },
+    preferredClass    : { type: 'json' },
+    preferredSeat     : { type: 'string' 
+                            // [
+                            //     'Window',
+                            //     'Aisle',
+                            //     'Exit Row'
+                            // ]
+                        }
+  }
 };
 
