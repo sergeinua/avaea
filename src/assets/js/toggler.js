@@ -7,9 +7,10 @@ $(document).ready(function() {
 
     $('.mymoreprofilebutton').click(function(el) {
         var cloneTarget = $(this).attr('for');
-        var clone = $('#' + cloneTarget).clone();
+        var clone = $('#' + cloneTarget).clone().find("input").val("").end();
 
         clone.find('hr').removeClass('hidden');
-        clone.appendTo($('#' + cloneTarget));
+        clone.appendTo($('#' + cloneTarget).parent());
+        return false;
     });
 });

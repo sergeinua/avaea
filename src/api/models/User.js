@@ -11,7 +11,8 @@ var User = {
     },
     username  : { type: 'string', unique: true },
     email     : { type: 'email',  unique: true , email: true},
-    passports : { collection: 'Passport', via: 'user' }
+    passports : { collection: 'Passport', via: 'user' },
+    searches  : { collection: 'Search', via: 'user' }
   }
 };
 

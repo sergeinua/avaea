@@ -1,3 +1,5 @@
+/* global passport */
+/* global sails */
 /**
  * Authentication Controller
  *

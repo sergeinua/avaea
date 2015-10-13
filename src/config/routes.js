@@ -48,6 +48,7 @@ module.exports.routes = {
   'post /result': 'SearchController.result',
 
   'get /profile': 'UserController.profile',
+  'post /update': 'UserController.update',
 
   '/': 'AuthController.login'
 

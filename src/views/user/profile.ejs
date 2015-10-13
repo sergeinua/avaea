@@ -1,13 +1,14 @@
-<form action="user/update" method="post">
+
+<form action="user/update" name="Profile" id="Profile" method="post">
 <h2 class="form-signin-heading">Update profile</h2>
-    <input type="text" name="firstName" class="form-control" placeholder="First Name"/>
+    <input type="text" name="firstName" class="form-control" placeholder="First Name" required/>
     <input type="text" name="middleName" class="form-control" placeholder="Middle Name" />
-    <input type="text" name="lastName" class="form-control" placeholder="Last Name" />
+    <input type="text" name="lastName" class="form-control" placeholder="Last Name" required/>
     <input type="text" name="address" class="form-control" placeholder="Address" />
 
 <!--In Case of Emergency Notify-->
     <input type="text" name="notifyContact.name" class="form-control" placeholder="In Case of Emergency Notify"/>
-    <input type="text" name="notifyContact.phone" class="form-control" placeholder="Emergency Notify Phone"/>
+    <input type="tel" name="notifyContact.phone" class="form-control" placeholder="Emergency Notify Phone"/>
 <!--Name(s) of Family Members who might travel with you-->
     <div class="panel panel-default">
         <div class="panel-heading">Name(s) of Family Members who might travel with you</div>
@@ -63,12 +64,12 @@
     <div class="panel panel-default">
         <div class="panel-heading">Employer</div>
         <div class="panel-body">
-            <input type="text" name="employer.companyName[]" class="form-control" placeholder="Company Name"/>
-            <input type="text" name="employer.address[]" class="form-control" placeholder="Address" />
-            <input type="tel" name="employer.phone[]" class="form-control" placeholder="Phone number" />
-            <input type="text" name="employer.position[]" class="form-control" placeholder="Position Held" />
+            <input type="text" name="employer.companyName" class="form-control" placeholder="Company Name"/>
+            <input type="text" name="employer.address" class="form-control" placeholder="Address" />
+            <input type="tel" name="employer.phone" class="form-control" placeholder="Phone number" />
+            <input type="text" name="employer.position" class="form-control" placeholder="Position Held" />
             <label>Salary Range</label>
-            <select name="employer.salary[]" class="form-control">
+            <select name="employer.salary" class="form-control">
                 <option value=''>please choose</option>
                 <option value="$50K - $100K">$50K - $100K</option>
                 <option value="$100K - $200K">$100K - $200K</option>
@@ -76,7 +77,7 @@
                 <option value="Over $300K">Over $300K</option>
             </select>
             <label>Total Household Income</label>
-            <select name="employer.salary[]" class="form-control">
+            <select name="employer.income" class="form-control">
                 <option value=''>please choose</option>
                 <option value="$50K - $100K">$50K - $100K</option>
                 <option value="$100K - $200K">$100K - $200K</option>
@@ -119,11 +120,12 @@
         </div>
     </div>
 <!--Preferred Class of Service-->
+<!--todo: rethink this part mb better put 2 selects + more button-->
     <div class="panel panel-default">
         <div class="panel-heading">Preferred Class of Service</div>
         <div class="panel-body">
             <label>Domestic for Personal or Leisure Travel</label>
-            <select name="preferredClass.domesticPersonal[]" class="form-control">
+            <select name="preferredClass.domesticPersonal" class="form-control">
                 <option value=''>please choose</option>
                 <option value="First">First</option>
                 <option value="Business">Business</option>
@@ -131,7 +133,7 @@
                 <option value="Economy">Economy</option>
             </select>
             <label>Domestic for Business Travel</label>
-            <select name="preferredClass.domesticBusiness[]" class="form-control">
+            <select name="preferredClass.domesticBusiness" class="form-control">
                 <option value=''>please choose</option>
                 <option value="First">First</option>
                 <option value="Business">Business</option>
@@ -139,7 +141,7 @@
                 <option value="Economy">Economy</option>
             </select>
             <label>International for Personal or Leisure Travel</label>
-            <select name="preferredClass.internationalPersonal[]" class="form-control">
+            <select name="preferredClass.internationalPersonal" class="form-control">
                 <option value=''>please choose</option>
                 <option value="First">First</option>
                 <option value="Business">Business</option>
@@ -147,7 +149,7 @@
                 <option value="Economy">Economy</option>
             </select>
             <label>International for Business Travel</label>
-            <select name="preferredClass.internationalBusiness[]" class="form-control">
+            <select name="preferredClass.internationalBusiness" class="form-control">
                 <option value=''>please choose</option>
                 <option value="First">First</option>
                 <option value="Business">Business</option>
@@ -164,6 +166,15 @@
         <option value='Aisle'>Aisle</option>
         <option value='Exit Row'>Exit Row</option>
     </select>
+<style>
+    body { padding-bottom: 70px; }
+</style>
 
-<button type="submit" class="btn btn-lg btn-primary btn-block" >Update</button>
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <button type="submit" class="btn btn-lg btn-primary btn-block" >Update</button>
+      </div>
+    </nav>
+</div>
 </form>

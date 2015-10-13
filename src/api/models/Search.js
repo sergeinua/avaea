@@ -18,7 +18,8 @@ module.exports = {
     destinationAirport : { type: 'string' },
     departureDate :      { type: 'date' },
     returnDate :         { type: 'date' },
-    result :             { type: 'json' }
+    result :             { type: 'json' },
+    user :               { model : 'User' } // who did search
   }
 };
 

@@ -1,3 +1,5 @@
+/* global Profile */
+/* global sails */
 /**
  * UserController
  *
@@ -17,17 +19,6 @@ module.exports = {
     });
   },
 
-
-  /**
-   * `UserController.signup()`
-   */
-  signup: function (req, res) {
-    return res.json({
-      todo: 'signup() is not implemented yet!'
-    });
-  },
-
-
   /**
    * `UserController.profile()`
    */
@@ -37,14 +28,16 @@ module.exports = {
     });
   },
 
-
   /**
-   * `UserController.edit()`
+   * `UserController.profile()`
    */
-  edit: function (req, res) {
-    return res.json({
-      todo: 'edit() is not implemented yet!'
+  update: function (req, res) {
+    var profileFields = Profile.make(req.body);
+    Profile.create(profileFields, function(err, record) {
+      sails.log(err);
+      sails.log(record);
     });
-  }
+    res.redirect('/profile');
+  },
 };
 
