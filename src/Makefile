@@ -19,6 +19,15 @@ test:
 		--reporter $(REPORTER) \
 		$(TESTS)
 
+showprocess:
+	sudo lsof | grep IPv | grep -F LISTEN
+
+startwww:
+	sudo forever start -ae errors.log app.js --prod --port 80
+
+stopwww:
+	sudo forever stopall
+
 .PHONY: test
 
 %:
