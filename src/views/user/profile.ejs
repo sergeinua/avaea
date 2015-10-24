@@ -13,19 +13,27 @@
     <div class="panel panel-default">
         <div class="panel-heading">Name(s) of Family Members who might travel with you</div>
         <div class="panel-body">
+
+<% if (Profile.travelWith) {%>
+<%  isFirst = true %>
+  <% Profile.travelWith.forEach(function (travelWith) { %>
             <div id="travelWith">
-            <hr class="hidden"/>
-            <input type="text" name="travelWith.firstName[]" class="form-control" placeholder="First Name"/>
-            <input type="text" name="travelWith.lastName[]" class="form-control" placeholder="Last Name"/>
+            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+            <input type="text" name="travelWith.firstName[]" class="form-control" placeholder="First Name" value="<%= travelWith.firstName %>"/>
+            <input type="text" name="travelWith.lastName[]" class="form-control" placeholder="Last Name" value="<%= travelWith.firstName %>"/>
             <label>Gender</label>
             <select name="travelWith.gender[]" class="form-control">
-                <option value=''>please choose</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value=''<% if(!travelWith.gender) {%> selected<%} %>>please choose</option>
+                <option value="Male"<% if(travelWith.gender == "Male") {%> selected<%} %>>Male</option>
+                <option value="Female"<% if(travelWith.gender == "Female") {%> selected<%} %>>Female</option>
             </select>
             <label>Date of birth</label>
-            <input type="date" name="travelWith.DateOfBirth[]" class="form-control"/>
+            <input type="date" name="travelWith.DateOfBirth[]" class="form-control" value="<%= travelWith.DateOfBirth %>"/>
             </div>
+<%  isFirst = false %>
+  <% }) %>
+<% } %>
+
         </div>
         <div class="panel-footer">
             <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="travelWith"><%= __('One more')%></button>
@@ -35,11 +43,19 @@
     <div class="panel panel-default">
         <div class="panel-heading">Airlines Frequent Flier Miles Programs</div>
         <div class="panel-body">
+
+<% if (Profile.milesPrograms) {%>
+<%  isFirst = true %>
+  <% Profile.milesPrograms.forEach(function (milesPrograms) { %>
             <div id="milesPrograms">
-            <hr class="hidden"/>
-            <input type="text" name="milesPrograms.airlineName[]" class="form-control" placeholder="Airline Name"/>
-            <input type="text" name="milesPrograms.accountNumber[]" class="form-control" placeholder="Account Number"/>
+            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+            <input type="text" name="milesPrograms.airlineName[]" class="form-control" placeholder="Airline Name" value="<%= milesPrograms.airlineName %>"/>
+            <input type="text" name="milesPrograms.accountNumber[]" class="form-control" placeholder="Account Number" value="<%= milesPrograms.accountNumber %>"/>
             </div>
+<%  isFirst = false %>
+  <% }) %>
+<% } %>
+
         </div>
         <div class="panel-footer">
             <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="milesPrograms"><%= __('One more')%></button>
@@ -49,13 +65,21 @@
     <div class="panel panel-default">
         <div class="panel-heading">Airline Club Lounge Memberships</div>
         <div class="panel-body">
+
+<% if (Profile.loungeMembership) {%>
+<%  isFirst = true %>
+  <% Profile.loungeMembership.forEach(function (loungeMembership) { %>
             <div id="loungeMembership">
-            <hr class="hidden"/>
-            <input type="text" name="loungeMembership.airlineName[]" class="form-control" placeholder="Airline Name"/>
-            <input type="text" name="loungeMembership.membershipNumber[]" class="form-control" placeholder=" Club Membership Number"/>
+            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+            <input type="text" name="loungeMembership.airlineName[]" class="form-control" placeholder="Airline Name" value="<%= loungeMembership.airlineName %>"/>
+            <input type="text" name="loungeMembership.membershipNumber[]" class="form-control" placeholder=" Club Membership Number" value="<%= loungeMembership.membershipNumber %>"/>
             <label>Expiration Date</label>
-            <input type="date" name="loungeMembership.expirationDate[]" class="form-control"/>
+            <input type="date" name="loungeMembership.expirationDate[]" class="form-control" value="<%= loungeMembership.expirationDate %>"/>
             </div>
+<%  isFirst = false %>
+  <% }) %>
+<% } %>
+
         </div>
         <div class="panel-footer">
             <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="loungeMembership"><%= __('One more')%></button>
@@ -104,17 +128,25 @@
     <div class="panel panel-default">
         <div class="panel-heading">Preferred Airlines</div>
         <div class="panel-body">
+
+<% if (Profile.preferredAirlines) {%>
+<%  isFirst = true %>
+  <% Profile.preferredAirlines.forEach(function (preferredAirlines) { %>
             <div id="preferredAirlines">
-            <hr class="hidden"/>
+            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
             <label>Preferred Airlines type</label>
             <select name="preferredAirlines.travelType[]" class="form-control">
-                <option value=''>please choose</option>
-                <option value="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
-                <option value="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
-                <option value="International Flights">International Flights</option>
+                <option value=''<% if(preferredAirlines.travelType) {%> selected<%} %>>please choose</option>
+                <option value="Domestic Short Haul Trips"<% if(preferredAirlines.travelType == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
+                <option value="Domestic Long Haul Flights"<% if(preferredAirlines.travelType == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
+                <option value="International Flights"<% if(preferredAirlines.travelType == 'International Flights') {%> selected<%} %>>International Flights</option>
             </select>
             <input type="text" name="preferredAirlines.airlineName[]" class="form-control" placeholder="Airline Name"/>
             </div>
+<%  isFirst = false %>
+  <% }) %>
+<% } %>
+
         </div>
         <div class="panel-footer">
             <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferredAirlines"><%= __('One more')%></button>
