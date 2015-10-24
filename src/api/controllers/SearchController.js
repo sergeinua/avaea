@@ -31,7 +31,7 @@ module.exports = {
     return  res.view('search/result', {
       guid: this.getCurentSearchGuid(),
       searchParams: req.allParams(),
-      searchResult: sails.models.Search.getResult(req.allParams())
+      searchResult: Search.getResult(req.allParams())
     });
   }
 };

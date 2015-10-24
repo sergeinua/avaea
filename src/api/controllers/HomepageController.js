@@ -11,7 +11,7 @@ module.exports = {
     return res.view('order', {
         user: res.user,
         order:[
-        { itinerary: sails.models.Order.getById(id) }
+        { itinerary: Order.getById(id) }
         ]
     });
   }
