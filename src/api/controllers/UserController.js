@@ -23,8 +23,12 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
-    return res.view('user/profile', {
-      user: res.user
+    var id = 2; //for tests
+    Profile.getById(id).exec(function findOneCB(err, found){
+      return res.view('user/profile', {
+        user: res.user,
+        Profile: found
+      });
     });
   },
 

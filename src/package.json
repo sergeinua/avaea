@@ -6,6 +6,7 @@
   "keywords": [],
   "dependencies": {
     "bcryptjs": "^2.3.0",
+    "connect-redis": "^1.4.5",
     "ejs": "~0.8.4",
     "forever": "^0.15.1",
     "grunt": "0.4.2",
@@ -32,6 +33,7 @@
     "sails-generate-auth": "^0.3.1",
     "sails-migrations": "^2.0.7",
     "sails-postgresql": "^0.10.16",
+    "sails-redis": "^0.10.5",
     "validator": "^4.1.0"
   },
   "scripts": {

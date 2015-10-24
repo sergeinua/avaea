@@ -17,30 +17,36 @@ module.exports = {
     milesPrograms    : { type: 'json' },
     loungeMembership : { type: 'json' },
     employer         : { type: 'json' },
-    ethnicity        : { type: 'string',
-                         enum:
-                            [
-                                'European',
-                                'Mexican',
-                                'Latin American',
-                                'Eastern European',
-                                'South East Asian (India, Pakistan, Bangladesh)',
-                                'Chinese',
-                                'Asian',
-                                'African',
-                                'South Pacific'
-                            ]
-                       },
+    ethnicity        : {
+      type: 'string',
+      enum:
+        [
+          'European',
+          'Mexican',
+          'Latin American',
+          'Eastern European',
+          'South East Asian (India, Pakistan, Bangladesh)',
+          'Chinese',
+          'Asian',
+          'African',
+          'South Pacific'
+        ]
+    },
     preferredAirlines : { type: 'json' },
     preferredClass    : { type: 'json' },
-    preferredSeat     : { type: 'string',
-                          enum:
-                            [
-                                'Window',
-                                'Aisle',
-                                'Exit Row'
-                            ]
-                        }
+    preferredSeat     : {
+      type: 'string',
+      enum:
+        [
+          'Window',
+          'Aisle',
+          'Exit Row'
+        ]
+    }
+  },
+
+  getById: function (id) {
+    return this.findOneById(id);
   },
 
   make: function (form) {
@@ -98,4 +104,3 @@ module.exports = {
       return jsonStruct;
   }
 };
-

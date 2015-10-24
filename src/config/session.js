@@ -54,9 +54,9 @@ module.exports.session = {
 
   // host: 'localhost',
   // port: 6379,
-  // ttl: <redis session TTL in seconds>,
+  // ttl: 600,
   // db: 0,
-  // pass: <redis auth password>,
+  // pass: '',
   // prefix: 'sess:',
 
 
@@ -87,5 +87,11 @@ module.exports.session = {
   // auto_reconnect: false,
   // ssl: false,
   // stringify: true
+  // adapter: 'sails-pg-session',
 
+  // host: '127.0.0.1',
+  // user: 'avaea',
+  // password: 'avaea',
+  // database: 'avaea_db',
+  // port: 5432
 };

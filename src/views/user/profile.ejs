@@ -1,14 +1,14 @@
 
 <form action="user/update" name="Profile" id="Profile" method="post">
 <h2 class="form-signin-heading">Update profile</h2>
-    <input type="text" name="firstName" class="form-control" placeholder="First Name" required/>
-    <input type="text" name="middleName" class="form-control" placeholder="Middle Name" />
-    <input type="text" name="lastName" class="form-control" placeholder="Last Name" required/>
-    <input type="text" name="address" class="form-control" placeholder="Address" />
+    <input type="text" name="firstName" class="form-control" placeholder="First Name" value="<%= Profile.firstName %>" required/>
+    <input type="text" name="middleName" class="form-control" placeholder="Middle Name"  value="<%= Profile.middleName %>" />
+    <input type="text" name="lastName" class="form-control" placeholder="Last Name"  value="<%= Profile.lastName %>"  required/>
+    <input type="text" name="address" class="form-control" placeholder="Address"  value="<%= Profile.address %>" />
 
 <!--In Case of Emergency Notify-->
-    <input type="text" name="notifyContact.name" class="form-control" placeholder="In Case of Emergency Notify"/>
-    <input type="tel" name="notifyContact.phone" class="form-control" placeholder="Emergency Notify Phone"/>
+    <input type="text" name="notifyContact.name" class="form-control" placeholder="In Case of Emergency Notify"  value="<%= Profile.notifyContact.name %>" />
+    <input type="tel" name="notifyContact.phone" class="form-control" placeholder="Emergency Notify Phone" value="<%= Profile.notifyContact.phone %>"/>
 <!--Name(s) of Family Members who might travel with you-->
     <div class="panel panel-default">
         <div class="panel-heading">Name(s) of Family Members who might travel with you</div>
@@ -65,40 +65,40 @@
     <div class="panel panel-default">
         <div class="panel-heading">Employer</div>
         <div class="panel-body">
-            <input type="text" name="employer.companyName" class="form-control" placeholder="Company Name"/>
-            <input type="text" name="employer.address" class="form-control" placeholder="Address" />
-            <input type="tel" name="employer.phone" class="form-control" placeholder="Phone number" />
-            <input type="text" name="employer.position" class="form-control" placeholder="Position Held" />
+            <input type="text" name="employer.companyName" class="form-control" placeholder="Company Name" value="<%= Profile.employer.companyName %>"/>
+            <input type="text" name="employer.address" class="form-control" placeholder="Address"  value="<%= Profile.employer.address %>"/>
+            <input type="tel" name="employer.phone" class="form-control" placeholder="Phone number"  value="<%= Profile.employer.phone %>"/>
+            <input type="text" name="employer.position" class="form-control" placeholder="Position Held"  value="<%= Profile.employer.position %>"/>
             <label>Salary Range</label>
             <select name="employer.salary" class="form-control">
-                <option value=''>please choose</option>
-                <option value="$50K - $100K">$50K - $100K</option>
-                <option value="$100K - $200K">$100K - $200K</option>
-                <option value="$200K - $300K">$200K - $300K</option>
-                <option value="Over $300K">Over $300K</option>
+                <option value='' <% if(!Profile.employer.salary) {%>selected<%} %>>please choose</option>
+                <option value="$50K - $100K"<% if(Profile.employer.salary == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
+                <option value="$100K - $200K"<% if(Profile.employer.salary == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
+                <option value="$200K - $300K"<% if(Profile.employer.salary == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
+                <option value="Over $300K"<% if(Profile.employer.salary == 'Over $300K') {%> selected<%} %>>Over $300K</option>
             </select>
             <label>Total Household Income</label>
             <select name="employer.income" class="form-control">
-                <option value=''>please choose</option>
-                <option value="$50K - $100K">$50K - $100K</option>
-                <option value="$100K - $200K">$100K - $200K</option>
-                <option value="$200K - $300K">$200K - $300K</option>
-                <option value="Over $300K">Over $300K</option>
+                <option value='' <% if(!Profile.employer.income) {%>selected<%} %>>please choose</option>
+                <option value="$50K - $100K"<% if(Profile.employer.income == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
+                <option value="$100K - $200K"<% if(Profile.employer.income == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
+                <option value="$200K - $300K"<% if(Profile.employer.income == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
+                <option value="Over $300K"<% if(Profile.employer.income == 'Over $300K') {%> selected<%} %>>Over $300K</option>
             </select>
         </div>
     </div>
     <label>Ethnicity (Race)</label>
     <select name="ethnicity" class="form-control">
-        <option value=''>please choose</option>
-        <option value='European'>European</option>
-        <option value='Mexican'>Mexican</option>
-        <option value='Latin American'>Latin American</option>
-        <option value='Eastern European'>Eastern European</option>
-        <option value='South East Asian (India, Pakistan, Bangladesh)'>South East Asian (India, Pakistan, Bangladesh)</option>
-        <option value='Chinese'>Chinese</option>
-        <option value='Asian'>Asian</option>
-        <option value='African'>African</option>
-        <option value='South Pacific'>South Pacific</option>
+        <option value='' <% if(!Profile.ethnicity) {%>selected<%} %>>please choose</option>
+        <option value='European'<% if(Profile.ethnicity == 'European') {%> selected<%} %>>European</option>
+        <option value='Mexican'<% if(Profile.ethnicity == 'Mexican') {%> selected<%} %>>Mexican</option>
+        <option value='Latin American'<% if(Profile.ethnicity == 'Latin American') {%> selected<%} %>>Latin American</option>
+        <option value='Eastern European'<% if(Profile.ethnicity == 'Eastern European') {%> selected<%} %>>Eastern European</option>
+        <option value='South East Asian (India, Pakistan, Bangladesh)'<% if(Profile.ethnicity == 'South East Asian (India, Pakistan, Bangladesh)') {%> selected<%} %>>South East Asian (India, Pakistan, Bangladesh)</option>
+        <option value='Chinese'<% if(Profile.ethnicity == 'Chinese') {%> selected<%} %>>Chinese</option>
+        <option value='Asian'<% if(Profile.ethnicity == 'Asian') {%> selected<%} %>>Asian</option>
+        <option value='African'<% if(Profile.ethnicity == 'African') {%> selected<%} %>>African</option>
+        <option value='South Pacific'<% if(Profile.ethnicity == 'South Pacific') {%> selected<%} %>>South Pacific</option>
     </select>
 <!--Preferred Airlines-->
     <div class="panel panel-default">
@@ -127,45 +127,45 @@
         <div class="panel-body">
             <label>Domestic for Personal or Leisure Travel</label>
             <select name="preferredClass.domesticPersonal" class="form-control">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
+                <option value=''<% if(!Profile.preferredClass.domesticPersonal) {%> selected<%} %>>please choose</option>
+                <option value="First"<% if(Profile.preferredClass.domesticPersonal == "First") {%> selected<%} %>>First</option>
+                <option value="Business"<% if(Profile.preferredClass.domesticPersonal == "Business") {%> selected<%} %>>Business</option>
+                <option value="Premium Economy"<% if(Profile.preferredClass.domesticPersonal == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
+                <option value="Economy"<% if(Profile.preferredClass.domesticPersonal == "Economy") {%> selected<%} %>>Economy</option>
             </select>
             <label>Domestic for Business Travel</label>
             <select name="preferredClass.domesticBusiness" class="form-control">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
+                <option value=''<% if(!Profile.preferredClass.domesticBusiness) {%> selected<%} %>>please choose</option>
+                <option value="First"<% if(Profile.preferredClass.domesticBusiness == "First") {%> selected<%} %>>First</option>
+                <option value="Business"<% if(Profile.preferredClass.domesticBusiness == "Business") {%> selected<%} %>>Business</option>
+                <option value="Premium Economy"<% if(Profile.preferredClass.domesticBusiness == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
+                <option value="Economy"<% if(Profile.preferredClass.domesticBusiness == "Economy") {%> selected<%} %>>Economy</option>
             </select>
             <label>International for Personal or Leisure Travel</label>
             <select name="preferredClass.internationalPersonal" class="form-control">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
+                <option value=''<% if(!Profile.preferredClass.internationalPersonal) {%> selected<%} %>>please choose</option>
+                <option value="First"<% if(Profile.preferredClass.internationalPersonal == "First") {%> selected<%} %>>First</option>
+                <option value="Business"<% if(Profile.preferredClass.internationalPersonal == "Business") {%> selected<%} %>>Business</option>
+                <option value="Premium Economy"<% if(Profile.preferredClass.internationalPersonal == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
+                <option value="Economy"<% if(Profile.preferredClass.internationalPersonal == "Economy") {%> selected<%} %>>Economy</option>
             </select>
             <label>International for Business Travel</label>
             <select name="preferredClass.internationalBusiness" class="form-control">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
+                <option value=''<% if(!Profile.preferredClass.internationalBusiness) {%> selected<%} %>>please choose</option>
+                <option value="First"<% if(Profile.preferredClass.internationalBusiness == "First") {%> selected<%} %>>First</option>
+                <option value="Business"<% if(Profile.preferredClass.internationalBusiness == "Business") {%> selected<%} %>>Business</option>
+                <option value="Premium Economy"<% if(Profile.preferredClass.internationalBusiness == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
+                <option value="Economy"<% if(Profile.preferredClass.internationalBusiness == "Economy") {%> selected<%} %>>Economy</option>
             </select>
         </div>
     </div>
 
     <label>Ethnicity (Race)</label>
     <select name="preferredSeat" class="form-control">
-        <option value=''>please choose</option>
-        <option value='Window'>Window</option>
-        <option value='Aisle'>Aisle</option>
-        <option value='Exit Row'>Exit Row</option>
+        <option value=''<% if(!Profile.preferredSeat) {%> selected<%} %>>please choose</option>
+        <option value='Window'<% if(Profile.preferredSeat == 'Window') {%> selected<%} %>>Window</option>
+        <option value='Aisle'<% if(Profile.preferredSeat == 'Aisle') {%> selected<%} %>>Aisle</option>
+        <option value='Exit Row'<% if(Profile.preferredSeat == 'Exit Row') {%> selected<%} %>>Exit Row</option>
     </select>
 <style>
     body { padding-bottom: 70px; }

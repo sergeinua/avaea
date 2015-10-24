@@ -19,6 +19,8 @@ module.exports = {
 
   models: {
     connection: 'etPostgresqlServer'
-  }
-
+  },
+  // session: {
+  //   connection: 'etPostgresqlServer'
+  // }
 };

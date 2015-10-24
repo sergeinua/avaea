@@ -148,6 +148,7 @@ var AuthController = {
       // login, register or disconnect action initiator view.
       // These views should take care of rendering the error messages.
       var action = req.param('action');
+      sails.log(flashError);
 
       switch (action) {
         case 'register':
@@ -168,12 +169,13 @@ var AuthController = {
 
       req.login(user, function (err) {
         if (err) {
+          sails.log.error(err);
           return tryAgain(err);
         }
         
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true
-        
+        sails.log.info('user', user, 'authenticated successfully');
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.redirect('/search');
