@@ -19,6 +19,7 @@ module.exports = {
   index: function (req, res) {
     sails.log(res.user);
     return res.view('search/index', {
+      title:'Search for flights',
       user: res.user
     });
   },
@@ -29,6 +30,7 @@ module.exports = {
    */
   result: function (req, res) {
     return  res.view('search/result', {
+      title:'Search result for SGN&rarr;SFO',
       guid: this.getCurentSearchGuid(),
       searchParams: req.allParams(),
       searchResult: Search.getResult(req.allParams())

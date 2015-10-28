@@ -172,7 +172,7 @@ var AuthController = {
           sails.log.error(err);
           return tryAgain(err);
         }
-        
+        // User.create(user).exec();
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true
         sails.log.info('user', user, 'authenticated successfully');

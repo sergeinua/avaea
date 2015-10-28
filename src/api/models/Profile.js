@@ -52,6 +52,7 @@ module.exports = {
   make: function (form) {
       var jsonStruct = form;
       jsonStruct.notifyContact = {
+        id: 1, //for tests
         name:  form['notifyContact.name'],
         phone: form['notifyContact.phone']
       };

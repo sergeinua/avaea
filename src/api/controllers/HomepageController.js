@@ -1,3 +1,4 @@
+/* global Order */
 /**
  * HomepageController
  *
@@ -7,8 +8,9 @@
 
 module.exports = {
   order: function (req, res) {
-    var id = 1;// tmp
+    var id = 1;// dummy data for test
     return res.view('order', {
+        title:'You ordered',
         user: res.user,
         order:[
         { itinerary: Order.getById(id) }

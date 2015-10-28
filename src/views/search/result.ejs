@@ -3,21 +3,6 @@
    border: 1px dotted red;
   }
 </style>-->
-<% if (searchParams) { %>
-<!--<div class="row bg-info">
-  <div class="col-xs-8"><span class="small"></span>
-    <%= __('Flight from') %> <%=searchParams.originAirport%>
-    <%= __('to') %> <%=searchParams.destinationAirport%>
-<% if (searchParams.departureDate) { %>
-      <br/><%= __('at') %> <%=searchParams.departureDate%>
-<% } %>
-<% if (searchParams.returnDate) { %>
-      <br/><%= __('return at') %> <%=searchParams.returnDate%>
-<% } %>
-  </div>
-  <div class="col-xs-4"><a href="/search" class="btn btn-sm btn-primary btn-block" role="button" style="margin:1em;"><%= __('Back')%></a></div>
-</div>-->
-<% } %>
 <% if (searchResult) { %>
 <style>
   .mycustomtab {
