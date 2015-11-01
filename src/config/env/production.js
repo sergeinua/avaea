@@ -25,7 +25,7 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 80,
+  port: 8080,
   proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
 
   /***************************************************************************
