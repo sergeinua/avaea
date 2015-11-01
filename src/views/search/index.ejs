@@ -12,5 +12,37 @@
 <input type="date" name="departureDate" id="departureDate" class="form-control"/>
 <label for="returnDate" class="sr-only">Return Date</label>
 <input type="date" name="returnDate" id="returnDate" class="form-control"/>
-<button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+
+<!--<label for="preferedClass">Class of sevice:</label>-->
+
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-default active">
+    <input type="radio" name="preferedClass" id="option1" autocomplete="off" checked> Econom
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="preferedClass" id="option2" autocomplete="off"> Business
+  </label>
+  <label class="btn btn-default">
+    <input type="radio" name="preferedClass" id="option3" autocomplete="off"> First
+  </label>
+  <div class="input-group">
+    <input type="number" class="form-control" min='1' max='10' aria-describedby="basic-addon1" value="1">
+    <span class="input-group-addon" id="basic-addon1">travelers</span>
+  </div>
+</div>
+
+
+
+<style>
+    body { padding-bottom: 70px; }
+</style>
+
+<div class="container">
+  <nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+      <button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+    </div>
+  </nav>
+</div>
+
 </form>
