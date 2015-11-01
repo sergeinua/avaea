@@ -20,7 +20,11 @@ module.exports = {
   models: {
     connection: 'etPostgresqlServer'
   },
-  // session: {
-  //   connection: 'etPostgresqlServer'
-  // }
+  session: {
+    host: '127.0.0.1',
+    user: 'avaea',
+    password: 'avaea',
+    database: 'avaea_db',
+    port: 5432
+  }
 };

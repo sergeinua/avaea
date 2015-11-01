@@ -3,14 +3,8 @@ var User = {
   schema: true,
 
   attributes: {
-    id: {
-      type: 'integer',
-      unique: true,
-      primaryKey: true,
-      autoPK: true
-    },
     username  : { type: 'string', unique: true },
-    email     : { type: 'email',  unique: true , email: true},
+    email     : { type: 'email',  unique: true /*, regex: '/.+?@avaea.com$/'*/ },
     passports : { collection: 'Passport', via: 'user' },
     searches  : { collection: 'Search', via: 'user' }
   }

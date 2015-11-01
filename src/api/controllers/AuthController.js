@@ -148,7 +148,6 @@ var AuthController = {
       // login, register or disconnect action initiator view.
       // These views should take care of rendering the error messages.
       var action = req.param('action');
-      sails.log(flashError);
 
       switch (action) {
         case 'register':
@@ -164,6 +163,7 @@ var AuthController = {
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (err || !user) {
+        sails.log.error(err);
         return tryAgain(challenges);
       }
 
@@ -175,7 +175,6 @@ var AuthController = {
         // User.create(user).exec();
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true
-        sails.log.info('user', user, 'authenticated successfully');
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
         res.redirect('/search');

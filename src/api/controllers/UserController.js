@@ -24,31 +24,15 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
-    var id = 1; //for tests
-    Profile.getById(id).exec(function findOneCB(err, found) {
-      console.log(req.user);
+    Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (!found) {
-        console.log('!!!!!!!!!!!!!!');
         res.redirect('create');
-        // found = Profile.create({
-        //   firstName:  "First Name",
-        //   middleName: "Middle Name",
-        //   lastName:   "Last Name"
-        // }).exec(function(err, record) {
-        //   return res.view('user/profile', {
-        //     title:'Update profile',
-        //     user: res.user,
-        //     Profile: found
-        //   });
-        // });
       } else {
-        console.log(found);
-          return res.view('user/profile', {
-            title:'Update profile',
-            user: res.user,
-            Profile: found
-          });
-        }
+        return res.view('user/profile', {
+          title:'Update profile',
+          Profile: found
+        });
+      }
     });
   },
 
@@ -56,12 +40,17 @@ module.exports = {
    * `UserController.profile()`
    */
   update: function (req, res) {
-    var profileFields = Profile.make(req.body);
-    Profile.update({id:1}, profileFields).exec(function (err, record) {
-      Profile.create(profileFields, function(err, record) {
-        sails.log(err);
-        sails.log(record);
-      });
+    var profileFields = Profile.make(req.body, req.user);
+
+    Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
+      if (err) {
+        sails.log.error(err);
+        Profile.create(profileFields, function(err, record) {
+          if (err) {
+            sails.log.error(err);
+          }
+        });
+      }
     });
     res.redirect('/profile');
   },

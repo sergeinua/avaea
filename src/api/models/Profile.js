@@ -8,6 +8,7 @@
 module.exports = {
 
   attributes: {
+    user             : { model: 'User', required: true },
     firstName        : { type: 'alpha' },
     middleName       : { type: 'string' },
     lastName         : { type: 'alpha' },
@@ -45,14 +46,15 @@ module.exports = {
     }
   },
 
-  getById: function (id) {
-    return this.findOneById(id);
+  findOneByUserId: function (id) {
+    return this.findOne({user:id});
   },
 
-  make: function (form) {
+  make: function (form, user) {
       var jsonStruct = form;
+      jsonStruct.user = user.id;
+
       jsonStruct.notifyContact = {
-        id: 1, //for tests
         name:  form['notifyContact.name'],
         phone: form['notifyContact.phone']
       };

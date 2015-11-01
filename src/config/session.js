@@ -87,11 +87,5 @@ module.exports.session = {
   // auto_reconnect: false,
   // ssl: false,
   // stringify: true
-  // adapter: 'sails-pg-session',
-
-  // host: '127.0.0.1',
-  // user: 'avaea',
-  // password: 'avaea',
-  // database: 'avaea_db',
-  // port: 5432
+  adapter: 'sails-pg-session',
 };

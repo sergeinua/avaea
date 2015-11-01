@@ -1,3 +1,4 @@
+/* global passport */
 /**
  * bearerAuth Policy
  * 
