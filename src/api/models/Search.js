@@ -136,6 +136,90 @@ module.exports = {
             'Priority boarding'
           ]
         }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
+        {itinerary: {
+          originAirport: 'SGN',
+          destinationAirport:'SFO',
+          stops: 2,
+          departureTime: '2:25am',
+          arrivalTime: '2:30pm',
+          flightTime: '12h 05m',
+          stopTime: [],
+          carier: 'China Eastern airlines',
+          price: '1020',
+          currency: 'USD',
+          ticketType: 'Economy',
+          planeType: 'Airbus A320'
+        }},
       ];
   }
 };

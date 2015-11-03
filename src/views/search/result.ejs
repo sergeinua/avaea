@@ -1,151 +1,12 @@
-<!--<style>
-  div {
-   border: 1px dotted red;
-  }
-</style>-->
 <% if (searchResult) { %>
-<style>
-  .mycustomtab {
-    border-bottom:3px solid white;
-    border-radius:0;
-  }
-  .mycustomtab:active,
-  .mycustomtab.active {
-    border-bottom:3px solid green;
-  }
-</style>
-<div class="row" style="margin-right:-25px;margin-left:-25px;padding:0px;">
 
-<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="">
-  <!-- Indicators -->
-  <!--<ol class="carousel-indicators">
-    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
-  </ol>-->
-
-  <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
-    <div class="item active">
-      <div class="col-xs-4" style="padding:0;">
-        <div class="mybucket">
-          <a id="mydefaultid" href="/result#price"  class="btn btn-default btn-block mycustomtab" role="button"><%= __('Price')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">$100-$200<span class="badge">49</span></li>
-          <li  style='padding:1px;'class="list-group-item">$200-$300<span class="badge">39</span></li>
-          <li  style='padding:1px;'class="list-group-item">$300-$400<span class="badge">19</span></li>
-          <li  style='padding:1px;'class="list-group-item">$400-$600<span class="badge">27</span></li>
-</ul>
-          <!--<button class="btn  btn-xs" type="button">$100-$200<span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">$200-$300<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">$300-$400<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">$400-$600<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
-      <div class="mybucket" style="">
-        <div class="col-xs-4" style="padding:0;">
-          <a href="/result#dep_arr"  class="btn btn-default btn-block mycustomtab" role="button"><%= __('Departure')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">0-6am<span class="badge">49</span></li>
-          <li  style='padding:1px;'class="list-group-item">6am-12pm<span class="badge">39</span></li>
-          <li  style='padding:1px;'class="list-group-item">12pm-8pm<span class="badge">19</span></li>
-          <li  style='padding:1px;'class="list-group-item">8pm-0<span class="badge">27</span></li>
-</ul>
-
-          <!--<button class="btn btn-xs" type="button">0-6am<span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">6am-12pm<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">12pm-8pm<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">8pm-0<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
-      <div class="mybucket" style="">
-        <div class="col-xs-4" style="padding:0;">
-          <a href="/result#dep_arr"  class="btn btn-default btn-block mycustomtab" role="button"><%= __('Arrival')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">0-6am<span class="badge">49</span></li>
-          <li  style='padding:1px;'class="list-group-item">6am-12pm<span class="badge">39</span></li>
-          <li  style='padding:1px;'class="list-group-item">12pm-8pm<span class="badge">19</span></li>
-          <li  style='padding:1px;'class="list-group-item">8pm-0<span class="badge">27</span></li>
-</ul>
-          <!--<button class="btn btn-xs" type="button">0-6am<span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">6am-12pm<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">12pm-8pm<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">8pm-0<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
+<div class="container">
+  <nav class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;">
+    <div class="container-fluid">
+      <%- partial('bucket') %>
     </div>
-
-    <div class="item">
-
-      <div class="col-xs-4" style="padding:0;">
-        <div class="mybucket">
-          <a id="mydefaultid" href="/result#price"  class="btn btn-default btn-block mycustomtab" role="button"><%= __('Airline')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">China Eastern<span class="badge">9</span></li>
-          <li  style='padding:1px;'class="list-group-item">Virgin America<span class="badge">3</span></li>
-          <li  style='padding:1px;'class="list-group-item">Tiara Air<span class="badge">19</span></li>
-          <li  style='padding:1px;'class="list-group-item">Fly BVI<span class="badge">27</span></li>
-</ul>
-          <!--<button class="btn  btn-xs" type="button">China Eastern<span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">Virgin America<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">Tiara Air<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">Fly BVI<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
-      <div class="mybucket" style="">
-        <div class="col-xs-4" style="padding:0;">
-          <a href="/result#dep_arr"  class="btn btn-default btn-block mycustomtab" role="button"><%= __('Merchandising')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">Free WiFi <span class="badge">49</span></li>
-          <li  style='padding:1px;'class="list-group-item">In seat video <span class="badge">1</span></li>
-          <li  style='padding:1px;'class="list-group-item">In seat audio <span class="badge">7</span></li>
-          <li  style='padding:1px;'class="list-group-item">10kg luggage <span class="badge">6</span></li>
-          <!--<li  style='padding:1px;'class="list-group-item">Priority boarding<span class="badge">9</span></li>-->
-</ul>
-          <!--<button class="btn btn-xs" type="button">Free WiFi <span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">Priority boarding<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">In seat video<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">In seat audio<span class="badge">27</span></button>
-          <button class="btn  btn-xs" type="button">10kg luggage<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
-      <div class="mybucket" style="">
-        <div class="col-xs-4" style="padding:0;">
-          <a href="/result#duration" class="btn btn-default btn-block mycustomtab" role="button"><%= __('Duration')%></a>
-<ul class="list-group" style='padding:1px;'>
-          <li  style='padding:1px;'class="list-group-item">3h-6h<span class="badge">49</span></li>
-          <li  style='padding:1px;'class="list-group-item">6h-10h<span class="badge">39</span></li>
-          <li  style='padding:1px;'class="list-group-item">10h-12h<span class="badge">19</span></li>
-          <li  style='padding:1px;'class="list-group-item">12h-14h<span class="badge">27</span></li>
-</ul>
-          <!--<button class="btn btn-xs" type="button">3h-6h<span class="badge">49</span></button>
-          <button class="btn  btn-xs" type="button">6h-10h<span class="badge">39</span></button>
-          <button class="btn  btn-xs" type="button">10h-12h<span class="badge">19</span></button>
-          <button class="btn  btn-xs" type="button">12h-14h<span class="badge">27</span></button>-->
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Controls -->
-  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev" style="max-width:20px;">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <!--<span class="sr-only">Previous</span>-->
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next" style="max-width:20px;">
-    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-    <!--<span class="sr-only">Next</span>-->
-  </a>
+  </nav>
 </div>
-
-</div>
-
 
 <div class="row">
   <% iterator = 0; %>
@@ -153,9 +14,9 @@
   <div class="col-md-12" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
 
     <div class="row">
-      <div class="col-xs-6" style="padding: 2px;"><a href='/order' class="btn-success btn-sm">Buy 
+      <div class="col-xs-6" style="padding: 2px;"><span class="btn-success btn-sm">
         <% if(sRes.itinerary.currency == 'USD') { %>
-        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span><%= sRes.itinerary.price %> <% } else { %><%= sRes.itinerary.currency %><% } %></a></div>
+        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span><%= sRes.itinerary.price %> <% } else { %><%= sRes.itinerary.currency %><% } %></span></div>
       <div class="col-xs-6"><span class="text-muted  pull-right"><%= sRes.itinerary.carier %></span></div>
     </div>
 
@@ -197,11 +58,25 @@
   <% iterator++ %>
 
   <% }) %>
-  <div class="row">
-    <a href="#"  class="btn btn-lg btn-primary btn-block" role="button"><%= __('More') %></a>
-  </div>
 </div>
+
+<style>
+    body {
+      padding-bottom: 70px;
+      padding-top: 200px;
+    }
+</style>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <a href='/order' class="btn btn-lg btn-primary btn-block" >Buy</a>
+      </div>
+    </nav>
+</div>
+
+
 <% } else { %>
-    <div class="row"><p class="lead"><%= __('Avaea can not find anything') %></p></div>
+    <div class="alert alert-danger" role="alert"><%= __('Avaea can not find anything') %></div>
     <a href="/search"  class="btn btn-lg btn-primary btn-block" role="button"><%= __('Back to search') %></a>
 <% } %>
