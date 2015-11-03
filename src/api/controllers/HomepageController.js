@@ -11,7 +11,7 @@ module.exports = {
     var id = 1;// dummy data for test
     return res.view('order', {
         title:'You ordered',
-        user: res.user,
+        user: req.user,
         order:[
         { itinerary: Order.getById(id) }
         ]

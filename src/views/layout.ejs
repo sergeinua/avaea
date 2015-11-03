@@ -36,9 +36,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
+            <% if (user) { %>
             <li><a href="/search">Search</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+            Powered by Demo Inc <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> 2015
+            <% } %>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->

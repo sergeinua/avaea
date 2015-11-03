@@ -16,7 +16,7 @@ module.exports = {
   create: function (req, res) {
     return res.view('user/create', {
       title:'Create profile',
-      user: res.user
+      user: req.user
     });
   },
 
@@ -30,6 +30,7 @@ module.exports = {
       } else {
         return res.view('user/profile', {
           title:'Update profile',
+          user: req.user,
           Profile: found
         });
       }
@@ -41,10 +42,9 @@ module.exports = {
    */
   update: function (req, res) {
     var profileFields = Profile.make(req.body, req.user);
-
+    sails.log.info(profileFields);
     Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
-      if (err) {
-        sails.log.error(err);
+      if (err || !record.id) {
         Profile.create(profileFields, function(err, record) {
           if (err) {
             sails.log.error(err);

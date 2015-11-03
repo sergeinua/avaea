@@ -17,10 +17,9 @@ module.exports = {
    * `SearchController.index()`
    */
   index: function (req, res) {
-    sails.log(res.user);
     return res.view('search/index', {
       title:'Search for flights',
-      user: res.user
+      user: req.user
     });
   },
 
@@ -33,6 +32,7 @@ module.exports = {
       title:'Search result for SGN&rarr;SFO',
       guid: this.getCurentSearchGuid(),
       searchParams: req.allParams(),
+      user: req.user,
       searchResult: Search.getResult(req.allParams())
     });
   }
