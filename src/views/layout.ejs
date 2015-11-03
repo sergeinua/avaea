@@ -41,7 +41,7 @@
             <li><a href="/profile">Profile</a></li>
             <li><a href="/logout">Logout</a></li>
             <% } else { %>
-            Powered by Demo Inc <span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> 2015
+            Powered by Demo Inc &copy; 2015
             <% } %>
           </ul>
         </div><!-- /.navbar-collapse -->
@@ -49,6 +49,13 @@
     </nav>
 
     <div class="main container clearfix">
+
+      <% if (errors) {%>
+        <% errors.forEach(function (error) { %>
+          <div class="alert alert-danger" role="alert"><%= __(error) %></div>
+        <% }) %>
+      <% } %>
+
       <%- body %>
     </div>
 </div>
