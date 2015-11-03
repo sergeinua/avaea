@@ -50,7 +50,7 @@
 
     <div class="main container clearfix">
 
-      <% if (errors) {%>
+      <% if (typeof errors != 'undefined') {%>
         <% errors.forEach(function (error) { %>
           <div class="alert alert-danger" role="alert"><%= __(error) %></div>
         <% }) %>
