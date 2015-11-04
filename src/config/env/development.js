@@ -26,5 +26,9 @@ module.exports = {
     password: 'avaea',
     database: 'avaea_db',
     port: 5432
-  }
+  },
+
+  //port: 1337,
+  //proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/'
+
 };

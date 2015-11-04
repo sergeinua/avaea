@@ -28,12 +28,35 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    return  res.view('search/result', {
-      title:'Search result for SGN&rarr;SFO',
-      guid: this.getCurentSearchGuid(),
-      searchParams: req.allParams(),
-      user: req.user,
-      searchResult: Search.getResult(req.allParams())
+    var
+      params = {
+        DepartureLocationCode: req.param('originAirport').toUpperCase(),
+        ArrivalLocationCode: req.param('destinationAirport').toUpperCase(),
+        CabinClass: req.param('preferedClass').toUpperCase(),
+        returnDate: ''
+      },
+      title = 'Search result for ' + params.DepartureLocationCode + '&rarr;' + params.ArrivalLocationCode,
+      depDate = new Date();
+
+    if (!isNaN(Date.parse(req.
+      param('departureDate')))) {
+      depDate = new Date(req.param('departureDate'));
+    }
+    params.DepartureTime = sails.moment(depDate).format('DD/MM/YYYY');
+
+    if (!isNaN(Date.parse(req.param('returnDate')))) {
+      var retDate = new Date(req.param('returnDate'));
+      params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
+    }
+
+    //
+    //req.param('returnDate')
+    Search.getResult(this.getCurentSearchGuid(), params, found => {
+      return  res.view('search/result_mondee', {
+        title: title,
+        searchParams: params,
+        searchResult: found
+      });
     });
   }
 };

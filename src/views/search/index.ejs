@@ -1,47 +1,70 @@
-<form action="/result" method="post">
+<form action="/result" method="post" class="form-horizontal">
 <!--<h2 class="form-signin-heading">Search for flights</h2>-->
-<div class="input-group">
-    <input type="text" name="originAirport" class="form-control" placeholder="Departing from" required autofocus/>
-    <div class="input-group-addon"><span class="caret"></span></div>
-</div>
-<div class="input-group">
-    <input type="text" name="destinationAirport" class="form-control" placeholder="Arriving to" required/>
-    <div class="input-group-addon"><span class="caret"></span></div>
-</div>
-<label for="departureDate">Departure Date</label>
-<input type="date" name="departureDate" id="departureDate" class="form-control" required/>
-<label for="returnDate">Return Date</label>
-<input type="date" name="returnDate" id="returnDate" class="form-control" required/>
-<br/>
-<label for="preferedClass">Class of sevice:</label>
-<div class="btn-group pull-right" data-toggle="buttons">
-  <label class="btn btn-default active">
-    <input type="radio" name="preferedClass" id="econom" autocomplete="off" value="econom" checked> Economy
-  </label>
-  <label class="btn btn-default">
-    <input type="radio" name="preferedClass" id="business" autocomplete="off" value="business"> Business
-  </label>
-  <label class="btn btn-default">
-    <input type="radio" name="preferedClass" id="first" autocomplete="off" value="first"> First
-  </label>
-  <!--<div class="input-group">
-    <input type="number" class="form-control" min='1' max='10' aria-describedby="basic-addon1" value="1">
-    <span class="input-group-addon" id="basic-addon1">travelers</span>
-  </div>-->
-</div>
-
-
-
-<style>
-    body { padding-bottom: 70px; }
-</style>
-
-<div class="container">
-  <nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-      <button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+    <div class="form-group">
+        <label for="originAirport" class="col-sm-2 control-label">Departing from:</label>
+        <div class="col-sm-10">
+            <div class="input-group">
+                <input type="text" name="originAirport" id="originAirport" class="form-control" placeholder="SFO" required autofocus/>
+                <div class="input-group-addon"><span class="caret"></span></div>
+            </div>
+        </div>
     </div>
-  </nav>
-</div>
+    <div class="form-group">
+        <label for="destinationAirport" class="col-sm-2 control-label">Arriving to:</label>
+        <div class="col-sm-10">
+            <div class="input-group">
+                <input type="text" name="destinationAirport" id="destinationAirport" class="form-control" placeholder="LHR" required/>
+                <div class="input-group-addon"><span class="caret"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="departureDate" class="col-sm-2 control-label">Departure Date:</label>
+        <div class="col-sm-10">
+            <input type="date" name="departureDate" id="departureDate" class="form-control" placeholder="yyyy-mm-dd" required/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="returnDate" class="col-sm-2 control-label">Return Date:</label>
+        <div class="col-sm-10">
+            <input type="date" name="returnDate" id="returnDate" class="form-control" placeholder="yyyy-mm-dd"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="preferedClass" class="col-sm-2 control-label">Class of sevice:</label>
+        <div class="col-sm-10">
+            <div class="btn-group pull-left" data-toggle="buttons">
+                <label class="btn btn-default active">
+                    <input type="radio" name="preferedClass" id="econom" autocomplete="off" value="e" checked> Economy
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="preferedClass" id="business" autocomplete="off" value="b"> Business
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="preferedClass" id="first" autocomplete="off" value="f"> First
+                </label>
+                <label class="btn btn-default">
+                    <input type="radio" name="preferedClass" id="first" autocomplete="off" value="p"> Premium
+                </label>
+            </div>
+        </div>
+    </div>
+    <!--div class="form-group">
+        <div class="input-group">
+            <input type="number" class="form-control" min='1' max='10' aria-describedby="basic-addon1" value="1">
+            <span class="input-group-addon" id="basic-addon1">travelers</span>
+        </div>
+    </div-->
 
+    <style>
+        body { padding-bottom: 70px; }
+    </style>
+
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container-fluid">
+                <button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+            </div>
+        </nav>
+    </div>
 </form>
