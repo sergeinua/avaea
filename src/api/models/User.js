@@ -5,7 +5,7 @@ var User = {
   schema: true,
   attributes: {
     username  : { type: 'string', unique: true },
-    email     : { type: 'email',  unique: true, regex: /^([^@]+?@avaea.com|constfilin@gmail.com|v.mustafin@gmail.com|eugene.tokarev@gmail.com)$/ },
+    email     : { type: 'email',  unique: true, regex: /^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com)$/ },
     passports : { collection: 'Passport', via: 'user' },
     searches  : { collection: 'Search', via: 'user' }
   }

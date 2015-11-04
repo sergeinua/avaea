@@ -51,6 +51,7 @@ module.exports.passport = {
     options: {
       clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
       clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs',
+      prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
     }
   },
@@ -63,6 +64,7 @@ module.exports.passport = {
     options: {
       clientID: '964565280166-e77at51l90hu9a4q41kmbhdc1tbnnlmd.apps.googleusercontent.com',
       clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
+      prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
     }
   },

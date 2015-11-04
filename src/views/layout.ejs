@@ -39,7 +39,7 @@
             <% if (user) { %>
             <li><a href="/search">Search</a></li>
             <li><a href="/profile">Profile</a></li>
-            <li><a href="/logout">Logout</a></li>
+            <li><a href="/logout">Log <%= user.email %> out</a></li>
             <% } else { %>
             Powered by Demo Inc &copy; 2015
             <% } %>
