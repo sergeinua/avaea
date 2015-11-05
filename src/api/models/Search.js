@@ -26,7 +26,7 @@ module.exports = {
 
     var soap = require('soap');
     var wsdl = 'http://sandbox.trippro.com/api/v2/flightSearch?wsdl';
-
+    sails.log.info('Trying to send request to mondee');
     soap.createClient(wsdl, function(err, client) {
       if (!err) {
         // minimum requirements for search request
@@ -61,9 +61,15 @@ module.exports = {
           });
         }
         return client.FlightSearch(args, function(err, result, raw, soapHeader) {
+          if (err) {
+            sails.log.error(err);
+          }
+          sails.log.info(result);
           return callback(result.FlightSearchResponse.FlightItinerary);
         });
       } else {
+        sails.log.error(err);
+
         return callback([]);
       }
     });
