@@ -13,4 +13,10 @@ $(document).ready(function() {
         clone.appendTo($('#' + cloneTarget).parent());
         return false;
     });
+    //set defaults
+    $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
+    $('#returnDate').attr('min', new Date().toISOString().slice(0, 10));
+    $('#departureDate').change(function() {
+        $('#returnDate').attr('min', $('#departureDate').val());
+    });
 });
