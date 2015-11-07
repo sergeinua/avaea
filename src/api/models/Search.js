@@ -28,7 +28,10 @@ module.exports = {
     var wsdl = 'http://sandbox.trippro.com/api/v2/flightSearch?wsdl';
 
     soap.createClient(wsdl, function(err, client) {
-      if (!err) {
+      if (err) {
+        console.log(err);
+        return callback([]);
+      } else {
         // minimum requirements for search request
         var args = {
           'common:TPContext': {
@@ -61,10 +64,14 @@ module.exports = {
           });
         }
         return client.FlightSearch(args, function(err, result, raw, soapHeader) {
-          return callback(result.FlightSearchResponse.FlightItinerary);
+          var res = [];
+          if (err) {
+            console.log(err);
+          } else {
+            res = result.FlightSearchResponse.FlightItinerary || res;
+          }
+          return callback(res);
         });
-      } else {
-        return callback([]);
       }
     });
   }/*,

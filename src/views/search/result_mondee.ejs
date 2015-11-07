@@ -160,7 +160,6 @@
     </div>
 
     <% sRes.Citypairs.forEach(function (segment, i) { %>
-      <% console.log(segment.FlightSegment); %>
       <% if (i == 0) { %><div class="row">
         <div class="col-sm-12"><strong><%= searchParams.DepartureLocationCode %>&rarr;<%= searchParams.ArrivalLocationCode %></strong></div>
       </div><% } else {%><br/><div class="row">
