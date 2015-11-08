@@ -56,7 +56,9 @@ module.exports.routes = {
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
   'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
   'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
-  'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase'
+  'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
+
+  'post /ac/airports': 'AcController.airports'
 
   /***************************************************************************
   *                                                                          *

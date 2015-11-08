@@ -53,4 +53,11 @@ $(document).ready(function() {
         slidesToShow: 3,
         slidesToScroll: 1
     });
+    $('#originAirport, #destinationAirport').typeahead({
+        source: function (query, process) {
+            return $.post('/ac/airports?q=' + query, function (data) {
+                return process(data);
+            });
+        }
+    });
 });
