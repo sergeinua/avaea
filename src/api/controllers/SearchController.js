@@ -1,3 +1,6 @@
+/* global Search */
+/* global async */
+/* global Tile */
 /* global sails */
 /**
  * SearchController
@@ -28,12 +31,27 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    return  res.view('search/result', {
-      title:'Search result for SGN&rarr;SFO',
-      guid: this.getCurentSearchGuid(),
-      searchParams: req.allParams(),
-      user: req.user,
-      searchResult: Search.getResult(req.allParams())
+    async.waterfall([
+      function (callback) {
+        var itineraries = Search.getResult(req.allParams());
+        callback(null, itineraries);
+      },
+      function (itineraries, callback) {
+        sails.log.info(itineraries.length);
+        var tiles = Tile.getTilesData(itineraries);
+        sails.log.info(tiles);
+        callback(null, itineraries, tiles);
+      }
+    ], function (err, itineraries, tiles) {
+      sails.log(tiles);
+      return  res.view('search/result', {
+        title:'Search result for SGN&rarr;SFO',
+        // guid: this.getCurentSearchGuid(),
+        searchParams: req.allParams(),
+        user: req.user,
+        tiles: tiles,
+        searchResult: itineraries
+      });
     });
   }
 };
