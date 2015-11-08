@@ -28,7 +28,10 @@ module.exports = {
     var wsdl = 'http://sandbox.trippro.com/api/v2/flightSearch?wsdl';
     sails.log.info('Trying to send request to mondee');
     soap.createClient(wsdl, function(err, client) {
-      if (!err) {
+      if (err) {
+        console.log(err);
+        return callback([]);
+      } else {
         // minimum requirements for search request
         var args = {
           'common:TPContext': {
@@ -61,135 +64,16 @@ module.exports = {
           });
         }
         return client.FlightSearch(args, function(err, result, raw, soapHeader) {
+          var res = [];
           if (err) {
-            sails.log.error(err);
+            console.log(err);
+          } else {
+            res = result.FlightSearchResponse.FlightItinerary || res;
           }
-          sails.log.info(result);
-          return callback(result.FlightSearchResponse.FlightItinerary);
+          return callback(res);
         });
-      } else {
-        sails.log.error(err);
-
-        return callback([]);
       }
     });
-  }/*,
-
-  getResult: function (params) {
-    return [ // dummy data
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 0,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'China Eastern airlines',
-        price: '820',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320',
-        merchandising: [
-          'Free WiFi',
-          'In seat video',
-          'In seat audio',
-          '+20kg luggage free',
-          'Priority boarding'
-        ]
-      }},
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 1,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'China Eastern airlines',
-        price: '820',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320'
-      }},
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 0,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'China Eastern airlines',
-        price: '820',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320',
-        merchandising: [
-          'Free WiFi',
-          'In seat video',
-          'In seat audio',
-          '+20kg luggage free',
-          'Priority boarding'
-        ]
-      }},
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 0,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'Virgin America',
-        price: '850',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320',
-        merchandising: [
-          'Free WiFi',
-          'In seat video',
-          'In seat audio',
-          '+20kg luggage free',
-          'Priority boarding'
-        ]
-      }},
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 2,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'China Eastern airlines',
-        price: '1020',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320'
-      }},
-      {itinerary: {
-        originAirport: 'SGN',
-        destinationAirport:'SFO',
-        stops: 0,
-        departureTime: '2:25am',
-        arrivalTime: '2:30pm',
-        flightTime: '12h 05m',
-        stopTime: [],
-        carier: 'Virgin America',
-        price: '1820',
-        currency: 'USD',
-        ticketType: 'Economy',
-        planeType: 'Airbus A320',
-        merchandising: [
-          'Free WiFi',
-          'In seat video',
-          'In seat audio',
-          '+20kg luggage free',
-          'Priority boarding'
-        ]
-      }},
-    ];
-  }*/
+  }
 };
 
