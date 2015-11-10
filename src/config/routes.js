@@ -35,14 +35,14 @@ module.exports.routes = {
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
-  
+
   // 'post /auth/local': 'AuthController.callback',
   // 'post /auth/local/:action': 'AuthController.callback',
-  
+
   'get /auth/:provider': 'AuthController.provider',
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',
-  
+
   'get /order': 'HomepageController.order',
   'get /search': 'SearchController.index',
   'post /result': 'SearchController.result',
@@ -51,7 +51,14 @@ module.exports.routes = {
   'get /create': 'UserController.create',
   'post /update': 'UserController.update',
 
-  '/': 'AuthController.login'
+  '/': 'AuthController.login',
+
+  'post /prediction/order_tiles': 'PredictionController.order_tiles',
+  'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
+  'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
+  'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
+
+  'post /ac/airports': 'AcController.airports'
 
   /***************************************************************************
   *                                                                          *
