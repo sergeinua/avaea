@@ -26,7 +26,7 @@ $(document).ready(function() {
         $(this).parent().parent().fadeOut();
         var clone = $(this).clone();
         var top = $('body').css('padding-top');
-        $('body').css('padding-top', (parseInt(top) + 20) + 'px');
+        $('body').css('padding-top', (parseInt(top) + 23) + 'px');
 
         var tileName = $(this).parent().parent().find('a').text();
         var tileValue = $(clone).html();
@@ -37,7 +37,7 @@ $(document).ready(function() {
         $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
         $(clone).find('span').click(function(e) {
             var top = $('body').css('padding-top');
-            $('body').css('padding-top', (parseInt(top) - 20) + 'px');
+            $('body').css('padding-top', (parseInt(top) - 23) + 'px');
 
             var target = $(this).parent().attr('for');
             $(this).parent().remove();
