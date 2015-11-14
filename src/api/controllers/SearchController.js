@@ -38,8 +38,7 @@ module.exports = {
       title = 'Search result for ' + params.DepartureLocationCode + '&rarr;' + params.ArrivalLocationCode,
       depDate = new Date();
 
-    if (!isNaN(Date.parse(req.
-      param('departureDate')))) {
+    if (!isNaN(Date.parse(req.param('departureDate')))) {
       depDate = new Date(req.param('departureDate'));
     }
     params.DepartureTime = sails.moment(depDate).format('DD/MM/YYYY');
