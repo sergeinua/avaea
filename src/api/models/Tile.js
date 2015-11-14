@@ -19,74 +19,50 @@ module.exports = {
 
   getTiles: function () {
     return {
-// for tests
-      // Test: {
-      //   name: 'Test name',
-      //   id: 'test_name_tile',
-      //   filters: [
-      //     'test 1',
-      //     'test 2',
-      //     'test 3',
-      //   ]
-      // },
       Price: {
         name: 'Price',
         id: 'price_tile',
+        order: 1,
         filters: [
-          {title:'$100-$200', id: 'price_tile_1'},
-          {title:'$200-$300', id: 'price_tile_2'},
-          {title:'$300-$400', id: 'price_tile_3'},
-          {title:'$400-$600', id: 'price_tile_4'}
         ]
       },
       Departure: {
         name: 'Departure',
         id: 'departure_tile',
+        order: 2,
         filters: [
-          {title:'0-6am',    id: 'departure_tile_1'},
-          {title:'6am-12pm', id: 'departure_tile_2'},
-          {title:'12pm-8pm', id: 'departure_tile_3'},
-          {title:'8pm-0',    id: 'departure_tile_4'}
         ]
       },
       Arrival: {
         name: 'Arrival',
         id: 'arrival_tile',
+        order: 3,
         filters: [
-          {title:'0-6am',    id: 'arrival_tile_1'},
-          {title:'6am-12pm', id: 'arrival_tile_2'},
-          {title:'12pm-8pm', id: 'arrival_tile_3'},
-          {title:'8pm-0',    id: 'arrival_tile_4'}
         ]
       },
       Airline: {
         name: 'Airline',
         id: 'airline_tile',
+        order: 4,
         filters: [
-          {title:'China Eastern',  id: 'airline_tile_1'},
-          {title:'Virgin America', id: 'airline_tile_2'},
-          {title:'Tiara Air',      id: 'airline_tile_3'},
-          {title:'Fly BVI',        id: 'airline_tile_4'}
         ]
       },
-      Merchandising: {
-        name: 'Merchandising',
-        id: 'merchandising_tile',
-        filters: [
-          {title:'Free WiFi',     id: 'merchandising_tile_1'},
-          {title:'In seat video', id: 'merchandising_tile_2'},
-          {title:'In seat audio', id: 'merchandising_tile_3'},
-          {title:'10kg luggage',  id: 'merchandising_tile_4'}
-        ]
-      },
+      // Merchandising: {
+      //   name: 'Merchandising',
+      //   id: 'merchandising_tile',
+      //   order: 5,
+      //   filters: [
+      //     {title:'Free WiFi',     id: 'merchandising_tile_1'},
+      //     {title:'In seat video', id: 'merchandising_tile_2'},
+      //     {title:'In seat audio', id: 'merchandising_tile_3'},
+      //     {title:'10kg luggage',  id: 'merchandising_tile_4'}
+      //   ]
+      // },
       Duration: {
         name: 'Duration',
         id: 'duration_tile',
+        order: 6,
         filters: [
-          {title:'3h-6h',   id: 'duration_tile_1'},
-          {title:'6h-10h',  id: 'duration_tile_2'},
-          {title:'10h-12h', id: 'duration_tile_3'},
-          {title:'12h-14h', id: 'duration_tile_4'}
         ]
       }
     }
@@ -95,92 +71,108 @@ module.exports = {
   getTilesData: function (itineraries, params, callback) {
     var tileArr = this.getTiles();
     var index = null;
-    /*/
+    var filterClass = '';
+    var timeArr = [
+      '0-6am',
+      '6am-12pm',
+      '12pm-6pm',
+      '6pm-12am'
+    ];
+
     if (itineraries) {
       sails.log.info(itineraries.length);
       async.map(itineraries, function (itinerary, doneCallback) {
-        if (itinerary.itinerary.price) {
-          index = _.findIndex(tileArr['Price'], {name:itinerary.itinerary.price});
+        if (itinerary.price) {
+          index = _.findIndex(tileArr['Price'].filters, {title:itinerary.price});
           if ( index === -1 ) {
-            tileArr['Price'].push({name: itinerary.itinerary.price, count : 1});
+            tileArr['Price'].filters.push({title: itinerary.price,id: '', count : 1});
           } else {
-            tileArr['Price'][index].count++;
+            tileArr['Price'].filters[index].count++;
+            filterClass = tileArr['Price'].filters[index].id;
           }
         }
 
-        if (itinerary.itinerary.departureTime) {
-
-          index = _.findIndex(tileArr['Departure'], {name:itinerary.itinerary.departureTime});
+        if (itinerary.citypairs[0].from.quarter) {
+          index = _.findIndex(tileArr['Departure'].filters, {title:timeArr[itinerary.citypairs[0].from.quarter - 1]});
           if ( index === -1 ) {
-            tileArr['Departure'].push({name: itinerary.itinerary.departureTime, count : 1});
+            tileArr['Departure'].filters.push({
+              title: timeArr[itinerary.citypairs[0].from.quarter - 1],
+              id:'departure_tile_' + itinerary.citypairs[0].from.quarter,
+              count : 1
+            });
+            filterClass = filterClass + ' ' + 'departure_tile_' + itinerary.citypairs[0].from.quarter;
           } else {
-            tileArr['Departure'][index].count++;
+            tileArr['Departure'].filters[index].count++;
+            filterClass = filterClass + ' ' + tileArr['Departure'].filters[index].id;
           }
         }
-        if (itinerary.itinerary.arrivalTime) {
 
-          index = _.findIndex(tileArr['Arrival'], {name:itinerary.itinerary.arrivalTime});
+        if (itinerary.citypairs[0].to.quarter) {
+          index = _.findIndex(tileArr['Arrival'].filters, {title:timeArr[itinerary.citypairs[0].to.quarter - 1]});
           if ( index === -1 ) {
-            tileArr['Arrival'].push({name: itinerary.itinerary.arrivalTime, count : 1});
+            tileArr['Arrival'].filters.push({
+              title: timeArr[itinerary.citypairs[0].to.quarter - 1],
+              id:'arrival_tile_' + itinerary.citypairs[0].to.quarter,
+              count : 1
+            });
+            filterClass = filterClass + ' ' + 'arrival_tile_' + itinerary.citypairs[0].to.quarter;
           } else {
-            tileArr['Arrival'][index].count++;
+            tileArr['Arrival'].filters[index].count++;
+            filterClass = filterClass + ' ' + tileArr['Arrival'].filters[index].id;;
           }
         }
-        if (itinerary.itinerary.carier) {
 
-          index = _.findIndex(tileArr['Airline'], {name:itinerary.itinerary.carier});
+        if (itinerary.citypairs[0].duration) {
+
+          index = _.findIndex(tileArr['Duration'].filters, {title:itinerary.citypairs[0].duration});
+          var durationIterator = 1;
           if ( index === -1 ) {
-            tileArr['Airline'].push({name: itinerary.itinerary.carier, count : 1});
+            tileArr['Duration'].filters.push({
+              title: itinerary.citypairs[0].duration,
+              id:'duration_tile_' + itinerary.citypairs[0].duration.split(' ').join('_'),
+              count : 1
+            });
+            filterClass = filterClass + ' ' + 'duration_tile_' + itinerary.citypairs[0].duration.split(' ').join('_');
           } else {
-            tileArr['Airline'][index].count++;
+            tileArr['Duration'].filters[index].count++;
+            filterClass = filterClass + ' ' + tileArr['Duration'].filters[index].id;;
           }
         }
-        if (itinerary.itinerary.merchandising) {
-          //todo when we will have real data
-        }
-        if (itinerary.itinerary.flightTime) {
 
-          index = _.findIndex(tileArr['Duration'], {name:itinerary.itinerary.flightTime});
-          if ( index === -1 ) {
-            tileArr['Duration'].push({name: itinerary.itinerary.flightTime, count : 1});
-          } else {
-            tileArr['Duration'][index].count++;
+        for (var i=0; i < itinerary.citypairs.length; i++) {
+          for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
+            var flight = itinerary.citypairs[i].flights[k];
+            if (flight.airline) {
+              index = _.findIndex(tileArr['Airline'].filters, {title:flight.airline});
+              if ( index === -1 ) {
+                tileArr['Airline'].filters.push({
+                  title: flight.airline,
+                  id: 'airline_tile_' + flight.airline.split(' ').join('_'),
+                  count : 1
+                });
+                filterClass = filterClass + ' ' + 'airline_tile_' + flight.airline.split(' ').join('_');
+              } else {
+                tileArr['Airline'].filters[index].count++;
+                filterClass = filterClass + ' ' + tileArr['Duration'].filters[index].id;;
+              }
+            }
           }
         }
+
+        itinerary.filterClass = filterClass;
         return doneCallback(null);
       }, function (err) {
         if ( err ) {
           sails.log.error( err );
         } else {
+          tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
+          tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
+          tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
           return callback(itineraries, tileArr, params);
           // for debug/log
           // sails.log.info(tileArr);
         }
       });
     }
-    /*/
-    if (itineraries) {
-      sails.log.info(itineraries.length);
-      var counter = 0;
-      async.map(itineraries, function (itinerary, doneCallback) {
-        // var fare = itinerary;
-        if (counter%2 == 0) {
-          itinerary.filterClass = 'airline_tile_2 duration_tile_2';
-        } else {
-          itinerary.filterClass = 'price_tile_3 departure_tile_3';
-        }
-        counter++;
-        return doneCallback(null);
-      }, function (err) {
-        if ( err ) {
-          sails.log.error( err );
-        } else {
-          return callback(itineraries, tileArr, params);
-          // sails.log.info(tileArr);
-        }
-      });
-    }
-    // return callback(itineraries, tileArr, params);
-    //*/
   }
 };
