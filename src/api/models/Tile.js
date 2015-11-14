@@ -163,11 +163,11 @@ module.exports = {
       sails.log.info(itineraries.length);
       var counter = 0;
       async.map(itineraries, function (itinerary, doneCallback) {
-        var fare = itinerary.Fares[0];
-        if (counter/2 == 0) {
-          fare.filterClass = 'airline_tile_2 duration_tile_2';
+        // var fare = itinerary;
+        if (counter%2 == 0) {
+          itinerary.filterClass = 'airline_tile_2 duration_tile_2';
         } else {
-          fare.filterClass = 'price_tile_3 departure_tile_3';
+          itinerary.filterClass = 'price_tile_3 departure_tile_3';
         }
         counter++;
         return doneCallback(null);

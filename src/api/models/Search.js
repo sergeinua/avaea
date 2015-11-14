@@ -24,57 +24,7 @@ module.exports = {
   },
 
   getResult: function (guid, params, callback) {
-
-    var soap = require('soap');
-    var wsdl = 'http://sandbox.trippro.com/api/v2/flightSearch?wsdl';
-    sails.log.info('Trying to send request to mondee');
-    soap.createClient(wsdl, function(err, client) {
-      if (err) {
-        console.log(err);
-        return callback([]);
-      } else {
-        // minimum requirements for search request
-        var args = {
-          'common:TPContext': {
-            attributes: {
-              'xmlns:common': 'http://trippro.com/webservices/common/v2'
-            },
-            'common:clientId': 'CFS1017',
-            'common:messageId': guid
-          },
-          FlightSearchRequest: {
-            OriginDestination: [{
-              DepartureLocationCode: params.DepartureLocationCode,
-              DepartureTime: params.DepartureTime,
-              ArrivalLocationCode: params.ArrivalLocationCode
-            }]
-          }
-        };
-        // add return OriginDestination if we have return date
-        if (params.returnDate) {
-          args.FlightSearchRequest.OriginDestination.push({
-              DepartureLocationCode: params.ArrivalLocationCode,
-              DepartureTime: params.returnDate,
-              ArrivalLocationCode: params.DepartureLocationCode
-            });
-        }
-        // set the same CabinClass for all OriginDestination elements
-        if (['E','B','F','P'].indexOf(params.CabinClass) != -1) {
-          args.FlightSearchRequest.OriginDestination.forEach(function(val) {
-            val.CabinClass = params.CabinClass;
-          });
-        }
-        return client.FlightSearch(args, function(err, result, raw, soapHeader) {
-          var res = [];
-          if (err) {
-            console.log(err);
-          } else {
-            res = result.FlightSearchResponse.FlightItinerary || res;
-          }
-          return callback(res, params);
-        });
-      }
-    });
+    return mondee.flightSearch(guid, params, callback);
   }
 };
 

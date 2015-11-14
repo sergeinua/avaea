@@ -35,7 +35,7 @@ $(document).ready(function() {
         var tileName = $(this).parent().parent().find('a').text();
         var tileValue = $(clone).html();
         $('.itinerary').hide();
-        $('.itinerary .' + $(clone).attr('for')).show();
+        $('.' + $(clone).attr('for')).show();
         console.log($(clone).attr('for'));
 
         // recalculate search result
