@@ -57,24 +57,24 @@ $(document).ready(function() {
             $('body').css('padding-top', (parseInt(top) - 23) + 'px');
 
             var target = $(this).parent().attr('for');
-            var filters = $('.selectedfilters').attr('filters');
-            filters = filters.split(' ');
-            var result = [];
-            if (filters.length) {
-              filters.forEach(function(filter) {
-                if (filter != $(clone).attr('itineraries') || filter == '') {
-                  result.push(filter);
-                  // $('.itinerary').is
-                }
-              });
-            }
-            console.log(result);
+            // var filters = $('.selectedfilters').attr('filters');
+            // filters = filters.split(' ');
+            // var result = [];
+            // if (filters.length) {
+            //   filters.forEach(function(filter) {
+            //     if (filter != $(clone).attr('itineraries') || filter == '') {
+            //       result.push(filter);
+            //       // $('.itinerary').is
+            //     }
+            //   });
+            // }
+            // console.log(result);
 
             $(this).parent().remove();
             $('#' + target).fadeIn();
            // $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
             
-            // $('.itinerary').show();
+            $('.itinerary').show();
             // recalculate search result
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);
