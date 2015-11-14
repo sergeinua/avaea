@@ -21,6 +21,10 @@ $(document).ready(function() {
         $('#returnDate').attr('min', $('#departureDate').val());
     });
 
+    //search count
+    var sCount = $('.itinerary').length;
+    $('#search_count').text(sCount);
+
     //tiles
     $('.list-group-item').click(function(event) {
         $(this).parent().parent().fadeOut();
@@ -30,6 +34,14 @@ $(document).ready(function() {
 
         var tileName = $(this).parent().parent().find('a').text();
         var tileValue = $(clone).html();
+        $('.itinerary').hide();
+        $('.itinerary .' + $(clone).attr('for')).show();
+        console.log($(clone).attr('for'));
+
+        // recalculate search result
+        var sCount = $('.itinerary:visible').length;
+        $('#search_count').text(sCount);
+
         $(clone).html(tileName + ':' + tileValue);
 
         $(clone).off().attr('for', $(this).parent().parent().attr('id'));
@@ -42,6 +54,10 @@ $(document).ready(function() {
             var target = $(this).parent().attr('for');
             $(this).parent().remove();
             $('#' + target).fadeIn();
+            $('.itinerary').show();
+            // recalculate search result
+            var sCount = $('.itinerary:visible').length;
+            $('#search_count').text(sCount);
         });
         $('.selectedfilters').append(clone);
     });

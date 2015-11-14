@@ -1,3 +1,4 @@
+/* global sails */
 /**
 * Search.js
 *
@@ -70,7 +71,7 @@ module.exports = {
           } else {
             res = result.FlightSearchResponse.FlightItinerary || res;
           }
-          return callback(res);
+          return callback(res, params);
         });
       }
     });
