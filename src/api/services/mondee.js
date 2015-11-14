@@ -61,12 +61,14 @@ module.exports = {
                     from: {
                         code: from.DepartureLocationCode,
                         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(from.DepartureDateTime).format('hh:mma')
+                        time: sails.moment(from.DepartureDateTime).format('hh:mma'),
+                        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
                     },
                     to: {
                       code: to.ArrivalLocationCode,
                       date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
-                      time: sails.moment(to.ArrivalDateTime).format('hh:mma')
+                      time: sails.moment(to.ArrivalDateTime).format('hh:mma'),
+                      quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
                     },
                     duration: pair.Duration,
                     noOfStops: pair.NoOfStops,
