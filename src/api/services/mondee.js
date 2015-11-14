@@ -88,7 +88,7 @@ module.exports = {
                         date: sails.moment(segment.ArrivalDateTime).format('YYYY-MM-DD'),
                         time: sails.moment(segment.ArrivalDateTime).format('hh:mma')
                       },
-                      duration: sails.moment.duration(segment.Duration).humanize(),
+                      duration: segment.Duration,
                       bookingClass: segment.BookingClass,
                       cabinClass: segment.CabinClass,
                       airline: segment.MarketingAirlineName,
