@@ -22,7 +22,7 @@ $(document).ready(function() {
     });
 
     //search count
-    var sCount = $('.itinerary').length;
+    var sCount = $('.itinerary:visible').length;
     $('#search_count').text(sCount);
 
     //tiles
@@ -34,8 +34,11 @@ $(document).ready(function() {
 
         var tileName = $(this).parent().parent().find('a').text();
         var tileValue = $(clone).html();
-        $('.itinerary').hide();
-        $('.itinerary+.' + $(clone).attr('for')).show();
+        $('.itinerary:visible').not('.' + $(clone).attr('for')).hide();
+        var filters = $('.selectedfilters').attr('filters');
+        $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
+
+        // $('.itinerary+.' + $(clone).attr('for')).show();
         console.log($(clone).attr('for'));
 
         // recalculate search result
@@ -44,7 +47,9 @@ $(document).ready(function() {
 
         $(clone).html(tileName + ':' + tileValue);
 
+        $(clone).off().attr('itineraries', $(clone).attr('for'));
         $(clone).off().attr('for', $(this).parent().parent().attr('id'));
+
         $(clone).find('span').remove();
         $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
         $(clone).find('span').click(function(e) {
@@ -52,9 +57,24 @@ $(document).ready(function() {
             $('body').css('padding-top', (parseInt(top) - 23) + 'px');
 
             var target = $(this).parent().attr('for');
+            var filters = $('.selectedfilters').attr('filters');
+            filters = filters.split(' ');
+            var result = [];
+            if (filters.length) {
+              filters.forEach(function(filter) {
+                if (filter != $(clone).attr('itineraries') || filter == '') {
+                  result.push(filter);
+                  // $('.itinerary').is
+                }
+              });
+            }
+            console.log(result);
+
             $(this).parent().remove();
             $('#' + target).fadeIn();
-            $('.itinerary').show();
+           // $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
+            
+            // $('.itinerary').show();
             // recalculate search result
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);

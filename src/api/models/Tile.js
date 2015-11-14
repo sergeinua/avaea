@@ -85,7 +85,12 @@ module.exports = {
         if (itinerary.price) {
           index = _.findIndex(tileArr['Price'].filters, {title:itinerary.price});
           if ( index === -1 ) {
-            tileArr['Price'].filters.push({title: itinerary.price,id: '', count : 1});
+            tileArr['Price'].filters.push({
+              title: itinerary.price,
+              id: 'price_tile_' + itinerary.price.split('.').join('_'),
+              count : 1
+            });
+            filterClass = 'price_tile_' + itinerary.price.split('.').join('_');
           } else {
             tileArr['Price'].filters[index].count++;
             filterClass = tileArr['Price'].filters[index].id;
@@ -123,9 +128,7 @@ module.exports = {
         }
 
         if (itinerary.citypairs[0].duration) {
-
           index = _.findIndex(tileArr['Duration'].filters, {title:itinerary.citypairs[0].duration});
-          var durationIterator = 1;
           if ( index === -1 ) {
             tileArr['Duration'].filters.push({
               title: itinerary.citypairs[0].duration,
@@ -168,9 +171,8 @@ module.exports = {
           tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
           tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
           tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
+          
           return callback(itineraries, tileArr, params);
-          // for debug/log
-          // sails.log.info(tileArr);
         }
       });
     }
