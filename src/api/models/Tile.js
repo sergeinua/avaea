@@ -156,7 +156,7 @@ module.exports = {
                 filterClass = filterClass + ' ' + 'airline_tile_' + flight.airline.split(' ').join('_');
               } else {
                 tileArr['Airline'].filters[index].count++;
-                filterClass = filterClass + ' ' + tileArr['Duration'].filters[index].id;;
+                filterClass = filterClass + ' ' + tileArr['Airline'].filters[index].id;;
               }
             }
           }
