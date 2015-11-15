@@ -4,7 +4,6 @@
   for(var name in tiles) { 
     var tile = tiles[name];
   %>
-    <%  console.log(tile)  %>
     <div class="mybucket" id="<%= tile.id%>">
       <a id="mydefaultid" href="/result#price"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
       <ul class="list-group" style='padding:1px;margin-bottom:0px;'>

@@ -1,8 +1,22 @@
 <% if (searchResult) { %>
-
+<%
+var serviceClass = {
+  E:'Economy',
+  P:'Premium',
+  B:'Business',
+  F:'First'
+}
+%>
 <div class="container">
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
+    <p class="text-info">
+      <b>Departure:</b> <%=searchParams.DepartureTime%>
+      <% if (searchParams.returnDate) { %>
+      <b>Return:</b> <%=searchParams.returnDate%>
+      <% } %>
+      <br/><b>Class:</b> <%= serviceClass[searchParams.CabinClass] %>
+    </p>
       <%- partial('bucket') %>
     </div>
   </nav>

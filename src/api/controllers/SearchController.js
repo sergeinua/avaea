@@ -38,7 +38,6 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    // var uid = this.getCurentSearchGuid();
     var
       params = {
         DepartureLocationCode: req.param('originAirport').toUpperCase(),
@@ -53,19 +52,16 @@ module.exports = {
       depDate = new Date(req.param('departureDate'));
     }
     params.DepartureTime = sails.moment(depDate).format('DD/MM/YYYY');
-
     if (!isNaN(Date.parse(req.param('returnDate')))) {
       var retDate = new Date(req.param('returnDate'));
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
 
-    //
-    //req.param('returnDate')
     Search.getResult(this.getCurentSearchGuid(), params, found => {
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
         sails.log.info(itineraries[0]);
         sails.log.info(itineraries[0].flights);
-        // sails.log.info(tiles);
+
         return  res.view('search/result', {
           title: title,
           tiles: tiles,
