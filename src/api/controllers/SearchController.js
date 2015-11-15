@@ -10,9 +10,16 @@
  */
 
 module.exports = {
-  guid: '403f731c03626c964da0dd6979348d5b',
+  guid: '',
 
   getCurentSearchGuid:function () {
+    var d = new Date().getTime();
+    this.guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+
     return this.guid;
   },
 
@@ -20,6 +27,7 @@ module.exports = {
    * `SearchController.index()`
    */
   index: function (req, res) {
+    this.guid = '';
     return res.view('search/index', {
       title:'Search for flights',
       user: req.user
@@ -30,7 +38,7 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    var uid = this.getCurentSearchGuid();
+    // var uid = this.getCurentSearchGuid();
     var
       params = {
         DepartureLocationCode: req.param('originAirport').toUpperCase(),

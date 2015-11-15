@@ -7,7 +7,7 @@
     <%  console.log(tile)  %>
     <div class="mybucket" id="<%= tile.id%>">
       <a id="mydefaultid" href="/result#price"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
-      <ul class="list-group" style='padding:1px;'>
+      <ul class="list-group" style='padding:1px;margin-bottom:0px;'>
         <% tile.filters.forEach( function (filter) {
         %><li for='<%= filter.id%>' style='padding:1px;' class="list-group-item"><%= filter.title%><!--<span class="badge">49</span>--></li><%
           }

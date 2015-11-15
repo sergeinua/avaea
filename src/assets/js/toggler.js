@@ -21,16 +21,10 @@ $(document).ready(function() {
         $('#returnDate').attr('min', $('#departureDate').val());
     });
 
-    //search count
-    var sCount = $('.itinerary:visible').length;
-    $('#search_count').text(sCount);
-
     //tiles
     $('.list-group-item').click(function(event) {
         $(this).parent().parent().fadeOut();
         var clone = $(this).clone();
-        var top = $('body').css('padding-top');
-        $('body').css('padding-top', (parseInt(top) + 23) + 'px');
 
         var tileName = $(this).parent().parent().find('a').text();
         var tileValue = $(clone).html();
@@ -38,13 +32,10 @@ $(document).ready(function() {
         var filters = $('.selectedfilters').attr('filters');
         $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
 
-        // $('.itinerary+.' + $(clone).attr('for')).show();
-        console.log($(clone).attr('for'));
-
         // recalculate search result
         var sCount = $('.itinerary:visible').length;
         $('#search_count').text(sCount);
-
+        $('#search_count').removeClass('hidden');
         $(clone).html(tileName + ':' + tileValue);
 
         $(clone).off().attr('itineraries', $(clone).attr('for'));
@@ -53,33 +44,37 @@ $(document).ready(function() {
         $(clone).find('span').remove();
         $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
         $(clone).find('span').click(function(e) {
-            var top = $('body').css('padding-top');
-            $('body').css('padding-top', (parseInt(top) - 23) + 'px');
 
             var target = $(this).parent().attr('for');
-            // var filters = $('.selectedfilters').attr('filters');
-            // filters = filters.split(' ');
-            // var result = [];
-            // if (filters.length) {
-            //   filters.forEach(function(filter) {
-            //     if (filter != $(clone).attr('itineraries') || filter == '') {
-            //       result.push(filter);
-            //       // $('.itinerary').is
-            //     }
-            //   });
-            // }
-            // console.log(result);
+            var filters = $('.selectedfilters').attr('filters');
+            filters = filters.split(' ');
+            console.log(filters);
+            var result = [];
+            if (filters.length) {
+              $('.itinerary').show();
+              filters.forEach(function(filter) {
+                console.log($(clone).attr('itineraries'));
+                if (filter && filter != $(clone).attr('itineraries') && filter != '') {
+                  result.push(filter);
+                  $('.itinerary:visible').not('.' + filter).hide();
+                }
+              });
+              console.log(result);
+              $('.selectedfilters').attr('filters', result.join(' '));
+            }
 
             $(this).parent().remove();
             $('#' + target).fadeIn();
-           // $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
-            
-            $('.itinerary').show();
-            // recalculate search result
+
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);
+
+            $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+
         });
         $('.selectedfilters').append(clone);
+
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
     });
 
     $('#tiles').slick({
@@ -96,4 +91,13 @@ $(document).ready(function() {
             });
         }
     });
+
+    //search count
+    var sCount = $('.itinerary:visible').length;
+    $('#search_count').text(sCount);
+    if (sCount) {
+      $('#search_count').removeClass('hidden');
+      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+    }
+
 });
