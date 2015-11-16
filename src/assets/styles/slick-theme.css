@@ -199,3 +199,9 @@
     opacity: .75;
     color: black;
 }
+
+
+.selected {
+    background: url('../images/tick-mark-small2.png') no-repeat center, linear-gradient(lightblue, white);
+    font-weight: bolder;
+}

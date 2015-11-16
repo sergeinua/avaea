@@ -106,4 +106,16 @@ $(document).ready(function() {
         $("body").addClass("loading");
         return true;
     });
+
+    $('.itinerary').click(function (event) {
+        $('.itinerary').removeClass('selected');
+        $(this).addClass('selected');
+        $('#buy_button').removeAttr('disabled');
+    });
+
+    $('#buy_button').click(function(event) {
+        if ($('.itinerary+.selected')) {
+            location.href = '/order';
+        }
+    });
 });

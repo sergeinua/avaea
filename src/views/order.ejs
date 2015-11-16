@@ -1,8 +1,40 @@
+<form action="/payment" method="post">
+<div class="panel panel-default">
+  <div class="panel-heading" role="tab" id="headingOne">
+    <h4 class="panel-title">
+      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        CC information
+      </a>
+    </h4>
+  </div>
+  <div class="panel-body">
+        <label>First Name
+          <input type="text" name="firstName" class="form-control input-sm" placeholder="First Name" value="<%= Profile.firstName %>" required/>
+        </label>
+        <label>Last Name
+          <input type="text" name="lastName" class="form-control input-sm" placeholder="Last Name"  value="<%= Profile.lastName %>"  required/>
+        </label>
+
+        <label>Card Number<br/>
+          <input type="number" name="cc_1" min="1000" max="9999">
+          <input type="number" name="cc_2" min="1000" max="9999">
+          <input type="number" name="cc_3" min="1000" max="9999">
+          <input type="number" name="cc_4" min="1000" max="9999">
+        </label>
+
+        <label>Expires<br/>
+          <input type="month" name="cc_month" required="required">
+        </label>
+
+        <label>CVV<br/>
+          <input type="number" name="cvv" min="100" max="999">
+        </label>
+  </div>
+</div>
 
   <% order.forEach(function (sRes) { %>
 
 <div class="panel panel-info">
-  <!--<div class="panel-heading">You ordered</div>-->
   <div class="panel-body">
     <div class="row">
       <div class="col-xs-7"><%= sRes.itinerary.carier %></div>
@@ -41,4 +73,20 @@
 </div>
 
   <% }) %>
-  <div class="col-xs-12"><a href="/search" class="btn btn-lg btn-primary btn-block" role="button"><%= __('Another search')%></a></div>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+      <div class="container-fluid">
+        <button id="buy_button" class="btn btn-lg btn-primary btn-block" disabled>Buy</button>
+      </div>
+    </nav>
+</div>
+
+</form>
+
+<style>
+    body {
+      padding-bottom: 70px;
+      padding-top: 70px;
+    }
+</style>

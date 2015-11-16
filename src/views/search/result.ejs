@@ -27,12 +27,8 @@ var serviceClass = {
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes) { %>
 
-
 <div class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
 
-
-
-<!--<div class="row" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">-->
   <div class="col-xs-12">
 
     <div class="row">
@@ -89,10 +85,6 @@ var serviceClass = {
   </div>
 </div>
 
-
-
-
-
   <% }) %>
   <% } %>
 </div>
@@ -107,7 +99,7 @@ var serviceClass = {
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="container-fluid">
-        <a href='/order' class="btn btn-lg btn-primary btn-block" >Buy</a>
+        <button id="buy_button" class="btn btn-lg btn-primary btn-block" disabled>Order</button>
       </div>
     </nav>
 </div>
