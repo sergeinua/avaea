@@ -100,4 +100,10 @@ $(document).ready(function() {
       $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
     }
 
+    //loading
+    $('#search_form').submit(function(event) {
+        $('#search_button').hide();
+        $("body").addClass("loading");
+        return true;
+    });
 });

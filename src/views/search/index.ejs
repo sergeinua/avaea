@@ -1,4 +1,4 @@
-<form action="/result" method="post" class="form-horizontal">
+<form action="/result" method="post" class="form-horizontal" id="search_form" >
     <div class="form-group">
         <label for="originAirport" class="col-sm-2 control-label">Departing from:</label>
         <div class="col-sm-10">
@@ -53,7 +53,7 @@
         body { padding-bottom: 50px; }
     </style>
 
-    <div class="container">
+    <div class="container" id="search_button">
         <nav class="navbar navbar-default navbar-fixed-bottom">
             <div class="container-fluid">
                 <button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
@@ -61,3 +61,31 @@
         </nav>
     </div>
 </form>
+<div class="modal"></div>
+<style>
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://i.stack.imgur.com/FhHRx.gif')
+                50% 50%
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+</style>

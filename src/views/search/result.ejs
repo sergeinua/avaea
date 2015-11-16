@@ -11,11 +11,11 @@ var serviceClass = {
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
     <p class="text-info">
-      <b>Departure:</b> <%=searchParams.DepartureTime%>
+      <b>Departure:</b>&nbsp;<%=searchParams.DepartureTime%>
       <% if (searchParams.returnDate) { %>
-      <b>Return:</b> <%=searchParams.returnDate%>
+      <b>Return:</b>&nbsp;<%=searchParams.returnDate%>
       <% } %>
-      <br/><b>Class:</b> <%= serviceClass[searchParams.CabinClass] %>
+      <b>Class:</b>&nbsp;<%= serviceClass[searchParams.CabinClass] %>
     </p>
       <%- partial('bucket') %>
     </div>
