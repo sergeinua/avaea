@@ -28,9 +28,17 @@ module.exports = {
    */
   index: function (req, res) {
     this.guid = '';
+    var params = {
+        DepartureLocationCode: '',
+        ArrivalLocationCode: '',
+        CabinClass: '',
+        departureDate: sails.moment().add(2, 'w').format('YYYY-MM-DD'),
+        returnDate: ''
+    };
     return res.view('search/index', {
       title:'Search for flights',
-      user: req.user
+      user: req.user,
+      defaultParams: params
     });
   },
 
