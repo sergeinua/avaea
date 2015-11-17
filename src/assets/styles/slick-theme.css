@@ -202,6 +202,6 @@
 
 
 .selected {
-    background: url('../images/tick-mark-small2.png') no-repeat center, linear-gradient(lightblue, white);
+    background: linear-gradient(lightblue, white);
     font-weight: bolder;
 }
