@@ -5,7 +5,7 @@ $(document).ready(function() {
     var recalcTiles = function () {
         $('#tiles').find('li').each(function(item) {
             var tile = $(this);
-            var sCount = $('.itinerary:visible+.' + tile.attr('for')).length;
+            var sCount = $('.itinerary:visible+.' + tile.attr('for')).length - 1;
             if ( sCount > 0 ) {
                 $('[for='+tile.attr('for')+'] > span').text(sCount);
                 tile.removeClass('disabled');
