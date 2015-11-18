@@ -67,8 +67,8 @@ module.exports = {
 
     Search.getResult(this.getCurentSearchGuid(), params, found => {
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
-        sails.log.info(itineraries[0]);
-        sails.log.info(itineraries[0].flights);
+        // sails.log.info(itineraries[0]);
+        // sails.log.info(itineraries[0].flights);
 
         return  res.view('search/result', {
           title: title,

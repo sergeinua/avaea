@@ -1,5 +1,21 @@
 /* global $ */
 $(document).ready(function() {
+
+    //tile recalculation
+    var recalcTiles = function () {
+        $('#tiles').find('li').each(function(item) {
+            var tile = $(this);
+            var sCount = $('.itinerary:visible+.' + tile.attr('for')).length;
+            if ( sCount > 0 ) {
+                $('[for='+tile.attr('for')+'] > span').text(sCount);
+                tile.removeClass('disabled');
+            } else {
+                $('[for='+tile.attr('for')+'] > span').text('');
+                tile.addClass('disabled');
+            }
+        });
+    }
+
     $('.mymorebutton').click(function(el) {
         $(this).addClass('hidden');
         var iterator = $(this).attr('for');
@@ -14,6 +30,7 @@ $(document).ready(function() {
         clone.appendTo($('#' + cloneTarget).parent());
         return false;
     });
+
     //set defaults
     $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
     $('#returnDate').attr('min', new Date().toISOString().slice(0, 10));
@@ -53,7 +70,7 @@ $(document).ready(function() {
             if (filters.length) {
               $('.itinerary').show();
               filters.forEach(function(filter) {
-                console.log($(clone).attr('itineraries'));
+                // console.log($(clone).attr('itineraries'));
                 if (filter && filter != $(clone).attr('itineraries') && filter != '') {
                   result.push(filter);
                   $('.itinerary:visible').not('.' + filter).hide();
@@ -70,18 +87,19 @@ $(document).ready(function() {
             $('#search_count').text(sCount);
 
             $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
-
+            recalcTiles();
         });
         $('.selectedfilters').append(clone);
 
         $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+        recalcTiles();
     });
 
     $('#tiles').slick({
         dots: false,
         infinite: false,
         adaptiveHeight: true,
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 1
     });
     $('#originAirport, #destinationAirport').typeahead({
@@ -98,6 +116,7 @@ $(document).ready(function() {
     if (sCount) {
       $('#search_count').removeClass('hidden');
       $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+      recalcTiles();
     }
 
     //loading
