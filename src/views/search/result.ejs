@@ -32,9 +32,9 @@ var serviceClass = {
   <div class="col-xs-12">
 
     <div class="row">
-      <div class="col-xs-12" style="padding: 2px;"><a href='/order' class="btn-success btn-sm">Buy
+      <div class="col-xs-12" style="padding: 2px;">
         <% if(sRes.currency == 'USD') { %>
-        $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %></a></div>
+        $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %></div>
     </div>
 
     <% sRes.citypairs.forEach(function (pair, i) { %>
