@@ -227,7 +227,7 @@ module.exports = {
         } else {
           // tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
           // tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
-          tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
+          // tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
 
           return callback(itineraries, tileArr, params);
         }

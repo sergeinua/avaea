@@ -6,7 +6,7 @@
   %>
     <div class="mybucket" id="<%= tile.id%>">
       <a id="<%= __(tile.name)%>Id" href="#"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
-      <ul class="list-group" style='padding:1px;margin-bottom:0px;'>
+      <ul class="list-group" style='padding:1px;margin-bottom:0px;max-height:116px;overflow:auto'>
         <% tile.filters.forEach( function (filter) {
         %><li for='<%= filter.id%>' style='padding:1px;white-space: nowrap;' class="list-group-item"><%= filter.title%><span class="badge"></span></li><%
           }
