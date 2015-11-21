@@ -99,7 +99,7 @@ $(document).ready(function() {
         dots: false,
         infinite: false,
         adaptiveHeight: true,
-        slidesToShow: 2,
+        slidesToShow: Math.floor($('body').outerWidth(true)/150),
         slidesToScroll: 1
     });
     $('#originAirport, #destinationAirport').typeahead({
