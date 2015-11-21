@@ -1,3 +1,5 @@
+/* global async */
+/* global sails */
 module.exports = {
   flightSearch: function(guid, params, callback) {
 
@@ -70,14 +72,19 @@ module.exports = {
                       time: sails.moment(to.ArrivalDateTime).format('hh:mma'),
                       quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
                     },
-                    duration: pair.Duration,
+                    duration: pair.Duration.toLowerCase(),
                     noOfStops: pair.NoOfStops,
                     stopsDuration: 0,
+                    path: '',
                     flights: []
                   };
                   var stopsDuration = 0;
+                  var pathArr = [];
+                  var destination = '';
                   for (var j=0; j < pair.FlightSegment.length; j++) {
                     var segment = pair.FlightSegment[j];
+                    pathArr.push(segment.DepartureLocationCode);
+                    destination = segment.ArrivalLocationCode;
                     var mappedSegment = {
                       number: segment.FlightNumber,
                       from: {
@@ -90,12 +97,12 @@ module.exports = {
                         date: sails.moment(segment.ArrivalDateTime).format('YYYY-MM-DD'),
                         time: sails.moment(segment.ArrivalDateTime).format('hh:mma')
                       },
-                      duration: segment.Duration,
+                      duration: segment.Duration.toLowerCase(),
                       bookingClass: segment.BookingClass,
                       cabinClass: segment.CabinClass,
                       airline: segment.MarketingAirlineName,
                       noOfStops: segment.NoOfStops,
-                      stopsDuration: 0,
+                      stopsDuration: stopsDuration,
                       stops: [],
                     };
                     if (segment.IntermediateStops) {
@@ -119,6 +126,12 @@ module.exports = {
                     }
                     mappedPair.flights.push( mappedSegment );
                   }
+
+                  if (pathArr.length > 1) {
+                    pathArr.push(destination);
+                    mappedPair.path = pathArr.join('&rarr;')
+                  }
+
                   mapped.citypairs.push( mappedPair );
                 }
                 resArr.push( mapped );

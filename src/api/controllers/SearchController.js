@@ -65,15 +65,23 @@ module.exports = {
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
 
-    Search.getResult(this.getCurentSearchGuid(), params, found => {
+    Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
+      sails.log('found itineraries  ' + found.length);
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
-        // sails.log.info(itineraries[0]);
-        // sails.log.info(itineraries[0].flights);
-
+        var serviceClass = {
+          E:'Economy',
+          P:'Premium',
+          B:'Business',
+          F:'First'
+        };
         return  res.view('search/result', {
           title: title,
           tiles: tiles,
-          searchParams: params,
+          searchParams: {
+            DepartureTime: sails.moment(depDate).format('MM/DD/YYYY'),
+            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+            CabinClass: serviceClass[params.CabinClass]
+          },
           searchResult: itineraries
         });
       })

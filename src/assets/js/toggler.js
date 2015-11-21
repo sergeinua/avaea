@@ -33,7 +33,7 @@ $(document).ready(function() {
 
     //set defaults
     $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
-    $('#returnDate').attr('min', new Date().toISOString().slice(0, 10));
+    $('#returnDate').attr('min', $('#departureDate').val());
     $('#departureDate').change(function() {
         $('#returnDate').attr('min', $('#departureDate').val());
     });

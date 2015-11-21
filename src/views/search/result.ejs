@@ -1,12 +1,4 @@
 <% if (searchResult) { %>
-<%
-var serviceClass = {
-  E:'Economy',
-  P:'Premium',
-  B:'Business',
-  F:'First'
-}
-%>
 <div class="container">
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
@@ -15,14 +7,14 @@ var serviceClass = {
       <% if (searchParams.returnDate) { %>
       <b>Return:</b>&nbsp;<%=searchParams.returnDate%>
       <% } %>
-      <b>Class:</b>&nbsp;<%= serviceClass[searchParams.CabinClass] %>
+      <b>Class:</b>&nbsp;<%= searchParams.CabinClass %>
     </p>
       <%- partial('bucket') %>
     </div>
   </nav>
 </div>
 
-<div class="row">
+<div class="">
   <% iterator = 0; %>
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes) { %>
@@ -38,24 +30,27 @@ var serviceClass = {
     </div>
 
     <% sRes.citypairs.forEach(function (pair, i) { %>
+    <%  if (pair.path) { %>
       <div class="row">
-        <div class="col-sm-12"><strong><%= pair.from.code %>&rarr;<%= pair.to.code %></strong></div>
+        <div class="col-sm-12"><strong><%= pair.path %></strong></div>
       </div>
+    <% } %>
       <% pair.flights.forEach(function (flight) { %>
       <div class="row">
-        <div class="col-xs-2"><%= flight.number %></div>
-        <div class="col-sm-1"><%= flight.from.code %>&rarr;<%= flight.to.code %></div>
-        <div class="col-xs-6"><%= flight.airline %></div>
-        <div class="col-sm-3"><span class="pull-right"><%= flight.from.time %> - <%= flight.to.time %></span></div>
+        <div class="col-xs-3"><%= flight.airline %><%= flight.number %></div>
+        <div class="col-xs-3"><%= flight.from.code %>&rarr;<%= flight.to.code %></div>
+        <!--<div class="col-xs-6"><%= flight.airline %></div>-->
+        <div class="col-xs-6"><span class="pull-right"><%= flight.from.time %> - <%= flight.to.time %></span></div>
       </div>
       <div class="row">
-        <div class="col-sm-3"><span class="small">Booking Class: <%= flight.bookingClass %></span></div>
-        <div class="col-sm-3"><span class="small">Cabin Class: <%= flight.cabinClass %></span></div>
-        <div class="col-sm-6"><span class="small pull-right">
-          Flight time: <%= flight.duration %>
+        <div class="col-xs-6"><span class="small">
           <% if (flight.noOfStops > 0) { %>
           <span class="text-danger">+<%= flight.noOfStops + __(' stops')%></span>
-          <% } %></span>
+          <% } %>
+        </span></div>
+        <!--<div class="col-sm-3"><span class="small">Booking Class: <%= flight.bookingClass %></span></div>-->
+        <!--<div class="col-sm-3"><span class="small">Cabin Class: <%= flight.cabinClass %></span></div>-->
+        <div class="col-xs-6"><span class="small pull-right">Duration: <%= flight.duration %></span>
         </div>
       </div>
 
