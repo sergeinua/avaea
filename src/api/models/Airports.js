@@ -15,14 +15,16 @@ module.exports = {
       required: true
     },
     name:       { type: 'string' },
+    city:       { type: 'string' },
+    country:    { type: 'string' },
     iata_3code: { type: 'string' },
     icao_4code: { type: 'string' },
-    latitude: { type: 'float' },
-    longitude: { type: 'float' },
-    altitude: { type: 'float' },
-    timezone: { type: 'integer' },
-    dst: { type: 'string' },
-    tz: { type: 'string' }
+    latitude:   { type: 'float' },
+    longitude:  { type: 'float' },
+    altitude:   { type: 'float' },
+    timezone:   { type: 'integer' },
+    dst:        { type: 'string' },
+    tz:         { type: 'string' }
   },
   tableName: 'airports_new'
 

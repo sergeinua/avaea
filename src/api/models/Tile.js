@@ -160,9 +160,9 @@ module.exports = {
           filterClass = tileArr['Price'].filters[i].id;
         }
 
-        if (itinerary.duration) {
+        if (itinerary.durationMinutes) {
           i = 0;
-          while(itinerary.duration >= durationNameArr[i+1]) {
+          while(itinerary.durationMinutes >= durationNameArr[i+1]) {
             i++;
           }
           tileArr['Duration'].filters[i].count++;

@@ -37,7 +37,7 @@
     <% } %>
       <% pair.flights.forEach(function (flight) { %>
       <div class="row">
-        <div class="col-xs-3"><%= flight.airline %><%= flight.number %></div>
+        <div class="col-xs-3"><%= flight.abbrNumber %></div>
         <div class="col-xs-3"><%= flight.from.code %>&rarr;<%= flight.to.code %></div>
         <!--<div class="col-xs-6"><%= flight.airline %></div>-->
         <div class="col-xs-6"><span class="pull-right"><%= flight.from.time %> - <%= flight.to.time %></span></div>
