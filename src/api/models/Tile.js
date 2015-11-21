@@ -81,20 +81,92 @@ module.exports = {
 
     if (itineraries) {
       sails.log.info(itineraries.length);
+      sails.log.info(itineraries.priceRange);
+      sails.log.info(itineraries.durationRange);
+
+      // prepare Price tile
+      var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
+      var durationStep = (itineraries.durationRange.maxDuration - itineraries.durationRange.minDuration) / 4;
+      var priceNameArr = [];
+      priceNameArr[0] = itineraries.priceRange.minPrice;
+      var current = itineraries.priceRange.minPrice + priceStep;
+
+      tileArr['Price'].filters.push({
+        title: '$' + parseFloat(priceNameArr[0]).toFixed(2) + '-$' + parseFloat(priceNameArr[0] + priceStep).toFixed(2),
+        id: 'price_tile_0',
+        count : 1
+      });
+
+      for (var i = 1; i < 3; i++) {
+        priceNameArr[i] = current;
+        current = current + priceStep;
+
+        tileArr['Price'].filters.push({
+          title: '$' + parseFloat(priceNameArr[i]).toFixed(2) + '-$' + parseFloat(priceNameArr[i] + priceStep).toFixed(2),
+          id: 'price_tile_' + i,
+          count : 1
+        });
+
+      }
+      priceNameArr[3] = itineraries.priceRange.maxPrice;
+
+      tileArr['Price'].filters.push({
+        title: '$' + parseFloat(priceNameArr[2] + priceStep).toFixed(2) + '-$' + parseFloat(priceNameArr[3]).toFixed(2),
+        id: 'price_tile_3',
+        count : 1
+      });
+
+      // prepare Duration tile
+      var durationNameArr = [];
+      durationNameArr[0] = itineraries.durationRange.minDuration;
+      current = itineraries.durationRange.minDuration + durationStep;
+
+      tileArr['Duration'].filters.push({
+        title: parseInt(durationNameArr[0]/60)+'h ' + parseInt(durationNameArr[0]%60) + 'm-'
+          + parseInt((durationNameArr[0] + durationStep)/60)+'h ' + parseInt((durationNameArr[0] + durationStep)%60) + 'm',
+        id: 'duration_tile_0',
+        count : 1
+      });
+
+      for (var i = 1; i < 3; i++) {
+        durationNameArr[i] = current;
+        current = current + durationStep;
+
+        tileArr['Duration'].filters.push({
+          title: parseInt(durationNameArr[i]/60)+'h ' + parseInt(durationNameArr[i]%60) + 'm-'
+            + parseInt((durationNameArr[i] + durationStep)/60)+'h ' + parseInt((durationNameArr[i] + durationStep)%60) + 'm',
+          id: 'duration_tile_' + i,
+          count : 1
+        });
+
+      }
+      durationNameArr[3] = itineraries.durationRange.maxDuration;
+
+      tileArr['Duration'].filters.push({
+        title: parseInt((durationNameArr[2] + durationStep)/60)+'h ' + parseInt((durationNameArr[3] + durationStep)%60) + 'm-'
+            + parseInt(durationNameArr[3]/60)+'h ' + parseInt(durationNameArr[3]%60) + 'm',
+        id: 'duration_tile_3',
+        count : 1
+      });
+
       async.map(itineraries, function (itinerary, doneCallback) {
         if (itinerary.price) {
-          index = _.findIndex(tileArr['Price'].filters, {title:itinerary.price});
-          if ( index === -1 ) {
-            tileArr['Price'].filters.push({
-              title: itinerary.price,
-              id: 'price_tile_' + itinerary.price.split('.').join('_'),
-              count : 1
-            });
-            filterClass = 'price_tile_' + itinerary.price.split('.').join('_');
-          } else {
-            tileArr['Price'].filters[index].count++;
-            filterClass = tileArr['Price'].filters[index].id;
+          var i = 0;
+          while(itinerary.price >= priceNameArr[i+1]) {
+            i++;
           }
+
+          tileArr['Price'].filters[i].count++;
+          filterClass = tileArr['Price'].filters[i].id;
+        }
+
+        if (itinerary.duration) {
+          i = 0;
+          while(itinerary.duration >= durationNameArr[i+1]) {
+            i++;
+          }
+          tileArr['Duration'].filters[i].count++;
+          filterClass = filterClass + ' ' + tileArr['Duration'].filters[i].id;
         }
 
         if (itinerary.citypairs[0].from.quarter) {
@@ -127,21 +199,6 @@ module.exports = {
           }
         }
 
-        if (itinerary.citypairs[0].duration) {
-          index = _.findIndex(tileArr['Duration'].filters, {title:itinerary.citypairs[0].duration});
-          if ( index === -1 ) {
-            tileArr['Duration'].filters.push({
-              title: itinerary.citypairs[0].duration,
-              id:'duration_tile_' + itinerary.citypairs[0].duration.split(' ').join('_'),
-              count : 1
-            });
-            filterClass = filterClass + ' ' + 'duration_tile_' + itinerary.citypairs[0].duration.split(' ').join('_');
-          } else {
-            tileArr['Duration'].filters[index].count++;
-            filterClass = filterClass + ' ' + tileArr['Duration'].filters[index].id;;
-          }
-        }
-
         for (var i=0; i < itinerary.citypairs.length; i++) {
           for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
             var flight = itinerary.citypairs[i].flights[k];
@@ -168,10 +225,10 @@ module.exports = {
         if ( err ) {
           sails.log.error( err );
         } else {
-          tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
-          tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
+          // tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
+          // tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
           tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
-          
+
           return callback(itineraries, tileArr, params);
         }
       });

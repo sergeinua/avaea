@@ -48,14 +48,29 @@ module.exports = {
             sails.log.error(err);
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
+              var minPrice = 99999;
+              var maxPrice = 0;
+              var minDuration = 99999;
+              var maxDuration = 0;
               var resArr = [];
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCallback) {
                 var mapped = {
                   price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes)).toFixed(2),
                   currency: itinerary.Fares[0].CurrencyCode,
+                  duration: 0,
                   citypairs: []
                 };
+
+                if (minPrice > parseFloat(mapped.price)) {
+                  minPrice = parseFloat(mapped.price);
+                }
+
+                if (maxPrice < parseFloat(mapped.price)) {
+                  maxPrice = parseFloat(mapped.price);
+                }
+
                 for (var i=0; i < itinerary.Citypairs.length; i++) {
+                  var currentDurationArr = [];
                   var pair = itinerary.Citypairs[i];
                   var from = pair.FlightSegment[0];
                   var to = pair.FlightSegment[pair.FlightSegment.length-1];
@@ -78,6 +93,11 @@ module.exports = {
                     path: '',
                     flights: []
                   };
+
+                  currentDurationArr = /(\d+)[hH] (\d+)[mM]/.exec(pair.Duration);
+                  if (currentDurationArr) {
+                    mapped.duration += parseInt(currentDurationArr[1])*60 + parseInt(currentDurationArr[2]);
+                  }
                   var stopsDuration = 0;
                   var pathArr = [];
                   var destination = '';
@@ -134,12 +154,30 @@ module.exports = {
 
                   mapped.citypairs.push( mappedPair );
                 }
+
+                if (mapped.duration && minDuration > mapped.duration) {
+                  minDuration = mapped.duration;
+                }
+                if (maxDuration < mapped.duration ) {
+                  maxDuration = mapped.duration;
+                }
+
                 resArr.push( mapped );
                 return doneCallback(null);
               }, function (err) {
                 if ( err ) {
                   sails.log.error( err );
                 }
+                resArr.priceRange = {
+                  minPrice: minPrice,
+                  maxPrice: maxPrice
+                };
+                resArr.durationRange = {
+                  minDuration: minDuration,
+                  maxDuration: maxDuration
+                };
+                // sails.log.info(resArr.priceRange);
+                // sails.log.info(resArr.durationRange);
                 return callback( resArr );
               });
             }
