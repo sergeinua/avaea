@@ -88,16 +88,17 @@ module.exports = {
                   var from = pair.FlightSegment[0];
                   var to = pair.FlightSegment[pair.FlightSegment.length-1];
                   var mappedPair = {
+                    direction: i==0 ? 'Depart' : 'Return',
                     from: {
                         code: from.DepartureLocationCode,
                         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(from.DepartureDateTime).format('hh:mma'),
+                        time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
                         quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
                     },
                     to: {
                       code: to.ArrivalLocationCode,
                       date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
-                      time: sails.moment(to.ArrivalDateTime).format('hh:mma'),
+                      time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
                       quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
                     },
                     duration: pair.Duration.toLowerCase(),
@@ -105,8 +106,9 @@ module.exports = {
                     noOfStops: pair.NoOfStops,
                     stopsDuration: '',
                     stopsDurationMinutes: 0,
+                    stopsCodes: [],
                     stops: [],
-                    path: '',
+                    path: [],
                     flights: []
                   };
                   mapped.durationMinutes += mappedPair.durationMinutes;
@@ -114,26 +116,27 @@ module.exports = {
                   var pathArr = [];
                   var destination = '';
                   for (var j=0; j < pair.FlightSegment.length; j++) {
-                    var segment = pair.FlightSegment[j];
+                    var flight = pair.FlightSegment[j];
 
                     if (j>0) {
                       // fill the citypair stops
                       var cpStopDuration = sails.moment.duration(
                         sails.moment(
-                          sails.moment(segment.DepartureDateTime)
+                          sails.moment(flight.DepartureDateTime)
                         ).diff(
                           pair.FlightSegment[j-1].ArrivalDateTime
                         )
                       ).asMinutes();
+                      mappedPair.stopsCodes.push(flight.DepartureLocationCode);
                       mappedPair.stops.push({
-                        code: segment.DepartureLocationCode,
+                        code: flight.DepartureLocationCode,
                         begin: {
                           date: sails.moment(pair.FlightSegment[j-1].ArrivalDateTime).format('YYYY-MM-DD'),
-                          time: sails.moment(pair.FlightSegment[j-1].ArrivalDateTime).format('hh:mma')
+                          time: sails.moment(pair.FlightSegment[j-1].ArrivalDateTime).format('hh:mma').slice(0, -1)
                         },
                         end: {
-                          date: sails.moment(segment.DepartureDateTime).format('YYYY-MM-DD'),
-                          time: sails.moment(segment.DepartureDateTime).format('hh:mma')
+                          date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
+                          time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
                         },
                         duration: minutesToDuration(cpStopDuration),
                         durationMinutes: cpStopDuration
@@ -141,60 +144,57 @@ module.exports = {
                       mappedPair.stopsDurationMinutes += cpStopDuration;
                     }
 
-                    pathArr.push(segment.DepartureLocationCode);
-                    destination = segment.ArrivalLocationCode;
-                    var mappedSegment = {
-                      number: segment.FlightNumber,
-                      abbrNumber: segment.MarketingAirline.toUpperCase() + segment.FlightNumber,
+                    mappedPair.path.push(flight.DepartureLocationCode);
+                    destination = flight.ArrivalLocationCode;
+                    var mappedFlight = {
+                      number: flight.FlightNumber,
+                      abbrNumber: flight.MarketingAirline.toUpperCase() + flight.FlightNumber,
                       from: {
-                        code: segment.DepartureLocationCode,
-                        date: sails.moment(segment.DepartureDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(segment.DepartureDateTime).format('hh:mma')
+                        code: flight.DepartureLocationCode,
+                        date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
+                        time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
                       },
                       to: {
-                        code: segment.ArrivalLocationCode,
-                        date: sails.moment(segment.ArrivalDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(segment.ArrivalDateTime).format('hh:mma')
+                        code: flight.ArrivalLocationCode,
+                        date: sails.moment(flight.ArrivalDateTime).format('YYYY-MM-DD'),
+                        time: sails.moment(flight.ArrivalDateTime).format('hh:mma').slice(0, -1)
                       },
-                      duration: segment.Duration.toLowerCase(),
-                      bookingClass: segment.BookingClass,
-                      cabinClass: segment.CabinClass,
-                      airline: segment.MarketingAirlineName,
-                      noOfStops: segment.NoOfStops,
+                      duration: flight.Duration.toLowerCase(),
+                      bookingClass: flight.BookingClass,
+                      cabinClass: flight.CabinClass,
+                      airline: flight.MarketingAirlineName,
+                      noOfStops: flight.NoOfStops,
                       stopsDuration: '',
                       stopsDurationMinutes: 0,
                       stops: []
                     };
-                    if (segment.IntermediateStops) {
-                      for (var k = 0; k < segment.IntermediateStops.length; k++) {
-                        var stop = segment.IntermediateStops[k];
+                    if (flight.IntermediateStops) {
+                      for (var k = 0; k < flight.IntermediateStops.length; k++) {
+                        var stop = flight.IntermediateStops[k];
                         var mappedStop = {
                           code: stop.locationCode,
                           begin: {
                             date: sails.moment(stop.arrivalDate).format('YYYY-MM-DD'),
-                            time: sails.moment(stop.arrivalDate).format('hh:mma')
+                            time: sails.moment(stop.arrivalDate).format('hh:mma').slice(0, -1)
                           },
                           end: {
                             date: sails.moment(stop.departureDate).format('YYYY-MM-DD'),
-                            time: sails.moment(stop.departureDate).format('hh:mma')
+                            time: sails.moment(stop.departureDate).format('hh:mma').slice(0, -1)
                           },
                           duration: stop.stopDuration.toLowerCase(),
                           durationMinutes: durationToMinutes(stop.stopDuration)
                         };
-                        mappedSegment.stopsDurationMinutes += mappedStop.durationMinutes;
-                        mappedSegment.stops.push( mappedStop );
+                        mappedFlight.stopsDurationMinutes += mappedStop.durationMinutes;
+                        mappedFlight.stops.push( mappedStop );
                       }
-                      mappedSegment.stopsDuration = minutesToDuration(mappedSegment.stopsDurationMinutes);
-                      mappedPair.stopsDurationMinutes += mappedSegment.stopsDurationMinutes;
+                      mappedFlight.stopsDuration = minutesToDuration(mappedFlight.stopsDurationMinutes);
+                      mappedPair.stopsDurationMinutes += mappedFlight.stopsDurationMinutes;
                     }
-                    mappedPair.flights.push( mappedSegment );
+                    mappedPair.flights.push( mappedFlight );
                   }
                   mappedPair.stopsDuration = minutesToDuration(mappedPair.stopsDurationMinutes);
 
-                  /*if (pathArr.length > 1) {*/
-                    pathArr.push(destination);
-                    mappedPair.path = pathArr.join('&rarr;')
-                  /*}*/
+                  mappedPair.path.push(destination);
 
                   mapped.citypairs.push( mappedPair );
                 }
