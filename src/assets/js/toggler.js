@@ -14,6 +14,7 @@ $(document).ready(function() {
                 tile.addClass('disabled');
             }
         });
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
     }
 
     $('.mymorebutton').click(function(el) {
@@ -43,7 +44,7 @@ $(document).ready(function() {
         if ($(this).hasClass('disabled')) {
             return false;
         }
-        $(this).parent().parent().fadeOut();
+        $(this).parent().parent().hide();
         var clone = $(this).clone();
 
         var tileName = $(this).parent().parent().find('a').text();
@@ -73,7 +74,6 @@ $(document).ready(function() {
             if (filters.length) {
               $('.itinerary').show();
               filters.forEach(function(filter) {
-                // console.log($(clone).attr('itineraries'));
                 if (filter && filter != $(clone).attr('itineraries') && filter != '') {
                   result.push(filter);
                   $('.itinerary:visible').not('.' + filter).hide();
@@ -84,27 +84,34 @@ $(document).ready(function() {
             }
 
             $(this).parent().remove();
-            $('#' + target).fadeIn();
+            $('#' + target).hide();
 
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);
 
-            $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
             recalcTiles();
         });
         $('.selectedfilters').append(clone);
 
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
         recalcTiles();
     });
 
-    $('#tiles').slick({
-        dots: false,
-        infinite: false,
-        adaptiveHeight: true,
-        slidesToShow: Math.floor($('body').outerWidth(true)/150),
-        slidesToScroll: 1
+    var getSliderSettings = function() {
+        return {
+            dots: false,
+            infinite: false,
+            mobileFirst: true,
+            adaptiveHeight: true,
+            slidesToShow: Math.floor($('body').outerWidth(true)/150),
+            slidesToScroll: 1
+        }
+    }
+    $('#tiles').slick(getSliderSettings());
+    $( window ).resize(function() {
+        $('#tiles').slick('unslick');
+        $('#tiles').slick(getSliderSettings());
     });
+
     $('#originAirport, #destinationAirport').typeahead({
         source: function (query, process) {
             return $.post('/ac/airports?q=' + query, function (data) {
