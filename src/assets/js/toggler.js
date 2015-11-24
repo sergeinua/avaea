@@ -125,11 +125,11 @@ $(document).ready(function() {
     $('#originAirport').typeahead({
       hint: true,
       highlight: true,
+      minLength: 2
     }, {
         name: 'originAirport',
-        hint: true,
-        highlight: true,
         display: 'value',
+        limit: 8,
         source: bestAirports,
         templates: {
             empty: [
@@ -144,9 +144,11 @@ $(document).ready(function() {
     $('#destinationAirport').typeahead({
       hint: true,
       highlight: true,
+      minLength: 2
     }, {
         name: 'destinationAirport',
         display: 'value',
+        limit: 8,
         source: bestAirports,
         templates: {
             empty: [

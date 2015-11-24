@@ -11,13 +11,13 @@ module.exports = {
     Airports.find({
       or: [
         {'name': {
-          'contains': req.param('q')
+          'startsWith': req.param('q')
         }},
         {'city': {
-          'contains': req.param('q')
+          'startsWith': req.param('q')
         }},
         {'iata_3code': {
-          'contains': req.param('q')
+          'startsWith': req.param('q')
         }}
       ]
     }).where({'iata_3code': {
