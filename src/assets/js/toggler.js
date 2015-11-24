@@ -112,13 +112,44 @@ $(document).ready(function() {
         $('#tiles').slick(getSliderSettings());
     });
 
-    $('#originAirport, #destinationAirport').typeahead({
-        source: function (query, process) {
-            return $.post('/ac/airports?q=' + query, function (data) {
-                return process(data);
-            });
+    var bestAirports = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        /*prefetch: '../data/films/post_1960.json',*/
+        remote: {
+            url: '/ac/airports?q=%QUERY',
+            wildcard: '%QUERY'
         }
     });
+
+    $('#originAirport').typeahead(null, {
+        name: 'originAirport',
+        display: 'value',
+        source: bestAirports,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'unable to find the airport that match the current query',
+                '</div>'
+            ].join('\n'),
+            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }/*Handlebars.compile('<div>{{city}}, {{name}} ({{value}})</div>')*/
+        }
+    });
+
+    $('#destinationAirport').typeahead(null, {
+        name: 'destinationAirport',
+        display: 'value',
+        source: bestAirports,
+        templates: {
+            empty: [
+                '<div class="empty-message">',
+                'unable to find the airport that match the current query',
+                '</div>'
+            ].join('\n'),
+            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }/*Handlebars.compile('<div>{{city}}, {{name}} ({{value}})</div>')*/
+        }
+    });
+    $('.tt-hint').addClass('form-control');
 
     //search count
     var sCount = $('.itinerary:visible').length;

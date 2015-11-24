@@ -7,6 +7,9 @@
 
 module.exports = {
 
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
+  migrate: 'safe',
   attributes: {
     id: {
       type: 'integer',
