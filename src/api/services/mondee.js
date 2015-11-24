@@ -4,15 +4,17 @@ module.exports = {
   flightSearch: function(guid, params, callback) {
 
     var durationToMinutes = function(duration) {
-      var durationArr = /(\d+)[hH] (\d+)[mM]|(\d+)[hH]|(\d+)[mM]/.exec(duration);
+      var durationArr = /((\d+)[dD] )?((\d+)[hH] )?((\d+)[mM])?/.exec(duration);
       var res = 0;
       if (durationArr) {
-        if (durationArr[1] && durationArr[2]) {
-          res = parseInt(durationArr[1])*60 + parseInt(durationArr[2]);
-        } else if (durationArr[3]) {
-          res = parseInt(durationArr[3])*60;
-        } else if (durationArr[4]) {
-          res = parseInt(durationArr[4]);
+        if (durationArr[2]) {
+          res += parseInt(durationArr[2])*24*60;
+        }
+        if (durationArr[4]) {
+          res += parseInt(durationArr[4])*60;
+        }
+        if (durationArr[6]) {
+          res += parseInt(durationArr[6]);
         }
       }
       return res;
@@ -207,11 +209,11 @@ module.exports = {
                 mapped.duration = minutesToDuration(mapped.durationMinutes);
 
                 if (minPrice === undefined || minPrice > parseFloat(mapped.price)) {
-                  minPrice = parseFloat(mapped.price);
+                  minPrice = Math.floor(parseFloat(mapped.price));
                 }
 
                 if (maxPrice === undefined || maxPrice < parseFloat(mapped.price)) {
-                  maxPrice = parseFloat(mapped.price);
+                  maxPrice = Math.ceil(parseFloat(mapped.price));
                 }
 
                 if (minDuration === undefined || minDuration > mapped.durationMinutes) {

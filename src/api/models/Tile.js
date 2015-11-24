@@ -92,7 +92,7 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseFloat(priceNameArr[0]).toFixed(2) + '-$' + parseFloat(priceNameArr[0] + priceStep).toFixed(2),
+        title: '$' + parseInt(priceNameArr[0]) + '-$' + parseInt(priceNameArr[0] + priceStep),
         id: 'price_tile_0',
         count : 1
       });
@@ -102,7 +102,7 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseFloat(priceNameArr[i]).toFixed(2) + '-$' + parseFloat(priceNameArr[i] + priceStep).toFixed(2),
+          title: '$' + parseInt(priceNameArr[i]) + '-$' + parseInt(priceNameArr[i] + priceStep),
           id: 'price_tile_' + i,
           count : 1
         });
@@ -111,7 +111,7 @@ module.exports = {
       priceNameArr[3] = itineraries.priceRange.maxPrice;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseFloat(priceNameArr[2] + priceStep).toFixed(2) + '-$' + parseFloat(priceNameArr[3]).toFixed(2),
+        title: '$' + parseInt(priceNameArr[2] + priceStep) + '-$' + parseInt(priceNameArr[3]),
         id: 'price_tile_3',
         count : 1
       });
@@ -207,10 +207,10 @@ module.exports = {
               if ( index === -1 ) {
                 tileArr['Airline'].filters.push({
                   title: flight.airline,
-                  id: 'airline_tile_' + flight.airline.split(' ').join('_'),
+                  id: 'airline_tile_' + flight.airline.replace(/\W+/g, '_'),
                   count : 1
                 });
-                filterClass = filterClass + ' ' + 'airline_tile_' + flight.airline.split(' ').join('_');
+                filterClass = filterClass + ' ' + 'airline_tile_' + flight.airline.replace(/\W+/g, '_');
               } else {
                 tileArr['Airline'].filters[index].count++;
                 filterClass = filterClass + ' ' + tileArr['Airline'].filters[index].id;;
