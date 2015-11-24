@@ -4,10 +4,16 @@ module.exports = {
   flightSearch: function(guid, params, callback) {
 
     var durationToMinutes = function(duration) {
-      var durationArr = /(\d+)[hH] (\d+)[mM]/.exec(duration);
+      var durationArr = /(\d+)[hH] (\d+)[mM]|(\d+)[hH]|(\d+)[mM]/.exec(duration);
       var res = 0;
       if (durationArr) {
-        res = parseInt(durationArr[1])*60 + parseInt(durationArr[2]);
+        if (durationArr[1] && durationArr[2]) {
+          res = parseInt(durationArr[1])*60 + parseInt(durationArr[2]);
+        } else if (durationArr[3]) {
+          res = parseInt(durationArr[3])*60;
+        } else if (durationArr[4]) {
+          res = parseInt(durationArr[4]);
+        }
       }
       return res;
     };

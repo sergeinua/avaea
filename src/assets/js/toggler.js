@@ -40,6 +40,9 @@ $(document).ready(function() {
 
     //tiles
     $('.list-group-item').click(function(event) {
+        if ($(this).hasClass('disabled')) {
+            return false;
+        }
         $(this).parent().parent().fadeOut();
         var clone = $(this).clone();
 
