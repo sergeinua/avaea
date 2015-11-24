@@ -122,8 +122,13 @@ $(document).ready(function() {
         }
     });
 
-    $('#originAirport').typeahead(null, {
+    $('#originAirport').typeahead({
+      hint: true,
+      highlight: true,
+    }, {
         name: 'originAirport',
+        hint: true,
+        highlight: true,
         display: 'value',
         source: bestAirports,
         templates: {
@@ -136,7 +141,10 @@ $(document).ready(function() {
         }
     });
 
-    $('#destinationAirport').typeahead(null, {
+    $('#destinationAirport').typeahead({
+      hint: true,
+      highlight: true,
+    }, {
         name: 'destinationAirport',
         display: 'value',
         source: bestAirports,
