@@ -69,7 +69,7 @@ $(document).ready(function() {
             var target = $(this).parent().attr('for');
             var filters = $('.selectedfilters').attr('filters');
             filters = filters.split(' ');
-            console.log(filters);
+
             var result = [];
             if (filters.length) {
               $('.itinerary').show();
@@ -79,12 +79,12 @@ $(document).ready(function() {
                   $('.itinerary:visible').not('.' + filter).hide();
                 }
               });
-              console.log(result);
+
               $('.selectedfilters').attr('filters', result.join(' '));
             }
 
             $(this).parent().remove();
-            $('#' + target).hide();
+            $('#' + target).show();
 
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);
@@ -110,6 +110,10 @@ $(document).ready(function() {
     $( window ).resize(function() {
         $('#tiles').slick('unslick');
         $('#tiles').slick(getSliderSettings());
+        $('.selectedfilters > li').each(function(index) {
+            var target = $(this).attr('for');
+            $('#' + target).hide();
+        })
     });
 
     var bestAirports = new Bloodhound({
