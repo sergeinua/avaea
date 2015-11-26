@@ -27,6 +27,16 @@ module.exports = {
    * `SearchController.index()`
    */
   index: function (req, res) {
+
+    sails.log(sails.config.connections.memcacheConf);
+    var mc = require('mc');
+    var client = new mc.Client(sails.config.connections.memcacheConf.host + ':' + sails.config.connections.memcacheConf.port );
+    client.connect(function() {
+      sails.log("Connected to the memcache on host '"
+        + sails.config.connections.memcacheConf.host + "' on port "
+        + sails.config.connections.memcacheConf.port + "!");
+    });
+
     this.guid = '';
     var params = {
         DepartureLocationCode: '',

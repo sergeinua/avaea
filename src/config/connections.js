@@ -54,6 +54,10 @@ module.exports.connections = {
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
+  },
+  memcacheConf: {
+    host: 'localhost',
+    port: '11211'
   }
 
 
