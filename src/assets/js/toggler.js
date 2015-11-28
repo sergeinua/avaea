@@ -116,51 +116,30 @@ $(document).ready(function() {
         })
     });
 
-    var bestAirports = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        /*prefetch: '../data/films/post_1960.json',*/
-        remote: {
-            url: '/ac/airports?q=%QUERY',
-            wildcard: '%QUERY'
-        }
-    });
-
-    $('#originAirport').typeahead({
+    $('#originAirport, #destinationAirport').typeahead({
       hint: true,
       highlight: true,
       minLength: 2
     }, {
-        name: 'originAirport',
+        name: 'airports',
         display: 'value',
         limit: 8,
-        source: bestAirports,
+        source: new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            /*prefetch: '/ac/airports',*/
+            remote: {
+                url: '/ac/airports?q=%QUERY',
+                wildcard: '%QUERY'
+            }
+        }),
         templates: {
             empty: [
                 '<div class="empty-message">',
                 'unable to find the airport that match the current query',
                 '</div>'
             ].join('\n'),
-            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }/*Handlebars.compile('<div>{{city}}, {{name}} ({{value}})</div>')*/
-        }
-    });
-
-    $('#destinationAirport').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 2
-    }, {
-        name: 'destinationAirport',
-        display: 'value',
-        limit: 8,
-        source: bestAirports,
-        templates: {
-            empty: [
-                '<div class="empty-message">',
-                'unable to find the airport that match the current query',
-                '</div>'
-            ].join('\n'),
-            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }/*Handlebars.compile('<div>{{city}}, {{name}} ({{value}})</div>')*/
+            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }
         }
     });
     $('.tt-hint').addClass('form-control');
