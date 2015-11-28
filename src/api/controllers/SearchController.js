@@ -66,7 +66,7 @@ module.exports = {
     }
 
     Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
-      sails.log('found itineraries  ' + found.length);
+      sails.log('found itineraries ' + found.length);
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
         var serviceClass = {
           E:'Economy',

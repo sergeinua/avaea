@@ -4,7 +4,7 @@ module.exports = {
   flightSearch: function(guid, params, callback) {
 
     var durationToMinutes = function(duration) {
-      var durationArr = /((\d+)[dD] )?((\d+)[hH] )?((\d+)[mM])?/.exec(duration);
+      var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
       var res = 0;
       if (durationArr) {
         if (durationArr[2]) {
