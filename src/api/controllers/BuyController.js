@@ -1,3 +1,5 @@
+/* global memcache */
+/* global sails */
 /* global Profile */
 /* global Order */
 /**
@@ -6,7 +8,6 @@
 
 module.exports = {
   order: function (req, res) {
-    var id = 1;// dummy data for test
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       var userData = {};
@@ -21,14 +22,20 @@ module.exports = {
           lastName: found.lastName,
         };
       }
-      return res.view('order', {
-          title:'You ordered',
-          user: req.user,
-          Profile: userData,
-          order:[
-          { itinerary: Order.getById(id) }
-          ]
+
+      var id = req.param('id');
+      // sails.log('Buy page got ID: '+req.param('id'));
+      var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
+      memcache.get(cacheId, function(result) {
+        return res.view('order', {
+            title:'You ordered',
+            user: req.user,
+            Profile: userData,
+            order:[JSON.parse(result)]
+        });
+
       });
+
     });
 
   }

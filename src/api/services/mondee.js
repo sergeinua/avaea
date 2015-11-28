@@ -3,7 +3,7 @@
 /* global sails */
 module.exports = {
   flightSearch: function(guid, params, callback) {
-
+    memcache.init();
     var durationToMinutes = function(duration) {
       var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
       var res = 0;
@@ -223,7 +223,7 @@ module.exports = {
                 if (maxDuration === undefined || maxDuration < mapped.durationMinutes) {
                   maxDuration = mapped.durationMinutes;
                 }
-// if (minDuration == 0 ) {sails.log.warn(mapped)}
+
                 resArr.push( mapped );
                 mondee.cache(mapped);
                 return doneCallback(null);
@@ -239,9 +239,7 @@ module.exports = {
                   minDuration: minDuration,
                   maxDuration: maxDuration
                 };
-                // sails.log.info(guid);
                 mondee.cacheSearch(guid);
-                // sails.log.info(resArr.durationRange);
                 return callback( resArr );
               });
             }
@@ -250,17 +248,16 @@ module.exports = {
       }
     });
   },
+
+  //cache results functionality
   searchResultKeys: [],
   cache: function (value) {
     var id = 'itinerary_' + value.id.replace(/\W+/g, '_');
-    sails.log.info(id);
     this.searchResultKeys.push(id);
-    // sails.log.info(this);
     memcache.store(id, value);
   },
   cacheSearch: function (searchId) {
     var id = 'search_' + searchId.replace(/\W+/g, '_');
-    sails.log.info(id + ' saved items: ' + this.searchResultKeys.length);
     memcache.store(id, this.searchResultKeys);
     this.searchResultKeys = [];
   }

@@ -167,8 +167,8 @@ $(document).ready(function() {
     });
 
     $('#buy_button').click(function(event) {
-        if ($('.itinerary+.selected')) {
-            location.href = '/order';
+        if ($('.selected')) {
+            location.href = '/order?id=' + $('.selected').attr('id');
         }
     });
 });

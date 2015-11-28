@@ -10,7 +10,6 @@ module.exports = {
     if (this.client) {
       return this.client;
     }
-    // sails.log(sails.config.connections.memcacheConf);
     var mc = require('mc');
     this.client = new mc.Client(
       sails.config.connections.memcacheConf.host
@@ -20,16 +19,17 @@ module.exports = {
       sails.log.info("Connected to the memcache on host '"
         + sails.config.connections.memcacheConf.host + "' on port "
         + sails.config.connections.memcacheConf.port + "!");
-      // this.client.setAdapter(mc.Adapter.json);
     });
   },
 
   store: function (key, value, callback) {
     this.init();
-    this.client.set( key, value, { flags: 0, exptime: sails.config.connections.memcacheConf.exptime}, function(err, status) {
+    this.client.add( key, JSON.stringify(value), { flags: 0, exptime: sails.config.connections.memcacheConf.exptime}, function(err, status) {
       if (!err) { 
-        console.log(status); // 'STORED' on success!
-        return callback();
+        // sails.log.info( 'Key ' + key + ' saved' );
+      } else {
+        sails.log.error( 'Key ' + key + ' can\'t be saved!' );
+        sails.log.error( err );
       }
     });
   },
@@ -39,7 +39,9 @@ module.exports = {
     this.init();
     this.client.get( key, function(err, response) {
       if (!err) {
-        console.log(response[key]);  // should output a simple string.
+        return callback(response[key]);
+      } else {
+        sails.log.error('Key ' + key + ' is not found!');
       }
     });
   }
