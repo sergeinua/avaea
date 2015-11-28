@@ -57,7 +57,8 @@ module.exports.connections = {
   },
   memcacheConf: {
     host: 'localhost',
-    port: '11211'
+    port: '11211',
+    exptime: 60*5 // 5 minutes
   }
 
 

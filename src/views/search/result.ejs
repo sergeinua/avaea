@@ -19,7 +19,7 @@
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-<div class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
+<div id="<%= sRes.id %>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
 
   <div class="col-xs-12">
 
