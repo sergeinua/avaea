@@ -97,7 +97,7 @@ module.exports = {
         count : 1
       });
 
-      for (var i = 1; i < 3; i++) {
+      for (var i = 1; i < 4; i++) {
         priceNameArr[i] = current;
         current = current + priceStep;
 
@@ -108,13 +108,6 @@ module.exports = {
         });
 
       }
-      priceNameArr[3] = itineraries.priceRange.maxPrice;
-
-      tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[2] + priceStep) + '-$' + parseInt(priceNameArr[3]),
-        id: 'price_tile_3',
-        count : 1
-      });
 
       // prepare Duration tile
       var durationNameArr = [];
@@ -128,7 +121,7 @@ module.exports = {
         count : 1
       });
 
-      for (var i = 1; i < 3; i++) {
+      for (var i = 1; i < 4; i++) {
         durationNameArr[i] = current;
         current = current + durationStep;
 
@@ -140,14 +133,6 @@ module.exports = {
         });
 
       }
-      durationNameArr[3] = itineraries.durationRange.maxDuration;
-
-      tileArr['Duration'].filters.push({
-        title: parseInt((durationNameArr[2] + durationStep)/60)+'h ' + parseInt((durationNameArr[3] + durationStep)%60) + 'm-'
-            + parseInt(durationNameArr[3]/60)+'h ' + parseInt(durationNameArr[3]%60) + 'm',
-        id: 'duration_tile_3',
-        count : 1
-      });
 
       async.map(itineraries, function (itinerary, doneCallback) {
         if (itinerary.price) {
