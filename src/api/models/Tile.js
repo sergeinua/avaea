@@ -109,10 +109,20 @@ module.exports = {
 
       }
 
+      var roundTo30mins = function (durationMinutes) {
+        var durationMinutesRounded = Math.round(durationMinutes/60)*60;
+        if (durationMinutes%60 > 30) {
+          durationMinutesRounded += 60;
+        } else {
+          durationMinutesRounded += 30;
+        }
+        return durationMinutesRounded;
+      }
       // prepare Duration tile
       var durationNameArr = [];
-      durationNameArr[0] = itineraries.durationRange.minDuration;
-      current = itineraries.durationRange.minDuration + durationStep;
+      durationNameArr[0] = Math.floor(itineraries.durationRange.minDuration/60)*60;
+      durationStep = roundTo30mins(durationStep)
+      current = durationNameArr[0] + durationStep;
 
       tileArr['Duration'].filters.push({
         title: parseInt(durationNameArr[0]/60)+'h ' + parseInt(durationNameArr[0]%60) + 'm-'
@@ -121,7 +131,7 @@ module.exports = {
         count : 1
       });
 
-      for (var i = 1; i < 4; i++) {
+      for (var i = 1; i < 3; i++) {
         durationNameArr[i] = current;
         current = current + durationStep;
 
@@ -133,6 +143,14 @@ module.exports = {
         });
 
       }
+      durationNameArr[3] = current;
+
+      tileArr['Duration'].filters.push({
+        title: parseInt(durationNameArr[3]/60)+'h ' + parseInt(durationNameArr[3]%60) + 'm-'
+          + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)%60) + 'm',
+        id: 'duration_tile_' + i,
+        count : 1
+      });
 
       async.map(itineraries, function (itinerary, doneCallback) {
         if (itinerary.price) {
