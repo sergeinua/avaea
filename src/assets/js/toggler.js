@@ -1,6 +1,22 @@
 /* global $ */
 $(document).ready(function() {
 
+    /**
+    * Possible types
+    * on_tile_choice | on_itinerary_purchase
+    *
+    */
+    var logAction = function (type, data) {
+        $.ajax({
+            method: "POST",
+            url: "/prediction/" + type,
+            data: data
+        })
+        .done(function( msg ) {
+            console.log( "Data Saved: " + msg );
+        });
+    }
+
     //tile recalculation
     var recalcTiles = function () {
         $('#tiles').find('li').each(function(item) {
@@ -59,6 +75,12 @@ $(document).ready(function() {
         $('#search_count').removeClass('hidden');
         $(clone).html(tileName + ':' + tileValue);
 
+        logAction('on_tile_choice', {
+            action    : 'filter_add',
+            tileName  : tileName,
+            tileValue : tileValue
+        })
+
         $(clone).off().attr('itineraries', $(clone).attr('for'));
         $(clone).off().attr('for', $(this).parent().parent().attr('id'));
 
@@ -69,6 +91,14 @@ $(document).ready(function() {
             var target = $(this).parent().attr('for');
             var filters = $('.selectedfilters').attr('filters');
             filters = filters.split(' ');
+
+            var tileData = $(this).parent().text().slice(0, -1).split(':');
+            console.log(tileData);
+            logAction('on_tile_choice', {
+                action    : 'filter_remove',
+                tileName  : tileData[0],
+                tileValue : tileData[1]
+            })
 
             var result = [];
             if (filters.length) {

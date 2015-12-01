@@ -58,8 +58,16 @@ module.exports.routes = {
   'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
   'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
 
-  'post /ac/airports': 'AcController.airports'
+  'post /ac/airports': 'AcController.airports',
 
+
+  'get /abo': {
+    controller: "Abo",
+    // view: 'admin/index',
+    locals: {
+      layout: 'admin'
+    }
+  },
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
