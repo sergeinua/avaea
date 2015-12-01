@@ -80,9 +80,9 @@ module.exports = {
     ];
 
     if (itineraries) {
-      sails.log.info(itineraries.length);
-      sails.log.info(itineraries.priceRange);
-      sails.log.info(itineraries.durationRange);
+      // sails.log.info(itineraries.length);
+      // sails.log.info(itineraries.priceRange);
+      // sails.log.info(itineraries.durationRange);
 
       // prepare Price tile
       var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;

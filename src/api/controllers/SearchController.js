@@ -74,6 +74,16 @@ module.exports = {
           B:'Business',
           F:'First'
         };
+
+        UserAction.saveAction(req.user, 'order_tiles', tiles);
+        var itinerariesData = {
+          searchUuid   : itineraries.guid,
+          searchParams : params,
+          count        : itineraries.length,
+          prediction   : {} // todo: put prediction data here
+        };
+        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+
         return  res.view('search/result', {
           title: title,
           tiles: tiles,
