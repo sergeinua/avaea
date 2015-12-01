@@ -1,3 +1,4 @@
+/* global UserAction */
 /* global memcache */
 /* global sails */
 /* global Profile */
@@ -27,6 +28,13 @@ module.exports = {
       // sails.log('Buy page got ID: '+req.param('id'));
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(result) {
+        var logData = {
+          action    : 'order',
+          itinerary : JSON.parse(result)
+        };
+
+        UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+
         return res.view('order', {
             title:'You ordered',
             user: req.user,

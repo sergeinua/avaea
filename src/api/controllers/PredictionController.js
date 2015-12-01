@@ -9,38 +9,26 @@
 module.exports = {
   order_tiles: function (req, res) {
     //( array_of_tiles )
-    this.saveAction(req, 'order_tiles');
+    UserAction.saveAction(req.user, 'order_tiles', req.allParams());
     return res.json(req.allParams());
   },
 
   order_itineraries: function (req, res) {
     //( array_of_itineraries )
-    this.saveAction(req, 'order_itineraries');
+    UserAction.saveAction(req.user, 'order_itineraries', req.allParams());
     return res.json(req.allParams());
   },
 
   on_tile_choice: function (req, res) {
     //( tile )
-    this.saveAction(req, 'on_tile_choice');
+    UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
   },
 
   on_itinerary_purchase: function (req, res) {
     //( itinerary )
-    this.saveAction(req, 'on_itinerary_purchase');
+    UserAction.saveAction(req.user, 'on_itinerary_purchase', req.allParams());
     return res.json(req.allParams());
   },
 
-  saveAction: function (req, actionType) {
-    var uaFields = {
-      user       : req.user,
-      actionType : actionType,
-      logInfo    : req.allParams()
-    };
-    UserAction.create(uaFields, function(err, record) {
-      if (err) {
-        sails.log.error(err);
-      }
-    });
-  }
 };
