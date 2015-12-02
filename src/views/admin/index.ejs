@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Demo</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <!--STYLES-->
+    <link rel="stylesheet" href="/styles/bootstrap-theme.css">
+    <link rel="stylesheet" href="/styles/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/slick-theme.css">
+    <link rel="stylesheet" href="/styles/slick.css">
+    <!--STYLES END-->
+    <style>
+      body { padding-top: 60px; }
+    </style>
+  </head>
+
+  <body>
+
+<div class="container">
+  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="z-index:10;">
+    <div class="container-fluid">
+
+<div id="user_tiles" class="row">
+  <%
+  users.forEach(function(user) {
+  %>
+    <div>
+      <a id="" href="#"  class="btn btn-default btn-block" style="width:300px;float:left;" role="button">ID#<%= user.id%> <%= user.email%></a>
+    </div>
+  <% }); %>
+</div>
+
+
+    </div>
+  </nav>
+</div>
+
+
+     <div id="log_actions" class="main container clearfix">
+     </div>
+
+    <script src="/js/dependencies/jquery.js"></script>
+    <script src="/js/dependencies/bootstrap.js"></script>
+    <!--<script src="/js/dependencies/sails.io.js"></script>-->
+    <script src="/js/admin.js"></script>
+    <script src="/js/slick.js"></script>
+
+  </body>
+</html>

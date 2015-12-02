@@ -61,6 +61,7 @@ module.exports.routes = {
   'post /ac/airports': 'AcController.airports',
 
 
+  'post /abo/getaction': 'AboController.getaction',
   'get /abo': {
     controller: "Abo",
     // view: 'admin/index',
