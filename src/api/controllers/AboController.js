@@ -1,3 +1,5 @@
+/* global UserAction */
+/* global User */
 /**
  * AcController
  *
@@ -11,17 +13,9 @@ module.exports = {
     User.find({
     }).exec(function (err, found) {
       if (!err && found.length) {
-        // for (var i = 0; i < found.length; i++) {
-        //   //found[i] = found[i].city + ', ' + found[i].name + ' (' + found[i].iata_3code + ')';
-        //   found[i] = {
-        //     users: found[i],
-        //     user: req.user
-        //   }
 
-        // }
         sails.log(found);
         return res.view('admin/index', {
-            // user: req.user,
             users: found,
             layout: 'admin'
           });
@@ -31,12 +25,11 @@ module.exports = {
     });
   },
   getaction: function (req, res) {
-    // sails.log(req.param('lastUpdated'));
     UserAction.find({
-      id: {'>':req.param('lastUpdated')}
+      where: {id: {'>':req.param('lastUpdated')}},
+      sort : 'id ASC'
     }).limit(100).exec(function (err, found) {
       if (!err && found.length) {
-        // sails.log(found);
         return res.json({
             userActions: found,
           });

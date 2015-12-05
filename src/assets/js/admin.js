@@ -7,8 +7,7 @@ $(document).ready(function() {
       140
     );
   };
-  var getLogAction = function (lastUpdated) {
-      // var lastUpdated = {};
+  var getLogAction = function () {
       $.ajax({
           method: "POST",
           url: "/abo/getaction",
@@ -17,19 +16,18 @@ $(document).ready(function() {
       .done(function( msg ) {
           if (msg.userActions.length) {
             msg.userActions.forEach(function(data) {
-              // console.log( "Data retrived: " + data.actionType + ' id: ' + data.id);
               if (lastUpdated < data.id) {
                 lastUpdated = data.id;
               }
               if (data.actionType == 'on_tile_choice') {
                 var action = '';
                 if (data.logInfo.action == 'filter_add') {
-                  action = 'chose';
+                  action = 'select';
                 } else {
-                  action = 'destroyed';
+                  action = 'deselect';
                 }
                 $('#log_actions').append($('<div class="alert alert-info user_id_'
-                  +data.user+'" role="info">User ID#'+data.user+' '+action+' tile: <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user+' '+action+' tile: <b>'
                   +data.logInfo.tileName+'</b> with value <b>'
                   +data.logInfo.tileValue+'</b></div>'));
               }
@@ -40,14 +38,14 @@ $(document).ready(function() {
                   tiles += ' ' + data.logInfo[tile].name;
                 }
                 $('#log_actions').append($('<div class="alert alert-success user_id_'
-                  +data.user+'" role="info">For user  ID#'+data.user+' tiles were generated with order: <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] For user  ID#'+data.user+' tiles were generated with order: <b>'
                   +tiles+'</b></div>'
                 ));
               }
 
               if (data.actionType == 'order_itineraries') {
                 $('#log_actions').append($('<div class="alert alert-warning user_id_'
-                  +data.user+'" role="info">For user  ID#'+data.user+' search complete: search id <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] For user  ID#'+data.user+' search complete: search id <b>'
                   +data.logInfo.searchUuid+'</b> with params <b>'
 
                   +'<br/>Departure: ' + data.logInfo.searchParams.DepartureLocationCode
@@ -62,7 +60,7 @@ $(document).ready(function() {
 
               if (data.actionType == 'on_itinerary_purchase') {
                 $('#log_actions').append($('<div class="alert alert-danger user_id_'
-                  +data.user+'" role="info">User ID#'+data.user+' made order: tile id <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user+' made order: tile id <b>'
                   +data.logInfo.itinerary.id+'</b></div>'
                 ));
               }
@@ -70,11 +68,33 @@ $(document).ready(function() {
             });
             autoscrollme();
           }
-          // autoscrollme();
-          // console.log(lastUpdated);
-          getLogAction(lastUpdated);
       });
   }
 
-  getLogAction(lastUpdated);
+  setInterval(function() {getLogAction()}, 2000);
+
+  $('.filter_user').click(function(event) {
+    $('.alert').show();
+    var filter = $(this).attr('target');
+    if (filter) {
+      $('.alert:visible').not('.' + filter).hide();
+    }
+    setTimeout(autoscrollme(), 500);
+    return false;
+  });
+
+    var getSliderSettings = function() {
+        return {
+            dots: true,
+            infinite: false,
+            mobileFirst: true,
+            adaptiveHeight: true,
+            slidesToShow: Math.floor($('body').outerWidth(true)/300)
+        }
+    }
+    $('#user_tiles').slick(getSliderSettings());
+    $( window ).resize(function() {
+        $('#user_tiles').slick('unslick');
+        $('#user_tiles').slick(getSliderSettings());
+    });
 });
