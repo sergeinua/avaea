@@ -31,6 +31,26 @@ module.exports = {
         id: 'departure_tile',
         order: 2,
         filters: [
+          {
+            title : '0-6am',
+            id    : 'departure_tile_1',
+            count : 1
+          },
+          {
+            title : '6am-12n',
+            id    : 'departure_tile_2',
+            count : 1
+          },
+          {
+            title : '12pm-6pm',
+            id    : 'departure_tile_3',
+            count : 1
+          },
+          {
+            title : '6pm-12m',
+            id    : 'departure_tile_4',
+            count : 1
+          }
         ]
       },
       Arrival: {
@@ -38,6 +58,26 @@ module.exports = {
         id: 'arrival_tile',
         order: 3,
         filters: [
+          {
+            title : '0-6am',
+            id    : 'arrival_tile_1',
+            count : 1
+          },
+          {
+            title : '6am-12n',
+            id    : 'arrival_tile_2',
+            count : 1
+          },
+          {
+            title : '12pm-6pm',
+            id    : 'arrival_tile_3',
+            count : 1
+          },
+          {
+            title : '6pm-12m',
+            id    : 'arrival_tile_4',
+            count : 1
+          }
         ]
       },
       Airline: {
@@ -74,9 +114,9 @@ module.exports = {
     var filterClass = '';
     var timeArr = [
       '0-6am',
-      '6am-12pm',
+      '6am-12n',
       '12pm-6pm',
-      '6pm-12am'
+      '6pm-12m'
     ];
 
     if (itineraries) {
@@ -92,7 +132,7 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '-$' + parseInt(priceNameArr[0] + priceStep),
+        title: '$' + parseInt(priceNameArr[0]) + '+',// + '-$' + parseInt(priceNameArr[0] + priceStep),
         id: 'price_tile_0',
         count : 1
       });
@@ -102,7 +142,7 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i]) + '-$' + parseInt(priceNameArr[i] + priceStep),
+          title: '$' + parseInt(priceNameArr[i])+'+',// + '-$' + parseInt(priceNameArr[i] + priceStep),
           id: 'price_tile_' + i,
           count : 1
         });
