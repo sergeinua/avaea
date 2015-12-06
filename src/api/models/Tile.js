@@ -109,6 +109,10 @@ module.exports = {
   },
 
   getTilesData: function (itineraries, params, callback) {
+    // sails.log.error(itineraries);
+    if (!itineraries.length) {
+      return {};
+    }
     var tileArr = this.getTiles();
     var index = null;
     var filterClass = '';
@@ -158,6 +162,12 @@ module.exports = {
         }
         return durationMinutesRounded;
       }
+      var formatMinutes = function (time) {
+        if (time) {
+          return ' ' + tmp + 'm';
+        }
+        return '';
+      }
       // prepare Duration tile
       var durationNameArr = [];
       durationNameArr[0] = Math.floor(itineraries.durationRange.minDuration/60)*60;
@@ -165,8 +175,8 @@ module.exports = {
       current = durationNameArr[0] + durationStep;
 
       tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[0]/60)+'h ' + parseInt(durationNameArr[0]%60) + 'm-'
-          + parseInt((durationNameArr[0] + durationStep)/60)+'h ' + parseInt((durationNameArr[0] + durationStep)%60) + 'm',
+        title: parseInt(durationNameArr[0]/60)+'h' + formatMinutes(parseInt(durationNameArr[0]%60)) + '-'
+          + parseInt((durationNameArr[0] + durationStep)/60)+'h ' + formatMinutes(parseInt((durationNameArr[0] + durationStep)%60)),
         id: 'duration_tile_0',
         count : 1
       });
@@ -176,8 +186,8 @@ module.exports = {
         current = current + durationStep;
 
         tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[i]/60)+'h ' + parseInt(durationNameArr[i]%60) + 'm-'
-            + parseInt((durationNameArr[i] + durationStep)/60)+'h ' + parseInt((durationNameArr[i] + durationStep)%60) + 'm',
+          title: parseInt(durationNameArr[i]/60)+'h ' + formatMinutes(parseInt(durationNameArr[i]%60)) + '-'
+            + parseInt((durationNameArr[i] + durationStep)/60)+'h ' + formatMinutes(parseInt((durationNameArr[i] + durationStep)%60)),
           id: 'duration_tile_' + i,
           count : 1
         });
@@ -186,8 +196,8 @@ module.exports = {
       durationNameArr[3] = current;
 
       tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[3]/60)+'h ' + parseInt(durationNameArr[3]%60) + 'm-'
-          + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)%60) + 'm',
+        title: parseInt(durationNameArr[3]/60)+'h ' + formatMinutes(parseInt(durationNameArr[3]%60)) + '-'
+          + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + formatMinutes(parseInt(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
         id: 'duration_tile_' + i,
         count : 1
       });
