@@ -164,7 +164,7 @@ module.exports = {
       }
       var formatMinutes = function (time) {
         if (time) {
-          return ' ' + tmp + 'm';
+          return ' ' + time + 'm';
         }
         return '';
       }
