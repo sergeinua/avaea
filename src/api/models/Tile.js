@@ -32,7 +32,7 @@ module.exports = {
         order: 2,
         filters: [
           {
-            title : '0-6am',
+            title : '12m-6am',
             id    : 'departure_tile_1',
             count : 1
           },
@@ -42,7 +42,7 @@ module.exports = {
             count : 1
           },
           {
-            title : '12pm-6pm',
+            title : '12n-6pm',
             id    : 'departure_tile_3',
             count : 1
           },
@@ -59,7 +59,7 @@ module.exports = {
         order: 3,
         filters: [
           {
-            title : '0-6am',
+            title : '12m-6am',
             id    : 'arrival_tile_1',
             count : 1
           },
@@ -69,7 +69,7 @@ module.exports = {
             count : 1
           },
           {
-            title : '12pm-6pm',
+            title : '12n-6pm',
             id    : 'arrival_tile_3',
             count : 1
           },
