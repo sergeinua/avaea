@@ -35,10 +35,16 @@ module.exports = {
         departureDate: sails.moment().add(2, 'w').format('YYYY-MM-DD'),
         returnDate: ''
     };
+    var error = [];
+    if (req.session.flash) {
+      error = [req.session.flash];
+      req.session.flash = '';
+    }
     return res.view('search/index', {
       title:'Search for flights',
       user: req.user,
-      defaultParams: params
+      defaultParams: params,
+      errors: error
     });
   },
 

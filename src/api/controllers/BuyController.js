@@ -24,16 +24,21 @@ module.exports = {
       }
 
       var id = req.param('id');
-      // sails.log('Buy page got ID: '+req.param('id'));
+
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(result) {
-        return res.view('order', {
-            title:'You ordered',
-            user: req.user,
-            Profile: userData,
-            order:[JSON.parse(result)]
-        });
-
+        if (result) {
+          return res.view('order', {
+              title:'You ordered',
+              user: req.user,
+              Profile: userData,
+              order:[JSON.parse(result)]
+          });
+        } else {
+          req.session.flash = 'Cash is expiried. Try new search.';
+          req.flash('errors', req.session.flash);
+          res.redirect('/search');
+        }
       });
 
     });
