@@ -63,14 +63,19 @@
         <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
         <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
         <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
-          <span class="small text-danger">+<%= flight.noOfStops + __(' stops')%></span>
+          <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
           <% } %></div>
       </div>
       <div class="row">
         <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
         <div class="col-xs-3"><%= sails.moment(flight.from.date).format('MM/DD/YYYY') %></div>
         <div class="col-xs-3"><%= flight.from.code %></div>
-      </div>
+      </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
+      <div class="row">
+        <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
+        <div class="col-xs-2"><%= stop.code %></div>
+        <div class="col-xs-4 text-right"><%= stop.duration %></div>
+      </div><% }); %><% } %>
       <div class="row">
         <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
         <div class="col-xs-3"><%= sails.moment(flight.to.date).format('MM/DD/YYYY') %></div>

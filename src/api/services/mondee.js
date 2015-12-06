@@ -1,41 +1,196 @@
 /* global memcache */
 /* global async */
 /* global sails */
+
+var TPContext = {
+  messageId: ['string', true],
+  correlationId: ['string', false],
+  sessionId: ['string', false],
+  creationTimestamp: ['dateTime', false],
+  clientId: ['string', true],
+  hostName: ['string', false],
+  customBehavior: ['string', false],
+  processingTime: ['string', false],
+  originatorIP: ['string', false]
+};
+var errorDetail = {
+  severity: ['string', false],
+  stackTrace: ['string', false]
+};
+var TPError = {
+  errorCode: ['string', false],
+  errorType: ['string', false],
+  errorText: ['string', false],
+  errorDetail: [errorDetail, false]
+};
+
+var TPErrorList = {
+  TPError: [[TPError], true]
+};
+
+var CustomData = {};
+
+var PaxDetailInfo = {
+  NoOfAdults: ['int', false, {
+    _attributes: {
+      count: 'int'
+    }
+  }],
+  NoOfChildren: ['int', false, {
+    _attributes: {
+      count: 'int',
+      age: 'string'
+    }
+  }],
+  NoOfInfants: ['int', false, {
+    _attributes: {
+      count: 'int',
+      age: 'string'
+    }
+  }]
+};
+
+var CurrencyInfo = {
+  CurrencyCode: ['string', true]
+};
+
+var OriginDestination = {
+  DepartureLocationCode: ['string', true],
+  DepartureTime: ['string', true],
+  ArrivalLocationCode: ['string', true],
+  CabinClass: ['string', false]
+};
+
+// FlightSearchRequestBody {{{
+var FlightSearchRequest = {
+  OriginDestination: [[OriginDestination], false],
+  PreferredAirlines: [['string'], false],
+  PaxDetails: [PaxDetailInfo, false],
+  CurrencyInfo: [CurrencyInfo, false],
+  CustomData: [CustomData, false]
+};
+
+var FlightSearchRequestBody = {
+  TPContext: [TPContext, true],
+  FlightSearchRequest: [FlightSearchRequest, true]
+};
+// }}}
+
+// FlightSearchResponseBody {{{
+var IntermediateStop = {
+  locationCode: ['string', false],
+  arrivalDate: ['string', false],
+  departureDate: ['string', false],
+  stopDuration: ['string', false]
+};
+
+var FlightSegment = {
+  SegmentRef: ['string', false],
+  SegStatus: ['string', false],
+  DepartureLocationCode: ['string', true],
+  DepartureDateTime: ['string', true],
+  ArrivalLocationCode: ['string', true],
+  ArrivalDateTime: ['string', true],
+  OperatingAirline: ['string', false],
+  OperatingAirlineName: ['string', false],
+  MarketingAirline: ['string', false],
+  MarketingAirlineName: ['string', false],
+  FlightNumber: ['int', false],
+  NoOfStops: ['int', false],
+  AirEquipmentType: ['string', false],
+  Duration: ['string', false],
+  CabinClass: ['string', false],
+  BookingClass: ['string', false],
+  AirlinePnr: ['string', false],
+  TerminalId: ['int', false],
+  FareBasisCode: ['string', false],
+  baggageAllowance: ['string', false],
+  IntermediateStops: [[IntermediateStop], false],
+  baggageInfoUrl: ['string', false]
+};
+
+var Fares = {
+  CurrencyCode: ['string', true],
+  BaseFare: ['double', true],
+  Taxes: ['double', true],
+  CCFee: ['double', false],
+  AgentMarkup: ['double', false],
+  FullFare: ['double', true],
+  PaxType: ['string', true]
+};
+
+var Citypair = {
+  FlightSegment: [[FlightSegment], true],
+  Duration: ['string', false],
+  NoOfStops: ['int', false],
+  _attributes: {
+    sector: 'string'
+  }
+};
+
+var FlightItinerary = {
+  ItineraryId: ['string', true],
+  Citypairs: [[Citypair], false],
+  Fares: [[Fares], true],
+  ValidatingCarrierCode: ['string', false],
+  Deeplink: ['string', false],
+  FareType: ['string', false]
+};
+
+var FlightSearchResponse = {
+  FlightItinerary: [[FlightItinerary], false],
+  CustomData: [CustomData, false]
+};
+
+var FlightSearchResponseBody = {
+  TPContext: [TPContext, false],
+  TPErrorList: [TPErrorList, false],
+  FlightSearchResponse: [FlightSearchResponse, false]
+};
+// }}}
+
+
+var durationToMinutes = function(duration) {
+  var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
+  var res = 0;
+  if (durationArr) {
+    if (durationArr[2]) {
+      res += parseInt(durationArr[2])*24*60;
+    }
+    if (durationArr[4]) {
+      res += parseInt(durationArr[4])*60;
+    }
+    if (durationArr[6]) {
+      res += parseInt(durationArr[6]);
+    }
+  }
+  return res;
+};
+
+var minutesToDuration = function(minutes) {
+  var res = [];
+  var days = Math.floor(minutes/60/24);
+  var hours = Math.floor((minutes - days*60*24)/60);
+  var minutes = Math.floor(minutes - hours*60 - days*60*24);
+  if (days) {
+    res.push(days + 'd');
+  }
+  if (hours) {
+    res.push(hours + 'h');
+  }
+  if (minutes) {
+    res.push(minutes + 'm');
+  }
+  return res.join(' ');
+};
+
 module.exports = {
   flightSearch: function(guid, params, callback) {
     memcache.init();
-    var durationToMinutes = function(duration) {
-      var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
-      var res = 0;
-      if (durationArr) {
-        if (durationArr[2]) {
-          res += parseInt(durationArr[2])*24*60;
-        }
-        if (durationArr[4]) {
-          res += parseInt(durationArr[4])*60;
-        }
-        if (durationArr[6]) {
-          res += parseInt(durationArr[6]);
-        }
-      }
-      return res;
-    };
-    var minutesToDuration = function(minutes) {
-      var res = [];
-      var hours = Math.floor(minutes/60);
-      var minutes = Math.round((minutes/60 - hours)*60);
-      if (hours) {
-        res.push(hours + 'h');
-      }
-      if (minutes) {
-        res.push(minutes+'m');
-      }
-      return res.join(' ');
-    };
 
     var soap = require('soap');
-    var wsdl = 'http://sandbox.trippro.com/api/v2/flightSearch?wsdl';
-    sails.log.info('Trying to send request to Mondee');
+    var wsdl = sails.config.flightapis.mondee.baseEndPoint + '/flightSearch?wsdl';
+    sails.log.info('SOAP: Trying to connect to ' + wsdl);
     soap.createClient(wsdl, function(err, client) {
       if (err) {
         sails.log.error(err);
@@ -45,9 +200,9 @@ module.exports = {
         var args = {
           'common:TPContext': {
             attributes: {
-              'xmlns:common': 'http://trippro.com/webservices/common/v2'
+              'xmlns:common': sails.config.flightapis.mondee.commonNamespace
             },
-            'common:clientId': 'CFS1017',
+            'common:clientId': sails.config.flightapis.mondee.clientId,
             'common:messageId': guid
           },
           FlightSearchRequest: {
@@ -110,7 +265,7 @@ module.exports = {
                       time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
                       quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
                     },
-                    duration: pair.Duration.toLowerCase(),
+                    duration: minutesToDuration(durationToMinutes(pair.Duration)),
                     durationMinutes: durationToMinutes(pair.Duration),
                     noOfStops: pair.NoOfStops,
                     stopsDuration: '',
@@ -130,11 +285,7 @@ module.exports = {
                     if (j>0) {
                       // fill the citypair stops
                       var cpStopDuration = sails.moment.duration(
-                        sails.moment(
-                          sails.moment(flight.DepartureDateTime)
-                        ).diff(
-                          pair.FlightSegment[j-1].ArrivalDateTime
-                        )
+                        sails.moment(flight.DepartureDateTime).diff(pair.FlightSegment[j-1].ArrivalDateTime)
                       ).asMinutes();
                       mappedPair.stopsCodes.push(flight.DepartureLocationCode);
                       mappedPair.stops.push({
@@ -168,7 +319,8 @@ module.exports = {
                         date: sails.moment(flight.ArrivalDateTime).format('YYYY-MM-DD'),
                         time: sails.moment(flight.ArrivalDateTime).format('hh:mma').slice(0, -1)
                       },
-                      duration: flight.Duration.toLowerCase(),
+                      duration: minutesToDuration(durationToMinutes(flight.Duration)),
+                      durationMinutes: durationToMinutes(flight.Duration),
                       bookingClass: flight.BookingClass,
                       cabinClass: flight.CabinClass,
                       airline: flight.MarketingAirlineName,
@@ -178,8 +330,12 @@ module.exports = {
                       stops: []
                     };
                     if (flight.IntermediateStops) {
+                      mappedFlight.noOfStops = flight.IntermediateStops.length
                       for (var k = 0; k < flight.IntermediateStops.length; k++) {
                         var stop = flight.IntermediateStops[k];
+                        var cpStopDuration = sails.moment.duration(
+                          sails.moment(stop.departureDate).diff(stop.arrivalDate)
+                        ).asMinutes();
                         var mappedStop = {
                           code: stop.locationCode,
                           begin: {
@@ -190,8 +346,8 @@ module.exports = {
                             date: sails.moment(stop.departureDate).format('YYYY-MM-DD'),
                             time: sails.moment(stop.departureDate).format('hh:mma').slice(0, -1)
                           },
-                          duration: stop.stopDuration.toLowerCase(),
-                          durationMinutes: durationToMinutes(stop.stopDuration)
+                          duration: minutesToDuration(cpStopDuration),
+                          durationMinutes: cpStopDuration
                         };
                         mappedFlight.stopsDurationMinutes += mappedStop.durationMinutes;
                         mappedFlight.stops.push( mappedStop );

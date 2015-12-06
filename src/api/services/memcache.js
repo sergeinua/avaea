@@ -42,6 +42,7 @@ module.exports = {
         return callback(response[key]);
       } else {
         sails.log.error('Key ' + key + ' is not found!');
+        return callback(false);
       }
     });
   }

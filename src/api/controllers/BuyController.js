@@ -25,23 +25,27 @@ module.exports = {
       }
 
       var id = req.param('id');
-      // sails.log('Buy page got ID: '+req.param('id'));
+
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(result) {
-        var logData = {
-          action    : 'order',
-          itinerary : JSON.parse(result)
-        };
-
-        UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
-
-        return res.view('order', {
-            title:'You ordered',
-            user: req.user,
-            Profile: userData,
-            order:[JSON.parse(result)]
-        });
-
+        if (result) {
+          var logData = {
+            action    : 'order',
+            itinerary : JSON.parse(result)
+          };
+  
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+          return res.view('order', {
+              title:'You ordered',
+              user: req.user,
+              Profile: userData,
+              order:[JSON.parse(result)]
+          });
+        } else {
+          req.session.flash = 'Cash is expiried. Try new search.';
+          req.flash('errors', req.session.flash);
+          res.redirect('/search');
+        }
       });
 
     });
