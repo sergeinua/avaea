@@ -40,6 +40,12 @@ module.exports = {
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
+  },
+
+  flightapis: {
+    mondee: {
+      baseEndPoint: 'http://sandbox.trippro.com/api/v2'
+    }
   }
 
 };
