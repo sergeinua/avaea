@@ -17,12 +17,6 @@ $(document).ready(function() {
         $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
     }
 
-    $('.mymorebutton').click(function(el) {
-        $(this).addClass('hidden');
-        var iterator = $(this).attr('for');
-        $('.mymorecontent' + iterator).removeClass('hidden');
-    });
-
     $('.mymoreprofilebutton').click(function(el) {
         var cloneTarget = $(this).attr('for');
         var clone = $('#' + cloneTarget).clone().find("input").val("").end();
@@ -163,6 +157,11 @@ $(document).ready(function() {
     $('.itinerary').click(function (event) {
         $('.itinerary').removeClass('selected');
         $(this).addClass('selected');
+        var details = $(this).attr('for');
+        if (details) {
+          $('#' + details).toggle();
+        }
+
         $('#buy_button').removeAttr('disabled');
     });
 
