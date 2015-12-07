@@ -67,18 +67,22 @@ $(document).ready(function() {
         var sCount = $('.itinerary:visible').length;
         $('#search_count').text(sCount);
         $('#search_count').removeClass('hidden');
-        $(clone).html(tileName + ':' + tileValue);
+
+        $(clone).find('span').remove();
 
         logAction('on_tile_choice', {
             action    : 'filter_add',
             tileName  : tileName,
-            tileValue : tileValue
+            tileValue : $(clone).html(),
+            tileId    : $(clone).attr('for')
         })
 
+        $(clone).html(tileName + ':' + tileValue);
+
+        $(clone).find('span').remove();
         $(clone).off().attr('itineraries', $(clone).attr('for'));
         $(clone).off().attr('for', $(this).parent().parent().attr('id'));
 
-        $(clone).find('span').remove();
         $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
         $(clone).find('span').click(function(e) {
 
@@ -87,11 +91,12 @@ $(document).ready(function() {
             filters = filters.split(' ');
 
             var tileData = $(this).parent().text().slice(0, -1).split(':');
-            console.log(tileData);
+
             logAction('on_tile_choice', {
                 action    : 'filter_remove',
                 tileName  : tileData[0],
-                tileValue : tileData[1]
+                tileValue : tileData[1],
+                tileId    : target
             })
 
             var result = [];

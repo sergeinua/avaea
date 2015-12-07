@@ -21,6 +21,7 @@ module.exports = {
 
   on_tile_choice: function (req, res) {
     //( tile )
+    tilePrediction.recalculate(req.user.id, req.param('tileName', 'default'));
     UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
   },

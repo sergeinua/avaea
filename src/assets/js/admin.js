@@ -52,13 +52,11 @@ $(document).ready(function() {
                 $('#log_actions').append($('<div class="alert alert-warning user_id_'
                   +data.user+'" role="info">['+data.createdAt+'] For user  ID#'+data.user+' search complete: search id <b>'
                   +data.logInfo.searchUuid+'</b> with params <b>'
-
                   +'<br/>Departure: ' + data.logInfo.searchParams.DepartureLocationCode
                   +'<br/>Arrival: ' + data.logInfo.searchParams.ArrivalLocationCode
                   +'<br/>Cabin Class: ' + data.logInfo.searchParams.CabinClass
                   +'<br/>Departure Date: ' + data.logInfo.searchParams.DepartureTime
                   +'<br/>Return Date: ' + data.logInfo.searchParams.returnDate
-
                   +'</b></div>'
                 ));
               }
@@ -67,6 +65,18 @@ $(document).ready(function() {
                 $('#log_actions').append($('<div class="alert alert-danger user_id_'
                   +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user+' made order: tile id <b>'
                   +data.logInfo.itinerary.id+'</b></div>'
+                ));
+              }
+
+
+              if (data.actionType == 'tile_prediction') {
+                $('#log_actions').append($('<div class="alert alert-default user_id_'
+                  +data.user+'" style="background-color: #e7e7e7" role="info">['+data.createdAt+'] System recalculated value for User ID#' + data.user
+                  +' for tile <b>'+data.logInfo.tile_name+'</b>:  '
+                  +'<br/>Tile position: ' + data.logInfo.data.tile_position
+                  +'<br/>Confidence: ' + data.logInfo.data.confidence
+                  +'<br/>Counter: ' + data.logInfo.data.counter
+                  +'</div>'
                 ));
               }
 
