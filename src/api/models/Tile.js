@@ -117,9 +117,9 @@ module.exports = {
     var index = null;
     var filterClass = '';
     var timeArr = [
-      '0-6am',
+      '12m-6am',
       '6am-12n',
-      '12pm-6pm',
+      '12n-6pm',
       '6pm-12m'
     ];
 
