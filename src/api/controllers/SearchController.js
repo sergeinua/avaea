@@ -35,8 +35,8 @@ module.exports = {
         departureDate: sails.moment().add(2, 'w').format('YYYY-MM-DD'),
         returnDate: ''
     };
-    var error = [];
-    if (req.session.flash) {
+    var error;
+    if (!_.isEmpty(req.session.flash)) {
       error = [req.session.flash];
       req.session.flash = '';
     }
