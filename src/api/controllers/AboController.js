@@ -13,8 +13,6 @@ module.exports = {
     User.find({
     }).exec(function (err, found) {
       if (!err && found.length) {
-
-        sails.log(found);
         return res.view('admin/index', {
             users: found,
             layout: 'admin'
@@ -24,17 +22,20 @@ module.exports = {
       }
     });
   },
+
   getaction: function (req, res) {
     UserAction.find({
-      where: {id: {'>':req.param('lastUpdated')}},
+      where: {id: {'>':req.param('lastUpdated', 0)}},
       sort : 'id ASC'
     }).limit(100).exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
-            userActions: found,
+            userActions: found
           });
       } else {
-        return res.json({userActions:[]});
+        return res.json({
+            userActions:[]
+          });
       }
     });
   }
