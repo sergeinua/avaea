@@ -1,4 +1,9 @@
 $(document).ready(function() {
+  if(!$('.filter_user').length) {
+    console.log('admin.js not suppose to be here. trying to quit');
+    return true;
+  }
+
   var lastUpdated = 0;
 
   var autoscrollme = function () {
