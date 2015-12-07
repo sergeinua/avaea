@@ -19,7 +19,7 @@
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-<div id="<%= sRes.id %>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
+<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
 
   <div class="col-xs-12">
 
@@ -40,9 +40,6 @@
       <% } %></div>
     </div>
     <% }); %>
-    <div class="row">
-      <div class="col-xs-12"><a data-toggle="collapse" href="#cli<%=i%>">details</a></div>
-    </div>
     <div class="row collapse" id="cli<%=i%>"><div class="col-xs-12">
     <% sRes.citypairs.forEach(function (pair) { %>
     <div class="row" style="margin-top: 4px;">

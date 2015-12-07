@@ -387,6 +387,7 @@ module.exports = {
                 if ( err ) {
                   sails.log.error( err );
                 }
+                resArr.guid = guid;
                 resArr.priceRange = {
                   minPrice: minPrice,
                   maxPrice: maxPrice

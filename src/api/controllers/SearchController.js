@@ -35,8 +35,8 @@ module.exports = {
         departureDate: sails.moment().add(2, 'w').format('YYYY-MM-DD'),
         returnDate: ''
     };
-    var error = [];
-    if (req.session.flash) {
+    var error;
+    if (!_.isEmpty(req.session.flash)) {
       error = [req.session.flash];
       req.session.flash = '';
     }
@@ -80,6 +80,16 @@ module.exports = {
           B:'Business',
           F:'First'
         };
+
+        UserAction.saveAction(req.user, 'order_tiles', tiles);
+        var itinerariesData = {
+          searchUuid   : itineraries.guid,
+          searchParams : params,
+          count        : itineraries.length,
+          prediction   : {} // todo: put prediction data here
+        };
+        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+
         return  res.view('search/result', {
           title: title,
           tiles: tiles,

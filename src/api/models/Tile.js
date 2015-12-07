@@ -117,16 +117,16 @@ module.exports = {
     var index = null;
     var filterClass = '';
     var timeArr = [
-      '0-6am',
+      '12m-6am',
       '6am-12n',
-      '12pm-6pm',
+      '12n-6pm',
       '6pm-12m'
     ];
 
     if (itineraries) {
-      sails.log.info(itineraries.length);
-      sails.log.info(itineraries.priceRange);
-      sails.log.info(itineraries.durationRange);
+      // sails.log.info(itineraries.length);
+      // sails.log.info(itineraries.priceRange);
+      // sails.log.info(itineraries.durationRange);
 
       // prepare Price tile
       var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
