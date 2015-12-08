@@ -68,11 +68,10 @@ $(document).ready(function() {
                 ));
               }
 
-
               if (data.actionType == 'tile_prediction') {
                 $('#log_actions').append($('<div class="alert alert-default user_id_'
-                  +data.user+'" style="background-color: #e7e7e7" role="info">['+data.createdAt+'] System recalculated value for User ID#' + data.user
-                  +' for tile <b>'+data.logInfo.tile_name+'</b>:  '
+                  +data.user+'" style="background-color: #e7e7e7" role="info">['+data.createdAt+'] System recalculated value for User <b>ID#' + data.user
+                  +'</b> for tile <b>'+data.logInfo.tile_name+'</b> for search uuid <b>'+data.logInfo.uuid+'</b>:  '
                   +'<br/>Tile position: ' + data.logInfo.data.tile_position
                   +'<br/>Confidence: ' + data.logInfo.data.confidence
                   +'<br/>Counter: ' + data.logInfo.data.counter

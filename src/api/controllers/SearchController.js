@@ -70,7 +70,8 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
-
+    var md5 = require("blueimp-md5").md5;
+    req.session.search = md5(JSON.stringify(params));
     Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
       sails.log('found itineraries ' + found.length);
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {

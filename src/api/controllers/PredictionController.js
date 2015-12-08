@@ -20,8 +20,12 @@ module.exports = {
   },
 
   on_tile_choice: function (req, res) {
+    var uuid = 'default';
+    if (!_.isEmpty(req.session.search)) {
+      uuid = req.session.search;
+    }
     //( tile )
-    tilePrediction.recalculate(req.user.id, req.param('tileName', 'default'));
+    tilePrediction.recalculate(req.user.id, uuid, req.param('tileName', 'default'));
     UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
   },
