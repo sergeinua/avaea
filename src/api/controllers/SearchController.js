@@ -1,3 +1,4 @@
+/* global UserAction */
 /* global Search */
 /* global async */
 /* global Tile */
@@ -72,6 +73,13 @@ module.exports = {
     }
     var md5 = require("blueimp-md5").md5;
     req.session.search = md5(JSON.stringify(params));
+
+    req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search);
+
+    if (!_.isEmpty(req.session.tiles)) {
+      Tile.setTiles(req.session.tiles);
+    }
+
     Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
       sails.log('found itineraries ' + found.length);
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {

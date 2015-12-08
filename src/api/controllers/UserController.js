@@ -44,7 +44,7 @@ module.exports = {
     var profileFields = Profile.make(req.body, req.user);
     sails.log.info(profileFields);
     Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
-      if (err || !record.id) {
+      if (err || _.isEmpty(record)) {
         Profile.create(profileFields, function(err, record) {
           if (err) {
             sails.log.error(err);

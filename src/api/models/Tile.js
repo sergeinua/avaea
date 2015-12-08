@@ -17,19 +17,26 @@ module.exports = {
     default_order:  { type: 'integer', autoPk: true }
   },
 
+  setTiles: function (tiles) {
+    this.tiles = tiles;
+  },
+
   getTiles: function () {
-    return {
+    return this.tiles;
+  },
+
+  tiles: {
       Price: {
         name: 'Price',
         id: 'price_tile',
-        order: 1,
+        order: 0,
         filters: [
         ]
       },
       Departure: {
         name: 'Departure',
         id: 'departure_tile',
-        order: 2,
+        order: 0,
         filters: [
           {
             title : '12m-6am',
@@ -56,7 +63,7 @@ module.exports = {
       Arrival: {
         name: 'Arrival',
         id: 'arrival_tile',
-        order: 3,
+        order: 0,
         filters: [
           {
             title : '12m-6am',
@@ -83,14 +90,14 @@ module.exports = {
       Airline: {
         name: 'Airline',
         id: 'airline_tile',
-        order: 4,
+        order: 0,
         filters: [
         ]
       },
       // Merchandising: {
       //   name: 'Merchandising',
       //   id: 'merchandising_tile',
-      //   order: 5,
+      //   order: 0,
       //   filters: [
       //     {title:'Free WiFi',     id: 'merchandising_tile_1'},
       //     {title:'In seat video', id: 'merchandising_tile_2'},
@@ -101,15 +108,14 @@ module.exports = {
       Duration: {
         name: 'Duration',
         id: 'duration_tile',
-        order: 6,
+        order: 0,
         filters: [
         ]
       }
-    }
-  },
+    },
 
   getTilesData: function (itineraries, params, callback) {
-    // sails.log.error(itineraries);
+
     if (!itineraries.length) {
       return {};
     }
@@ -124,9 +130,6 @@ module.exports = {
     ];
 
     if (itineraries) {
-      // sails.log.info(itineraries.length);
-      // sails.log.info(itineraries.priceRange);
-      // sails.log.info(itineraries.durationRange);
 
       // prepare Price tile
       var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
@@ -136,7 +139,7 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '+',// + '-$' + parseInt(priceNameArr[0] + priceStep),
+        title: '$' + parseInt(priceNameArr[0]) + '+',
         id: 'price_tile_0',
         count : 1
       });
@@ -146,7 +149,7 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'+',// + '-$' + parseInt(priceNameArr[i] + priceStep),
+          title: '$' + parseInt(priceNameArr[i])+'+',
           id: 'price_tile_' + i,
           count : 1
         });
@@ -278,11 +281,7 @@ module.exports = {
         if ( err ) {
           sails.log.error( err );
         } else {
-          // tileArr['Price'].filters = _.first(tileArr['Price'].filters, 4);
-          // tileArr['Duration'].filters = _.first(tileArr['Duration'].filters, 4);
-          // tileArr['Airline'].filters = _.first(tileArr['Airline'].filters, 4);
-
-          return callback(itineraries, tileArr, params);
+          return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
         }
       });
     }

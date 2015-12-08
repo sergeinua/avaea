@@ -1,3 +1,4 @@
+/* global UserAction */
 /* global tPrediction */
 /* global tilePrediction */
 /* global sails */
@@ -36,7 +37,7 @@ module.exports = {
 
   save: function (user, uuid, tile, data) {
       tPrediction.update({user : user, uuid: uuid, tile_name : tile}, {result:data}).exec(function (err, record) {
-      if (err || !record.id) {
+      if (err || _.isEmpty(record)) {
         tPrediction.create(
           {
             user      : user,
