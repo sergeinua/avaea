@@ -32,8 +32,26 @@ module.exports = {
 
   on_itinerary_purchase: function (req, res) {
     //( itinerary )
-    UserAction.saveAction(req.user, 'on_itinerary_purchase', req.allParams());
+    var data = req.allParams();
+
+    if (!_.isEmpty(data) && data.action == 'itinerary_expanded') {
+      var cacheId = 'itinerary_' + data.itinerary.id.replace(/\W+/g, '_');
+
+      var logData = {};
+      memcache.get(cacheId, function(result) {
+        if (result) {
+          var logData = {
+            action    : 'itinerary_expanded',
+            itinerary : JSON.parse(result)
+          };
+
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+        } else {
+          sails.log.error('Something wrong. Can not find itinerary');
+        }
+      });
+    }
     return res.json(req.allParams());
-  },
+  }
 
 };

@@ -62,8 +62,13 @@ $(document).ready(function() {
               }
 
               if (data.actionType == 'on_itinerary_purchase') {
+                if (data.logInfo.action == 'order') {
+                  action = ' ordered';
+                } else {
+                  action = ' expanded';
+                }
                 $('#log_actions').append($('<div class="alert alert-danger user_id_'
-                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user+' made order: tile id <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user + action +': tile id <b>'
                   +data.logInfo.itinerary.id+'</b></div>'
                 ));
               }

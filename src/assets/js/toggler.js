@@ -192,9 +192,18 @@ $(document).ready(function() {
     $('.itinerary').click(function (event) {
         $('.itinerary').removeClass('selected');
         $(this).addClass('selected');
+        var itineraryId = $(this).attr('id');
         var details = $(this).attr('for');
         if (details) {
           $('#' + details).toggle();
+          if ($('#' + details).is(':visible')) {
+            logAction('on_itinerary_purchase', {
+                action    : 'itinerary_expanded',
+                itinerary : {
+                    id : itineraryId
+                }
+            })
+          }
         }
 
         $('#buy_button').removeAttr('disabled');
