@@ -26,11 +26,31 @@ module.exports = {
   },
 
   tiles: {
-      Price: {
-        name: 'Price',
-        id: 'price_tile',
+      Arrival: {
+        name: 'Arrival',
+        id: 'arrival_tile',
         order: 0,
         filters: [
+          {
+            title : '12m-6am',
+            id    : 'arrival_tile_1',
+            count : 1
+          },
+          {
+            title : '6am-12n',
+            id    : 'arrival_tile_2',
+            count : 1
+          },
+          {
+            title : '12n-6pm',
+            id    : 'arrival_tile_3',
+            count : 1
+          },
+          {
+            title : '6pm-12m',
+            id    : 'arrival_tile_4',
+            count : 1
+          }
         ]
       },
       Departure: {
@@ -60,33 +80,6 @@ module.exports = {
           }
         ]
       },
-      Arrival: {
-        name: 'Arrival',
-        id: 'arrival_tile',
-        order: 0,
-        filters: [
-          {
-            title : '12m-6am',
-            id    : 'arrival_tile_1',
-            count : 1
-          },
-          {
-            title : '6am-12n',
-            id    : 'arrival_tile_2',
-            count : 1
-          },
-          {
-            title : '12n-6pm',
-            id    : 'arrival_tile_3',
-            count : 1
-          },
-          {
-            title : '6pm-12m',
-            id    : 'arrival_tile_4',
-            count : 1
-          }
-        ]
-      },
       Airline: {
         name: 'Airline',
         id: 'airline_tile',
@@ -108,6 +101,13 @@ module.exports = {
       Duration: {
         name: 'Duration',
         id: 'duration_tile',
+        order: 0,
+        filters: [
+        ]
+      },
+      Price: {
+        name: 'Price',
+        id: 'price_tile',
         order: 0,
         filters: [
         ]
