@@ -72,9 +72,9 @@ module.exports = {
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
     var md5 = require("blueimp-md5").md5;
-    req.session.search = md5(JSON.stringify(params));
+    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
 
-    req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search);
+    req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     if (!_.isEmpty(req.session.tiles)) {
       Tile.setTiles(req.session.tiles);
