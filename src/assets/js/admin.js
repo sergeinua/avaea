@@ -40,7 +40,7 @@ $(document).ready(function() {
               if (data.actionType == 'order_tiles') {
                 var tiles = '';
                 for (tile in data.logInfo) {
-                  tiles += ' ' + data.logInfo[tile].name;
+                  tiles += ' ' + data.logInfo[tile].name + '('+data.logInfo[tile].order+')';
                 }
                 $('#log_actions').append($('<div class="alert alert-success user_id_'
                   +data.user+'" role="info">['+data.createdAt+'] For user  ID#'+data.user+' tiles were generated with order: <b>'
