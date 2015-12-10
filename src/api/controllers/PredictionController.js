@@ -21,8 +21,8 @@ module.exports = {
 
   on_tile_choice: function (req, res) {
     var uuid = 'default';
-    if (!_.isEmpty(req.session.search)) {
-      uuid = req.session.search;
+    if (!_.isEmpty(req.session.search_params_hash)) {
+      uuid = req.session.search_params_hash;
     }
     //( tile )
     tilePrediction.recalculate(req.user.id, uuid, req.param('tileName', 'default'));
