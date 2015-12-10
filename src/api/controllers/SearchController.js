@@ -41,6 +41,12 @@ module.exports = {
       error = [req.session.flash];
       req.session.flash = '';
     }
+
+    if (!_.isEmpty()) {
+      sails.log.info('New Default tile prediction setted');
+      Tile.setTiles(null);
+    }
+
     return res.view('search/index', {
       title:'Search for flights',
       user: req.user,
