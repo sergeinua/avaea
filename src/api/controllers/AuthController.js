@@ -37,7 +37,7 @@ var AuthController = {
       , providers  = {};
 
     if (req.session.authenticated == true) {
-      res.redirect('/search');
+      return res.redirect('/search');
     }
 
     // Get a list of available providers for use in your templates.
@@ -78,7 +78,7 @@ var AuthController = {
 
     // mark the user as logged out for auth purposes
     req.session.authenticated = false;
-    res.redirect('/');
+    return res.redirect('/');
   },
 
   /**
@@ -150,13 +150,13 @@ var AuthController = {
 
       switch (action) {
         case 'register':
-          res.redirect('/register');
+          return res.redirect('/register');
           break;
         case 'disconnect':
-          res.redirect('back');
+          return res.redirect('back');
           break;
         default:
-          res.redirect('/login');
+          return res.redirect('/login');
       }
     }
 
@@ -176,7 +176,7 @@ var AuthController = {
         req.session.authenticated = true
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        res.redirect('/search');
+        return res.redirect('/search');
       });
     });
   },
