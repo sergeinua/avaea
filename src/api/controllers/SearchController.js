@@ -77,6 +77,7 @@ module.exports = {
     req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     if (!_.isEmpty(req.session.tiles)) {
+      sails.log.info('New tile prediction setted');
       Tile.setTiles(req.session.tiles);
     }
 
