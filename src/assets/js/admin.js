@@ -68,7 +68,7 @@ $(document).ready(function() {
                   action = ' expanded';
                 }
                 $('#log_actions').append($('<div class="alert alert-danger user_id_'
-                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user + action +': tile id <b>'
+                  +data.user+'" role="info">['+data.createdAt+'] User ID#'+data.user + action +': itinerary id <b>'
                   +data.logInfo.itinerary.id+'</b></div>'
                 ));
               }
