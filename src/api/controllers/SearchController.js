@@ -79,11 +79,12 @@ module.exports = {
     }
     var md5 = require("blueimp-md5").md5;
     req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
+    req.session.search_params_raw  = params;
 
     req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     if (!_.isEmpty(req.session.tiles)) {
-      sails.log.info('New tile prediction setted');
+      sails.log.info('New tile prediction set');
       Tile.setTiles(req.session.tiles);
     }
 

@@ -21,11 +21,13 @@ module.exports = {
 
   on_tile_choice: function (req, res) {
     var uuid = 'default';
+    var search_params = {};
     if (!_.isEmpty(req.session.search_params_hash)) {
       uuid = req.session.search_params_hash;
+      search_params = req.session.search_params_raw;
     }
     //( tile )
-    tilePrediction.recalculate(req.user.id, uuid, req.param('tileName', 'default'));
+    tilePrediction.recalculate(req.user.id, uuid, search_params, req.param('tileName', 'default'));
     UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
   },

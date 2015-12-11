@@ -1,9 +1,10 @@
 module.exports = {
   attributes: {
-    user :      { model : 'User' },
-    uuid :      { type: 'string' },
-    tile_name : { type: 'string' },
-    result :    { type: 'json' },
+    user          : { model : 'User' },
+    uuid          : { type: 'string' },
+    search_params : { type: 'json' },
+    tile_name     : { type: 'string' },
+    result        : { type: 'json' },
   },
   getUserTiles: function (user, uuid) {
     this.find({user: user, uuid: uuid}).exec(function (err, rows) {

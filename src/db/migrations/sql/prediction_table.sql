@@ -1,11 +1,12 @@
 -- Table: tprediction
 
--- DROP TABLE tprediction;
+DROP TABLE tprediction;
 
 CREATE TABLE tprediction
 (
   "user" integer,
   uuid text,
+  search_params json,
   tile_name text,
   result json,
   id serial NOT NULL,

@@ -10,9 +10,9 @@ module.exports = {
     counter       : 0
   },
 
-  recalculate: function (user, uuid, tile) {
+  recalculate: function (user, uuid, params, tile) {
     tilePrediction.getPrev(user, uuid, tile, function (data) {
-      tilePrediction.save(user, uuid, tile, {
+      tilePrediction.save(user, uuid, params, tile, {
         tile_position : (data.result.tile_position * ( 1 - tilePrediction.alpha ) + data.result.counter * tilePrediction.alpha),
         confidence    : (data.result.confidence * ( 1 - tilePrediction.alpha ) + tilePrediction.alpha),
         counter       : (data.result.counter + 1)
@@ -35,15 +35,16 @@ module.exports = {
     });
   },
 
-  save: function (user, uuid, tile, data) {
-      tPrediction.update({user : user, uuid: uuid, tile_name : tile}, {result:data}).exec(function (err, record) {
+  save: function (user, uuid, params, tile, data) {
+      tPrediction.update({user : user, uuid: uuid, tile_name : tile}, {search_params: params, result:data}).exec(function (err, record) {
       if (err || _.isEmpty(record)) {
         tPrediction.create(
           {
-            user      : user,
-            uuid      : uuid,
-            tile_name : tile,
-            result    : data
+            user          : user,
+            uuid          : uuid,
+            search_params : params,
+            tile_name     : tile,
+            result        : data
           },
           function(err, record) {
             if (err) {
