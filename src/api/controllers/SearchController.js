@@ -42,8 +42,8 @@ module.exports = {
       req.session.flash = '';
     }
 
-    if (!_.isEmpty()) {
-      sails.log.info('New Default tile prediction setted');
+    if (!_.isEmpty(req.session.tiles)) {
+      sails.log.info('New Default tile prediction set');
       Tile.setTiles(null);
     }
 
