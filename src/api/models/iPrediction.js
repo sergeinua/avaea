@@ -1,4 +1,5 @@
-/* global ItineraryPrediction */
+/* global sails */
+/* global itineraryPrediction */
 module.exports = {
   attributes: {
     user          : { model : 'User' },
@@ -9,7 +10,7 @@ module.exports = {
   },
   getUserItinerariesRank: function (user, uuid, type, cb) {
     this.findOne({user: user, uuid: uuid, type: type}).exec(function (err, row) {
-      var predicted_rank = ItineraryPrediction.default_predicted_rank;
+      var predicted_rank = itineraryPrediction.default_predicted_rank;
       if (!err && !_.isEmpty(row)) {
         predicted_rank = row.prediction;
       } else {

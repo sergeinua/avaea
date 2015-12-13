@@ -35,7 +35,7 @@ module.exports = {
             itinerary : JSON.parse(result)
           };
 
-          itineraryPrediction.updateRank(logData.searchId, logData.price);
+          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
           return res.view('order', {

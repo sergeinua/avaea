@@ -19,18 +19,26 @@ module.exports = {
     memcache.get(searchUuid, function(result) {
       if (!_.isEmpty(result)) {
         var searchData = JSON.parse(result);
+        // sails.log.info(searchData);
         //get all itineraries
         memcache.get(searchData.itineraryKeys, function (itineraries) {
+          // sails.log(itineraries.length);
           if (!_.isEmpty(itineraries)) {
             itineraryPrediction.rankMin = 0;
             itineraryPrediction.rankMax = 0;
             _.each(itineraries, function (itinerary) {
+              itinerary = JSON.parse(itinerary);
+              // sails.log.info({
+                // price: price,
+                // itineraryPrice: itinerary.price
+              // });
+              // sails.log.info(itinerary);
               //rank_min = number of itineraries (among the total N returned ones) with price strictly less than P.
-              if (itinerary.price < price) {
+              if (parseFloat(itinerary.price) < parseFloat(price)) {
                 itineraryPrediction.rankMin++;
               }
               //rank_max = number of itineraries (among the total N returned ones) with price less than or equal to P.
-              if (itinerary.price <= price) {
+              if (parseFloat(itinerary.price) <= parseFloat(price)) {
                 itineraryPrediction.rankMax++;
               }
             });
@@ -40,6 +48,12 @@ module.exports = {
             //rank_max = rank_max + 1 (this is for consistency)
             itineraryPrediction.rankMax++;
 
+            // sails.log.info(
+            //   {
+            //     calculatedRankMin: itineraryPrediction.rankMin,
+            //     calculatedRankMax: itineraryPrediction.rankMax
+            //   }
+            // );
             // searchData.searchParams
             itineraryPrediction.recalculate_global_rank(user, searchData.searchParams.CabinClass, searchData.searchParams);
             itineraryPrediction.recalculate_local_rank(
@@ -66,16 +80,18 @@ module.exports = {
   //Suppose the user got back a list of N itineraries and decides to buy itinerary I with price P.
   recalculate_global_rank: function (user, serviceClass, params) {
     iPrediction.getUserItinerariesRank(user, serviceClass, 'global', function (current) {
-      // var updatedRankMin = EMGA.update(itineraryPrediction.rankMin, current.rankMin, this.alpha);
-      // var updatedRankMax = EMGA.update(itineraryPrediction.rankMax, current.rankMax, this.alpha);
       var data = {
-        rankMin: EMGA.update(itineraryPrediction.rankMin, current.rankMin, this.alpha),
-        rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, this.alpha)
+        rankMin: EMGA.update(itineraryPrediction.rankMin, current.rankMin, itineraryPrediction.alpha),
+        rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, itineraryPrediction.alpha)
       };
+      // sails.log('Current EMGA');
+      // sails.log.info(current);
+      // sails.log('Recalculated EMGA');
+      // sails.log.info(data);
       iPrediction.update({user: user, uuid: serviceClass, type:'global'}, {search_params: params, result: data}).exec(function (err, record) {
 
         if (err || _.isEmpty(record)) {
-          tPrediction.create(
+          iPrediction.create(
             {
               user          : user,
               uuid          : serviceClass,
@@ -109,7 +125,7 @@ module.exports = {
       iPrediction.update({user: user, uuid: uuid, type:'local'}, {search_params: params, result: data}).exec(function (err, record) {
 
         if (err || _.isEmpty(record)) {
-          tPrediction.create(
+          iPrediction.create(
             {
               user          : user,
               uuid          : uuid,

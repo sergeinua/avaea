@@ -381,7 +381,7 @@ module.exports = {
                 }
 
                 resArr.push( mapped );
-                mondee.cache(mapped);
+                mondee.cache(mapped, guid);
                 return doneCallback(null);
               }, function (err) {
                 if ( err ) {
