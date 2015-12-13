@@ -84,6 +84,16 @@ $(document).ready(function() {
                 ));
               }
 
+              if (data.actionType == 'itinerary_prediction') {
+                $('#log_actions').append($('<div class="alert alert-default user_id_'
+                  +data.user+'" style="background-color: #e7e7e7" role="info">['+data.createdAt+'] System recalculated value for User <b>ID#' + data.user
+                  +'</b> for itineraries type <b>'+data.logInfo.type+'</b> for search params <b>'+data.logInfo.uuid+'</b>:  '
+                  +'<br/>Rank Min Recalculated: ' + data.logInfo.data.rankMin
+                  +'<br/>Rank Max Recalculated: ' + data.logInfo.data.rankMax
+                  +'</div>'
+                ));
+              }
+
             });
             autoscrollme();
           }
