@@ -396,7 +396,7 @@ module.exports = {
                   minDuration: minDuration,
                   maxDuration: maxDuration
                 };
-                mondee.cacheSearch(guid);
+                mondee.cacheSearch(guid, params);
                 return callback( resArr );
               });
             }
@@ -408,14 +408,18 @@ module.exports = {
 
   //cache results functionality
   searchResultKeys: [],
-  cache: function (value) {
+  cache: function (value, searchId) {
     var id = 'itinerary_' + value.id.replace(/\W+/g, '_');
-    this.searchResultKeys.push(id);
+    value.searchId = 'search_' + searchId.replace(/\W+/g, '_');
+    mondee.searchResultKeys.push(id);
     memcache.store(id, value);
   },
-  cacheSearch: function (searchId) {
+  cacheSearch: function (searchId, params) {
     var id = 'search_' + searchId.replace(/\W+/g, '_');
-    memcache.store(id, this.searchResultKeys);
-    this.searchResultKeys = [];
+    memcache.store(id, {
+      searchParams  : params,
+      itineraryKeys : mondee.searchResultKeys
+    });
+    mondee.searchResultKeys = [];
   }
 };

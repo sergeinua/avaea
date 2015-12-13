@@ -1,3 +1,4 @@
+/* global itineraryPrediction */
 /* global UserAction */
 /* global memcache */
 /* global sails */
@@ -28,18 +29,20 @@ module.exports = {
 
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(result) {
-        if (result) {
+        if (!_.isEmpty(result)) {
           var logData = {
             action    : 'order',
             itinerary : JSON.parse(result)
           };
-  
+
+          itineraryPrediction.updateRank(logData.searchId, logData.price);
+
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
           return res.view('order', {
               title:'You ordered',
               user: req.user,
               Profile: userData,
-              order:[JSON.parse(result)]
+              order:[logData.itinerary]
           });
         } else {
           req.session.flash = 'Cash is expiried. Try new search.';
