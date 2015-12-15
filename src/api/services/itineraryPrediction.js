@@ -9,8 +9,8 @@
 module.exports = {
   alpha : 0.2,
   default_predicted_rank : {
-    rankMin : 1,
-    rankMax : 100
+    rankMin : 0,
+    rankMax : 1
   },
   rankMin : 0,
   rankMax : 0,
@@ -44,16 +44,16 @@ module.exports = {
             });
             
             //rank_min = rank_min + 1 (this is to avoid zeros in the EMGA computation)
-            itineraryPrediction.rankMin++;
+            itineraryPrediction.rankMin = (itineraryPrediction.rankMin + 1)/searchData.itineraryKeys.length;
             //rank_max = rank_max + 1 (this is for consistency)
-            itineraryPrediction.rankMax++;
+            itineraryPrediction.rankMax = (itineraryPrediction.rankMax + 1)/searchData.itineraryKeys.length;
 
-            // sails.log.info(
-            //   {
-            //     calculatedRankMin: itineraryPrediction.rankMin,
-            //     calculatedRankMax: itineraryPrediction.rankMax
-            //   }
-            // );
+            sails.log.info(
+              {
+                calculatedRankMin: itineraryPrediction.rankMin,
+                calculatedRankMax: itineraryPrediction.rankMax
+              }
+            );
             // searchData.searchParams
             itineraryPrediction.recalculate_global_rank(user, searchData.searchParams.CabinClass, searchData.searchParams);
             itineraryPrediction.recalculate_local_rank(
@@ -84,11 +84,11 @@ module.exports = {
         rankMin: EMGA.update(itineraryPrediction.rankMin, current.rankMin, itineraryPrediction.alpha),
         rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, itineraryPrediction.alpha)
       };
-      // sails.log('Current EMGA');
-      // sails.log.info(current);
-      // sails.log('Recalculated EMGA');
-      // sails.log.info(data);
-      iPrediction.update({user: user, uuid: serviceClass, type:'global'}, {search_params: params, result: data}).exec(function (err, record) {
+      sails.log('Current EMGA');
+      sails.log.info(current);
+      sails.log('Recalculated EMGA');
+      sails.log.info(data);
+      iPrediction.update({user: user, uuid: serviceClass, type:'global'}, {prediction: data}).exec(function (err, record) {
 
         if (err || _.isEmpty(record)) {
           iPrediction.create(
@@ -116,13 +116,15 @@ module.exports = {
   },
 
   recalculate_local_rank: function (user, serviceClass, airportFrom, airportTo, params) {
-    var uuid = serviceClass + airportFrom + airportTo;
+    var uuid = serviceClass + '_' + airportFrom + '_' + airportTo;
     iPrediction.getUserItinerariesRank(user, uuid, 'local', function (current) {
       var data = {
         rankMin: EMGA.update(itineraryPrediction.rankMin, current.rankMin, this.alpha),
         rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, this.alpha)
       };
-      iPrediction.update({user: user, uuid: uuid, type:'local'}, {search_params: params, result: data}).exec(function (err, record) {
+      sails.log('local rank data');
+      sails.log(data);
+      iPrediction.update({user: user, uuid: uuid, type:'local'}, {prediction: data}).exec(function (err, record) {
 
         if (err || _.isEmpty(record)) {
           iPrediction.create(

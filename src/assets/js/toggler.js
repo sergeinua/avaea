@@ -42,6 +42,13 @@ $(document).ready(function() {
         return false;
     });
 
+    // $('.itinerary+.recommended').forEach(function(choosen) {
+        // $(choosen).child().child().child().html('star');
+    // });
+    $('.recommended').each(function(item){
+        $(this).find('div:first').find('div:first').find('div:first')
+        .append($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
+    });
     //set defaults
     $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
     $('#returnDate').attr('min', $('#departureDate').val());

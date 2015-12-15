@@ -1,3 +1,5 @@
+/* global tPrediction */
+/* global iPrediction */
 /* global UserAction */
 /* global Search */
 /* global async */
@@ -77,6 +79,8 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
+    iPrediction.getUserRank(req.user.id, params);
+
     var md5 = require("blueimp-md5").md5;
     req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_raw  = params;
@@ -102,8 +106,7 @@ module.exports = {
         var itinerariesData = {
           searchUuid   : itineraries.guid,
           searchParams : params,
-          count        : itineraries.length,
-          prediction   : {} // todo: put prediction data here
+          count        : itineraries.length
         };
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
 

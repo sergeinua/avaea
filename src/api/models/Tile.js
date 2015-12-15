@@ -1,3 +1,4 @@
+/* global itineraryPrediction */
 /* global _ */
 /* global sails */
 /* global async */
@@ -16,6 +17,7 @@ module.exports = {
     default_items:  { type: 'json' },
     default_order:  { type: 'integer', autoPk: true }
   },
+  itineraryPredictedRank: itineraryPrediction.default_predicted_rank,
 
   setTiles: function (tiles) {
     this.tiles = tiles;
@@ -129,8 +131,13 @@ module.exports = {
       '6pm-12m'
     ];
 
+    Tile.itineraryPredictedRank['rankMin'] = parseInt(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
+    Tile.itineraryPredictedRank['rankMax'] = parseInt(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
+    sails.log.info('Tile itinerary predicted rank:');
+    sails.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
 
+      var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
       var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
       var durationStep = (itineraries.durationRange.maxDuration - itineraries.durationRange.minDuration) / 4;
@@ -274,6 +281,11 @@ module.exports = {
             }
           }
         }
+
+        if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
+          filterClass = filterClass + ' recommended';
+        }
+        currentNum++;
 
         itinerary.filterClass = filterClass;
         return doneCallback(null);
