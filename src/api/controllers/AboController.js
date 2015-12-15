@@ -27,10 +27,10 @@ module.exports = {
     UserAction.find({
       where: {id: {'>':req.param('lastUpdated', 0)}},
       sort : 'id ASC'
-    }).limit(100).exec(function (err, found) {
+    }).exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
-            userActions: found
+            userActions: _.last(found,10)
           });
       } else {
         return res.json({
