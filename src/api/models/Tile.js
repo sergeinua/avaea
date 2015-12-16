@@ -26,8 +26,8 @@ module.exports = {
   getTiles: function () {
     return this.tiles;
   },
-
-  tiles: {
+  tiles: {},
+  default_tiles: {
       Arrival: {
         name: 'Arrival',
         id: 'arrival_tile',
@@ -89,17 +89,6 @@ module.exports = {
         filters: [
         ]
       },
-      // Merchandising: {
-      //   name: 'Merchandising',
-      //   id: 'merchandising_tile',
-      //   order: 0,
-      //   filters: [
-      //     {title:'Free WiFi',     id: 'merchandising_tile_1'},
-      //     {title:'In seat video', id: 'merchandising_tile_2'},
-      //     {title:'In seat audio', id: 'merchandising_tile_3'},
-      //     {title:'10kg luggage',  id: 'merchandising_tile_4'}
-      //   ]
-      // },
       Duration: {
         name: 'Duration',
         id: 'duration_tile',
@@ -121,7 +110,8 @@ module.exports = {
     if (!itineraries.length) {
       return {};
     }
-    var tileArr = this.getTiles();
+    var tileArr = this.tiles;
+    // sails.log.error(tileArr);
     var index = null;
     var filterClass = '';
     var timeArr = [

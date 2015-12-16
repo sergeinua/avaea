@@ -9,7 +9,7 @@
 module.exports = {
   alpha : 0.2,
   default_predicted_rank : {
-    rankMin : 0,
+    rankMin : 0.0000001,
     rankMax : 1
   },
   rankMin : 0,
@@ -24,8 +24,8 @@ module.exports = {
         memcache.get(searchData.itineraryKeys, function (itineraries) {
           // sails.log(itineraries.length);
           if (!_.isEmpty(itineraries)) {
-            itineraryPrediction.rankMin = 0;
-            itineraryPrediction.rankMax = 0;
+            var rankMin = 0;
+            var rankMax = 0;
             _.each(itineraries, function (itinerary) {
               itinerary = JSON.parse(itinerary);
               // sails.log.info({
@@ -35,18 +35,20 @@ module.exports = {
               // sails.log.info(itinerary);
               //rank_min = number of itineraries (among the total N returned ones) with price strictly less than P.
               if (parseFloat(itinerary.price) < parseFloat(price)) {
-                itineraryPrediction.rankMin++;
+                rankMin++;
               }
               //rank_max = number of itineraries (among the total N returned ones) with price less than or equal to P.
               if (parseFloat(itinerary.price) <= parseFloat(price)) {
-                itineraryPrediction.rankMax++;
+                rankMax++;
               }
             });
             
             //rank_min = rank_min + 1 (this is to avoid zeros in the EMGA computation)
-            itineraryPrediction.rankMin = (itineraryPrediction.rankMin + 1)/searchData.itineraryKeys.length;
+            itineraryPrediction.rankMin = (rankMin + 1)/searchData.itineraryKeys.length;
+            sails.log('rankMin: ' + itineraryPrediction.rankMin + ' / ' + searchData.itineraryKeys.length);
             //rank_max = rank_max + 1 (this is for consistency)
-            itineraryPrediction.rankMax = (itineraryPrediction.rankMax + 1)/searchData.itineraryKeys.length;
+            itineraryPrediction.rankMax = (rankMax + 1)/searchData.itineraryKeys.length;
+            sails.log('rankMax: ' + itineraryPrediction.rankMax + ' / ' + searchData.itineraryKeys.length);
 
             sails.log.info(
               {

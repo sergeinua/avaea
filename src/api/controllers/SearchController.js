@@ -47,6 +47,7 @@ module.exports = {
     if (!_.isEmpty(req.session.tiles)) {
       sails.log.info('New Default tile prediction set');
       Tile.setTiles(null);
+      req.session.tiles = null;
     }
 
     return res.view('search/index', {
@@ -85,12 +86,14 @@ module.exports = {
     req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_raw  = params;
 
-    req.session.tiles = tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
+    // req.session.tiles = 
+    Tile.tiles = Tile.default_tiles;
+    tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    if (!_.isEmpty(req.session.tiles)) {
-      sails.log.info('New tile prediction set');
-      Tile.setTiles(req.session.tiles);
-    }
+    // if (!_.isEmpty(req.session.tiles)) {
+      // sails.log.info('New tile prediction set');
+      // Tile.setTiles(req.session.tiles);
+    // }
 
     Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
       sails.log('found itineraries ' + found.length);
