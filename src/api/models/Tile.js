@@ -110,8 +110,8 @@ module.exports = {
     if (!itineraries.length) {
       return {};
     }
-    var tileArr = this.tiles;
-    // sails.log.error(tileArr);
+    var tileArr = JSON.parse(JSON.stringify(this.tiles));
+    sails.log.error(tileArr);
     var index = null;
     var filterClass = '';
     var timeArr = [

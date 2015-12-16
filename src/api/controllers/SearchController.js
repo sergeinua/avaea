@@ -87,7 +87,9 @@ module.exports = {
     req.session.search_params_raw  = params;
 
     // req.session.tiles = 
-    Tile.tiles = Tile.default_tiles;
+    Tile.tiles = JSON.parse(JSON.stringify(Tile.default_tiles));
+    sails.log('Search default tiles');
+    // sails.log(Tile.default_tiles);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     // if (!_.isEmpty(req.session.tiles)) {
