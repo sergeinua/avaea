@@ -50,7 +50,7 @@ module.exports = {
       Tile.setTiles(null);
       req.session.tiles = null;
     }
-    sails.log.info(sails.config.log);
+
     return res.view('search/index', {
       title:'Search for flights',
       user: req.user,

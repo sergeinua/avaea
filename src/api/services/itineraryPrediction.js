@@ -7,10 +7,10 @@
 /* global memcache */
 /* global sails */
 module.exports = {
-  alpha : 0.2,
+  alpha : sails.config.prediction.itineraries.alpha,
   default_predicted_rank : {
-    rankMin : 0.001,
-    rankMax : 1
+    rankMin : sails.config.prediction.itineraries.rankMin,
+    rankMax : sails.config.prediction.itineraries.rankMax
   },
   rankMin : 0,
   rankMax : 0,
@@ -108,6 +108,6 @@ module.exports = {
       });// end of iPrediction.update
     });
 
-  },
+  },// end function recalculateRank
 
 }

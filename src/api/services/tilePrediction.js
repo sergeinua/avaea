@@ -3,7 +3,7 @@
 /* global tilePrediction */
 /* global sails */
 module.exports = {
-  alpha : 0.2,
+  alpha : sails.config.prediction.tiles.alpha,
   default: {
     tile_position : 0,
     confidence    : 0,
@@ -27,7 +27,7 @@ module.exports = {
           user      : user,
           uuid      : uuid,
           tile_name : tile,
-          result    : tilePrediction.default
+          result    : _.clone(tilePrediction.default)
         });
       } else {
         return cb(info);
@@ -50,11 +50,11 @@ module.exports = {
             if (err) {
               sails.log.error(err);
             } else {
-              UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name : tile, data : data});
+              UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
             }
         });
       } else {
-        UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name : tile, data : data});
+        UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
       }
     });
   }
