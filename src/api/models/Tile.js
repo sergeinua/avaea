@@ -1,3 +1,4 @@
+/* global Tile */
 /* global itineraryPrediction */
 /* global _ */
 /* global sails */
@@ -110,8 +111,8 @@ module.exports = {
     if (!itineraries.length) {
       return {};
     }
-    var tileArr = JSON.parse(JSON.stringify(this.tiles));
-    sails.log.error(tileArr);
+    var tileArr = _.clone(this.tiles);
+
     var index = null;
     var filterClass = '';
     var timeArr = [
@@ -121,9 +122,9 @@ module.exports = {
       '6pm-12m'
     ];
 
-    Tile.itineraryPredictedRank['rankMin'] = parseInt(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
-    Tile.itineraryPredictedRank['rankMax'] = parseInt(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
-    sails.log.info('Tile itinerary predicted rank:');
+    Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
+    Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
+    sails.log.info('Tile itinerary predicted rank (multipied by '+itineraries.length+'):');
     sails.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
 
@@ -176,7 +177,7 @@ module.exports = {
 
       tileArr['Duration'].filters.push({
         title: parseInt(durationNameArr[0]/60)+'h' + formatMinutes(parseInt(durationNameArr[0]%60)) + '-'
-          + parseInt((durationNameArr[0] + durationStep)/60)+'h ' + formatMinutes(parseInt((durationNameArr[0] + durationStep)%60)),
+          + Math.round((durationNameArr[0] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
         id: 'duration_tile_0',
         count : 1
       });
@@ -186,8 +187,8 @@ module.exports = {
         current = current + durationStep;
 
         tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[i]/60)+'h ' + formatMinutes(parseInt(durationNameArr[i]%60)) + '-'
-            + parseInt((durationNameArr[i] + durationStep)/60)+'h ' + formatMinutes(parseInt((durationNameArr[i] + durationStep)%60)),
+          title: Math.round(durationNameArr[i]/60)+'h ' + formatMinutes(Math.round(durationNameArr[i]%60)) + '-'
+            + Math.round((durationNameArr[i] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
           id: 'duration_tile_' + i,
           count : 1
         });
@@ -196,8 +197,8 @@ module.exports = {
       durationNameArr[3] = current;
 
       tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[3]/60)+'h ' + formatMinutes(parseInt(durationNameArr[3]%60)) + '-'
-          + parseInt(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + formatMinutes(parseInt(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
+        title: Math.round(durationNameArr[3]/60)+'h ' + formatMinutes(Math.round(durationNameArr[3]%60)) + '-'
+          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
         id: 'duration_tile_' + i,
         count : 1
       });

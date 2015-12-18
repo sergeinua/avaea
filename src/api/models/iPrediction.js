@@ -1,3 +1,4 @@
+/* global Tile */
 /* global _ */
 /* global iPrediction */
 /* global sails */
@@ -12,9 +13,9 @@ module.exports = {
   },
   getUserItinerariesRank: function (user, uuid, type, cb) {
     this.findOne({user: user, uuid: uuid, type: type}).exec(function (err, row) {
-      var predicted_rank = JSON.parse(JSON.stringify(itineraryPrediction.default_predicted_rank));
+      var predicted_rank = _.clone(itineraryPrediction.default_predicted_rank);
       if (!err && !_.isEmpty(row)) {
-        predicted_rank = JSON.parse(JSON.stringify(row.prediction));
+        predicted_rank = _.clone(row.prediction);
       } else {
         sails.log.error('didnt find itineraries '+type+' rank prediction for uuid: [' + uuid + '] userId #'+user);
       }
@@ -24,7 +25,7 @@ module.exports = {
   getUserRank: function (user, params) {
     iPrediction.findOne({user: user, uuid: params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode, type: 'local'}).exec(function (err, row) {
       if (!err && !_.isEmpty(row)) {
-        Tile.itineraryPredictedRank = JSON.parse(JSON.stringify(row.prediction));
+        Tile.itineraryPredictedRank = _.clone(row.prediction);
       } else {
         sails.log.error('didn\'t find local rank ['+user+']['+params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode+']');
         iPrediction.findOne({
@@ -33,11 +34,11 @@ module.exports = {
           type: 'global'
         }).exec(function (err, row) {
           if (!err && !_.isEmpty(row)) {
-            Tile.itineraryPredictedRank = JSON.parse(JSON.stringify(row.prediction));
+            Tile.itineraryPredictedRank = _.clone(row.prediction);
           } else {
             sails.log.error('didn\'t find global rank ['+user+']['+params.CabinClass + ']');
             sails.log(itineraryPrediction.default_predicted_rank);
-            Tile.itineraryPredictedRank = JSON.parse(JSON.stringify(itineraryPrediction.default_predicted_rank));
+            Tile.itineraryPredictedRank = _.clone(itineraryPrediction.default_predicted_rank);
           }
         });
       }
