@@ -27,7 +27,7 @@ module.exports = {
           user      : user,
           uuid      : uuid,
           tile_name : tile,
-          result    : _.clone(tilePrediction.default)
+          result    : _.clone(tilePrediction.default, true)
         });
       } else {
         return cb(info);

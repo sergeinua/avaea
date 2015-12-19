@@ -87,7 +87,7 @@ module.exports = {
     req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_raw  = params;
 
-    Tile.tiles = _.clone(Tile.default_tiles);
+    Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {

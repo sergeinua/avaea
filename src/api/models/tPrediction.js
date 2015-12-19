@@ -11,7 +11,7 @@ module.exports = {
   },
   getUserTiles: function (user, uuid) {
     this.find({user: user, uuid: uuid}).exec(function (err, rows) {
-      var tiles = _.clone(Tile.default_tiles);
+      var tiles = _.clone(Tile.default_tiles, true);
       if (!err && !_.isEmpty(rows)) {
         _.map(tiles, function (item) {
           var i = _.findIndex(rows, {tile_name: item.name});

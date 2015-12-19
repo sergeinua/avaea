@@ -111,7 +111,7 @@ module.exports = {
     if (!itineraries.length) {
       return {};
     }
-    var tileArr = _.clone(this.tiles);
+    var tileArr = _.clone(this.tiles, true);
 
     var index = null;
     var filterClass = '';
