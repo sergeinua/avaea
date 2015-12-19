@@ -108,6 +108,6 @@ module.exports = {
       });// end of iPrediction.update
     });
 
-  },// end function recalculateRank
+  }// end function recalculateRank
 
-}
+};

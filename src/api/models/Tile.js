@@ -162,17 +162,17 @@ module.exports = {
           durationMinutesRounded += 30;
         }
         return durationMinutesRounded;
-      }
+      };
       var formatMinutes = function (time) {
         if (time) {
           return ' ' + time + 'm';
         }
         return '';
-      }
+      };
       // prepare Duration tile
       var durationNameArr = [];
       durationNameArr[0] = Math.floor(itineraries.durationRange.minDuration/60)*60;
-      durationStep = roundTo30mins(durationStep)
+      durationStep = roundTo30mins(durationStep);
       current = durationNameArr[0] + durationStep;
 
       tileArr['Duration'].filters.push({
@@ -182,7 +182,7 @@ module.exports = {
         count : 1
       });
 
-      for (var i = 1; i < 3; i++) {
+      for (i = 1; i < 3; i++) {
         durationNameArr[i] = current;
         current = current + durationStep;
 
@@ -249,7 +249,7 @@ module.exports = {
             filterClass = filterClass + ' ' + 'arrival_tile_' + itinerary.citypairs[0].to.quarter;
           } else {
             tileArr['Arrival'].filters[index].count++;
-            filterClass = filterClass + ' ' + tileArr['Arrival'].filters[index].id;;
+            filterClass = filterClass + ' ' + tileArr['Arrival'].filters[index].id;
           }
         }
 
@@ -267,7 +267,7 @@ module.exports = {
                 filterClass = filterClass + ' ' + 'airline_tile_' + flight.airline.replace(/\W+/g, '_');
               } else {
                 tileArr['Airline'].filters[index].count++;
-                filterClass = filterClass + ' ' + tileArr['Airline'].filters[index].id;;
+                filterClass = filterClass + ' ' + tileArr['Airline'].filters[index].id;
               }
             }
           }

@@ -7,7 +7,7 @@ module.exports = {
     uuid          : { type: 'string' },
     search_params : { type: 'json' },
     tile_name     : { type: 'string' },
-    result        : { type: 'json' },
+    result        : { type: 'json' }
   },
   getUserTiles: function (user, uuid) {
     this.find({user: user, uuid: uuid}).exec(function (err, rows) {
@@ -17,7 +17,6 @@ module.exports = {
           var i = _.findIndex(rows, {tile_name: item.name});
           if (i !== -1) {
             item.order = rows[i].result.tile_position;
-            // item.filters = [];
           }
           return item;
         });
@@ -27,4 +26,4 @@ module.exports = {
       Tile.tiles = tiles;
     });
   }
-}
+};

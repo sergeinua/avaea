@@ -16,38 +16,72 @@
     <link rel="stylesheet" href="/styles/slick.css">
     <!--STYLES END-->
     <style>
-      body { padding-top: 70px; }
+      body { padding-top: 200px; }
     </style>
   </head>
 
   <body>
 
 <div class="container">
-  <nav id="tiles_ui" style="height:70px;" class="navbar navbar-default navbar-fixed-top"  style="z-index:10;">
+  <nav id="filters" class="navbar navbar-default navbar-fixed-top"  style="z-index:10;">
     <div class="container-fluid">
-
-<div id="user_tiles" class="row">
-    <div>
-      <a id="filter_user_id_all" target="" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">All User Actions</a>
+      <div class="navbar-header">
+          <ul class="nav nav-pills">
+            <li class=" list-group-item-info" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="on_tile_choice" checked> Tiles choice
+              </label>
+            </li>
+            <li class=" list-group-item-success" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="order_tiles" checked> Order tiles
+              </label>
+            </li>
+            <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="order_itineraries" checked> Order itineraries
+              </label>
+            </li>
+            <li class=" list-group-item-danger" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="on_itinerary_purchase" checked> Itinerary choice
+              </label>
+            </li>
+            <li class=" list-group-item-default" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="prediction" checked> Prediction
+              </label>
+            </li>
+          </ul>
+      </div>
     </div>
-  <%
-    users.forEach(function(user) {
-  %>
-    <div>
-      <a id="filter_user_id_<%= user.id%>" target="user_id_<%= user.id%>" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">ID#<%= user.id%> <%= user.email%></a>
-    </div>
-  <%
-    });
-  %>
-</div>
+  </nav>
 
-
+<div class="container">
+  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:40px;height:70px;z-index:10;">
+    <div class="container-fluid">
+      <div id="user_tiles" class="row">
+          <div>
+            <a id="filter_user_id_all" target="" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">All User Actions</a>
+          </div>
+        <%
+          users.forEach(function(user) {
+        %>
+          <div>
+            <a id="filter_user_id_<%= user.id%>" target="user_id_<%= user.id%>" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">ID#<%= user.id%> <%= user.email%></a>
+          </div>
+        <%
+          });
+        %>
+      </div>
+      <input type="hidden" name="choosen_user" id="user_filter_value">
     </div>
   </nav>
 </div>
+</div>
 
 
-    <table class="table" id="log_actions"></table>
+    <table class="table table-condensed" id="log_actions"></table>
 
 
     <script src="/js/dependencies/jquery.js"></script>
