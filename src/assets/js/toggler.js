@@ -42,12 +42,9 @@ $(document).ready(function() {
         return false;
     });
 
-    // $('.itinerary+.recommended').forEach(function(choosen) {
-        // $(choosen).child().child().child().html('star');
-    // });
     $('.recommended').each(function(item){
         $(this).find('div:first').find('div:first').find('div:first')
-        .append($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
+        .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
     });
     //set defaults
     $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
@@ -202,15 +199,22 @@ $(document).ready(function() {
         var itineraryId = $(this).attr('id');
         var details = $(this).attr('for');
         if (details) {
-          $('#' + details).toggle();
-          if ($('#' + details).is(':visible')) {
-            logAction('on_itinerary_purchase', {
-                action    : 'itinerary_expanded',
-                itinerary : {
-                    id : itineraryId
-                }
-            })
-          }
+            $('#' + details).toggle();
+
+            if ($('#' + details).is(':visible')) {
+                $(this).find('div:first').find('div:first').find('div:first').find('span')
+                    .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
+
+                logAction('on_itinerary_purchase', {
+                    action    : 'itinerary_expanded',
+                    itinerary : {
+                        id : itineraryId
+                    }
+                });
+            } else {
+                $(this).find('div:first').find('div:first').find('div:first').find('span')
+                    .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
+            }
         }
 
         $('#buy_button').removeAttr('disabled');

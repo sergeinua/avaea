@@ -1,4 +1,4 @@
-<% if (searchResult) { %>
+<% if (typeof searchResult != 'undefined') {%>
 <div class="container">
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
@@ -9,7 +9,7 @@
       <% } %>
       <b>Class:</b>&nbsp;<%= searchParams.CabinClass %>
     </p>
-      <%- partial('bucket') %>
+      <%- partial('bucket')%>
     </div>
   </nav>
 </div>

@@ -32,12 +32,11 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
+  '/': 'AuthController.login',
+
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
-
-  // 'post /auth/local': 'AuthController.callback',
-  // 'post /auth/local/:action': 'AuthController.callback',
 
   'get /auth/:provider': 'AuthController.provider',
   'get /auth/:provider/callback': 'AuthController.callback',
@@ -51,8 +50,6 @@ module.exports.routes = {
   'get /create': 'UserController.create',
   'post /update': 'UserController.update',
 
-  '/': 'AuthController.login',
-
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
   'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
   'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
@@ -64,11 +61,10 @@ module.exports.routes = {
   'post /abo/getaction': 'AboController.getaction',
   'get /abo': {
     controller: "Abo",
-    // view: 'admin/index',
     locals: {
       layout: 'admin'
     }
-  },
+  }
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

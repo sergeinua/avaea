@@ -16,7 +16,7 @@
 module.exports = {
   guid: '',
 
-  getCurentSearchGuid:function () {
+  getCurrentSearchGuid: function () {
     var d = new Date().getTime();
     this.guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         var r = (d + Math.random()*16)%16 | 0;
@@ -52,10 +52,10 @@ module.exports = {
     }
 
     return res.view('search/index', {
-      title:'Search for flights',
-      user: req.user,
-      defaultParams: params,
-      errors: error
+      title         : 'Search for flights',
+      user          : req.user,
+      defaultParams : params,
+      errors        : error
     });
   },
 
@@ -90,7 +90,7 @@ module.exports = {
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    Search.getResult(this.getCurentSearchGuid(), params, function ( found ) {
+    Search.getResult(this.getCurrentSearchGuid(), params, function (found ) {
       sails.log('found itineraries ' + found.length);
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
         var serviceClass = {
@@ -109,6 +109,7 @@ module.exports = {
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
 
         return  res.view('search/result', {
+          user: req.user,
           title: title,
           tiles: tiles,
           searchParams: {
