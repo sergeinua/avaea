@@ -89,7 +89,7 @@ passport.connect = function (req, query, profile, next) {
     user.username = profile.username;
   }
 
-  if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottpae@gmail\.com)$/.exec(user.email)) {
+  if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottinsfbay@gmail\.com)$/.exec(user.email)) {
     req.flash('error', 'This email not in whitelist');
     return next(new Error('This email not in whitelist'));
   }
