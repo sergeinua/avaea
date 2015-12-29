@@ -40,34 +40,26 @@
         margin: 0;
     }
 </style>
-<form action="/result" method="post" class="form-horizontal" id="search_form" >
-    <div class="form-group">
-        <label for="originAirport" class="col-sm-2 control-label">Departing from</label>
-        <div class="col-sm-10">
-            <input type="text" name="originAirport" id="originAirport" class="form-control typeahead" placeholder="SFO" required autofocus autocomplete="off"/>
-        </div>
+<form action="/result" method="post" id="search_form" >
+    <div class="form-group col-sm-6">
+        <label for="originAirport">Departing from</label>
+        <input type="text" name="originAirport" id="originAirport" class="form-control typeahead" placeholder="SFO" required autofocus autocomplete="off"/>
     </div>
-    <div class="form-group">
-        <label for="destinationAirport" class="col-sm-2 control-label">Arriving to</label>
-        <div class="col-sm-10">
-            <input type="text" name="destinationAirport" id="destinationAirport" class="form-control typeahead" placeholder="LHR" required autocomplete="off"/>
-        </div>
+    <div class="form-group col-sm-6">
+        <label for="destinationAirport" class="control-label">Arriving to</label>
+        <input type="text" name="destinationAirport" id="destinationAirport" class="form-control typeahead" placeholder="LHR" required autocomplete="off"/>
     </div>
-    <div class="form-group">
-        <label for="departureDate" class="col-sm-2 control-label">Departure Date</label>
-        <div class="col-sm-10">
-            <input type="date" name="departureDate" value="<%= defaultParams.departureDate%>" id="departureDate" class="form-control" placeholder="yyyy-mm-dd" required/>
-        </div>
+    <div class="form-group col-sm-6">
+        <label for="departureDate" class="control-label">Departure Date</label>
+        <input type="date" name="departureDate" value="<%= defaultParams.departureDate%>" id="departureDate" class="form-control typeahead" placeholder="yyyy-mm-dd" required/>
     </div>
-    <div class="form-group">
-        <label for="returnDate" class="col-sm-2 control-label">Return Date</label>
-        <div class="col-sm-10">
-            <input type="date" name="returnDate" id="returnDate" class="form-control" placeholder="yyyy-mm-dd"/>
-        </div>
+    <div class="form-group col-sm-6">
+        <label for="returnDate" class="control-label">Return Date</label>
+        <input type="date" name="returnDate" id="returnDate" class="form-control typeahead" placeholder="yyyy-mm-dd"/>
     </div>
-    <div class="form-group">
-        <label for="preferedClass" class="col-sm-2 control-label">Class of sevice</label>
-        <div class="col-sm-10">
+    <div class="form-group col-sm-12">
+        <label for="preferedClass" class="col-md-6 control-label">Class of sevice</label>
+        <div class="col-sm-6">
             <div class="btn-group pull-left" data-toggle="buttons">
                 <label class="btn btn-default active">
                     <input type="radio" name="preferedClass" id="econom" autocomplete="off" value="e" checked> Economy
@@ -86,13 +78,13 @@
     </div>
 
     <style>
-        body { padding-bottom: 50px; }
+        body { padding-bottom: 33px; }
     </style>
 
     <div class="container" id="search_button">
-        <nav class="navbar navbar-default navbar-fixed-bottom">
+        <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
             <div class="container-fluid">
-                <button type="submit" class="btn btn-lg btn-primary btn-block" >Search</button>
+                <button type="submit" class="btn btn-sm btn-primary btn-block">Search</button>
             </div>
         </nav>
     </div>

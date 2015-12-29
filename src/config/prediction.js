@@ -11,6 +11,11 @@ module.exports.prediction = {
   // default value for Tiles Prediction
   tiles: {
     alpha: 0.2,
+    default: {
+      tile_position : 0.1,
+      confidence    : 0,
+      counter       : 0 // numbers starts from
+    }
   },
 
   /// default value for Itineraries Prediction
@@ -18,5 +23,5 @@ module.exports.prediction = {
     alpha: 0.2,
     rankMin : 0.001,
     rankMax : 1
-  },
-}
+  }
+};

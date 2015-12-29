@@ -3,6 +3,7 @@
   <%
   for(var name in tiles) { 
     var tile = tiles[name];
+    if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>
     <div class="mybucket" id="<%= tile.id%>">
       <a id="<%= __(tile.name)%>Id" href="#"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>

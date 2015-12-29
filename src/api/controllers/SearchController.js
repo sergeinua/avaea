@@ -70,7 +70,6 @@ module.exports = {
         CabinClass: req.param('preferedClass').toUpperCase(),
         returnDate: ''
       },
-      title = 'Search result for ' + params.DepartureLocationCode + '&rarr;' + params.ArrivalLocationCode,
       depDate = new Date();
 
     if (!isNaN(Date.parse(req.param('departureDate')))) {
@@ -81,6 +80,7 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
+    title = 'Search result for ' + params.DepartureLocationCode + (params.returnDate?'&#8644;':'&rarr;') + params.ArrivalLocationCode,
     iPrediction.getUserRank(req.user.id, params);
 
     var md5 = require("blueimp-md5").md5;
@@ -91,7 +91,8 @@ module.exports = {
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     Search.getResult(this.getCurrentSearchGuid(), params, function (found ) {
-      sails.log('found itineraries ' + found.length);
+      sails.log('found itineraries ' + found.length, console.timeEnd('mondee'));
+
       var serviceClass = {
         E:'Economy',
         P:'Premium',

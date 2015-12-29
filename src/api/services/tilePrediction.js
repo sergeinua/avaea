@@ -5,9 +5,9 @@
 module.exports = {
   alpha : sails.config.prediction.tiles.alpha,
   default: {
-    tile_position : 0,
-    confidence    : 0,
-    counter       : 0
+    tile_position : sails.config.prediction.tiles.default.tile_position,
+    confidence    : sails.config.prediction.tiles.default.confidence,
+    counter       : sails.config.prediction.tiles.default.counter
   },
 
   recalculate: function (user, uuid, params, tile) {
