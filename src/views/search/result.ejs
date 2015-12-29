@@ -2,12 +2,12 @@
 <div class="container">
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
-    <p class="text-info">
-      <b>Departure:</b>&nbsp;<%=searchParams.DepartureTime%>
+    <p class="text-info" style="color: grey">
+      <b>Departure </b>&nbsp;"<%=searchParams.DepartureTime%>"
       <% if (searchParams.returnDate) { %>
-      <b>Return:</b>&nbsp;<%=searchParams.returnDate%>
+      <b>Return </b>&nbsp;"<%=searchParams.returnDate%>"
       <% } %>
-      <b>Class:</b>&nbsp;<%= searchParams.CabinClass %>
+      <b>Class </b>&nbsp;<%= searchParams.CabinClass %>
     </p>
       <%- partial('bucket')%>
     </div>

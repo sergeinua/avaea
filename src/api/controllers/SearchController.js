@@ -92,13 +92,27 @@ module.exports = {
 
     Search.getResult(this.getCurrentSearchGuid(), params, function (found ) {
       sails.log('found itineraries ' + found.length);
+      var serviceClass = {
+        E:'Economy',
+        P:'Premium',
+        B:'Business',
+        F:'First'
+      };
+
+      if (!found.length) {
+        return  res.view('search/result', {
+          user: req.user,
+          title: title,
+          tiles: {},
+          searchParams: {
+            DepartureTime: sails.moment(depDate).format('MM/DD/YYYY'),
+            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+            CabinClass: serviceClass[params.CabinClass]
+          },
+          searchResult: []
+        });
+      }
       Tile.getTilesData(found, params, function (itineraries, tiles, params) {
-        var serviceClass = {
-          E:'Economy',
-          P:'Premium',
-          B:'Business',
-          F:'First'
-        };
 
         UserAction.saveAction(req.user, 'order_tiles', tiles);
         var itinerariesData = {

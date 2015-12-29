@@ -81,7 +81,7 @@ $(document).ready(function() {
             tileId    : $(clone).attr('for')
         })
 
-        $(clone).html(tileName + ':' + tileValue);
+        $(clone).html(tileName + ': ' + tileValue);
 
         $(clone).find('span').remove();
         $(clone).off().attr('itineraries', $(clone).attr('for'));
@@ -101,7 +101,7 @@ $(document).ready(function() {
                 tileName  : tileData[0],
                 tileValue : tileData[1],
                 tileId    : target
-            })
+            });
 
             var result = [];
             if (filters.length) {

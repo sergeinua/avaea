@@ -35,22 +35,22 @@ module.exports = {
         order: 0,
         filters: [
           {
-            title : '12m-6am',
+            title : '12m &ndash; 6am',
             id    : 'arrival_tile_1',
             count : 1
           },
           {
-            title : '6am-12n',
+            title : '6am &ndash; 12n',
             id    : 'arrival_tile_2',
             count : 1
           },
           {
-            title : '12n-6pm',
+            title : '12n &ndash; 6pm',
             id    : 'arrival_tile_3',
             count : 1
           },
           {
-            title : '6pm-12m',
+            title : '6pm &ndash; 12m',
             id    : 'arrival_tile_4',
             count : 1
           }
@@ -62,22 +62,22 @@ module.exports = {
         order: 0,
         filters: [
           {
-            title : '12m-6am',
+            title : '12m &ndash; 6am',
             id    : 'departure_tile_1',
             count : 1
           },
           {
-            title : '6am-12n',
+            title : '6am &ndash; 12n',
             id    : 'departure_tile_2',
             count : 1
           },
           {
-            title : '12n-6pm',
+            title : '12n &ndash; 6pm',
             id    : 'departure_tile_3',
             count : 1
           },
           {
-            title : '6pm-12m',
+            title : '6pm &ndash; 12m',
             id    : 'departure_tile_4',
             count : 1
           }
@@ -109,17 +109,17 @@ module.exports = {
   getTilesData: function (itineraries, params, callback) {
 
     if (!itineraries.length) {
-      return {};
+      return callback({});
     }
     var tileArr = _.clone(this.tiles, true);
 
     var index = null;
     var filterClass = '';
     var timeArr = [
-      '12m-6am',
-      '6am-12n',
-      '12n-6pm',
-      '6pm-12m'
+      '12m &ndash; 6am',
+      '6am &ndash; 12n',
+      '12n &ndash; 6pm',
+      '6pm &ndash; 12m'
     ];
 
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
@@ -176,7 +176,7 @@ module.exports = {
       current = durationNameArr[0] + durationStep;
 
       tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[0]/60)+'h' + formatMinutes(parseInt(durationNameArr[0]%60)) + '-'
+        title: parseInt(durationNameArr[0]/60)+'h' + formatMinutes(parseInt(durationNameArr[0]%60)) + ' &ndash; '
           + Math.round((durationNameArr[0] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
         id: 'duration_tile_0',
         count : 1
@@ -187,7 +187,7 @@ module.exports = {
         current = current + durationStep;
 
         tileArr['Duration'].filters.push({
-          title: Math.round(durationNameArr[i]/60)+'h ' + formatMinutes(Math.round(durationNameArr[i]%60)) + '-'
+          title: Math.round(durationNameArr[i]/60)+'h ' + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
             + Math.round((durationNameArr[i] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
           id: 'duration_tile_' + i,
           count : 1
@@ -197,7 +197,7 @@ module.exports = {
       durationNameArr[3] = current;
 
       tileArr['Duration'].filters.push({
-        title: Math.round(durationNameArr[3]/60)+'h ' + formatMinutes(Math.round(durationNameArr[3]%60)) + '-'
+        title: Math.round(durationNameArr[3]/60)+'h ' + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
           + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
         id: 'duration_tile_' + i,
         count : 1
@@ -284,6 +284,7 @@ module.exports = {
         if ( err ) {
           sails.log.error( err );
         } else {
+          tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
           return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
         }
       });
