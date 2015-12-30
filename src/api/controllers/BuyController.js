@@ -45,7 +45,7 @@ module.exports = {
               order:[logData.itinerary]
           });
         } else {
-          req.session.flash = 'Cash is expiried. Try new search.';
+          req.session.flash = 'Cache has expired. Try new search.';
           req.flash('errors', req.session.flash);
           res.redirect('/search');
         }
