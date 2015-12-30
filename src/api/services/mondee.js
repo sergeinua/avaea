@@ -188,7 +188,7 @@ module.exports = {
   timeLog: {},
   flightSearch: function(guid, params, callback) {
     memcache.init(function(){});
-    sails.log('mondee api call started');
+    sails.log.info('mondee api call started');
     mondee.timeLog = {
       sevice: 'mondee',
       time: Date.now()
