@@ -89,9 +89,8 @@ module.exports = {
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
-
     Search.getResult(this.getCurrentSearchGuid(), params, function (found ) {
-      sails.log('found itineraries ' + found.length, console.timeEnd('mondee'));
+      sails.log('found itineraries ' + found.length + ' (%s: %dms)', mondee.timeLog.sevice, (Date.now() - mondee.timeLog.time));
 
       var serviceClass = {
         E:'Economy',

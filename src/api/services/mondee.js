@@ -185,9 +185,14 @@ var minutesToDuration = function(minutes) {
 };
 
 module.exports = {
+  timeLog: {},
   flightSearch: function(guid, params, callback) {
     memcache.init(function(){});
-    sails.log.info('mondee api call started');
+    sails.log('mondee api call started');
+    mondee.timeLog = {
+      sevice: 'mondee',
+      time: Date.now()
+    };
     console.time('mondee');
     var soap = require('soap');
     var wsdl = sails.config.flightapis.mondee.baseEndPoint + '/flightSearch?wsdl';
