@@ -9,7 +9,7 @@ var User = {
       required: true
     },
     actionType : { type: 'string' },
-    logInfo    : { type: 'json' },
+    logInfo    : { type: 'json' }
   },
 
   saveAction: function (user, actionType, data) {

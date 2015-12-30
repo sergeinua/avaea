@@ -62,13 +62,13 @@
     <div class="container-fluid">
       <div id="user_tiles" class="row">
           <div>
-            <a id="filter_user_id_all" target="" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">All User Actions</a>
+            <a id="filter_user_id_all" target="" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">Statistic</a>
           </div>
         <%
           users.forEach(function(user) {
         %>
           <div>
-            <a id="filter_user_id_<%= user.id%>" target="user_id_<%= user.id%>" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">ID#<%= user.id%> <%= user.email%></a>
+            <a id="filter_user_id_<%= user.id%>" target="<%= user.id%>" href="#" class="filter_user btn btn-default btn-block" style="width:300px;float:left;" role="button">ID#<%= user.id%> <%= user.email%></a>
           </div>
         <%
           });
