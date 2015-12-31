@@ -31,6 +31,7 @@ module.exports = {
    * `SearchController.index()`
    */
   index: function (req, res) {
+
     this.guid = '';
     var params = {
         DepartureLocationCode: '',
@@ -63,6 +64,7 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
+    utils.timeLog('search result');
     var
       params = {
         DepartureLocationCode: req.param('originAirport').toUpperCase(),
@@ -89,8 +91,9 @@ module.exports = {
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
-    Search.getResult(this.getCurrentSearchGuid(), params, function (found ) {
-      sails.log('found itineraries ' + found.length + ' (%s: %dms)', mondee.timeLog.sevice, (Date.now() - mondee.timeLog.time));
+
+    Search.getResult(this.getCurrentSearchGuid(), params, function ( err, found ) {
+      sails.log.info('Found itineraries: %d', found.length);
 
       var serviceClass = {
         E:'Economy',
@@ -121,6 +124,7 @@ module.exports = {
           count        : itineraries.length
         };
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
 
         return  res.view('search/result', {
           user: req.user,

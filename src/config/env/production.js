@@ -43,8 +43,10 @@ module.exports = {
   },
 
   flightapis: {
+    searchProvider: 'mondee', // 'mystifly'
     mondee: {
-      baseEndPoint: 'http://sandbox.trippro.com/api/v2'
+      baseEndPoint: 'http://api.trippro.com/api/v2',
+      clientId: 'CFP1017'
     }
   }
 

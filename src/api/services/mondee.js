@@ -149,100 +149,237 @@ var FlightSearchResponseBody = {
 };
 // }}}
 
+var getWsdlUrl = function(method) {
+  return sails.config.flightapis.mondee.baseEndPoint + '/' + method + '?wsdl';
+};
 
-var durationToMinutes = function(duration) {
-  var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
-  var res = 0;
-  if (durationArr) {
-    if (durationArr[2]) {
-      res += parseInt(durationArr[2])*24*60;
+var getEndPointUrl = function(method) {
+  return sails.config.flightapis.mondee.baseEndPoint + '/' + method;
+};
+
+var getBaseRq = function(id) {
+  return {
+    'common:TPContext': {
+      attributes: {
+        'xmlns:common': sails.config.flightapis.mondee.commonNamespace
+      },
+      'common:clientId': sails.config.flightapis.mondee.clientId,
+      'common:messageId': id
     }
-    if (durationArr[4]) {
-      res += parseInt(durationArr[4])*60;
-    }
-    if (durationArr[6]) {
-      res += parseInt(durationArr[6]);
-    }
+  }
+};
+
+var getFlightSearchRq = function(id, params) {
+  var req = getBaseRq(id);
+  // minimum requirements for search request
+  req.FlightSearchRequest = {
+    OriginDestination: [{
+      DepartureLocationCode: params.DepartureLocationCode,
+      DepartureTime: params.DepartureTime,
+      ArrivalLocationCode: params.ArrivalLocationCode
+    }]
+  };
+  // add return OriginDestination if we have return date
+  if (params.returnDate) {
+    req.FlightSearchRequest.OriginDestination.push({
+      DepartureLocationCode: params.ArrivalLocationCode,
+      DepartureTime: params.returnDate,
+      ArrivalLocationCode: params.DepartureLocationCode
+    });
+  }
+  // set the same CabinClass for all OriginDestination elements
+  if (['E','B','F','P'].indexOf(params.CabinClass) != -1) {
+    req.FlightSearchRequest.OriginDestination.forEach(function(val) {
+      val.CabinClass = params.CabinClass;
+    });
+  }
+  return req;
+};
+
+var mapIntermediateStops = function (stops) {
+  var res = {
+    stops: [],
+    stopsDurationMinutes: 0
+  };
+  for (var i = 0; i < stops.length; i++) {
+    var stop = stops[i];
+    var cpStopDuration = sails.moment.duration(
+      sails.moment(stop.departureDate).diff(stop.arrivalDate)
+    ).asMinutes();
+    var mappedStop = {
+      code: stop.locationCode,
+      begin: {
+        date: sails.moment(stop.arrivalDate).format('YYYY-MM-DD'),
+        time: sails.moment(stop.arrivalDate).format('hh:mma').slice(0, -1)
+      },
+      end: {
+        date: sails.moment(stop.departureDate).format('YYYY-MM-DD'),
+        time: sails.moment(stop.departureDate).format('hh:mma').slice(0, -1)
+      },
+      duration: utils.minutesToDuration(cpStopDuration),
+      durationMinutes: cpStopDuration
+    };
+    res.stopsDurationMinutes += mappedStop.durationMinutes;
+    res.stops.push( mappedStop );
   }
   return res;
 };
 
-var minutesToDuration = function(minutes) {
-  var res = [];
-  var days = Math.floor(minutes/60/24);
-  var hours = Math.floor((minutes - days*60*24)/60);
-  var minutes = Math.floor(minutes - hours*60 - days*60*24);
-  if (days) {
-    res.push(days + 'd');
+var mapFlights = function(flights) {
+  var res = {
+    flights: [],
+    path: [],
+    stops: [],
+    stopsCodes: [],
+    stopsDurationMinutes: 0
   }
-  if (hours) {
-    res.push(hours + 'h');
+  for (var j=0; j < flights.length; j++) {
+    var flight = flights[j];
+
+    if (j>0) {
+      // fill the citypair stops
+      var cpStopDuration = sails.moment.duration(
+        sails.moment(flight.DepartureDateTime).diff(flights[j-1].ArrivalDateTime)
+      ).asMinutes();
+      res.stopsCodes.push(flight.DepartureLocationCode);
+      res.stops.push({
+        code: flight.DepartureLocationCode,
+        begin: {
+          date: sails.moment(flights[j-1].ArrivalDateTime).format('YYYY-MM-DD'),
+          time: sails.moment(flights[j-1].ArrivalDateTime).format('hh:mma').slice(0, -1)
+        },
+        end: {
+          date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
+          time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
+        },
+        duration: utils.minutesToDuration(cpStopDuration),
+        durationMinutes: cpStopDuration
+      });
+      res.stopsDurationMinutes += cpStopDuration;
+    }
+
+    res.path.push(flight.DepartureLocationCode);
+    var mappedFlight = {
+      number: flight.FlightNumber,
+      abbrNumber: flight.MarketingAirline.toUpperCase() + flight.FlightNumber,
+      from: {
+        code: flight.DepartureLocationCode,
+        date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
+        time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
+      },
+      to: {
+        code: flight.ArrivalLocationCode,
+        date: sails.moment(flight.ArrivalDateTime).format('YYYY-MM-DD'),
+        time: sails.moment(flight.ArrivalDateTime).format('hh:mma').slice(0, -1)
+      },
+      duration: utils.minutesToDuration(utils.durationToMinutes(flight.Duration)),
+      durationMinutes: utils.durationToMinutes(flight.Duration),
+      bookingClass: flight.BookingClass,
+      cabinClass: flight.CabinClass,
+      airline: flight.MarketingAirline.toUpperCase(), //flight.MarketingAirlineName,
+      noOfStops: flight.NoOfStops,
+      stopsDuration: '',
+      stopsDurationMinutes: 0,
+      stops: []
+    };
+    if (flight.IntermediateStops) {
+      mappedFlight.noOfStops = flight.IntermediateStops.length;
+
+      var mStops = mapIntermediateStops(flight.IntermediateStops);
+      mappedFlight.stops = mStops.stops;
+      mappedFlight.stopsDurationMinutes = mStops.stopsDurationMinutes;
+      mappedFlight.stopsDuration = utils.minutesToDuration(mappedFlight.stopsDurationMinutes);
+      res.stopsDurationMinutes += mappedFlight.stopsDurationMinutes;
+    }
+    res.flights.push( mappedFlight );
+    // push last node of path
+    if (j == flights.length - 1) {
+      res.path.push(flight.ArrivalLocationCode);
+    }
   }
-  if (minutes) {
-    res.push(minutes + 'm');
+  return res;
+}
+
+var mapCitypairs = function(citypairs) {
+  var res = {
+    durationMinutes: 0,
+    citypairs: []
+  };
+  for (var i=0; i < citypairs.length; i++) {
+    var currentDurationArr = [];
+    var pair = citypairs[i];
+    var from = pair.FlightSegment[0];
+    var to = pair.FlightSegment[pair.FlightSegment.length-1];
+    var mappedPair = {
+      direction: i==0 ? 'Depart' : 'Return',
+      from: {
+        code: from.DepartureLocationCode,
+        date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
+        time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
+        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
+      },
+      to: {
+        code: to.ArrivalLocationCode,
+        date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
+        time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
+        quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
+      },
+      duration: utils.minutesToDuration(utils.durationToMinutes(pair.Duration)),
+      durationMinutes: utils.durationToMinutes(pair.Duration),
+      noOfStops: pair.NoOfStops,
+      stopsDurationMinutes: 0,
+      stopsDuration: '',
+      stopsCodes: [],
+      stops: [],
+      path: [],
+      flights: []
+    };
+    res.durationMinutes += mappedPair.durationMinutes;
+
+    var mFlights = mapFlights(pair.FlightSegment);
+    mappedPair.flights = mFlights.flights;
+    mappedPair.path = mFlights.path;
+    mappedPair.stops = mFlights.stops;
+    mappedPair.noOfStops = mFlights.stops.length;
+    mappedPair.stopsCodes = mFlights.stopsCodes;
+    mappedPair.stopsDurationMinutes = mFlights.stopsDurationMinutes;
+    mappedPair.stopsDuration = utils.minutesToDuration(mappedPair.stopsDurationMinutes);
+
+    res.citypairs.push( mappedPair );
   }
-  return res.join(' ');
-};
+  return res;
+}
+
+//var soap = require('soap');
 
 module.exports = {
-  timeLog: {},
   flightSearch: function(guid, params, callback) {
+    sails.log.info('Mondee API call started');
+
     memcache.init(function(){});
-    sails.log.info('mondee api call started');
-    mondee.timeLog = {
-      sevice: 'mondee',
-      time: Date.now()
-    };
-    console.time('mondee');
-    var soap = require('soap');
-    var wsdl = sails.config.flightapis.mondee.baseEndPoint + '/flightSearch?wsdl';
-    sails.log.info('SOAP: Trying to connect to ' + wsdl);
-    soap.createClient(wsdl, function(err, client) {
+    utils.timeLog('mondee');
+
+    var wsdlUrl = getWsdlUrl('flightSearch');
+    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl('flightSearch')}, function(err, client) {
+
       if (err) {
-        sails.log.error(err);
-        return callback([]);
+        sails.log.error("SOAP: An error occurs:\n" + err);
+        return callback(err, []);
       } else {
-        // minimum requirements for search request
-        var args = {
-          'common:TPContext': {
-            attributes: {
-              'xmlns:common': sails.config.flightapis.mondee.commonNamespace
-            },
-            'common:clientId': sails.config.flightapis.mondee.clientId,
-            'common:messageId': guid
-          },
-          FlightSearchRequest: {
-            OriginDestination: [{
-              DepartureLocationCode: params.DepartureLocationCode,
-              DepartureTime: params.DepartureTime,
-              ArrivalLocationCode: params.ArrivalLocationCode
-            }]
-          }
-        };
-        // add return OriginDestination if we have return date
-        if (params.returnDate) {
-          args.FlightSearchRequest.OriginDestination.push({
-            DepartureLocationCode: params.ArrivalLocationCode,
-            DepartureTime: params.returnDate,
-            ArrivalLocationCode: params.DepartureLocationCode
-          });
-        }
-        // set the same CabinClass for all OriginDestination elements
-        if (['E','B','F','P'].indexOf(params.CabinClass) != -1) {
-          args.FlightSearchRequest.OriginDestination.forEach(function(val) {
-            val.CabinClass = params.CabinClass;
-          });
-        }
-        return client.FlightSearch(args, function(err, result, raw, soapHeader) {
-          var res = [];
+        var req = getFlightSearchRq(guid, params);
+
+        return client.FlightSearch(req, function(err, result, raw, soapHeader) {
+          sails.log.info('Mondee FlightSearch request time: %s', utils.timeLogGetHr('mondee'));
+          var resArr = [];
           if (err) {
             sails.log.error(err);
+            return callback(err, resArr);
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
               var minDuration, maxDuration, minPrice, maxPrice;
-              var resArr = [];
-              async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCallback) {
-                var mapped = {
+              async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
+                var mappedItinerary = {
                   id: itinerary.ItineraryId,
                   service: 'mondee',
                   price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes)).toFixed(2),
@@ -252,143 +389,30 @@ module.exports = {
                   citypairs: []
                 };
 
-                for (var i=0; i < itinerary.Citypairs.length; i++) {
-                  var currentDurationArr = [];
-                  var pair = itinerary.Citypairs[i];
-                  var from = pair.FlightSegment[0];
-                  var to = pair.FlightSegment[pair.FlightSegment.length-1];
-                  var mappedPair = {
-                    direction: i==0 ? 'Depart' : 'Return',
-                    from: {
-                        code: from.DepartureLocationCode,
-                        date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
-                        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
-                    },
-                    to: {
-                      code: to.ArrivalLocationCode,
-                      date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
-                      time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
-                      quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
-                    },
-                    duration: minutesToDuration(durationToMinutes(pair.Duration)),
-                    durationMinutes: durationToMinutes(pair.Duration),
-                    noOfStops: pair.NoOfStops,
-                    stopsDuration: '',
-                    stopsDurationMinutes: 0,
-                    stopsCodes: [],
-                    stops: [],
-                    path: [],
-                    flights: []
-                  };
-                  mapped.durationMinutes += mappedPair.durationMinutes;
+                var mCitypairs = mapCitypairs(itinerary.Citypairs);
+                mappedItinerary.citypairs = mCitypairs.citypairs;
+                mappedItinerary.durationMinutes = mCitypairs.durationMinutes;
+                mappedItinerary.duration = utils.minutesToDuration(mappedItinerary.durationMinutes);
 
-                  var pathArr = [];
-                  var destination = '';
-                  for (var j=0; j < pair.FlightSegment.length; j++) {
-                    var flight = pair.FlightSegment[j];
-
-                    if (j>0) {
-                      // fill the citypair stops
-                      var cpStopDuration = sails.moment.duration(
-                        sails.moment(flight.DepartureDateTime).diff(pair.FlightSegment[j-1].ArrivalDateTime)
-                      ).asMinutes();
-                      mappedPair.stopsCodes.push(flight.DepartureLocationCode);
-                      mappedPair.stops.push({
-                        code: flight.DepartureLocationCode,
-                        begin: {
-                          date: sails.moment(pair.FlightSegment[j-1].ArrivalDateTime).format('YYYY-MM-DD'),
-                          time: sails.moment(pair.FlightSegment[j-1].ArrivalDateTime).format('hh:mma').slice(0, -1)
-                        },
-                        end: {
-                          date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
-                          time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
-                        },
-                        duration: minutesToDuration(cpStopDuration),
-                        durationMinutes: cpStopDuration
-                      });
-                      mappedPair.stopsDurationMinutes += cpStopDuration;
-                    }
-
-                    mappedPair.path.push(flight.DepartureLocationCode);
-                    destination = flight.ArrivalLocationCode;
-                    var mappedFlight = {
-                      number: flight.FlightNumber,
-                      abbrNumber: flight.MarketingAirline.toUpperCase() + flight.FlightNumber,
-                      from: {
-                        code: flight.DepartureLocationCode,
-                        date: sails.moment(flight.DepartureDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(flight.DepartureDateTime).format('hh:mma').slice(0, -1)
-                      },
-                      to: {
-                        code: flight.ArrivalLocationCode,
-                        date: sails.moment(flight.ArrivalDateTime).format('YYYY-MM-DD'),
-                        time: sails.moment(flight.ArrivalDateTime).format('hh:mma').slice(0, -1)
-                      },
-                      duration: minutesToDuration(durationToMinutes(flight.Duration)),
-                      durationMinutes: durationToMinutes(flight.Duration),
-                      bookingClass: flight.BookingClass,
-                      cabinClass: flight.CabinClass,
-                      airline: flight.MarketingAirlineName,
-                      noOfStops: flight.NoOfStops,
-                      stopsDuration: '',
-                      stopsDurationMinutes: 0,
-                      stops: []
-                    };
-                    if (flight.IntermediateStops) {
-                      mappedFlight.noOfStops = flight.IntermediateStops.length
-                      for (var k = 0; k < flight.IntermediateStops.length; k++) {
-                        var stop = flight.IntermediateStops[k];
-                        var cpStopDuration = sails.moment.duration(
-                          sails.moment(stop.departureDate).diff(stop.arrivalDate)
-                        ).asMinutes();
-                        var mappedStop = {
-                          code: stop.locationCode,
-                          begin: {
-                            date: sails.moment(stop.arrivalDate).format('YYYY-MM-DD'),
-                            time: sails.moment(stop.arrivalDate).format('hh:mma').slice(0, -1)
-                          },
-                          end: {
-                            date: sails.moment(stop.departureDate).format('YYYY-MM-DD'),
-                            time: sails.moment(stop.departureDate).format('hh:mma').slice(0, -1)
-                          },
-                          duration: minutesToDuration(cpStopDuration),
-                          durationMinutes: cpStopDuration
-                        };
-                        mappedFlight.stopsDurationMinutes += mappedStop.durationMinutes;
-                        mappedFlight.stops.push( mappedStop );
-                      }
-                      mappedFlight.stopsDuration = minutesToDuration(mappedFlight.stopsDurationMinutes);
-                      mappedPair.stopsDurationMinutes += mappedFlight.stopsDurationMinutes;
-                    }
-                    mappedPair.flights.push( mappedFlight );
-                  }
-                  mappedPair.stopsDuration = minutesToDuration(mappedPair.stopsDurationMinutes);
-
-                  mappedPair.path.push(destination);
-
-                  mapped.citypairs.push( mappedPair );
-                }
-                mapped.duration = minutesToDuration(mapped.durationMinutes);
-
-                if (minPrice === undefined || minPrice > parseFloat(mapped.price)) {
-                  minPrice = Math.floor(parseFloat(mapped.price));
+                if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
+                  minPrice = Math.floor(parseFloat(mappedItinerary.price));
                 }
 
-                if (maxPrice === undefined || maxPrice < parseFloat(mapped.price)) {
-                  maxPrice = Math.ceil(parseFloat(mapped.price));
+                if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
+                  maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
                 }
 
-                if (minDuration === undefined || minDuration > mapped.durationMinutes) {
-                  minDuration = mapped.durationMinutes;
+                if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
+                  minDuration = mappedItinerary.durationMinutes;
                 }
-                if (maxDuration === undefined || maxDuration < mapped.durationMinutes) {
-                  maxDuration = mapped.durationMinutes;
+                if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
+                  maxDuration = mappedItinerary.durationMinutes;
                 }
 
-                resArr.push( mapped );
-                mondee.cache(mapped, guid);
-                return doneCallback(null);
+                resArr.push( mappedItinerary );
+                mondee.cache(mappedItinerary, guid);
+
+                return doneCb(null);
               }, function (err) {
                 if ( err ) {
                   sails.log.error( err );
@@ -403,7 +427,7 @@ module.exports = {
                   maxDuration: maxDuration
                 };
                 mondee.cacheSearch(guid, params);
-                return callback( resArr );
+                return callback( null, resArr );
               });
             }
           }

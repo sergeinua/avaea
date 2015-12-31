@@ -24,7 +24,7 @@ module.exports = {
   },
 
   getResult: function (guid, params, callback) {
-    return mondee.flightSearch(guid, params, callback);
+    return global[sails.config.flightapis.searchProvider].flightSearch(guid, params, callback);
   }
 };
 
