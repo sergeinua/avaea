@@ -135,7 +135,7 @@ $(document).ready(function() {
             infinite: false,
             mobileFirst: true,
             adaptiveHeight: true,
-            slidesToShow: Math.floor($('body').outerWidth(true)/150),
+            slidesToShow: Math.floor($('body').outerWidth(true)/100),
             slidesToScroll: 1
         }
     }

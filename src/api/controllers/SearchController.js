@@ -82,7 +82,7 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
-    title = 'Search result for ' + params.DepartureLocationCode + (params.returnDate?'&#8644;':'&rarr;') + params.ArrivalLocationCode,
+    title = params.DepartureLocationCode + (params.returnDate?'&#8644;':'&rarr;') + params.ArrivalLocationCode,
     iPrediction.getUserRank(req.user.id, params);
 
     var md5 = require("blueimp-md5").md5;
@@ -126,6 +126,13 @@ module.exports = {
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
 
+        var timelog = '';
+        if (utils.timeLogGet('mystifly') > 7000) {
+          timelog = 'Mystifly took ' + utils.timeLogGetHr('mystifly') + ' to respond';
+        }
+        if (utils.timeLogGet('mondee') > 7000) {
+          timelog += (timelog?'<br/>':'') + 'Mondee took ' + utils.timeLogGetHr('mondee') + ' to respond';
+        }
         return  res.view('search/result', {
           user: req.user,
           title: title,
@@ -135,7 +142,8 @@ module.exports = {
             returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
             CabinClass: serviceClass[params.CabinClass]
           },
-          searchResult: itineraries
+          searchResult: itineraries,
+          timelog: timelog
         });
       })
     });
