@@ -124,14 +124,14 @@ module.exports = {
           count        : itineraries.length
         };
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
-        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
+        sails.log.info('Search result processing total time: %s', utils.timeLogGet('search result'));
 
         var timelog = '';
         if (utils.timeLogGet('mystifly') > 7000) {
-          timelog = 'Mystifly took ' + utils.timeLogGetHr('mystifly') + ' to respond';
+          timelog = 'Mystifly took ' + (utils.timeLogGet('mystifly')/1000).toFixed(1) + ' to respond';
         }
         if (utils.timeLogGet('mondee') > 7000) {
-          timelog += (timelog?'<br/>':'') + 'Mondee took ' + utils.timeLogGetHr('mondee') + ' to respond';
+          timelog += (timelog?'<br/>':'') + 'Mondee took ' + (utils.timeLogGet('mondee')/1000).toFixed(1) + ' to respond';
         }
         return  res.view('search/result', {
           user: req.user,

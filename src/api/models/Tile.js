@@ -165,9 +165,9 @@ module.exports = {
       };
       var formatMinutes = function (time) {
         if (time) {
-          return ' &#189;';
+          return '&#189;h';
         }
-        return '';
+        return 'h';
       };
       // prepare Duration tile
       var durationNameArr = [];
@@ -176,8 +176,8 @@ module.exports = {
       current = durationNameArr[0] + durationStep;
 
       tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[0]/60)+'h' + formatMinutes(parseInt(durationNameArr[0]%60)) + ' &ndash; '
-          + Math.round((durationNameArr[0] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
+        title: parseInt(durationNameArr[0]/60) + formatMinutes(parseInt(durationNameArr[0]%60)) + ' &ndash; '
+          + Math.round((durationNameArr[0] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
         id: 'duration_tile_0',
         count : 1
       });
@@ -187,8 +187,8 @@ module.exports = {
         current = current + durationStep;
 
         tileArr['Duration'].filters.push({
-          title: Math.round(durationNameArr[i]/60)+'h ' + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
-            + Math.round((durationNameArr[i] + durationStep)/60)+'h ' + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
+          title: Math.round(durationNameArr[i]/60) + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
+            + Math.round((durationNameArr[i] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
           id: 'duration_tile_' + i,
           count : 1
         });
@@ -197,8 +197,8 @@ module.exports = {
       durationNameArr[3] = current;
 
       tileArr['Duration'].filters.push({
-        title: Math.round(durationNameArr[3]/60)+'h ' + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
-          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60)+'h ' + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
+        title: Math.round(durationNameArr[3]/60) + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
+          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60) + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
         id: 'duration_tile_' + i,
         count : 1
       });

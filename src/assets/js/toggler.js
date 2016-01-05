@@ -1,5 +1,6 @@
 /* global $ */
 $(document).ready(function() {
+    $('#timeAlert').fadeOut(5000);
 
     /**
     * Possible types

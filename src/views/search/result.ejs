@@ -2,8 +2,10 @@
 <div class="container">
   <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="margin-top:50px;z-index:10;">
     <div class="container-fluid">
-      <% if (timelog) {%>
-    <p class="text-info" style="color: grey"><%=timelog%></p>
+      <% if (typeof timelog != 'undefined' && timelog) {%>
+      <div class="alert alert-danger hidden-xs" role="alert" id="timeAlert">
+        <p class="text-info" style="color: grey"><%=timelog%></p>
+      </div>
       <% } %>
       <%- partial('bucket')%>
     </div>
