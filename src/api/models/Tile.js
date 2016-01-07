@@ -108,8 +108,8 @@ module.exports = {
 
   getTilesData: function (itineraries, params, callback) {
 
-    if (!itineraries.length) {
-      return callback({});
+    if (!itineraries) {
+      return callback(itineraries, [], params);
     }
     var tileArr = _.clone(this.tiles, true);
 
