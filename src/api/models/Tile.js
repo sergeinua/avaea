@@ -260,7 +260,7 @@ module.exports = {
               index = _.findIndex(tileArr['Airline'].filters, {title:flight.airline});
               if ( index === -1 ) {
                 tileArr['Airline'].filters.push({
-                  title: flight.airline.substring(0, 10), // Issue #43 show only what fits
+                  title: flight.airline, // Issue #43 show only what fits
                   id: 'airline_tile_' + flight.airline.replace(/\W+/g, '_'),
                   count : 1
                 });

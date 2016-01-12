@@ -24,10 +24,10 @@ $(document).ready(function() {
             var tile = $(this);
             var sCount = $('.' + tile.attr('for') + ':visible').length;
             if ( sCount > 0 ) {
-                $('[for='+tile.attr('for')+'] > span').text(sCount);
+                $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
                 tile.removeClass('disabled');
             } else {
-                $('[for='+tile.attr('for')+'] > span').text('');
+                $('[for='+tile.attr('for')+'] > span.badge').text('');
                 tile.addClass('disabled');
             }
         });
