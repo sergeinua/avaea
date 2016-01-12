@@ -37,22 +37,22 @@ module.exports = {
           {
             title : '12m &ndash; 6am',
             id    : 'arrival_tile_1',
-            count : 1
+            count : 0
           },
           {
             title : '6am &ndash; 12n',
             id    : 'arrival_tile_2',
-            count : 1
+            count : 0
           },
           {
             title : '12n &ndash; 6pm',
             id    : 'arrival_tile_3',
-            count : 1
+            count : 0
           },
           {
             title : '6pm &ndash; 12m',
             id    : 'arrival_tile_4',
-            count : 1
+            count : 0
           }
         ]
       },
@@ -64,22 +64,22 @@ module.exports = {
           {
             title : '12m &ndash; 6am',
             id    : 'departure_tile_1',
-            count : 1
+            count : 0
           },
           {
             title : '6am &ndash; 12n',
             id    : 'departure_tile_2',
-            count : 1
+            count : 0
           },
           {
             title : '12n &ndash; 6pm',
             id    : 'departure_tile_3',
-            count : 1
+            count : 0
           },
           {
             title : '6pm &ndash; 12m',
             id    : 'departure_tile_4',
-            count : 1
+            count : 0
           }
         ]
       },
@@ -253,8 +253,10 @@ module.exports = {
           }
         }
 
-        for (var i=0; i < itinerary.citypairs.length; i++) {
-          for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
+        //for (var i=0; i < itinerary.citypairs.length; i++) {
+        //  for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
+        for (var i=0; i < 1; i++) {
+          for (var k = 0; k < 1; k++) {
             var flight = itinerary.citypairs[i].flights[k];
             if (flight.airline) {
               index = _.findIndex(tileArr['Airline'].filters, {title:flight.airline});

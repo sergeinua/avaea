@@ -1,6 +1,8 @@
 /* global $ */
 $(document).ready(function() {
-    $('#timeAlert').fadeOut(5000);
+    $('#timeAlert').fadeOut(5000, function () {
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+    });
 
     /**
     * Possible types
@@ -14,9 +16,9 @@ $(document).ready(function() {
             data: data
         })
         .done(function( msg ) {
-            console.log( "Data Saved: " + msg );
+            //console.log( "Data Saved: " + msg );
         });
-    }
+    };
 
     //tile recalculation
     var recalcTiles = function () {
@@ -32,7 +34,7 @@ $(document).ready(function() {
             }
         });
         $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
-    }
+    };
 
     $('.mymoreprofilebutton').click(function(el) {
         var cloneTarget = $(this).attr('for');
@@ -59,56 +61,23 @@ $(document).ready(function() {
         if ($(this).hasClass('disabled')) {
             return false;
         }
-        $(this).parent().parent().hide();
-        var clone = $(this).clone();
-
-        var tileName = $(this).parent().parent().find('a').text();
-        var tileValue = $(clone).html();
-        $('.itinerary:visible').not('.' + $(clone).attr('for')).hide();
-        var filters = $('.selectedfilters').attr('filters');
-        $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
-
-        // recalculate search result
-        var sCount = $('.itinerary:visible').length;
-        $('#search_count').text(sCount);
-        $('#search_count').removeClass('hidden');
-
-        $(clone).find('span').remove();
-
-        logAction('on_tile_choice', {
-            action    : 'filter_add',
-            tileName  : tileName,
-            tileValue : $(clone).html(),
-            tileId    : $(clone).attr('for')
-        })
-
-        $(clone).html(tileName + ': ' + tileValue);
-
-        $(clone).find('span').remove();
-        $(clone).off().attr('itineraries', $(clone).attr('for'));
-        $(clone).off().attr('for', $(this).parent().parent().attr('id'));
-
-        $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
-        $(clone).find('span').click(function(e) {
-
-            var target = $(this).parent().attr('for');
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
             var filters = $('.selectedfilters').attr('filters');
             filters = filters.split(' ');
 
-            var tileData = $(this).parent().text().slice(0, -1).split(':');
-
             logAction('on_tile_choice', {
                 action    : 'filter_remove',
-                tileName  : tileData[0],
-                tileValue : tileData[1],
-                tileId    : target
+                tileName: $(this).parent().parent().find('a').text(),
+                tileValue: $(this).html(),
+                tileId: $(this).attr('for')
             });
-
             var result = [];
+            var current = $(this).attr('for');
             if (filters.length) {
               $('.itinerary').show();
               filters.forEach(function(filter) {
-                if (filter && filter != $(clone).attr('itineraries') && filter != '') {
+                if (filter && filter != current && filter != '') {
                   result.push(filter);
                   $('.itinerary:visible').not('.' + filter).hide();
                 }
@@ -116,30 +85,112 @@ $(document).ready(function() {
 
               $('.selectedfilters').attr('filters', result.join(' '));
             }
-
-            $(this).parent().remove();
-            $('#' + target).show();
-
-            var sCount = $('.itinerary:visible').length;
-            $('#search_count').text(sCount);
-
-            recalcTiles();
-        });
-        $('.selectedfilters').append(clone);
-
+        } else {
+            $(this).addClass('selected');
+            $('.itinerary:visible').not('.' + $(this).attr('for')).hide();
+            var filters = $('.selectedfilters').attr('filters');
+            $('.selectedfilters').attr('filters', filters + ' ' + $(this).attr('for'));
+            // recalculate search result
+            // log to abo
+            logAction('on_tile_choice', {
+                action: 'filter_add',
+                tileName: $(this).parent().parent().find('a').text(),
+                tileValue: $(this).html(),
+                tileId: $(this).attr('for')
+            });
+        }
+        var sCount = $('.itinerary:visible').length;
+        $('#search_count').text(sCount);
+        $('#search_count').removeClass('hidden');
         recalcTiles();
     });
+    //$('.list-group-item').click(function(event) {
+    //    if ($(this).hasClass('disabled')) {
+    //        return false;
+    //    }
+    //    $(this).parent().parent().hide();
+    //    var clone = $(this).clone();
+    //
+    //    var tileName = $(this).parent().parent().find('a').text();
+    //    var tileValue = $(clone).html();
+    //    $('.itinerary:visible').not('.' + $(clone).attr('for')).hide();
+    //    var filters = $('.selectedfilters').attr('filters');
+    //    $('.selectedfilters').attr('filters', filters + ' ' + $(clone).attr('for'));
+    //
+    //    // recalculate search result
+    //    var sCount = $('.itinerary:visible').length;
+    //    $('#search_count').text(sCount);
+    //    $('#search_count').removeClass('hidden');
+    //
+    //    $(clone).find('span').remove();
+    //
+    //    logAction('on_tile_choice', {
+    //        action    : 'filter_add',
+    //        tileName  : tileName,
+    //        tileValue : $(clone).html(),
+    //        tileId    : $(clone).attr('for')
+    //    })
+    //
+    //    $(clone).html(tileName + ': ' + tileValue);
+    //
+    //    $(clone).find('span').remove();
+    //    $(clone).off().attr('itineraries', $(clone).attr('for'));
+    //    $(clone).off().attr('for', $(this).parent().parent().attr('id'));
+    //
+    //    $(clone).append($('<span class="badge" style="background-color:red;">&cross;</span>'));
+    //    $(clone).find('span').click(function(e) {
+    //
+    //        var target = $(this).parent().attr('for');
+    //        var filters = $('.selectedfilters').attr('filters');
+    //        filters = filters.split(' ');
+    //
+    //        var tileData = $(this).parent().text().slice(0, -1).split(':');
+    //
+    //        logAction('on_tile_choice', {
+    //            action    : 'filter_remove',
+    //            tileName  : tileData[0],
+    //            tileValue : tileData[1],
+    //            tileId    : target
+    //        });
+    //
+    //        var result = [];
+    //        if (filters.length) {
+    //          $('.itinerary').show();
+    //          filters.forEach(function(filter) {
+    //            if (filter && filter != $(clone).attr('itineraries') && filter != '') {
+    //              result.push(filter);
+    //              $('.itinerary:visible').not('.' + filter).hide();
+    //            }
+    //          });
+    //
+    //          $('.selectedfilters').attr('filters', result.join(' '));
+    //        }
+    //
+    //        $(this).parent().remove();
+    //        $('#' + target).show();
+    //
+    //        var sCount = $('.itinerary:visible').length;
+    //        $('#search_count').text(sCount);
+    //
+    //        recalcTiles();
+    //    });
+    //    $('.selectedfilters').append(clone);
+    //
+    //    recalcTiles();
+    //});
 
     var getSliderSettings = function() {
         return {
-            dots: false,
-            infinite: false,
+            dots: true,
+            infinite: true,
             mobileFirst: true,
             adaptiveHeight: true,
-            slidesToShow: Math.floor($('body').outerWidth(true)/100),
-            slidesToScroll: 1
+            slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), 5),
+            slidesToScroll: 1,
+            centerMode: true,
+            focusOnSelect: true
         }
-    }
+    };
     $('#tiles').slick(getSliderSettings());
     $( window ).resize(function() {
         $('#tiles').slick('unslick');
@@ -183,7 +234,7 @@ $(document).ready(function() {
     $('#search_count').text(sCount);
     if (sCount) {
       $('#search_count').removeClass('hidden');
-      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
       recalcTiles();
     }
 

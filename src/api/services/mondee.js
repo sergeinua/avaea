@@ -276,7 +276,7 @@ var mapFlights = function(flights) {
       durationMinutes: utils.durationToMinutes(flight.Duration),
       bookingClass: flight.BookingClass,
       cabinClass: flight.CabinClass,
-      airline: flight.MarketingAirline.toUpperCase(), //flight.MarketingAirlineName,
+      airline: /*flight.MarketingAirline.toUpperCase(), */ flight.MarketingAirlineName,
       noOfStops: flight.NoOfStops,
       stopsDuration: '',
       stopsDurationMinutes: 0,

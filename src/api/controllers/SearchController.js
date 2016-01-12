@@ -128,10 +128,10 @@ module.exports = {
 
         var timelog = '';
         if (utils.timeLogGet('mystifly') > 7000) {
-          timelog = 'Mystifly took ' + (utils.timeLogGet('mystifly')/1000).toFixed(1) + ' to respond';
+          timelog = 'Mystifly took ' + (utils.timeLogGet('mystifly')/1000).toFixed(1) + 's to respond';
         }
         if (utils.timeLogGet('mondee') > 7000) {
-          timelog += (timelog?'<br/>':'') + 'Mondee took ' + (utils.timeLogGet('mondee')/1000).toFixed(1) + ' to respond';
+          timelog += (timelog?'<br/>':'') + 'Mondee took ' + (utils.timeLogGet('mondee')/1000).toFixed(1) + 's to respond';
         }
         return  res.view('search/result', {
           user: req.user,

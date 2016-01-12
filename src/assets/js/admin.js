@@ -57,7 +57,7 @@ $(document).ready(function() {
                 }
               }
               $('#log_actions').append($('<tr class="'+data.actionType+' alert '+actionMap[data.actionType].colorClass+' user_id_'
-                  +data.user+'"><td>'+data.createdAt+'</td><td>User ID#'+data.user+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
+                  +data.user+'"><td>'+data.createdAt+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
             });
 
             $('.filters_checkbox').each(function() {
