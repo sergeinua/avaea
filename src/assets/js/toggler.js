@@ -186,7 +186,7 @@ $(document).ready(function() {
             infinite: false,
             mobileFirst: true,
             adaptiveHeight: true,
-            slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), 5),
+            slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), $('.mybucket').length),
             slidesToScroll: 1,
             appendArrows: $('.myarr'),
             focusOnSelect: true

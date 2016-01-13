@@ -29,29 +29,29 @@ module.exports = {
   },
   tiles: {},
   default_tiles: {
-      Arrival: {
+      sourceArrival: {
         name: 'Arrival',
-        id: 'arrival_tile',
+        id: 'source_arrival_tile',
         order: 0,
         filters: [
           {
             title : '12m &ndash; 6am',
-            id    : 'arrival_tile_1',
+            id    : 'source_arrival_tile_1',
             count : 0
           },
           {
             title : '6am &ndash; 12n',
-            id    : 'arrival_tile_2',
+            id    : 'source_arrival_tile_2',
             count : 0
           },
           {
             title : '12n &ndash; 6pm',
-            id    : 'arrival_tile_3',
+            id    : 'source_arrival_tile_3',
             count : 0
           },
           {
             title : '6pm &ndash; 12m',
-            id    : 'arrival_tile_4',
+            id    : 'source_arrival_tile_4',
             count : 0
           }
         ]
@@ -79,6 +79,60 @@ module.exports = {
           {
             title : '6pm &ndash; 12m',
             id    : 'departure_tile_4',
+            count : 0
+          }
+        ]
+      },
+      Arrival: {
+        name: 'Arrival',
+        id: 'arrival_tile',
+        order: 0,
+        filters: [
+          {
+            title : '12m &ndash; 6am',
+            id    : 'arrival_tile_1',
+            count : 0
+          },
+          {
+            title : '6am &ndash; 12n',
+            id    : 'arrival_tile_2',
+            count : 0
+          },
+          {
+            title : '12n &ndash; 6pm',
+            id    : 'arrival_tile_3',
+            count : 0
+          },
+          {
+            title : '6pm &ndash; 12m',
+            id    : 'arrival_tile_4',
+            count : 0
+          }
+        ]
+      },
+      destinationDeparture: {
+        name: 'Departure',
+        id: 'destination_departure_tile',
+        order: 0,
+        filters: [
+          {
+            title : '12m &ndash; 6am',
+            id    : 'destination_departure_tile_1',
+            count : 0
+          },
+          {
+            title : '6am &ndash; 12n',
+            id    : 'destination_departure_tile_2',
+            count : 0
+          },
+          {
+            title : '12n &ndash; 6pm',
+            id    : 'destination_departure_tile_3',
+            count : 0
+          },
+          {
+            title : '6pm &ndash; 12m',
+            id    : 'destination_departure_tile_4',
             count : 0
           }
         ]
@@ -122,6 +176,16 @@ module.exports = {
       '6pm &ndash; 12m'
     ];
 
+    if (params.returnDate) {
+      tileArr['Departure'].name = params.DepartureLocationCode + ' Departure';
+      tileArr['Arrival'].name = params.ArrivalLocationCode + ' Arrival';
+
+      tileArr['destinationDeparture'].name = params.ArrivalLocationCode + ' Departure';
+      tileArr['sourceArrival'].name = params.DepartureLocationCode + ' Arrival';
+    } else {
+      delete tileArr['destinationDeparture'];
+      delete tileArr['sourceArrival'];
+    }
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
     Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
     sails.log.info('Tile itinerary predicted rank (multipied by '+itineraries.length+'):');
@@ -253,6 +317,38 @@ module.exports = {
           }
         }
 
+        if (params.returnDate) {
+          var lastElement = itinerary.citypairs.length - 1;
+          if (itinerary.citypairs[lastElement].from.quarter) {
+            index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
+            if (index === -1) {
+              tileArr['destinationDeparture'].filters.push({
+                title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1],
+                id: 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter,
+                count: 1
+              });
+              filterClass = filterClass + ' ' + 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter;
+            } else {
+              tileArr['destinationDeparture'].filters[index].count++;
+              filterClass = filterClass + ' ' + tileArr['destinationDeparture'].filters[index].id;
+            }
+          }
+
+          if (itinerary.citypairs[lastElement].to.quarter) {
+            index = _.findIndex(tileArr['sourceArrival'].filters, {title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1]});
+            if (index === -1) {
+              tileArr['sourceArrival'].filters.push({
+                title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1],
+                id: 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter,
+                count: 1
+              });
+              filterClass = filterClass + ' ' + 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter;
+            } else {
+              tileArr['sourceArrival'].filters[index].count++;
+              filterClass = filterClass + ' ' + tileArr['sourceArrival'].filters[index].id;
+            }
+          }
+        }
         //for (var i=0; i < itinerary.citypairs.length; i++) {
         //  for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
         for (var i=0; i < 1; i++) {
