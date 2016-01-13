@@ -182,12 +182,11 @@ $(document).ready(function() {
     var getSliderSettings = function() {
         return {
             dots: true,
-            infinite: true,
+            infinite: false,
             mobileFirst: true,
             adaptiveHeight: true,
             slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), 5),
             slidesToScroll: 1,
-            centerMode: true,
             focusOnSelect: true
         }
     };
