@@ -188,7 +188,7 @@ module.exports = {
     }
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
     Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
-    sails.log.info('Tile itinerary predicted rank (multipied by '+itineraries.length+'):');
+    sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):');
     sails.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
 
@@ -266,6 +266,13 @@ module.exports = {
         id: 'duration_tile_' + i,
         count : 1
       });
+
+      var maxOrderTile = _.max(tileArr, 'order');
+      if (maxOrderTile.name == 'Duration') {
+        itineraries = _.sortBy(itineraries, 'durationMinutes');
+        sails.log.info(maxOrderTile);
+      }
+      sails.log.error('max order tile name', maxOrderTile.name);
 
       async.map(itineraries, function (itinerary, doneCallback) {
         if (itinerary.price) {
