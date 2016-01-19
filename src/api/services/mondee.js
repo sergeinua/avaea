@@ -372,7 +372,10 @@ module.exports = {
         return client.FlightSearch(req, function(err, result, raw, soapHeader) {
           sails.log.info('Mondee FlightSearch request time: %s', utils.timeLogGetHr('mondee'));
           var resArr = [];
-          if (err) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || !result.FlightSearchResponse) {
+              if (!err) {
+                  err = (result.TPErrorList && result.TPErrorList.errorText) ? result.TPErrorList.errorText : 'No Results Found';
+              }
             sails.log.error(err);
             return callback(err, resArr);
           } else {
