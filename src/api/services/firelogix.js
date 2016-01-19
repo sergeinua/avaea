@@ -9,7 +9,7 @@ var getEndPoint = function() {
 
 var getBaseRq = function(id) {
   var xml = new libxmljs.parseXmlString(
-    `<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+    /*`<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
     <SOAP-ENV:Header>
   <t:Transaction xmlns:t="xxs">
     <tc/>
@@ -20,7 +20,7 @@ var getBaseRq = function(id) {
     <REQ/>
     </ns1:XXTransaction>
   </SOAP-ENV:Body>
-  </SOAP-ENV:Envelope>`
+  </SOAP-ENV:Envelope>`*/
   );
   return ;
 };

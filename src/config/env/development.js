@@ -26,12 +26,17 @@ module.exports = {
     password: 'avaea',
     database: 'avaea_db',
     port: 5432
-  },/*
-
+  },
+/*
   port: 80,
-  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',*/
+  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
+*/
   flightapis: {
-    searchProvider: 'mystifly' // 'mondee'
+    mondee: {
+      baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',
+      clientId: 'CFS1017'
+    },
+    searchProvider: /*'mystifly'*/  'mondee'
   }
 
 };

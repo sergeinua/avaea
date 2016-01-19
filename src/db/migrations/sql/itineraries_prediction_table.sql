@@ -1,6 +1,6 @@
 -- Table: iprediction
 
--- DROP TABLE iprediction;
+DROP TABLE iprediction;
 
 CREATE TABLE iprediction
 (

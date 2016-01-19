@@ -3,8 +3,8 @@ module.exports.flightapis = {
   searchProvider: 'mondee', // 'mystifly' TODO: temporary config
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
-    baseEndPoint: 'http://sandbox.trippro.com/api/v2',
-    clientId: 'CFS1017'
+    baseEndPoint: 'http://api.trippro.com/api/v2',
+    clientId: 'CFP1017'
   },
   farelogix: {
     endPoint: 'https://stg.farelogix.com/xmlts/sandboxdm',

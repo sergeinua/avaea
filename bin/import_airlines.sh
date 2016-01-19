@@ -1,5 +1,6 @@
 cat <<EOF
 BEGIN;
+ALTER TABLE airlines_new RENAME TO airlines_old;
 CREATE TABLE airlines_new (
   id		int primary key,
   name		varchar,
@@ -14,5 +15,6 @@ EOF
 # prepare values for postgres inserts
 /usr/bin/curl -s https://raw.githubusercontent.com/jpatokal/openflights/master/data/airlines.dat | sed -r -e 's/\\N/null/g' | sed -r -e "s/\\\//g" | sed -r -e "s/'/''/g" -e 's/"[Y|y]"/true/g' -e 's/"[N|n]"/false/g' -e 's/"/#/g' -e "s/#/'/g" -e 's/^/INSERT INTO airlines_new(id,name,alias,iata_2code,icao_3code,callsign,country,active) VALUES\(/' -e 's/$/);/'
 cat <<EOF
+DROP TABLE airlines_old;
 COMMIT;
 EOF
