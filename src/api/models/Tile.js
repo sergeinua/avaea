@@ -201,9 +201,9 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '+',
+        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
         id: 'price_tile_0',
-        count : 1
+        count : 0
       });
 
       for (var i = 1; i < 4; i++) {
@@ -211,9 +211,9 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'+',
+          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
           id: 'price_tile_' + i,
-          count : 1
+          count : 0
         });
 
       }
@@ -243,7 +243,7 @@ module.exports = {
         title: parseInt(durationNameArr[0]/60) + formatMinutes(parseInt(durationNameArr[0]%60)) + ' &ndash; '
           + Math.round((durationNameArr[0] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
         id: 'duration_tile_0',
-        count : 1
+        count : 0
       });
 
       for (i = 1; i < 3; i++) {
@@ -254,7 +254,7 @@ module.exports = {
           title: Math.round(durationNameArr[i]/60) + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
             + Math.round((durationNameArr[i] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
           id: 'duration_tile_' + i,
-          count : 1
+          count : 0
         });
 
       }
@@ -264,15 +264,13 @@ module.exports = {
         title: Math.round(durationNameArr[3]/60) + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
           + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60) + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
         id: 'duration_tile_' + i,
-        count : 1
+        count : 0
       });
 
       var maxOrderTile = _.max(tileArr, 'order');
       if (maxOrderTile.name == 'Duration') {
         itineraries = _.sortBy(itineraries, 'durationMinutes');
-        sails.log.info(maxOrderTile);
       }
-      sails.log.error('max order tile name', maxOrderTile.name);
 
       async.map(itineraries, function (itinerary, doneCallback) {
         if (itinerary.price) {

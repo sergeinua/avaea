@@ -9,8 +9,8 @@
       <a id="<%= __(tile.name)%>Id" href="#"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
       <ul class="list-group" style='padding:1px;margin-bottom:0px;max-height:95px;overflow:auto'>
         <% tile.filters.forEach( function (filter) {
-          if (parseInt(filter.count) > 1) {
-        %><li for='<%= filter.id%>' style='padding:1px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%= filter.title%><span class="badge" style="position:absolute;right:0;background-color: lightgray"></span></li><%
+          if (parseInt(filter.count) > 0) {
+        %><li for='<%= filter.id%>' style='padding:1px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%- filter.title%><span class="badge" style="position:absolute;right:0;background-color: lightgray"></span></li><%
           }
          }
         ); %>

@@ -37,6 +37,7 @@ $(document).ready(function() {
                 lastUpdated = data.id;
               }
               var action = actionMap[data.actionType].title;
+              var colorClass = actionMap[data.actionType].colorClass;
               if (data.actionType == 'on_tile_choice') {
                 if (data.logInfo.action == 'filter_add') {
                   action = 'select tile';
@@ -49,15 +50,18 @@ $(document).ready(function() {
                   data.logInfo[tile].filters = ['...'];
                 }
               }
-              if (data.actionType == 'on_itinerary_purchase') {
-                if (data.logInfo.action == 'order') {
-                  action = 'itinerary ordered';
-                } else {
-                  action = 'itinerary expanded';
-                }
+              if (data.actionType == 'itinerary_prediction' || data.actionType == 'tile_prediction') {
+                  data.actionType = 'prediction';
               }
-              $('#log_actions').append($('<tr class="'+data.actionType+' alert '+actionMap[data.actionType].colorClass+' user_id_'
-                  +data.user+'"><td>'+data.createdAt+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
+              if (data.logInfo.action == 'order') {
+                action = 'itinerary ordered';
+              } else {
+                action = 'itinerary expanded';
+              }
+              var date = new Date(data.createdAt).toLocaleString();
+
+              $('#log_actions').append($('<tr class="'+data.actionType+' alert '+colorClass+' user_id_'
+                  +data.user+'"><td>'+date+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
             });
 
             $('.filters_checkbox').each(function() {

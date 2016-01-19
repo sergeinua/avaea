@@ -382,7 +382,7 @@ module.exports = {
                 var mappedItinerary = {
                   id: itinerary.ItineraryId,
                   service: 'mondee',
-                  price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes)).toFixed(2),
+                  price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes) - 30).toFixed(2),
                   currency: itinerary.Fares[0].CurrencyCode,
                   duration: '',
                   durationMinutes: 0,
