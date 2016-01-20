@@ -45,18 +45,18 @@ $(document).ready(function() {
                   action = 'deselect tile';
                 }
               }
+              if (data.actionType == 'itinerary_prediction' || data.actionType == 'tile_prediction') {
+                  data.actionType = 'prediction';
+              }
               if (data.actionType == 'order_tiles') {
                 for (tile in data.logInfo) {
                   data.logInfo[tile].filters = ['...'];
                 }
-              }
-              if (data.actionType == 'itinerary_prediction' || data.actionType == 'tile_prediction') {
-                  data.actionType = 'prediction';
-              }
-              if (data.logInfo.action == 'order') {
-                action = 'itinerary ordered';
-              } else {
-                action = 'itinerary expanded';
+                if (data.logInfo.action == 'order') {
+                  action = 'itinerary ordered';
+                } else {
+                  action = 'itinerary expanded';
+                }
               }
               var date = new Date(data.createdAt).toLocaleString();
 
