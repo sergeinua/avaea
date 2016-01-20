@@ -56,29 +56,29 @@ module.exports = {
           }
         ]
       },
-      Departure: {
+      destinationDeparture: {
         name: 'Departure',
-        id: 'departure_tile',
+        id: 'destination_departure_tile',
         order: 0,
         filters: [
           {
             title : '12m &ndash; 6am',
-            id    : 'departure_tile_1',
+            id    : 'destination_departure_tile_1',
             count : 0
           },
           {
             title : '6am &ndash; 12n',
-            id    : 'departure_tile_2',
+            id    : 'destination_departure_tile_2',
             count : 0
           },
           {
             title : '12n &ndash; 6pm',
-            id    : 'departure_tile_3',
+            id    : 'destination_departure_tile_3',
             count : 0
           },
           {
             title : '6pm &ndash; 12m',
-            id    : 'departure_tile_4',
+            id    : 'destination_departure_tile_4',
             count : 0
           }
         ]
@@ -110,29 +110,29 @@ module.exports = {
           }
         ]
       },
-      destinationDeparture: {
+      Departure: {
         name: 'Departure',
-        id: 'destination_departure_tile',
+        id: 'departure_tile',
         order: 0,
         filters: [
           {
             title : '12m &ndash; 6am',
-            id    : 'destination_departure_tile_1',
+            id    : 'departure_tile_1',
             count : 0
           },
           {
             title : '6am &ndash; 12n',
-            id    : 'destination_departure_tile_2',
+            id    : 'departure_tile_2',
             count : 0
           },
           {
             title : '12n &ndash; 6pm',
-            id    : 'destination_departure_tile_3',
+            id    : 'departure_tile_3',
             count : 0
           },
           {
             title : '6pm &ndash; 12m',
-            id    : 'destination_departure_tile_4',
+            id    : 'departure_tile_4',
             count : 0
           }
         ]
