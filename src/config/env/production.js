@@ -32,9 +32,11 @@ module.exports = {
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
 
-  // log: {
-  //   level: "silent"
-  // }
+  log: {
+    level: 'verbose',
+    timestamp: true
+  },
+
   session: {
     host: '127.0.0.1',
     user: 'avaea',

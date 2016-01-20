@@ -20,6 +20,12 @@ module.exports = {
   models: {
     connection: 'etPostgresqlServer'
   },
+
+  log: {
+      level: 'verbose',
+      timestamp: true
+  },
+
   session: {
     host: '127.0.0.1',
     user: 'avaea',
@@ -27,10 +33,10 @@ module.exports = {
     database: 'avaea_db',
     port: 5432
   },
-/*
-  port: 80,
-  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
-*/
+
+  //port: 80,
+  //proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
+
   flightapis: {
     mondee: {
       baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',
