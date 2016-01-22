@@ -68,9 +68,9 @@ $(document).ready(function() {
 
             logAction('on_tile_choice', {
                 action    : 'filter_remove',
-                tileName: $(this).parent().parent().find('a').text(),
-                tileValue: $(this).html(),
-                tileId: $(this).attr('for')
+                tileName  : $(this).parent().parent().find('a').text(),
+                tileValue : $(this).html(),
+                tileId    : $(this).attr('for')
             });
             var result = [];
             var current = $(this).attr('for');
@@ -93,10 +93,10 @@ $(document).ready(function() {
             // recalculate search result
             // log to abo
             logAction('on_tile_choice', {
-                action: 'filter_add',
-                tileName: $(this).parent().parent().find('a').text(),
-                tileValue: $(this).html(),
-                tileId: $(this).attr('for')
+                action    : 'filter_add',
+                tileName  : $(this).parent().parent().find('a').text(),
+                tileValue : $(this).html(),
+                tileId    : $(this).attr('for')
             });
         }
         var sCount = $('.itinerary:visible').length;

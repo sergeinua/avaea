@@ -85,8 +85,9 @@ module.exports = {
     title = params.DepartureLocationCode + (params.returnDate?'&#8644;':'&rarr;') + params.ArrivalLocationCode,
     iPrediction.getUserRank(req.user.id, params);
 
-    var md5 = require("blueimp-md5").md5;
-    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
+//    var md5 = require("blueimp-md5").md5;
+//    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
+    req.session.search_params_hash = params.CabinClass;
     req.session.search_params_raw  = params;
 
     Tile.tiles = _.clone(Tile.default_tiles, true);

@@ -1,4 +1,5 @@
 /* global UserAction */
+/* global tilePrediction */
 /**
  * PredictionController
  *
@@ -26,8 +27,18 @@ module.exports = {
       uuid = req.session.search_params_hash;
       search_params = req.session.search_params_raw;
     }
+    //check action
+    var data = req.allParams();
+    var recalculateTiles = true;
+    if (data) {
+        if (data.action == 'filter_remove') {
+            recalculateTiles = false;
+        }
+    }
     //( tile )
-    tilePrediction.recalculate(req.user.id, uuid, search_params, req.param('tileName', 'default'));
+    if (recalculateTiles) {
+      tilePrediction.recalculate(req.user.id, uuid, search_params, req.param('tileName', 'default'));
+    }
     UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
   },
