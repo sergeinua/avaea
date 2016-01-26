@@ -89,9 +89,9 @@ passport.connect = function (req, query, profile, next) {
     user.username = profile.username;
   }
 
-  if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottinsfbay@gmail\.com|olmiha@gmail\.com|germiy@gmail\.com)$/.exec(user.email)) {
-    req.flash('error', 'This email not in whitelist');
-    return next(new Error('This email not in whitelist'));
+  if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottinsfbay@gmail\.com|olmiha@gmail\.com|germiy@gmail\.com|manoj\.mystifly@gmail\.com)$/.exec(user.email)) {
+    req.flash('error', 'Email '+user.email+' not in whitelist');
+    return next(new Error('Email '+user.email+' not in whitelist'));
   }
   // If neither an email or a username was available in the profile, we don't
   // have a way of identifying the user in the future. Throw an error and let
