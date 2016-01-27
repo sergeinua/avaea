@@ -21,6 +21,10 @@ const readDatfile = function( callback ) {
     const airports = {};
     request(argv.datfile).pipe(datStream).on('data',function(data) {
         if( data.iata_3code ) {
+            // Need to do this or kdTree will do wrong sorting
+            data.longitude = Number(data.longitude);
+            data.latitude = Number(data.latitude);
+            // Add it 
             airports[data.iata_3code.toUpperCase()] = data;
         }
     }).on('end',function() {
@@ -62,27 +66,10 @@ const getReadCsvfile = function( csvfile_name ) {
 require('async').parallel(
     [readDatfile].concat(argv._.map(function(a) { return getReadCsvfile(a); })),
     function( err, result ) {
-        console.log("BEGIN;\n"+
-                    "ALTER TABLE airports_new RENAME TO airports_old;\n"+
-                    "CREATE TABLE airports_new (\n"+
-                    "  id		int primary key,\n"+
-                    "  name 	varchar,\n"+
-                    "  city 	varchar,\n"+
-                    "  country	varchar,\n"+
-                    "  iata_3code	varchar(5),\n"+
-                    "  icao_4code	varchar(5),\n"+
-                    "  latitude	float,\n"+
-                    "  longitude	float,\n"+
-                    "  altitude	float,\n"+
-                    "  timezone	float,\n"+
-                    "  dst		varchar(2),\n"+
-                    "  tz		varchar,\n"+
-                    "  pax          float\n"+
-                    ");");
         const util = require('util');
         const formatSqlString = function( s ) {
             if( s=='\\N' ) return 'null';
-            var r = s.replace(/[\0\n\r\b\t\\'"\x1a]/g, function (s) {
+            var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
                 switch (s) {
                 case "\0":
                     return "\\0";
@@ -98,26 +85,62 @@ require('async').parallel(
                     return "\\Z";
                 case "'":
                     return "''";
-                case '"':
-                    return '""';
                 default:
                     return "\\" + s;
                 }
             });
             return r!=s ? util.format("E'%s'",r) : util.format("'%s'",r); 
         };
-        for( var iata_3code in result[0] ) {
-            var data = result[0][iata_3code];
-            var pax  = 0;
-            for( var ndx=1; ndx<result.length; ndx++ ) {
-                if( result[ndx].pax.hasOwnProperty(iata_3code) ) {
-                    if( argv.loglevel>1 )
-                        console.log("found pax for %s in %s",iata_3code,result[ndx].csvfile_name);
-                    pax = result[ndx].pax[iata_3code];
-                    break;
+        var airports_pax = {};
+        for( var ndx=1; ndx<result.length; ndx++ ) {
+            for( k in result[ndx].pax ) {
+                if( result[ndx].pax[k]>0 ) {
+                    airports_pax[k] = {
+                        'csvfile_name' : result[ndx].csvfile_name,
+                        'pax' : result[ndx].pax[k]
+                    }
                 }
             }
-            console.log("INSERT INTO airports_new(%s,pax) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d);",
+        }
+        var geolib        = require('geolib');
+        var airports_data = result[0];
+        var max_miles     = 50*1000*1.60934;
+        console.log("BEGIN;\n"+
+                    "ALTER TABLE airports_new RENAME TO airports_old;\n"+
+                    "CREATE TABLE airports_new (\n"+
+                    "  id		int primary key,\n"+
+                    "  name 	varchar,\n"+
+                    "  city 	varchar,\n"+
+                    "  country	varchar,\n"+
+                    "  iata_3code	varchar(5),\n"+
+                    "  icao_4code	varchar(5),\n"+
+                    "  latitude	float,\n"+
+                    "  longitude	float,\n"+
+                    "  altitude	float,\n"+
+                    "  timezone	float,\n"+
+                    "  dst		varchar(2),\n"+
+                    "  tz		varchar,\n"+
+                    "  pax          float,\n"+
+                    "  neighbors varchar\n"+
+                    ");");
+        var kdTree = require('kd-tree-javascript/kdTree');
+        var airports_data_array = [];
+        for( var iata_3code in airports_data ) {
+            airports_data_array.push(airports_data[iata_3code]);
+        }
+        // see https://github.com/ubilabs/kd-tree-javascript
+        var tree = new kdTree.kdTree(airports_data_array,function( a, b ) {
+            return geolib.getDistance(a,b);
+        },['latitude','longitude']);
+        for( var iata_3code in airports_data ) {
+            var data = airports_data[iata_3code];
+            data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+            data.neighbors = tree.nearest(data,11).sort(function(a,b) {
+                return a[1]-b[1];
+            }).slice(1).map(function( dd ) {
+                return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
+            });
+            console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
                         formatSqlString(data.name),
@@ -131,7 +154,8 @@ require('async').parallel(
                         data.timezone,
                         formatSqlString(data.dst),
                         formatSqlString(data.tz),
-                        pax);
+                        data.pax,
+                        formatSqlString(JSON.stringify(data.neighbors)));
         }
         console.log("DROP TABLE airports_old;\n"+
                     "ROLLBACK;");
