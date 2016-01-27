@@ -104,7 +104,6 @@ require('async').parallel(
         }
         var geolib        = require('geolib');
         var airports_data = result[0];
-        var max_miles     = 50*1000*1.60934;
         console.log("BEGIN;\n"+
                     "ALTER TABLE airports_new RENAME TO airports_old;\n"+
                     "CREATE TABLE airports_new (\n"+
@@ -123,12 +122,12 @@ require('async').parallel(
                     "  pax          float,\n"+
                     "  neighbors varchar\n"+
                     ");");
+        // see https://github.com/ubilabs/kd-tree-javascript
         var kdTree = require('kd-tree-javascript/kdTree');
         var airports_data_array = [];
         for( var iata_3code in airports_data ) {
             airports_data_array.push(airports_data[iata_3code]);
         }
-        // see https://github.com/ubilabs/kd-tree-javascript
         var tree = new kdTree.kdTree(airports_data_array,function( a, b ) {
             return geolib.getDistance(a,b);
         },['latitude','longitude']);
