@@ -404,6 +404,27 @@ module.exports = {
                 }
                 if (result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) {
                   var minDuration, maxDuration, minPrice, maxPrice;
+
+                  // Merchandising Fake keys Issue #39
+                  var _keysMerchandisingWiFi = _.sample(
+                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
+                              return item.AirItineraryPricingInfo.FareSourceCode
+                          })),
+                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 50 / 100)
+                      ),
+                      _keysMerchandising1bagfree = _.sample(
+                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
+                              return item.AirItineraryPricingInfo.FareSourceCode
+                          })),
+                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 75 / 100)
+                      ),
+                      _keysMerchandisingPrioritySeat = _.sample(
+                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
+                              return item.AirItineraryPricingInfo.FareSourceCode
+                          })),
+                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 25 / 100)
+                      );
+
                   async.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (itinerary, doneCb) {
                     var mappedItinerary = {
                       id: itinerary.AirItineraryPricingInfo.FareSourceCode,
@@ -412,13 +433,25 @@ module.exports = {
                       currency: itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode,
                       duration: '',
                       durationMinutes: 0,
-                      citypairs: []
+                      citypairs: [],
+                      merchandising: [] // Merchandising Fake data Issue #39
                     };
 
                     var mCitypairs = mapCitypairs(itinerary.OriginDestinationOptions.OriginDestinationOption);
                     mappedItinerary.citypairs = mCitypairs.citypairs;
                     mappedItinerary.durationMinutes = mCitypairs.durationMinutes;
                     mappedItinerary.duration = utils.minutesToDuration(mappedItinerary.durationMinutes);
+
+                    // Merchandising Fake data Issue #39
+                    if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+                        mappedItinerary.merchandising.push({'Wi-Fi': true});
+                    }
+                    if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+                        mappedItinerary.merchandising.push({'1st bag free': true});
+                    }
+                    if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+                        mappedItinerary.merchandising.push({'Priority Seat': true});
+                    }
 
                     if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                       minPrice = Math.floor(parseFloat(mappedItinerary.price));

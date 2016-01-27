@@ -381,6 +381,20 @@ module.exports = {
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
               var minDuration, maxDuration, minPrice, maxPrice;
+              // Merchandising Fake keys Issue #39
+              var _keysMerchandisingWiFi = _.sample(
+                      _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
+                      Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 50 / 100)
+                ),
+                _keysMerchandising1bagfree = _.sample(
+                    _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
+                    Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 75 / 100)
+                ),
+                _keysMerchandisingPrioritySeat = _.sample(
+                    _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
+                    Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 25 / 100)
+                );
+
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = {
                   id: itinerary.ItineraryId,
@@ -389,13 +403,25 @@ module.exports = {
                   currency: itinerary.Fares[0].CurrencyCode,
                   duration: '',
                   durationMinutes: 0,
-                  citypairs: []
+                  citypairs: [],
+                  merchandising: [] // Merchandising Fake data Issue #39
                 };
 
                 var mCitypairs = mapCitypairs(itinerary.Citypairs);
                 mappedItinerary.citypairs = mCitypairs.citypairs;
                 mappedItinerary.durationMinutes = mCitypairs.durationMinutes;
                 mappedItinerary.duration = utils.minutesToDuration(mappedItinerary.durationMinutes);
+
+                // Merchandising Fake data Issue #39
+                if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
+                    mappedItinerary.merchandising.push({'Wi-Fi': true});
+                }
+                if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
+                    mappedItinerary.merchandising.push({'1st bag free': true});
+                }
+                if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+                    mappedItinerary.merchandising.push({'Priority Seat': true});
+                }
 
                 if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                   minPrice = Math.floor(parseFloat(mappedItinerary.price));

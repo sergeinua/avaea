@@ -157,6 +157,28 @@ module.exports = {
         order: 0,
         filters: [
         ]
+      },
+      Merchandising: { // Merchandising Fake data Issue #39
+          name: 'Merchandising',
+          id: 'merchandising_tile',
+          order: 100000,
+          filters: [
+              {
+                  title: 'Wi-Fi',
+                  id: 'merchandising_tile_wifi',
+                  count: 0
+              },
+              {
+                  title: '1st bag free',
+                  id: 'merchandising_tile_1bagfree',
+                  count: 0
+              },
+              {
+                  title: 'Priority Seat',
+                  id: 'merchandising_tile_priority_seat',
+                  count: 0
+              }
+          ]
       }
     },
 
@@ -410,6 +432,21 @@ module.exports = {
           }
         }
 
+        // Merchandising Fake data Issue #39
+        if (itinerary.merchandising) {
+            _.forEach(itinerary.merchandising, function (items) {
+                return _.forEach(items, function (_val, _key) {
+                    if (_val) {
+                        index = _.findIndex(tileArr['Merchandising'].filters, {title: _key});
+                        if (index != -1) {
+                            tileArr['Merchandising'].filters[index].count++;
+                            filterClass = filterClass + ' ' + tileArr['Merchandising'].filters[index].id;
+                        }
+                    }
+                })
+            });
+        }
+
         if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
         }
@@ -422,6 +459,7 @@ module.exports = {
           sails.log.error( err );
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
+          tileArr['Merchandising'].order = -1;
           return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
         }
       });
