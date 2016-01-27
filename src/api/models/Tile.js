@@ -9,7 +9,7 @@
 * @description :: TODO: You might write a short summary of how this model works and what it represents here.
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
-
+var cicstanford = require('../services/functions_to_release');
 module.exports = {
 
   attributes: {
@@ -176,15 +176,49 @@ module.exports = {
       '6pm &ndash; 12m'
     ];
 
-    if (params.returnDate) {
+    var systemData = {};
+    systemData.priceRange = _.clone(itineraries.priceRange, true);
+    systemData.durationRange = _.clone(itineraries.durationRange, true);
+
+    if (params.returnDate) { // round trip
       tileArr['Departure'].name = params.DepartureLocationCode + ' Departure';
       tileArr['Arrival'].name = params.ArrivalLocationCode + ' Arrival';
 
       tileArr['destinationDeparture'].name = params.ArrivalLocationCode + ' Departure';
       tileArr['sourceArrival'].name = params.DepartureLocationCode + ' Arrival';
-    } else {
+    } else { // one way trip
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
+
+//*/ <--- remove slash ( "/" ) to uncomment Scenario 2 code
+      // Scenario 1 : Prune and rank all together ////////////////////////////////////
+      // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
+      sails.log.info('Scenario 1 : Prune and rank all together');
+      var pruned = cicstanford.prune_itineraries(itineraries);
+      sails.log.info('Pruned itineraries to ', pruned.length);
+      var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+      itineraries = ranked;
+/*/
+      // Scenario 2 : Prune and rank without mixing departure buckets ////////////////
+      // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
+      sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
+      var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} );  // only keep the ones departing midnight-6am
+      var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} );  // only keep the ones departing 6am-noon
+      var itineraries_departing_Q3 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==3);} );  // only keep the ones departing noon-6pm
+      var itineraries_departing_Q4 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==4);} );  // only keep the ones departing 6pm-midnight
+      var pruned_departing_Q1 = cicstanford.prune_itineraries(itineraries_departing_Q1);
+      var pruned_departing_Q2 = cicstanford.prune_itineraries(itineraries_departing_Q2);
+      var pruned_departing_Q3 = cicstanford.prune_itineraries(itineraries_departing_Q3);
+      var pruned_departing_Q4 = cicstanford.prune_itineraries(itineraries_departing_Q4);
+      var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
+      var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+      itineraries = ranked_departing_Q1234;
+      sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
+//*/
+      itineraries.priceRange = systemData.priceRange;
+      itineraries.durationRange = systemData.durationRange;
+
+
     }
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
     Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
