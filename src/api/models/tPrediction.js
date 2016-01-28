@@ -14,7 +14,7 @@ module.exports = {
       var tiles = _.clone(Tile.default_tiles, true);
       if (!err && !_.isEmpty(rows)) {
         _.map(tiles, function (item) {
-          var i = _.findIndex(rows, {tile_name: item.name});
+          var i = _.findIndex(rows, {tile_name: item.id});
           if (i !== -1) {
             item.order = rows[i].result.tile_position;
           }
@@ -24,6 +24,30 @@ module.exports = {
         sails.log.error('didnt find tiles prediction for uuid: ['+uuid+'] userId #'+user);
       }
       Tile.tiles = tiles;
+    });
+  },
+  adminTiles: [],
+  getUserTilesCb: function (user, uuid, cb) {
+    this.find({user: user, uuid: uuid}).exec(function (err, rows) {
+      var tiles = _.clone(Tile.default_tiles, true);
+      if (!err && !_.isEmpty(rows)) {
+        newtiles = _.map(tiles, function (item) {
+          var r = {};
+          var i = _.findIndex(rows, {tile_name: item.id});
+          if (i !== -1) {
+            item.order = rows[i].result.tile_position;
+            item.count = rows[i].result.counter;
+          }
+            r[item.id] = item.order;
+          return r;
+        });
+
+        var result = {};
+        result[uuid] = newtiles;
+        return cb(null, result);
+      } else {
+        return cb(null, {});
+      }
     });
   }
 };

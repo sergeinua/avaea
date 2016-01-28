@@ -161,7 +161,7 @@ module.exports = {
       Merchandising: { // Merchandising Fake data Issue #39
           name: 'Merchandising',
           id: 'merchandising_tile',
-          order: 100000,
+          order: 0,
           filters: [
               {
                   title: 'Wi-Fi',
@@ -212,7 +212,7 @@ module.exports = {
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
 
-//*/ <--- remove slash ( "/" ) to uncomment Scenario 2 code
+/*/ <--- remove/add slash ( "/" ) to uncomment Scenario 2 code
       // Scenario 1 : Prune and rank all together ////////////////////////////////////
       // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
       sails.log.info('Scenario 1 : Prune and rank all together');
@@ -220,7 +220,7 @@ module.exports = {
       sails.log.info('Pruned itineraries to ', pruned.length);
       var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
       itineraries = ranked;
-/*/
+/*
       // Scenario 2 : Prune and rank without mixing departure buckets ////////////////
       // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
       sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
@@ -236,10 +236,10 @@ module.exports = {
       var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
       itineraries = ranked_departing_Q1234;
       sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
-//*/
+//*
       itineraries.priceRange = systemData.priceRange;
       itineraries.durationRange = systemData.durationRange;
-
+//*/
 
     }
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);

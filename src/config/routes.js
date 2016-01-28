@@ -60,6 +60,7 @@ module.exports.routes = {
 
   'post /abo/getaction': 'AboController.getaction',
   'post /abo/getbyuser/:user_id': 'AboController.getByUser',
+  'post /abo/gettilesbyuser/:user_id': 'AboController.getTilesByUser',
   'get /abo': {
     controller: "Abo",
     locals: {

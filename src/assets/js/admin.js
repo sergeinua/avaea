@@ -3,37 +3,16 @@ $(document).ready(function() {
     console.log('admin.js not suppose to be here. trying to quit');
     return true;
   }
-
-  var dummyData = [];
-  //prefill dummy data
-  for (var i = 1; i <= 100; i++) {
-    dummyData[i] =
-    [
-        {
-            label: "User tile prediction values",
-            fillColor: "rgba(220,220,220,0.2)",
-            strokeColor: "rgba(220,220,220,1)",
-            pointColor: "rgba(220,220,220,1)",
-            pointStrokeColor: "#fff",
-            pointHighlightFill: "#fff",
-            pointHighlightStroke: "rgba(220,220,220,1)",
-            data: [
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100),
-                Math.floor(Math.random() * 100)
-            ]
-        }
-    ];
-  }
+  var serviceClass = {
+    E:'Economy',
+    P:'Premium',
+    B:'Business',
+    F:'First'
+  };
 
   $('.navbar-nav li').click(function() {
         $('.navbar-nav li').each(function(page) {
             var t = $(this).find('a').attr('target');
-//            console.log(page);
             $(this).removeClass('active');
             $('#'+t).addClass('hidden');
         });
@@ -67,11 +46,9 @@ $(document).ready(function() {
       console.log(user_list);
     $('#user_search_form').typeahead({
       hint: true,
-//      highlight: true,
       minLength: 2
     }, {
         name: 'users',
-//        limit: 8,
         source: substringMatcher(user_list),
         templates: {
             empty: [
@@ -83,8 +60,6 @@ $(document).ready(function() {
         }
     });
 
-    
-    
 
   var lastUpdated = 0;
 
@@ -131,7 +106,7 @@ $(document).ready(function() {
                   data.actionType = 'prediction';
               }
               if (data.actionType == 'order_tiles') {
-                for (tile in data.logInfo) {
+                for (var tile in data.logInfo) {
                   data.logInfo[tile].filters = ['...'];
                 }
                 if (data.logInfo.action == 'order') {
@@ -160,7 +135,11 @@ $(document).ready(function() {
       });
   };
 
-  setInterval(function() {getLogAction()}, 2000);
+  setInterval(function() {getLogAction();}, 2000);
+    var radarChartData = {
+        labels: ["Price", "Duration", "Airline", "Outbound Departure", "Outbound Arrival", "Inbound Departure", "Inbound Arrival"],
+        datasets: []
+    };
 
   $('.filter_user').submit(function() {
     $('.alert').remove();
@@ -168,14 +147,53 @@ $(document).ready(function() {
     var id = 0;
     if (id = user_id.match(/^ID#(\d+)/)) {
       user_id = id[1];
-      radarChartData.datasets = dummyData[user_id];
-      console.log(dummyData[user_id]);
-      window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
-        responsive: true
-      });  
+
+      $.ajax({
+          method: "POST",
+          url: "/abo/gettilesbyuser/" + user_id
+      })
+      .done(function( msg ) {
+
+        if (msg.data) {
+            msg.data.forEach(function(item) {
+                if (typeof(item.E) != 'undefined') {
+                    console.log(item);
+                    var radarChartDataItem = {
+                        label: "User tile prediction values ("+serviceClass['E']+")",
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        data: [
+                            item.E[6]['price_tile'],//"Price"
+                            item.E[5]['duration_tile'],//"Duration"
+                            item.E[4]['airline_tile'],//"Airline"
+                            item.E[3]['departure_tile'],//"Outbound Departure"
+                            item.E[2]['arrival_tile'],//"Outbound Arrival"
+                            item.E[1]['destination_departure_tile'],//"Inbound Departure"
+                            item.E[0]['source_arrival_tile']//"Inbound Arrival"
+                        ]
+                    };
+//                    console.log(radarChartDataItem);
+                    radarChartData.datasets.push(radarChartDataItem);
+                }
+
+            });
+          window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
+            responsive: true
+          });
+//          $('#chart_legend').html($(window.myRadar.generateLegend()));
+//          console.log(window.myRadar.generateLegend());
+        }
+
+
+      });
     } else {
         user_id = 0;
-        window.myRadar = null;
+        window.myRadar.destroy();
+        $('#chart_legend').html('');
     }
     $('#user_filter_value').val('');
     if (user_id) {
@@ -198,35 +216,5 @@ $(document).ready(function() {
     });
     return true;
   });
-    var radarChartData = {
-        labels: ["Price", "Duration", "Airline", "Outbound Departure", "Outbound Arrival", "Inbound Departure", "Inbound Arrival"],
-        datasets: dummyData[1]
-//        [
-//            {
-//                label: "User tile prediction values",
-//                fillColor: "rgba(220,220,220,0.2)",
-//                strokeColor: "rgba(220,220,220,1)",
-//                pointColor: "rgba(220,220,220,1)",
-//                pointStrokeColor: "#fff",
-//                pointHighlightFill: "#fff",
-//                pointHighlightStroke: "rgba(220,220,220,1)",
-//                data: [65,59,90,81,56,55,40]
-//            }
-//        ]
-    };
 
-//    var getSliderSettings = function() {
-//        return {
-//            dots: true,
-//            infinite: false,
-//            mobileFirst: true,
-//            adaptiveHeight: true,
-//            slidesToShow: Math.floor($('body').outerWidth(true)/300)
-//        }
-//    };
-//    $('#user_tiles').slick(getSliderSettings());
-//    $( window ).resize(function() {
-//        $('#user_tiles').slick('unslick');
-//        $('#user_tiles').slick(getSliderSettings());
-//    });
 });
