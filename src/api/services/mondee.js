@@ -232,7 +232,7 @@ var mapFlights = function(flights) {
     stops: [],
     stopsCodes: [],
     stopsDurationMinutes: 0
-  }
+  };
   for (var j=0; j < flights.length; j++) {
     var flight = flights[j];
 
@@ -298,7 +298,7 @@ var mapFlights = function(flights) {
     }
   }
   return res;
-}
+};
 
 var mapCitypairs = function(citypairs) {
   var res = {
@@ -348,7 +348,41 @@ var mapCitypairs = function(citypairs) {
     res.citypairs.push( mappedPair );
   }
   return res;
-}
+};
+
+// Merchandising Fake keys Issue #39
+var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
+
+var mapItinerary = function(itinerary) {
+  var res = {
+    id: itinerary.ItineraryId,
+    service: 'mondee',
+    price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes) - 30).toFixed(2),
+    currency: itinerary.Fares[0].CurrencyCode,
+    duration: '',
+    durationMinutes: 0,
+    citypairs: [],
+    merchandising: [] // Merchandising Fake data Issue #39
+  };
+
+  var mCitypairs = mapCitypairs(itinerary.Citypairs);
+  res.citypairs = mCitypairs.citypairs;
+  res.durationMinutes = mCitypairs.durationMinutes;
+  res.duration = utils.minutesToDuration(res.durationMinutes);
+
+  // Merchandising Fake data Issue #39
+  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
+    res.merchandising.push({'Wi-Fi': true});
+  }
+  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
+    res.merchandising.push({'1st bag free': true});
+  }
+  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+    res.merchandising.push({'Priority Seat': true});
+  }
+
+  return res;
+};
 
 //var soap = require('soap');
 
@@ -381,47 +415,17 @@ module.exports = {
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
               var minDuration, maxDuration, minPrice, maxPrice;
+
               // Merchandising Fake keys Issue #39
-              var _keysMerchandisingWiFi = _.sample(
-                      _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
-                      Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 50 / 100)
-                ),
-                _keysMerchandising1bagfree = _.sample(
-                    _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
-                    Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 75 / 100)
-                ),
-                _keysMerchandisingPrioritySeat = _.sample(
-                    _.shuffle(_.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId')),
-                    Math.round(_.size(result.FlightSearchResponse.FlightItinerary) * 25 / 100)
-                );
+              var itineraryIds = _.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
+              _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
-                var mappedItinerary = {
-                  id: itinerary.ItineraryId,
-                  service: 'mondee',
-                  price: (parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes) - 30).toFixed(2),
-                  currency: itinerary.Fares[0].CurrencyCode,
-                  duration: '',
-                  durationMinutes: 0,
-                  citypairs: [],
-                  merchandising: [] // Merchandising Fake data Issue #39
-                };
-
-                var mCitypairs = mapCitypairs(itinerary.Citypairs);
-                mappedItinerary.citypairs = mCitypairs.citypairs;
-                mappedItinerary.durationMinutes = mCitypairs.durationMinutes;
-                mappedItinerary.duration = utils.minutesToDuration(mappedItinerary.durationMinutes);
-
-                // Merchandising Fake data Issue #39
-                if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
-                    mappedItinerary.merchandising.push({'Wi-Fi': true});
-                }
-                if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
-                    mappedItinerary.merchandising.push({'1st bag free': true});
-                }
-                if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
-                    mappedItinerary.merchandising.push({'Priority Seat': true});
-                }
+                var mappedItinerary = mapItinerary(itinerary);
+                resArr.push( mappedItinerary );
+                mondee.cache(mappedItinerary, guid);
 
                 if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                   minPrice = Math.floor(parseFloat(mappedItinerary.price));
@@ -437,9 +441,6 @@ module.exports = {
                 if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
                   maxDuration = mappedItinerary.durationMinutes;
                 }
-
-                resArr.push( mappedItinerary );
-                mondee.cache(mappedItinerary, guid);
 
                 return doneCb(null);
               }, function (err) {

@@ -128,14 +128,15 @@ module.exports = {
           count        : itineraries.length
         };
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
-        sails.log.info('Search result processing total time: %s', utils.timeLogGet('search result'));
+        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
 
-        var timelog = '';
+        var timelog = [];
+        var util = require('util');
         if (utils.timeLogGet('mystifly') > 7000) {
-          timelog = 'Mystifly took ' + (utils.timeLogGet('mystifly')/1000).toFixed(1) + 's to respond';
+          timelog.push(util.format('Mystifly took %ss to respond', (utils.timeLogGet('mystifly')/1000).toFixed(1)));
         }
         if (utils.timeLogGet('mondee') > 7000) {
-          timelog += (timelog?'<br/>':'') + 'Mondee took ' + (utils.timeLogGet('mondee')/1000).toFixed(1) + 's to respond';
+          timelog.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
         }
         return  res.view('search/result', {
           user: req.user,
@@ -147,7 +148,7 @@ module.exports = {
             CabinClass: serviceClass[params.CabinClass]
           },
           searchResult: itineraries,
-          timelog: timelog
+          timelog: timelog.join('<br/>')
         });
       })
     });

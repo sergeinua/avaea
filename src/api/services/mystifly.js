@@ -361,6 +361,40 @@ var mapCitypairs = function(citypairs) {
   return res;
 };
 
+// Merchandising Fake keys Issue #39
+var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
+
+var mapItinerary = function(itinerary) {
+  var res = {
+    id: itinerary.AirItineraryPricingInfo.FareSourceCode,
+    service: 'mystifly',
+    price: (parseFloat(itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount)).toFixed(2),
+    currency: itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode,
+    duration: '',
+    durationMinutes: 0,
+    citypairs: [],
+    merchandising: [] // Merchandising Fake data Issue #39
+  };
+
+  var mCitypairs = mapCitypairs(itinerary.OriginDestinationOptions.OriginDestinationOption);
+  res.citypairs = mCitypairs.citypairs;
+  res.durationMinutes = mCitypairs.durationMinutes;
+  res.duration = utils.minutesToDuration(res.durationMinutes);
+
+  // Merchandising Fake data Issue #39
+  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+    res.merchandising.push({'Wi-Fi': true});
+  }
+  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+    res.merchandising.push({'1st bag free': true});
+  }
+  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+    res.merchandising.push({'Priority Seat': true});
+  }
+
+  return res;
+};
+
 //var soap = require('soap');
 var sessionId;
 
@@ -406,52 +440,17 @@ module.exports = {
                   var minDuration, maxDuration, minPrice, maxPrice;
 
                   // Merchandising Fake keys Issue #39
-                  var _keysMerchandisingWiFi = _.sample(
-                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
-                              return item.AirItineraryPricingInfo.FareSourceCode
-                          })),
-                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 50 / 100)
-                      ),
-                      _keysMerchandising1bagfree = _.sample(
-                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
-                              return item.AirItineraryPricingInfo.FareSourceCode
-                          })),
-                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 75 / 100)
-                      ),
-                      _keysMerchandisingPrioritySeat = _.sample(
-                          _.shuffle(_.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
-                              return item.AirItineraryPricingInfo.FareSourceCode
-                          })),
-                          Math.round(_.size(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) * 25 / 100)
-                      );
+                  var itineraryIds = _.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
+                    return item.AirItineraryPricingInfo.FareSourceCode
+                  });
+                  _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+                  _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+                  _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
                   async.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (itinerary, doneCb) {
-                    var mappedItinerary = {
-                      id: itinerary.AirItineraryPricingInfo.FareSourceCode,
-                      service: 'mystifly',
-                      price: (parseFloat(itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.Amount)).toFixed(2),
-                      currency: itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode,
-                      duration: '',
-                      durationMinutes: 0,
-                      citypairs: [],
-                      merchandising: [] // Merchandising Fake data Issue #39
-                    };
-
-                    var mCitypairs = mapCitypairs(itinerary.OriginDestinationOptions.OriginDestinationOption);
-                    mappedItinerary.citypairs = mCitypairs.citypairs;
-                    mappedItinerary.durationMinutes = mCitypairs.durationMinutes;
-                    mappedItinerary.duration = utils.minutesToDuration(mappedItinerary.durationMinutes);
-
-                    // Merchandising Fake data Issue #39
-                    if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-                        mappedItinerary.merchandising.push({'Wi-Fi': true});
-                    }
-                    if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-                        mappedItinerary.merchandising.push({'1st bag free': true});
-                    }
-                    if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-                        mappedItinerary.merchandising.push({'Priority Seat': true});
-                    }
+                    var mappedItinerary = mapItinerary(itinerary);
+                    resArr.push( mappedItinerary );
+                    mystifly.cache(mappedItinerary, guid);
 
                     if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                       minPrice = Math.floor(parseFloat(mappedItinerary.price));
@@ -467,10 +466,6 @@ module.exports = {
                     if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
                       maxDuration = mappedItinerary.durationMinutes;
                     }
-
-                    sails.log.info(mappedItinerary);
-                    resArr.push( mappedItinerary );
-                    mystifly.cache(mappedItinerary, guid);
 
                     return doneCb(null);
                   }, function (err) {
