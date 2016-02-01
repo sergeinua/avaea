@@ -284,7 +284,8 @@ var mapFlights = function(flights) {
       noOfStops: 0, //flight.StopQuantity,
       stopsDuration: '',
       stopsDurationMinutes: 0,
-      stops: []
+      stops: [],
+      merchandising: [] // Merchandising Fake data Issue #39
     };
     /*
     // TODO: process intermediate stops
@@ -363,6 +364,12 @@ var mapCitypairs = function(citypairs) {
 
 // Merchandising Fake keys Issue #39
 var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
+var mapMerchandising = function (citypairs, val) {
+    var _cityPairKey = ((citypairs.length > 1) ? _.random(0, citypairs.length - 1) : 0),
+        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? _.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
+
+    citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
+};
 
 var mapItinerary = function(itinerary) {
   var res = {
@@ -372,8 +379,7 @@ var mapItinerary = function(itinerary) {
     currency: itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode,
     duration: '',
     durationMinutes: 0,
-    citypairs: [],
-    merchandising: [] // Merchandising Fake data Issue #39
+    citypairs: []
   };
 
   var mCitypairs = mapCitypairs(itinerary.OriginDestinationOptions.OriginDestinationOption);
@@ -383,13 +389,13 @@ var mapItinerary = function(itinerary) {
 
   // Merchandising Fake data Issue #39
   if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-    res.merchandising.push({'Wi-Fi': true});
+      mapMerchandising(res.citypairs, 'WiFi');
   }
   if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-    res.merchandising.push({'1st bag free': true});
+      mapMerchandising(res.citypairs, '1st bag free');
   }
   if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
-    res.merchandising.push({'Priority Seat': true});
+      mapMerchandising(res.citypairs, 'Priority Seat');
   }
 
   return res;

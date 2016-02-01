@@ -45,6 +45,12 @@ $(document).ready(function() {
         return false;
     });
 
+    $('.mymorebutton').click(function(el) {
+        var _it = $(this).attr('for');
+        $('.mymorecontent' + _it).toggleClass('hidden');
+        return false;
+    });
+
     $('.recommended').each(function(item){
         $(this).find('div:first').find('div:first').find('div:first')
         .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));

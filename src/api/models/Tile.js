@@ -164,13 +164,13 @@ module.exports = {
           order: 0,
           filters: [
               {
-                  title: 'Wi-Fi',
+                  title: 'WiFi',
                   id: 'merchandising_tile_wifi',
                   count: 0
               },
               {
                   title: '1st bag free',
-                  id: 'merchandising_tile_1bagfree',
+                  id: 'merchandising_tile_1st_bag_free',
                   count: 0
               },
               {
@@ -433,19 +433,23 @@ module.exports = {
         }
 
         // Merchandising Fake data Issue #39
-        if (itinerary.merchandising) {
-            _.forEach(itinerary.merchandising, function (items) {
-                return _.forEach(items, function (_val, _key) {
-                    if (_val) {
-                        index = _.findIndex(tileArr['Merchandising'].filters, {title: _key});
-                        if (index != -1) {
-                            tileArr['Merchandising'].filters[index].count++;
-                            filterClass = filterClass + ' ' + tileArr['Merchandising'].filters[index].id;
-                        }
+        _.forEach(itinerary.citypairs, function (cityPair) {
+            if (cityPair.flights.length) {
+                _.forEach(cityPair.flights, function (flight) {
+                    if (flight.merchandising && flight.merchandising.length) {
+                        _.forEach(flight.merchandising, function (item) {
+                            if (item) {
+                                index = _.findIndex(tileArr['Merchandising'].filters, {id: 'merchandising_tile_' + item.toLowerCase().replace(/\W+/g, '_')});
+                                if (index != -1) {
+                                    tileArr['Merchandising'].filters[index].count++;
+                                    filterClass = filterClass + ' ' + tileArr['Merchandising'].filters[index].id;
+                                }
+                            }
+                        });
                     }
-                })
-            });
-        }
+                });
+            }
+        });
 
         if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
