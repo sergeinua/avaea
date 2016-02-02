@@ -1,0 +1,141 @@
+<form action="/payment" method="post">
+<div class="panel panel-default">
+  <div class="panel-heading" role="tab" id="headingOne">
+    <h4 class="panel-title">
+      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        CC information
+      </a>
+    </h4>
+  </div>
+  <div class="panel-body">
+        <label>First Name
+          <input type="text" name="firstName" class="form-control input-sm" placeholder="First Name" value="<%= Profile.firstName %>" required/>
+        </label>
+        <label>Last Name
+          <input type="text" name="lastName" class="form-control input-sm" placeholder="Last Name"  value="<%= Profile.lastName %>"  required/>
+        </label>
+
+        <label>Card Number<br/>
+          <input type="number" name="cc_1" min="1000" max="9999">
+          <input type="number" name="cc_2" min="1000" max="9999">
+          <input type="number" name="cc_3" min="1000" max="9999">
+          <input type="number" name="cc_4" min="1000" max="9999">
+        </label>
+
+        <label>Expires<br/>
+          <input type="month" name="cc_month" required="required">
+        </label>
+
+        <label>CVV<br/>
+          <input type="number" name="cvv" min="100" max="999">
+        </label>
+  </div>
+</div>
+
+<div class="">
+  <% iterator = 0; %>
+  <% if (order.length) { %>
+  <% order.forEach(function (sRes, i) { %>
+
+<div id="<%= sRes.id %>" class="row <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
+
+  <div class="col-xs-12">
+
+    <div class="row">
+      <div class="col-xs-12" style="padding: 2px;">
+        <% if(sRes.currency == 'USD') { %>
+        $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= sRes.currency %><% } %>
+      </div>
+    </div>
+    <% sRes.citypairs.forEach(function (pair) { %>
+    <div class="row">
+      <div class="col-xs-8 col-sm-8"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
+      <div class="col-xs-4 col-sm-2 text-right"><%= pair.duration %></div>
+      <div class="hidden-xs col-sm-2 text-right"><% if (pair.noOfStops > 0) { %>
+      <%= pair.noOfStops + (parseInt(pair.noOfStops) > 1 ? __(' stops') : __(' stop')) %> (<%= pair.stopsCodes.join(', ') %>)
+      <% } else { %>
+      <%= __(' nonstop') %>
+      <% } %></div>
+    </div>
+    <% }); %>
+    <div class="row" id="cli<%=i%>"><div class="col-xs-12">
+    <% sRes.citypairs.forEach(function (pair) { %>
+    <div class="row" style="margin-top: 4px;">
+      <div class="col-sm-12">
+        <strong><%= pair.direction %></strong>
+      </div>
+    </div>
+      <% pair.flights.forEach(function (flight, j) { %>
+
+      <% if (j > 0) {%>
+      <div class="row" style="margin-top: 4px;">
+        <div class="col-xs-6 text-nowrap">&#10162; <%= __('Change planes') %></div>
+        <div class="col-xs-2"><%= pair.stops[j-1].code %></div>
+        <div class="col-xs-4 text-right"><%= pair.stops[j-1].duration %></div>
+      </div>
+      <% } %>
+      <div class="row" style="margin-top: 4px;">
+        <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
+        <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
+        <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
+          <span class="small text-danger">+<%= flight.noOfStops + __(' stops')%></span>
+          <% } %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
+        <div class="col-xs-3"><%= sails.moment(flight.from.date).format('MM/DD/YYYY') %></div>
+        <div class="col-xs-3"><%= flight.from.code %></div>
+      </div>
+      <div class="row">
+        <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
+        <div class="col-xs-3"><%= sails.moment(flight.to.date).format('MM/DD/YYYY') %></div>
+        <div class="col-xs-3"><%= flight.to.code %></div>
+      </div>
+
+    <% if (flight.merchandising) { %>
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-xs btn-info btn-block mymorebutton" role="button" for="<%= iterator %>"><%= __('more')%></button>
+        </div>
+      </div>
+      <div class="row hidden mymorecontent<%= iterator %>">
+        <div class="panel panel-default">
+          <div class="panel-heading">Merchandising Information</div>
+          <div class="panel-body">
+            <ul>
+              <% fs.merchandising.forEach(function (item) { %>
+              <li><%= item %></li>
+              <% }) %>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% } %>
+      <% }); %>
+    <% }); %>
+    </div></div>
+
+  <% iterator++ %>
+  </div>
+</div>
+
+  <% }) %>
+  <% } %>
+</div>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
+      <div class="container-fluid">
+        <button id="buy_button" class="btn btn-sm btn-primary btn-block" disabled>Buy</button>
+      </div>
+    </nav>
+</div>
+
+</form>
+
+<style>
+    body {
+      padding-bottom: 33px;
+      padding-top: 70px;
+    }
+</style>

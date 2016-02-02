@@ -36,37 +36,37 @@ module.exports.routes = {
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
-  'get /register': 'AuthController.register',
+  // 'get /register': 'AuthController.register',
 
   'get /auth/:provider': 'AuthController.provider',
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',
 
-  'get /order': 'BuyController.order',
-  'get /search': 'SearchController.index',
-  'post /result': 'SearchController.result',
+  // 'get /order': 'BuyController.order',
+  // 'get /search': 'SearchController.index',
+  // 'post /result': 'SearchController.result',
 
   'get /profile': 'UserController.profile',
   'get /create': 'UserController.create',
   'post /update': 'UserController.update',
 
-  'post /prediction/order_tiles': 'PredictionController.order_tiles',
-  'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
-  'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
-  'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
+  // 'post /prediction/order_tiles': 'PredictionController.order_tiles',
+  // 'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
+  // 'post /prediction/on_tile_choice': 'PredictionController.on_tile_choice',
+  // 'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
 
-  'post /ac/airports': 'AcController.airports',
+  // 'post /ac/airports': 'AcController.airports',
 
 
-//  'post /abo/getaction': 'AboController.getaction',
-//  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
-//  'post /abo/gettilesbyuser/:user_id': 'AboController.getTilesByUser',
-//  'get /abo': {
-//    controller: "Abo",
-//    locals: {
-//      layout: 'admin'
-//    }
-//  }
+  'post /abo/getaction': 'AboController.getaction',
+  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
+  'post /abo/gettilesbyuser/:user_id': 'AboController.getTilesByUser',
+  'get /abo': {
+    controller: "Abo",
+    locals: {
+      layout: 'admin'
+    }
+  }
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

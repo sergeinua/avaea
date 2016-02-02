@@ -1,0 +1,23 @@
+<% if (tiles) { %>
+<div id="tiles" class="row">
+  <%
+  for(var name in tiles) { 
+    var tile = tiles[name];
+    if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
+  %>
+    <div class="mybucket" id="<%= tile.id%>">
+      <a id="<%= __(tile.id)%>" href="#"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
+      <ul class="list-group" style='padding:1px;margin-bottom:0px;max-height:95px;overflow:auto'>
+        <% tile.filters.forEach( function (filter) {
+          if (parseInt(filter.count) > 0) {
+        %><li for='<%= filter.id%>' style='padding:1px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%- filter.title%><span class="badge" style="position:absolute;right:0;background-color: lightgray"></span></li><%
+          }
+         }
+        ); %>
+      </ul>
+    </div>
+  <% } %>
+</div>
+<div class="myarr"></div>
+<% } %>
+<div class="selectedfilters row" filters=''></div>

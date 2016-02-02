@@ -1,0 +1,7 @@
+<% if (Object.keys(providers).length) {%>
+   <h2 class="form-signin-heading">Please sign in</h2>
+
+  <% Object.keys(providers).forEach(function (key) { %>
+    <a href="/auth/<%= providers[key].slug %>" class="btn btn-lg btn-primary btn-block" role="button"><%= providers[key].name %></a>
+  <% }) %>
+<% } %>
