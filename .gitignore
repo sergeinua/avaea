@@ -1,2 +1,4 @@
 .idea
 .vscode/*
+singlepage/node_modules
+singlepage/server_logs

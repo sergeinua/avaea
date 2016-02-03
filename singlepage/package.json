@@ -1,7 +1,7 @@
 {
-  "name": "mediacourse",
+  "name": "avaea-singlepage",
   "version": "0.0.0",
-  "description": "mediacourse application.",
+  "description": "avaea singlepage application.",
   "main": "server.js",
   "author": "",
   "dependencies": {
