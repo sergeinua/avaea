@@ -189,6 +189,8 @@ module.exports = {
     }
     var tileArr = _.clone(this.tiles, true);
 
+    // sails.log.error(JSON.stringify(itineraries));
+
     var index = null;
     var filterClass = '';
     var timeArr = [

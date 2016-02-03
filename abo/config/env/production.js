@@ -25,9 +25,9 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 1338,
+  port: 8080,
   proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
-  proxyPort: 80,
+  proxyPort: 8080,
   explicitHost: 'localhost',
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
