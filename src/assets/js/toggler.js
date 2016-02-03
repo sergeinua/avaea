@@ -64,7 +64,9 @@ $(document).ready(function() {
 var filtersCount = {};
     var filterItineraries = function () {
         var filters = $('.selectedfilters').attr('filters');
+        if (filters) {
             filters = filters.split(' ');
+        }
         $('.itinerary').show();
         $('.mybucket').each(function() {
 
