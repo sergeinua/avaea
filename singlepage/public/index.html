@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="avaeaStandaloneApp" ng-cloak>
+<head>
+    <meta charset="utf-8" />
+    <title>Avaea</title>
+
+    <link rel="stylesheet" href="/bower_components/angular-material/angular-material.css" />
+
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/search-air.css" />
+    <link rel="stylesheet" href="css/showprice.css" />
+
+    <link rel="stylesheet" href="css/listitems.css" />
+
+</head>
+
+<body>
+
+    <div ui-view="mainView"></div>
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-material/angular-material.js"></script>
+
+    <script src="app.js"></script>
+    <script src="js/route.js"></script>
+    <script src="services/menu.service.js"></script>
+    <script src="services/reservation.service.js"></script>
+    <script src="services/searchair.service.js"></script>
+
+    <script src="modules/home/home.controller.js"></script>
+    <script src="modules/reservation/reservation.controller.js"></script>
+    <script src="modules/searchAir/searchAir.controller.js"></script>
+
+
+</body>
+</html>

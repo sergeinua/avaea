@@ -1,0 +1,162 @@
+﻿<div ng-controller="searchAirController" class="search-air" layout="column" layout-padding layout-wrap layout-fill ng-cloak>
+
+    <div ng-cloak>
+
+        <md-content>
+
+            <md-tabs md-dynamic-height md-border-bottom md-no-ink>
+                <md-tab ng-repeat="tab in tabs" label="{{tab.title}}" id="searchAirTab-{{tab.id}}" md-selected="selectedTabIndex" md-on-select="selectTab(tab, $index)">
+
+                    <md-content class="md-padding">
+                        <md-card>
+
+                            <md-card-content>
+
+                                <div class="search-form" ng-repeat="row in tabCount(tab.rows) track by $index" id="searchAirForm-{{tab.id}}-{{$index}}">
+
+                                    <md-button class="md-fab md-primary additional-button" ng-click="showAdditionalOptions($index)">
+                                        <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
+                                        <md-tooltip>Show additional options</md-tooltip>
+                                    </md-button>
+
+                                    <md-autocomplete class="depart"
+                                                     md-selected-item="departSelectedItem"
+                                                     md-search-text="departSearchText"
+                                                     md-selected-item-change="selectedItemChange('depart', item, $index)"
+                                                     md-items="item in querySearch('depart', departSearchText).depart"
+                                                     md-item-text="item.code.toUpperCase()"
+                                                     md-min-length="0"
+                                                     placeholder="From"
+
+                                    <md-item-template class="auto">
+                                        <span md-highlight-text="departSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
+                                        <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
+                                    </md-item-template>
+
+                                    <md-not-found>
+                                        No items matching "{{departSearchText}}" were found.
+                                    </md-not-found>
+
+                                    </md-autocomplete>
+
+                                    <md-autocomplete class="arrive"
+                                                     md-selected-item="arriveSelectedItem"
+                                                     md-search-text="arriveSearchText"
+                                                     md-selected-item-change="selectedItemChange('arrive', item, $index)"
+                                                     md-items="item in querySearch('arrive', arriveSearchText).arrive"
+                                                     md-item-text="item.code.toUpperCase()"
+                                                     md-min-length="0"
+                                                     placeholder="To"
+
+                                    <md-item-template>
+                                        <span md-highlight-text="arriveSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
+                                        <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
+                                    </md-item-template>
+
+                                    <md-not-found>
+                                        No items matching "{{arriveSearchText}}" were found.
+                                    </md-not-found>
+
+                                    </md-autocomplete>
+
+                                    <md-datepicker class="date" ng-model="selectedDate" md-placeholder="Enter date"
+                                                   md-min-date="minDate" ng-change="changeDate(selectedDate, $index)"></md-datepicker>
+
+                                    <md-select class="time" ng-model="selectedTime" placeholder="Choose time">
+                                        <md-option ng-repeat="time in times" value="{{time.id}}">
+                                            {{time.name}}
+                                        </md-option>
+                                    </md-select>
+
+                                    <md-select class="direction" ng-model="selectedDirection" placeholder="Choose direction">
+                                        <md-option ng-repeat="dir in directions" value="{{dir.id}}">
+                                            {{dir.name}}
+                                        </md-option>
+                                    </md-select>
+
+                                </div>
+
+                            </md-card-content>
+
+                            <div class="error flight-error" ng-hide="!error[tab.id]">{{error[tab.id]}}</div>
+                            <md-card-actions layout="row" layout-align="start center">
+
+                                <md-button class="md-raised md-primary" ng-disabled="true">Fare Search</md-button>
+                                <md-button class="md-raised md-primary" ng-disabled="showSpinner" ng-click="SearchAirAvailability()">Air Availability</md-button>
+                                <md-button class="md-raised md-primary" ng-disabled="true">Schedule Only</md-button>
+                                <md-button class="md-raised md-primary" ng-disabled="true">Fare Quote</md-button>
+
+                                <md-progress-circular md-mode="indeterminate" md-diameter="32" ng-hide="!showSpinner"></md-progress-circular>
+
+                            </md-card-actions>
+
+                        </md-card>
+
+                        <md-content class="flight-result" ng-show="flights[tab.id].length" ng-hide="!flights[tab.id].length">
+
+                            <div class="flight-direction" ng-repeat="direction in flights[tab.id] track by $index">
+
+                                <md-subheader class="flight-direction md-no-sticky">
+                                    {{SearchAirAvailabilityList[tab.id].depart[$index]}} -> {{SearchAirAvailabilityList[tab.id].arrive[$index]}},
+                                    {{SearchAirAvailabilityList[tab.id].date[$index]}}
+                                </md-subheader>
+
+                                <md-divider></md-divider>
+
+                                <md-list class="flight-list">
+
+                                    <md-list-item class="flight-row md-3-line" ng-repeat="flight in direction.Flight">
+
+                                        <div class="md-list-item-text" layout="column">
+                                            <md-button class="md-fab md-primary flight-price" ng-click="showPriceDialog($event, flight)">
+                                                <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+                                            </md-button>
+
+                                            <div class="flight-record" ng-if="!hasTransfer(flight)">
+                                                <span class="flight-number">{{flight.Segment.Carrier.AirlineCode}} {{flight.Segment.Carrier.FlightNumber}}</span>
+
+                                                <span class="flight-apts">
+                                                    <span class="flight-time">{{flight.Segment.Departure.Time}}</span> <span>{{flight.Segment.Departure.AirportCode}}</span>
+                                                    <span> -> </span>
+                                                    <span class="flight-time">{{flight.Segment.Arrival.Time}}</span> <span>{{flight.Segment.Arrival.AirportCode}}</span>
+                                                </span>
+
+                                                <span class="flight-duration">{{flight.Segment.FlightDuration}}&nbsp;</span>
+                                                <span class="flight-equipment">{{flight.Segment.Equipment.Code}}</span>
+                                                <span class="flight-source">{{flight.Segment.Source}}</span>
+                                            </div>
+
+                                            <div class="flight-record" ng-if="hasTransfer(flight)" ng-repeat="fl in flight.Segment">
+                                                <span class="flight-number">{{fl.Carrier.AirlineCode}} {{fl.Carrier.FlightNumber}}</span>
+
+                                                <span class="flight-apts">
+                                                    <span class="flight-time">{{fl.Departure.Time}}</span> <span>{{fl.Departure.AirportCode}}</span>
+                                                    <span> -> </span>
+                                                    <span class="flight-time">{{fl.Arrival.Time}}</span> <span>{{fl.Arrival.AirportCode}}</span>
+                                                </span>
+
+                                                <span class="flight-duration">{{fl.FlightDuration}}&nbsp;</span>
+                                                <span class="flight-equipment">{{fl.Equipment.Code}}</span>
+                                                <span class="flight-source">{{fl.Source}}</span>
+                                            </div>
+                                        </div>
+
+                                    </md-list-item>
+
+                                </md-list>
+
+                            </div>
+
+                        </md-content>
+
+                    </md-content>
+
+
+                </md-tab>
+            </md-tabs>
+
+        </md-content>
+
+    </div>
+
+</div>

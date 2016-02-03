@@ -1,0 +1,42 @@
+{
+    "onlyWhiteList": true,
+    "whiteList": ["germiy@gmail.com"],
+
+
+
+    "httpPort": 5555,
+    "dbOptions": {
+        "host": "localhost",
+        "user": "avaea",
+        "password": "avaea",
+        "port": 5432,
+        "database": "avaea_db_sa",
+        "multipleStatements" : true,
+        "createDatabaseTable": true,
+        "schema": {
+            "tableName": "sessions",
+            "columnNames": {
+                "session_id": "session_id",
+                "expires": "expires",
+                "data": "data"
+            }
+
+        }
+    },
+    "session": {
+        "secret": "avaea_secret",
+        "saveUninitialized": true,
+        "resave": true,
+        "rolling" : true,
+        "cookie": {
+            "path": "/",
+            "httpOnly": true,
+            "maxAge": 1800000
+        }
+    },
+    "deviceExpiration" : 2592000000,
+    "mediaFolder" : "./public/media/",
+    "logsDirectory" : "./server_logs",
+    "appLogName" : "server_logs.log",
+    "logDatePattern" : "-yyyy-MM-dd"
+}

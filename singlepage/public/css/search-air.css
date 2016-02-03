@@ -1,0 +1,120 @@
+.search-form {
+    float: left;
+    width: 100%;
+}
+
+.additional-button {
+    transition: none !important;
+    float: left !important;
+    height: 20px !important;
+    width: 20px !important;
+    line-height: 10px !important;
+    margin: 12px 10px 0 0 !important;
+    min-height: 0px !important;
+}
+
+.additional-button md-icon{
+    width: 10px;
+    margin: -2px 0 0 -1px;
+}
+
+.flight-error {
+    padding-left: 10px;
+}
+
+.depart, .arrive {
+    width: 200px;
+    float: left;
+}
+
+.depart {
+    padding-right: 18px;
+}
+
+.date {
+    width: 200px;
+    float: left;
+}
+
+.time {
+    width: 100px;
+    float: left;
+    margin-top: 6px;
+    padding-right: 18px;
+}
+
+.direction {
+    width: 100px;
+    float: left;
+    margin-top: 6px;
+    padding-right: 18px;
+}
+
+.flight-result {
+    height: 100%;
+}
+
+.flight-direction {
+    margin-top: 50px;
+}
+
+.flight-list .flight-row {
+    border-bottom: solid 1px gray;
+}
+
+.flight-price {
+    transition: none !important;
+    float: left !important;
+    height: 20px !important;
+    width: 20px !important;
+    line-height: 10px !important;
+    margin: auto 10px 0 0 !important;
+    min-height: 0px !important;
+}
+.flight-price md-icon{
+    width: 10px;
+    margin: -2px 0 0 -1px;
+}
+
+.flight-row:nth-child(even) {
+    background-color: white;
+}
+
+.flight-row:nth-child(even) {
+    background-color: rgba(0,0,0,0.08);
+}
+
+.flight-row div {
+    width: 100%;
+    float: left;
+}
+
+.flight-record {
+    float: left;
+}
+
+.flight-row span {
+    margin-right: 5px;
+    float: left;
+}
+
+.flight-number {
+    min-width: 80px;
+}
+
+.flight-apts {
+    min-width: 200px;
+}
+
+.flight-date, .flight-time {
+    font-weight: bold;
+}
+
+.flight-time {
+
+}
+
+.flight-duration {
+    min-width: 100px;
+    margin-left: 20px;
+}

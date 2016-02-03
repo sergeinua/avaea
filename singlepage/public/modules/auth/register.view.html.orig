@@ -1,0 +1,67 @@
+﻿<div class="auth-form" layout="row" flex-sm="45" flex-gt-sm="35" flex-gt-md="30" layout layout-align="center center" ng-cloak>
+
+    <md-whiteframe class="auth-frame md-whiteframe-1dp" flex="100" layout layout-align="center center">
+
+            <div layout="column" ng-cloak flex="80">
+            <md-content layout-padding>
+                <form name="registerForm">
+
+                    <md-input-container class="md-block">
+                        <label>First Name</label>
+                        <input md-maxlength="50" required name="first_name" name="first_name" ng-model="u.first_name">
+                        <div ng-show="registerForm.$submitted || registerForm.first_name.$touched" ng-messages="registerForm.first_name.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 50 characters long.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Last Name</label>
+                        <input md-maxlength="50" required name="last_name" name="last_name" ng-model="u.last_name">
+                        <div ng-show="registerForm.$submitted || registerForm.last_name.$touched" ng-messages="registerForm.last_name.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="md-maxlength">The name has to be less than 50 characters long.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Login</label>
+                        <input required type="login" name="login" name="login" ng-model="u.login" minlength="5" />
+                        <div ng-show="registerForm.$submitted || registerForm.login.$touched" ng-messages="registerForm.login.$error" role="alert">
+                            <div  ng-message-exp="['required', 'minlength']">
+                                Your login must be at least 5 characters long
+                            </div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container class="md-block">
+                        <label>Password</label>
+                        <input required type="password" name="password" ng-model="u.password" minlength="10" />
+                        <div ng-show="registerForm.$submitted || registerForm.password.$touched" ng-messages="registerForm.password.$error" role="alert">
+                            <div ng-message-exp="['required', 'minlength']">
+                                Your password must be at least 10 characters long
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                        <label>Confirm password</label>
+                        <input required type="password" name="passwordRepeat" ng-model="u.passwordRepeat" minlength="10" />
+                    </md-input-container>
+                    <div class="error" ng-show="!(u.password === u.passwordRepeat)">Passwords doesn't match!</div>
+
+                    <md-checkbox class="blue" name="role" ng-model="u.role">I'm a teacher</md-checkbox>
+
+                    <div class="error" ng-show="errorMessage">{{errorMessage}}</div>
+
+                    <div class="register-buttons">
+                        <md-button class="auth-button md-raised md-primary" ng-disabled="registerForm.$invalid" ng-click="register(u)">Register</md-button>
+                        <md-button class="auth-button md-primary" ng-click="logout()" >Login</md-button>
+                    </div>
+
+                </form>
+
+            </md-content>
+        </div>
+
+    </md-whiteframe>
+</div>

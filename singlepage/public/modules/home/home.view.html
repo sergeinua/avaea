@@ -1,0 +1,96 @@
+﻿<div ng-controller="homeController" layout="column" ng-style="style()" resize ng-cloak>
+    <section layout="row" >
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-style="style()">
+
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">Avaea</h1>
+
+                <div class="close-menu-button" hide-gt-md>
+                    <md-icon class="icon-logout" ng-click="toggleLeft()" md-svg-src="img/svg/arrow-left.svg">
+                    </md-icon>
+                </div>
+
+                <div class="btn-fixed name-field">{{usr.last_name}}, {{usr.first_name}}</div>
+                <div class="btn-fixed role-field">{{usr.role_name}}
+                    <md-icon class="icon-logout" ng-click="gotoLogOut()" md-svg-src="img/svg/exit.svg">
+                        <md-tooltip>Logout</md-tooltip>
+                    </md-icon>
+                </div>
+            </md-toolbar>
+
+            <md-content layout-padding ng-controller="LeftCtrl">
+
+                <div>
+
+                    <md-content>
+
+                        <md-list>
+
+                            <md-list-item class="md-3-line" ng-repeat="item in menu.common"
+                                  ng-class="{'menu-active': getClass(currentState.curr) == item.id, 'menu-item-disabled': item.disabled}">
+
+                                <div ng-hide="item.disabled" class="md-list-item-text" layout="column" ng-click="close(); gotoMenuItem(item);">
+                                    <a class="menu-item" hre="#">{{ item.name }}</a>
+                                </div>
+
+                                <div ng-hide="!item.disabled" class="md-list-item-text" layout="column">
+                                    <div>{{ item.name }}</div>
+                                </div>
+
+                            </md-list-item>
+
+                        </md-list>
+
+                        <md-divider ></md-divider>
+
+                        <md-list>
+
+                            <md-list-item class="md-3-line" ng-repeat="item in menu.options"
+                                  ng-class="{'menu-active': getClass(currentState.curr) == item.id, 'menu-item-disabled': item.disabled}">
+
+                                <div ng-hide="item.disabled" class="md-list-item-text" layout="column" ng-click="close(); gotoMenuItem(item);">
+                                    <a class="menu-item" hre="#">{{ item.name }}</a>
+                                </div>
+
+                                <div ng-hide="!item.disabled" class="md-list-item-text" layout="column">
+                                    <div>{{ item.name }}</div>
+                                </div>
+
+                            </md-list-item>
+
+                        </md-list>
+
+                    </md-content>
+
+                </div>
+
+            </md-content>
+
+        </md-sidenav>
+
+        <md-content class="content-container" ng-style="style()" >
+            <div layout="column" layout-align="">
+
+                <div class="open-menu-button" hide-gt-md>
+                    <div class="global-menu-bar">
+                        <md-button class="menu-button md-fab md-primary" aria-label="Open menu" ng-click="toggleLeft()" >
+                            <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+                        </md-button>
+                        <div class="global-menu-name">
+                            {{currentState.name}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-view-content" ui-view="contentView" ></div>
+
+            </div>
+
+            <div flex></div>
+
+        </md-content>
+
+
+    </section>
+</div>

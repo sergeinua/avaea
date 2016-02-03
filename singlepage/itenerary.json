@@ -1,0 +1,108 @@
+{
+	id : '60d41fbf-97ee-47fb-bc13-90984f8cb2ce',
+	service : 'mondee',
+	price : '1444.34',
+	currency : 'USD',
+	duration : '1d 8h 20m',
+	durationMinutes : 1940,
+	citypairs :
+	[{
+			direction : 'Depart',
+			from : {
+				code : 'IAD',
+				date : '2016-02-12',
+				time : '12:15p',
+				quarter : 3
+			},
+			to : {
+				code : 'BKK',
+				date : '2016-02-14',
+				time : '08:35a',
+				quarter : 2
+			},
+			duration : '1d 8h 20m',
+			durationMinutes : 1940,
+			noOfStops : 1,
+			stopsDurationMinutes : 460,
+			stopsDuration : '7h 40m',
+			stopsCodes : ['SIN'],
+			stops :
+			[{
+					code : 'SIN',
+					begin : {
+						date : '2016-02-14',
+						time : '01:15a'
+					},
+					end : {
+						date : '2016-02-14',
+						time : '07:10a'
+					},
+					duration : '5h 55m',
+					durationMinutes : 355
+				}
+			],
+			path : ['IAD', 'SIN', 'BKK'],
+			flights :
+			[{
+					number : 803,
+					abbrNumber : 'UA803',
+					from : {
+						code : 'IAD',
+						date : '2016-02-12',
+						time : '12:15p'
+					},
+					to : {
+						code : 'SIN',
+						date : '2016-02-14',
+						time : '01:15a'
+					},
+					duration : '1d',
+					durationMinutes : 1440,
+					bookingClass : 'H',
+					cabinClass : 'E',
+					airline : 'United Airlines',
+					noOfStops : 1,
+					stopsDuration : '1h 45m',
+					stopsDurationMinutes : 105,
+					stops :
+					[{
+							code : 'NRT',
+							begin : {
+								date : '2016-02-13',
+								time : '04:40p'
+							},
+							end : {
+								date : '2016-02-13',
+								time : '06:25p'
+							},
+							duration : '1h 45m',
+							durationMinutes : 105
+						}
+					]
+				}, {
+					number : 511,
+					abbrNumber : '3K511',
+					from : {
+						code : 'SIN',
+						date : '2016-02-14',
+						time : '07:10a'
+					},
+					to : {
+						code : 'BKK',
+						date : '2016-02-14',
+						time : '08:35a'
+					},
+					duration : '2h 25m',
+					durationMinutes : 145,
+					bookingClass : 'H',
+					cabinClass : 'E',
+					airline : 'Jetstar Asia',
+					noOfStops : 0,
+					stopsDuration : '',
+					stopsDurationMinutes : 0,
+					stops : []
+				}
+			]
+		}
+	]
+}

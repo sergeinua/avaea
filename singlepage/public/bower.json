@@ -1,0 +1,26 @@
+{
+  "name": "avaea",
+  "homepage": "",
+  "description": "",
+  "main": "",
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.9",
+    "angular-material": "1.0.3"
+  },
+  "resolutions": {
+    "angular": "~1.4.9",
+    "angular-material": "1.0.3"
+  }
+}

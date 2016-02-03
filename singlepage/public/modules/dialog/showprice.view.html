@@ -1,0 +1,103 @@
+<md-dialog class="flight-price-dialog" ng-class="{'price-loaded' : price}" aria-label="Price" ng-cloak>
+
+    <md-dialog-content>
+
+        <md-progress-circular class="spinner" md-mode="indeterminate" md-diameter="50" ng-hide="price"></md-progress-circular>
+
+        <div class="price-data-container" ng-if="price">
+
+            <md-divider class="price-info">
+                <md-button class="md-fab md-primary additional-button" ng-click="showAdditional = !showAdditional">
+                    <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
+                </md-button>
+                <span>
+                    Additional Fare Details
+                </span>
+            </md-divider>
+            <div class="additional" ng-hide="!showAdditional">
+                <p>{{price.TravelerGroup.TypeTotalPrice}}</p>
+                <span>{{price.TravelerGroup.FareRules.FareCalculation}}</span>
+            </div>
+
+            <md-divider class="price-info">
+                <md-button class="md-fab md-primary additional-button" ng-click="showItinerary = !showItinerary">
+                    <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
+                </md-button>
+                <span>
+                    Itinerary Details
+                </span>
+            </md-divider>
+            <div class="itinerary" ng-hide="!showItinerary">
+            </div>
+
+
+            <md-divider class="price-info">
+                <md-button class="md-fab md-primary additional-button" ng-click="showBag = !showBag">
+                    <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
+                </md-button>
+                <span>
+                    Bag Fees
+                </span>
+            </md-divider>
+            <div class="bag" ng-hide="!showBag">
+            </div>
+
+            <div class="price-data">
+
+                <div class="header bold type">Passenger Type</div>
+                <div class="header bold currency">Currency</div>
+                <div class="header bold value">{{price.TravelerGroup.TypePriced}}</div>
+
+
+                <div class="bold type">Base Fare per Passenger</div>
+                <div class="currency">&nbsp;</div>
+                <div class="value">&nbsp;</div>
+
+                <div class="type info-row">
+                    {{price.TravelerGroup.FareRules.FareInfo.RelatedSegment.AirlineCode}}&nbsp;
+                    {{price.TravelerGroup.FareRules.FareInfo.RelatedSegment.FlightNumber}}:&nbsp;
+                    {{price.TravelerGroup.FareRules.FareInfo.RelatedSegment.DepartureCode}}-
+                    {{price.TravelerGroup.FareRules.FareInfo.RelatedSegment.ArrivalCode}}&nbsp;
+                    ({{price.TravelerGroup.FareRules.FareInfo.RelatedSegment.ClassOfService}})
+                </div>
+                <div class="currency">{{price.TravelerGroup.FareRules.FareInfo.FareComponent.CurrencyCode.$t}}</div>
+                <div class="value">{{price.TravelerGroup.FareRules.FareInfo.FareComponent.BaseFare.Amount  / Math.pow(10, price.TravelerGroup.FareRules.FareInfo.FareComponent.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+
+                <div class="bold type">Total Base Fare per Passenger</div>
+                <div class="bold currency">{{price.CurrencyCode.$t}}</div>
+                <div class="bold value">{{price.TravelerGroup.Price.BaseFare.Amount / Math.pow(10, price.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+
+                <div class="bold type">Taxes and Fees</div>
+                <div class="bold currency">&nbsp;</div>
+                <div class="bold value">&nbsp;</div>
+
+                <div ng-repeat="tax in price.TravelerGroup.Price.Taxes.Tax">
+                    <div class="info-row type">{{tax.Description}}</div>
+                    <div class="currency">{{price.CurrencyCode.$t}}</div>
+                    <div class="value">{{tax.Amount  / Math.pow(10, price.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+                </div>
+
+                <div class="bold type">Total Taxes and Fees</div>
+                <div class="bold currency">{{price.CurrencyCode.$t}}</div>
+                <div class="bold value">{{price.TravelerGroup.Price.Taxes.Amount  / Math.pow(10, price.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+
+                <div class="bold type">Total airfare per passenger - (Validated on {{price.ValidatingCarrier}})</div>
+                <div class="bold currency">{{price.CurrencyCode.$t}}</div>
+                <div class="bold value">{{price.TotalPrice / Math.pow(10, price.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+
+                <div class="bold type">Grand Total {{price.CurrencyCode.$t}} - ({{price.TravelerGroup.TypePriced}} x {{price.TravelerCount}})	</div>
+                <div class="bold currency">&nbsp;</div>
+                <div class="bold value">{{price.TravelerGroup.TypeTotalPrice / Math.pow(10, price.CurrencyCode.NumberOfDecimals) |number: 2}}</div>
+
+            </div>
+
+        </div>
+
+    </md-dialog-content>
+
+    <md-dialog-actions>
+        <md-button ng-click="answer()" class="md-primary">Close Dialog</md-button>
+        <md-button ng-click="answer('book')" class="md-primary">Add to Cart</md-button>
+    </md-dialog-actions>
+
+</md-dialog>
