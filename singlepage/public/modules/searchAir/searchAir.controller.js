@@ -11,6 +11,9 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
     $scope.fabIsOpen = false;
     $scope.fabIsHover = false;
 
+    $scope.departSearchText = {};
+    $scope.arriveSearchText = {};
+
     // ===
     $scope.tabCount = tabCount;
     $scope.selectTab = selectTab;
@@ -124,9 +127,7 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type] = [];
         }
 
-        if ($scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index]) {
-            $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type].splice(index, 1);
-        }
+        $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index] = undefined;
 
         if (item) {
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index] = item.code;
@@ -147,7 +148,7 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
     function createFilterFor (query) {
         return function filterFn(item) {
-            return (item.code.indexOf(angular.lowercase(query)) === 0);
+            return (item.code.indexOf(angular.uppercase(query)) === 0);
         };
     };
 
@@ -161,10 +162,9 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date = [];
         }
 
+        $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date[index] = undefined;
         if (date) {
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date[index] = dateFormat(new Date(date), '%Y-%m-%d');
-        } else {
-            $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date.splice(index, 1);
         }
     };
 

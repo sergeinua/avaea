@@ -20,40 +20,40 @@
                                     </md-button>
 
                                     <md-autocomplete class="depart"
-                                                     md-search-text="departSearchText"
+                                                     md-search-text="departSearchText[tab.id + $index]"
                                                      md-selected-item-change="selectedItemChange('depart', item, $index)"
-                                                     md-items="item in querySearch('depart', departSearchText).depart"
+                                                     md-items="item in querySearch('depart', departSearchText[tab.id + $index]).depart"
                                                      md-item-text="item.code.toUpperCase()"
                                                      md-min-length="0"
                                                      placeholder="From"
 
-                                    <md-item-template class="auto">
-                                        <span md-highlight-text="departSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
-                                        <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
-                                    </md-item-template>
+                                        <md-item-template class="auto">
+                                            <span md-highlight-text="departSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
+                                            <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
+                                        </md-item-template>
 
-                                    <md-not-found>
-                                        No items matching "{{departSearchText}}" were found.
-                                    </md-not-found>
+                                        <md-not-found>
+                                            No items matching "{{departSearchText}}" were found.
+                                        </md-not-found>
 
                                     </md-autocomplete>
 
                                     <md-autocomplete class="arrive"
-                                                     md-search-text="arriveSearchText"
+                                                     md-search-text="arriveSearchText[tab.id + $index]"
                                                      md-selected-item-change="selectedItemChange('arrive', item, $index)"
-                                                     md-items="item in querySearch('arrive', arriveSearchText).arrive"
+                                                     md-items="item in querySearch('arrive', arriveSearchText[tab.id + $index]).arrive"
                                                      md-item-text="item.code.toUpperCase()"
                                                      md-min-length="0"
                                                      placeholder="To"
 
-                                    <md-item-template>
-                                        <span md-highlight-text="arriveSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
-                                        <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
-                                    </md-item-template>
+                                        <md-item-template>
+                                            <span md-highlight-text="arriveSearchText" md-highlight-flags="^i">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</span>
+                                            <md-tooltip md-direction="down">{{item.code.toUpperCase()}} - {{item.name.toUpperCase()}}</md-tooltip>
+                                        </md-item-template>
 
-                                    <md-not-found>
-                                        No items matching "{{arriveSearchText}}" were found.
-                                    </md-not-found>
+                                        <md-not-found>
+                                            No items matching "{{arriveSearchText}}" were found.
+                                        </md-not-found>
 
                                     </md-autocomplete>
 
