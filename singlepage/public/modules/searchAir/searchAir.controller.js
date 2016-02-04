@@ -127,7 +127,6 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             }
 
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index] = item.code;
-            console.log($scope.SearchAirAvailabilityList);
         }
     };
 
@@ -189,8 +188,13 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
     function SearchAirAvailability () {
 
-        if (!$scope.SearchAirAvailabilityList[$scope.selectedTab.id]) {
-            console.log('Nothing to search');
+        if (
+            !$scope.SearchAirAvailabilityList[$scope.selectedTab.id] ||
+            !$scope.SearchAirAvailabilityList[$scope.selectedTab.id].arrive || arraySize($scope.SearchAirAvailabilityList[$scope.selectedTab.id].arrive) != $scope.selectedTab.rows ||
+            !$scope.SearchAirAvailabilityList[$scope.selectedTab.id].depart || arraySize($scope.SearchAirAvailabilityList[$scope.selectedTab.id].depart) != $scope.selectedTab.rows ||
+            !$scope.SearchAirAvailabilityList[$scope.selectedTab.id].date || arraySize($scope.SearchAirAvailabilityList[$scope.selectedTab.id].date) != $scope.selectedTab.rows
+        ) {
+            $scope.error[$scope.selectedTab.id] = 'Please fill From, To and Date fields';
             return;
         }
 
@@ -298,5 +302,9 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             // add leading zero if required
             return ('0' + m).slice (-2);
         });
+    }
+
+    function arraySize(arr) {
+        return arr.filter(function(value) { return value !== undefined }).length;
     }
 }

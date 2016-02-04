@@ -7,7 +7,7 @@
         <div class="price-data-container" ng-if="price">
 
             <md-divider class="price-info">
-                <md-button class="md-fab md-primary additional-button" ng-click="showAdditional = !showAdditional">
+                <md-button aria-label="Additional Fare Details" class="md-fab md-primary additional-button" ng-click="showAdditional = !showAdditional">
                     <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
                 </md-button>
                 <span>
@@ -20,7 +20,7 @@
             </div>
 
             <md-divider class="price-info">
-                <md-button class="md-fab md-primary additional-button" ng-click="showItinerary = !showItinerary">
+                <md-button aria-label="Itinerary Details" class="md-fab md-primary additional-button" ng-click="showItinerary = !showItinerary">
                     <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
                 </md-button>
                 <span>
@@ -32,7 +32,7 @@
 
 
             <md-divider class="price-info">
-                <md-button class="md-fab md-primary additional-button" ng-click="showBag = !showBag">
+                <md-button aria-label="Bag Fees" class="md-fab md-primary additional-button" ng-click="showBag = !showBag">
                     <md-icon md-svg-src="img/svg/arrow-down2.svg"></md-icon>
                 </md-button>
                 <span>
@@ -96,8 +96,8 @@
     </md-dialog-content>
 
     <md-dialog-actions>
-        <md-button ng-click="answer()" class="md-primary">Close Dialog</md-button>
-        <md-button ng-click="answer('book')" class="md-primary">Add to Cart</md-button>
+        <md-button ng-click="answer()" class="md-primary">Close</md-button>
+        <md-button ng-click="answer('book')" class="md-primary" ng-hide="!price">Add to Cart</md-button>
     </md-dialog-actions>
 
 </md-dialog>
