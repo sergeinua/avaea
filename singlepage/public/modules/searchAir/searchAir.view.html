@@ -20,7 +20,6 @@
                                     </md-button>
 
                                     <md-autocomplete class="depart"
-                                                     md-selected-item="departSelectedItem"
                                                      md-search-text="departSearchText"
                                                      md-selected-item-change="selectedItemChange('depart', item, $index)"
                                                      md-items="item in querySearch('depart', departSearchText).depart"
@@ -40,7 +39,6 @@
                                     </md-autocomplete>
 
                                     <md-autocomplete class="arrive"
-                                                     md-selected-item="arriveSelectedItem"
                                                      md-search-text="arriveSearchText"
                                                      md-selected-item-change="selectedItemChange('arrive', item, $index)"
                                                      md-items="item in querySearch('arrive', arriveSearchText).arrive"
