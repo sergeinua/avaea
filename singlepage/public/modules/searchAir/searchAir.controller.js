@@ -116,18 +116,25 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
     function selectedItemChange (type, item, index) {
 
+        if (!$scope.SearchAirAvailabilityList[$scope.selectedTab.id]) {
+            $scope.SearchAirAvailabilityList[$scope.selectedTab.id] = {};
+        }
+
+        if (!$scope.SearchAirAvailabilityList[$scope.selectedTab.id][type]) {
+            $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type] = [];
+        }
+
+        if ($scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index]) {
+            $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type].splice(index, 1);
+        }
+
         if (item) {
-
-            if (!$scope.SearchAirAvailabilityList[$scope.selectedTab.id]) {
-                $scope.SearchAirAvailabilityList[$scope.selectedTab.id] = {};
-            }
-
-            if (!$scope.SearchAirAvailabilityList[$scope.selectedTab.id][type]) {
-                $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type] = [];
-            }
-
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type][index] = item.code;
         }
+
+        console.log(index, type, $scope.SearchAirAvailabilityList[$scope.selectedTab.id][type]);
+        var l;
+
     };
 
     function loadApts () {
@@ -154,7 +161,11 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date = [];
         }
 
-        $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date[index] = dateFormat(new Date(date), '%Y-%m-%d');
+        if (date) {
+            $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date[index] = dateFormat(new Date(date), '%Y-%m-%d');
+        } else {
+            $scope.SearchAirAvailabilityList[$scope.selectedTab.id].date.splice(index, 1);
+        }
     };
 
     function loadAllTimes () {
@@ -188,6 +199,7 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
     function SearchAirAvailability () {
 
+        console.log($scope.SearchAirAvailabilityList[$scope.selectedTab.id]);
         if (
             !$scope.SearchAirAvailabilityList[$scope.selectedTab.id] ||
             !$scope.SearchAirAvailabilityList[$scope.selectedTab.id].arrive || arraySize($scope.SearchAirAvailabilityList[$scope.selectedTab.id].arrive) != $scope.selectedTab.rows ||
