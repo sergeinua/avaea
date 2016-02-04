@@ -325,8 +325,50 @@ module.exports = {
       });
 
       var maxOrderTile = _.max(tileArr, 'order');
-      if (maxOrderTile.name == 'Duration') {
-        itineraries = _.sortBy(itineraries, 'durationMinutes');
+      switch (maxOrderTile.id) {
+          case 'duration_tile':
+              sails.log.info('Ordered by Duration');
+              _.sortBy(itineraries, 'durationMinutes');
+              break;
+          case 'price_tile':
+                sails.log.info('Ordered by Price');
+              _.sortBy(itineraries, 'price');
+              break;
+          case 'airline_tile':
+                sails.log.info('Ordered by Airline');
+              _.sortBy(itineraries, function (item) {
+                  return item.citypairs[0].flights[0].airline;
+              });
+              break;
+          case 'arrival_tile':
+                sails.log.info('Ordered by Arrival');
+              _.sortBy(itineraries, function (item) {
+                  return item.citypairs[0].to.quarter;
+              });
+              break;
+          case 'departure_tile':
+                sails.log.info('Ordered by Departure');
+              _.sortBy(itineraries, function (item) {
+                  return item.citypairs[0].from.quarter;
+              });
+              break;
+          case 'destination_departure_tile':
+              sails.log.info('Ordered by Destination Departure');
+              _.sortBy(itineraries, function (item) {
+                  var lastElement = item.citypairs.length - 1;
+                  return item.citypairs[lastElement].from.quarter;
+              });
+              break;
+          case 'source_arrival_tile':
+              sails.log.info('Ordered by Source Arrival');
+              _.sortBy(itineraries, function (item) {
+                  var lastElement = item.citypairs.length - 1;
+                  return item.citypairs[lastElement].to.quarter;
+              });
+              break;
+          default:
+              sails.log.info('Ordered by Price');
+              _.sortBy(itineraries, 'price');
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
@@ -420,7 +462,7 @@ module.exports = {
               index = _.findIndex(tileArr['Airline'].filters, {title:flight.airline});
               if ( index === -1 ) {
                 tileArr['Airline'].filters.push({
-                  title: flight.airline, // Issue #43 show only what fits
+                  title: flight.airline,
                   id: 'airline_tile_' + flight.airline.replace(/\W+/g, '_'),
                   count : 1
                 });
