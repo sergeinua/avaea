@@ -74,7 +74,8 @@ $(document).ready(function() {
   };
   var autoscrollme = function () {
     $('#log_table_div').animate({ 
-      scrollTop: $('#log_table_div').height()-$(window).height()}, 
+        scrollTop: 9999999
+      },
       140
     );
   };
