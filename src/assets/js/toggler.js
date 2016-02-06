@@ -181,16 +181,16 @@ $(document).ready(function() {
                 tileValue : $(this).html(),
                 tileId    : $(this).attr('for')
             });
+
+            var current = $(this).attr('for');
+            if (current && current.indexOf('airline_tile') != -1) {
+                checkAirlineFlierMilesProgram(current);
+            }
         }
 //        var sCount = $('.itinerary:visible').length;
 //        $('#search_count').text(sCount);
 //        $('#search_count').removeClass('hidden');
         filterItineraries();
-
-        var current = $(this).attr('for');
-        if (current && current.indexOf('airline_tile') != -1) {
-            checkAirlineFlierMilesProgram(current);
-        }
     });
 
     var getSliderSettings = function() {
@@ -298,17 +298,15 @@ $(document).ready(function() {
     });
 
     var cancelMilesPrograms = function () {
-        $('#AFFMP').slideUp('slow', function () {
-            $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
-            $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeIn('slow', function () {
-                $('#tiles_ui').css('display', 'table');
-            });
-            var _fieldset = $('#AFFMP');
-            $('input[name=airlineName]', _fieldset).val('');
-            $('input[name=accountNumber]', _fieldset).val('');
-            $('input[name=flierMiles]', _fieldset).val('');
-            $('input[name=expirationDate]', _fieldset).val('');
-        });
+        $('#AFFMP').addClass('hidden');
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+        $('#buy_button').removeClass('hidden');
+        $('#tiles_ui').css('display', 'table');
+        var _fieldset = $('#AFFMP');
+        $('input[name=airlineName]', _fieldset).val('');
+        $('input[name=accountNumber]', _fieldset).val('');
+        $('input[name=flierMiles]', _fieldset).val('');
+        $('input[name=expirationDate]', _fieldset).val('');
     };
 
     var checkAirlineFlierMilesProgram = function (filter) {
@@ -327,10 +325,9 @@ $(document).ready(function() {
             })
             .done(function( msg ) {
                 if (msg && !msg.checked) {
-                    $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeOut('slow', function () {
-                        $('body').css('padding-top', 0);
-                        _fieldset.slideDown('slow');
-                    });
+                    $('#buy_button').addClass('hidden');
+                    $('body').css('padding-top', 0);
+                    _fieldset.removeClass('hidden');
                 }
             });
         }
