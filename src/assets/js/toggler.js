@@ -300,7 +300,9 @@ $(document).ready(function() {
     var cancelMilesPrograms = function () {
         $('#AFFMP').slideUp('slow', function () {
             $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
-            $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeIn('slow');
+            $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeIn('slow', function () {
+                $('#tiles_ui').css('display', 'table');
+            });
             var _fieldset = $('#AFFMP');
             $('input[name=airlineName]', _fieldset).val('');
             $('input[name=accountNumber]', _fieldset).val('');
