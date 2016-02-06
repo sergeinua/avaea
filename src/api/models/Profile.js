@@ -87,8 +87,10 @@ module.exports = {
       }
       for (var i = 0; i < form['milesPrograms.airlineName'].length; i++) {
         jsonStruct.milesPrograms.push({
-          airlineName:   form['milesPrograms.airlineName'][i],
-          accountNumber: form['milesPrograms.accountNumber'][i]
+          airlineName:      form['milesPrograms.airlineName'][i],
+          accountNumber:    form['milesPrograms.accountNumber'][i],
+          flierMiles:       form['milesPrograms.flierMiles'][i],
+          expirationDate:   form['milesPrograms.expirationDate'][i]
         });
       }
       for (var i = 0; i < form['loungeMembership.airlineName'].length; i++) {

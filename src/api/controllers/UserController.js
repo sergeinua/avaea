@@ -54,4 +54,64 @@ module.exports = {
     });
     res.redirect('/profile');
   },
+
+    /**
+     * Checked Airlines Frequent Flier Miles Programs for user
+     * user/checkAFFMP
+     * @param req
+     * @param res
+     */
+  checkAFFMP: function (req, res) {
+    Profile.findOneByUserId(req.user.id).exec(function (err, found) {
+      if (!found) {
+        sails.log.error('User not found', JSON.stringify(req.user));
+      } else {
+          var _res =  _.find(found.milesPrograms, {"airlineName": req.param('airlineName')});
+          if (_res) {
+              return res.json({'checked': true});
+          }
+          return res.json({'checked': false});
+      }
+    });
+  },
+
+    /**
+     * Save Airlines Frequent Flier Miles Programs
+     * user/addMilesPrograms
+     * @param req
+     * @param res
+     */
+  addMilesPrograms: function (req, res) {
+      Profile.findOneByUserId(req.user.id).exec(function (err, found) {
+          if (!found) {
+              sails.log.error('User not found', JSON.stringify(req.user));
+          } else {
+              var ind =  _.findIndex(found.milesPrograms, {"airlineName": req.param('airlineName')});
+              if (ind != -1) {
+                  var _res = found.milesPrograms[ind];
+                  found.milesPrograms[ind] = _.merge(found.milesPrograms[ind], {
+                      airlineName:      _res.airlineName,
+                      accountNumber:    req.param('accountNumber') || _res.accountNumber || '',
+                      flierMiles:       req.param('flierMiles') || _res.flierMiles || '',
+                      expirationDate:   req.param('expirationDate') || _res.expirationDate || ''
+                  });
+
+              } else {
+                  found.milesPrograms.push({
+                      airlineName:      req.param('airlineName'),
+                      accountNumber:    req.param('accountNumber') || '',
+                      flierMiles:       req.param('flierMiles') || '',
+                      expirationDate:   req.param('expirationDate') || ''
+                  });
+              }
+
+              Profile.update({user:req.user.id}, found).exec(function (err, record) {
+                  if (err) {
+                      return res.json({error: err});
+                  }
+                  return res.json({'success': true});
+              });
+          }
+      });
+  }
 };

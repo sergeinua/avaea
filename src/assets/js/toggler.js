@@ -186,6 +186,11 @@ $(document).ready(function() {
 //        $('#search_count').text(sCount);
 //        $('#search_count').removeClass('hidden');
         filterItineraries();
+
+        var current = $(this).attr('for');
+        if (current && current.indexOf('airline_tile') != -1) {
+            checkAirlineFlierMilesProgram(current);
+        }
     });
 
     var getSliderSettings = function() {
@@ -286,5 +291,85 @@ $(document).ready(function() {
         if ($('.selected')) {
             location.href = '/order?id=' + $('.selected').attr('id');
         }
+    });
+
+    $("#cancelMilesPrograms").click(function () {
+        cancelMilesPrograms();
+    });
+
+    var cancelMilesPrograms = function () {
+        $('#AFFMP').slideUp('slow', function () {
+            $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+            $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeIn('slow');
+            var _fieldset = $('#AFFMP');
+            $('input[name=airlineName]', _fieldset).val('');
+            $('input[name=accountNumber]', _fieldset).val('');
+            $('input[name=flierMiles]', _fieldset).val('');
+            $('input[name=expirationDate]', _fieldset).val('');
+        });
+    };
+
+    var checkAirlineFlierMilesProgram = function (filter) {
+        var name = $.trim(filter.replace('airline_tile_', '')),
+            _name = name.replace('_', ' '),
+            _fieldset = $('#AFFMP');
+        if (_fieldset.attr('for') == name) return;
+        $('input[name=airlineName]', _fieldset).val(_name);
+        if (name) {
+            $.ajax({
+                method: "POST",
+                url: "/user/checkAFFMP",
+                data: {
+                    airlineName: name.replace('_', ' ')
+                }
+            })
+            .done(function( msg ) {
+                if (msg && !msg.checked) {
+                    $('#tiles_ui, #searchResultData, nav.navbar, #buy_button').fadeOut('slow', function () {
+                        $('body').css('padding-top', 0);
+                        _fieldset.slideDown('slow');
+                    });
+                }
+            });
+        }
+
+        _fieldset.attr('for', name);
+    };
+
+    $('#saveMilesPrograms').click(function () {
+        var _fieldset = $('#AFFMP'),
+            data = {
+            airlineName:    $.trim($('input[name=airlineName]', _fieldset).val()),
+            accountNumber:  $.trim($('input[name=accountNumber]', _fieldset).val()),
+            flierMiles:     $.trim($('input[name=flierMiles]', _fieldset).val()),
+            expirationDate: $.trim($('input[name=expirationDate]', _fieldset).val())
+        };
+        if (data.airlineName) {
+            $.ajax({
+                method: "POST",
+                url:    "/user/addMilesPrograms",
+                data:   data
+            })
+            .done(function( msg ) {
+                if (msg.error) {
+                    $('#timeAlert').text('Error saving data to Airlines Frequent Flier Miles Programs.')
+                        .fadeIn('slow', function () {
+                            $(this).fadeOut(5000, function () {
+                                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+                            });
+                        }
+                    );
+                } else {
+                    $('#timeAlert').text('Your data for Airlines Frequent Flier Miles Programs has been saved.')
+                        .fadeIn('slow', function () {
+                            $(this).fadeOut(5000, function () {
+                                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+                            });
+                        }
+                    );
+                }
+            });
+        }
+        cancelMilesPrograms();
     });
 });
