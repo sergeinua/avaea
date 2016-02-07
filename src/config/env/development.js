@@ -42,7 +42,7 @@ module.exports = {
       baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',
       clientId: 'CFS1017'
     },
-    searchProvider: /*'mystifly'*/  'mondee'
+    searchProvider: ['mondee'/*, 'mystifly'*/]
   }
 
 };

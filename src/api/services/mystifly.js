@@ -24,7 +24,7 @@ var getAirLowFareSearchRq = function(sessionId, params) {
       'q36:OriginDestinationInformations': {
         'q36:OriginDestinationInformation': [
           {
-            'q36:DepartureDateTime': sails.moment(params.DepartureTime, "DD/MM/YYYY").format('YYYY-MM-DDTHH:mm:SS'),
+            'q36:DepartureDateTime': sails.moment(params.DepartureDate, "DD/MM/YYYY").format('YYYY-MM-DDTHH:mm:SS'),
             'q36:DestinationLocationCode': params.ArrivalLocationCode,
             'q36:OriginLocationCode': params.DepartureLocationCode
           }
@@ -198,31 +198,6 @@ var mapIntermediateStops = function (stops) {
 };
 
 var mapFlights = function(flights) {
-    /*
-{ ArrivalAirportLocationCode: 'SFO',
-  ArrivalDateTime: Tue Jan 12 2016 16:10:00 GMT+0200 (EET),
-  CabinClassCode: 'Y',
-  CabinClassText: '',
-  DepartureAirportLocationCode: 'LHR',
-  DepartureDateTime: Tue Jan 12 2016 13:05:00 GMT+0200 (EET),
-  Eticket: true,
-  FlightNumber: '5525',
-  JourneyDuration: 665,
-  MarketingAirlineCode: 'AY',
-  MarriageGroup: '',
-  MealCode: '',
-  OperatingAirline: { Code: 'BA', Equipment: '744', FlightNumber: '285' },
-  ResBookDesigCode: 'Y',
-  ResBookDesigText: '',
-  SeatsRemaining: { BelowMinimum: false, Number: 0 },
-  StopQuantity: 0,
-  StopQuantityInfo:
-   { ArrivalDateTime: Mon Jan 01 1 02:00:00 GMT+0200 (EET),
-     DepartureDateTime: Mon Jan 01 1 02:00:00 GMT+0200 (EET),
-     Duration: 0,
-     LocationCode: '' } }
-
-    */
   var res = {
     flights: [],
     path: [],
@@ -401,9 +376,6 @@ var mapItinerary = function(itinerary) {
   return res;
 };
 
-//var soap = require('soap');
-var sessionId;
-
 module.exports = {
   flightSearch: function(guid, params, callback) {
     sails.log.info('Mystifly API call started');
@@ -416,31 +388,34 @@ module.exports = {
     soap.createClient(wsdlUrl, function(err, client) {
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback(err, []);
+        return callback( err );
       } else {
         var csRq = getCreateSessionRq();
         return client.CreateSession(csRq, function(err, session, raw, soapHeader) {
           if (err) {
             sails.log.error(err);
-            return callback(err, []);
+            return callback( err );
           } else {
             if (!session.CreateSessionResult.SessionStatus ||
                 session.CreateSessionResult.Errors.Error) {
               sails.log.error(session.CreateSessionResult.Errors.Error);
-              return callback(err, []);
+              return callback( err );
             }
-            var req = getAirLowFareSearchRq(session.CreateSessionResult.SessionId, params);
+            var req = getAirLowFareSearchRq(session.CreateSessionResult.SessionId, params.searchParams);
             return client.AirLowFareSearch(req, function(err, result, raw, soapHeader) {
+              if (utils.timeLogGet('mystifly') > 7000) {
+                params.session.time_log.push(require('util').format('Mystifly took %ss to respond', (utils.timeLogGet('mystifly')/1000).toFixed(1)));
+              }
               sails.log.info('Mystifly AirLowFareSearch request time: %s', utils.timeLogGetHr('mystifly'));
               var resArr = [];
               if (err) {
                 sails.log.error(err);
-                return callback(err, resArr);
+                return callback( err );
               } else {
                 if (!result.AirLowFareSearchResult.Success ||
                   result.AirLowFareSearchResult.Errors.Error) {
                   sails.log.error(result.AirLowFareSearchResult.Errors.Error);
-                  return callback(err, []);
+                  return callback( err );
                 }
                 if (result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) {
                   var minDuration, maxDuration, minPrice, maxPrice;
@@ -478,17 +453,21 @@ module.exports = {
                     if ( err ) {
                       sails.log.error( err );
                     }
-                    resArr.guid = guid;
-                    resArr.priceRange = {
-                      minPrice: minPrice,
-                      maxPrice: maxPrice
+                    var searchData = {
+                      ranges: {
+                        priceRange: {
+                          minPrice: minPrice,
+                          maxPrice: maxPrice
+                        },
+                        durationRange: {
+                          minDuration: minDuration,
+                          maxDuration: maxDuration
+                        }
+                      },
+                      searchParams: params.searchParams
                     };
-                    resArr.durationRange = {
-                      minDuration: minDuration,
-                      maxDuration: maxDuration
-                    };
-                    mystifly.cacheSearch(guid, params);
-                    return callback( null, resArr );
+                    mystifly.cacheSearch(guid, searchData);
+                    return callback( null );
                   });
                 }
               }
@@ -509,10 +488,8 @@ module.exports = {
   },
   cacheSearch: function (searchId, params) {
     var id = 'search_' + searchId.replace(/\W+/g, '_');
-    memcache.store(id, {
-      searchParams  : params,
-      itineraryKeys : mystifly.searchResultKeys
-    });
+    params.itineraryKeys = mystifly.searchResultKeys;
+    memcache.store(id, params);
     mystifly.searchResultKeys = [];
   }
 };

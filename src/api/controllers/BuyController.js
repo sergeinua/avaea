@@ -28,8 +28,8 @@ module.exports = {
       var id = req.param('id');
 
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
-      memcache.get(cacheId, function(result) {
-        if (!_.isEmpty(result)) {
+      memcache.get(cacheId, function(err, result) {
+        if (!err && !_.isEmpty(result)) {
           var logData = {
             action    : 'order',
             itinerary : JSON.parse(result)

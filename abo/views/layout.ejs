@@ -34,7 +34,7 @@
           </button>
           <a class="navbar-brand" href="/"><%if (!title) { %><%= __('Demo') %><% } else { %><%= title %><% } %>
             <% if (typeof searchResult != 'undefined') {%>
-            <span class="hidden-xs">, Departure&nbsp;"<%=searchParams.DepartureTime%>"
+            <span class="hidden-xs">, Departure&nbsp;"<%=searchParams.DepartureDate%>"
               <% if (searchParams.returnDate) { %>
               , Return&nbsp;"<%=searchParams.returnDate%>"
               <% } %>
