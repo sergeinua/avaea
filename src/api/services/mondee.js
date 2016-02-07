@@ -175,7 +175,7 @@ var getFlightSearchRq = function(id, params) {
   req.FlightSearchRequest = {
     OriginDestination: [{
       DepartureLocationCode: params.DepartureLocationCode,
-      DepartureTime: params.DepartureTime,
+      DepartureTime: params.DepartureDate,
       ArrivalLocationCode: params.ArrivalLocationCode
     }]
   };
@@ -405,11 +405,14 @@ module.exports = {
 
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback(err, []);
+        return callback( err );
       } else {
-        var req = getFlightSearchRq(guid, params);
+        var req = getFlightSearchRq(guid, params.searchParams);
 
         return client.FlightSearch(req, function(err, result, raw, soapHeader) {
+          if (utils.timeLogGet('mondee') > 7000) {
+            params.session.time_log.push(require('util').format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+          }
           sails.log.info('Mondee FlightSearch request time: %s', utils.timeLogGetHr('mondee'));
           var resArr = [];
           if (err || ('TPErrorList' in result && result.TPErrorList) || !result.FlightSearchResponse) {
@@ -417,7 +420,7 @@ module.exports = {
                   err = (result.TPErrorList && result.TPErrorList.errorText) ? result.TPErrorList.errorText : 'No Results Found';
               }
             sails.log.error(err);
-            return callback(err, resArr);
+            return callback( err );
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
               var minDuration, maxDuration, minPrice, maxPrice;
@@ -453,17 +456,21 @@ module.exports = {
                 if ( err ) {
                   sails.log.error( err );
                 }
-                resArr.guid = guid;
-                resArr.priceRange = {
-                  minPrice: minPrice,
-                  maxPrice: maxPrice
+                var searchData = {
+                  ranges: {
+                    priceRange: {
+                      minPrice: minPrice,
+                      maxPrice: maxPrice
+                    },
+                    durationRange: {
+                      minDuration: minDuration,
+                      maxDuration: maxDuration
+                    }
+                  },
+                  searchParams: params.searchParams
                 };
-                resArr.durationRange = {
-                  minDuration: minDuration,
-                  maxDuration: maxDuration
-                };
-                mondee.cacheSearch(guid, params);
-                return callback( null, resArr );
+                mondee.cacheSearch(guid, searchData);
+                return callback( null );
               });
             }
           }
@@ -482,10 +489,8 @@ module.exports = {
   },
   cacheSearch: function (searchId, params) {
     var id = 'search_' + searchId.replace(/\W+/g, '_');
-    memcache.store(id, {
-      searchParams  : params,
-      itineraryKeys : mondee.searchResultKeys
-    });
+    params.itineraryKeys = mondee.searchResultKeys;
+    memcache.store(id, params);
     mondee.searchResultKeys = [];
   }
 };

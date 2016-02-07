@@ -16,12 +16,12 @@ module.exports = {
   rankMax : 0,
   updateRank : function (user, searchUuid, price)
   {
-    memcache.get(searchUuid, function(result) {
-      if (!_.isEmpty(result)) {
+    memcache.get(searchUuid, function(err, result) {
+      if (!err && !_.isEmpty(result)) {
         var searchData = JSON.parse(result);
         //get all itineraries
-        memcache.get(searchData.itineraryKeys, function (itineraries) {
-          if (!_.isEmpty(itineraries)) {
+        memcache.get(searchData.itineraryKeys, function (err, itineraries) {
+          if (!err && !_.isEmpty(itineraries)) {
             var rankMin = 0;
             var rankMax = 0;
             _.each(itineraries, function (itinerary) {
@@ -36,7 +36,7 @@ module.exports = {
                 rankMax++;
               }
             });
-            
+
             //rank_min = rank_min + 1 (this is to avoid zeros in the EMGA computation)
             itineraryPrediction.rankMin = (rankMin + 1)/searchData.itineraryKeys.length;
             sails.log('rankMin: ' + itineraryPrediction.rankMin + ' / ' + searchData.itineraryKeys.length);

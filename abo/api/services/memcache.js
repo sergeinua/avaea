@@ -39,14 +39,16 @@ module.exports = {
         // sails.log.info(Object.keys(response).length);
         if (!err) {
           if ( Object.keys(response).length > 1 ) {
-            return callback(response);
+            return callback(null, response);
           }
-          return callback(response[key]);
+          return callback(null, response[key]);
         } else {
-          sails.log.error('Key ' + key + ' is not found!');
-          return callback(false);
+          sails.log.error(err);
+          var error = 'Key ' + key + ' is not found!';
+          sails.log.error(error);
+          return callback(error, false);
         }
       });
     });
   }
-}
+};

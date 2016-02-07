@@ -46,7 +46,7 @@ module.exports = {
   },
 
   flightapis: {
-    searchProvider: 'mondee' // 'mystifly'
+    searchProvider: ['mondee'/*, 'mystifly'*/]
   }
 
 };
