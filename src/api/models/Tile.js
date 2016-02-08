@@ -251,29 +251,33 @@ module.exports = {
 
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
-      var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
-      var durationStep = (itineraries.durationRange.maxDuration - itineraries.durationRange.minDuration) / 4;
       var priceNameArr = [];
-      priceNameArr[0] = itineraries.priceRange.minPrice;
-      var current = itineraries.priceRange.minPrice + priceStep;
+      var N = Math.floor(itineraries.length / 4);
 
-      tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
-        id: 'price_tile_0',
-        count : 0
+      var itinerariesPrice = _.clone(itineraries, true);
+      itinerariesPrice = _.sortBy(itinerariesPrice, function(item) {
+          return Math.floor(item.price);
       });
 
-      for (var i = 1; i < 4; i++) {
-        priceNameArr[i] = current;
-        current = current + priceStep;
+      for (var counter = 0; counter < 4 ; counter++) {
+        priceNameArr[counter] = Math.floor(itinerariesPrice[ counter * N ].price);
+      }
+
+      for (var i = 0; i < 3; i++) {
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
+          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
           id: 'price_tile_' + i,
           count : 0
         });
 
       }
+      tileArr['Price'].filters.push({
+        title: '$' + parseInt(priceNameArr[3])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(itinerariesPrice[itinerariesPrice.length - 1].price + 1)+'</span>',
+        id: 'price_tile_3',
+        count : 0
+      });
+      delete itinerariesPrice;
 
       var roundTo30mins = function (durationMinutes) {
         var durationMinutesRounded = Math.round(durationMinutes/60)*60;
@@ -291,38 +295,34 @@ module.exports = {
         return 'h';
       };
       // prepare Duration tile
+      var itinerariesDuration = _.clone(itineraries, true);
+      itinerariesDuration = _.sortBy(itinerariesDuration, 'durationMinutes');
+
+
       var durationNameArr = [];
-      durationNameArr[0] = Math.floor(itineraries.durationRange.minDuration/60)*60;
-      durationStep = roundTo30mins(durationStep);
-      current = durationNameArr[0] + durationStep;
 
-      tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[0]/60) + formatMinutes(parseInt(durationNameArr[0]%60)) + ' &ndash; '
-          + Math.round((durationNameArr[0] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[0] + durationStep)%60)),
-        id: 'duration_tile_0',
-        count : 0
-      });
+      for (var counter = 0; counter < 4 ; counter++) {
+        durationNameArr[counter] = Math.floor(itinerariesDuration[ counter * N ].durationMinutes);
+      }
 
-      for (i = 1; i < 3; i++) {
-        durationNameArr[i] = current;
-        current = current + durationStep;
-
+      for (var i = 0; i < 3; i++) {
         tileArr['Duration'].filters.push({
-          title: Math.round(durationNameArr[i]/60) + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
-            + Math.round((durationNameArr[i] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
+        title: parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)) + ' &ndash; '
+          + Math.round((durationNameArr[i+1])/60) + formatMinutes(Math.round((durationNameArr[i+1])%60)),
           id: 'duration_tile_' + i,
           count : 0
         });
-
       }
-      durationNameArr[3] = current;
 
+      var lastDuration = itinerariesDuration[itinerariesDuration.length - 1].durationMinutes;
       tileArr['Duration'].filters.push({
-        title: Math.round(durationNameArr[3]/60) + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
-          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60) + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
-        id: 'duration_tile_' + i,
+        title: parseInt(durationNameArr[3]/60) + formatMinutes(parseInt(durationNameArr[3]%60)) + ' &ndash; '
+          + Math.round((lastDuration)/60) + formatMinutes(Math.round((lastDuration)%60)),
+        id: 'duration_tile_3',
         count : 0
       });
+      delete itinerariesDuration;
+      delete lastDuration;
 
       var maxOrderTile = _.max(tileArr, 'order');
       switch (maxOrderTile.id) {
