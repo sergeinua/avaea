@@ -74,7 +74,7 @@ module.exports = {
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
     title = params.searchParams.DepartureLocationCode + (params.searchParams.returnDate?'&#8644;':'&rarr;') + params.searchParams.ArrivalLocationCode,
-    iPrediction.getUserRank(req.user.id, params);
+    iPrediction.getUserRank(req.user.id, params.searchParams);
 
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
