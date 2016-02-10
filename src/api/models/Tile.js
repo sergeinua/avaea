@@ -34,26 +34,6 @@ module.exports = {
         id: 'source_arrival_tile',
         order: 0,
         filters: [
-          {
-            title : '12m &ndash; 6am',
-            id    : 'source_arrival_tile_1',
-            count : 0
-          },
-          {
-            title : '6am &ndash; 12n',
-            id    : 'source_arrival_tile_2',
-            count : 0
-          },
-          {
-            title : '12n &ndash; 6pm',
-            id    : 'source_arrival_tile_3',
-            count : 0
-          },
-          {
-            title : '6pm &ndash; 12m',
-            id    : 'source_arrival_tile_4',
-            count : 0
-          }
         ]
       },
       destinationDeparture: {
@@ -61,26 +41,6 @@ module.exports = {
         id: 'destination_departure_tile',
         order: 0,
         filters: [
-          {
-            title : '12m &ndash; 6am',
-            id    : 'destination_departure_tile_1',
-            count : 0
-          },
-          {
-            title : '6am &ndash; 12n',
-            id    : 'destination_departure_tile_2',
-            count : 0
-          },
-          {
-            title : '12n &ndash; 6pm',
-            id    : 'destination_departure_tile_3',
-            count : 0
-          },
-          {
-            title : '6pm &ndash; 12m',
-            id    : 'destination_departure_tile_4',
-            count : 0
-          }
         ]
       },
       Arrival: {
@@ -88,26 +48,6 @@ module.exports = {
         id: 'arrival_tile',
         order: 0,
         filters: [
-          {
-            title : '12m &ndash; 6am',
-            id    : 'arrival_tile_1',
-            count : 0
-          },
-          {
-            title : '6am &ndash; 12n',
-            id    : 'arrival_tile_2',
-            count : 0
-          },
-          {
-            title : '12n &ndash; 6pm',
-            id    : 'arrival_tile_3',
-            count : 0
-          },
-          {
-            title : '6pm &ndash; 12m',
-            id    : 'arrival_tile_4',
-            count : 0
-          }
         ]
       },
       Departure: {
@@ -115,26 +55,6 @@ module.exports = {
         id: 'departure_tile',
         order: 0,
         filters: [
-          {
-            title : '12m &ndash; 6am',
-            id    : 'departure_tile_1',
-            count : 0
-          },
-          {
-            title : '6am &ndash; 12n',
-            id    : 'departure_tile_2',
-            count : 0
-          },
-          {
-            title : '12n &ndash; 6pm',
-            id    : 'departure_tile_3',
-            count : 0
-          },
-          {
-            title : '6pm &ndash; 12m',
-            id    : 'departure_tile_4',
-            count : 0
-          }
         ]
       },
       Airline: {
@@ -187,10 +107,22 @@ module.exports = {
     if (!itineraries) {
       return callback(itineraries, [], params);
     }
+
+    var convertToHours = function (minutes) {
+      var hours = Math.round(minutes/60);
+      if (hours == 0 || hours == 24) {
+        return 12 + 'm';
+      } else if (hours < 12) {
+        return hours + 'am';
+      } else if (hours == 12) {
+        return hours + 'n';
+      } else if (hours > 12) {
+        hours -= 12;
+        return hours + 'pm';
+      }
+    };
     var tileArr = _.clone(this.tiles, true);
-
-    // sails.log.error(JSON.stringify(itineraries));
-
+    var N = Math.floor(itineraries.length / 4);
     var index = null;
     var filterClass = '';
     var timeArr = [
@@ -210,6 +142,68 @@ module.exports = {
 
       tileArr['destinationDeparture'].name = params.ArrivalLocationCode + ' Departure';
       tileArr['sourceArrival'].name = params.DepartureLocationCode + ' Arrival';
+
+      // prepare destinationDeparture tile
+      var destinationDepartureNameArr = [];
+      var itinerariesDestinationDeparture = _.clone(itineraries, true);
+      itinerariesDestinationDeparture = _.sortBy(itinerariesDestinationDeparture, function (item) {
+        var lastElement = item.citypairs.length - 1;
+        return item.citypairs[lastElement].from.minutes;
+      });
+      var lastElement = 0;
+      for (var counter = 0; counter < 4 ; counter++) {
+        lastElement = itinerariesDestinationDeparture[ counter * N ].citypairs.length -1;
+        destinationDepartureNameArr[counter] = itinerariesDestinationDeparture[ counter * N ].citypairs[lastElement].from.minutes;
+      }
+
+      for (var i = 0; i < 3; i++) {
+        tileArr['destinationDeparture'].filters.push({
+        title: convertToHours(destinationDepartureNameArr[i]) + ' &ndash; ' + convertToHours(destinationDepartureNameArr[i+1]),
+          id: 'destination_departure_tile_' + i,
+          count : 0
+        });
+      }
+
+      lastElement = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs.length -1;
+      var lastDestinationDeparture = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs[lastElement].from.minutes;
+      tileArr['destinationDeparture'].filters.push({
+        title: convertToHours(destinationDepartureNameArr[3]) + ' &ndash; ' + convertToHours(lastDestinationDeparture),
+        id: 'destination_departure_tile_3',
+        count : 0
+      });
+      delete itinerariesDestinationDeparture;
+      delete lastDestinationDeparture;
+
+      // prepare sourceArrival tile
+      var sourceArrivalNameArr = [];
+      var itinerariesSourceArrival = _.clone(itineraries, true);
+      itinerariesSourceArrival = _.sortBy(itinerariesSourceArrival, function (item) {
+        var lastElement = item.citypairs.length - 1;
+        return item.citypairs[lastElement].to.minutes;
+      });
+      for (var counter = 0; counter < 4 ; counter++) {
+        lastElement = itinerariesSourceArrival[ counter * N ].citypairs.length -1;
+        sourceArrivalNameArr[counter] = itinerariesSourceArrival[ counter * N ].citypairs[lastElement].to.minutes;
+      }
+
+      for (var i = 0; i < 3; i++) {
+        tileArr['sourceArrival'].filters.push({
+        title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
+          id: 'source_arrival_tile_' + i,
+          count : 0
+        });
+      }
+
+      lastElement = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs.length -1;
+      var lastSourceArrival = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs[lastElement].to.minutes;
+      tileArr['sourceArrival'].filters.push({
+        title: convertToHours(sourceArrivalNameArr[3]) + ' &ndash; ' + convertToHours(lastSourceArrival),
+        id: 'source_arrival_tile_3',
+        count : 0
+      });
+      delete itinerariesSourceArrival;
+      delete lastSourceArrival;
+
     } else { // one way trip
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
@@ -252,7 +246,6 @@ module.exports = {
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
       var priceNameArr = [];
-      var N = Math.floor(itineraries.length / 4);
 
       var itinerariesPrice = _.clone(itineraries, true);
       itinerariesPrice = _.sortBy(itinerariesPrice, function(item) {
@@ -324,6 +317,64 @@ module.exports = {
       delete itinerariesDuration;
       delete lastDuration;
 
+      // prepare Departure tile
+      var departureNameArr = [];
+      var itinerariesDeparture = _.clone(itineraries, true);
+      itinerariesDeparture = _.sortBy(itinerariesDeparture,  function (item) {
+                               return item.citypairs[0].from.minutes;
+                             });
+
+      for (var counter = 0; counter < 4 ; counter++) {
+        departureNameArr[counter] = itinerariesDeparture[ counter * N ].citypairs[0].from.minutes;
+      }
+
+      for (var i = 0; i < 3; i++) {
+        tileArr['Departure'].filters.push({
+        title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
+          id: 'departure_tile_' + i,
+          count : 0
+        });
+      }
+
+      var lastDeparture = itinerariesDeparture[itinerariesDeparture.length - 1].citypairs[0].from.minutes;
+      tileArr['Departure'].filters.push({
+        title: convertToHours(departureNameArr[3]) + ' &ndash; ' + convertToHours(lastDeparture),
+        id: 'departure_tile_3',
+        count : 0
+      });
+      delete itinerariesDeparture;
+      delete lastDeparture;
+
+      // prepare Arrival tile
+      var arrivalNameArr = [];
+      var itinerariesArrival = _.clone(itineraries, true);
+      itinerariesArrival = _.sortBy(itinerariesArrival, function (item) {
+                               return item.citypairs[0].to.minutes;
+                             });
+
+      for (var counter = 0; counter < 4 ; counter++) {
+        arrivalNameArr[counter] = itinerariesArrival[ counter * N ].citypairs[0].to.minutes;
+      }
+
+      for (var i = 0; i < 3; i++) {
+        tileArr['Arrival'].filters.push({
+        title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
+          id: 'arrival_tile_' + i,
+          count : 0
+        });
+      }
+
+      var lastArrival = itinerariesArrival[itinerariesArrival.length - 1].citypairs[0].to.minutes;
+      tileArr['Arrival'].filters.push({
+        title: convertToHours(arrivalNameArr[3]) + ' &ndash; ' + convertToHours(lastArrival),
+        id: 'arrival_tile_3',
+        count : 0
+      });
+      delete itinerariesArrival;
+      delete lastArrival;
+
+
+
       var maxOrderTile = _.max(tileArr, 'order');
       switch (maxOrderTile.id) {
           case 'duration_tile':
@@ -343,27 +394,27 @@ module.exports = {
           case 'arrival_tile':
               sails.log.info('Ordered by Arrival');
               itineraries = _.sortBy(itineraries, function (item) {
-                return item.citypairs[0].to.quarter;
+                return item.citypairs[0].to.minutes;
               });
               break;
           case 'departure_tile':
               sails.log.info('Ordered by Departure');
               itineraries = _.sortBy(itineraries, function (item) {
-                return item.citypairs[0].from.quarter;
+                return item.citypairs[0].from.minutes;
               });
               break;
           case 'destination_departure_tile':
               sails.log.info('Ordered by Destination Departure');
               itineraries = _.sortBy(itineraries, function (item) {
                 var lastElement = item.citypairs.length - 1;
-                return item.citypairs[lastElement].from.quarter;
+                return item.citypairs[lastElement].from.minutes;
               });
               break;
           case 'source_arrival_tile':
               sails.log.info('Ordered by Source Arrival');
               itineraries = _.sortBy(itineraries, function (item) {
                 var lastElement = item.citypairs.length - 1;
-                return item.citypairs[lastElement].to.quarter;
+                return item.citypairs[lastElement].to.minutes;
               });
               break;
           default:
@@ -391,66 +442,42 @@ module.exports = {
           filterClass = filterClass + ' ' + tileArr['Duration'].filters[i].id;
         }
 
-        if (itinerary.citypairs[0].from.quarter) {
-          index = _.findIndex(tileArr['Departure'].filters, {title:timeArr[itinerary.citypairs[0].from.quarter - 1]});
-          if ( index === -1 ) {
-            tileArr['Departure'].filters.push({
-              title: timeArr[itinerary.citypairs[0].from.quarter - 1],
-              id:'departure_tile_' + itinerary.citypairs[0].from.quarter,
-              count : 1
-            });
-            filterClass = filterClass + ' ' + 'departure_tile_' + itinerary.citypairs[0].from.quarter;
-          } else {
-            tileArr['Departure'].filters[index].count++;
-            filterClass = filterClass + ' ' + tileArr['Departure'].filters[index].id;
+        if (itinerary.citypairs[0].from.minutes) {
+          i = 0;
+          while(itinerary.citypairs[0].from.minutes >= departureNameArr[i+1]) {
+            i++;
           }
+          tileArr['Departure'].filters[i].count++;
+          filterClass = filterClass + ' ' + tileArr['Departure'].filters[i].id;
         }
 
-        if (itinerary.citypairs[0].to.quarter) {
-          index = _.findIndex(tileArr['Arrival'].filters, {title:timeArr[itinerary.citypairs[0].to.quarter - 1]});
-          if ( index === -1 ) {
-            tileArr['Arrival'].filters.push({
-              title: timeArr[itinerary.citypairs[0].to.quarter - 1],
-              id:'arrival_tile_' + itinerary.citypairs[0].to.quarter,
-              count : 1
-            });
-            filterClass = filterClass + ' ' + 'arrival_tile_' + itinerary.citypairs[0].to.quarter;
-          } else {
-            tileArr['Arrival'].filters[index].count++;
-            filterClass = filterClass + ' ' + tileArr['Arrival'].filters[index].id;
+        if (itinerary.citypairs[0].to.minutes) {
+          i = 0;
+          while(itinerary.citypairs[0].to.minutes >= arrivalNameArr[i+1]) {
+            i++;
           }
+          tileArr['Arrival'].filters[i].count++;
+          filterClass = filterClass + ' ' + tileArr['Arrival'].filters[i].id;
         }
 
         if (params.returnDate) {
           var lastElement = itinerary.citypairs.length - 1;
-          if (itinerary.citypairs[lastElement].from.quarter) {
-            index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
-            if (index === -1) {
-              tileArr['destinationDeparture'].filters.push({
-                title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1],
-                id: 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter,
-                count: 1
-              });
-              filterClass = filterClass + ' ' + 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter;
-            } else {
-              tileArr['destinationDeparture'].filters[index].count++;
-              filterClass = filterClass + ' ' + tileArr['destinationDeparture'].filters[index].id;
+          if (itinerary.citypairs[lastElement].from.minutes) {
+            i = 0;
+            while(itinerary.citypairs[lastElement].from.minutes >= destinationDepartureNameArr[i+1]) {
+              i++;
             }
+            tileArr['destinationDeparture'].filters[i].count++;
+            filterClass = filterClass + ' ' + tileArr['destinationDeparture'].filters[i].id;
           }
 
-          if (itinerary.citypairs[lastElement].to.quarter) {
-            index = _.findIndex(tileArr['sourceArrival'].filters, {title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1]});
-            if (index === -1) {
-              tileArr['sourceArrival'].filters.push({
-                title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1],
-                id: 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter,
-                count: 1
-              });
-              filterClass = filterClass + ' ' + 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter;
-            } else {
-              tileArr['sourceArrival'].filters[index].count++;
-              filterClass = filterClass + ' ' + tileArr['sourceArrival'].filters[index].id;
+          if (itinerary.citypairs[lastElement].to.minutes) {
+            i = 0;
+            while(itinerary.citypairs[lastElement].to.minutes >= sourceArrivalNameArr[i+1]) {
+              i++;
             }
+            tileArr['sourceArrival'].filters[i].count++;
+            filterClass = filterClass + ' ' + tileArr['sourceArrival'].filters[i].id;
           }
         }
         //for (var i=0; i < itinerary.citypairs.length; i++) {

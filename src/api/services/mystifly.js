@@ -299,13 +299,19 @@ var mapCitypairs = function(citypairs) {
         code: from.DepartureAirportLocationCode,
         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
         time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
-        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
+        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1,
+        minutes: sails.moment.duration(
+          sails.moment(from.DepartureDateTime).diff(sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'))
+        ).asMinutes()
       },
       to: {
         code: to.ArrivalAirportLocationCode,
         date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
         time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
-        quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1
+        quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1,
+        minutes: sails.moment.duration(
+          sails.moment(to.ArrivalDateTime).diff(sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'))
+        ).asMinutes()
       },
       durationMinutes: 0,
       duration: '',
