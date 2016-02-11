@@ -45,68 +45,72 @@ module.exports = {
         this.findOrCreate({user: params.user.id, hash: hash}).exec((err, row) => {
           if (!err) {
             row.params = params.searchParams;
-            // run async API search, after done all data should be in memcache
+
+            var done = false;
+
+            // if no data in memcache over 10 sec get result from DB
+            setTimeout(() => {
+              if (!done && row.result) {
+                done = true;
+                sails.log.info('Get search data from DB');
+                var itins = row.result.result;
+                itins.guid = guid;
+                itins.priceRange = row.result.priceRange;
+                itins.durationRange = row.result.durationRange;
+                return callback(null, itins);
+              }
+            }, 10000);
+
+            // if no data in DB and API doesn't respond over 30 sec then stop searching
+            setTimeout(() => {
+              if (!done) {
+                done = true;
+                var error = provider + ' API does not respond over 30s';
+                sails.log.error(error);
+                return callback(error, []);
+              }
+            }, 30000);
+
+            // run async API search
             global[provider].flightSearch(guid, params, function (err) {
               if (err) {
                 sails.log.error(err);
               }
               sails.log.info(provider + ' search finished!');
-            });
-            var time = 0;
-            var memcache_id = 'search_' + guid.replace(/\W+/g, '_');
-            var done = false;
-            // check memcache by interval
-            var iId = setInterval(() => {
-              time += 1000;
-              if (!done) {
-                memcache.get(memcache_id, (err, search) => {
-                  if (!err && !_.isEmpty(search)) {
-                    var searchData = JSON.parse(search);
-                    memcache.get(searchData.itineraryKeys, function (err, itineraries) {
-                      if (!err && !_.isEmpty(itineraries)) {
-                        var itins = [];
-                        _.each(itineraries, function (itinerary) {
-                          itinerary = JSON.parse(itinerary);
-                          itins.push(itinerary);
-                        });
-                        row.result = {
-                          priceRange: searchData.ranges.priceRange,
-                          durationRange: searchData.ranges.durationRange,
-                          result: itins
-                        };
-                        row.save();
 
+              // get search data from memcache
+              var memcache_id = 'search_' + guid.replace(/\W+/g, '_');
+              memcache.get(memcache_id, (err, search) => {
+                if (!err && !_.isEmpty(search)) {
+                  var searchData = JSON.parse(search);
+                  memcache.get(searchData.itineraryKeys, function (err, itineraries) {
+                    if (!err && !_.isEmpty(itineraries)) {
+                      var itins = [];
+                      _.each(itineraries, function (itinerary) {
+                        itins.push(JSON.parse(itinerary));
+                      });
+                      // store API search data in DB
+                      row.result = {
+                        priceRange: searchData.ranges.priceRange,
+                        durationRange: searchData.ranges.durationRange,
+                        result: itins
+                      };
+                      row.save();
+
+                      if (!done) {
                         itins.guid = guid;
                         itins.priceRange = searchData.ranges.priceRange;
                         itins.durationRange = searchData.ranges.durationRange;
 
-                        clearInterval(iId);
                         done = true;
                         sails.log.info('Get from API');
                         return callback(null, itins);
                       }
-                    });
-                  }
-                });
-
-                if (time > 10000 && row.result) { // if no data in memcache over 10s get result from DB
-                  clearInterval(iId);
-                  done = true;
-                  sails.log.info('Get from DB');
-                  var itins = row.result.result;
-                  itins.guid = guid;
-                  itins.priceRange = row.result.priceRange;
-                  itins.durationRange = row.result.durationRange;
-                  return callback(null, itins);
-                } else if (time > 30000) { // if no data in DB and API doesn't respond over 30s then stop searching
-                  clearInterval(iId);
-                  done = true;
-                  var error = provider + ' API does not respond over 30s';
-                  sails.log.error(error);
-                  return callback(error, []);
+                    }
+                  });
                 }
-              }
-            }, 1000);
+              });
+            });
           } else {
             sails.log.error(err);
           }
