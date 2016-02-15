@@ -216,6 +216,33 @@ $(document).ready(function() {
         })
     });
 
+
+    /**
+     * Make request to the remote server and fetch data for the typehead rendering
+     *
+     * @param {string} controllerName
+     * @param {string} actionName
+     * @returns {Function}
+     */
+    var fetchTypeheadSrc = function(controllerName, actionName) {
+        return function (q, cb) {
+            $.ajax({
+                    url: '/'+controllerName+'/'+actionName,
+                    type: 'get',
+                    data: {q: q},
+                    dataType: 'json',
+                    async: false // required, because typehead doesn't work with ajax in async mode
+                })
+                .done(function( msg ) {
+                    //console.log("SUCCESS %o", msg);
+                    cb(msg ? msg : []);
+                })
+                .fail(function (msg) {
+                    cb([{city: "System error", name: "please try later", value: "---"}]);
+                });
+        };
+    };
+
     $('#originAirport, #destinationAirport').typeahead({
       hint: true,
       highlight: true,
@@ -224,22 +251,26 @@ $(document).ready(function() {
         name: 'airports',
         display: 'value',
         limit: 8,
-        source: new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            /*prefetch: '/ac/airports',*/
-            remote: {
-                url: '/ac/airports?q=%QUERY',
-                wildcard: '%QUERY'
-            }
-        }),
+        /** Old code - was bug DEMO-62 */
+        //source: new Bloodhound({
+        //    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+        //    queryTokenizer: Bloodhound.tokenizers.whitespace,
+        //    /*prefetch: '/ac/airports',*/
+        //    remote: {
+        //        url: '/ac/airports?q=%QUERY',
+        //        wildcard: '%QUERY'
+        //    }
+        //}),
+        source: fetchTypeheadSrc('ac', 'airports'),
         templates: {
             empty: [
                 '<div class="empty-message">',
                 'unable to find the airport that match the current query',
                 '</div>'
             ].join('\n'),
-            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }
+            suggestion: function(vars) {
+                return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>';
+            }
         }
     });
     $('.tt-hint').addClass('form-control');
