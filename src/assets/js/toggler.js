@@ -251,16 +251,6 @@ $(document).ready(function() {
         name: 'airports',
         display: 'value',
         limit: 8,
-        /** Old code - was bug DEMO-62 */
-        //source: new Bloodhound({
-        //    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-        //    queryTokenizer: Bloodhound.tokenizers.whitespace,
-        //    /*prefetch: '/ac/airports',*/
-        //    remote: {
-        //        url: '/ac/airports?q=%QUERY',
-        //        wildcard: '%QUERY'
-        //    }
-        //}),
         source: fetchTypeheadSrc('ac', 'airports'),
         templates: {
             empty: [
@@ -269,7 +259,7 @@ $(document).ready(function() {
                 '</div>'
             ].join('\n'),
             suggestion: function(vars) {
-                return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>';
+                return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
             }
         }
     });
