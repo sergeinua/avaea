@@ -31,7 +31,7 @@ var getFlightSearchRq = function(id, params) {
   req.FlightSearchRequest = {
     OriginDestination: [{
       DepartureLocationCode: params.DepartureLocationCode,
-      DepartureTime: params.DepartureDate,
+      DepartureTime: params.departureDate,
       ArrivalLocationCode: params.ArrivalLocationCode
     }]
   };
