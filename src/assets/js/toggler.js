@@ -22,40 +22,50 @@ $(document).ready(function() {
 
     //tile recalculation
     var recalcTiles = function () {
+        var filters = $('.selectedfilters').attr('filters');
+        filters = filters.split(' ');
+        var groups = {};
+        if (filters.length) {
+            filters.forEach(function(filter) {
+              if (filter && filter != '') {
+                  var tileGroup = filter.replace(/(tile).+/, '$1');
+                  if (typeof groups[tileGroup] == 'undefined') {
+                    groups[tileGroup] = [];
+                  }
+                  groups[tileGroup].push(filter);
+              }
+            });
+        }
         $('#tiles').find('li').each(function(item) {
             var tile = $(this);
             var sCount = 0;
             if (tile.hasClass('selected')) {
                 sCount = $('.' + tile.attr('for') + ':visible').length;
             } else {
-                sCount = $('.' + tile.attr('for') + ':visible').length;
-                var filters = $('.selectedfilters').attr('filters');
                 if (tile.attr('for')) {
-                    var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
-                    var total = 0;
-                    var subs = 0;
+                  var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
+                  var predictedResult = $('.' + tile.attr('for'));
 
-                    if (filtersCount[tileGroup] > 0) {
-                        subs = filtersCount[tileGroup];
-                        console.log('subs:', subs);
-                    }
-                    $.each(filtersCount, function() {
-                        total += this;
-                    });
-                    console.log('tileGroupCount:',filtersCount, 'total:', total);
-                    var filtered = filters.match(tileGroup);
+                  for (var key in groups) {
+                    if (!groups.hasOwnProperty(key)) continue;
 
-                    if (filtered) {
-                        total -= subs;
-                        sCount = '+'+($('.' + tile.attr('for')).length - total - $('.' + tile.attr('for') + ':visible').length);
+                    if (key != tileGroup) {
+                      predictedResult = predictedResult.filter('.' + groups[key].join(',.'));
                     }
+                  }
+                  sCount = predictedResult.length;
                 }
             }
             if ( sCount > 0 ) {
                 $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
                 tile.removeClass('disabled');
-            } else if ( sCount < 0 ) {
+            } else if ( sCount <= 0 ) {
                 $('[for='+tile.attr('for')+'] > span.badge').text('');
+                tile.removeClass('selected');
+                var filters = $('.selectedfilters').attr('filters');
+                var re = new RegExp(' ' + tile.attr('for'));
+                filters.replace(re, '');
+                $('.selectedfilters').attr('filters', filters);
                 tile.addClass('disabled');
             }
         });
