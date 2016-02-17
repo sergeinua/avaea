@@ -157,6 +157,6 @@ require('async').parallel(
                         formatSqlString(JSON.stringify(data.neighbors)));
         }
         console.log("DROP TABLE airports_old;\n"+
-                    "ROLLBACK;");
+                    "COMMIT;");
     }
 );

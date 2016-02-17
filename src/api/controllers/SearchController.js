@@ -68,7 +68,7 @@ module.exports = {
     if (!isNaN(Date.parse(req.param('departureDate')))) {
       depDate = new Date(req.param('departureDate'));
     }
-    params.searchParams.DepartureDate = sails.moment(depDate).format('DD/MM/YYYY');
+    params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
     if (!isNaN(Date.parse(req.param('returnDate')))) {
       var retDate = new Date(req.param('returnDate'));
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
@@ -101,7 +101,7 @@ module.exports = {
           title: title,
           tiles: {},
           searchParams: {
-            DepartureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass]
           },
@@ -127,7 +127,7 @@ module.exports = {
           title: title,
           tiles: tiles,
           searchParams: {
-            DepartureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
             CabinClass: serviceClass[params.CabinClass]
           },

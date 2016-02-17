@@ -22,40 +22,50 @@ $(document).ready(function() {
 
     //tile recalculation
     var recalcTiles = function () {
+        var filters = $('.selectedfilters').attr('filters');
+        filters = filters.split(' ');
+        var groups = {};
+        if (filters.length) {
+            filters.forEach(function(filter) {
+              if (filter && filter != '') {
+                  var tileGroup = filter.replace(/(tile).+/, '$1');
+                  if (typeof groups[tileGroup] == 'undefined') {
+                    groups[tileGroup] = [];
+                  }
+                  groups[tileGroup].push(filter);
+              }
+            });
+        }
         $('#tiles').find('li').each(function(item) {
             var tile = $(this);
             var sCount = 0;
             if (tile.hasClass('selected')) {
                 sCount = $('.' + tile.attr('for') + ':visible').length;
             } else {
-                sCount = $('.' + tile.attr('for') + ':visible').length;
-                var filters = $('.selectedfilters').attr('filters');
                 if (tile.attr('for')) {
-                    var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
-                    var total = 0;
-                    var subs = 0;
+                  var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
+                  var predictedResult = $('.' + tile.attr('for'));
 
-                    if (filtersCount[tileGroup] > 0) {
-                        subs = filtersCount[tileGroup];
-                        console.log('subs:', subs);
-                    }
-                    $.each(filtersCount, function() {
-                        total += this;
-                    });
-                    console.log('tileGroupCount:',filtersCount, 'total:', total);
-                    var filtered = filters.match(tileGroup);
+                  for (var key in groups) {
+                    if (!groups.hasOwnProperty(key)) continue;
 
-                    if (filtered) {
-                        total -= subs;
-                        sCount = '+'+($('.' + tile.attr('for')).length - total - $('.' + tile.attr('for') + ':visible').length);
+                    if (key != tileGroup) {
+                      predictedResult = predictedResult.filter('.' + groups[key].join(',.'));
                     }
+                  }
+                  sCount = predictedResult.length;
                 }
             }
             if ( sCount > 0 ) {
                 $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
                 tile.removeClass('disabled');
-            } else if ( sCount < 0 ) {
+            } else if ( sCount <= 0 ) {
                 $('[for='+tile.attr('for')+'] > span.badge').text('');
+                tile.removeClass('selected');
+                var filters = $('.selectedfilters').attr('filters');
+                var re = new RegExp('' + tile.attr('for'));
+                filters = filters.replace(re, '');
+                $('.selectedfilters').attr('filters', filters);
                 tile.addClass('disabled');
             }
         });
@@ -216,6 +226,33 @@ $(document).ready(function() {
         })
     });
 
+
+    /**
+     * Make request to the remote server and fetch data for the typehead rendering
+     *
+     * @param {string} controllerName
+     * @param {string} actionName
+     * @returns {Function}
+     */
+    var fetchTypeheadSrc = function(controllerName, actionName) {
+        return function (q, cb) {
+            $.ajax({
+                    url: '/'+controllerName+'/'+actionName,
+                    type: 'get',
+                    data: {q: q},
+                    dataType: 'json',
+                    async: false // required, because typehead doesn't work with ajax in async mode
+                })
+                .done(function( msg ) {
+                    //console.log("SUCCESS %o", msg);
+                    cb(msg ? msg : []);
+                })
+                .fail(function (msg) {
+                    cb([{city: "System error", name: "please try later", value: "---"}]);
+                });
+        };
+    };
+
     $('#originAirport, #destinationAirport').typeahead({
       hint: true,
       highlight: true,
@@ -224,22 +261,16 @@ $(document).ready(function() {
         name: 'airports',
         display: 'value',
         limit: 8,
-        source: new Bloodhound({
-            datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
-            queryTokenizer: Bloodhound.tokenizers.whitespace,
-            /*prefetch: '/ac/airports',*/
-            remote: {
-                url: '/ac/airports?q=%QUERY',
-                wildcard: '%QUERY'
-            }
-        }),
+        source: fetchTypeheadSrc('ac', 'airports'),
         templates: {
             empty: [
                 '<div class="empty-message">',
                 'unable to find the airport that match the current query',
                 '</div>'
             ].join('\n'),
-            suggestion: function(vars) { return '<div>'+vars.city+', '+vars.name+' ('+vars.value+')</div>'; }
+            suggestion: function(vars) {
+                return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
+            }
         }
     });
     $('.tt-hint').addClass('form-control');

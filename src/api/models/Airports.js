@@ -27,9 +27,10 @@ module.exports = {
     altitude:   { type: 'float' },
     timezone:   { type: 'integer' },
     dst:        { type: 'string' },
-    tz:         { type: 'string' }
+    tz:         { type: 'string' },
+    pax:        { type: 'float' },
+    neighbors:  { type: 'string' }
   },
   tableName: 'airports_new'
 
 };
-

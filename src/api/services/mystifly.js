@@ -24,7 +24,7 @@ var getAirLowFareSearchRq = function(sessionId, params) {
       'q36:OriginDestinationInformations': {
         'q36:OriginDestinationInformation': [
           {
-            'q36:DepartureDateTime': sails.moment(params.DepartureDate, "DD/MM/YYYY").format('YYYY-MM-DDTHH:mm:SS'),
+            'q36:DepartureDateTime': sails.moment(params.departureDate, "DD/MM/YYYY").format('YYYY-MM-DDTHH:mm:SS'),
             'q36:DestinationLocationCode': params.ArrivalLocationCode,
             'q36:OriginLocationCode': params.DepartureLocationCode
           }

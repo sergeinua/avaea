@@ -19,7 +19,8 @@ module.exports = {
         {'iata_3code': {
           'startsWith': req.param('q')
         }}
-      ]
+      ],
+      sort: 'pax DESC'
     }).where({'iata_3code': {
       '!': ''
     }}).exec(function (err, found) {
