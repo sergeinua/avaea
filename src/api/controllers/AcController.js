@@ -20,8 +20,7 @@ module.exports = {
           'startsWith': req.param('q')
         }}
       ],
-      // @todo Add field airports_new.pax to the DB
-      //sort: 'pax DESC'
+      sort: 'pax DESC'
     }).where({'iata_3code': {
       '!': ''
     }}).exec(function (err, found) {
