@@ -63,8 +63,8 @@ $(document).ready(function() {
                 $('[for='+tile.attr('for')+'] > span.badge').text('');
                 tile.removeClass('selected');
                 var filters = $('.selectedfilters').attr('filters');
-                var re = new RegExp(' ' + tile.attr('for'));
-                filters.replace(re, '');
+                var re = new RegExp('' + tile.attr('for'));
+                filters = filters.replace(re, '');
                 $('.selectedfilters').attr('filters', filters);
                 tile.addClass('disabled');
             }
