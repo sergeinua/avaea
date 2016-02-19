@@ -27,7 +27,7 @@
         $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
       </div>
     </div>
-    <% sRes.citypairs.forEach(function (pair) { console.log(pair); %>
+    <% sRes.citypairs.forEach(function (pair) { %>
     <div class="row">
       <div class="col-xs-1 col-sm-1 col-icon-airline"><img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" /></div>
       <div class="col-xs-7 col-sm-7"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
