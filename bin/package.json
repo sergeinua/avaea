@@ -1,0 +1,19 @@
+{
+  "name": "bin",
+  "version": "1.0.0",
+  "description": "Dummy package for import_airports.js dependencies",
+  "main": "import_airports.js",
+  "dependencies": {
+    "async": "^1.5.2",
+    "csv-parser": "^1.9.3",
+    "geolib": "^2.0.18",
+    "minimist": "^1.2.0",
+    "request": "^2.69.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "v.mustafin@gmail.com",
+  "license": "ISC"
+}
