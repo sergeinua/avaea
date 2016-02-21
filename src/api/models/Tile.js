@@ -151,28 +151,68 @@ module.exports = {
         return item.citypairs[lastElement].from.minutes;
       });
       var lastElement = 0;
-      for (var counter = 0; counter < 4 ; counter++) {
-        lastElement = itinerariesDestinationDeparture[ counter * N ].citypairs.length -1;
-        destinationDepartureNameArr[counter] = itinerariesDestinationDeparture[ counter * N ].citypairs[lastElement].from.minutes;
-      }
 
-      for (var i = 0; i < 3; i++) {
+      var uniqDestinationDeparture = _.uniq(itinerariesDestinationDeparture, function(item) {
+           var lastElement = item.citypairs.length -1;
+           return item.citypairs[lastElement].from.minutes;
+        }
+      );
+
+      if (uniqDestinationDeparture.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqDestinationDeparture.length ; counter++) {
+          lastElement = uniqDestinationDeparture[ counter ].citypairs.length -1;
+          destinationDepartureNameArr[counter] = uniqDestinationDeparture[ counter ].citypairs[lastElement].from.minutes;
+        }
+
+        for (var i = 0; i < 4; i++) {
+          tileArr['destinationDeparture'].filters.push({
+          title: convertToHours(destinationDepartureNameArr[i]),
+            id: 'destination_departure_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqDestinationDeparture.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var destinationDepartureNameArrTmp = [];
+        for (var counter = 0; counter < uniqDestinationDeparture.length ; counter++) {
+          lastElement = uniqDestinationDeparture[ counter ].citypairs.length -1;
+          if (counter%2 == 0) {
+            destinationDepartureNameArr.push( uniqDestinationDeparture[ counter ].citypairs[lastElement].from.minutes );
+          }
+          destinationDepartureNameArrTmp[counter] = uniqDestinationDeparture[ counter ].citypairs[lastElement].from.minutes;
+        }
+
+        for (var i = 0, counter = 0; i < uniqDestinationDeparture.length; i+=2, counter++) {
+          tileArr['destinationDeparture'].filters.push({
+          title: convertToHours(destinationDepartureNameArrTmp[i]) + ((destinationDepartureNameArrTmp[i+1])?', ' + convertToHours(destinationDepartureNameArrTmp[i+1]):''),
+            id: 'destination_departure_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+        for (var counter = 0; counter < 4 ; counter++) {
+          lastElement = itinerariesDestinationDeparture[ counter * N ].citypairs.length -1;
+          destinationDepartureNameArr[counter] = itinerariesDestinationDeparture[ counter * N ].citypairs[lastElement].from.minutes;
+        }
+        destinationDepartureNameArr = _.uniq(destinationDepartureNameArr);
+        for (var i = 0; i < destinationDepartureNameArr.length - 1; i++) {
+          tileArr['destinationDeparture'].filters.push({
+          title: convertToHours(destinationDepartureNameArr[i]) + ' &ndash; ' + convertToHours(destinationDepartureNameArr[i+1]),
+            id: 'destination_departure_tile_' + i,
+            count : 0
+          });
+        }
+
+        lastElement = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs.length -1;
+        var lastDestinationDeparture = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs[lastElement].from.minutes;
         tileArr['destinationDeparture'].filters.push({
-        title: convertToHours(destinationDepartureNameArr[i]) + ' &ndash; ' + convertToHours(destinationDepartureNameArr[i+1]),
-          id: 'destination_departure_tile_' + i,
+          title: convertToHours(destinationDepartureNameArr[destinationDepartureNameArr.length - 1]) + ' &ndash; ' + convertToHours(lastDestinationDeparture),
+          id: 'destination_departure_tile_' + (destinationDepartureNameArr.length - 1),
           count : 0
         });
       }
-
-      lastElement = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs.length -1;
-      var lastDestinationDeparture = itinerariesDestinationDeparture[itinerariesDestinationDeparture.length - 1].citypairs[lastElement].from.minutes;
-      tileArr['destinationDeparture'].filters.push({
-        title: convertToHours(destinationDepartureNameArr[3]) + ' &ndash; ' + convertToHours(lastDestinationDeparture),
-        id: 'destination_departure_tile_3',
-        count : 0
-      });
       delete itinerariesDestinationDeparture;
       delete lastDestinationDeparture;
+      delete uniqDestinationDeparture;
 
       // prepare sourceArrival tile
       var sourceArrivalNameArr = [];
@@ -181,28 +221,70 @@ module.exports = {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].to.minutes;
       });
-      for (var counter = 0; counter < 4 ; counter++) {
-        lastElement = itinerariesSourceArrival[ counter * N ].citypairs.length -1;
-        sourceArrivalNameArr[counter] = itinerariesSourceArrival[ counter * N ].citypairs[lastElement].to.minutes;
-      }
 
-      for (var i = 0; i < 3; i++) {
+      var uniqSourceArrival = _.uniq(itinerariesSourceArrival, function(item) {
+           var lastElement = item.citypairs.length -1;
+           return item.citypairs[lastElement].to.minutes;
+        }
+      );
+
+      if (uniqSourceArrival.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqSourceArrival.length ; counter++) {
+          lastElement = uniqSourceArrival[ counter ].citypairs.length -1;
+          sourceArrivalNameArr[counter] = uniqSourceArrival[ counter ].citypairs[lastElement].to.minutes;
+        }
+
+        for (var i = 0; i < 4; i++) {
+          tileArr['sourceArrival'].filters.push({
+          title: convertToHours(sourceArrivalNameArr[i]),
+            id: 'source_arrival_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqSourceArrival.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var sourceArrivalNameArrTmp = [];
+        for (var counter = 0; counter < uniqSourceArrival.length ; counter++) {
+          lastElement = uniqSourceArrival[ counter ].citypairs.length -1;
+          if (counter%2 == 0) {
+            sourceArrivalNameArr.push( uniqSourceArrival[ counter ].citypairs[lastElement].to.minutes );
+          }
+          sourceArrivalNameArrTmp[counter] = uniqSourceArrival[ counter ].citypairs[lastElement].to.minutes;
+        }
+
+        for (var i = 0, counter = 0; i < uniqSourceArrival.length; i+=2, counter++) {
+          tileArr['sourceArrival'].filters.push({
+          title: convertToHours(sourceArrivalNameArrTmp[i]) + ((sourceArrivalNameArrTmp[i+1])?', ' + convertToHours(sourceArrivalNameArrTmp[i+1]):''),
+            id: 'source_arrival_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+        for (var counter = 0; counter < 4 ; counter++) {
+          lastElement = itinerariesSourceArrival[ counter * N ].citypairs.length -1;
+          sourceArrivalNameArr[counter] = itinerariesSourceArrival[ counter * N ].citypairs[lastElement].to.minutes;
+        }
+
+        sourceArrivalNameArr = _.uniq(sourceArrivalNameArr);
+
+        for (var i = 0; i < sourceArrivalNameArr.length - 1; i++) {
+          tileArr['sourceArrival'].filters.push({
+          title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
+            id: 'source_arrival_tile_' + i,
+            count : 0
+          });
+        }
+
+        lastElement = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs.length -1;
+        var lastSourceArrival = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs[lastElement].to.minutes;
         tileArr['sourceArrival'].filters.push({
-        title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
-          id: 'source_arrival_tile_' + i,
+          title: convertToHours(sourceArrivalNameArr[sourceArrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(lastSourceArrival),
+          id: 'source_arrival_tile_' + (sourceArrivalNameArr.length - 1),
           count : 0
         });
       }
-
-      lastElement = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs.length -1;
-      var lastSourceArrival = itinerariesSourceArrival[itinerariesSourceArrival.length - 1].citypairs[lastElement].to.minutes;
-      tileArr['sourceArrival'].filters.push({
-        title: convertToHours(sourceArrivalNameArr[3]) + ' &ndash; ' + convertToHours(lastSourceArrival),
-        id: 'source_arrival_tile_3',
-        count : 0
-      });
       delete itinerariesSourceArrival;
       delete lastSourceArrival;
+      delete uniqSourceArrival;
 
     } else { // one way trip
       delete tileArr['destinationDeparture'];
@@ -216,7 +298,7 @@ module.exports = {
         sails.log.info('Pruned itineraries to ', pruned.length);
         var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
         itineraries = ranked;
-      } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets ////////////////
+      } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
         // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
         sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
         var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} );  // only keep the ones departing midnight-6am
@@ -291,7 +373,6 @@ module.exports = {
       var itinerariesDuration = _.clone(itineraries, true);
       itinerariesDuration = _.sortBy(itinerariesDuration, 'durationMinutes');
 
-
       var durationNameArr = [];
 
       for (var counter = 0; counter < 4 ; counter++) {
@@ -324,26 +405,63 @@ module.exports = {
                                return item.citypairs[0].from.minutes;
                              });
 
-      for (var counter = 0; counter < 4 ; counter++) {
-        departureNameArr[counter] = itinerariesDeparture[ counter * N ].citypairs[0].from.minutes;
-      }
+      var uniqDeparture = _.uniq(itinerariesDeparture, function(item) {
+           return item.citypairs[0].from.minutes;
+        }
+      );
 
-      for (var i = 0; i < 3; i++) {
+      if (uniqDeparture.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqDeparture.length ; counter++) {
+          departureNameArr[counter] = uniqDeparture[ counter ].citypairs[0].from.minutes;
+        }
+
+        for (var i = 0; i < 4; i++) {
+          tileArr['Departure'].filters.push({
+          title: convertToHours(departureNameArr[i]),
+            id: 'departure_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqDeparture.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var departureNameArrTmp = [];
+        for (var counter = 0; counter < uniqDeparture.length ; counter++) {
+          if (counter%2 == 0) {
+            departureNameArr.push( uniqDeparture[ counter ].citypairs[0].from.minutes );
+          }
+          departureNameArrTmp[counter] = uniqDeparture[ counter ].citypairs[0].from.minutes;
+        }
+
+        for (var i = 0, counter = 0; i < uniqDeparture.length; i+=2, counter++) {
+          tileArr['Departure'].filters.push({
+          title: convertToHours(departureNameArrTmp[i]) + ((departureNameArrTmp[i+1])?', ' + convertToHours(departureNameArrTmp[i+1]):''),
+            id: 'departure_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+        for (var counter = 0; counter < 4 ; counter++) {
+          departureNameArr[counter] = itinerariesDeparture[ counter * N ].citypairs[0].from.minutes;
+        }
+        departureNameArr = _.uniq(departureNameArr);
+
+        for (var i = 0; i < departureNameArr.length - 1; i++) {
+          tileArr['Departure'].filters.push({
+          title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
+            id: 'departure_tile_' + i,
+            count : 0
+          });
+        }
+
+        var lastDeparture = itinerariesDeparture[itinerariesDeparture.length - 1].citypairs[0].from.minutes;
         tileArr['Departure'].filters.push({
-        title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
-          id: 'departure_tile_' + i,
+          title: convertToHours(departureNameArr[departureNameArr.length - 1]) + ' &ndash; ' + convertToHours(lastDeparture),
+          id: 'departure_tile_' + (departureNameArr.length - 1),
           count : 0
         });
       }
-
-      var lastDeparture = itinerariesDeparture[itinerariesDeparture.length - 1].citypairs[0].from.minutes;
-      tileArr['Departure'].filters.push({
-        title: convertToHours(departureNameArr[3]) + ' &ndash; ' + convertToHours(lastDeparture),
-        id: 'departure_tile_3',
-        count : 0
-      });
       delete itinerariesDeparture;
       delete lastDeparture;
+      delete uniqDeparture;
 
       // prepare Arrival tile
       var arrivalNameArr = [];
@@ -352,28 +470,63 @@ module.exports = {
                                return item.citypairs[0].to.minutes;
                              });
 
-      for (var counter = 0; counter < 4 ; counter++) {
-        arrivalNameArr[counter] = itinerariesArrival[ counter * N ].citypairs[0].to.minutes;
-      }
+      var uniqArrival = _.uniq(itinerariesArrival, function(item) {
+            return item.citypairs[0].to.minutes;
+        }
+      );
 
-      for (var i = 0; i < 3; i++) {
+      if (uniqArrival.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqArrival.length ; counter++) {
+          arrivalNameArr[counter] = uniqArrival[ counter ].citypairs[0].to.minutes;
+        }
+
+        for (var i = 0; i < 4; i++) {
+          tileArr['Arrival'].filters.push({
+          title: convertToHours(arrivalNameArr[i]),
+            id: 'arrival_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqArrival.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var arrivalNameArrTmp = [];
+        for (var counter = 0; counter < uniqArrival.length ; counter++) {
+          if (counter%2 == 0) {
+            arrivalNameArr.push( uniqArrival[ counter ].citypairs[0].to.minutes );
+          }
+          arrivalNameArrTmp[counter] = uniqArrival[ counter ].citypairs[0].to.minutes;
+        }
+
+        for (var i = 0, counter = 0; i < uniqArrival.length; i+=2, counter++) {
+          tileArr['Arrival'].filters.push({
+          title: convertToHours(arrivalNameArrTmp[i]) + ((arrivalNameArrTmp[i+1])?', ' + convertToHours(arrivalNameArrTmp[i+1]):''),
+            id: 'arrival_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+
+        for (var counter = 0; counter < 4 ; counter++) {
+          arrivalNameArr[counter] = itinerariesArrival[ counter * N ].citypairs[0].to.minutes;
+        }
+        arrivalNameArr = _.uniq(arrivalNameArr);
+
+        for (var i = 0; i < arrivalNameArr.length - 1; i++) {
+          tileArr['Arrival'].filters.push({
+          title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
+            id: 'arrival_tile_' + i,
+            count : 0
+          });
+        }
+        var lastArrival = itinerariesArrival[itinerariesArrival.length - 1].citypairs[0].to.minutes;
         tileArr['Arrival'].filters.push({
-        title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
-          id: 'arrival_tile_' + i,
+          title: convertToHours(arrivalNameArr[arrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(lastArrival),
+          id: 'arrival_tile_' + (arrivalNameArr.length - 1),
           count : 0
         });
       }
-
-      var lastArrival = itinerariesArrival[itinerariesArrival.length - 1].citypairs[0].to.minutes;
-      tileArr['Arrival'].filters.push({
-        title: convertToHours(arrivalNameArr[3]) + ' &ndash; ' + convertToHours(lastArrival),
-        id: 'arrival_tile_3',
-        count : 0
-      });
       delete itinerariesArrival;
       delete lastArrival;
-
-
+      delete uniqArrival;
 
       var maxOrderTile = _.max(tileArr, 'order');
       switch (maxOrderTile.id) {
