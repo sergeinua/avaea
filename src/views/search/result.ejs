@@ -29,7 +29,8 @@
     </div>
     <% sRes.citypairs.forEach(function (pair) { %>
     <div class="row">
-      <div class="col-xs-8 col-sm-8"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
+      <div class="col-xs-1 col-sm-1 col-icon-airline"><img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" /></div>
+      <div class="col-xs-7 col-sm-7"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
       <div class="col-xs-4 col-sm-2 text-right"><%= pair.duration %></div>
       <div class="hidden-xs col-sm-2 text-right"><% if (pair.noOfStops > 0) { %>
       <%= pair.noOfStops + (parseInt(pair.noOfStops) > 1 ? __(' stops') : __(' stop')) %> (<%= pair.stopsCodes.join(', ') %>)

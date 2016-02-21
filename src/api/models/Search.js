@@ -30,6 +30,29 @@ module.exports = {
   },
   uuid: '',
 
+  //cache results functionality
+  cache: function(searchId, row) {
+    var searchResultKeys = [];
+    var searchId = 'search_' + searchId.replace(/\W+/g, '_');
+    async.map(row.result.result, (itinerary, doneCb) => {
+      var id = 'itinerary_' + itinerary.id.replace(/\W+/g, '_');
+      itinerary.searchId = searchId;
+      searchResultKeys.push(id);
+      memcache.store(id, itinerary);
+      return doneCb(null);
+    }, (err) => {
+      var searchData = {
+        ranges: {
+          priceRange: row.result.priceRange,
+          durationRange: row.result.durationRange
+        },
+        searchParams: row.params,
+        itineraryKeys: searchResultKeys
+      };
+      memcache.store(searchId, searchData);
+    });
+  },
+
   getResult: function (params, callback) {
     var res = {};
     async.map(sails.config.flightapis.searchProvider, (provider, doneCb) => {
@@ -53,6 +76,9 @@ module.exports = {
               if (!done && row.result) {
                 done = true;
                 sails.log.info('Get search data from DB');
+
+                this.cache(guid, row);
+
                 var itins = row.result.result;
                 itins.guid = guid;
                 itins.priceRange = row.result.priceRange;
@@ -72,44 +98,28 @@ module.exports = {
             }, 30000);
 
             // run async API search
-            global[provider].flightSearch(guid, params, function (err) {
-              if (err) {
+            global[provider].flightSearch(guid, params, (err, result) => {
+              sails.log.info(provider + ' search finished!');
+              if (!err && result) {
+                // store API search data in DB
+                row.result = {
+                  priceRange: result.priceRange,
+                  durationRange: result.durationRange,
+                  result: result
+                };
+                row.save();
+                if (!done) {
+                  done = true;
+                  sails.log.info('Get search data from API');
+
+                  this.cache(guid, row);
+
+                  result.guid = guid;
+                  return callback(null, result);
+                }
+              } else {
                 sails.log.error(err);
               }
-              sails.log.info(provider + ' search finished!');
-
-              // get search data from memcache
-              var memcache_id = 'search_' + guid.replace(/\W+/g, '_');
-              memcache.get(memcache_id, (err, search) => {
-                if (!err && !_.isEmpty(search)) {
-                  var searchData = JSON.parse(search);
-                  memcache.get(searchData.itineraryKeys, function (err, itineraries) {
-                    if (!err && !_.isEmpty(itineraries)) {
-                      var itins = [];
-                      _.each(itineraries, function (itinerary) {
-                        itins.push(JSON.parse(itinerary));
-                      });
-                      // store API search data in DB
-                      row.result = {
-                        priceRange: searchData.ranges.priceRange,
-                        durationRange: searchData.ranges.durationRange,
-                        result: itins
-                      };
-                      row.save();
-
-                      if (!done) {
-                        itins.guid = guid;
-                        itins.priceRange = searchData.ranges.priceRange;
-                        itins.durationRange = searchData.ranges.durationRange;
-
-                        done = true;
-                        sails.log.info('Get from API');
-                        return callback(null, itins);
-                      }
-                    }
-                  });
-                }
-              });
             });
           } else {
             sails.log.error(err);

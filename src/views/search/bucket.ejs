@@ -1,8 +1,5 @@
 <% if (tiles) { %>
-<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;">
-    <input type="button" id='clear' value="&times;" style="float:left;" class="btn btn-sm btn-primary">
-    <input type="button" id='undo' value="&#x21ba;" style="float:right;  margin-top:0" class="btn btn-sm btn-primary">
-</div>
+<!--<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;"></div>-->
 <div id="tiles" class="row">
   <%
   for(var name in tiles) { 
@@ -22,6 +19,10 @@
     </div>
   <% } %>
 </div>
-<div class="myarr"></div>
+
+<div class="myarr" style="margin-top: 7px">
+  <input type="button" id='clear' value="&times;" style="float:left; opacity: .75; margin-left: 20px;" class="btn btn-sm btn-primary">
+  <input type="button" id='undo' value="&#x21ba;" style="float:right; opacity: .75; margin-right: 20px;" class="btn btn-sm btn-primary">
+</div>
 <% } %>
 <div class="selectedfilters row" filters=''></div>

@@ -277,6 +277,7 @@ var mapFlights = function(flights) {
       bookingClass: flight.BookingClass,
       cabinClass: flight.CabinClass,
       airline: /*flight.MarketingAirline.toUpperCase(), */ flight.MarketingAirlineName,
+      airlineCode: flight.MarketingAirline.toUpperCase(),
       noOfStops: flight.NoOfStops,
       stopsDuration: '',
       stopsDurationMinutes: 0,
@@ -318,6 +319,8 @@ var mapCitypairs = function(citypairs) {
         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
         time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
         quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1,
+        airlineCode: from.MarketingAirline.toUpperCase(),
+        airline: from.MarketingAirlineName,
         minutes: sails.moment.duration(
           sails.moment(from.DepartureDateTime).diff(sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'))
         ).asMinutes()
@@ -411,7 +414,7 @@ module.exports = {
 
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback( err );
+        return callback( err, [] );
       } else {
         var req = getFlightSearchRq(guid, params.searchParams);
 
@@ -426,7 +429,7 @@ module.exports = {
                   err = (result.TPErrorList && result.TPErrorList.errorText) ? result.TPErrorList.errorText : 'No Results Found';
               }
             sails.log.error(err);
-            return callback( err );
+            return callback( err, [] );
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
               var minDuration, maxDuration, minPrice, maxPrice;
@@ -440,7 +443,6 @@ module.exports = {
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = mapItinerary(itinerary);
                 resArr.push( mappedItinerary );
-                mondee.cache(mappedItinerary, guid);
 
                 if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                   minPrice = Math.floor(parseFloat(mappedItinerary.price));
@@ -462,41 +464,20 @@ module.exports = {
                 if ( err ) {
                   sails.log.error( err );
                 }
-                var searchData = {
-                  ranges: {
-                    priceRange: {
-                      minPrice: minPrice,
-                      maxPrice: maxPrice
-                    },
-                    durationRange: {
-                      minDuration: minDuration,
-                      maxDuration: maxDuration
-                    }
-                  },
-                  searchParams: params.searchParams
+                resArr.priceRange = {
+                  minPrice: minPrice,
+                  maxPrice: maxPrice
                 };
-                mondee.cacheSearch(guid, searchData);
-                return callback( null );
+                resArr.durationRange = {
+                  minDuration: minDuration,
+                  maxDuration: maxDuration
+                };
+                return callback( null, resArr );
               });
             }
           }
         });
       }
     });
-  },
-
-  //cache results functionality
-  searchResultKeys: [],
-  cache: function (value, searchId) {
-    var id = 'itinerary_' + value.id.replace(/\W+/g, '_');
-    value.searchId = 'search_' + searchId.replace(/\W+/g, '_');
-    mondee.searchResultKeys.push(id);
-    memcache.store(id, value);
-  },
-  cacheSearch: function (searchId, params) {
-    var id = 'search_' + searchId.replace(/\W+/g, '_');
-    params.itineraryKeys = mondee.searchResultKeys;
-    memcache.store(id, params);
-    mondee.searchResultKeys = [];
   }
 };

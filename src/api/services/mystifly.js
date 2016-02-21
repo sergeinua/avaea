@@ -256,6 +256,7 @@ var mapFlights = function(flights) {
       bookingClass: flight.ResBookDesigCode,
       cabinClass: mapReverseClass[flight.CabinClassCode],
       airline: flight.MarketingAirlineCode.toUpperCase(),
+      airlineCode: flight.MarketingAirlineCode.toUpperCase(),
       noOfStops: 0, //flight.StopQuantity,
       stopsDuration: '',
       stopsDurationMinutes: 0,
@@ -300,6 +301,8 @@ var mapCitypairs = function(citypairs) {
         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
         time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
         quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1,
+        airlineCode: from.MarketingAirlineCode.toUpperCase(),
+        airline: from.MarketingAirlineCode.toUpperCase(),
         minutes: sails.moment.duration(
           sails.moment(from.DepartureDateTime).diff(sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'))
         ).asMinutes()
@@ -394,18 +397,18 @@ module.exports = {
     soap.createClient(wsdlUrl, function(err, client) {
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback( err );
+        return callback( err, [] );
       } else {
         var csRq = getCreateSessionRq();
         return client.CreateSession(csRq, function(err, session, raw, soapHeader) {
           if (err) {
             sails.log.error(err);
-            return callback( err );
+            return callback( err, [] );
           } else {
             if (!session.CreateSessionResult.SessionStatus ||
                 session.CreateSessionResult.Errors.Error) {
               sails.log.error(session.CreateSessionResult.Errors.Error);
-              return callback( err );
+              return callback( err, [] );
             }
             var req = getAirLowFareSearchRq(session.CreateSessionResult.SessionId, params.searchParams);
             return client.AirLowFareSearch(req, function(err, result, raw, soapHeader) {
@@ -416,12 +419,12 @@ module.exports = {
               var resArr = [];
               if (err) {
                 sails.log.error(err);
-                return callback( err );
+                return callback( err, [] );
               } else {
                 if (!result.AirLowFareSearchResult.Success ||
                   result.AirLowFareSearchResult.Errors.Error) {
                   sails.log.error(result.AirLowFareSearchResult.Errors.Error);
-                  return callback( err );
+                  return callback( err, [] );
                 }
                 if (result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) {
                   var minDuration, maxDuration, minPrice, maxPrice;
@@ -437,7 +440,6 @@ module.exports = {
                   async.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (itinerary, doneCb) {
                     var mappedItinerary = mapItinerary(itinerary);
                     resArr.push( mappedItinerary );
-                    mystifly.cache(mappedItinerary, guid);
 
                     if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
                       minPrice = Math.floor(parseFloat(mappedItinerary.price));
@@ -459,21 +461,15 @@ module.exports = {
                     if ( err ) {
                       sails.log.error( err );
                     }
-                    var searchData = {
-                      ranges: {
-                        priceRange: {
-                          minPrice: minPrice,
-                          maxPrice: maxPrice
-                        },
-                        durationRange: {
-                          minDuration: minDuration,
-                          maxDuration: maxDuration
-                        }
-                      },
-                      searchParams: params.searchParams
+                    resArr.priceRange = {
+                      minPrice: minPrice,
+                      maxPrice: maxPrice
                     };
-                    mystifly.cacheSearch(guid, searchData);
-                    return callback( null );
+                    resArr.durationRange = {
+                      minDuration: minDuration,
+                      maxDuration: maxDuration
+                    };
+                    return callback( null, resArr );
                   });
                 }
               }
@@ -482,20 +478,5 @@ module.exports = {
         });
       }
     });
-  },
-
-  //cache results functionality
-  searchResultKeys: [],
-  cache: function (value, searchId) {
-    var id = 'itinerary_' + value.id.replace(/\W+/g, '_');
-    value.searchId = 'search_' + searchId.replace(/\W+/g, '_');
-    mystifly.searchResultKeys.push(id);
-    memcache.store(id, value);
-  },
-  cacheSearch: function (searchId, params) {
-    var id = 'search_' + searchId.replace(/\W+/g, '_');
-    params.itineraryKeys = mystifly.searchResultKeys;
-    memcache.store(id, params);
-    mystifly.searchResultKeys = [];
   }
 };
