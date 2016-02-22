@@ -18,6 +18,13 @@ module.exports = {
     user:   { model : 'User' } // who did search
   },
 
+  serviceClass : {
+    E:'Economy',
+    P:'Premium',
+    B:'Business',
+    F:'First'
+  },
+
   getCurrentSearchGuid: function () {
     var d = new Date().getTime();
     this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

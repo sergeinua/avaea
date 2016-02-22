@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/styles/importer.css">
     <link rel="stylesheet" href="/styles/slick-theme.css">
     <link rel="stylesheet" href="/styles/slick.css">
+    <link rel="stylesheet" href="/styles/zapp.css">
     <!--STYLES END-->
     <style>
       body { padding-top: 60px; }
@@ -32,7 +33,22 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand"><%if (!title) { %><%= __('Demo') %><% } else { %><%= title %><% } %><% if (typeof searchResult != 'undefined') {%><span class="hidden-xs">, Departure&nbsp;<%=searchParams.departureDate%><% if (searchParams.returnDate) { %>, Return&nbsp;<%=searchParams.returnDate%><% } %>, <%= searchParams.CabinClass %></span><%}%><span id='search_count' class="badge hidden" style="background-color: lightgray"></span></a>
+          <a class="navbar-brand">
+            <%if (!title) {
+              %><%= __('Demo') %><%
+            }
+            else {
+              %><%= title %><%
+            }
+            if (typeof searchResult != 'undefined') {
+              %><span class="hidden-xs">, Departure&nbsp;<%=searchParams.departureDate%><%
+              if (searchParams.returnDate) {
+                %>, Return&nbsp;<%=searchParams.returnDate%><%
+              }
+              %>, <%= searchParams.CabinClass %></span><%
+            }
+            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>
+          </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

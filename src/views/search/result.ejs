@@ -28,16 +28,16 @@
       </div>
     </div>
     <% sRes.citypairs.forEach(function (pair) { %>
-    <div class="row">
-      <div class="col-xs-1 col-sm-1 col-icon-airline"><img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" /></div>
-      <div class="col-xs-7 col-sm-7"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
-      <div class="col-xs-4 col-sm-2 text-right"><%= pair.duration %></div>
-      <div class="hidden-xs col-sm-2 text-right"><% if (pair.noOfStops > 0) { %>
-      <%= pair.noOfStops + (parseInt(pair.noOfStops) > 1 ? __(' stops') : __(' stop')) %> (<%= pair.stopsCodes.join(', ') %>)
-      <% } else { %>
-      <%= __(' nonstop') %>
-      <% } %></div>
-    </div>
+      <div class="row">
+          <div class="col-xs-1 col-sm-1 col-icon-airline"><img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" /></div>
+          <div class="col-xs-6 col-sm-7"><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
+          <div class="col-xs-3 col-sm-2 text-right"><%= pair.duration %></div>
+          <div class="col-xs-2 col-sm-2 text-right"><% if (pair.noOfStops > 0) { %>
+              <%= pair.noOfStops + (parseInt(pair.noOfStops) > 1 ? __(' stops') : __(' stop')) %> (<%= pair.stopsCodes.join(', ') %>)
+              <% } else { %>
+              <%= __(' nonstop') %>
+              <% } %></div>
+      </div>
     <% }); %>
     <div class="row collapse" id="cli<%=i%>"><div class="col-xs-12">
     <% sRes.citypairs.forEach(function (pair, c) { %>
@@ -81,13 +81,13 @@
     <% if (flight.merchandising && flight.merchandising.length) { %>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" role="button" for="<%= iterator %>_<%= c %>"><%= __('more')%></button>
+          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('more')%></button>
         </div>
       </div>
       <div class="row hidden mymorecontent<%= iterator %>_<%= c %>">
         <div class="panel panel-default">
           <div class="panel-heading">Merchandising Information</div>
-          <div class="panel-body">
+          <div class="panel-body" style="background-color: lightblue">
             <ul>
               <% flight.merchandising.forEach(function (item) { %>
               <li><%= item %></li>

@@ -21,11 +21,11 @@ module.exports = {
   index: function (req, res) {
 
     var params = {
-        DepartureLocationCode: '',
-        ArrivalLocationCode: '',
-        CabinClass: '',
-        departureDate: sails.moment().add(2, 'w').format('YYYY-MM-DD'),
-        returnDate: ''
+      DepartureLocationCode: _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
+      ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
+      CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
+      departureDate: sails.moment().add(3, 'w').format('YYYY-MM-DD'),
+      returnDate: ''
     };
     var error;
     if (!_.isEmpty(req.session.flash)) {
@@ -43,6 +43,7 @@ module.exports = {
       title         : 'Search for flights',
       user          : req.user,
       defaultParams : params,
+      serviceClass  : Search.serviceClass,
       errors        : error
     });
   },
@@ -57,8 +58,8 @@ module.exports = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: req.param('originAirport').toUpperCase(),
-          ArrivalLocationCode: req.param('destinationAirport').toUpperCase(),
+          DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
+          ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
           CabinClass: req.param('preferedClass').toUpperCase(),
           returnDate: ''
         }
@@ -73,7 +74,7 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
-    title = params.searchParams.DepartureLocationCode + (params.searchParams.returnDate?'&#8644;':'&rarr;') + params.searchParams.ArrivalLocationCode,
+    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode,
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
 //    var md5 = require("blueimp-md5").md5;
@@ -81,6 +82,10 @@ module.exports = {
     req.session.search_params_hash = params.searchParams.CabinClass;
     req.session.search_params_raw  = params.searchParams;
     req.session.time_log = [];
+    // Remember as previous user request for search/index view
+    req.session.DepartureLocationCode = params.searchParams.DepartureLocationCode;
+    req.session.ArrivalLocationCode = params.searchParams.ArrivalLocationCode;
+    req.session.CabinClass = params.searchParams.CabinClass;
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
@@ -88,12 +93,7 @@ module.exports = {
     Search.getResult(params, function ( err, found ) {
       sails.log.info('Found itineraries: %d', found.length);
 
-      var serviceClass = {
-        E:'Economy',
-        P:'Premium',
-        B:'Business',
-        F:'First'
-      };
+      var serviceClass = Search.serviceClass;
 
       if (!found.length) {
         return  res.view('search/result', {
