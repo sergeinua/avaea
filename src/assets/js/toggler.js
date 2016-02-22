@@ -132,9 +132,18 @@ $(document).ready(function() {
         return false;
     });
 
-    $('.mymorebutton').click(function(el) {
+    // more/less button for merchandising
+    $('.mymorebutton').click(function() {
         var _it = $(this).attr('for');
-        $('.mymorecontent' + _it).toggleClass('hidden');
+        var _mmcnt = '.mymorecontent' + _it;
+        $(_mmcnt).toggleClass(function() {
+            if($(_mmcnt).is( ".hidden" )) {
+                $('#mymorebtn' + _it).text("less")
+            } else {
+                $('#mymorebtn' + _it).text("more")
+            }
+            return "hidden";
+        });
         return false;
     });
 
@@ -142,11 +151,21 @@ $(document).ready(function() {
         $(this).find('div:first').find('div:first').find('div:first')
         .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
     });
-    //set defaults
+
+    //set dates for search request
+    //min attr for date pickers
     $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
-    $('#returnDate').attr('min', $('#departureDate').val());
     $('#departureDate').change(function() {
-        $('#returnDate').attr('min', $('#departureDate').val());
+        $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
+    });
+    // Set +14days for empty returnDate
+    $('#returnDate').focus(function(){
+        if($('#returnDate').val().trim() == '' && $('#departureDate').val().trim() != '')
+        {
+            var dd = Date.parse($('#departureDate').val().replace(/\s/g, ''));
+            $('#returnDate').val(new Date(dd + 86400000*14).toISOString().slice(0, 10));
+            $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
+        }
     });
 
     //tiles
@@ -213,6 +232,7 @@ $(document).ready(function() {
             slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), $('.mybucket').length),
             slidesToScroll: 1,
             appendArrows: $('.myarr'),
+            //appendDots: $('.myarr'), // For DEMO-97. But can't setup position in div without slick-narrow bug
             focusOnSelect: true
         }
     };
@@ -244,7 +264,6 @@ $(document).ready(function() {
                     async: false // required, because typehead doesn't work with ajax in async mode
                 })
                 .done(function( msg ) {
-                    //console.log("SUCCESS %o", msg);
                     cb(msg ? msg : []);
                 })
                 .fail(function (msg) {
