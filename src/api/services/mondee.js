@@ -277,6 +277,7 @@ var mapFlights = function(flights) {
       bookingClass: flight.BookingClass,
       cabinClass: flight.CabinClass,
       airline: /*flight.MarketingAirline.toUpperCase(), */ flight.MarketingAirlineName,
+      airlineCode: flight.MarketingAirline.toUpperCase(),
       noOfStops: flight.NoOfStops,
       stopsDuration: '',
       stopsDurationMinutes: 0,
@@ -317,7 +318,9 @@ var mapCitypairs = function(citypairs) {
         code: from.DepartureLocationCode,
         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
         time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
-        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1
+        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1,
+        airlineCode: from.MarketingAirline.toUpperCase(),
+        airline: from.MarketingAirlineName,
       },
       to: {
         code: to.ArrivalLocationCode,

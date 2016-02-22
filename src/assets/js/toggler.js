@@ -421,4 +421,18 @@ $(document).ready(function() {
         }
         cancelMilesPrograms();
     });
+
+    var getIconForAirline = function (el) {
+        var _image = new Image(),
+            _code = el.data('code'),
+            _file = '/images/airlines/' + _code + '.png';
+        _image.onload = function () {
+            el.attr('src', _file);
+        };
+        _image.src = _file;
+    };
+
+    $('.airlineIcon').each(function () {
+        getIconForAirline($(this));
+    });
 });
