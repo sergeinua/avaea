@@ -9,7 +9,7 @@ module.exports = {
   airports: function (req, res) {
 
     // Trim left whitespaces
-    var _query = req.param('q').replace(/^[\s]*/,"");
+    var _query = req.param('q').replace(/^\s*/,"");
 
     Airports.find({
       or: [
