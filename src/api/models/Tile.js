@@ -234,7 +234,7 @@ module.exports = {
           sourceArrivalNameArr[counter] = uniqSourceArrival[ counter ].citypairs[lastElement].to.minutes;
         }
 
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < sourceArrivalNameArr.length - 1; i++) {
           tileArr['sourceArrival'].filters.push({
           title: convertToHours(sourceArrivalNameArr[i]),
             id: 'source_arrival_tile_' + i,
@@ -334,25 +334,63 @@ module.exports = {
           return Math.floor(item.price);
       });
 
-      for (var counter = 0; counter < 4 ; counter++) {
-        priceNameArr[counter] = Math.floor(itinerariesPrice[ counter * N ].price);
-      }
+      var uniqPrice = _.uniq(itinerariesPrice, function(item) {
+           return Math.floor(item.price );
+        }
+      );
 
-      for (var i = 0; i < 3; i++) {
+      if (uniqPrice.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqPrice.length ; counter++) {
+          priceNameArr[counter] = Math.floor(uniqPrice[ counter ].price );
+        }
 
+        for (var i = 0; i < priceNameArr.length; i++) {
+          tileArr['Price'].filters.push({
+          title: '$' + sourceArrivalNameArr[i],
+            id: 'price_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqPrice.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var priceNameArrTmp = [];
+        for (var counter = 0; counter < uniqPrice.length ; counter++) {
+          if (counter%2 == 0) {
+            priceNameArr.push( Math.floor(uniqPrice[ counter ].price) );
+          }
+          priceNameArrTmp[counter] = Math.floor(uniqPrice[ counter ].price);
+        }
+
+        for (var i = 0, counter = 0; i < uniqPrice.length; i+=2, counter++) {
+          tileArr['Price'].filters.push({
+          title: '$' + (priceNameArrTmp[i]) + ((priceNameArrTmp[i+1])?', $' + (priceNameArrTmp[i+1]):''),
+            id: 'price_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+        for (var counter = 0; counter < 4 ; counter++) {
+          priceNameArr[counter] = Math.floor(itinerariesPrice[ counter * N ].price);
+        }
+
+        priceNameArr = _.uniq(priceNameArr);
+  
+        for (var i = 0; i < priceNameArr.length - 1; i++) {
+  
+          tileArr['Price'].filters.push({
+            title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
+            id: 'price_tile_' + i,
+            count : 0
+          });
+
+        }
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
-          id: 'price_tile_' + i,
+          title: '$' + parseInt(priceNameArr[priceNameArr.length - 1])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(itinerariesPrice[itinerariesPrice.length - 1].price + 1)+'</span>',
+          id: 'price_tile_' + (priceNameArr.length - 1),
           count : 0
         });
-
       }
-      tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[3])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(itinerariesPrice[itinerariesPrice.length - 1].price + 1)+'</span>',
-        id: 'price_tile_3',
-        count : 0
-      });
       delete itinerariesPrice;
+      delete uniqPrice;
 
       var roundTo30mins = function (durationMinutes) {
         var durationMinutesRounded = Math.round(durationMinutes/60)*60;
@@ -375,28 +413,66 @@ module.exports = {
 
       var durationNameArr = [];
 
-      for (var counter = 0; counter < 4 ; counter++) {
-        durationNameArr[counter] = Math.floor(itinerariesDuration[ counter * N ].durationMinutes);
-      }
+      var uniqDuration = _.uniq(itinerariesDuration, function(item) {
+           return roundTo30mins( item.durationMinutes );
+        }
+      );
 
-      for (var i = 0; i < 3; i++) {
+      if (uniqDuration.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
+        for (var counter = 0; counter < uniqDuration.length ; counter++) {
+          durationNameArr[counter] = roundTo30mins(uniqDuration[ counter ].durationMinutes );
+        }
+
+        for (var i = 0; i < durationNameArr.length; i++) {
+          tileArr['Duration'].filters.push({
+          title:  parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)),
+            id: 'duration_tile_' + i,
+            count : 0
+          });
+        }
+      } else if (uniqDuration.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
+        var durationNameArrTmp = [];
+        for (var counter = 0; counter < uniqDuration.length ; counter++) {
+          if (counter%2 == 0) {
+            durationNameArr.push( roundTo30mins(uniqDuration[ counter ].durationMinutes ) );
+          }
+          durationNameArrTmp[counter] = roundTo30mins(uniqDuration[ counter ].durationMinutes );
+        }
+
+        for (var i = 0, counter = 0; i < uniqDuration.length; i+=2, counter++) {
+          tileArr['Duration'].filters.push({
+          title: parseInt(durationNameArrTmp[i]/60) + formatMinutes(parseInt(durationNameArrTmp[i]%60))
+            + ((durationNameArrTmp[i+1])?', ' + (parseInt(durationNameArrTmp[i+1]/60) + formatMinutes(parseInt(durationNameArrTmp[i+1]%60))):''),
+            id: 'duration_tile_' + counter,
+            count : 0
+          });
+        }
+      } else {
+
+        for (var counter = 0; counter < 4 ; counter++) {
+          durationNameArr[counter] = Math.floor(itinerariesDuration[ counter * N ].durationMinutes);
+        }
+        durationNameArr = _.uniq(durationNameArr);
+        for (var i = 0; i < durationNameArr.length - 1; i++) {
+          tileArr['Duration'].filters.push({
+          title: parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)) + ' &ndash; '
+            + Math.round((durationNameArr[i+1])/60) + formatMinutes(Math.round((durationNameArr[i+1])%60)),
+            id: 'duration_tile_' + i,
+            count : 0
+          });
+        }
+
+        var lastDuration = itinerariesDuration[itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)) + ' &ndash; '
-          + Math.round((durationNameArr[i+1])/60) + formatMinutes(Math.round((durationNameArr[i+1])%60)),
-          id: 'duration_tile_' + i,
+          title: parseInt(durationNameArr[durationNameArr.length - 1]/60) + formatMinutes(parseInt(durationNameArr[durationNameArr.length - 1]%60)) + ' &ndash; '
+            + Math.round((lastDuration)/60) + formatMinutes(Math.round((lastDuration)%60)),
+          id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });
       }
-
-      var lastDuration = itinerariesDuration[itinerariesDuration.length - 1].durationMinutes;
-      tileArr['Duration'].filters.push({
-        title: parseInt(durationNameArr[3]/60) + formatMinutes(parseInt(durationNameArr[3]%60)) + ' &ndash; '
-          + Math.round((lastDuration)/60) + formatMinutes(Math.round((lastDuration)%60)),
-        id: 'duration_tile_3',
-        count : 0
-      });
       delete itinerariesDuration;
       delete lastDuration;
+      delete uniqDuration;
 
       // prepare Departure tile
       var departureNameArr = [];
