@@ -8,16 +8,19 @@
 module.exports = {
   airports: function (req, res) {
 
+    // Trim left whitespaces
+    var _query = req.param('q').replace(/^\s*/,"");
+
     Airports.find({
       or: [
         {'name': {
-          'startsWith': req.param('q')
+          'startsWith': _query
         }},
         {'city': {
-          'startsWith': req.param('q')
+          'startsWith': _query
         }},
         {'iata_3code': {
-          'startsWith': req.param('q')
+          'startsWith': _query
         }}
       ],
       sort: 'pax DESC'

@@ -95,13 +95,13 @@
     <% if (flight.merchandising) { %>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" role="button" for="<%= iterator %>"><%= __('more')%></button>
+          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>" role="button" for="<%= iterator %>"><%= __('more')%></button>
         </div>
       </div>
       <div class="row hidden mymorecontent<%= iterator %>">
         <div class="panel panel-default">
           <div class="panel-heading">Merchandising Information</div>
-          <div class="panel-body">
+          <div class="panel-body" style="background-color: lightblue">
             <ul>
               <% flight.merchandising.forEach(function (item) { %>
               <li><%= item %></li>
