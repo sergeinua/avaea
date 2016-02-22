@@ -3,11 +3,15 @@
 var fs   = require('fs');
 var csv  = require('csv-parser');
 
+// Parse argv for source data file and log level
 var argv = require('minimist')(process.argv.slice(2));
 argv.datfile  = argv.hasOwnProperty('datfile') ? argv.datfile : 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
 argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
 
+// Fields in the dat file
 const datFile_headers = ['id','name','city','country','iata_3code','icao_4code','latitude','longitude','altitude','timezone','dst','tz'];
+
+// Function for read and parse data file as csv
 const readDatfile = function( callback ) {
     if( argv.loglevel>0 )
         console.log("Reading %s",argv.datfile);
@@ -31,6 +35,7 @@ const readDatfile = function( callback ) {
         callback(null,airports);
     });
 };
+
 const getReadCsvfile = function( csvfile_name ) {
     return function( callback ) {
         if( argv.loglevel>0 ) 
@@ -63,6 +68,8 @@ const getReadCsvfile = function( csvfile_name ) {
         });
     };
 };
+
+// Run process..
 require('async').parallel(
     [readDatfile].concat(argv._.map(function(a) { return getReadCsvfile(a); })),
     function( err, result ) {
@@ -122,23 +129,28 @@ require('async').parallel(
                     "  pax          float,\n"+
                     "  neighbors varchar\n"+
                     ");");
-        // see https://github.com/ubilabs/kd-tree-javascript
-        var kdTree = require('kd-tree-javascript/kdTree');
+
+        // For neighbours calculation, see https://www.npmjs.com/package/kd.tree
+        var kdTree = require('kd.tree');
+        // Make source data for kd-tree as array of airports objects
         var airports_data_array = [];
         for( var iata_3code in airports_data ) {
             airports_data_array.push(airports_data[iata_3code]);
         }
-        var tree = new kdTree.kdTree(airports_data_array,function( a, b ) {
+        var tree = new kdTree.createKdTree(airports_data_array,function( a, b ) {
             return geolib.getDistance(a,b);
-        },['latitude','longitude']);
+        }, ['latitude','longitude']);
+
         for( var iata_3code in airports_data ) {
             var data = airports_data[iata_3code];
             data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+
             data.neighbors = tree.nearest(data,11).sort(function(a,b) {
                 return a[1]-b[1];
             }).slice(1).map(function( dd ) {
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
             });
+
             console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
