@@ -59,5 +59,6 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// models: true
+	// models: true,
+	bucketizationFunction: 'getTilesDataAlternative', //'getTilesData' or live emty for default getTilesData
 };
