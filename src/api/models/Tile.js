@@ -514,7 +514,7 @@ module.exports = {
           if (counter%2 == 0) {
             destinationDepartureNameArr.push( tmp.uniqDestinationDeparture[ counter ].citypairs[tmp.lastElement].from.minutes );
           }
-          tmp.destinationDepartureNameArrTmp[counter] = tmp.uniqDestinationDeparture[ counter ].citypairs[lastElement].from.minutes;
+          tmp.destinationDepartureNameArrTmp[counter] = tmp.uniqDestinationDeparture[ counter ].citypairs[tmp.lastElement].from.minutes;
         }
 
         for (var i = 0, counter = 0; i < tmp.uniqDestinationDeparture.length; i+=2, counter++) {
