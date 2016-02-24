@@ -17,6 +17,11 @@
     <!--STYLES END-->
     <style>
       body { padding-top: 60px; }
+      .company-icon {
+        float: left;
+        margin-top: 13px;
+        margin-right: 5px;
+      }
     </style>
   </head>
 
@@ -32,24 +37,31 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/"><%if (!title) { %><%= __('Demo') %><% } else { %><%= title %><% } %>
-            <% if (typeof searchResult != 'undefined') {%>
-            <span class="hidden-xs">, Departure&nbsp;"<%=searchParams.DepartureDate%>"
-              <% if (searchParams.returnDate) { %>
-              , Return&nbsp;"<%=searchParams.returnDate%>"
-              <% } %>
-              <%= searchParams.CabinClass %>
-            </span>
-            <%}%>
-            <span id='search_count' class="badge hidden" style="background-color: lightgray"></span></a>
+
+          <% if (typeof selectedAirline != 'undefined' && selectedAirline) { %>
+            <div class="company-icon"><img style="display: none;" src="/images/airlines/<%= selectedAirline %>.png" onload="$(this).show()"/></div>
+            <a class="navbar-brand" href="/<%= selectedAirline %>">
+              <%if (!title) { %><%= __('User info') %><% } else { %><%= title %><% } %>
+              <span id='search_count' class="badge hidden" style="background-color: lightgray"></span>
+            </a>
+          <% } else { %>
+            <a class="navbar-brand" href="/">
+              <%if (!title) { %><%= __('User info') %><% } else { %><%= title %><% } %>
+              <span id='search_count' class="badge hidden" style="background-color: lightgray"></span>
+            </a>
+          <% }%>
+
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
+            <% if (typeof selectedAirline != 'undefined' && selectedAirline) { %>
+              <li><a href="/<%= selectedAirline %>">User search</a></li>
+            <% } else { %>
+              <li><a href="/">User search</a></li>
+            <% }%>
             <% if (typeof user != 'undefined') { %>
-            <li><a href="/search">Search</a></li>
-            <li><a href="/profile">Profile</a></li>
             <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
             <% } else { %>
             Powered by Demo Inc &copy; 2015
@@ -126,7 +138,7 @@
     <script src="/js/dependencies/jquery.js"></script>
     <script src="/js/dependencies/Chart.js"></script>
     <script src="/js/dependencies/bootstrap.js"></script>
-    <script src="/js/dependencies/slick.js"></script>
+    <script src="/js/dependencies/snowflake.js"></script>
     <script src="/js/dependencies/socket.io.min.js"></script>
     <script src="/js/dependencies/typeahead.bundle.min.js"></script>
     <script src="/js/admin.js"></script>

@@ -32,8 +32,6 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': 'AuthController.login',
-
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   // 'get /register': 'AuthController.register',
@@ -46,9 +44,13 @@ module.exports.routes = {
   // 'get /search': 'SearchController.index',
   // 'post /result': 'SearchController.result',
 
-  'get /profile': 'UserController.profile',
-  'get /create': 'UserController.create',
-  'post /update': 'UserController.update',
+  'get /profile/:user_id': 'UserController.profile',
+  'get /create/:user_id': 'UserController.create',
+  'post /update/:user_id': 'UserController.update',
+
+  'get /:selectedAirline/profile/:user_id': 'UserController.profile',
+  'get /:selectedAirline/create/:user_id': 'UserController.create',
+  'post /:selectedAirline/update/:user_id': 'UserController.update',
 
   // 'post /prediction/order_tiles': 'PredictionController.order_tiles',
   // 'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
@@ -58,15 +60,12 @@ module.exports.routes = {
   // 'post /ac/airports': 'AcController.airports',
 
 
-  'post /abo/getaction': 'AboController.getaction',
-  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
-  'post /abo/gettilesbyuser/:user_id': 'AboController.getTilesByUser',
-  'get /abo': {
-    controller: "Abo",
-    locals: {
-      layout: 'admin'
-    }
-  }
+  'post /getaction': 'AboController.getaction',
+  'post /getbyuser/:user_id': 'AboController.getByUser',
+  'post /gettilesbyuser/:user_id': 'AboController.getTilesByUser',
+  'get /:selectedAirline': 'AboController.index',
+  'get /': 'AuthController.login'
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

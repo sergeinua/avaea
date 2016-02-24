@@ -12,10 +12,17 @@
 module.exports = {
   index: function (req, res) {
 
-    User.find({
-    }).exec(function (err, found) {
+    var selectedAirline = '';
+
+    if (req.params.selectedAirline && req.params.selectedAirline.length == 2 ) {
+      selectedAirline = req.params.selectedAirline.toUpperCase();
+      console.log('selectedAirline in params: ' + selectedAirline);
+    }
+
+    User.find({}).exec(function (err, found) {
       if (!err && found.length) {
         return res.view('admin/index', {
+            selectedAirline: selectedAirline,
             users: found,
             layout: 'admin'
           });

@@ -42,17 +42,21 @@ module.exports = {
    */
   update: function (req, res) {
     var profileFields = Profile.make(req.body, req.user);
-    sails.log.info(profileFields);
+
     Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
       if (err || _.isEmpty(record)) {
-        Profile.create(profileFields, function(err, record) {
+        Profile.create(profileFields).exec(function(err, record) {
           if (err) {
             sails.log.error(err);
           }
+          res.redirect('/profile');
+
         });
+      } else {
+        res.redirect('/profile');
       }
     });
-    res.redirect('/profile');
+
   },
 
     /**
@@ -83,7 +87,7 @@ module.exports = {
      */
   addMilesPrograms: function (req, res) {
       Profile.findOneByUserId(req.user.id).exec(function (err, found) {
-          if (!found) {
+        if (!found) {
               sails.log.error('User not found', JSON.stringify(req.user));
           } else {
               var ind =  _.findIndex(found.milesPrograms, {"airlineName": req.param('airlineName')});
@@ -113,5 +117,38 @@ module.exports = {
               });
           }
       });
+  },
+
+  /**
+   * remove fieldset from user profile
+   * user/removeFieldSet
+   * @param req
+   * @param res
+   */
+  removeFieldSet: function (req, res) {
+    Profile.findOneByUserId(req.user.id).exec(function (err, found) {
+
+      if (!found) {
+
+        sails.log.error('User not found', JSON.stringify(req.user));
+
+      } else {
+
+        var fieldset = req.param('fieldset'), iterator = req.param('iterator');
+        if (found[fieldset][iterator]) {
+
+          found[fieldset].splice(iterator, 1);
+          Profile.update({user:req.user.id}, found).exec(function (err, record) {
+            if (err) {
+              return res.json({error: err});
+            }
+            return res.json({'success': true});
+          });
+
+        }
+
+      }
+
+    });
   }
 };

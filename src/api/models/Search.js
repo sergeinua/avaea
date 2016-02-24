@@ -80,7 +80,7 @@ module.exports = {
 
             // if no data in memcache over 10 sec get result from DB
             setTimeout(() => {
-              if (!done && row.result) {
+              if (!done && row.result && row.result.result && row.result.result.length) {
                 done = true;
                 sails.log.info('Get search data from DB');
 
@@ -98,17 +98,31 @@ module.exports = {
             setTimeout(() => {
               if (!done) {
                 done = true;
+                // store empty search data in DB
+                var result = [];
+                row.result = {
+                  priceRange:    { minPrice: 0, maxPrice: 0 },
+                  durationRange: { minPrice: 0, maxPrice: 0 },
+                  result:        result
+                };
+                row.save();
                 var error = provider + ' API does not respond over 30s';
                 sails.log.error(error);
-                return callback(error, []);
+
+                this.cache(guid, row);
+
+                result.guid = guid;
+                result.priceRange = row.result.priceRange;
+                result.durationRange = row.result.durationRange;
+                return callback(error, result);
               }
             }, 30000);
 
             // run async API search
             global[provider].flightSearch(guid, params, (err, result) => {
               sails.log.info(provider + ' search finished!');
-              if (!err && result) {
-                // store API search data in DB
+              if (!err) {
+                // store API search data in DB even if it's empty
                 row.result = {
                   priceRange: result.priceRange,
                   durationRange: result.durationRange,

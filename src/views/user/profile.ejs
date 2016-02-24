@@ -1,4 +1,3 @@
-
 <form action="user/update" name="Profile" id="Profile" method="post">
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -41,102 +40,16 @@
         <option value='South Pacific'<% if(Profile.ethnicity == 'South Pacific') {%> selected<%} %>>South Pacific</option>
     </select>
 
+        <!--In Case of Emergency Notify-->
+        <label>In Case of Emergency Notify</label>
+        <input type="text" name="notifyContact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= Profile.notifyContact.name %>" />
+        <label>Emergency Notify Phone</label>
+        <input type="tel" name="notifyContact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone" value="<%= Profile.notifyContact.phone %>"/>
 
-<!--Employer-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-        <legend style="margin-bottom:0; font-size:18px;">Employer</legend>
-        <div class="panel-body">
-            <label>Company Name</label>
-            <input type="text" name="employer.companyName" class="form-control input-sm" placeholder="Company Name" value="<%= Profile.employer.companyName %>"/>
-            <label>Address</label>
-            <input type="text" name="employer.address" class="form-control input-sm" placeholder="Address"  value="<%= Profile.employer.address %>"/>
-            <label>Phone number</label>
-            <input type="tel" name="employer.phone" class="form-control input-sm" placeholder="Phone number"  value="<%= Profile.employer.phone %>"/>
-            <label>Position Held</label>
-            <input type="text" name="employer.position" class="form-control input-sm" placeholder="Position Held"  value="<%= Profile.employer.position %>"/>
-            <label>Salary Range</label>
-            <select name="employer.salary" class="form-control input-sm">
-                <option value='' <% if(!Profile.employer.salary) {%>selected<%} %>>please choose</option>
-                <option value="$50K - $100K"<% if(Profile.employer.salary == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
-                <option value="$100K - $200K"<% if(Profile.employer.salary == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
-                <option value="$200K - $300K"<% if(Profile.employer.salary == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
-                <option value="Over $300K"<% if(Profile.employer.salary == 'Over $300K') {%> selected<%} %>>Over $300K</option>
-            </select>
-            <label>Total Household Income</label>
-            <select name="employer.income" class="form-control input-sm">
-                <option value='' <% if(!Profile.employer.income) {%>selected<%} %>>please choose</option>
-                <option value="$50K - $100K"<% if(Profile.employer.income == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
-                <option value="$100K - $200K"<% if(Profile.employer.income == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
-                <option value="$200K - $300K"<% if(Profile.employer.income == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
-                <option value="Over $300K"<% if(Profile.employer.income == 'Over $300K') {%> selected<%} %>>Over $300K</option>
-            </select>
-        </div>
-    </fieldset>
-
-    </div>
+      </div>
   </div>
 </div>
 <!--END OF BASE INFO-->
-
-
-<!--FAMILY-->
-
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingFour">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Might travel with you
-        </a>
-      </h4>
-    </div>
-
-    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-      <div class="panel-body">
-
-<!--In Case of Emergency Notify-->
-    <label>In Case of Emergency Notify</label>
-    <input type="text" name="notifyContact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= Profile.notifyContact.name %>" />
-    <label>Emergency Notify Phone</label>
-    <input type="tel" name="notifyContact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone" value="<%= Profile.notifyContact.phone %>"/>
-<!--Name(s) of Family Members who might travel with you-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0; font-size:18px;">Travelers</legend>
-        <div class="panel-body">
-
-<% if (Profile.travelWith) {%>
-<%  isFirst = true %>
-  <% Profile.travelWith.forEach(function (travelWith) { %>
-            <div id="travelWith">
-            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-            <label>First Name</label>
-            <input type="text" name="travelWith.firstName[]" class="form-control input-sm" placeholder="First Name" value="<%= travelWith.firstName %>"/>
-            <label>Last Name</label>
-            <input type="text" name="travelWith.lastName[]" class="form-control input-sm" placeholder="Last Name" value="<%= travelWith.lastName %>"/>
-            <label>Gender</label>
-            <select name="travelWith.gender[]" class="form-control input-sm">
-                <option value=''<% if(!travelWith.gender) {%> selected<%} %>>please choose</option>
-                <option value="Male"<% if(travelWith.gender == "Male") {%> selected<%} %>>Male</option>
-                <option value="Female"<% if(travelWith.gender == "Female") {%> selected<%} %>>Female</option>
-            </select>
-            <label>Date of birth</label>
-            <input type="date" name="travelWith.DateOfBirth[]" class="form-control input-sm" value="<%= travelWith.DateOfBirth %>"/>
-            </div>
-<%  isFirst = false %>
-  <% }) %>
-<% } %>
-
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="travelWith"><%= __('One more')%></button>
-        </div>
-      </fieldset>
-
-
-    </div>
-  </div>
-</div>
-<!--END OF FAMILY-->
-
 
 <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
@@ -154,24 +67,34 @@
       <legend style="margin-bottom:0; font-size:18px;">Preferred Airlines</legend>
         <div class="panel-body">
 
-<% if (Profile.preferredAirlines) {%>
-<%  isFirst = true %>
-  <% Profile.preferredAirlines.forEach(function (preferredAirlines) { %>
-            <div id="preferredAirlines">
+<%
+if (Profile.preferredAirlines) {
+  isFirst = true
+  iterator = 0
+  Profile.preferredAirlines.forEach(function (preferredAirlines) { %>
+            <div id="preferredAirlines" fieldset-number="<%= iterator %>">
             <hr <% if (isFirst) { %>class="hidden"<% } %>/>
             <label>Preferred Airlines type</label>
-            <select name="preferredAirlines.travelType[]" class="form-control input-sm">
+
+            <% if (Profile.preferredAirlines.length > 1) {%>
+            <input class="remove-fieldset" type="button" value="remove" fieldset="preferredAirlines" iterator="<%= iterator %>"/>
+            <% } %>
+
+              <select name="preferredAirlines.travelType[]" class="form-control input-sm">
                 <option value=''<% if(preferredAirlines.travelType) {%> selected<%} %>>please choose</option>
                 <option value="Domestic Short Haul Trips"<% if(preferredAirlines.travelType == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
                 <option value="Domestic Long Haul Flights"<% if(preferredAirlines.travelType == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
                 <option value="International Flights"<% if(preferredAirlines.travelType == 'International Flights') {%> selected<%} %>>International Flights</option>
             </select>
             <label>Airline Name</label>
-            <input type="text" name="preferredAirlines.airlineName[]" class="form-control input-sm" placeholder="Airline Name"/>
+              <input type="text" name="preferredAirlines.airlineName[]" value="<%= preferredAirlines.airlineName %>" class="form-control input-sm" placeholder="Airline Name"/>
             </div>
-<%  isFirst = false %>
-  <% }) %>
-<% } %>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
 
         </div>
         <div class="panel-footer">
@@ -184,12 +107,19 @@
       <legend style="margin-bottom:0; font-size:18px;">Airlines Frequent Flier Miles Programs</legend>
         <div class="panel-body">
 
-<% if (Profile.milesPrograms) {%>
-<%  isFirst = true %>
-  <% Profile.milesPrograms.forEach(function (milesPrograms) { %>
-            <div id="milesPrograms">
+<%
+if (Profile.milesPrograms) {
+  isFirst = true
+  iterator = 0
+  Profile.milesPrograms.forEach(function (milesPrograms) { %>
+            <div id="milesPrograms" fieldset-number="<%= iterator %>">
               <hr <% if (isFirst) { %>class="hidden"<% } %>/>
               <label>Airline Name</label>
+
+              <% if (Profile.milesPrograms.length > 1) {%>
+              <input class="remove-fieldset" type="button" value="remove" fieldset="milesPrograms" iterator="<%= iterator %>"/>
+              <% } %>
+
               <input type="text" name="milesPrograms.airlineName[]" class="form-control input-sm" placeholder="Airline Name" value="<%= milesPrograms.airlineName %>"/>
               <label>Account Number</label>
               <input type="text" name="milesPrograms.accountNumber[]" class="form-control input-sm" placeholder="Account Number" value="<%= milesPrograms.accountNumber %>"/>
@@ -198,9 +128,12 @@
               <label>Expiration Date</label>
               <input type="text" name="milesPrograms.expirationDate[]" class="form-control input-sm" placeholder="Expiration Date" value="<%= milesPrograms.expirationDate %>"/>
             </div>
-<%  isFirst = false %>
-  <% }) %>
-<% } %>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
 
         </div>
         <div class="panel-footer">
@@ -212,21 +145,31 @@
       <legend style="margin-bottom:0; font-size:18px;">Airline Club Lounge Memberships</legend>
         <div class="panel-body">
 
-<% if (Profile.loungeMembership) {%>
-<%  isFirst = true %>
-  <% Profile.loungeMembership.forEach(function (loungeMembership) { %>
-            <div id="loungeMembership">
+<%
+if (Profile.loungeMembership) {
+  isFirst = true
+  iterator = 0
+  Profile.loungeMembership.forEach(function (loungeMembership) { %>
+            <div id="loungeMembership" fieldset-number="<%= iterator %>">
               <hr <% if (isFirst) { %>class="hidden"<% } %>/>
               <label>Airline Name</label>
+
+              <% if (Profile.loungeMembership.length > 1) {%>
+              <input class="remove-fieldset" type="button" value="remove" fieldset="loungeMembership" iterator="<%= iterator %>"/>
+              <% } %>
+
               <input type="text" name="loungeMembership.airlineName[]" class="form-control input-sm" placeholder="Airline Name" value="<%= loungeMembership.airlineName %>"/>
               <label>Club Membership Number</label>
               <input type="text" name="loungeMembership.membershipNumber[]" class="form-control input-sm" placeholder="Club Membership Number" value="<%= loungeMembership.membershipNumber %>"/>
               <label>Expiration Date</label>
               <input type="date" name="loungeMembership.expirationDate[]" class="form-control input-sm" value="<%= loungeMembership.expirationDate %>"/>
             </div>
-<%  isFirst = false %>
-  <% }) %>
-<% } %>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
 
         </div>
         <div class="panel-footer">
@@ -238,72 +181,6 @@
   </div>
 </div>
 <!--END OF AIRLINES/PROGRAMS-->
-
-
-
-<!--Preferred Class of Service-->
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Preferred Class of Service
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <div class="panel-body">
-
-
-
-<!--todo: rethink this part mb better put 2 selects + more button-->
-        <div class="panel-body">
-            <label>Domestic for Personal or Leisure Travel</label>
-            <select name="preferredClass.domesticPersonal" class="form-control input-sm">
-                <option value=''<% if(!Profile.preferredClass.domesticPersonal) {%> selected<%} %>>please choose</option>
-                <option value="First"<% if(Profile.preferredClass.domesticPersonal == "First") {%> selected<%} %>>First</option>
-                <option value="Business"<% if(Profile.preferredClass.domesticPersonal == "Business") {%> selected<%} %>>Business</option>
-                <option value="Premium Economy"<% if(Profile.preferredClass.domesticPersonal == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
-                <option value="Economy"<% if(Profile.preferredClass.domesticPersonal == "Economy") {%> selected<%} %>>Economy</option>
-            </select>
-            <label>Domestic for Business Travel</label>
-            <select name="preferredClass.domesticBusiness" class="form-control input-sm">
-                <option value=''<% if(!Profile.preferredClass.domesticBusiness) {%> selected<%} %>>please choose</option>
-                <option value="First"<% if(Profile.preferredClass.domesticBusiness == "First") {%> selected<%} %>>First</option>
-                <option value="Business"<% if(Profile.preferredClass.domesticBusiness == "Business") {%> selected<%} %>>Business</option>
-                <option value="Premium Economy"<% if(Profile.preferredClass.domesticBusiness == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
-                <option value="Economy"<% if(Profile.preferredClass.domesticBusiness == "Economy") {%> selected<%} %>>Economy</option>
-            </select>
-            <label>International for Personal or Leisure Travel</label>
-            <select name="preferredClass.internationalPersonal" class="form-control input-sm">
-                <option value=''<% if(!Profile.preferredClass.internationalPersonal) {%> selected<%} %>>please choose</option>
-                <option value="First"<% if(Profile.preferredClass.internationalPersonal == "First") {%> selected<%} %>>First</option>
-                <option value="Business"<% if(Profile.preferredClass.internationalPersonal == "Business") {%> selected<%} %>>Business</option>
-                <option value="Premium Economy"<% if(Profile.preferredClass.internationalPersonal == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
-                <option value="Economy"<% if(Profile.preferredClass.internationalPersonal == "Economy") {%> selected<%} %>>Economy</option>
-            </select>
-            <label>International for Business Travel</label>
-            <select name="preferredClass.internationalBusiness" class="form-control input-sm">
-                <option value=''<% if(!Profile.preferredClass.internationalBusiness) {%> selected<%} %>>please choose</option>
-                <option value="First"<% if(Profile.preferredClass.internationalBusiness == "First") {%> selected<%} %>>First</option>
-                <option value="Business"<% if(Profile.preferredClass.internationalBusiness == "Business") {%> selected<%} %>>Business</option>
-                <option value="Premium Economy"<% if(Profile.preferredClass.internationalBusiness == "Premium Economy") {%> selected<%} %>>Premium Economy</option>
-                <option value="Economy"<% if(Profile.preferredClass.internationalBusiness == "Economy") {%> selected<%} %>>Economy</option>
-            </select>
-
-            <label>Preferred seat</label>
-            <select name="preferredSeat" class="form-control input-sm">
-                <option value=''<% if(!Profile.preferredSeat) {%> selected<%} %>>please choose</option>
-                <option value='Window'<% if(Profile.preferredSeat == 'Window') {%> selected<%} %>>Window</option>
-                <option value='Aisle'<% if(Profile.preferredSeat == 'Aisle') {%> selected<%} %>>Aisle</option>
-                <option value='Exit Row'<% if(Profile.preferredSeat == 'Exit Row') {%> selected<%} %>>Exit Row</option>
-            </select>
-        </div>
-
-
-    </div>
-  </div>
-</div>
-<!--Preferred Class of Service-->
 
 
 <style>

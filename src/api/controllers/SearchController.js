@@ -114,11 +114,11 @@ module.exports = {
         algorithm = 'getTilesData';
       }
 
+      if (!req.session.showTiles) {
+        algorithm = 'getTilesDataEmpty';
+      }
+
       Tile[algorithm](found, params.searchParams, function (itineraries, tiles, params) {
-        // Special hack to undergo Mystifly certification without showing tiles to them
-        if( (req.user.email=='constfilin@gmail.com') || (req.user.email=='manoj.mystifly@gmail.com') ) {
-            tiles = [];
-        }
         UserAction.saveAction(req.user, 'order_tiles', tiles);
         var itinerariesData = {
           searchUuid   : itineraries.guid,
