@@ -34,8 +34,6 @@ module.exports = {
     Profile.findOneByUserId(req.params.user_id).exec(function findOneCB(err, found) {
 
       if (!found) {
-        console.log('no profile data for user:');
-        console.log(req.user);
 
         res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id);
 

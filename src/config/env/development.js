@@ -34,8 +34,8 @@ module.exports = {
     port: 5432
   },
 
-  port: 80,
-  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
+  //port: 80,
+  //proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
 
   flightapis: {
     mondee: {

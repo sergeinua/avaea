@@ -1103,5 +1103,10 @@ module.exports = {
         }
       });
     }
+  },
+
+  getTilesDataEmpty: function (itineraries, params, callback) {
+    return callback(itineraries, [], params);
   }
+
 };
