@@ -85,14 +85,6 @@ module.exports = {
     var selectedAirline = this._setAirlineCode(req);
 
     User.findOne({id: req.params.user_id}).exec(function findOneCB(err, found) {
-
-      // this is a magic
-      // set FALSE for `constfilin@gmail.com` and `manoj+mystifly@gmail.com`
-      // TODO: remove it later
-      if (found && (found.email == 'constfilin@gmail.com' || found.email == 'manoj+mystifly@gmail.com')) {
-        profileFields.showTiles = false;
-      }
-
       Profile.update({user:req.params.user_id}, profileFields).exec(function (err, record) {
         if (err || _.isEmpty(record)) {
           Profile.create(profileFields).exec(function(err, record) {

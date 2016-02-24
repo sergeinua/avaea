@@ -175,7 +175,7 @@ var AuthController = {
         // User.create(user).exec();
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true;
-        req.session.showTiles = false;
+        req.session.showTiles = true;
 
         Profile.findOneByUserId(req.session.passport.user).exec(function (error, found) {
           if (found) {
