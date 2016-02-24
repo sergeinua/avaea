@@ -1,3 +1,4 @@
+/* Profile */
 /* global passport */
 /* global sails */
 /**
@@ -173,10 +174,19 @@ var AuthController = {
         }
         // User.create(user).exec();
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-        req.session.authenticated = true
-        // Upon successful login, send the user to the homepage were req.user
-        // will be available.
-        return res.redirect('/search');
+        req.session.authenticated = true;
+        req.session.showTiles = false;
+
+        Profile.findOneByUserId(req.session.passport.user).exec(function (error, found) {
+          if (found) {
+            req.session.showTiles = found.showTiles;
+          }
+
+          // Upon successful login, send the user to the homepage were req.user
+          // will be available.
+          return res.redirect('/search');
+
+        });
       });
     });
   },

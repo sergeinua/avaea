@@ -682,7 +682,7 @@ module.exports = {
 
         for (var i = 0; i < priceNameArr.length; i++) {
           tileArr['Price'].filters.push({
-          title: '$' + sourceArrivalNameArr[i],
+          title: '$' + priceNameArr[i],
             id: 'price_tile_' + i,
             count : 0
           });

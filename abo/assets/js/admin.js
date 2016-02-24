@@ -1,4 +1,64 @@
 $(document).ready(function() {
+
+  var currentChartType;
+  var user_id = 0, prevLog, prevSnowflake, prevSpider,
+    lastUpdated = 0,
+    interval1, interval2;
+
+  currentChartType = $('#chartSelection').val();
+
+  $('.mymoreprofilebutton').click(function(el) {
+    var cloneTarget = $(this).attr('for');
+    var clone = $('#' + cloneTarget).clone().find("input").val("").end();
+
+    clone.find('hr').removeClass('hidden');
+    clone.appendTo($('#' + cloneTarget).parent());
+    return false;
+  });
+
+  //remove fieldset
+  $('.remove-fieldset').click(function(event){
+    var fieldset = $(this).attr('fieldset'),
+      iterator = $(this).attr('iterator');
+
+    $.ajax({
+      method: "POST",
+      url: "/user/removeFieldSet",
+      data: {fieldset: fieldset, iterator: iterator}
+    })
+      .done(function( msg ) {
+
+
+        if (msg.error) {
+
+          $('#timeAlert').text('Error saving data to ' + fieldset + '.')
+            .fadeIn('slow', function () {
+              $(this).fadeOut(5000, function () {
+                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+              });
+            }
+          );
+
+        } else {
+
+          $('#' + fieldset + '[fieldset-number="' + iterator + '"]').remove();
+          $('#' + fieldset + ':first > hr').remove();
+          if ($('#' + fieldset + ' .remove-fieldset').length == 1) {
+            $('#' + fieldset + ' .remove-fieldset').remove();
+          }
+
+          $('#timeAlert').text('Record was removed successfully.')
+            .fadeIn('slow', function () {
+              $(this).fadeOut(5000, function () {
+                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+              });
+            }
+          );
+        }
+      });
+
+  });
+
   if(!$('.filter_user').length) {
     console.log('admin.js not suppose to be here. trying to quit');
     return true;
@@ -10,18 +70,6 @@ $(document).ready(function() {
     F:'First'
   };
 
-  $('.navbar-nav li').click(function() {
-        $('.navbar-nav li').each(function(page) {
-            var t = $(this).find('a').attr('target');
-            $(this).removeClass('active');
-            $('#'+t).addClass('hidden');
-        });
-        var target = $(this).find('a').attr('target');
-        $(this).addClass('active');
-        console.log(target);
-        $('#' + target).removeClass('hidden');
-        return false;
-    });
     var substringMatcher = function(strs) {
         return function findMatches(q, cb) {
           var matches, substringRegex;
@@ -61,9 +109,6 @@ $(document).ready(function() {
     });
 
 
-  var lastUpdated = 0;
-
-  var user_id = 0;
   var actionMap = {
     on_tile_choice        : {title: 'tile',                 colorClass: 'info'},
     order_tiles           : {title: 'tiles order',          colorClass: 'success'},
@@ -73,7 +118,7 @@ $(document).ready(function() {
     itinerary_prediction  : {title: 'itinerary prediction', colorClass: 'active'}
   };
   var autoscrollme = function () {
-    $('#log_table_div').animate({ 
+    $('#log_table_div').animate({
         scrollTop: 9999999
       },
       140
@@ -85,11 +130,13 @@ $(document).ready(function() {
       }
       $.ajax({
           method: "POST",
-          url: "/abo/getbyuser/" + user_id,
+          url: "/getbyuser/" + user_id,
           data: {lastUpdated:lastUpdated}
       })
       .done(function( msg ) {
+
           if (msg.userActions.length) {
+
             msg.userActions.forEach(function(data) {
               if (lastUpdated < data.id) {
                 lastUpdated = data.id;
@@ -136,74 +183,178 @@ $(document).ready(function() {
       });
   };
 
-  setInterval(function() {getLogAction();}, 2000);
-    var radarChartData = {
-        labels: ["Price", "Duration", "Airline", "Outbound Departure", "Outbound Arrival", "Inbound Departure", "Inbound Arrival"],
-        datasets: []
-    };
+  var radarChartData = {
+      labels: ["Price", "Duration", "Airline", "Outbound Departure", "Outbound Arrival", "Inbound Departure", "Inbound Arrival"],
+      datasets: []
+  };
+
+  $('#chartSelection').on('change', function(){
+    currentChartType = $(this).val();
+    prevSnowflake = null;
+    prevSpider = null;
+    drawCurrentChartType();
+  });
 
   $('.filter_user').submit(function() {
-    $('.alert').remove();
-    user_id = $('#user_search_form').val();
     var id = 0;
+    user_id = $('#user_search_form').val();
     if (id = user_id.match(/^ID#(\d+)/)) {
       user_id = id[1];
-
-      $.ajax({
-          method: "POST",
-          url: "/abo/gettilesbyuser/" + user_id
-      })
-      .done(function( msg ) {
-
-        if (msg.data) {
-            msg.data.forEach(function(item) {
-                if (typeof(item.E) != 'undefined') {
-                    console.log(item);
-                    var radarChartDataItem = {
-                        label: "User tile prediction values ("+serviceClass['E']+")",
-                        fillColor: "rgba(220,220,220,0.2)",
-                        strokeColor: "rgba(220,220,220,1)",
-                        pointColor: "rgba(220,220,220,1)",
-                        pointStrokeColor: "#fff",
-                        pointHighlightFill: "#fff",
-                        pointHighlightStroke: "rgba(220,220,220,1)",
-                        data: [
-                            item.E[6]['price_tile'],//"Price"
-                            item.E[5]['duration_tile'],//"Duration"
-                            item.E[4]['airline_tile'],//"Airline"
-                            item.E[3]['departure_tile'],//"Outbound Departure"
-                            item.E[2]['arrival_tile'],//"Outbound Arrival"
-                            item.E[1]['destination_departure_tile'],//"Inbound Departure"
-                            item.E[0]['source_arrival_tile']//"Inbound Arrival"
-                        ]
-                    };
-//                    console.log(radarChartDataItem);
-                    radarChartData.datasets.push(radarChartDataItem);
-                }
-
-            });
-          window.myRadar = new Chart(document.getElementById("canvas").getContext("2d")).Radar(radarChartData, {
-            responsive: true
-          });
-//          $('#chart_legend').html($(window.myRadar.generateLegend()));
-//          console.log(window.myRadar.generateLegend());
-        }
-
-
-      });
-    } else {
-        user_id = 0;
-        window.myRadar.destroy();
-        $('#chart_legend').html('');
     }
-    $('#user_filter_value').val('');
+
     if (user_id) {
-      lastUpdated = 0;
-      $('#user_filter_value').val(user_id);
+
+      if (interval1) {
+        clearInterval(interval1);
+      }
+      if (interval2) {
+        clearInterval(interval2);
+      }
+
+      getLogAction();
+      drawCurrentChartType();
+
+      interval1 = setInterval(getLogAction, 2000);
+      interval2 = setInterval(drawCurrentChartType, 2000);
     }
 
     return false;
   });
+
+  var drawCurrentChartType = function() {
+    if (!user_id) {
+      return false;
+    }
+
+    if (currentChartType == 'snowflake') {
+      getSnowflake();
+    } else if (currentChartType == 'spiderchart') {
+      getSpiderChart();
+    }
+  };
+
+  var getSpiderChart = function() {
+    var id = 0;
+    if (user_id) {
+
+      $('#snowflake').hide();
+      $('#spider').show();
+
+      console.log('get spiderchart for userId: ' + user_id);
+
+      $.ajax({
+        method: "POST",
+        url: "/gettilesbyuser/" + user_id
+      })
+        .done(function( msg ) {
+          $('.user-profile-button').show();
+          if (msg.data) {
+
+            if (JSON.stringify(prevSpider) == JSON.stringify(msg)) {
+              return true;
+            }
+
+            msg.data.forEach(function(item) {
+              if (typeof(item.E) != 'undefined') {
+                console.log(item);
+                var radarChartDataItem = {
+                  label: "User tile prediction values ("+serviceClass['E']+")",
+                  fillColor: "rgba(220,220,220,0.2)",
+                  strokeColor: "rgba(220,220,220,1)",
+                  pointColor: "rgba(220,220,220,1)",
+                  pointStrokeColor: "#fff",
+                  pointHighlightFill: "#fff",
+                  pointHighlightStroke: "rgba(220,220,220,1)",
+                  data: [
+                    item.E[6]['price_tile'],//"Price"
+                    item.E[5]['duration_tile'],//"Duration"
+                    item.E[4]['airline_tile'],//"Airline"
+                    item.E[3]['departure_tile'],//"Outbound Departure"
+                    item.E[2]['arrival_tile'],//"Outbound Arrival"
+                    item.E[1]['destination_departure_tile'],//"Inbound Departure"
+                    item.E[0]['source_arrival_tile']//"Inbound Arrival"
+                  ]
+                };
+//                    console.log(radarChartDataItem);
+                radarChartData.datasets.push(radarChartDataItem);
+              }
+
+            });
+
+            if (radarChartData.datasets.length) {
+              window.myRadar = new Chart(document.getElementById("spider").getContext("2d")).Radar(radarChartData, {
+                responsive: true
+              });
+            }
+
+//          $('#chart_legend').html($(window.myRadar.generateLegend()));
+//          console.log(window.myRadar.generateLegend());
+
+            prevSpider = {};
+            $.extend(true, prevSpider, msg);
+          }
+
+
+        });
+    } else {
+      $('.user-profile-button').hide();
+      user_id = 0;
+      window.myRadar.destroy();
+      $('#chart_legend').html('');
+    }
+
+  };
+
+  var getSnowflake = function() {
+    var id = 0;
+    if (user_id) {
+
+      $('#spider').hide();
+      $('#snowflake').show();
+
+      console.log('get snowflake for userId: ' + user_id);
+      $.ajax({
+        method: "POST",
+        url: "/gettilesbyuser/" + user_id
+      })
+        .done(function (msg) {
+
+          if (JSON.stringify(prevSnowflake) == JSON.stringify(msg)) {
+            return true;
+          }
+
+          console.log(msg);
+
+          $('.user-profile-button').show();
+
+          var _keys, _data = msg.data[0].E, _arr = [];
+
+          if (!_data) {
+            return;
+          }
+
+          for (var i = 0; i < _data.length; i++) {
+            _keys = Object.keys(_data[i]);
+            _arr.push(_data[i][_keys[0]]);
+          }
+          _arr = _arr.sort(function(a, b){return a-b}).reverse();
+
+          snowflakeInit(document.getElementById("snowflake"), [_arr[0], _arr[1], _arr[2]]);
+
+          prevSnowflake = {};
+          $.extend(true, prevSnowflake, msg);
+
+        });
+    }  else {
+      $('.user-profile-button').hide();
+      user_id = 0;
+      if(window.myRadar) {
+        window.myRadar.destroy();
+      };
+      $('#chart_legend').html('');
+    }
+
+  };
 
   $('.filters_checkbox').click(function() {
     $('.alert').show();
@@ -217,5 +368,11 @@ $(document).ready(function() {
     });
     return true;
   });
+
+  $('#userProfileButton').on('click', function(){
+    if(user_id) {
+      window.location.href = (GlobalSelectedAirline ? '/' + GlobalSelectedAirline : '') + '/profile/' + user_id;
+    }
+  })
 
 });

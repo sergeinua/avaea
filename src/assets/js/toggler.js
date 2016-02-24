@@ -422,17 +422,61 @@ $(document).ready(function() {
         cancelMilesPrograms();
     });
 
-    var getIconForAirline = function (el) {
-        var _image = new Image(),
-            _code = el.data('code'),
-            _file = '/images/airlines/' + _code + '.png';
-        _image.onload = function () {
-            el.attr('src', _file);
-        };
-        _image.src = _file;
-    };
+  //remove fieldset
+  $('.remove-fieldset').click(function(event){
+    var fieldset = $(this).attr('fieldset'),
+      iterator = $(this).attr('iterator');
 
-    $('.airlineIcon').each(function () {
-        getIconForAirline($(this));
-    });
+    $.ajax({
+      method: "POST",
+      url: "/user/removeFieldSet",
+      data: {fieldset: fieldset, iterator: iterator}
+    })
+      .done(function( msg ) {
+
+
+        if (msg.error) {
+
+          $('#timeAlert').text('Error saving data to ' + fieldset + '.')
+            .fadeIn('slow', function () {
+              $(this).fadeOut(5000, function () {
+                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+              });
+            }
+          );
+
+        } else {
+
+          $('#' + fieldset + '[fieldset-number="' + iterator + '"]').remove();
+          $('#' + fieldset + ':first > hr').remove();
+          if ($('#' + fieldset + ' .remove-fieldset').length == 1) {
+            $('#' + fieldset + ' .remove-fieldset').remove();
+          }
+
+          $('#timeAlert').text('Record was removed successfully.')
+            .fadeIn('slow', function () {
+              $(this).fadeOut(5000, function () {
+                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+              });
+            }
+          );
+        }
+      });
+
+  });
+
+  var getIconForAirline = function (el) {
+    var _image = new Image(),
+      _code = el.data('code'),
+      _file = '/images/airlines/' + _code + '.png';
+    _image.onload = function () {
+      el.attr('src', _file);
+    };
+    _image.src = _file;
+  };
+
+  $('.airlineIcon').each(function () {
+    getIconForAirline($(this));
+  });
+
 });
