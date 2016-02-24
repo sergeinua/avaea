@@ -489,10 +489,9 @@ module.exports = {
       tmp.lastElement = 0;
 
       tmp.uniqDestinationDeparture = _.uniq(tmp.itinerariesDestinationDeparture, function(item) {
-          var lastElement = item.citypairs.length -1;
-          return item.citypairs[lastElement].from.minutes;
-        }
-      );
+        var lastElement = item.citypairs.length -1;
+        return item.citypairs[lastElement].from.minutes;
+      });
 
       if (tmp.uniqDestinationDeparture.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
         for (var counter = 0; counter < tmp.uniqDestinationDeparture.length ; counter++) {
@@ -559,10 +558,9 @@ module.exports = {
       });
 
       tmp.uniqSourceArrival = _.uniq(tmp.itinerariesSourceArrival, function(item) {
-          var lastElement = item.citypairs.length -1;
-          return convertToHours(item.citypairs[lastElement].to.minutes);
-        }
-      );
+        var lastElement = item.citypairs.length -1;
+        return convertToHours(item.citypairs[lastElement].to.minutes);
+      });
 
       if (tmp.uniqSourceArrival.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
         for (var counter = 0; counter < tmp.uniqSourceArrival.length ; counter++) {
