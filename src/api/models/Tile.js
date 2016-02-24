@@ -228,8 +228,8 @@ module.exports = {
         current = current + durationStep;
 
         tileArr['Duration'].filters.push({
-          title: Math.round(durationNameArr[i]/60) + formatMinutes(Math.round(durationNameArr[i]%60)) + ' &ndash; '
-            + Math.round((durationNameArr[i] + durationStep)/60) + formatMinutes(Math.round((durationNameArr[i] + durationStep)%60)),
+          title: Math.round(durationNameArr[i]/60) + formatMinutes(roundTo30mins(durationNameArr[i])%60) + ' &ndash; '
+            + Math.round((durationNameArr[i] + durationStep)/60) + formatMinutes(roundTo30mins(durationNameArr[i] + durationStep)%60),
           id: 'duration_tile_' + i,
           count : 0
         });
@@ -238,8 +238,8 @@ module.exports = {
       durationNameArr[3] = current;
 
       tileArr['Duration'].filters.push({
-        title: Math.round(durationNameArr[3]/60) + formatMinutes(Math.round(durationNameArr[3]%60)) + ' &ndash; '
-          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60) + formatMinutes(Math.round(roundTo30mins(itineraries.durationRange.maxDuration)%60)),
+        title: Math.round(durationNameArr[3]/60) + formatMinutes(roundTo30mins(durationNameArr[3])%60) + ' &ndash; '
+          + Math.round(roundTo30mins(itineraries.durationRange.maxDuration)/60) + formatMinutes(roundTo30mins(itineraries.durationRange.maxDuration)%60),
         id: 'duration_tile_' + i,
         count : 0
       });
@@ -756,12 +756,12 @@ module.exports = {
 
       if (tmp.uniqDuration.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
         for (var counter = 0; counter < tmp.uniqDuration.length ; counter++) {
-          durationNameArr[counter] = roundTo30mins(tmp.uniqDuration[ counter ].durationMinutes );
+          durationNameArr[counter] = tmp.uniqDuration[ counter ].durationMinutes;
         }
 
         for (var i = 0; i < durationNameArr.length; i++) {
           tileArr['Duration'].filters.push({
-          title:  parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)),
+          title:  parseInt(durationNameArr[i]/60) + formatMinutes(roundTo30mins(durationNameArr[i])%60),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -770,15 +770,15 @@ module.exports = {
         tmp.durationNameArrTmp = [];
         for (var counter = 0; counter < tmp.uniqDuration.length ; counter++) {
           if (counter%2 == 0) {
-            durationNameArr.push( roundTo30mins(tmp.uniqDuration[ counter ].durationMinutes ) );
+            durationNameArr.push( tmp.uniqDuration[ counter ].durationMinutes );
           }
-          tmp.durationNameArrTmp[counter] = roundTo30mins(tmp.uniqDuration[ counter ].durationMinutes );
+          tmp.durationNameArrTmp[counter] = tmp.uniqDuration[ counter ].durationMinutes;
         }
 
         for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
           tileArr['Duration'].filters.push({
-          title: parseInt(tmp.durationNameArrTmp[i]/60) + formatMinutes(parseInt(tmp.durationNameArrTmp[i]%60))
-            + ((tmp.durationNameArrTmp[i+1])?', ' + (parseInt(tmp.durationNameArrTmp[i+1]/60) + formatMinutes(parseInt(tmp.durationNameArrTmp[i+1]%60))):''),
+          title: parseInt(tmp.durationNameArrTmp[i]/60) + formatMinutes(roundTo30mins(tmp.durationNameArrTmp[i])%60)
+            + ((tmp.durationNameArrTmp[i+1])?', ' + (parseInt(tmp.durationNameArrTmp[i+1]/60) + formatMinutes(roundTo30mins(tmp.durationNameArrTmp[i+1])%60)):''),
             id: 'duration_tile_' + counter,
             count : 0
           });
@@ -791,8 +791,8 @@ module.exports = {
         durationNameArr = _.uniq(durationNameArr);
         for (var i = 0; i < durationNameArr.length - 1; i++) {
           tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[i]/60) + formatMinutes(parseInt(durationNameArr[i]%60)) + ' &ndash; '
-            + Math.round((durationNameArr[i+1])/60) + formatMinutes(Math.round((durationNameArr[i+1])%60)),
+          title: parseInt(durationNameArr[i]/60) + formatMinutes(roundTo30mins(durationNameArr[i])%60) + ' &ndash; '
+            + Math.round((durationNameArr[i+1])/60) + formatMinutes(roundTo30mins(durationNameArr[i+1])%60),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -800,8 +800,8 @@ module.exports = {
 
         tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[durationNameArr.length - 1]/60) + formatMinutes(parseInt(durationNameArr[durationNameArr.length - 1]%60)) + ' &ndash; '
-            + Math.round((tmp.lastDuration)/60) + formatMinutes(Math.round((tmp.lastDuration)%60)),
+          title: parseInt(durationNameArr[durationNameArr.length - 1]/60) + formatMinutes(roundTo30mins(durationNameArr[durationNameArr.length - 1])%60) + ' &ndash; '
+            + Math.round((tmp.lastDuration)/60) + formatMinutes(roundTo30mins(tmp.lastDuration)%60),
           id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });
