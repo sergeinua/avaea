@@ -18,7 +18,7 @@
     <style  type="text/css">
       body { padding-top: 70px; }
     .twitter-typeahead {
-        width: 100%;
+        width: 99.9%;
     }
     .typeahead, .tt-query, .tt-hint {
     }
@@ -57,44 +57,76 @@
     .tt-suggestion p {
         margin: 0;
     }
+    .input-group-btn {
+      vertical-align: top;
+    }
 
+    .user-profile-button {
+      text-align: center;
+    }
+
+    .company-icon {
+      float: left;
+      margin-top: 17px;
+      margin-right: 5px;
+    }
     </style>
   </head>
 
   <body>
 
-<div class="container">
-  <nav id="filters" class="navbar navbar-default navbar-fixed-top"  style="z-index:10;">
+<div class="container" style="padding:0">
+  <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <% if (typeof user != 'undefined') { %>
-            <li><a href="#statistic" target="statistic">Statistic</a></li>
-            <li class="active"><a href="#user_search" target="user_search">User search</a></li>
-            <!--<li><a href="/logout">Log out <b><%= user.email %></b></a></li>-->
-            <% } else { %>
-            Powered by Demo Inc &copy; 2015
-            <% } %>
-          </ul>
-        </div>
-    </div>
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <% if (typeof selectedAirline != 'undefined' && selectedAirline.length == 2) { %>
+          <span class="company-icon">
+            <img style="display: none;" src="/images/airlines/<%= selectedAirline %>.png" onload="this.style.display='block';"/>
+          </span>
+        <% } %>
+
+        <a class="navbar-brand" href="/<%= selectedAirline %>">
+          <%if (!title) { %><%= __('User info') %><% } else { %><%= title %><% } %>
+        </a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><a href="/<%= selectedAirline %>">User search</a></li>
+          <% if (typeof user != 'undefined') { %>
+          <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
+          <% } else { %>
+          Powered by Demo Inc &copy; 2015
+          <% } %>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
   </nav>
 
 </div>
 
 <div class="main container clearfix">
-    <div id="statistic" class="hidden">
-        <div class="jumbotron">
-          <h1>Not implemented yet</h1>
-        </div>
-    </div>
+    <!--<div id="statistic" class="hidden">-->
+        <!--<div class="jumbotron">-->
+          <!--<h1>Not implemented yet</h1>-->
+        <!--</div>-->
+    <!--</div>-->
     <div id="user_search" class="row">
         <form class="filter_user">
       <div class="input-group">
         <input id="user_search_form" type="text" name="user_id" class="form-control" placeholder="Search for user">
         <span class="input-group-btn">
           <button class="btn btn-default" type="submit" >Go!</button>
-        </span>  
+        </span>
         <script>
             var user_list = [
         <%
@@ -110,8 +142,17 @@
           </form>
       <input type="hidden" name="choosen_user" id="user_filter_value">
 
-        
+
         <ul class="nav nav-pills">
+            <li class="list-group-item-default" style="padding: 5px 5px 5px 5px">
+              <label>
+                Chart type
+                <select id="chartSelection" for="on_chart_choice">
+                  <option value="snowflake">Snowflake</option>
+                  <option value="spiderchart">Spiderchart</option>
+                </select>
+              </label>
+            </li>
             <li class=" list-group-item-info" style="padding: 5px 5px 5px 5px">
               <label>
                 <input class="filters_checkbox" type="checkbox" for="on_tile_choice" checked> Tiles choice
@@ -141,8 +182,17 @@
 
       <div class="row">
           <div class="col-md-4">
-              <canvas id="canvas" height="350"></canvas>
+
+              <canvas id="spider" height="350"></canvas>
+              <canvas id="snowflake" height="350"></canvas>
+
               <div id='chart_legend'></div>
+              <div>
+                <span class="user-profile-button input-group-btn" style="display: none;">
+                  <button id="userProfileButton" class="btn btn-default" type="button" >User profile</button>
+                </span>
+
+              </div>
           </div>
           <div class="col-md-8" style="max-height: 500px; overflow: scroll;" id="log_table_div">
               <table class="table table-condensed" id="log_actions" style="width:100%;"></table>
@@ -156,8 +206,17 @@
     <script src="/js/dependencies/jquery.js"></script>
     <script src="/js/dependencies/bootstrap.js"></script>
     <script src="/js/admin.js"></script>
-    <script src="/js/dependencies/slick.js"></script>
     <script src="/js/dependencies/typeahead.bundle.min.js"></script>
     <script src="/js/dependencies/Chart.js"></script>
+    <script src="/js/dependencies/snowflake.js"></script>
+
+    <script type="text/javascript">
+      <% if (selectedAirline) { %>
+          var GlobalSelectedAirline = '<%=selectedAirline %>';
+      <% } else { %>
+        var GlobalSelectedAirline = null;
+      <% } %>
+      </script>
+
   </body>
 </html>

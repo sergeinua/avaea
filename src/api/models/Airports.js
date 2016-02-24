@@ -34,3 +34,4 @@ module.exports = {
   tableName: 'airports_new'
 
 };
+

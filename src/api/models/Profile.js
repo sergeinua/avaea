@@ -33,17 +33,8 @@ module.exports = {
           'South Pacific'
         ]
     },
-    preferredAirlines : { type: 'json' },
-    preferredClass    : { type: 'json' },
-    preferredSeat     : {
-      type: 'string',
-      enum:
-        [
-          'Window',
-          'Aisle',
-          'Exit Row'
-        ]
-    }
+    showTiles         : { type: 'boolean'},
+    preferredAirlines : { type: 'json' }
   },
 
   findOneByUserId: function (id) {
@@ -58,39 +49,17 @@ module.exports = {
         name:  form['notifyContact.name'],
         phone: form['notifyContact.phone']
       };
-      jsonStruct.travelWith = [];
+
       jsonStruct.milesPrograms = [];
       jsonStruct.loungeMembership = [];
-      jsonStruct.employer = {
-        companyName: form["employer.companyName"],
-        address:     form["employer.address"],
-        phone:       form["employer.phone"],
-        position:    form["employer.position"],
-        salary:      form["employer.salary"],
-        income:      form["employer.income"]
-      };
       jsonStruct.preferredAirlines = [];
-      jsonStruct.preferredClass = {
-        domesticPersonal:      form["preferredClass.domesticPersonal"],
-        domesticBusiness:      form["preferredClass.domesticBusiness"],
-        internationalPersonal: form["preferredClass.internationalPersonal"],
-        internationalBusiness: form["preferredClass.internationalBusiness"]
-      };
 
-      for (var i = 0; i < form['travelWith.firstName'].length; i++) {
-        jsonStruct.travelWith.push({
-          firstName:   form['travelWith.firstName'][i],
-          lastName:    form['travelWith.lastName'][i],
-          gender:      form['travelWith.gender'][i],
-          DateOfBirth: form['travelWith.DateOfBirth'][i]
-        });
-      }
       for (var i = 0; i < form['milesPrograms.airlineName'].length; i++) {
         jsonStruct.milesPrograms.push({
-          airlineName:      form['milesPrograms.airlineName'][i],
-          accountNumber:    form['milesPrograms.accountNumber'][i],
-          flierMiles:       form['milesPrograms.flierMiles'][i],
-          expirationDate:   form['milesPrograms.expirationDate'][i]
+          airlineName:    form['milesPrograms.airlineName'][i],
+          accountNumber:  form['milesPrograms.accountNumber'][i],
+          flierMiles:     form['milesPrograms.flierMiles'][i],
+          expirationDate: form['milesPrograms.expirationDate'][i]
         });
       }
       for (var i = 0; i < form['loungeMembership.airlineName'].length; i++) {
@@ -106,6 +75,7 @@ module.exports = {
           airlineName: form['preferredAirlines.airlineName'][i]
         });
       }
+
       return jsonStruct;
   }
 };

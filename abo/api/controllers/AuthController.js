@@ -1,3 +1,5 @@
+/* global Users */
+/* global Abo */
 /* global passport */
 /* global sails */
 /**
@@ -37,26 +39,41 @@ var AuthController = {
       , providers  = {};
 
     if (req.session.authenticated == true) {
-      return res.redirect('/abo');
+
+      User.find({}).exec(function (err, found) {
+        if (err) {
+          sails.log.error(err);
+        }
+        return res.view('admin/index', {
+          selectedAirline: req.session.selectedAirline,
+          users: found,
+          layout: 'admin'
+        });
+      });
+
+    } else {
+      req.session.selectedAirline = '';
+
+      // Get a list of available providers for use in your templates.
+      Object.keys(strategies).forEach(function (key) {
+        if (key === 'local') {
+          return;
+        }
+
+        providers[key] = {
+          name: strategies[key].name
+          , slug: key
+        };
+      });
+
+      // Render the `auth/login.ext` view
+      res.view({
+        providers : providers
+        , errors    : req.flash('error')
+      });
+
     }
 
-    // Get a list of available providers for use in your templates.
-    Object.keys(strategies).forEach(function (key) {
-      if (key === 'local') {
-        return;
-      }
-
-      providers[key] = {
-        name: strategies[key].name
-      , slug: key
-      };
-    });
-
-    // Render the `auth/login.ext` view
-    res.view({
-      providers : providers
-    , errors    : req.flash('error')
-    });
   },
 
   /**
@@ -173,10 +190,10 @@ var AuthController = {
         }
         // User.create(user).exec();
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
-        req.session.authenticated = true
+        req.session.authenticated = true;
         // Upon successful login, send the user to the homepage were req.user
         // will be available.
-        return res.redirect('/abo');
+        return res.redirect('/' + req.session.selectedAirline);
       });
     });
   },

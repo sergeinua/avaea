@@ -42,97 +42,18 @@
         <option value='South Pacific'>South Pacific</option>
     </select>
 
-
-<!--Employer-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-        <legend style="margin-bottom:0">Employer</legend>
-        <div class="panel-body">
-            <label>Company Name</label>
-            <input type="text" name="employer.companyName" class="form-control input-sm" placeholder="Company Name"/>
-            <label>Address</label>
-            <input type="text" name="employer.address" class="form-control input-sm" placeholder="Address"/>
-            <label>Phone number</label>
-            <input type="tel" name="employer.phone" class="form-control input-sm" placeholder="Phone number"/>
-            <label>Position Held</label>
-            <input type="text" name="employer.position" class="form-control input-sm" placeholder="Position Held"/>
-            <label>Salary Range</label>
-            <select name="employer.salary" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="$50K - $100K">$50K - $100K</option>
-                <option value="$100K - $200K">$100K - $200K</option>
-                <option value="$200K - $300K">$200K - $300K</option>
-                <option value="Over $300K">Over $300K</option>
-            </select>
-            <label>Total Household Income</label>
-            <select name="employer.income" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="$50K - $100K">$50K - $100K</option>
-                <option value="$100K - $200K">$100K - $200K</option>
-                <option value="$200K - $300K">$200K - $300K</option>
-                <option value="Over $300K">Over $300K</option>
-            </select>
-        </div>
-    </fieldset>
+    <!--In Case of Emergency Notify-->
+    <label>In Case of Emergency Notify</label>
+    <input type="text" name="notifyContact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"/>
+    <label>Emergency Notify Phone</label>
+    <input type="tel" name="notifyContact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone"/>
 
     </div>
   </div>
 </div>
 <!--END OF BASE INFO-->
 
-
-<!--FAMILY-->
-
   <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingFour">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Might travel with you
-        </a>
-      </h4>
-    </div>
-
-    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-      <div class="panel-body">
-
-<!--In Case of Emergency Notify-->
-    <label>In Case of Emergency Notify</label>
-    <input type="text" name="notifyContact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"/>
-    <label>Emergency Notify Phone</label>
-    <input type="tel" name="notifyContact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone"/>
-<!--Name(s) of Family Members who might travel with you-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0">Travelers</legend>
-        <div class="panel-body">
-
-            <div id="travelWith">
-            <hr class="hidden"/>
-            <label>First Name</label>
-            <input type="text" name="travelWith.firstName[]" class="form-control input-sm" placeholder="First Name"/>
-            <label>Last Name</label>
-            <input type="text" name="travelWith.lastName[]" class="form-control input-sm" placeholder="Last Name"/>
-            <label>Gender</label>
-            <select name="travelWith.gender[]" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-            <label>Date of birth</label>
-            <input type="date" name="travelWith.DateOfBirth[]" class="form-control input-sm"/>
-            </div>
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="travelWith"><%= __('One more')%></button>
-        </div>
-      </fieldset>
-
-
-    </div>
-  </div>
-</div>
-<!--END OF FAMILY-->
-
-
-<div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingTwo">
       <h4 class="panel-title">
         <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
@@ -178,6 +99,10 @@
               <input type="text" name="milesPrograms.airlineName[]" class="form-control input-sm" placeholder="Airline Name"/>
               <label>Account Number</label>
               <input type="text" name="milesPrograms.accountNumber[]" class="form-control input-sm" placeholder="Account Number"/>
+              <label>Frequent Flier Miles</label>
+              <input type="text" name="milesPrograms.flierMiles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" />
+              <label>Expiration Date</label>
+              <input type="text" name="milesPrograms.expirationDate[]" class="form-control input-sm" placeholder="Expiration Date" />
             </div>
 
         </div>
@@ -209,73 +134,6 @@
   </div>
 </div>
 <!--END OF AIRLINES/PROGRAMS-->
-
-
-
-<!--Preferred Class of Service-->
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingThree">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Preferred Class of Service
-        </a>
-      </h4>
-    </div>
-    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-      <div class="panel-body">
-
-
-
-<!--todo: rethink this part mb better put 2 selects + more button-->
-        <div class="panel-body">
-            <label>Domestic for Personal or Leisure Travel</label>
-            <select name="preferredClass.domesticPersonal" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
-            </select>
-            <label>Domestic for Business Travel</label>
-            <select name="preferredClass.domesticBusiness" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
-            </select>
-            <label>International for Personal or Leisure Travel</label>
-            <select name="preferredClass.internationalPersonal" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
-            </select>
-            <label>International for Business Travel</label>
-            <select name="preferredClass.internationalBusiness" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value="First">First</option>
-                <option value="Business">Business</option>
-                <option value="Premium Economy">Premium Economy</option>
-                <option value="Economy">Economy</option>
-            </select>
-
-            <label>Preferred seat</label>
-            <select name="preferredSeat" class="form-control input-sm">
-                <option value=''>please choose</option>
-                <option value='Window'>Window</option>
-                <option value='Aisle'>Aisle</option>
-                <option value='Exit Row'>Exit Row</option>
-            </select>
-        </div>
-
-
-    </div>
-  </div>
-</div>
-<!--Preferred Class of Service-->
-
 
 <style>
     body { padding-bottom: 33px; }
