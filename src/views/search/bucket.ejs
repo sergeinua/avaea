@@ -2,7 +2,7 @@
 <!--<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;"></div>-->
 <div id="tiles" class="row">
   <%
-  for(var name in tiles) { 
+  for(var name in tiles) {
     var tile = tiles[name];
     if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>
@@ -23,6 +23,7 @@
 <div class="myarr" style="margin-top: 7px">
   <input type="button" id='clear' value="&times;" style="background-color: lightblue; border-color: lightblue; float:left; margin: 4px 0 0 20px; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
   <input type="button" id='undo' value="&#x21ba;" style="background-color: lightblue; border-color: lightblue; float:right; margin: 4px 20px 0 0; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
+  <input type="checkbox" id="smart" data-toggle="toggle" data-style="center-block" data-size="small" data-on="Smart" data-off="Smart">
 </div>
 <% } %>
 <div class="selectedfilters row" filters=''></div>

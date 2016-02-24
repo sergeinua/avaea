@@ -44,7 +44,11 @@ $(document).ready(function() {
             } else {
                 if (tile.attr('for')) {
                   var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
-                  var predictedResult = $('.' + tile.attr('for'));
+                  var predictedClass = '.' + tile.attr('for');
+                  if ($('#smart').prop('checked')) {
+                    predictedClass = predictedClass + '.smart';
+                  }
+                  var predictedResult = $(predictedClass);
 
                   for (var key in groups) {
                     if (!groups.hasOwnProperty(key)) continue;
@@ -95,6 +99,11 @@ $(document).ready(function() {
             }
         });
 
+        if ($('#smart').prop('checked')) {
+          $('.itinerary:visible').not('.smart').hide();
+          recalcTiles();
+        }
+
         if (showTotal) {
             var sCount = $('.itinerary:visible').length;
             $('#search_count').text(sCount);
@@ -121,6 +130,51 @@ $(document).ready(function() {
             $('[for='+lastElement+']').removeClass('selected');
             filterItineraries();
         }
+    });
+
+    var stopPropagationSmart = false;
+    var smartCache = [];
+    $('#smart').change(function() {
+      if (!stopPropagationSmart) {
+        if (confirm('All buckets will be reset. Are you sure?')) {
+          if (!$(this).prop('checked')) {
+            // restore initial sorting
+            $('#searchResultData').replaceWith(smartCache);
+            smartCache = [];
+          }
+          $('#clear').click();
+          if ($(this).prop('checked')) {
+            // clone result for restoring initial sorting when smart mode is off
+            smartCache = $('#searchResultData').clone(true);
+
+            var myArray = $('.itinerary.smart');
+
+            // sort itineraries based on smart rank
+            myArray.sort(function (a, b) {
+
+              // convert to integers from strings
+              a = parseInt($(a).attr("smart"));
+              b = parseInt($(b).attr("smart"));
+              // compare
+              if(a > b) {
+                return 1;
+              } else if(a < b) {
+                return -1;
+              } else {
+                return 0;
+              }
+            });
+            // remove visible itineraries and place it in smart order
+            $('.itinerary.smart').detach();
+            $('#searchResultData').prepend(myArray);
+          }
+        } else {
+          stopPropagationSmart = true;
+          $(this).bootstrapToggle($(this).prop('checked')?'off':'on');
+        }
+      } else {
+        stopPropagationSmart = false;
+      }
     });
 
     $('.mymoreprofilebutton').click(function(el) {

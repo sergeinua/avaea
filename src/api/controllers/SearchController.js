@@ -13,6 +13,17 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+// TODO: this tmp function should be replaced with real smart ranking
+var tmpSmartRank = function(itins, callback) {
+  async.map(itins, function(itin, doneCb) {
+    itin.smartRank = _.random(0, 10, false);
+    return doneCb(null, itin);
+  }, function(err, itins) {
+    return callback(err, itins);
+  });
+  return;
+};
+
 module.exports = {
 
   /**
@@ -117,30 +128,32 @@ module.exports = {
       if (!req.session.showTiles) {
         algorithm = 'getTilesDataEmpty';
       }
+      // TODO: this tmp function should be replaced with real smart ranking
+      tmpSmartRank(found, function(err, found) {
+        Tile[algorithm](found, params.searchParams, function (itineraries, tiles, params) {
+          UserAction.saveAction(req.user, 'order_tiles', tiles);
+          var itinerariesData = {
+            searchUuid   : itineraries.guid,
+            searchParams : params,
+            count        : itineraries.length
+          };
+          UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+          sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
 
-      Tile[algorithm](found, params.searchParams, function (itineraries, tiles, params) {
-        UserAction.saveAction(req.user, 'order_tiles', tiles);
-        var itinerariesData = {
-          searchUuid   : itineraries.guid,
-          searchParams : params,
-          count        : itineraries.length
-        };
-        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
-        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
-
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: tiles,
-          searchParams: {
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
-            CabinClass: serviceClass[params.CabinClass]
-          },
-          searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>')
+          return  res.view('search/result', {
+            user: req.user,
+            title: title,
+            tiles: tiles,
+            searchParams: {
+              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              CabinClass: serviceClass[params.CabinClass]
+            },
+            searchResult: itineraries,
+            timelog: req.session.time_log.join('<br/>')
+          });
         });
-      })
+      });
     });
   }
 };
