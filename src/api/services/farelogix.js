@@ -63,7 +63,7 @@ module.exports = {
     soap.createClient(wsdlUrl, function(err, client) {
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback([]);
+        return callback(err, []);
       } else {
         var req = getFlightSearchRq(guid, params);
 
@@ -71,25 +71,12 @@ module.exports = {
           var resArr = [];
           if (err) {
             sails.log.error(err);
-            return callback(resArr);
+            return callback(err, resArr);
           } else {
             //
           }
         });
       }
     });
-  },
-
-  //cache results functionality
-  searchResultKeys: [],
-  cache: function (value) {
-    var id = 'itinerary_' + value.id.replace(/\W+/g, '_');
-    this.searchResultKeys.push(id);
-    memcache.store(id, value);
-  },
-  cacheSearch: function (searchId) {
-    var id = 'search_' + searchId.replace(/\W+/g, '_');
-    memcache.store(id, this.searchResultKeys);
-    this.searchResultKeys = [];
   }
 };

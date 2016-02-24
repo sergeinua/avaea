@@ -465,12 +465,12 @@ module.exports = {
                   sails.log.error( err );
                 }
                 resArr.priceRange = {
-                  minPrice: minPrice,
-                  maxPrice: maxPrice
+                  minPrice: minPrice || 0,
+                  maxPrice: maxPrice || 0
                 };
                 resArr.durationRange = {
-                  minDuration: minDuration,
-                  maxDuration: maxDuration
+                  minDuration: minDuration || 0,
+                  maxDuration: maxDuration || 0
                 };
                 return callback( null, resArr );
               });
