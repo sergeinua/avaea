@@ -6,14 +6,14 @@ module.exports = {
   alpha : sails.config.prediction.tiles.alpha,
   default: {
     tile_position : sails.config.prediction.tiles.default.tile_position,
-    confidence    : sails.config.prediction.tiles.default.confidence,
+    confidence  : sails.config.prediction.tiles.default.confidence,
     counter       : sails.config.prediction.tiles.default.counter
   },
 
-  recalculate: function (user, uuid, params, tile) {
+  recalculate: function (user, uuid, params, tile, sample) {
     tilePrediction.getPrev(user, uuid, tile, function (data) {
       tilePrediction.save(user, uuid, params, tile, {
-        tile_position : (data.result.tile_position * ( 1 - tilePrediction.alpha ) + data.result.counter * tilePrediction.alpha),
+        tile_position : (data.result.tile_position * ( 1 - tilePrediction.alpha ) + sample * tilePrediction.alpha),
         confidence    : (data.result.confidence * ( 1 - tilePrediction.alpha ) + tilePrediction.alpha),
         counter       : (data.result.counter + 1)
       });
