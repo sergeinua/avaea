@@ -21,15 +21,21 @@
 </div>
 
 <div class="myarr" style="margin-top: 7px">
+  <div class="slick"></div>
   <input type="button" id='clear' value="&times;" style="background-color: lightblue; border-color: lightblue; float:left; margin: 4px 0 0 20px; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
   <input type="button" id='undo' value="&#x21ba;" style="background-color: lightblue; border-color: lightblue; float:right; margin: 4px 20px 0 0; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
   <style type="text/css">
-    .lbSmart {
+    .toggle.lbSmart {
+      background-color: lightblue;
       border-color: lightblue;
       border-radius: 15px;
     }
-    .lbSmart .btn-primary {
+    .toggle.lbSmart .btn-primary {
       background-color: lightblue;
+      border-color: lightblue;
+    }
+    .toggle.lbSmart .btn-primary, .toggle.lbSmart .btn-default {
+      border-radius: 15px;
       font-size: 11px;
     }
   </style>

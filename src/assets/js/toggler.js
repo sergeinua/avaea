@@ -285,7 +285,7 @@ $(document).ready(function() {
             adaptiveHeight: true,
             slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), $('.mybucket').length),
             slidesToScroll: 1,
-            appendArrows: $('.myarr'),
+            appendArrows: $('.myarr .slick'),
             //appendDots: $('.myarr'), // For DEMO-97. But can't setup position in div without slick-narrow bug
             focusOnSelect: true
         }
