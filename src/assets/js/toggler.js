@@ -117,6 +117,7 @@ $(document).ready(function() {
     $('#clear').click(function() {
         $('.selectedfilters').attr('filters', '');
         $('#tiles').find('li.selected').removeClass('selected');
+        $($('.slick-slide')[0]).trigger('click');
         filterItineraries();
     });
 
@@ -127,7 +128,11 @@ $(document).ready(function() {
             var lastElement = filters[filters.length - 1];
             filters.pop();
             $('.selectedfilters').attr('filters', filters.join(' '));
-            $('[for='+lastElement+']').removeClass('selected');
+            if (lastElement) {
+              var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
+              $($('.slick-slide')[slickIndex]).trigger('click');
+              $('[for='+lastElement+']').removeClass('selected');
+            }
             filterItineraries();
         }
     });
@@ -286,6 +291,7 @@ $(document).ready(function() {
             slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), $('.mybucket').length),
             slidesToScroll: 1,
             appendArrows: $('.myarr .slick'),
+            prevArrow: '<button type="button" data-role="none" class="slick-prev"></button>',
             //appendDots: $('.myarr'), // For DEMO-97. But can't setup position in div without slick-narrow bug
             focusOnSelect: true
         }
