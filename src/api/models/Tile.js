@@ -3,6 +3,7 @@
 /* global _ */
 /* global sails */
 /* global async */
+var util = require('util');
 /**
 * Tile.js
 *
@@ -432,41 +433,30 @@ module.exports = {
       });
     }
   },
-  //function for alternative bucketization algorithm DEMO-42
+
+  /**
+   * Function for alternative bucketization algorithm DEMO-42
+   * @param {array} itineraries From search result
+   * @param {object} params Search params
+   * @param {function} callback Invoke on return
+   * @returns {*}
+   */
   getTilesDataAlternative: function (itineraries, params, callback) {
-   sails.log.info('Using alternative bucketization algorithm');
+    sails.log.info('Using alternative bucketization algorithm');
     if (!itineraries) {
       return callback(itineraries, [], params);
     }
 
-    var convertToHours = function (minutes) {
-      var hours = Math.round(minutes/60);
-      if (hours == 0 || hours == 24) {
-        return 12 + 'm';
-      } else if (hours < 12) {
-        return hours + 'am';
-      } else if (hours == 12) {
-        return hours + 'n';
-      } else if (hours > 12) {
-        hours -= 12;
-        return hours + 'pm';
-      }
-    };
     var tileArr = null;
     if (!_.isEmpty(this.tiles)) { // quick fix in case db response is too long @todo refactor this with promises?
       tileArr = _.clone(this.tiles, true);
     } else {
       tileArr = _.clone(this.default_tiles, true);
     }
+    // Max first displayed items in the tile filter
     var N = Math.floor(itineraries.length / 4);
     var index = null;
     var filterClass = '';
-    var timeArr = [
-      '12m &ndash; 6am',
-      '6am &ndash; 12n',
-      '12n &ndash; 6pm',
-      '6pm &ndash; 12m'
-    ];
     var tmp = {}; //this object using for temporary data
     var systemData = {};
     systemData.priceRange = _.clone(itineraries.priceRange, true);
@@ -482,12 +472,14 @@ module.exports = {
       // prepare destinationDeparture tile
       var destinationDepartureNameArr = [];
       tmp.itinerariesDestinationDeparture = _.clone(itineraries, true);
+      // Sort by departure time
       tmp.itinerariesDestinationDeparture = _.sortBy(tmp.itinerariesDestinationDeparture, function (item) {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].from.minutes;
       });
       tmp.lastElement = 0;
 
+      // Unify by departure time
       tmp.uniqDestinationDeparture = _.uniq(tmp.itinerariesDestinationDeparture, function(item) {
            var lastElement = item.citypairs.length -1;
            return item.citypairs[lastElement].from.minutes;
@@ -502,7 +494,7 @@ module.exports = {
 
         for (var i = 0; i < tmp.uniqDestinationDeparture.length; i++) {
           tileArr['destinationDeparture'].filters.push({
-          title: convertToHours(destinationDepartureNameArr[i]),
+            title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], null, 1),
             id: 'destination_departure_tile_' + i,
             count : 0
           });
@@ -519,7 +511,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDestinationDeparture.length; i+=2, counter++) {
           tileArr['destinationDeparture'].filters.push({
-          title: convertToHours(tmp.destinationDepartureNameArrTmp[i]) + ((tmp.destinationDepartureNameArrTmp[i+1])?', ' + convertToHours(tmp.destinationDepartureNameArrTmp[i+1]):''),
+            title: HelperFormatVal.setFilterTitleTime(tmp.destinationDepartureNameArrTmp[i], tmp.destinationDepartureNameArrTmp[i+1], 2),
             id: 'destination_departure_tile_' + counter,
             count : 0
           });
@@ -532,7 +524,7 @@ module.exports = {
         destinationDepartureNameArr = _.uniq(destinationDepartureNameArr);
         for (var i = 0; i < destinationDepartureNameArr.length - 1; i++) {
           tileArr['destinationDeparture'].filters.push({
-          title: convertToHours(destinationDepartureNameArr[i]) + ' &ndash; ' + convertToHours(destinationDepartureNameArr[i+1]),
+            title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], destinationDepartureNameArr[i+1], null),
             id: 'destination_departure_tile_' + i,
             count : 0
           });
@@ -541,7 +533,7 @@ module.exports = {
         tmp.lastElement = tmp.itinerariesDestinationDeparture[tmp.itinerariesDestinationDeparture.length - 1].citypairs.length -1;
         tmp.lastDestinationDeparture = tmp.itinerariesDestinationDeparture[tmp.itinerariesDestinationDeparture.length - 1].citypairs[tmp.lastElement].from.minutes;
         tileArr['destinationDeparture'].filters.push({
-          title: convertToHours(destinationDepartureNameArr[destinationDepartureNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastDestinationDeparture),
+          title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[destinationDepartureNameArr.length - 1], tmp.lastDestinationDeparture, null),
           id: 'destination_departure_tile_' + (destinationDepartureNameArr.length - 1),
           count : 0
         });
@@ -560,7 +552,7 @@ module.exports = {
 
       tmp.uniqSourceArrival = _.uniq(tmp.itinerariesSourceArrival, function(item) {
            var lastElement = item.citypairs.length -1;
-           return convertToHours(item.citypairs[lastElement].to.minutes);
+           return HelperFormatVal.convertToHours(item.citypairs[lastElement].to.minutes);
         }
       );
 
@@ -572,7 +564,8 @@ module.exports = {
 
         for (var i = 0; i < sourceArrivalNameArr.length; i++) {
           tileArr['sourceArrival'].filters.push({
-          title: convertToHours(sourceArrivalNameArr[i]),
+          //title: convertToHours(sourceArrivalNameArr[i]),
+            title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], null, 1),
             id: 'source_arrival_tile_' + i,
             count : 0
           });
@@ -589,7 +582,8 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqSourceArrival.length; i+=2, counter++) {
           tileArr['sourceArrival'].filters.push({
-          title: convertToHours(tmp.sourceArrivalNameArrTmp[i]) + ((tmp.sourceArrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.sourceArrivalNameArrTmp[i+1]):''),
+          //title: convertToHours(tmp.sourceArrivalNameArrTmp[i]) + ((tmp.sourceArrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.sourceArrivalNameArrTmp[i+1]):''),
+            title: HelperFormatVal.setFilterTitleTime(tmp.sourceArrivalNameArrTmp[i], tmp.sourceArrivalNameArrTmp[i+1], 2),
             id: 'source_arrival_tile_' + counter,
             count : 0
           });
@@ -604,7 +598,8 @@ module.exports = {
 
         for (var i = 0; i < sourceArrivalNameArr.length - 1; i++) {
           tileArr['sourceArrival'].filters.push({
-          title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
+          //title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
+            title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], sourceArrivalNameArr[i+1], null),
             id: 'source_arrival_tile_' + i,
             count : 0
           });
@@ -613,7 +608,8 @@ module.exports = {
         tmp.lastElement = tmp.itinerariesSourceArrival[tmp.itinerariesSourceArrival.length - 1].citypairs.length -1;
         tmp.lastSourceArrival = tmp.itinerariesSourceArrival[tmp.itinerariesSourceArrival.length - 1].citypairs[tmp.lastElement].to.minutes;
         tileArr['sourceArrival'].filters.push({
-          title: convertToHours(sourceArrivalNameArr[sourceArrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastSourceArrival),
+          //title: convertToHours(sourceArrivalNameArr[sourceArrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastSourceArrival),
+          title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[sourceArrivalNameArr.length - 1], tmp.lastSourceArrival, null),
           id: 'source_arrival_tile_' + (sourceArrivalNameArr.length - 1),
           count : 0
         });
@@ -653,8 +649,9 @@ module.exports = {
       itineraries.priceRange = systemData.priceRange;
       itineraries.durationRange = systemData.durationRange;
     }
-
     }
+
+    // Generic processing for both trips: round & one way
     if (itineraries) {
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
@@ -682,7 +679,8 @@ module.exports = {
 
         for (var i = 0; i < priceNameArr.length; i++) {
           tileArr['Price'].filters.push({
-          title: '$' + priceNameArr[i],
+          //title: '$' + priceNameArr[i],
+          title: HelperFormatVal.setFilterTitlePrice(priceNameArr[i], null, 1),
             id: 'price_tile_' + i,
             count : 0
           });
@@ -698,7 +696,8 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqPrice.length; i+=2, counter++) {
           tileArr['Price'].filters.push({
-          title: '$' + (tmp.priceNameArrTmp[i]) + ((tmp.priceNameArrTmp[i+1])?', $' + (tmp.priceNameArrTmp[i+1]):''),
+          //title: '$' + (tmp.priceNameArrTmp[i]) + ((tmp.priceNameArrTmp[i+1])?', $' + (tmp.priceNameArrTmp[i+1]):''),
+            title: HelperFormatVal.setFilterTitlePrice(tmp.priceNameArrTmp[i], tmp.priceNameArrTmp[i+1], 2),
             id: 'price_tile_' + counter,
             count : 0
           });
@@ -712,14 +711,16 @@ module.exports = {
 
         for (var i = 0; i < priceNameArr.length - 1; i++) {
           tileArr['Price'].filters.push({
-            title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
+            //title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
+            title: HelperFormatVal.setFilterTitlePrice(priceNameArr[i], priceNameArr[i+1], null),
             id: 'price_tile_' + i,
             count : 0
           });
 
         }
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[priceNameArr.length - 1])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1)+'</span>',
+          //title: '$' + parseInt(priceNameArr[priceNameArr.length - 1])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1)+'</span>',
+          title: HelperFormatVal.setFilterTitlePrice(priceNameArr[priceNameArr.length - 1], tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1, null),
           id: 'price_tile_' + (priceNameArr.length - 1),
           count : 0
         });
@@ -728,21 +729,6 @@ module.exports = {
       delete tmp.uniqPrice;
       delete tmp.priceNameArrTmp;
 
-      var roundTo30mins = function (durationMinutes) {
-        var durationMinutesRounded = Math.round(durationMinutes/60)*60;
-        if (durationMinutes%60 > 30) {
-          durationMinutesRounded += 60;
-        } else {
-          durationMinutesRounded += 30;
-        }
-        return durationMinutesRounded;
-      };
-      var formatMinutes = function (time) {
-        if (time) {
-          return '&#189;h';
-        }
-        return 'h';
-      };
       // prepare Duration tile
       tmp.itinerariesDuration = _.clone(itineraries, true);
       tmp.itinerariesDuration = _.sortBy(tmp.itinerariesDuration, 'durationMinutes');
@@ -750,7 +736,7 @@ module.exports = {
       var durationNameArr = [];
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
-           return roundTo30mins( item.durationMinutes );
+           return HelperFormatVal.roundTo30mins( item.durationMinutes );
         }
       );
 
@@ -761,7 +747,7 @@ module.exports = {
 
         for (var i = 0; i < durationNameArr.length; i++) {
           tileArr['Duration'].filters.push({
-          title:  parseInt(durationNameArr[i]/60) + formatMinutes(roundTo30mins(durationNameArr[i])%60),
+            title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[i], null, 1),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -777,8 +763,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
           tileArr['Duration'].filters.push({
-          title: parseInt(tmp.durationNameArrTmp[i]/60) + formatMinutes(roundTo30mins(tmp.durationNameArrTmp[i])%60)
-            + ((tmp.durationNameArrTmp[i+1])?', ' + (parseInt(tmp.durationNameArrTmp[i+1]/60) + formatMinutes(roundTo30mins(tmp.durationNameArrTmp[i+1])%60)):''),
+            title:  HelperFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i], tmp.durationNameArrTmp[i+1], 2),
             id: 'duration_tile_' + counter,
             count : 0
           });
@@ -791,8 +776,7 @@ module.exports = {
         durationNameArr = _.uniq(durationNameArr);
         for (var i = 0; i < durationNameArr.length - 1; i++) {
           tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[i]/60) + formatMinutes(roundTo30mins(durationNameArr[i])%60) + ' &ndash; '
-            + Math.round((durationNameArr[i+1])/60) + formatMinutes(roundTo30mins(durationNameArr[i+1])%60),
+            title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[i], durationNameArr[i+1], null),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -800,8 +784,7 @@ module.exports = {
 
         tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-          title: parseInt(durationNameArr[durationNameArr.length - 1]/60) + formatMinutes(roundTo30mins(durationNameArr[durationNameArr.length - 1])%60) + ' &ndash; '
-            + Math.round((tmp.lastDuration)/60) + formatMinutes(roundTo30mins(tmp.lastDuration)%60),
+          title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1], tmp.lastDuration, null),
           id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });
@@ -829,7 +812,8 @@ module.exports = {
 
         for (var i = 0; i < departureNameArr.length; i++) {
           tileArr['Departure'].filters.push({
-          title: convertToHours(departureNameArr[i]),
+          //title: convertToHours(departureNameArr[i]),
+            title: HelperFormatVal.setFilterTitleTime(departureNameArr[i], null, 1),
             id: 'departure_tile_' + i,
             count : 0
           });
@@ -845,7 +829,8 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDeparture.length; i+=2, counter++) {
           tileArr['Departure'].filters.push({
-          title: convertToHours(tmp.departureNameArrTmp[i]) + ((tmp.departureNameArrTmp[i+1])?', ' + convertToHours(tmp.departureNameArrTmp[i+1]):''),
+          //title: convertToHours(tmp.departureNameArrTmp[i]) + ((tmp.departureNameArrTmp[i+1])?', ' + convertToHours(tmp.departureNameArrTmp[i+1]):''),
+            title: HelperFormatVal.setFilterTitleTime(tmp.departureNameArrTmp[i], tmp.departureNameArrTmp[i+1], 2),
             id: 'departure_tile_' + counter,
             count : 0
           });
@@ -858,7 +843,8 @@ module.exports = {
 
         for (var i = 0; i < departureNameArr.length - 1; i++) {
           tileArr['Departure'].filters.push({
-          title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
+          //title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
+            title: HelperFormatVal.setFilterTitleTime(departureNameArr[i], departureNameArr[i+1], null),
             id: 'departure_tile_' + i,
             count : 0
           });
@@ -866,7 +852,8 @@ module.exports = {
 
         tmp.lastDeparture = tmp.itinerariesDeparture[tmp.itinerariesDeparture.length - 1].citypairs[0].from.minutes;
         tileArr['Departure'].filters.push({
-          title: convertToHours(departureNameArr[departureNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastDeparture),
+          //title: convertToHours(departureNameArr[departureNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastDeparture),
+          title: HelperFormatVal.setFilterTitleTime(departureNameArr[departureNameArr.length - 1], tmp.lastDeparture, null),
           id: 'departure_tile_' + (departureNameArr.length - 1),
           count : 0
         });
@@ -894,7 +881,8 @@ module.exports = {
 
         for (var i = 0; i < arrivalNameArr.length; i++) {
           tileArr['Arrival'].filters.push({
-          title: convertToHours(arrivalNameArr[i]),
+          //title: convertToHours(arrivalNameArr[i]),
+            title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[i], null, 1),
             id: 'arrival_tile_' + i,
             count : 0
           });
@@ -910,7 +898,8 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqArrival.length; i+=2, counter++) {
           tileArr['Arrival'].filters.push({
-          title: convertToHours(tmp.arrivalNameArrTmp[i]) + ((tmp.arrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.arrivalNameArrTmp[i+1]):''),
+          //title: convertToHours(tmp.arrivalNameArrTmp[i]) + ((tmp.arrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.arrivalNameArrTmp[i+1]):''),
+            title: HelperFormatVal.setFilterTitleTime(tmp.arrivalNameArrTmp[i], tmp.arrivalNameArrTmp[i+1], 2),
             id: 'arrival_tile_' + counter,
             count : 0
           });
@@ -924,14 +913,16 @@ module.exports = {
 
         for (var i = 0; i < arrivalNameArr.length - 1; i++) {
           tileArr['Arrival'].filters.push({
-          title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
+          //title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
+            title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[i], arrivalNameArr[i+1], null),
             id: 'arrival_tile_' + i,
             count : 0
           });
         }
         tmp.lastArrival = tmp.itinerariesArrival[tmp.itinerariesArrival.length - 1].citypairs[0].to.minutes;
         tileArr['Arrival'].filters.push({
-          title: convertToHours(arrivalNameArr[arrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastArrival),
+          //title: convertToHours(arrivalNameArr[arrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastArrival),
+          title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[arrivalNameArr.length - 1], tmp.lastArrival, null),
           id: 'arrival_tile_' + (arrivalNameArr.length - 1),
           count : 0
         });

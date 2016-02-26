@@ -6,6 +6,7 @@
 /* global async */
 /* global Tile */
 /* global sails */
+var util = require('util');
 /**
  * SearchController
  *
@@ -90,12 +91,13 @@ module.exports = {
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    Search.getResult(params, function ( err, found ) {
-      sails.log.info('Found itineraries: %d', found.length);
+    Search.getResult(params, function ( err, foundItins ) {
+      sails.log.info('Found itineraries: %d', foundItins.length);
+      //sails.log.info('Found _debug_foundItins', util.inspect(foundItins, {showHidden: true, depth: null}));
 
       var serviceClass = Search.serviceClass;
 
-      if (!found.length) {
+      if (!foundItins.length) {
         return  res.view('search/result', {
           user: req.user,
           title: title,
@@ -118,7 +120,8 @@ module.exports = {
         algorithm = 'getTilesDataEmpty';
       }
 
-      Tile[algorithm](found, params.searchParams, function (itineraries, tiles, params) {
+      Tile[algorithm](foundItins, params.searchParams, function (itineraries, tiles, params) {
+
         UserAction.saveAction(req.user, 'order_tiles', tiles);
         var itinerariesData = {
           searchUuid   : itineraries.guid,
@@ -127,6 +130,7 @@ module.exports = {
         };
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
+        //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
 
         return  res.view('search/result', {
           user: req.user,
@@ -141,6 +145,7 @@ module.exports = {
           timelog: req.session.time_log.join('<br/>')
         });
       })
+
     });
   }
 };
