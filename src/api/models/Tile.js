@@ -157,7 +157,7 @@ module.exports = {
           var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
-        } else if (false) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end ////////////////
+        } else if (true) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end ////////////////
           sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
           cicstanford.compute_departure_times_in_minutes(itineraries);
           cicstanford.determine_airline(itineraries);
