@@ -354,11 +354,11 @@ $(document).ready(function() {
     });
 
     var cancelMilesPrograms = function () {
-        $('#AFFMP').addClass('hidden');
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
-        $('#buy_button').removeClass('hidden');
-        $('#tiles_ui').css('display', 'table');
         var _fieldset = $('#AFFMP');
+        _fieldset.addClass('hidden');
+        $('#buy_button, #searchResultData, nav.navbar').removeClass('hidden');
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+        $( window ).trigger('resize');
         $('input[name=airlineName]', _fieldset).val('');
         $('input[name=accountNumber]', _fieldset).val('');
         $('input[name=flierMiles]', _fieldset).val('');
@@ -381,7 +381,7 @@ $(document).ready(function() {
             })
             .done(function( msg ) {
                 if (msg && !msg.checked) {
-                    $('#buy_button').addClass('hidden');
+                    $('#buy_button, #searchResultData, nav.navbar').addClass('hidden');
                     $('body').css('padding-top', 0);
                     _fieldset.removeClass('hidden');
                 }
