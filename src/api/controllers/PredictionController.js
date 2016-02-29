@@ -31,13 +31,19 @@ module.exports = {
     var data = req.allParams();
     var recalculateTiles = true;
     if (data) {
-        if (data.action == 'filter_remove') {
+        if (data.recalculate) {
             recalculateTiles = false;
         }
     }
     //( tile )
     if (recalculateTiles) {
-      tilePrediction.recalculate(req.user.id, uuid, search_params, req.param('tileName', 'default'));
+      tilePrediction.recalculate(
+        req.user.id,
+        uuid,
+        search_params,
+        req.param('tileName', 'default'),
+        req.param('sample')
+      );
     }
     UserAction.saveAction(req.user, 'on_tile_choice', req.allParams());
     return res.json(req.allParams());
