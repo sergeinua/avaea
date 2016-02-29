@@ -91,13 +91,12 @@ module.exports = {
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    Search.getResult(params, function ( err, foundItins ) {
-      sails.log.info('Found itineraries: %d', foundItins.length);
-      //sails.log.info('Found _debug_foundItins', util.inspect(foundItins, {showHidden: true, depth: null}));
+    Search.getResult(params, function ( err, itineraries ) {
+      sails.log.info('Found itineraries: %d', itineraries.length);
 
       var serviceClass = Search.serviceClass;
 
-      if (!foundItins.length) {
+      if (!itineraries.length) {
         return  res.view('search/result', {
           user: req.user,
           title: title,
@@ -120,7 +119,7 @@ module.exports = {
         algorithm = 'getTilesDataEmpty';
       }
 
-      Tile[algorithm](foundItins, params.searchParams, function (itineraries, tiles, params) {
+      Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
 
         UserAction.saveAction(req.user, 'order_tiles', tiles);
         var itinerariesData = {

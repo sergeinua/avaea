@@ -494,7 +494,7 @@ module.exports = {
 
         for (var i = 0; i < tmp.uniqDestinationDeparture.length; i++) {
           tileArr['destinationDeparture'].filters.push({
-            title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], null, 1),
+            title: tileFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], null, 1),
             id: 'destination_departure_tile_' + i,
             count : 0
           });
@@ -511,7 +511,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDestinationDeparture.length; i+=2, counter++) {
           tileArr['destinationDeparture'].filters.push({
-            title: HelperFormatVal.setFilterTitleTime(tmp.destinationDepartureNameArrTmp[i], tmp.destinationDepartureNameArrTmp[i+1], 2),
+            title: tileFormatVal.setFilterTitleTime(tmp.destinationDepartureNameArrTmp[i], tmp.destinationDepartureNameArrTmp[i+1], 2),
             id: 'destination_departure_tile_' + counter,
             count : 0
           });
@@ -524,7 +524,7 @@ module.exports = {
         destinationDepartureNameArr = _.uniq(destinationDepartureNameArr);
         for (var i = 0; i < destinationDepartureNameArr.length - 1; i++) {
           tileArr['destinationDeparture'].filters.push({
-            title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], destinationDepartureNameArr[i+1], null),
+            title: tileFormatVal.setFilterTitleTime(destinationDepartureNameArr[i], destinationDepartureNameArr[i+1], null),
             id: 'destination_departure_tile_' + i,
             count : 0
           });
@@ -533,7 +533,7 @@ module.exports = {
         tmp.lastElement = tmp.itinerariesDestinationDeparture[tmp.itinerariesDestinationDeparture.length - 1].citypairs.length -1;
         tmp.lastDestinationDeparture = tmp.itinerariesDestinationDeparture[tmp.itinerariesDestinationDeparture.length - 1].citypairs[tmp.lastElement].from.minutes;
         tileArr['destinationDeparture'].filters.push({
-          title: HelperFormatVal.setFilterTitleTime(destinationDepartureNameArr[destinationDepartureNameArr.length - 1], tmp.lastDestinationDeparture, null),
+          title: tileFormatVal.setFilterTitleTime(destinationDepartureNameArr[destinationDepartureNameArr.length - 1], tmp.lastDestinationDeparture, null),
           id: 'destination_departure_tile_' + (destinationDepartureNameArr.length - 1),
           count : 0
         });
@@ -552,7 +552,7 @@ module.exports = {
 
       tmp.uniqSourceArrival = _.uniq(tmp.itinerariesSourceArrival, function(item) {
            var lastElement = item.citypairs.length -1;
-           return HelperFormatVal.convertToHours(item.citypairs[lastElement].to.minutes);
+           return tileFormatVal.convertToHours(item.citypairs[lastElement].to.minutes);
         }
       );
 
@@ -564,8 +564,7 @@ module.exports = {
 
         for (var i = 0; i < sourceArrivalNameArr.length; i++) {
           tileArr['sourceArrival'].filters.push({
-          //title: convertToHours(sourceArrivalNameArr[i]),
-            title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], null, 1),
+            title: tileFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], null, 1),
             id: 'source_arrival_tile_' + i,
             count : 0
           });
@@ -582,8 +581,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqSourceArrival.length; i+=2, counter++) {
           tileArr['sourceArrival'].filters.push({
-          //title: convertToHours(tmp.sourceArrivalNameArrTmp[i]) + ((tmp.sourceArrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.sourceArrivalNameArrTmp[i+1]):''),
-            title: HelperFormatVal.setFilterTitleTime(tmp.sourceArrivalNameArrTmp[i], tmp.sourceArrivalNameArrTmp[i+1], 2),
+            title: tileFormatVal.setFilterTitleTime(tmp.sourceArrivalNameArrTmp[i], tmp.sourceArrivalNameArrTmp[i+1], 2),
             id: 'source_arrival_tile_' + counter,
             count : 0
           });
@@ -598,8 +596,7 @@ module.exports = {
 
         for (var i = 0; i < sourceArrivalNameArr.length - 1; i++) {
           tileArr['sourceArrival'].filters.push({
-          //title: convertToHours(sourceArrivalNameArr[i]) + ' &ndash; ' + convertToHours(sourceArrivalNameArr[i+1]),
-            title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], sourceArrivalNameArr[i+1], null),
+            title: tileFormatVal.setFilterTitleTime(sourceArrivalNameArr[i], sourceArrivalNameArr[i+1], null),
             id: 'source_arrival_tile_' + i,
             count : 0
           });
@@ -608,8 +605,7 @@ module.exports = {
         tmp.lastElement = tmp.itinerariesSourceArrival[tmp.itinerariesSourceArrival.length - 1].citypairs.length -1;
         tmp.lastSourceArrival = tmp.itinerariesSourceArrival[tmp.itinerariesSourceArrival.length - 1].citypairs[tmp.lastElement].to.minutes;
         tileArr['sourceArrival'].filters.push({
-          //title: convertToHours(sourceArrivalNameArr[sourceArrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastSourceArrival),
-          title: HelperFormatVal.setFilterTitleTime(sourceArrivalNameArr[sourceArrivalNameArr.length - 1], tmp.lastSourceArrival, null),
+          title: tileFormatVal.setFilterTitleTime(sourceArrivalNameArr[sourceArrivalNameArr.length - 1], tmp.lastSourceArrival, null),
           id: 'source_arrival_tile_' + (sourceArrivalNameArr.length - 1),
           count : 0
         });
@@ -680,7 +676,7 @@ module.exports = {
         for (var i = 0; i < priceNameArr.length; i++) {
           tileArr['Price'].filters.push({
           //title: '$' + priceNameArr[i],
-          title: HelperFormatVal.setFilterTitlePrice(priceNameArr[i], null, 1),
+          title: tileFormatVal.setFilterTitlePrice(priceNameArr[i], null, 1),
             id: 'price_tile_' + i,
             count : 0
           });
@@ -696,8 +692,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqPrice.length; i+=2, counter++) {
           tileArr['Price'].filters.push({
-          //title: '$' + (tmp.priceNameArrTmp[i]) + ((tmp.priceNameArrTmp[i+1])?', $' + (tmp.priceNameArrTmp[i+1]):''),
-            title: HelperFormatVal.setFilterTitlePrice(tmp.priceNameArrTmp[i], tmp.priceNameArrTmp[i+1], 2),
+            title: tileFormatVal.setFilterTitlePrice(tmp.priceNameArrTmp[i], tmp.priceNameArrTmp[i+1], 2),
             id: 'price_tile_' + counter,
             count : 0
           });
@@ -711,16 +706,14 @@ module.exports = {
 
         for (var i = 0; i < priceNameArr.length - 1; i++) {
           tileArr['Price'].filters.push({
-            //title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i+1])+'</span>',
-            title: HelperFormatVal.setFilterTitlePrice(priceNameArr[i], priceNameArr[i+1], null),
+            title: tileFormatVal.setFilterTitlePrice(priceNameArr[i], priceNameArr[i+1], null),
             id: 'price_tile_' + i,
             count : 0
           });
 
         }
         tileArr['Price'].filters.push({
-          //title: '$' + parseInt(priceNameArr[priceNameArr.length - 1])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1)+'</span>',
-          title: HelperFormatVal.setFilterTitlePrice(priceNameArr[priceNameArr.length - 1], tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1, null),
+          title: tileFormatVal.setFilterTitlePrice(priceNameArr[priceNameArr.length - 1], tmp.itinerariesPrice[tmp.itinerariesPrice.length - 1].price + 1, null),
           id: 'price_tile_' + (priceNameArr.length - 1),
           count : 0
         });
@@ -736,7 +729,7 @@ module.exports = {
       var durationNameArr = [];
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
-           return HelperFormatVal.roundTo30mins( item.durationMinutes );
+           return tileFormatVal.roundTo30mins( item.durationMinutes );
         }
       );
 
@@ -747,7 +740,7 @@ module.exports = {
 
         for (var i = 0; i < durationNameArr.length; i++) {
           tileArr['Duration'].filters.push({
-            title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[i], null, 1),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], null, 1),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -763,7 +756,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
           tileArr['Duration'].filters.push({
-            title:  HelperFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i], tmp.durationNameArrTmp[i+1], 2),
+            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i], tmp.durationNameArrTmp[i+1], 2),
             id: 'duration_tile_' + counter,
             count : 0
           });
@@ -776,7 +769,7 @@ module.exports = {
         durationNameArr = _.uniq(durationNameArr);
         for (var i = 0; i < durationNameArr.length - 1; i++) {
           tileArr['Duration'].filters.push({
-            title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[i], durationNameArr[i+1], null),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], durationNameArr[i+1], null),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -784,7 +777,7 @@ module.exports = {
 
         tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-          title:  HelperFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1], tmp.lastDuration, null),
+          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1], tmp.lastDuration, null),
           id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });
@@ -812,8 +805,7 @@ module.exports = {
 
         for (var i = 0; i < departureNameArr.length; i++) {
           tileArr['Departure'].filters.push({
-          //title: convertToHours(departureNameArr[i]),
-            title: HelperFormatVal.setFilterTitleTime(departureNameArr[i], null, 1),
+            title: tileFormatVal.setFilterTitleTime(departureNameArr[i], null, 1),
             id: 'departure_tile_' + i,
             count : 0
           });
@@ -829,8 +821,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDeparture.length; i+=2, counter++) {
           tileArr['Departure'].filters.push({
-          //title: convertToHours(tmp.departureNameArrTmp[i]) + ((tmp.departureNameArrTmp[i+1])?', ' + convertToHours(tmp.departureNameArrTmp[i+1]):''),
-            title: HelperFormatVal.setFilterTitleTime(tmp.departureNameArrTmp[i], tmp.departureNameArrTmp[i+1], 2),
+            title: tileFormatVal.setFilterTitleTime(tmp.departureNameArrTmp[i], tmp.departureNameArrTmp[i+1], 2),
             id: 'departure_tile_' + counter,
             count : 0
           });
@@ -843,8 +834,7 @@ module.exports = {
 
         for (var i = 0; i < departureNameArr.length - 1; i++) {
           tileArr['Departure'].filters.push({
-          //title: convertToHours(departureNameArr[i]) + ' &ndash; ' + convertToHours(departureNameArr[i+1]),
-            title: HelperFormatVal.setFilterTitleTime(departureNameArr[i], departureNameArr[i+1], null),
+            title: tileFormatVal.setFilterTitleTime(departureNameArr[i], departureNameArr[i+1], null),
             id: 'departure_tile_' + i,
             count : 0
           });
@@ -852,8 +842,7 @@ module.exports = {
 
         tmp.lastDeparture = tmp.itinerariesDeparture[tmp.itinerariesDeparture.length - 1].citypairs[0].from.minutes;
         tileArr['Departure'].filters.push({
-          //title: convertToHours(departureNameArr[departureNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastDeparture),
-          title: HelperFormatVal.setFilterTitleTime(departureNameArr[departureNameArr.length - 1], tmp.lastDeparture, null),
+          title: tileFormatVal.setFilterTitleTime(departureNameArr[departureNameArr.length - 1], tmp.lastDeparture, null),
           id: 'departure_tile_' + (departureNameArr.length - 1),
           count : 0
         });
@@ -881,8 +870,7 @@ module.exports = {
 
         for (var i = 0; i < arrivalNameArr.length; i++) {
           tileArr['Arrival'].filters.push({
-          //title: convertToHours(arrivalNameArr[i]),
-            title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[i], null, 1),
+            title: tileFormatVal.setFilterTitleTime(arrivalNameArr[i], null, 1),
             id: 'arrival_tile_' + i,
             count : 0
           });
@@ -898,8 +886,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqArrival.length; i+=2, counter++) {
           tileArr['Arrival'].filters.push({
-          //title: convertToHours(tmp.arrivalNameArrTmp[i]) + ((tmp.arrivalNameArrTmp[i+1])?', ' + convertToHours(tmp.arrivalNameArrTmp[i+1]):''),
-            title: HelperFormatVal.setFilterTitleTime(tmp.arrivalNameArrTmp[i], tmp.arrivalNameArrTmp[i+1], 2),
+            title: tileFormatVal.setFilterTitleTime(tmp.arrivalNameArrTmp[i], tmp.arrivalNameArrTmp[i+1], 2),
             id: 'arrival_tile_' + counter,
             count : 0
           });
@@ -913,16 +900,14 @@ module.exports = {
 
         for (var i = 0; i < arrivalNameArr.length - 1; i++) {
           tileArr['Arrival'].filters.push({
-          //title: convertToHours(arrivalNameArr[i]) + ' &ndash; ' + convertToHours(arrivalNameArr[i+1]),
-            title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[i], arrivalNameArr[i+1], null),
+            title: tileFormatVal.setFilterTitleTime(arrivalNameArr[i], arrivalNameArr[i+1], null),
             id: 'arrival_tile_' + i,
             count : 0
           });
         }
         tmp.lastArrival = tmp.itinerariesArrival[tmp.itinerariesArrival.length - 1].citypairs[0].to.minutes;
         tileArr['Arrival'].filters.push({
-          //title: convertToHours(arrivalNameArr[arrivalNameArr.length - 1]) + ' &ndash; ' + convertToHours(tmp.lastArrival),
-          title: HelperFormatVal.setFilterTitleTime(arrivalNameArr[arrivalNameArr.length - 1], tmp.lastArrival, null),
+          title: tileFormatVal.setFilterTitleTime(arrivalNameArr[arrivalNameArr.length - 1], tmp.lastArrival, null),
           id: 'arrival_tile_' + (arrivalNameArr.length - 1),
           count : 0
         });
