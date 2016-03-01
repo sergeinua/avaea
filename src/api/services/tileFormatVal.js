@@ -43,7 +43,8 @@ var roundTo30mins = function (durationMinutes, isTime) {
 
 var formatMinutes = function (time) {
   time = roundTo30mins(time);
-  return parseInt(time/60) + ((time % 60) ? '&#189;h' : 'h');
+  //return parseInt(time/60) + ((time % 60) ? '&#189;h' : 'h');
+  return parseInt(time/60) + ((time % 60) ? '.5h' : 'h');
 };
 
 module.exports = {

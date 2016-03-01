@@ -7,11 +7,11 @@
     if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>
     <div class="mybucket" id="<%= tile.id%>">
-      <a id="<%= __(tile.id)%>" href="#"  class="btn btn-default btn-block mycustomtab" role="button"><%= __(tile.name)%></a>
-      <ul class="list-group" style='padding:1px;margin-bottom:0px;max-height:95px;overflow:auto'>
+      <div id="<%= __(tile.id)%>"  class="mycustomtab" ><%= __(tile.name)%></div>
+      <ul class="list-group" style='margin-bottom:0px;max-height:180px;overflow:auto'>
         <% tile.filters.forEach( function (filter) {
           if (parseInt(filter.count) > 0) {
-        %><li for='<%= filter.id%>' style='padding:1px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%- filter.title%><span class="badge" style="position:absolute;right:0;background-color: lightgray"></span></li><%
+        %><li for='<%= filter.id%>' style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%- filter.title%><span class="badge" style="position:absolute;right:0; background-color:transparent;color: rgba(16, 23, 66, 0.4);"></span></li><%
           }
          }
         ); %>
@@ -20,9 +20,9 @@
   <% } %>
 </div>
 
-<div class="myarr" style="margin-top: 7px">
+<!--<div class="myarr" style="margin-top: 7px">
   <input type="button" id='clear' value="&times;" style="background-color: lightblue; border-color: lightblue; float:left; margin: 4px 0 0 20px; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
   <input type="button" id='undo' value="&#x21ba;" style="background-color: lightblue; border-color: lightblue; float:right; margin: 4px 20px 0 0; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
-</div>
+</div>-->
 <% } %>
 <div class="selectedfilters row" filters=''></div>

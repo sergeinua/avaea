@@ -1,12 +1,32 @@
 <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
 <div class="container">
-  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="padding-bottom:15px;margin-top:50px;z-index:10;">
+  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="border:0;margin-top:50px;z-index:10;">
     <div class="container-fluid">
-      <% if (typeof timelog != 'undefined' && timelog) {%>
+      <div class="flight-info">
+        <%if (title) {%>
+          <span class="requested-airports"><%= title %></span><%
+            }
+            if (typeof searchResult != 'undefined') {
+              %>
+              <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round Trip') %><%} else {%><%= __('One Way') %><%}%></span>
+              <br/>
+              <span class="flight-date"><%=searchParams.departureDate%><%
+              if (searchParams.returnDate) {
+                %> - <%=searchParams.returnDate%><%
+              } %>
+              <span class="text-spacer"></span>
+              1 <span class="glyphicon glyphicon-user"></span>
+              <span class="text-spacer"></span>
+              <%= searchParams.CabinClass %></span><%
+            }
+            %><!--&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
+      </div>
+      <!--<% if (typeof timelog != 'undefined' && timelog) {%>
       <div class="alert alert-danger" role="alert" id="timeAlert">
         <p class="text-info" style="color: grey"><%=timelog%></p>
       </div>
-      <% } %>
+      <% } %>-->
+      <div class="good-bad-flights">Hide worse flights:</div>
       <%- partial('bucket')%>
     </div>
   </nav>
@@ -110,11 +130,11 @@
 
 <style>
     body {
-      padding-top: 200px;
+      padding-top: 300px;
     }
 </style>
 
-<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>
+<!--<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>-->
 
 <!--Airlines Frequent Flier Miles Programs-->
 <fieldset class="hidden" for="" id="AFFMP">

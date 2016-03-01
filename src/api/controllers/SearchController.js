@@ -136,8 +136,8 @@ module.exports = {
           title: title,
           tiles: tiles,
           searchParams: {
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+            departureDate: sails.moment(depDate).format('ddd DD MMM'),
+            returnDate: (retDate)?sails.moment(retDate).format('ddd DD MMM'):'',
             CabinClass: serviceClass[params.CabinClass]
           },
           searchResult: itineraries,

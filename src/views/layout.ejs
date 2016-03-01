@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="/styles/bootstrap.css">
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/scott.css">
     <link rel="stylesheet" href="/styles/slick-theme.css">
     <link rel="stylesheet" href="/styles/slick.css">
     <link rel="stylesheet" href="/styles/zapp.css">
@@ -27,17 +28,11 @@
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand">
-            <%if (!title) {
+          <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">MENU<span class="glyphicon glyphicon-triangle-bottom"></span></button>
+          <a class="navbar-brand"><%= __('DEMO') %>
+            <!--<%if (!title) {
               %><%= __('Demo') %><%
-            }
-            else {
+            } else {
               %><%= title %><%
             }
             if (typeof searchResult != 'undefined') {
@@ -47,7 +42,7 @@
               }
               %>, <%= searchParams.CabinClass %></span><%
             }
-            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>
+            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
           </a>
         </div>
 

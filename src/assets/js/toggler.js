@@ -242,13 +242,14 @@ $(document).ready(function() {
 
     var getSliderSettings = function() {
         return {
-            dots: true,
-            arrows: true,
+            dots: false,
+            arrows: false,
             infinite: false,
             mobileFirst: true,
             adaptiveHeight: true,
-            slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/100), $('.mybucket').length),
+            //slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/150), $('.mybucket').length),
             slidesToScroll: 1,
+            variableWidth: true,
             appendArrows: $('.myarr'),
             prevArrow: '<button type="button" data-role="none" class="slick-prev"></button>',
             //appendDots: $('.myarr'), // For DEMO-97. But can't setup position in div without slick-narrow bug
@@ -256,14 +257,14 @@ $(document).ready(function() {
         }
     };
     $('#tiles').slick(getSliderSettings());
-    $( window ).resize(function() {
-        $('#tiles').slick('unslick');
-        $('#tiles').slick(getSliderSettings());
-        $('.selectedfilters > li').each(function(index) {
-            var target = $(this).attr('for');
-            $('#' + target).hide();
-        })
-    });
+    //$( window ).resize(function() {
+        //$('#tiles').slick('unslick');
+        //$('#tiles').slick(getSliderSettings());
+        //$('.selectedfilters > li').each(function(index) {
+            //var target = $(this).attr('for');
+            //$('#' + target).hide();
+        //})
+    //});
 
 
     /**

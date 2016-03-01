@@ -1073,10 +1073,10 @@ module.exports = {
         if ( err ) {
           sails.log.error( err );
         } else {
+          tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
+          tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
-          tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count');
-          tileArr['Merchandising'].order = -1;
-          return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
+          return callback(itineraries, _.sortBy(tileArr, 'order'), params);
         }
       });
     }
