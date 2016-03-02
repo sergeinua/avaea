@@ -1,7 +1,7 @@
 /* global $ */
 $(document).ready(function() {
     $('#timeAlert').fadeOut(5000, function () {
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
     });
     var showTotal = !!$('.itinerary:visible').length;
     /**
@@ -69,7 +69,7 @@ $(document).ready(function() {
                 tile.addClass('disabled');
             }
         });
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
     };
     var filtersCount = {};
     var filterItineraries = function () {
@@ -354,10 +354,12 @@ $(document).ready(function() {
             }
         }
 
-        $('#buy_button').removeAttr('disabled');
+        //$('#buy_button').removeAttr('disabled');
     });
 
-    $('#buy_button').click(function(event) {
+    $('.buy-button>button').click(function(event) {
+        //var id = $(this).parent().parent().parent().parent().attr('id');
+        //console.log('Order id:', id);
         if ($('.selected')) {
             location.href = '/order?id=' + $('.selected').attr('id');
         }
@@ -476,7 +478,7 @@ $(document).ready(function() {
           $('#timeAlert').text('Record was removed successfully.')
             .fadeIn('slow', function () {
               $(this).fadeOut(5000, function () {
-                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
               });
             }
           );
