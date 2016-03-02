@@ -134,7 +134,7 @@ module.exports = {
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
 
-      if (false) { // Pruning itineraries experiment
+      if (true) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
@@ -159,6 +159,7 @@ module.exports = {
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         } else if (true) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end ////////////////
           sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+          for (var i=0;i<itineraries.length;i++) delete itineraries[i].smartRank;
           cicstanford.compute_departure_times_in_minutes(itineraries);
           cicstanford.determine_airline(itineraries);
           var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
@@ -178,6 +179,7 @@ module.exports = {
           var next_rank = temp_ranked_in_4D.length + 1;
           for(var i=0; i<itineraries.length; i++)
             if (itineraries[i].smartRank == 0) { itineraries[i].smartRank = next_rank; next_rank++; };
+          cicstanford.print_many_itineraries(itineraries);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;
@@ -644,12 +646,11 @@ module.exports = {
       delete tmp.itinerariesSourceArrival;
       delete tmp.lastSourceArrival;
       delete tmp.uniqSourceArrival;
-
     } else { // one way trip
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
 
-      if (false) { // Pruning itineraries experiment
+      if (true) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
@@ -674,6 +675,7 @@ module.exports = {
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
        } else if (true) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end
          sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+         for (var i=0; i<itineraries.length;i++) delete itineraries[i].smartRank;
          cicstanford.compute_departure_times_in_minutes(itineraries);
          cicstanford.determine_airline(itineraries);
          var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
@@ -693,6 +695,7 @@ module.exports = {
          var next_rank = temp_ranked_in_4D.length + 1;
          for(var i=0; i<itineraries.length; i++)
              if (itineraries[i].smartRank == 0) { itineraries[i].smartRank = next_rank; next_rank++; };
+         cicstanford.print_many_itineraries(itineraries);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;

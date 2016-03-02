@@ -553,8 +553,12 @@ module.exports = {
         if (data.length == 1) return data; // If one element, then nothing to do
         if (data.length == 2) return data; // If two elements, then nothing to do
 
+        //console.log("data length = " + data.length);
+
         data_loc = data.slice(0) // make a copy
                        .sort(function(a, b){return a-b});
+
+        //console.log("data_loc length = "+ data_loc.length);
 
         if (axis_start > data[0] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
         if (axis_end   < data[data.length-1] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
@@ -579,7 +583,7 @@ module.exports = {
         {
             iter++;
 
-            if (iter > 300) break;
+            if (iter > 700) break;
 
             // TO DO: do not sort, just find the longest interval
             queue.sort(function(a, b){return (b.interval_end - b.interval_begin) - (a.interval_end - a.interval_begin) }); // sort the queue in decreasing order of interval sizes
@@ -809,25 +813,37 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-            console.log("Decoded departures in minutes, in the original order :");
+            console.log("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
             console.log(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted, permutation indices saved :");
+            console.log("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
             console.log(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-            console.log("Indices of the best departures, ordered by diversity :");
+            console.log("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
             console.log(preferred_departures_indices);
         }
         best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
+        //console.log("best_dep_idx = " + best_dep_idx);
+        //console.log("i is changing from 0 to < " + array_of_departures.length);
+        //console.log("preferred_departures_indices (length " + preferred_departures_indices.length + ") =");
+        //console.log(preferred_departures_indices);
+        //console.log("array_of_departures.sortIndices (length " + array_of_departures.sortIndices.length + ") =");
+        //console.log(array_of_departures.sortIndices);
+        //console.log("itins length is " + itins.length);
+
         // append the departure ranking information to itineraries: the smaller best_dep_rank is, the better the itinerary is
-        for(var i=0; i<array_of_departures.length; i++) { itins[array_of_departures.sortIndices[preferred_departures_indices[i]]].best_dep_rank = i; };
+        for(var i=0; i<array_of_departures.length; i++)
+        {
+            //console.log("i = " + i + ", pdi = " + preferred_departures_indices[i] + " aod.sI = " + array_of_departures.sortIndices[preferred_departures_indices[i]]);
+            itins[array_of_departures.sortIndices[preferred_departures_indices[i]]].best_dep_rank = i;
+        };
 
         if (light_output)
         {
@@ -957,10 +973,21 @@ module.exports = {
         if ( departure_preference === undefined ) { departure_preference = 1.0; } // default value is 1
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
-        if ( price_preference     == 0 ) return itins;
-        if ( duration_preference  == 0 ) return itins;
-        if ( departure_preference == 0 ) return itins;
-        if ( airline_preference   == 0 ) return itins;
+        console.log("Ranking based on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
+        //if ( price_preference     == 0 ) return itins;
+        //if ( duration_preference  == 0 ) return itins;
+        //if ( departure_preference == 0 ) return itins;
+        //if ( airline_preference   == 0 ) return itins;
+
+	if ( (price_preference==0) || (duration_preference==0) || (departure_preference==0) || (airline_preference==0) )
+        {
+            price_preference     += 0.2;
+            duration_preference  += 0.2;
+            departure_preference += 0.2;
+            airline_preference   += 0.2;
+        }
+
+        //console.log("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
 
         var MAD_price     = this.median_absolute_deviation_in_price    (itins);
         var MAD_duration  = this.median_absolute_deviation_in_duration (itins);
