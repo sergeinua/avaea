@@ -22,6 +22,7 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
     $scope.selectedTabIndex = 0;
     $scope.tabTemplate = false;
 
+
     $scope.tabs = [
         {
             id: 'roundtrip',
@@ -86,6 +87,10 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
     $scope.flights = {};
     $scope.SearchAirAvailabilityList = {};
     $scope.prive = false;
+
+
+    // ===
+    $scope.selectClassOfService = selectClassOfService;
 
     // ===
     function tabCount (num) {
@@ -235,11 +240,17 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
     }
 
+    function selectClassOfService (event) {
+        $(event.currentTarget).parent('.flight-classes').find('.flight-class').removeClass('selected');
+        $(event.currentTarget).addClass('selected');
+    };
+
     function searchPrice (flight) {
+
         SearchAirService.SearchPrice(flight)
             .then(function(response){
                 $scope.price = response.data;
-                $scope.num
+                //$scope.num
             }, function(rejected){
                 console.log(rejected);
                 return 'Error getting flight price';
@@ -264,14 +275,14 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
 
 
     // ===============
-    $scope.showPriceDialog = function($ev, flight) {
+    $scope.showPriceDialog = function(event, flight) {
 
         $scope.price = false;
 
         $mdDialog.show({
             templateUrl: 'modules/dialog/showprice.view.html',
             parent: angular.element(document.body),
-            targetEvent: $ev,
+            targetEvent: event,
             scope: $scope,
             clickOutsideToClose: true,
             preserveScope: true,
@@ -296,6 +307,8 @@ function SearchAirController($scope, $timeout, $mdDialog, SearchAirService) {
             $scope.status = 'You cancelled the dialog.';
         });
 
+        var classofservice = $(event.currentTarget).parent('.flight-record').find('.flight-class.selected').attr('classofservice');
+        flight.Segment.classofservice = classofservice;
         searchPrice(flight);
     };
 
