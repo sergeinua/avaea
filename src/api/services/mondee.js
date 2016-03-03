@@ -1,6 +1,7 @@
 /* global memcache */
 /* global async */
 /* global sails */
+var util = require('util');
 
 var TPContext = {
   messageId: ['string', true],
@@ -399,18 +400,69 @@ var mapItinerary = function(itinerary) {
   return res;
 };
 
-//var soap = require('soap');
+var getFlightBookingRq = function(id, params) {
+  var req = getBaseRq(id);
+
+  req.BookItineraryRequest = {
+    ItineraryId: params.id,
+    PaxDetails: {
+      PaxType: params.PaxType,
+      FirstName: params.FirstName,
+      LastName: params.LastName,
+      Gender: params.Gender,
+      DateOfBirth: params.DateOfBirth
+    },
+    // Optional fields, but may be need
+    //MarkUp: {
+    //  PaxType: params.PaxDetails.PaxType,
+    //  Agent: 20 // unknown param
+    //},
+    //PaxContactInfo: {
+    //  PhoneNumber: "9888854785",
+    //  Email: "apibookingtest@gmail.com"
+    //},
+    PaymentDetails: {
+      PaymentType: "CC",
+      CCDetails: {
+        CardType: params.CardType,
+        CardNumber: params.CardNumber,
+        CVV: params.CVV,
+        ExpiryDate: params.ExpiryDate
+      },
+      BillingAddress: {
+        Name: params.FirstName,
+        Address1: params.Address1,
+        City: params.City,
+        State: params.State,
+        Country: params.Country,
+        ZipCode: params.ZipCode
+      }
+    }
+  };
+  return req;
+};
+
+var getCancelPnrRq = function(id, params) {
+  var req = getBaseRq(id);
+
+  req.CancelPNRRequest = {
+    RecordLocator: params.PNR
+  };
+  return req;
+};
 
 module.exports = {
+
   flightSearch: function(guid, params, callback) {
-    sails.log.info('Mondee API call started');
+    var _api_name = "flightSearch";
+    sails.log.info('Mondee '+_api_name+' API call started');
 
     memcache.init(function(){});
     utils.timeLog('mondee');
 
-    var wsdlUrl = getWsdlUrl('flightSearch');
+    var wsdlUrl = getWsdlUrl(_api_name);
     sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
-    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl('flightSearch')}, function(err, client) {
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
 
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
@@ -420,13 +472,13 @@ module.exports = {
 
         return client.FlightSearch(req, function(err, result, raw, soapHeader) {
           if (utils.timeLogGet('mondee') > 7000) {
-            params.session.time_log.push(require('util').format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
           }
           sails.log.info('Mondee FlightSearch request time: %s', utils.timeLogGetHr('mondee'));
           var resArr = [];
           if (err || ('TPErrorList' in result && result.TPErrorList) || !result.FlightSearchResponse) {
               if (!err) {
-                  err = (result.TPErrorList && result.TPErrorList.errorText) ? result.TPErrorList.errorText : 'No Results Found';
+                err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'No Results Found';
               }
             sails.log.error(err);
             return callback( err, [] );
@@ -475,6 +527,95 @@ module.exports = {
                 return callback( null, resArr );
               });
             }
+          }
+        });
+      }
+    });
+  },
+
+  flightBooking: function(guid, params, callback) {
+
+    var _api_name = "flightBooking";
+    sails.log.info('Mondee '+_api_name+' API call started');
+    var wsdlUrl = getWsdlUrl(_api_name);
+    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
+
+      if (err) {
+        sails.log.error("SOAP: An error occurs:\n" + err);
+        return callback( err, [] );
+      }
+      else {
+        var req = getFlightBookingRq(guid, params);
+        sails.log.info("__req: ", util.inspect(req, {showHidden: true, depth: null}));
+
+        return client.BookItinerary(req, function(err, result, raw, soapHeader) {
+
+          if (utils.timeLogGet('mondee') > 7000) {
+            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+          }
+          sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
+
+          //__result: { TPContext:
+          //{ messageId: '5bed6b85-98c0-4e33-895f-184cb85df51c',
+          //  correlationId: 'bc8ed7c3-36c0-4da5-bea1-c9109b6e568f-mondee',
+          //  clientId: 'CFS1017',
+          //  processingTime: '95' },
+          //  TPErrorList:
+          //  { TPError:
+          //  { errorCode: 'BE003',
+          //    errorType: 'APPLICATION',
+          //    errorText: 'PaxDetails Incomplete',
+          //    errorDetail: [Object] } },
+          //  BookItineraryResponse: {} }
+          if (err || ('TPErrorList' in result && result.TPErrorList) || !result.BookItineraryResponse) {
+            if (!err) {
+              err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to flightBooking';
+            }
+            sails.log.error(err);
+            return callback( err, [] );
+          }
+          else {
+            return callback( null, result );
+          }
+        });
+      }
+    });
+  },
+
+  cancelPnr: function(guid, params, callback) {
+
+    var _api_name = "cancelPnr";
+    sails.log.info('Mondee '+_api_name+' API call started');
+    var wsdlUrl = getWsdlUrl(_api_name);
+    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
+
+      if (err) {
+        sails.log.error("SOAP: An error occurs:\n" + err);
+        return callback( err, [] );
+      }
+      else {
+        var req = getCancelPnrRq(guid, params);
+
+        return client.CancelPNR(req, function(err, result, raw, soapHeader) {
+
+          if (utils.timeLogGet('mondee') > 7000) {
+            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+          }
+          sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
+
+          if (err || ('TPErrorList' in result && result.TPErrorList)) {
+            if (!err) {
+              err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to cancelPnr';
+            }
+            sails.log.error(err);
+            return callback( err, [] );
+          }
+          else {
+            return callback( null, result );
           }
         });
       }
