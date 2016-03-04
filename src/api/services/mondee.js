@@ -2,6 +2,7 @@
 /* global async */
 /* global sails */
 var util = require('util');
+var _ = require('lodash');
 
 var TPContext = {
   messageId: ['string', true],
@@ -533,10 +534,19 @@ module.exports = {
     });
   },
 
+  /**
+   * Itinerary booking
+   *
+   * @param {string} guid Own request id
+   * @param {object} params Corresponding to http://developer.trippro.com/xwiki/bin/view/Developer+Network/Flight+Booking+API
+   * @param {function} callback
+   */
   flightBooking: function(guid, params, callback) {
 
     var _api_name = "flightBooking";
     sails.log.info('Mondee '+_api_name+' API call started');
+    utils.timeLog('mondee');
+
     var wsdlUrl = getWsdlUrl(_api_name);
     sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
 
@@ -544,7 +554,7 @@ module.exports = {
 
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback( err, [] );
+        return callback(err, {});
       }
       else {
         var req = getFlightBookingRq(guid, params);
@@ -569,25 +579,34 @@ module.exports = {
           //    errorText: 'PaxDetails Incomplete',
           //    errorDetail: [Object] } },
           //  BookItineraryResponse: {} }
-          if (err || ('TPErrorList' in result && result.TPErrorList) || !result.BookItineraryResponse) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || _.isEmpty(result.BookItineraryResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to flightBooking';
             }
             sails.log.error(err);
-            return callback( err, [] );
+            return callback(err, {});
           }
           else {
-            return callback( null, result );
+            return callback(null, result.BookItineraryResponse);
           }
         });
       }
     });
   },
 
+  /**
+   * Cancel booked itinerary by PNR
+   *
+   * @param {string} guid Own request id
+   * @param {object} params {PNR: value}. Corresponding to http://developer.trippro.com/xwiki/bin/view/Developer+Network/Cancel+PNR+API
+   * @param {function} callback
+   */
   cancelPnr: function(guid, params, callback) {
 
     var _api_name = "cancelPnr";
     sails.log.info('Mondee '+_api_name+' API call started');
+    utils.timeLog('mondee');
+
     var wsdlUrl = getWsdlUrl(_api_name);
     sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
 
@@ -595,7 +614,7 @@ module.exports = {
 
       if (err) {
         sails.log.error("SOAP: An error occurs:\n" + err);
-        return callback( err, [] );
+        return callback(err, {});
       }
       else {
         var req = getCancelPnrRq(guid, params);
@@ -607,15 +626,15 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          if (err || ('TPErrorList' in result && result.TPErrorList)) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || _.isEmpty(result.CancelPNRResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to cancelPnr';
             }
             sails.log.error(err);
-            return callback( err, [] );
+            return callback(err, {});
           }
           else {
-            return callback( null, result );
+            return callback(null, result.CancelPNRResponse);
           }
         });
       }

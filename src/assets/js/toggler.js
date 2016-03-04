@@ -365,7 +365,7 @@ $(document).ready(function() {
   /**
    * Client validation during booking of itinerary
    */
-  $("#_form_booking").validate({
+  $("#form_booking").validate({
         rules: {
             PaxType: {
                 required: true

@@ -17,6 +17,7 @@ module.exports = {
     var _html_att = "";
     var _res;
 
+    // parse Html options
     if(typeof htmlOptions == "object") {
       for (var att in htmlOptions) {
         if (htmlOptions.hasOwnProperty(att))
@@ -26,6 +27,7 @@ module.exports = {
 
     _res = '<select name="'+attName+'"'+_html_att+'><option value="">---</option>\n';
 
+    // Make <option> data
     for(var att in srcData) {
       if (srcData.hasOwnProperty(att))
       {

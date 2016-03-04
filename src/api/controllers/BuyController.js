@@ -47,9 +47,14 @@ module.exports = {
           };
 
           itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
-          //sails.log.info("__order:", util.inspect(logData.itinerary, {showHidden: true, depth: null}));
 
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+
+          // Save for booking action
+          req.session.booking_itinerary = {
+            itinerary_id: id,
+            itinerary_data: logData.itinerary
+          };
 
           return res.view('order', {
             user: req.user,
@@ -58,14 +63,17 @@ module.exports = {
           });
         }
         else {
-          //req.session.flash = 'Cache has expired. Try new search.';
-          //req.flash('errors', req.session.flash);
-          //res.redirect('/search');
-          return res.view('order', {
-            user: req.user,
-            reqParams: reqParams,
-            order:[]
-          });
+          delete req.session.booking_itinerary;
+          req.session.flash = 'Cache has expired. Try new search.';
+          req.flash('errors', req.session.flash);
+          res.redirect('/search');
+
+          // For debug only
+          //return res.view('order', {
+          //  user: req.user,
+          //  reqParams: reqParams,
+          //  order:[]
+          //});
         }
       });
     });
@@ -73,26 +81,50 @@ module.exports = {
 
   booking: function (req, res) {
     sails.log.info("__params:", util.inspect(req.allParams(), {showHidden: true, depth: null}));
+    req.session.time_log = [];
+
+    // for API argument
+    var params = req.allParams();
+    params.session = req.session;
 
     var parseFlightBooking = function (err, result) {
-      sails.log.info("__param err:", util.inspect(err, {showHidden: true, depth: null}));
-      sails.log.info("__result:", util.inspect(result, {showHidden: true, depth: null}));
+      sails.log.info("__err booking:", util.inspect(err, {showHidden: true, depth: null}));
+      sails.log.info("__result booking:", util.inspect(result, {showHidden: true, depth: null}));
 
       if (err) {
         req.session.flash = err;
         // redirect to order action, i.e. repeat request
         res.redirect(url.format({pathname: "/order", query: req.allParams()}));
+        return;
       }
+      sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';
 
-      //return res.view('booking', {
-      //  reqParams: req.allParams()
-      //});
+      // At this moment we must cancel booked itinerary for money safe
+      mondee.cancelPnr(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, {PNR: result.PNR, session: req.session}, function(err2, result2) {
+        sails.log.info("__err cancel:", util.inspect(err2, {showHidden: true, depth: null}));
+        sails.log.info("__result cancel:", util.inspect(result2, {showHidden: true, depth: null}));
+        if(err2)
+          res.locals.errors = [err2]; //will display by layout
+        else
+          sails.log.info("Itinerary cancelled successfully:", result2);
+      });
+
+      // Save result to DB
+      Booking.saveBooking(req.user, result, req.session.booking_itinerary);
+      delete req.session.booking_itinerary;
+
+      // Render view
+      return res.view('booking', {
+        user: req.user,
+        reqParams: req.allParams(),
+        bookingRes: result
+      });
     };
 
-    parseFlightBooking("err", "res");
-    //mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, req.allParams(), parseFlightBooking);
+    //parseFlightBooking("err", "res");
+    mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
   }
 
 };
