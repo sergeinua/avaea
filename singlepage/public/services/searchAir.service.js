@@ -24,7 +24,7 @@ function SearchAirService($http) {
         var req = {
             airline: data.Carrier.AirlineCode,
             flightnumber: data.Carrier.FlightNumber,
-            classofservice: 'Y',
+            classofservice: data.classofservice,
 
             equipmentcode: data.Equipment.Code,
             equipmentname: data.Equipment.Name,
