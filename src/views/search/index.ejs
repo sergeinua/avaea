@@ -1,126 +1,65 @@
-<%
-/* global defaultParams */
-/* global _ */
-/* global serviceClass */
- %>
-<script>
-</script>
-<style type="text/css">
-    .twitter-typeahead {
-        width: 100%;
-    }
-    .typeahead, .tt-query, .tt-hint {
-    }
-    .typeahead {
-        background-color: #fff;
-    }
-    .typeahead:focus {
-        border: 2px solid #0097cf;
-    }
-    .tt-query {
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    }
-    .tt-hint {
-        color: #999;
-    }
-    .tt-menu {
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        margin: 12px 0;
-        padding: 8px 0;
-    }
-    .tt-suggestion, .empty-message {
-        padding: 3px 20px;
-    }
-    .tt-suggestion:hover {
-        background-color: #0097cf;
-        color: #fff;
-        cursor: pointer;
-    }
-    .tt-suggestion.tt-cursor {
-        background-color: #0097cf;
-        color: #fff;
-    }
-    .tt-suggestion p {
-        margin: 0;
-    }
-</style>
 <form action="/result" method="post" id="search_form" >
-    <div class="form-group col-sm-6">
-        <label for="originAirport">Departing from</label>
-        <input type="text" name="originAirport" id="originAirport" class="form-control typeahead" placeholder="<%= defaultParams.DepartureLocationCode %>" value="<%= defaultParams.DepartureLocationCode %>" required autofocus autocomplete="off"/>
-    </div>
-    <div class="form-group col-sm-6">
-        <label for="destinationAirport" class="control-label">Arriving to</label>
-        <input type="text" name="destinationAirport" id="destinationAirport" class="form-control typeahead" placeholder="<%= defaultParams.ArrivalLocationCode %>" value="<%= defaultParams.ArrivalLocationCode %>" required autocomplete="off"/>
-    </div>
-    <div class="form-group col-sm-6">
-        <label for="departureDate" class="control-label">Departure Date</label>
-        <input type="date" name="departureDate" value="<%= defaultParams.departureDate %>" id="departureDate" class="form-control typeahead" placeholder="yyyy-mm-dd" required/>
-    </div>
-    <div class="form-group col-sm-6">
-        <label for="returnDate" class="control-label">Return Date<span class="hidden-xs" style="color: gray"> (leave blank for one way trips)</span></label>
-        <input type="date" name="returnDate" id="returnDate" class="form-control typeahead" placeholder="yyyy-mm-dd"/>
-    </div>
-    <div class="form-group col-sm-12">
-        <label for="preferedClass" class="control-label">Class of sevice</label><br/>
-        <div class="btn-group" data-toggle="buttons">
-          <% // Service class radio buttons group
-          for(var idx in serviceClass) {
-            var checked=false;
-            if(idx=='E' && _.isEmpty(defaultParams.CabinClass)) {
-                checked = true;
-            }
-            else if(defaultParams.CabinClass == idx) {
-                checked = true;
-            }
-            %>
-            <label class="btn btn-default <% if(checked) { %>active<% } %>">
-                <input type="radio" name="preferedClass" id="serviceclass_<%= idx.toLowerCase() %>" autocomplete="off" value="<%= idx.toLowerCase() %>" <% if(checked) { %>checked<% } %>> <%= serviceClass[idx] %>
-            </label>
-          <% } %>
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>"/>
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>"/>
+  <input type="hidden" name="departureDate" value="<%= defaultParams.departureDate %>"/>
+  <input type="hidden" name="returnDate" value="<%= defaultParams.returnDate %>"/>
+  <input type="hidden" name="preferedClass" id="preferedClass" value="<%
+  if(_.isEmpty(defaultParams.CabinClass)) {
+    %>E<%
+  } else {
+    %><%= defaultParams.CabinClass%><%
+  }
+   %>">
+  <input type="hidden" name="passengers" id="passengers" value="1">
+
+  <div class="container">
+    <nav class="navbar navbar-default navbar-fixed-top"  style="border:0;margin-top:50px;z-index:10;">
+      <div class="container-fluid">
+        <div class="flight-type-form">
+          <div class="row">
+            <div id="one_way" class="col-xs-4 flight-type-item active-choice"><%= __('One way')%></div>
+            <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip')%></div>
+            <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
+          </div>
         </div>
-    </div>
+      </div>
+    </nav>
+  </div>
 
-    <style>
-        body { padding-bottom: 33px; }
-    </style>
-
-    <div class="container" id="search_button">
-        <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
-            <div class="container-fluid">
-                <button type="submit" class="btn btn-sm btn-primary btn-block">Search</button>
-            </div>
-        </nav>
+  <div class="flight-direction">
+    <div class="row text-center" style="padding-top:70px; left:50%; width:300px;margin-left: -150px;position: fixed;">
+      <div class="col-xs-5 flight-direction-item"><span>+</span>
+        <div class="flight-direction-item-from-to"><%=__('from')%></div>
+      </div>
+      <div class="col-xs-2 flight-direction-item-arrow">&rarr;</div>
+      <div class="col-xs-5 flight-direction-item">+
+        <div class="flight-direction-item-from-to"><%=__('to')%></div>
+      </div>
+      <div class="col-xs-5 flight-direction-item-comming-soon hidden"><%= __('Comming soon')%></div>
     </div>
+  </div>
+
+  <div class="flight-date-info row">
+    <div class="flight-date-info-item">+
+      <div class="flight-date-info-item-depart"><%=__('depart')%></div>
+    </div>
+    <div class="flight-date-info-item">+
+      <div class="flight-date-info-item-return"><%=__('return')%></div>
+    </div>
+  </div>
+
+  <div class="flight-additional-info row">
+    <div class="flight-passengers-info-item">
+      <div class="text-label"><%=__('passengers')%></div>
+      <div class="text-picker"><span class="passengers_count">1</span> <span class="passengers_text"><%=__('Adult')%></span></div>
+    </div>
+    <div class="flight-class-info-item">
+      <div class="text-label"><%=__('class')%></div>
+      <div class="text-picker"><%=__('Economy')%></div>
+    </div>
+  </div>
+
+<script>var serviceClass=<%- JSON.stringify(serviceClass) %></script>
+
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%=__('Search flights')%></button>
 </form>
-<div class="modal"></div>
-<style>
-.modal {
-    display:    none;
-    position:   fixed;
-    z-index:    1000;
-    top:        0;
-    left:       0;
-    height:     100%;
-    width:      100%;
-    background: rgba( 255, 255, 255, .8 )
-                url('../images/ajax-loader.gif')
-                50% 50%
-                no-repeat;
-}
-
-/* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-body.loading {
-    overflow: hidden;
-}
-
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .modal {
-    display: block;
-}
-</style>

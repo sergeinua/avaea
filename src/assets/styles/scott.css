@@ -76,9 +76,10 @@ body {
   letter-spacing: 0.1px;
   color: #ffffff;
   margin-top: -2px;
-  margin-left:  -15px;
-  margin-right: -15px;
-  padding: 15px;
+  /*margin-left:  -15px;*/
+  /*margin-right: -15px;*/
+  padding: 5px;
+  padding-top: 10px;
   height: 60px;
 }
 
@@ -96,7 +97,9 @@ body {
   line-height: 1.0;
   letter-spacing: 0.1px;
   color: #ffffff;
-  padding-left: 30px;
+  text-align: center;
+  border-bottom: 0;
+  padding-left: 15px;
 }
 
 .flight-date {
@@ -111,11 +114,14 @@ body {
 .flight-date>span {
   font-size: 9px;
   margin-bottom: 2px;
-  top: 0 !important; 
+  top: 0 !important;
 }
 
 .text-spacer {
   padding-left:  20px;
+}
+.tiles.row {
+  margin-left: 0;
 }
 
 .mycustomtab {
@@ -276,4 +282,215 @@ body {
   background-color: #004a99;
   border-color: #004a99;
   max-width: 60px;
+}
+
+.modal {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .8 )
+  url('../images/ajax-loader.gif')
+  50% 50%
+  no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+  overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+  display: block;
+}
+
+.container-fluid {
+  margin: 0;
+  padding: 0;
+}
+
+.flight-type-form>.row, .flight-direction>.row{
+  margin: 0;
+  padding: 0;
+}
+
+.flight-type-form {
+  height: 50px;
+  background-color: #004a99;
+  padding-left: 0;
+  box-shadow: none;
+  border-bottom: 1px solid #4077B2;
+  /*box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.3);;*/
+}
+
+.flight-type-item {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 14px;
+}
+
+.flight-type-item.active-choice {
+  color: #ffffff;
+  border-bottom: 1px solid #ffe03f;
+}
+
+.flight-direction {
+  height: 222px;
+  background-color: #004a99;
+  box-shadow: 0 2px 0 0 rgba(0, 74, 153, 0.2);
+}
+
+.container {
+  padding: 0;
+}
+
+.flight-direction-item {
+  width: 100px;
+  height: 100px;
+  background-color: #004a99;
+  border: dashed 1px rgba(255, 255, 255, 0.2);
+  /*color: white;*/
+  font-size: 50px;
+  padding-top: 10px;
+  color:rgba(255, 255, 255, 0.2);
+}
+
+.flight-direction-item span {
+  margin-bottom: -10px;
+}
+
+.flight-direction-item-arrow {
+  width: 98px;
+  font-size: 50px;
+  padding-top: 10px;
+  color:rgba(255, 255, 255, 0.2);
+}
+
+.flight-direction {
+  align-content: center;
+}
+
+.flight-direction-item-comming-soon {
+  width: 300px;
+  height: 100px;
+  padding-top: 40px;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.flight-direction-item-from-to {
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  padding-bottom: 10px;
+}
+
+.flight-date-info-item {
+  font-size: 50px;
+  padding-top: 10px;
+  text-align: center;
+
+  width:50%;
+  height: 100px;
+  background-color: rgba(0, 58, 124, 0.1);
+  float: left;
+}
+
+.flight-date-info-item-depart, .flight-date-info-item-return {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 16px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: rgba(16, 23, 66, 0.4);
+  text-transform: uppercase;
+}
+
+.flight-date-info-item:first-child {
+  border-right: 2px solid white;
+}
+
+.flight-additional-info {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 16px;
+  line-height: 1.0;
+  letter-spacing: 0.1px;
+  color: rgba(16, 23, 66, 0.4);
+  border-color: white;
+}
+
+.flight-passengers-info-item, .flight-class-info-item {
+  height: 50px;
+  padding-top: 15px;
+  padding-left: 15px;
+  text-transform: uppercase;
+  border-bottom: 1px solid #F2F2F2;
+}
+
+.flight-passengers-info-item>div, .flight-class-info-item>div {
+  width: 50%;
+  float: left;
+}
+
+.flight-additional-info.row, .flight-date-info.row{
+  margin: 0;
+  padding: 0;
+}
+
+.flight-class-info-item>.text-picker, .flight-passengers-info-item>.text-picker {
+  text-transform: capitalize;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 20px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #004a99;
+  text-align: right;
+  padding-right: 15px;
+}
+
+.search-button {
+  width: 375px;
+  height: 64px;
+  background-color: #ff2600;
+  border-radius: 0;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 24px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: 0;
+  left:50%;
+  margin-left: -187px;
+  position: fixed;
+  bottom: 0;
+}
+
+.nav.navbar-nav > li {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.0;
+  letter-spacing: 0.1px;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding-left: 15px;
 }

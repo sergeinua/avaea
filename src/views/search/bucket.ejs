@@ -1,8 +1,8 @@
 <% if (tiles) { %>
 <!--<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;"></div>-->
-<div id="tiles" class="row">
+<div id="tiles" class="tiles row">
   <%
-  for(var name in tiles) { 
+  for(var name in tiles) {
     var tile = tiles[name];
     if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>

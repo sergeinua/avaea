@@ -325,7 +325,7 @@ $(document).ready(function() {
 
     //loading
     $('#search_form').submit(function(event) {
-        $('#search_button').hide();
+        $('.search-button').hide();
         $("body").addClass("loading");
         return true;
     });
@@ -500,5 +500,75 @@ $(document).ready(function() {
   $('.airlineIcon').each(function () {
     getIconForAirline($(this));
   });
+
+  function changeFlightTab(type) {
+    switch (type) {
+      case 'round_trip':
+        $('.flight-direction-item-comming-soon').addClass('hidden');
+        $('.flight-direction-item').removeClass('hidden');
+        $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.flight-direction-item-arrow').html('&#8596;');
+        $($('.flight-date-info-item')[1]).removeClass('hide');
+        break;
+      case 'multi_city':
+        $('.flight-direction-item-comming-soon').removeClass('hidden');
+        $('.flight-direction-item').addClass('hidden');
+        $('.flight-direction-item-arrow').addClass('hidden');
+        break;
+      case 'one_way':
+        $('.flight-direction-item-comming-soon').addClass('hidden');
+        $('.flight-direction-item').removeClass('hidden');
+        $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.flight-direction-item-arrow').html('&rarr;');
+        $($('.flight-date-info-item')[1]).addClass('hide');
+        break;
+    }
+  }
+
+
+  $('.flight-type-item').on('click', function () {
+    $('.flight-type-item').removeClass('active-choice');
+    $(this).addClass('active-choice');
+    var id = $(this).attr('id');
+    changeFlightTab(id);
+  });
+
+  $('.flight-passengers-info-item .text-picker').on('click', function () {
+    var currentValue = $('#passengers').val();
+
+    if ( currentValue < 3 ) {
+      currentValue++;
+      $('.passengers_text').text('Adults');
+    } else {
+      currentValue = 1;
+      $('.passengers_text').text('Adult');
+    }
+    $('#passengers').val(currentValue);
+    $('.passengers_count').text(currentValue);
+  });
+
+  $('.flight-class-info-item .text-picker').on('click', function () {
+    var currentValue = $('#preferedClass').val();
+    var flagNext = false;
+    var newValue = 'E';
+
+    for(var idx in serviceClass) {
+      if (flagNext) {
+        newValue = idx;
+        break;
+      }
+      if (idx == currentValue) {
+        flagNext = true;
+      }
+    }
+    $('#preferedClass').val(newValue);
+    $(this).text(serviceClass[newValue]);
+  });
+
+  // search form init
+  {
+    var choosenTab = $('.flight-type-item.active-choice').attr('id');
+    changeFlightTab(choosenTab);
+  }
 
 });
