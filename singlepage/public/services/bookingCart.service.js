@@ -1,11 +1,11 @@
 'use strict';
 
 avaeaStandaloneApp
-    .factory('ReservationService', ReservationService);
+    .factory('BookingCartService', BookingCartService);
 
-ReservationService.$inject = ['$http'];
+BookingCartService.$inject = ['$http'];
 
-function ReservationService($http) {
+function BookingCartService($http) {
 
     var service = {};
 
