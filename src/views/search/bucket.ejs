@@ -2,7 +2,7 @@
 <!--<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;"></div>-->
 <div id="tiles" class="row">
   <%
-  for(var name in tiles) { 
+  for(var name in tiles) {
     var tile = tiles[name];
     if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>
@@ -21,8 +21,27 @@
 </div>
 
 <div class="myarr" style="margin-top: 7px">
+  <div class="slick"></div>
   <input type="button" id='clear' value="&times;" style="background-color: lightblue; border-color: lightblue; float:left; margin: 4px 0 0 20px; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
   <input type="button" id='undo' value="&#x21ba;" style="background-color: lightblue; border-color: lightblue; float:right; margin: 4px 20px 0 0; padding: 0px 3px; font-size: 11px; border-radius: 15px;" class="btn btn-sm btn-primary">
+  <style type="text/css">
+    .toggle.lbSmart {
+      background-color: lightblue;
+      border-color: lightblue;
+      border-radius: 15px;
+      margin: 3px 4px 0 0;
+      min-height: 10px;
+    }
+    .toggle.lbSmart .btn-primary {
+      background-color: lightblue;
+      border-color: lightblue;
+    }
+    .toggle.lbSmart .btn-primary, .toggle.lbSmart .btn-default {
+      border-radius: 15px;
+      font-size: 11px;
+    }
+  </style>
+  <input type="checkbox" id="smart" data-toggle="toggle" data-style="pull-right lbSmart" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
 </div>
 <% } %>
 <div class="selectedfilters row" filters=''></div>

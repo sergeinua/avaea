@@ -17,12 +17,12 @@
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee">
+<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee" smart="<%= sRes.smartRank %>">
 
   <div class="col-xs-12">
 
     <div class="row">
-      <div class="col-xs-12" style="padding: 2px;">
+      <div class="col-xs-12 price" style="padding: 2px;">
         <% if(sRes.currency == 'USD') { %>
         $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
       </div>
