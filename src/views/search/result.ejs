@@ -26,7 +26,12 @@
         <p class="text-info" style="color: grey"><%=timelog%></p>
       </div>
       <% } %>-->
-        <!--<div class="good-bad-flights sm-6">Hide worse flights: <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-round" type="checkbox"></div>-->
+      <div class="row">
+        <div class="good-bad-flights col-xs-5 text-right"><%=__('Hide worse flights')%>:</div>
+        <div class="good-bad-flights col-xs-7 pull-left">
+          <input type="checkbox" id="smart" data-toggle="toggle" data-style="lbSmart" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
+        </div>
+      </div>
       <%- partial('bucket')%>
       <div class="total-count">
         <span id='search_count'><%= searchResult.length%></span> of <%= searchResult.length%> Flights
@@ -42,7 +47,7 @@
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>">
+<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
 
   <div class="col-xs-12">
 

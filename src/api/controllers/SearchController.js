@@ -14,6 +14,17 @@ var util = require('util');
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+// TODO: this tmp function should be replaced with real smart ranking
+var tmpSmartRank = function(itins, callback) {
+  async.map(itins, function(itin, doneCb) {
+    itin.smartRank = _.random(0, 10, false);
+    return doneCb(null, itin);
+  }, function(err, itins) {
+    return callback(err, itins);
+  });
+  return;
+};
+
 module.exports = {
 
   /**
@@ -75,7 +86,7 @@ module.exports = {
       var retDate = new Date(req.param('returnDate'));
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
     }
-    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode,
+    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
 //    var md5 = require("blueimp-md5").md5;
@@ -119,32 +130,33 @@ module.exports = {
         algorithm = 'getTilesDataEmpty';
       }
 
-      Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
+      // TODO: this tmp function should be replaced with real smart ranking
+      tmpSmartRank(itineraries, function(err, itineraries) {
+        Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
+          UserAction.saveAction(req.user, 'order_tiles', tiles);
+          var itinerariesData = {
+            searchUuid   : itineraries.guid,
+            searchParams : params,
+            count        : itineraries.length
+          };
+          UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+          sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
+          //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
 
-        UserAction.saveAction(req.user, 'order_tiles', tiles);
-        var itinerariesData = {
-          searchUuid   : itineraries.guid,
-          searchParams : params,
-          count        : itineraries.length
-        };
-        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
-        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
-        //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
-
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: tiles,
-          searchParams: {
-            departureDate: sails.moment(depDate).format('ddd DD MMM'),
-            returnDate: (retDate)?sails.moment(retDate).format('ddd DD MMM'):'',
-            CabinClass: serviceClass[params.CabinClass]
-          },
-          searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>')
+          return  res.view('search/result', {
+            user: req.user,
+            title: title,
+            tiles: tiles,
+            searchParams: {
+              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              CabinClass: serviceClass[params.CabinClass]
+            },
+            searchResult: itineraries,
+            timelog: req.session.time_log.join('<br/>')
+          });
         });
-      })
-
+      });
     });
   }
 };

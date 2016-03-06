@@ -65,8 +65,10 @@ body {
 .navbar-default .navbar-brand, .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
   font-size: 20px;
   line-height: 1.0;
-  letter-spacing: 0.2px;  font-family: WhitneyHTF-Black;
+  letter-spacing: 0.2px;
+  font-family: WhitneyHTF-Black;
   color: white;
+  text-transform: uppercase;
 }
 
 .flight-info{
@@ -231,6 +233,10 @@ body {
   color: #ffffff;
   text-align: center;
   padding-top: 10px;
+}
+
+.row.itinerary {
+  margin-left: 0;
 }
 
 .itinerary {
@@ -494,3 +500,23 @@ body.loading .modal {
   text-transform: uppercase;
   padding-left: 15px;
 }
+
+/* Smart button styles */
+.toggle.lbSmart {
+  background-color: lightblue;
+  border-color: lightblue;
+  border-radius: 15px;
+  margin: 3px 4px 0 0;
+  min-height: 10px;
+}
+.toggle.lbSmart .btn-primary {
+  background-color: lightblue;
+  border-color: lightblue;
+}
+.toggle.lbSmart .btn-primary, .toggle.lbSmart .btn-default {
+  border-radius: 15px;
+  font-size: 11px;
+}
+
+/* end of Smart button styles */
+

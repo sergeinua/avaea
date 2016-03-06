@@ -1,8 +1,15 @@
 ﻿'use strict';
 
 var avaeaStandaloneApp = angular.module('avaeaStandaloneApp', [
-    'ui.router', 'ngCookies', 'ngMessages', 'ngAnimate', 'ngMaterial', 'ngSanitize'
+    'ui.router', 'ngCookies', 'ngMessages', 'ngAnimate', 'ngMaterial', 'ngSanitize', 'LocalStorageModule'
 ]);
+
+avaeaStandaloneApp.config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+      .setPrefix('avaeaLS')
+      .setStorageType('sessionStorage')
+      .setNotify(true, true)
+});
 
 avaeaStandaloneApp.config(['$httpProvider', function ($httpProvider) {
 

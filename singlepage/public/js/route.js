@@ -15,20 +15,20 @@ avaeaStandaloneApp.config(['$stateProvider', '$locationProvider', '$urlRouterPro
             data: {
                 requireLogin: false,
                 readonly: false,
-                name: "Reservation"
+                name: "Home"
             }
-        }).state('home.reservation', {
-            url: '/reservation',
+        }).state('home.bookingCart', {
+            url: '/bookingCart',
             views: {
                 "contentView": {
-                    templateUrl : 'modules/reservation/reservation.view.html',
-                    controller  : 'reservationController'
+                    templateUrl : 'modules/bookingCart/bookingCart.view.html',
+                    controller  : 'bookingCartController'
                 }
             },
             data: {
                 requireLogin: false,
                 readonly: false,
-                name: "Reservation"
+                name: "Booking Cart"
             }
 
         }).state('home.searchAir', {
