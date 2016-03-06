@@ -26,7 +26,7 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com/',
+  proxyHost: 'http://www.avaea.com/',
   proxyPort: 80,
   explicitHost: 'localhost',
   /***************************************************************************
