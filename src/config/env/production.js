@@ -25,8 +25,8 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 8000,
-  proxyHost: 'http://www.avaea.com/',
+  port: 9000,
+  proxyHost: 'http://stage.avaea.com/',
   proxyPort: 80,
   explicitHost: 'localhost',
   /***************************************************************************
