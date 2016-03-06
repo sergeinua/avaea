@@ -130,7 +130,7 @@ module.exports = {
         algorithm = 'getTilesDataEmpty';
       }
       // TODO: this tmp function should be replaced with real smart ranking
-      tmpSmartRank(found, function(err, found) {
+      tmpSmartRank(itineraries, function(err, itineraries) {
         Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
           UserAction.saveAction(req.user, 'order_tiles', tiles);
           var itinerariesData = {
