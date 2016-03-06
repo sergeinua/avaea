@@ -69,6 +69,7 @@ module.exports = {
     Profile.findOneByUserId(req.user.id).exec(function (err, found) {
       if (!found) {
         sails.log.error('User not found', JSON.stringify(req.user));
+        return res.json({'checked': false});
       } else {
           var _res =  _.find(found.milesPrograms, {"airlineName": req.param('airlineName')});
           if (_res) {
@@ -87,35 +88,55 @@ module.exports = {
      */
   addMilesPrograms: function (req, res) {
       Profile.findOneByUserId(req.user.id).exec(function (err, found) {
+        var airlineName   = req.param('airlineName'),
+            accountNumber = req.param('accountNumber') || '',
+            flierMiles    = req.param('flierMiles') || '',
+            expirationDate= req.param('expirationDate') || '';
+        if (!airlineName) {
+          return res.json({error: 'Not valid params.'});
+        }
+
+        var milesPrograms = {
+          airlineName:      airlineName,
+          accountNumber:    accountNumber,
+          flierMiles:       flierMiles,
+          expirationDate:   expirationDate
+        };
+
         if (!found) {
-              sails.log.error('User not found', JSON.stringify(req.user));
+          var data = {
+            user: req.user.id,
+            milesPrograms: [milesPrograms]
+          };
+          Profile.create(data, function (err, record) {
+            if (err) {
+              sails.log.error('Error Create Profile', JSON.stringify(err), JSON.stringify(req.user));
+              return res.json({error: err});
+            }
+            return res.json({'success': true});
+          });
+        } else {
+          var ind =  _.findIndex(found.milesPrograms, {"airlineName": req.param('airlineName')});
+          if (ind != -1) {
+            var _res = found.milesPrograms[ind];
+            _.merge(found.milesPrograms[ind], {
+                airlineName:      airlineName,
+                accountNumber:    accountNumber || _res.accountNumber || '',
+                flierMiles:       flierMiles || _res.flierMiles || '',
+                expirationDate:   expirationDate || _res.expirationDate || ''
+            });
+
           } else {
-              var ind =  _.findIndex(found.milesPrograms, {"airlineName": req.param('airlineName')});
-              if (ind != -1) {
-                  var _res = found.milesPrograms[ind];
-                  found.milesPrograms[ind] = _.merge(found.milesPrograms[ind], {
-                      airlineName:      _res.airlineName,
-                      accountNumber:    req.param('accountNumber') || _res.accountNumber || '',
-                      flierMiles:       req.param('flierMiles') || _res.flierMiles || '',
-                      expirationDate:   req.param('expirationDate') || _res.expirationDate || ''
-                  });
-
-              } else {
-                  found.milesPrograms.push({
-                      airlineName:      req.param('airlineName'),
-                      accountNumber:    req.param('accountNumber') || '',
-                      flierMiles:       req.param('flierMiles') || '',
-                      expirationDate:   req.param('expirationDate') || ''
-                  });
-              }
-
-              Profile.update({user:req.user.id}, found).exec(function (err, record) {
-                  if (err) {
-                      return res.json({error: err});
-                  }
-                  return res.json({'success': true});
-              });
+            found.milesPrograms.push(milesPrograms);
           }
+
+          Profile.update({user:req.user.id}, found).exec(function (err, record) {
+            if (err) {
+              return res.json({error: err});
+            }
+            return res.json({'success': true});
+          });
+        }
       });
   },
 

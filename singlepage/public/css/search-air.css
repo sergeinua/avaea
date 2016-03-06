@@ -85,12 +85,20 @@
 }
 
 .flight-row div {
-    width: 100%;
+    /*width: 100%;*/
     float: left;
+}
+
+.flight-row > div {
+    display: table;
 }
 
 .flight-record {
     float: left;
+}
+
+.flight-record.button-padding {
+    padding-left: 30px;
 }
 
 .flight-row span {
@@ -117,4 +125,23 @@
 .flight-duration {
     min-width: 100px;
     margin-left: 20px;
+}
+
+.flight-equipment {
+    cursor: pointer;
+}
+
+.flight-classes {
+    max-width: 250px;
+    margin-right: 10px;
+}
+
+.flight-class {
+    cursor: pointer;
+    padding: 1px;
+}
+
+.flight-class.selected {
+    font-weight: bold;
+    background: lightgrey;
 }

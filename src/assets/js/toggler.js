@@ -174,29 +174,37 @@ $(document).ready(function() {
     });
 
     //tiles
+    var firstSelectionCount = {};
+    var globalSelectionCount = 0;
+    var numberOfTiles = $('.mybucket').length;
+
     $('.list-group-item').click(function(event) {
         if ($(this).hasClass('disabled')) {
             return false;
         }
+        var tileId = $(this).parent().parent().find('a').attr('id');
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             var filters = $('.selectedfilters').attr('filters');
             filters = filters.split(' ');
 
+            //Check if the very last bucket in a tile is unselected
+            var needRecalculate = !$(this).siblings('.selected').length;
+            // log to abo
             logAction('on_tile_choice', {
-                action    : 'filter_remove',
-                tileName  : $(this).parent().parent().find('a').attr('id'),
-                tileValue : $(this).html(),
-                tileId    : $(this).attr('for')
+                action         : 'filter_remove',
+                tileName    : tileId,
+                tileValue     : $(this).html(),
+                tileId           : $(this).attr('for'),
+                sample       : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+                recalculate : needRecalculate
             });
             var result = [];
             var current = $(this).attr('for');
             if (filters.length) {
-//              $('.itinerary').show();
               filters.forEach(function(filter) {
                 if (filter && filter != current && filter != '') {
                   result.push(filter);
-//                  $('.itinerary:visible').not('.' + filter).hide();
                 }
               });
 
@@ -204,16 +212,23 @@ $(document).ready(function() {
             }
         } else {
             $(this).addClass('selected');
-//            $('.itinerary:visible').not('.' + $(this).attr('for')).hide();
             var filters = $('.selectedfilters').attr('filters');
             $('.selectedfilters').attr('filters', filters + ' ' + $(this).attr('for'));
-            // recalculate search result
+
+             // Check if the very first bucket in a tile is selected
+            var needRecalculate = !$(this).siblings('.selected').length;
+            globalSelectionCount++;
+            if (needRecalculate) {
+              firstSelectionCount[ tileId ] = globalSelectionCount;
+            }
             // log to abo
             logAction('on_tile_choice', {
-                action    : 'filter_add',
-                tileName  : $(this).parent().parent().find('a').attr('id'),
-                tileValue : $(this).html(),
-                tileId    : $(this).attr('for')
+                action         : 'filter_add',
+                tileName    : tileId,
+                tileValue     : $(this).html(),
+                tileId           : $(this).attr('for'),
+                sample       : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+                recalculate : needRecalculate
             });
 
             var current = $(this).attr('for');
@@ -221,9 +236,7 @@ $(document).ready(function() {
                 checkAirlineFlierMilesProgram(current);
             }
         }
-//        var sCount = $('.itinerary:visible').length;
-//        $('#search_count').text(sCount);
-//        $('#search_count').removeClass('hidden');
+        // recalculate search result
         filterItineraries();
     });
 
@@ -354,11 +367,11 @@ $(document).ready(function() {
     });
 
     var cancelMilesPrograms = function () {
-        $('#AFFMP').addClass('hidden');
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
-        $('#buy_button').removeClass('hidden');
-        $('#tiles_ui').css('display', 'table');
         var _fieldset = $('#AFFMP');
+        _fieldset.addClass('hidden');
+        $('#buy_button, #searchResultData, nav.navbar').removeClass('hidden');
+        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+        $( window ).trigger('resize');
         $('input[name=airlineName]', _fieldset).val('');
         $('input[name=accountNumber]', _fieldset).val('');
         $('input[name=flierMiles]', _fieldset).val('');
@@ -381,7 +394,7 @@ $(document).ready(function() {
             })
             .done(function( msg ) {
                 if (msg && !msg.checked) {
-                    $('#buy_button').addClass('hidden');
+                    $('#buy_button, #searchResultData, nav.navbar').addClass('hidden');
                     $('body').css('padding-top', 0);
                     _fieldset.removeClass('hidden');
                 }

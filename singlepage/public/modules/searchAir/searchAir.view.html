@@ -1,4 +1,4 @@
-﻿<div ng-controller="searchAirController" class="search-air" layout="column" layout-padding layout-wrap layout-fill ng-cloak>
+﻿<div class="search-air" layout="column" layout-padding layout-wrap layout-fill ng-cloak>
 
     <div ng-cloak>
 
@@ -106,12 +106,21 @@
                                     <md-list-item class="flight-row md-3-line" ng-repeat="flight in direction.Flight">
 
                                         <div class="md-list-item-text" layout="column">
-                                            <md-button aria-label="Show Price Dialog" class="md-fab md-primary flight-price" ng-click="showPriceDialog($event, flight)">
-                                                <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
-                                            </md-button>
 
                                             <div class="flight-record" ng-if="!hasTransfer(flight)">
+
+                                                <md-button aria-label="Show Price Dialog" class="md-fab md-primary flight-price" ng-click="showPriceDialog($event, flight)">
+                                                    <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+                                                </md-button>
+
                                                 <span class="flight-number">{{flight.Segment.Carrier.AirlineCode}} {{flight.Segment.Carrier.FlightNumber}}</span>
+
+                                                <div class="flight-classes">
+                                                    <span class="flight-class" ng-class="{'selected' : $index == 0}" classofservice="{{class.$t}}" ng-repeat="class in flight.Segment.Classes.ClassOfService track by $index"
+                                                            ng-click="selectClassOfService($event)">
+                                                        {{class.$t}}{{class.Status}}
+                                                    </span>
+                                                </div>
 
                                                 <span class="flight-apts">
                                                     <span class="flight-time">{{flight.Segment.Departure.Time}}</span> <span>{{flight.Segment.Departure.AirportCode}}</span>
@@ -120,12 +129,28 @@
                                                 </span>
 
                                                 <span class="flight-duration">{{flight.Segment.FlightDuration}}&nbsp;</span>
-                                                <span class="flight-equipment">{{flight.Segment.Equipment.Code}}</span>
+                                                <span class="flight-equipment">
+                                                    {{flight.Segment.Equipment.Code}}
+                                                    <md-tooltip>{{flight.Segment.Equipment.Name}}</md-tooltip>
+                                                </span>
                                                 <span class="flight-source">{{flight.Segment.Source}}</span>
                                             </div>
 
-                                            <div class="flight-record" ng-if="hasTransfer(flight)" ng-repeat="fl in flight.Segment">
+                                            <div class="flight-record" ng-class="{'button-padding' : $index != 0}" ng-if="hasTransfer(flight)" ng-repeat="fl in flight.Segment track by $index">
+
+                                                <md-button ng-hide="$index != 0" ng-show="$index == 0" aria-label="Show Price Dialog" class="md-fab md-primary flight-price" ng-click="showPriceDialog($event, flight)">
+                                                    <md-icon md-svg-src="img/svg/menu.svg"></md-icon>
+                                                </md-button>
+
                                                 <span class="flight-number">{{fl.Carrier.AirlineCode}} {{fl.Carrier.FlightNumber}}</span>
+
+                                                <div class="flight-classes">
+                                                    <span class="flight-class" ng-class="{'selected' : $index == 0}" classofservice="{{class.$t}}" ng-repeat="class in fl.Classes.ClassOfService"
+                                                          ng-click="selectClassOfService($event)">
+                                                        {{class.$t}}{{class.Status}}
+                                                    </span>
+                                                </div>
+
 
                                                 <span class="flight-apts">
                                                     <span class="flight-time">{{fl.Departure.Time}}</span> <span>{{fl.Departure.AirportCode}}</span>
@@ -134,7 +159,10 @@
                                                 </span>
 
                                                 <span class="flight-duration">{{fl.FlightDuration}}&nbsp;</span>
-                                                <span class="flight-equipment">{{fl.Equipment.Code}}</span>
+                                                <span class="flight-equipment">
+                                                    {{fl.Equipment.Code}}
+                                                    <md-tooltip>{{fl.Equipment.Name}}</md-tooltip>
+                                                </span>
                                                 <span class="flight-source">{{fl.Source}}</span>
                                             </div>
                                         </div>
