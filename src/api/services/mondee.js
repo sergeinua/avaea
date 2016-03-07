@@ -558,7 +558,6 @@ module.exports = {
       }
       else {
         var req = getFlightBookingRq(guid, params);
-        sails.log.info("__req: ", util.inspect(req, {showHidden: true, depth: null}));
 
         return client.BookItinerary(req, function(err, result, raw, soapHeader) {
 
@@ -567,18 +566,6 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          //__result: { TPContext:
-          //{ messageId: '5bed6b85-98c0-4e33-895f-184cb85df51c',
-          //  correlationId: 'bc8ed7c3-36c0-4da5-bea1-c9109b6e568f-mondee',
-          //  clientId: 'CFS1017',
-          //  processingTime: '95' },
-          //  TPErrorList:
-          //  { TPError:
-          //  { errorCode: 'BE003',
-          //    errorType: 'APPLICATION',
-          //    errorText: 'PaxDetails Incomplete',
-          //    errorDetail: [Object] } },
-          //  BookItineraryResponse: {} }
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || _.isEmpty(result.BookItineraryResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to flightBooking';

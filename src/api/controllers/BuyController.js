@@ -34,7 +34,6 @@ module.exports = {
             reqParams[prop] = found[profileFields[prop]];
         }
       }
-      //sails.log.info("__params all:", req.params.all());
 
       var id = req.param('id');
 
@@ -80,7 +79,6 @@ module.exports = {
   },
 
   booking: function (req, res) {
-    sails.log.info("__params:", util.inspect(req.allParams(), {showHidden: true, depth: null}));
     req.session.time_log = [];
 
     // for API argument
@@ -88,8 +86,6 @@ module.exports = {
     params.session = req.session;
 
     var parseFlightBooking = function (err, result) {
-      sails.log.info("__err booking:", util.inspect(err, {showHidden: true, depth: null}));
-      sails.log.info("__result booking:", util.inspect(result, {showHidden: true, depth: null}));
 
       if (err) {
         req.session.flash = err;
@@ -103,8 +99,6 @@ module.exports = {
 
       // At this moment we must cancel booked itinerary for money safe
       mondee.cancelPnr(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, {PNR: result.PNR, session: req.session}, function(err2, result2) {
-        sails.log.info("__err cancel:", util.inspect(err2, {showHidden: true, depth: null}));
-        sails.log.info("__result cancel:", util.inspect(result2, {showHidden: true, depth: null}));
         if(err2)
           res.locals.errors = [err2]; //will display by layout
         else
