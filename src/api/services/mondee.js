@@ -558,6 +558,7 @@ module.exports = {
       }
       else {
         var req = getFlightBookingRq(guid, params);
+        sails.log.info("flightBooking request:", util.inspect(req, {showHidden: true, depth: null}));
 
         return client.BookItinerary(req, function(err, result, raw, soapHeader) {
 
