@@ -26,8 +26,8 @@ module.exports = {
    ***************************************************************************/
 
   port: 8080,
-  proxyHost: 'http://ec2-52-24-104-220.us-west-2.compute.amazonaws.com',
-  proxyPort: 8080,
+  proxyHost: 'http://abo.avaea.com',
+  proxyPort: 80,
   explicitHost: 'localhost',
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *

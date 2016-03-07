@@ -24,8 +24,8 @@ avaeaStandaloneApp.service('MenuService', MenuService);
             common: [
                 {
                     icon: imagePath,
-                    id: 'home.reservation',
-                    name: 'Reservations'
+                    id: 'home.bookingCart',
+                    name: 'Booking Cart'
                 },
                 {
                     icon: imagePath,

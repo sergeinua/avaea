@@ -31,7 +31,7 @@
                                   ng-class="{'menu-active': getClass(currentState.curr) == item.id, 'menu-item-disabled': item.disabled}">
 
                                 <div ng-hide="item.disabled" class="md-list-item-text" layout="column" ng-click="close(); gotoMenuItem(item);">
-                                    <a class="menu-item" hre="#">{{ item.name }}</a>
+                                    <span class="menu-item" href="#">{{ item.name }}</span>
                                 </div>
 
                                 <div ng-hide="!item.disabled" class="md-list-item-text" layout="column">
@@ -50,7 +50,7 @@
                                   ng-class="{'menu-active': getClass(currentState.curr) == item.id, 'menu-item-disabled': item.disabled}">
 
                                 <div ng-hide="item.disabled" class="md-list-item-text" layout="column" ng-click="close(); gotoMenuItem(item);">
-                                    <a class="menu-item" hre="#">{{ item.name }}</a>
+                                    <span class="menu-item" hre="#">{{ item.name }}</span>
                                 </div>
 
                                 <div ng-hide="!item.disabled" class="md-list-item-text" layout="column">
