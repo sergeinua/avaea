@@ -346,7 +346,36 @@ $(document).ready(function() {
         };
     };
 
-    $('#originAirport, #destinationAirport').typeahead({
+  var drawAirportData = function (target) {
+   var cityName = $('#' + target).attr('city');
+   var airportCode = $('#' + target).val();
+    if (target == 'originAirport') {
+      if (airportCode) {
+        $('#from-area').addClass('hidden');
+        $('#from-area-selected').removeClass('hidden');
+        $('#from-airport-selected').text(airportCode);
+        $('#from-city-selected').text(cityName);
+      } else {
+        $('#from-area-selected').addClass('hidden');
+        $('#from-area').removeClass('hidden');
+        $('#from-airport-selected').text('');
+        $('#from-city-selected').text('');
+      }
+    } else if (target == 'destinationAirport') {
+      if (airportCode) {
+        $('#to-area').addClass('hidden');
+        $('#to-area-selected').removeClass('hidden');
+        $('#to-airport-selected').text(airportCode);
+        $('#to-city-selected').text(cityName);
+      } else {
+        $('#to-area-selected').addClass('hidden');
+        $('#to-area').removeClass('hidden');
+        $('#to-airport-selected').text('');
+        $('#to-city-selected').text('');
+      }
+    }
+  };
+    $('#airport-input').typeahead({
       hint: true,
       highlight: true,
       minLength: 2
@@ -365,6 +394,16 @@ $(document).ready(function() {
                 return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
             }
         }
+    }).on('typeahead:selected', function (obj, datum) {
+      $('#' + $(this).attr('target')).val(datum.value);
+      $('#' + $(this).attr('target')).attr('city', datum.city);
+      $('#search_title').addClass('hidden');
+      $('.main').removeClass('hidden');
+      $('#main_title').removeClass('hidden');
+      $('#airport-input').val('');
+      $('#airport-input').typeahead('val','');
+      //$('#airport-input').typeahead('setQuery', '');
+      drawAirportData($(this).attr('target'));
     });
     $('.tt-hint').addClass('form-control');
 
@@ -625,6 +664,8 @@ $(document).ready(function() {
   });
 
   function changeFlightTab(type) {
+    var hasFrom = !!$('#originAirport').val();
+    var hasTo = !!$('#destinationAirport').val();
     switch (type) {
       case 'round_trip':
         $('.flight-direction-item-comming-soon').addClass('hidden');
@@ -632,11 +673,21 @@ $(document).ready(function() {
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&#8596;');
         $($('.flight-date-info-item')[1]).removeClass('hide');
+        if (hasFrom) {
+          $('#from-area').addClass('hidden');
+          $('#from-area-selected').removeClass('hidden');
+        }
+        if (hasTo) {
+          $('#to-area').addClass('hidden');
+          $('#to-area-selected').removeClass('hidden');
+        }
         break;
       case 'multi_city':
         $('.flight-direction-item-comming-soon').removeClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').addClass('hidden');
+        $('#from-area-selected').addClass('hidden');
+        $('#to-area-selected').addClass('hidden');
         break;
       case 'one_way':
         $('.flight-direction-item-comming-soon').addClass('hidden');
@@ -644,6 +695,14 @@ $(document).ready(function() {
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&rarr;');
         $($('.flight-date-info-item')[1]).addClass('hide');
+        if (hasFrom) {
+          $('#from-area').addClass('hidden');
+          $('#from-area-selected').removeClass('hidden');
+        }
+        if (hasTo) {
+          $('#to-area').addClass('hidden');
+          $('#to-area-selected').removeClass('hidden');
+        }
         break;
     }
   }
@@ -688,10 +747,32 @@ $(document).ready(function() {
     $(this).text(serviceClass[newValue]);
   });
 
+  $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
+    $('#main_title').addClass('hidden');
+    $('.main').addClass('hidden');
+    $('#search_title').removeClass('hidden');
+    if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
+      $('#airport-input').attr('target', 'originAirport');
+    } else {
+      $('#airport-input').attr('target', 'destinationAirport');
+    }
+  });
+
+  $('#search_button_top').on('click', function () {
+    $('#search_title').addClass('hidden');
+    $('.main').removeClass('hidden');
+    $('#main_title').removeClass('hidden');
+    $('#airport-input').val('');
+    $('#airport-input').typeahead('val','');
+  });
+
   // search form init
   {
     var choosenTab = $('.flight-type-item.active-choice').attr('id');
     changeFlightTab(choosenTab);
+    drawAirportData('originAirport');
+    drawAirportData('destinationAirport');
   }
+
 
 });

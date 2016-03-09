@@ -28,12 +28,22 @@
 
   <div class="flight-direction">
     <div class="row text-center" style="padding-top:70px; left:50%; width:300px;margin-left: -150px;position: fixed;">
-      <div class="col-xs-5 flight-direction-item"><span>+</span>
+      <div id="from-area" class="col-xs-5 flight-direction-item"><span>+</span>
         <div class="flight-direction-item-from-to"><%=__('from')%></div>
       </div>
+      <div id="from-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
+        <div class="flight-direction-item-from-to"><%=__('from')%></div>
+        <span id="from-airport-selected"></span>
+        <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
+      </div>
       <div class="col-xs-2 flight-direction-item-arrow">&rarr;</div>
-      <div class="col-xs-5 flight-direction-item">+
+      <div id="to-area" class="col-xs-5 flight-direction-item"><span>+</span>
         <div class="flight-direction-item-from-to"><%=__('to')%></div>
+      </div>
+      <div id="to-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
+        <div class="flight-direction-item-from-to"><%=__('to')%></div>
+        <span id="to-airport-selected"></span>
+        <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
       </div>
       <div class="col-xs-5 flight-direction-item-comming-soon hidden"><%= __('Comming soon')%></div>
     </div>
