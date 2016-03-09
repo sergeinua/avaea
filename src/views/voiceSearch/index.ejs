@@ -1,0 +1,110 @@
+
+<section class="voiceSearch">
+
+    <div class="searchBox">
+      <div class="si-wrapper">
+        <input type="text" class="si-input" placeholder="Enter/dictate a flight request" name="voiceSearch" />
+        <button class="si-btn">
+          speech input
+          <span class="si-mic"></span>
+          <span class="si-holder"></span>
+        </button>
+      </div>
+      <div class="glyphicon glyphicon-search" title="Search" id="voiceSearch"></div>
+      <div class="glyphicon glyphicon-remove" title="Clear" id="voiceClear"></div>
+    </div>
+
+<div id="result"></div>
+
+  <form action="/result" method="post" id="search_form">
+    <div class="form-group col-sm-6">
+      <label for="originAirport">Departing from</label>
+      <input type="text" name="originAirport" id="originAirport" class="form-control typeahead"
+             placeholder="<%= defaultParams.DepartureLocationCode %>" value="<%= defaultParams.DepartureLocationCode %>"
+             required autofocus autocomplete="off"/>
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="destinationAirport" class="control-label">Arriving to</label>
+      <input type="text" name="destinationAirport" id="destinationAirport" class="form-control typeahead"
+             placeholder="<%= defaultParams.ArrivalLocationCode %>" value="<%= defaultParams.ArrivalLocationCode %>"
+             required autocomplete="off"/>
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="departureDate" class="control-label">Departure Date</label>
+      <input type="date" name="departureDate" value="<%= defaultParams.departureDate %>" id="departureDate"
+             class="form-control typeahead" placeholder="yyyy-mm-dd" required/>
+    </div>
+    <div class="form-group col-sm-6">
+      <label for="returnDate" class="control-label">Return Date<span class="hidden-xs" style="color: gray"> (leave blank for one way trips)</span></label>
+      <input type="date" name="returnDate" id="returnDate" class="form-control typeahead" placeholder="yyyy-mm-dd"/>
+    </div>
+    <div class="form-group col-sm-12">
+      <label for="preferedClass" class="control-label">Class of sevice</label><br/>
+
+      <div class="btn-group" data-toggle="buttons">
+        <% // Service class radio buttons group
+                for(var idx in serviceClass) {
+          var checked = false;
+          if (idx == 'E' && _.isEmpty(defaultParams.CabinClass)) {
+            checked = true;
+          }
+          else if (defaultParams.CabinClass == idx) {
+            checked = true;
+          }
+        %>
+        <label class="btn btn-default <% if(checked) { %>active<% } %>">
+          <input type="radio" name="preferedClass" id="serviceclass_<%= idx.toLowerCase() %>" autocomplete="off"
+                 value="<%= idx.toLowerCase() %>" <% if(checked) { %>checked
+                  <% } %>
+                  > <%= serviceClass[idx] %>
+        </label>
+        <% } %>
+      </div>
+    </div>
+
+    <style>
+      body {
+        padding-bottom: 33px;
+      }
+    </style>
+
+    <div class="container" id="search_button">
+      <nav class="navbar navbar-default navbar-fixed-bottom"
+           style="min-height:33px !important; margin-bottom: 0 !important;">
+        <div class="container-fluid">
+          <button type="submit" class="btn btn-sm btn-primary btn-block">Search</button>
+        </div>
+      </nav>
+    </div>
+  </form>
+</section>
+
+<div class="modal"></div>
+<style>
+  .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+    url('../images/ajax-loader.gif')
+    50% 50%
+    no-repeat;
+  }
+
+  /* When the body has the loading class, we turn
+     the scrollbar off with overflow:hidden */
+  body.loading {
+    overflow: hidden;
+  }
+
+  /* Anytime the body has the loading class, our
+     modal element will be visible */
+  body.loading .modal {
+    display: block;
+  }
+</style>
+
