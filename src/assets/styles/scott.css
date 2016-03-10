@@ -9,6 +9,11 @@
 }
 
 @font-face {
+  font-family: WhitneyHTF-Book;
+  src: url('../fonts/WhitneyHTF-Book.otf');
+}
+
+@font-face {
   font-family: WhitneyHTF-BookCondensed;
   src: url('../fonts/WhitneyHTF-BookCondensed.otf');
 }
@@ -19,7 +24,7 @@
 }
 
 body {
-  background-color: #eeeeee;
+  background-color: #F2F5F8;
   color: #333333;
 }
 
@@ -28,6 +33,7 @@ body {
   margin-left:  -15px;
   margin-right: -15px;
   padding-left: 15px;
+  padding-right: 15px;
 }
 
 .navbar-default {
@@ -46,8 +52,11 @@ body {
 .navbar-header {
   background-color: #101742;
   color: white;
+  font-family: WhitneyHTF-MediumCondensed;
 }
-
+.navbar-default .navbar-toggle {
+  margin-right: 0;
+}
 .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
   border: 0;
   background-color: transparent;
@@ -625,4 +634,94 @@ body.loading .modal {
   letter-spacing: 0.3px;
   color: #ffffff;
   text-transform: uppercase;
+}
+
+#date_select_main {
+  font-family: WhitneyHTF-Book;
+}
+
+#date_select_main .row.depart, #date_select_main .row.return {
+  margin-top: 25px;
+}
+
+#date_select p.header {
+  margin: 5px 0 0 10px;
+  font-size: 14px;
+  font-family: WhitneyHTF-MediumCondensed;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  color: #6F738D;
+}
+#date_select p.info {
+  margin: 0 0 0 10px;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+
+.date_select-button {
+  width: 80px;
+  height: 40px;
+  margin: 10px;
+  background-color: #ff2600;
+  border-radius: 0;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 20px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: 0;
+}
+
+.datepicker .picker-switch {
+  font-weight: normal;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 20px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #101742;
+}
+
+.datepicker table td.day {
+  background-color: #ffffff !important;
+}
+
+.datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
+  background-color: #ffe03f !important;
+  border-radius: 0;
+  color: #101742 !important;
+}
+
+.datepicker table td.today:before {
+  display: none !important;
+}
+
+.datepicker table tr {
+  border-bottom: 1px solid #e8e8e8;
+}
+.datepicker table td.day {
+  line-height: 28px !important;
+}
+
+.datepicker table td.day.old,
+.datepicker table td.day.new {
+  background-color: #FFFBEB !important;
+}
+
+.datepicker table td.day.disabled.old,
+.datepicker table td.day.disabled.new {
+  background-color: inherit !important;
+}
+
+.datepicker table th.disabled,
+.datepicker table th.disabled:hover,
+.datepicker table td.disabled,
+.datepicker table td.disabled:hover {
+  background: none !important;
+}
+
+.bootstrap-datetimepicker-widget table td,
+.bootstrap-datetimepicker-widget table th {
+  border-radius: 0 !important;
 }
