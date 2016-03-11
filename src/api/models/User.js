@@ -6,6 +6,12 @@ var User = {
   attributes: {
     username  : { type: 'string', unique: true },
     email     : { type: 'email',  unique: true },
+    is_whitelist : {
+      type: 'integer',
+      required: true,
+      defaultsTo: 0,
+      enum: [0, 1] // access to whitelist: 1=enable; 0=disable
+    },
     passports : { collection: 'Passport', via: 'user' },
     searches  : { collection: 'Search', via: 'user' }
   }

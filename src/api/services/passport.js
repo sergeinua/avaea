@@ -66,6 +66,27 @@ passport.connect = function (req, query, profile, next) {
   var user = {}
     , provider;
 
+  /**
+   * Default white list. Used if DB error
+   *
+   * @type {string[]}
+   * @private
+   */
+  var _default_whitelist = [
+    '[^@]+?@avaea\.com',
+    //'constfilin@gmail\.com',
+    //'v\.mustafin@gmail\.com',
+    //'eugene\.tokarev@gmail\.com',
+    //'igor\.markov1@gmail\.com',
+    //'scottinsfbay@gmail\.com',
+    //'olmiha@gmail\.com',
+    //'germiy@gmail\.com',
+    //'manoj\.mystifly@gmail\.com',
+    //'igorya\.inscriptio@gmail\.com',
+    //'valentine\.kaminskiy@gmail\.com',
+    //'wkspilman@gmail\.com'
+  ];
+
   // Get the authentication provider from the query.
   query.provider = req.param('provider');
 
@@ -89,98 +110,202 @@ passport.connect = function (req, query, profile, next) {
     user.username = profile.username;
   }
 
-  if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottinsfbay@gmail\.com|olmiha@gmail\.com|germiy@gmail\.com|manoj\.mystifly@gmail\.com|igorya\.inscriptio@gmail\.com|valentine\.kaminskiy@gmail\.com|wkspilman@gmail\.com)$/.exec(user.email)) {
-    req.flash('error', 'Email '+user.email+' not in whitelist');
-    return next(new Error('Email '+user.email+' not in whitelist'));
-  }
+  //if (!/^([^@]+?@avaea\.com|constfilin@gmail\.com|v\.mustafin@gmail\.com|eugene\.tokarev@gmail\.com|igor\.markov1@gmail\.com|scottinsfbay@gmail\.com|olmiha@gmail\.com|germiy@gmail\.com|manoj\.mystifly@gmail\.com|igorya\.inscriptio@gmail\.com|valentine\.kaminskiy@gmail\.com|wkspilman@gmail\.com)$/.exec(user.email)) {
+  //  req.flash('error', 'Email '+user.email+' not in whitelist');
+  //  return next(new Error('Email '+user.email+' not in whitelist'));
+  //}
+
+  async.waterfall([
+
+      /**
+       * Check user and passport data. Create or save in DB
+       *
+       * @param {function} callback
+       */
+      function(callback) {
+        Passport.findOne({
+          provider   : provider
+          , identifier : query.identifier.toString()
+        }, function (err, passport) {
+          if (err) {
+            //return next(err);
+            callback(err);
+            return;
+          }
+
+          if (!req.user) {
+            sails.log.info("__isNotUser, passport:", passport);
+            // Scenario: A new user is attempting to sign up using a third-party
+            //           authentication provider.
+            // Action:   Create a new user and assign them a passport.
+            if (!passport) {
+              User.create(user, function (err, user) {
+                if (err) {
+                  if (err.code === 'E_VALIDATION') {
+                    if (err.invalidAttributes.email) {
+                      //req.flash('error', 'Error.Passport.Email.Exists');
+                      err = 'Error.Passport.Email.Exists';
+                    }
+                    else {
+                      //req.flash('error', 'Error.Passport.User.Exists');
+                      err = 'Error.Passport.User.Exists';
+                    }
+                  }
+
+                  //return next(err);
+                  callback(err);
+                  return;
+                }
+
+                query.user = user.id;
+
+                Passport.create(query, function (err, passport) {
+                  // If a passport wasn't created, bail out
+                  if (err) {
+                    //return next(err);
+                    callback(err);
+                    return;
+                  }
+
+                  //next(err, user);
+                  callback(null, user);
+                });
+              });
+            }
+            // Scenario: An existing user is trying to log in using an already
+            //           connected passport.
+            // Action:   Get the user associated with the passport.
+            else {
+              // If the tokens have changed since the last session, update them
+              if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
+                passport.tokens = query.tokens;
+              }
+
+              // Save any updates to the Passport before moving on
+              passport.save(function (err, saved) {
+                if (err) {
+                  //return next(err);
+                  callback(err);
+                  return;
+                }
+
+                // Fetch the user associated with the Passport
+                //User.findOne(passport.user.id, next);
+                User.findOne({id: passport.user})
+                  .exec(function (err, result) {
+                    sails.log.info("__isNotUser, err, user:", err, result);
+                    if (err) {
+                      callback(err);
+                      return;
+                    }
+
+                    callback(null, result);
+                  });
+              });
+            }
+          } else {
+            sails.log.info("__isUser:", req.user);
+            sails.log.info("__passport:", passport);
+            // Scenario: A user is currently logged in and trying to connect a new
+            //           passport.
+            // Action:   Create and assign a new passport to the user.
+            if (!passport) {
+              query.user = req.user.id;
+
+              Passport.create(query, function (err, passport) {
+                // If a passport wasn't created, bail out
+                if (err) {
+                  //return next(err);
+                  callback(err);
+                  return;
+                }
+
+                //next(err, req.user);
+                callback(null, req.user);
+              });
+            }
+            // Scenario: The user is a nutjob or spammed the back-button.
+            // Action:   Simply pass along the already established session.
+            else {
+              //next(null, req.user);
+              callback(null, req.user);
+            }
+          }
+        });
+      },
+
+      /**
+       * Check whitelist access
+       *
+       * @param {object} genRes
+       * @param {function} callback
+       */
+      function(genRes, callback) {
+        User.findOne({email: user.email, is_whitelist: 1})
+          .exec(function (err, result) {
+            var _is_whitelist = 0;
+
+            sails.log.info("__user:", user);
+            sails.log.info("__err:", err);
+            sails.log.info("__result:", result);
+            // Check by default value
+            if (err) {
+              var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
+              if (_patt.exec(user.email)) {
+                _is_whitelist = 1;
+              }
+            }
+            else if (result) {
+              _is_whitelist = 1;
+            }
+
+            if (! _is_whitelist)
+              callback('Email ' + user.email + ' is not in the whitelist');
+            else
+              callback(null, genRes);
+          });
+      },
+
+      /**
+       * Check existence of the username and email
+       *
+       * @param {object} genRes
+       * @param {function} callback
+       */
+      function(genRes, callback) {
+        if (!user.username && !user.email) {
+          callback('Neither a username nor email was available');
+        }
+        else
+          callback(null, genRes);
+      }
+    ],
+
+    function(err, result) {
+      if(err) {
+        if(typeof err == "string") {
+          req.flash('error', err);
+          return next(new Error(err));
+        }
+        else
+          return next(err);
+      }
+      else if (result)
+        return next(null, result);
+      else {
+        var _errstr = "Unknown result in the passport.connect";
+        sails.log.error(_errstr);
+        return next(new Error(_errstr));
+      }
+    }
+  );
+
   // If neither an email or a username was available in the profile, we don't
   // have a way of identifying the user in the future. Throw an error and let
   // whoever's next in the line take care of it.
-  if (!user.username && !user.email) {
-    return next(new Error('Neither a username nor email was available'));
-  }
-
-  Passport.findOne({
-    provider   : provider
-  , identifier : query.identifier.toString()
-  }, function (err, passport) {
-    if (err) {
-      return next(err);
-    }
-
-    if (!req.user) {
-      // Scenario: A new user is attempting to sign up using a third-party
-      //           authentication provider.
-      // Action:   Create a new user and assign them a passport.
-      if (!passport) {
-        User.create(user, function (err, user) {
-          if (err) {
-            if (err.code === 'E_VALIDATION') {
-              if (err.invalidAttributes.email) {
-                req.flash('error', 'Error.Passport.Email.Exists');
-              }
-              else {
-                req.flash('error', 'Error.Passport.User.Exists');
-              }
-            }
-
-            return next(err);
-          }
-
-          query.user = user.id;
-
-          Passport.create(query, function (err, passport) {
-            // If a passport wasn't created, bail out
-            if (err) {
-              return next(err);
-            }
-
-            next(err, user);
-          });
-        });
-      }
-      // Scenario: An existing user is trying to log in using an already
-      //           connected passport.
-      // Action:   Get the user associated with the passport.
-      else {
-        // If the tokens have changed since the last session, update them
-        if (query.hasOwnProperty('tokens') && query.tokens !== passport.tokens) {
-          passport.tokens = query.tokens;
-        }
-
-        // Save any updates to the Passport before moving on
-        passport.save(function (err, passport) {
-          if (err) {
-            return next(err);
-          }
-
-          // Fetch the user associated with the Passport
-          User.findOne(passport.user.id, next);
-        });
-      }
-    } else {
-      // Scenario: A user is currently logged in and trying to connect a new
-      //           passport.
-      // Action:   Create and assign a new passport to the user.
-      if (!passport) {
-        query.user = req.user.id;
-
-        Passport.create(query, function (err, passport) {
-          // If a passport wasn't created, bail out
-          if (err) {
-            return next(err);
-          }
-
-          next(err, req.user);
-        });
-      }
-      // Scenario: The user is a nutjob or spammed the back-button.
-      // Action:   Simply pass along the already established session.
-      else {
-        next(null, req.user);
-      }
-    }
-  });
+  //if (!user.username && !user.email) {
+  //  return next(new Error('Neither a username nor email was available'));
+  //}
 };
 
 /**
