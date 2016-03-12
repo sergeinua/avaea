@@ -20,22 +20,16 @@
   </head>
 
   <body>
-<div class="container" style="padding:0">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div id="main_title" class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><%=__('MENU')%><span class="glyphicon glyphicon-triangle-bottom"></span></button>
-          <a class="navbar-brand"><%= __('Avaea') %>
-            <!--<%if (!title) {
-              %><%= __('Avaea') %><%
-            } else {
-              %><%= title %><%
-            }
-            if (typeof searchResult != 'undefined') {
-              %><span class="hidden-xs">, Departure&nbsp;<%=searchParams.departureDate%><%
+          <a class="navbar-brand"><%= !title ? __('Avaea') : title %>
+            <!--<% if (typeof searchResult != 'undefined') {
+              %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
               if (searchParams.returnDate) {
-                %>, Return&nbsp;<%=searchParams.returnDate%><%
+                %>, Return&nbsp;<%= searchParams.returnDate %><%
               }
               %>, <%= searchParams.CabinClass %></span><%
             }
@@ -63,22 +57,22 @@
             <input id="airport-input" type="text" name="airport" target="" value=""/>
           </div>
           <div style="width:auto; float: left">
-            <button type="button" id="search_button_top" class="search_button_top_cancel"><%=__('CANCEL')%></button>
+            <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
           </div>
         </div>
       </div>
 
       <div id="date_select" class="container-fluid hidden">
-        <div class="navbar-header">
+        <div class="navbar-header" style="height: 54px; padding-top: 5px;">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-xs-8">
-                <p class="header"><%=__('Depart')%><span class="ret">/<%=__('Arrive')%></span></p>
+              <div class="col-xs-8" style="padding-left: 5px">
+                <p class="header"><%= __('Depart') %><span class="ret">/<%= __('Arrive') %></span></p>
                 <p class="info"><span class="dep">Sat 23 Jan</span><span class="ret"> – Tue 02 Feb</span></p>
               </div>
-              <div class="col-xs-4">
-                <div style="width:auto; float: right">
-                  <button type="button" id="date_select_top" class="date_select-button"><%=__('DONE')%></button>
+              <div class="col-xs-4" style="padding-right: 5px">
+                <div class="pull-right" style="margin-top: 2px">
+                  <button type="button" id="date_select_top" class="date_select-button"><%= __('DONE') %></button>
                 </div>
               </div>
             </div>
@@ -88,17 +82,15 @@
     </nav>
 
     <div id="date_select_main" class="container clearfix hidden">
-      <div style="overflow:hidden;">
-        <div class="form-group">
-          <div class="row depart">
-            <div class="col-md-8">
-              <div id="depart_picker"></div>
-            </div>
+      <div style="overflow:hidden;" class="row">
+        <div class="row depart">
+          <div class="col-md-8">
+            <div id="depart_picker"></div>
           </div>
-          <div class="row return">
-            <div class="col-md-8">
-              <div id="return_picker"></div>
-            </div>
+        </div>
+        <div class="row return">
+          <div class="col-md-8">
+            <div id="return_picker"></div>
           </div>
         </div>
       </div>
@@ -108,14 +100,13 @@
       <% if (typeof errors != 'undefined') {%>
         <% errors.forEach(function (error) { %>
           <!--<div class="alert alert-danger" role="alert"><%= __(error) %></div>-->
-        <% }) %>
+        <% }); %>
       <% } %>
 
       <%- body %>
     </div>
-</div>
 
-<div class="modal"></div>
+    <div class="modal"></div>
 
     <!--
         Client-side Templates
