@@ -135,7 +135,7 @@ module.exports = {
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
 
-      if (true) { // Pruning itineraries experiment
+      if (false) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
@@ -158,38 +158,6 @@ module.exports = {
           var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
-        } else if (true) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end ////////////////
-          sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-          for (var i = 0; i < itineraries.length; i++) {
-            delete itineraries[i].smartRank;
-          }
-          cicstanford.compute_departure_times_in_minutes(itineraries);
-          cicstanford.determine_airline(itineraries);
-          var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-          var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
-          // append the default zero smartRank
-          for (var i = 0; i < itineraries.length; i++) {
-            itineraries[i].smartRank = 0;
-          }
-          // extract all the itinerary IDs into a separate array
-          var ID = itineraries.map(function (it) {
-            return it.id
-          });
-          // the itineraries remained after pruning have a non-zero smartRank
-          for (var i = 0; i < temp_ranked_in_4D.length; i++) {
-            var itin_id = temp_ranked_in_4D[i].id;
-            var itin_index = ID.indexOf(itin_id);
-            itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-          }
-          // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
-          var next_rank = temp_ranked_in_4D.length + 1;
-          for (var i = 0; i < itineraries.length; i++) {
-            if (itineraries[i].smartRank == 0) {
-              itineraries[i].smartRank = next_rank;
-              next_rank++;
-            }
-          }
-          cicstanford.print_many_itineraries(itineraries);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;
@@ -200,6 +168,36 @@ module.exports = {
     sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):');
     sails.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
+      /* Smart Ranking {{{ */
+      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      // append the default zero smartRank
+      for (var i = 0; i < itineraries.length; i++) {
+        itineraries[i].smartRank = 0;
+      }
+      // extract all the itinerary IDs into a separate array
+      var ID = itineraries.map(function (it) {
+        return it.id
+      });
+      // the itineraries remained after pruning have a non-zero smartRank
+      for (var i = 0; i < temp_ranked_in_4D.length; i++) {
+        var itin_id = temp_ranked_in_4D[i].id;
+        var itin_index = ID.indexOf(itin_id);
+        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+      }
+      // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
+      var next_rank = temp_ranked_in_4D.length + 1;
+      for (var i = 0; i < itineraries.length; i++) {
+        if (itineraries[i].smartRank == 0) {
+          itineraries[i].smartRank = next_rank;
+          next_rank++;
+        }
+      }
+      cicstanford.print_many_itineraries(itineraries);
+      /* }}} Smart Ranking */
 
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
@@ -650,7 +648,7 @@ module.exports = {
       delete tileArr['destinationDeparture'];
       delete tileArr['sourceArrival'];
 
-      if (true) { // Pruning itineraries experiment
+      if (false) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
@@ -681,38 +679,6 @@ module.exports = {
           var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
-        } else if (true) { // Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end
-          sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-          for (var i = 0; i < itineraries.length; i++) {
-            delete itineraries[i].smartRank;
-          }
-          cicstanford.compute_departure_times_in_minutes(itineraries);
-          cicstanford.determine_airline(itineraries);
-          var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-          var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
-          // append the default zero smartRank
-          for (var i = 0; i < itineraries.length; i++) {
-            itineraries[i].smartRank = 0;
-          }
-          // extract all the itinerary IDs into a separate array
-          var ID = itineraries.map(function (it) {
-            return it.id
-          });
-          // the itineraries remained after pruning have a non-zero smartRank
-          for (var i = 0; i < temp_ranked_in_4D.length; i++) {
-            var itin_id = temp_ranked_in_4D[i].id;
-            var itin_index = ID.indexOf(itin_id);
-            itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-          }
-          // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
-          var next_rank = temp_ranked_in_4D.length + 1;
-          for (var i = 0; i < itineraries.length; i++) {
-            if (itineraries[i].smartRank == 0) {
-              itineraries[i].smartRank = next_rank;
-              next_rank++;
-            }
-          }
-          cicstanford.print_many_itineraries(itineraries);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;
@@ -721,6 +687,36 @@ module.exports = {
 
     // Generic processing for both trips: round & one way
     if (itineraries) {
+      /* Smart Ranking {{{ */
+      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      // append the default zero smartRank
+      for (var i = 0; i < itineraries.length; i++) {
+        itineraries[i].smartRank = 0;
+      }
+      // extract all the itinerary IDs into a separate array
+      var ID = itineraries.map(function (it) {
+        return it.id
+      });
+      // the itineraries remained after pruning have a non-zero smartRank
+      for (var i = 0; i < temp_ranked_in_4D.length; i++) {
+        var itin_id = temp_ranked_in_4D[i].id;
+        var itin_index = ID.indexOf(itin_id);
+        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+      }
+      // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
+      var next_rank = temp_ranked_in_4D.length + 1;
+      for (var i = 0; i < itineraries.length; i++) {
+        if (itineraries[i].smartRank == 0) {
+          itineraries[i].smartRank = next_rank;
+          next_rank++;
+        }
+      }
+      cicstanford.print_many_itineraries(itineraries);
+      /* }}} Smart Ranking */
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
       Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
