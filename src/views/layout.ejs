@@ -21,12 +21,12 @@
 
   <body>
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div id="main_title" class="container-fluid">
+      <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><%=__('MENU')%><span class="glyphicon glyphicon-triangle-bottom"></span></button>
-          <a class="navbar-brand"><%= !title ? __('Avaea') : title %>
-            <!--<% if (typeof searchResult != 'undefined') {
+          <a class="navbar-brand"><%= __('Avaea') %>
+            <!--<%= !title ? __('Avaea') : title %><% if (typeof searchResult != 'undefined') {
               %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
               if (searchParams.returnDate) {
                 %>, Return&nbsp;<%= searchParams.returnDate %><%
@@ -51,7 +51,7 @@
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
 
-      <div id="search_title" class="container-fluid hidden">
+      <div id="search_title" class="hidden">
         <div class="navbar-header">
           <div style="width:auto; float: left">
             <input id="airport-input" type="text" name="airport" target="" value=""/>
@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <div id="date_select" class="container-fluid hidden">
+      <div id="date_select" class="hidden">
         <div class="navbar-header" style="height: 54px; padding-top: 5px;">
           <div class="container-fluid">
             <div class="row">
@@ -84,12 +84,12 @@
     <div id="date_select_main" class="container clearfix hidden">
       <div style="overflow:hidden;" class="row">
         <div class="row depart">
-          <div class="col-md-8">
+          <div class="col-xs-12">
             <div id="depart_picker"></div>
           </div>
         </div>
         <div class="row return">
-          <div class="col-md-8">
+          <div class="col-xs-12">
             <div id="return_picker"></div>
           </div>
         </div>

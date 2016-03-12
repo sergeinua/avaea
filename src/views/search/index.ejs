@@ -2,8 +2,8 @@
   <nav class="navbar navbar-default navbar-fixed-top"  style="border:0;margin-top:50px;z-index:10;">
     <div class="flight-type-form">
       <div class="row">
-        <div id="one_way" class="col-xs-4 flight-type-item active-choice"><%= __('One way')%></div>
-        <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip')%></div>
+        <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
+        <div id="round_trip" class="col-xs-4 flight-type-item active-choice"><%= __('Round trip')%></div>
         <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
       </div>
     </div>
@@ -89,8 +89,8 @@
 <form action="/result" method="post" id="search_form" >
   <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>"/>
   <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>"/>
-  <input type="hidden" name="departureDate" value="<%= defaultParams.departureDate %>"/>
-  <input type="hidden" name="returnDate" value="<%= defaultParams.returnDate %>"/>
+  <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
+  <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
   <input type="hidden" name="passengers" id="passengers" value="1"/>
   <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%=__('Search flights')%></button>

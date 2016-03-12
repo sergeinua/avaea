@@ -21,20 +21,18 @@
         <p class="text-info" style="color: grey"><%= timelog %></p>
       </div>-->
       <% } %>
-      <div class="row">
-        <div class="good-bad-flights col-xs-12">
-          <input type="checkbox" id="smart" data-toggle="toggle" data-style="lbSmart pull-right" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
-        </div>
-      </div>
       <%- partial('bucket')%>
       <div class="total-count row">
-        <div class="col-xs-12">
+        <div class="col-xs-9" style="padding-top: 2px">
           <span id='search_count'><%= searchResult.length %></span> of <%= searchResult.length %> Flights
           <span id="clear" class="clear-all-filters"><%= __('Clear All Filters')%></span>
         </div>
+        <div class="col-xs-3">
+          <input type="checkbox" id="smart" data-toggle="toggle" data-style="lbSmart pull-right" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
+        </div>
       </div>
     </div>
-    <div id="undo" class="undo-button"><%= __('Undo')%></div>
+    <!--div id="undo" class="undo-button"><%= __('Undo')%></div-->
   </nav>
 </div>
 
@@ -48,31 +46,32 @@
     <div class="col-xs-12">
 
       <div class="row">
-        <div class="col-xs-9  itinerary-airline col-from-to">
+        <div class="col-xs-12 itinerary-airline col-from-to">
           <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
         <!--</div>-->
         <!--<div class="col-xs-8 itinerary-airline">-->
           <%= sRes.citypairs[0].from.airline %>
         </div>
-        <div class="col-xs-3 text-center itinerary-price">
-          <% if(sRes.currency == 'USD') { %>
-          $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
-        </div>
+        <!--div class="col-xs-3 text-center itinerary-price">
+          <% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
+        </div-->
       </div>
       <div class="row">
         <div class="col-xs-9">
           <% sRes.citypairs.forEach(function (pair) { %>
           <div class="itinerary-info">
             <!--<div class="col-xs-1"></div>-->
-            <div class="col-xs-7 text-left">
-              <%= pair.from.time %> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;<%= pair.to.time %> </div>
-            <div class="col-xs-2 col-from-to"><%= pair.to.code %></div>
-            <div class="col-xs-3 col-from-to"><%= pair.duration %></div>
+            <div class="col-xs-3 text-right">
+              <%= pair.from.time %> <%= pair.from.code %></div>
+            <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
+            <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
+            <div class="col-xs-3"><%= pair.duration %></div>
           </div>
           <% }); %>
         </div>
-        <div class="col-xs-3 text-right buy-button">
-          <button class="btn btn-sm btn-primary btn-block center-block"><%= __('BOOK') %></button>
+        <div class="col-xs-3 buy-button">
+          <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %></button>
+          <!--button class="btn btn-sm btn-primary btn-block center-block"><%= __('BOOK') %></button-->
         </div>
       </div>
 
