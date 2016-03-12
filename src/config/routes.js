@@ -43,6 +43,7 @@ module.exports.routes = {
   'get /auth/:provider/:action': 'AuthController.callback',
 
   'get /order': 'BuyController.order',
+  'post /booking': 'BuyController.booking',
   'get /search': 'SearchController.index',
   'post /result': 'SearchController.result',
 
@@ -56,6 +57,8 @@ module.exports.routes = {
   'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
 
   'post /ac/airports': 'AcController.airports',
+
+  'get /voicesearch': 'VoicesearchController.index',
 
 
 //  'post /abo/getaction': 'AboController.getaction',

@@ -4,25 +4,35 @@
 /* global sails */
 /* global Profile */
 /* global Order */
+var util = require('util');
+var url = require('url');
 /**
  * BuyController
  */
 
 module.exports = {
+
   order: function (req, res) {
 
+    // Flash errors
+    if (!_.isEmpty(req.session.flash)) {
+      res.locals.errors = [_.clone(req.session.flash)]; //will display by layout
+      req.session.flash = '';
+    }
+
+    // Get all params for redirect case
+    var reqParams = req.allParams();
+
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
-      var userData = {};
-      if (!found) {
-        userData = {
-          firstName: '',
-          lastName: '',
-        };
-      } else {
-        userData = {
-          firstName: found.firstName,
-          lastName: found.lastName,
-        };
+
+      if (found) {
+        var profileFields = {FirstName:"firstName", LastName:"lastName", Address1:"address"};
+
+        // Apply DB values if form fields is not defined yet
+        for(var prop in profileFields) {
+          if(typeof reqParams[prop] == 'undefined' || reqParams[prop].trim()=="")
+            reqParams[prop] = found[profileFields[prop]];
+        }
       }
 
       var id = req.param('id');
@@ -38,21 +48,78 @@ module.exports = {
           itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+
+          // Save for booking action
+          req.session.booking_itinerary = {
+            itinerary_id: id,
+            itinerary_data: logData.itinerary
+          };
+
           return res.view('order', {
-              title:'You ordered',
-              user: req.user,
-              Profile: userData,
-              order:[logData.itinerary]
+            user: req.user,
+            reqParams: reqParams,
+            order:[logData.itinerary]
           });
-        } else {
+        }
+        else {
+          delete req.session.booking_itinerary;
           req.session.flash = 'Cache has expired. Try new search.';
           req.flash('errors', req.session.flash);
           res.redirect('/search');
+
+          // For debug only
+          //return res.view('order', {
+          //  user: req.user,
+          //  reqParams: reqParams,
+          //  order:[]
+          //});
         }
       });
-
     });
+  },
 
+  booking: function (req, res) {
+    req.session.time_log = [];
+
+    // for API argument
+    var params = req.allParams();
+    params.session = req.session;
+
+    var parseFlightBooking = function (err, result) {
+
+      if (err) {
+        req.session.flash = err;
+        // redirect to order action, i.e. repeat request
+        res.redirect(url.format({pathname: "/order", query: req.allParams()}));
+        return;
+      }
+      sails.log.info("Itinerary booked successfully:", result);
+      // Clear flash errors
+      req.session.flash = '';
+
+      // At this moment we must cancel booked itinerary for money safe
+      mondee.cancelPnr(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, {PNR: result.PNR, session: req.session}, function(err2, result2) {
+        if(err2)
+          res.locals.errors = [err2]; //will display by layout
+        else
+          sails.log.info("Itinerary cancelled successfully:", result2);
+      });
+
+      // Save result to DB
+      Booking.saveBooking(req.user, result, req.session.booking_itinerary);
+      delete req.session.booking_itinerary;
+
+      // Render view
+      return res.view('booking', {
+        user: req.user,
+        reqParams: req.allParams(),
+        bookingRes: result
+      });
+    };
+
+    //parseFlightBooking("err", "res");
+    mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
   }
+
 };
 
