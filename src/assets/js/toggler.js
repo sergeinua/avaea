@@ -302,7 +302,7 @@ $(document).ready(function() {
             arrows: false,
             infinite: false,
             mobileFirst: true,
-            adaptiveHeight: true,
+            adaptiveHeight: false,
             //slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/150), $('.mybucket').length),
             slidesToScroll: 1,
             variableWidth: true,
