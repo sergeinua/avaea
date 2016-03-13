@@ -1,0 +1,11 @@
+server {
+	listen avaea:80;
+	# Make site accessible from http://localhost/
+	server_name avaea.com www.avaea.com;
+	location / {
+		proxy_pass http://localhost:8000;
+	}
+        location /mbstest/ {
+		root /home/cf/mbstest;
+	}
+}

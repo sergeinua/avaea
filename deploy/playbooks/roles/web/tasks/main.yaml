@@ -1,0 +1,30 @@
+#- name: Reset code base
+#  shell: git reset --hard HEAD
+#  args:
+#    chdir: "{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
+#
+#- name: Fetch changes
+#  shell: git fetch
+#  args:
+#    chdir: "{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
+#
+#- name: Checkout for specific branch
+#  shell: git checkout origin/"{{ GIT_BRANCH }}"
+#  args:
+#    chdir: "{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
+
+- name: Update codebase
+  git: repo=git@bitbucket.org:avaea_eng/avaea.git
+    dest="{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
+    version="{{ GIT_BRANCH }}"
+    update=yes
+    clone=no
+    accept_hostkey=yes
+    force=yes
+    key_file=/root/.ssh/bitbucket_rsa
+
+#- name: Restart demo service
+#  service: name="{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}" state=restarted
+#
+#- name: Restart abo service
+#  service: name="{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}" state=restarted
