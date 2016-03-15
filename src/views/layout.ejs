@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <meta http-equiv='Content-Language' content='en-US' />
-
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <!--STYLES-->
 
     <!--STYLES END-->
@@ -24,7 +25,12 @@
       <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed pull-right" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><%=__('MENU')%><span class="glyphicon glyphicon-triangle-bottom"></span></button>
+          <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <!--<span class="sr-only"><%= __('MENU') %></span>-->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
           <a class="navbar-brand"><%= __('Avaea') %>
             <!--<%= !title ? __('Avaea') : title %><% if (typeof searchResult != 'undefined') {
               %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
@@ -41,11 +47,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <% if (typeof user != 'undefined') { %>
+            <li><a href="http://www.avaea.com/">Main Demo</a></li>
+            <li><a href="http://stage.avaea.com/">Stage Demo</a></li>
+            <li><a href="/voicesearch">Voice Search</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="/search">Search</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
             <% } else { %>
-            Powered by Avaea Inc &copy; 2015
+           <li><a href="http://www.avaea.com/">Main Demo</a></li>
+           <li><a href="http://stage.avaea.com/">Stage Demo</a></li>
             <% } %>
           </ul>
         </div><!-- /.navbar-collapse -->

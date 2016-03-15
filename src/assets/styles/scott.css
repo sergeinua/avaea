@@ -487,6 +487,10 @@ body.loading .modal {
   text-transform: uppercase;
 }
 
+.nav.navbar-nav > li > a > b {
+  text-transform: lowercase;
+}
+
 /* Smart button styles */
 .toggle.lbSmart {
   background-color: lightblue;
@@ -550,6 +554,18 @@ body.loading .modal {
   color: #999 !important;
   padding: 0;
 }
+
+.tt-suggestion.tt-selectable {
+  background-color: white;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 20px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #004a99;
+  padding: 20px;
+  border-bottom: 1px solid #E5E5E5;
+}
+
 .tt-menu {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
@@ -577,17 +593,6 @@ body.loading .modal {
   width:100%;
 }
 
-
-.tt-suggestion.tt-selectable {
-  background-color: white;
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #004a99;
-  padding: 20px;
-  border-bottom: 1px solid #E5E5E5;
-}
 
 .tt-highlight {
  /*color:red;*/
@@ -701,4 +706,22 @@ body.loading .modal {
 .bootstrap-datetimepicker-widget table td,
 .bootstrap-datetimepicker-widget table th {
   border-radius: 0 !important;
+}
+
+.tt-menu.tt-open {
+  width:1000px !important;
+  /*margin-right: -1000px;*/
+}
+.twitter-typeahead {
+  display: block !important;
+}
+.twitter-typeahead, .tt-hint, .tt-menu { width: 100%;}
+
+.icon-bar {
+  background-color:white !important;
+}
+
+.divider {
+  /*background-color:white !important;*/
+  border: 1px dotted grey;
 }
