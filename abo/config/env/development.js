@@ -35,7 +35,7 @@ module.exports = {
   },
 
   //port: 8080,
-  //proxyHost: 'http://abo.avaea.com',
+  proxyHost: 'http://abo.avaea.com',
 
   flightapis: {
     mondee: {
