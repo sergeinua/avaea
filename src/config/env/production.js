@@ -47,6 +47,8 @@ module.exports = {
 
   flightapis: {
     searchProvider: ['mondee'/*, 'mystifly'*/]
-  }
+  },
+
+  hookTimeout: 30000
 
 };
