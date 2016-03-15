@@ -11,15 +11,49 @@ var rotAngle = Math.sin(Date.now()*0.001)*1, dir = -1, demo_is_running = 0;
 var oldNsides = 10;
 var oldParams1;
 
+// Init by admin.js
 function snowflakeInit(_canvas, params) {
   var nSides =  10;
   oldParams1 = normalizeParams(params);
 
   var params1 = oldParams1;
-  var start = Date.now();
-  //dir = -dir;
-  rotAngle += dir * Math.sin((Date.now() - start)*0.001)*0.07;
   computeAndDraw(nSides, params1);
+
+  if (demo_is_running != 0) return;
+  demo_is_running = 1;
+
+  var start = Date.now();
+
+  // Rotation
+  dir = -dir;
+  var interval_rotate = setInterval(function() {
+    rotAngle += dir * Math.sin((Date.now() - start)*0.001)*0.07;
+    computeAndDraw(oldNsides, oldParams1);
+  }, 100);
+  setTimeout(function(){
+    clearInterval(interval_rotate);
+    computeAndDraw(nSides, params1);
+    oldNsides = nSides;
+    oldParams1 = params;
+    //demo_is_running = 0;
+  }, 1500);
+
+  // Then animation after rotation
+  setTimeout(function() {
+
+    var interval_anim = setInterval(function () {
+      params1[0] += (0 + Math.sin((Date.now() - start) * 0.001) * 0.1);
+      params1[1] += (0 + Math.sin((Date.now() - start) * 0.003) * 0.5);
+      params1[2] += (0 + Math.sin((Date.now() - start) * 0.004) * 0.7);
+      computeAndDraw(nSides, params1);
+    }, 100);
+
+    setTimeout(function () {
+      clearInterval(interval_anim);
+      demo_is_running = 0;
+    }, 10000);
+
+  }, 2000);
 }
 
 
