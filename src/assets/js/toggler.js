@@ -823,7 +823,7 @@ $(document).ready(function() {
     changeFlightTab(id);
   });
 
-  $('.flight-passengers-info-item .text-picker').on('click', function () {
+  $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
     var currentValue = $('#passengers').val();
 
     if ( currentValue < 3 ) {

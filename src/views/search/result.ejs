@@ -10,7 +10,8 @@
           <span class="flight-date"><%= searchParams.departureDate %>
             <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
             <span class="text-spacer"></span>
-          1 <span class="glyphicon glyphicon-user"></span>
+            <span class="passengers_count"><%= searchParams.passengers %></span>
+            <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
             <span class="text-spacer"></span>
             <%= searchParams.CabinClass %>
           </span>
@@ -179,3 +180,8 @@
     <div class="alert alert-danger" role="alert"><%= __('We have found no flights connecting these destinations') %></div>
     <a href="/search"  class="btn btn-sm btn-primary btn-block center-block"  style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" role="button"><%= __('Back to search') %></a>
 <% } %>
+
+<form action="/buy" method="post" id="booking_form" >
+  <input type="hidden" name="id" id="_id" value=""/>
+  <input type="hidden" name="passengers" id="passengers" value="<%= searchParams.passengers %>"/>
+</form>
