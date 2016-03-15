@@ -352,7 +352,7 @@ $(document).ready(function() {
     }, {
         name: 'airports',
         display: 'value',
-        limit: 8,
+        limit: 99, // Increase default value. Will limited by controller
         source: fetchTypeheadSrc('ac', 'airports'),
         templates: {
             empty: [
