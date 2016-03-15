@@ -1,5 +1,9 @@
 $(document).ready(function() {
 
+  $('#snowflake').hide();
+  $('#snowflake_params').hide();
+  $('#spider').hide();
+
   var currentChartType;
   var user_id = 0, prevLog, prevSnowflake, prevSpider,
     lastUpdated = 0,
@@ -238,6 +242,7 @@ $(document).ready(function() {
     if (user_id) {
 
       $('#snowflake').hide();
+      $('#snowflake_params').hide();
       $('#spider').show();
 
       console.log('get spiderchart for userId: ' + user_id);
@@ -311,6 +316,7 @@ $(document).ready(function() {
 
       $('#spider').hide();
       $('#snowflake').show();
+      $('#snowflake_params').show();
 
       console.log('get snowflake for userId: ' + user_id);
       $.ajax({

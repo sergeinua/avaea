@@ -1,16 +1,27 @@
 
-var c = document.getElementById("canvas1");
-dimX = c.width;
-dimY = c.height;
+var c = document.getElementById("snowflake");
+var dimX = c.width;
+var dimY = c.height;
 
-lenFactor = 0.8;
-polySize = 0.9;
-starSize = 0.7;
+var lenFactor = 0.8, polySize = 0.9, starSize = 0.7;
 
-rotAngle = Math.sin(Date.now()*0.001)*1;
-dir = -1;
+var rotAngle = Math.sin(Date.now()*0.001)*1, dir = -1, demo_is_running = 0;
 
-demo_is_running = 0;
+////
+var oldNsides = 10;
+var oldParams1;
+
+function snowflakeInit(_canvas, params) {
+  var nSides =  10;
+  oldParams1 = normalizeParams(params);
+
+  var params1 = oldParams1;
+  var start = Date.now();
+  //dir = -dir;
+  rotAngle += dir * Math.sin((Date.now() - start)*0.001)*0.07;
+  computeAndDraw(nSides, params1);
+}
+
 
 // Demo 1
 /*
@@ -77,10 +88,6 @@ function random_snowflake() {
   custom_snowflake();
   return;
 }
-
-oldNsides = 10;
-oldParams1 = normalizeParams([1, 2, 6]);
-custom_snowflake();
 
 function custom_snowflake() {
   if (demo_is_running != 0) return;
@@ -310,7 +317,7 @@ function drawSegment(seg, style) {
   ctrX = dimX / 2;
   ctrY = dimY / 2;
 
-  var c = document.getElementById("canvas1");
+  var c = document.getElementById("snowflake");
   var ctx = c.getContext("2d");
   ctx.beginPath();
   ctx.moveTo(ctrX + x0, ctrY + y0);
@@ -321,7 +328,7 @@ function drawSegment(seg, style) {
 }
 
 function fillCanvas() {
-  var c = document.getElementById("canvas1");
+  var c = document.getElementById("snowflake");
   var ctx = c.getContext("2d");
   ctx.clearRect(0, 0, c.width, c.height);
 
@@ -346,7 +353,7 @@ function fillCanvas() {
 
 /*
  {
- var c1 = document.getElementById('canvas1');
+ var c1 = document.getElementById('snowflake');
  var glOpts = { antialias: true, depth: false, preserveDrawingBuffer: true };
  var gl = c1.getContext('webgl', glOpts) || c1.getContext('experimental-webgl', glOpts);
  if(!gl) { console.log("Your browser doesn't seem to support WebGL."); }

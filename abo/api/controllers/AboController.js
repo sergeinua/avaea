@@ -107,6 +107,7 @@ module.exports = {
             tPrediction.getUserTilesCb(userId, 'F', callback);
         }
     ], function(err, result) {
+      //sails.log.info("__getTilesByUser:", require('util').inspect(result, {showHidden: true, depth: null})); // dev debug
         data = tPrediction.adminTiles;
         return res.json({
           data: result
