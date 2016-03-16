@@ -1,0 +1,7 @@
+- name: Test connection and permissions
+  hosts: web.avaea
+  gather_facts: false
+  connection: ssh
+
+  roles:
+  - web

@@ -1,0 +1,8 @@
+server {
+	listen avaea:80;
+	# Make site accessible from http://localhost/
+	server_name farelogix.avaea.com www.farelogix.avaea.com;
+	location / {
+		proxy_pass http://localhost:5555;
+	}
+}
