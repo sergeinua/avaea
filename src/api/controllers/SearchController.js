@@ -25,8 +25,8 @@ module.exports = {
       DepartureLocationCode: _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
       ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
       CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
-      departureDate: sails.moment().add(3, 'w').format('YYYY-MM-DD'),
-      returnDate: ''
+      departureDate: _.isEmpty(req.session.departureDate) ? sails.moment().add(3, 'w').format('YYYY-MM-DD') : req.session.departureDate,
+      returnDate: _.isEmpty(req.session.returnDate) ? '' : req.session.returnDate
     };
     var error;
     if (!_.isEmpty(req.session.flash)) {
@@ -62,6 +62,7 @@ module.exports = {
           DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
           ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
           CabinClass: req.param('preferedClass').toUpperCase(),
+          passengers: req.param('passengers', 1),
           returnDate: ''
         }
       },
@@ -71,11 +72,13 @@ module.exports = {
       depDate = new Date(req.param('departureDate'));
     }
     params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
+    req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
     if (!isNaN(Date.parse(req.param('returnDate')))) {
       var retDate = new Date(req.param('returnDate'));
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
+      req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
     }
-    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode,
+    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
 //    var md5 = require("blueimp-md5").md5;
@@ -104,7 +107,8 @@ module.exports = {
           searchParams: {
             departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
-            CabinClass: serviceClass[params.searchParams.CabinClass]
+            CabinClass: serviceClass[params.searchParams.CabinClass],
+            passengers: req.param('passengers', 1)
           },
           searchResult: []
         });
@@ -136,7 +140,8 @@ module.exports = {
           searchParams: {
             departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
-            CabinClass: serviceClass[params.CabinClass]
+            CabinClass: serviceClass[params.CabinClass],
+            passengers: req.param('passengers', 1)
           },
           searchResult: itineraries,
           timelog: req.session.time_log.join('<br/>')

@@ -1,50 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Demo</title>
+    <title>Avaea</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <meta http-equiv='Content-Language' content='en-US' />
-
+    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
     <!--STYLES-->
 
     <!--STYLES END-->
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
     <style>
       body { padding-top: 60px; }
     </style>
   </head>
 
   <body>
-<div class="container" style="padding:0">
     <nav class="navbar navbar-default navbar-fixed-top">
-      <div class="container-fluid">
+      <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed pull-left" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
+            <!--<span class="sr-only"><%= __('MENU') %></span>-->
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand">
-            <%if (!title) {
-              %><%= __('Demo') %><%
-            }
-            else {
-              %><%= title %><%
-            }
-            if (typeof searchResult != 'undefined') {
-              %><span class="hidden-xs">, Departure&nbsp;<%=searchParams.departureDate%><%
+          <a class="navbar-brand"><%= __('Avaea') %>
+            <!--<%= !title ? __('Avaea') : title %><% if (typeof searchResult != 'undefined') {
+              %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
               if (searchParams.returnDate) {
-                %>, Return&nbsp;<%=searchParams.returnDate%><%
+                %>, Return&nbsp;<%= searchParams.returnDate %><%
               }
               %>, <%= searchParams.CabinClass %></span><%
             }
-            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>
+            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
           </a>
         </div>
 
@@ -52,30 +47,77 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <% if (typeof user != 'undefined') { %>
+            <li><a href="http://www.avaea.com/">Main Demo</a></li>
+            <li><a href="http://stage.avaea.com/">Stage Demo</a></li>
+            <li><a href="/voicesearch">Voice Search</a></li>
+            <li role="separator" class="divider"></li>
             <li><a href="/search">Search</a></li>
             <li><a href="/profile">Profile</a></li>
             <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
             <% } else { %>
-            Powered by Demo Inc &copy; 2015
+           <li><a href="http://www.avaea.com/">Main Demo</a></li>
+           <li><a href="http://stage.avaea.com/">Stage Demo</a></li>
             <% } %>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
+
+      <div id="search_title" class="hidden">
+        <div class="navbar-header">
+          <div style="width:auto; float: left">
+            <input id="airport-input" type="text" name="airport" target="" value=""/>
+          </div>
+          <div style="width:auto; float: left">
+            <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
+          </div>
+        </div>
+      </div>
+
+      <div id="date_select" class="hidden">
+        <div class="navbar-header">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-xs-8">
+                <p class="header"><%= __('Depart') %><span class="ret">/<%= __('Arrive') %></span></p>
+                <p class="info"><span class="dep">Sat 23 Jan</span><span class="ret"> – Tue 02 Feb</span></p>
+              </div>
+              <div class="col-xs-4">
+                <div class="pull-right">
+                  <button type="button" id="date_select_top" class="date_select-button"><%= __('DONE') %></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </nav>
 
-    <div class="main container clearfix">
+    <div id="date_select_main" class="container clearfix hidden">
+      <div style="overflow:hidden;" class="row">
+        <div class="row depart">
+          <div class="col-xs-12">
+            <div id="depart_picker"></div>
+          </div>
+        </div>
+        <div class="row return">
+          <div class="col-xs-12">
+            <div id="return_picker"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main" class="main container clearfix">
 
       <% if (typeof errors != 'undefined') {%>
         <% errors.forEach(function (error) { %>
-          <div class="alert alert-danger" role="alert"><%= __(error) %></div>
-        <% }) %>
+          <!--<div class="alert alert-danger" role="alert"><%= __(error) %></div>-->
+        <% }); %>
       <% } %>
 
       <%- body %>
     </div>
-</div>
 
-
+    <div class="modal"></div>
 
     <!--
         Client-side Templates
@@ -130,5 +172,7 @@
 
     <!--SCRIPTS END-->
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+    <script src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
   </body>
 </html>

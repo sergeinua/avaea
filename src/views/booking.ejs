@@ -22,8 +22,10 @@
 
 <div class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
-      <div class="container-fluid">
-        <button class="btn btn-sm btn-primary btn-block" onclick="javascript:location.href='/order?id=<%= reqParams.id %>'">Buy more</button>
+      <div class="container-fluid buy-button">
+        <button class="btn btn-sm btn-primary btn-block center-block"  style="max-width: 100%" onclick="javascript:location.href='/order?id=<%= reqParams.id %>'">
+          BUY MORE
+        </button>
       </div>
     </nav>
 </div>

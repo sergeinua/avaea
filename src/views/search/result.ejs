@@ -1,120 +1,157 @@
 <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-<div class="container">
-  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="padding-bottom:15px;margin-top:50px;z-index:10;">
-    <div class="container-fluid">
-      <% if (typeof timelog != 'undefined' && timelog) {%>
-      <div class="alert alert-danger" role="alert" id="timeAlert">
-        <p class="text-info" style="color: grey"><%=timelog%></p>
+<div class="row">
+  <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top"  style="border:0;margin-top:50px;z-index:10;">
+    <div class="col-xs-12">
+      <div class="flight-info row">
+        <%if (title) {%><span class="requested-airports"><%= title %></span><% } %>
+        <% if (typeof searchResult != 'undefined') { %>
+          <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round Trip') %><%} else {%><%= __('One Way') %><%}%></span>
+          <br/>
+          <span class="flight-date"><%= searchParams.departureDate %>
+            <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
+            <span class="text-spacer"></span>
+            <span class="passengers_count"><%= searchParams.passengers %></span>
+            <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
+            <span class="text-spacer"></span>
+            <%= searchParams.CabinClass %>
+          </span>
+        <% }%><!--&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
       </div>
+      <% if (typeof timelog != 'undefined' && timelog) { %>
+      <!--<div class="alert alert-danger" role="alert" id="timeAlert">
+        <p class="text-info" style="color: grey"><%= timelog %></p>
+      </div>-->
       <% } %>
       <%- partial('bucket')%>
+      <div class="total-count row">
+        <div class="col-xs-9" style="padding-top: 2px">
+          <span id='search_count'><%= searchResult.length %></span> of <%= searchResult.length %> Flights
+          <span id="clear" class="clear-all-filters"><%= __('Clear All Filters')%></span>
+        </div>
+        <div class="col-xs-3">
+          <input type="checkbox" id="smart" data-toggle="toggle" data-style="lbSmart pull-right" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
+        </div>
+      </div>
     </div>
+    <!--div id="undo" class="undo-button"><%= __('Undo')%></div-->
   </nav>
 </div>
 
-<div class="" id="searchResultData">
+<div id="searchResultData" class="row">
   <% iterator = 0; %>
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-<div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" style="padding-bottom:10px; border-top: 1px solid gray;background-color:#eee" smart="<%= sRes.smartRank %>">
+  <div id="<%= sRes.id %>" for="cli<%= i %>" class="row itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
 
-  <div class="col-xs-12">
+    <div class="col-xs-12">
 
-    <div class="row">
-      <div class="col-xs-12 price" style="padding: 2px;">
-        <% if(sRes.currency == 'USD') { %>
-        $<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
-      </div>
-    </div>
-    <% sRes.citypairs.forEach(function (pair) { %>
       <div class="row">
-          <div class="col-xs-7 col-sm-7 col-from-to"><img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" /><strong><%= pair.from.time %></strong> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<small><%=pair.noOfStops%></small></span><% } %>&rarr;<strong><%= pair.to.time %></strong> <%= pair.to.code %></div>
-          <div class="col-xs-3 col-sm-3 text-right col-from-to"><%= pair.duration %></div>
-          <div class="col-xs-2 col-sm-2 text-right col-from-to"><% if (pair.noOfStops > 0) { %>
-              <%= pair.noOfStops + (parseInt(pair.noOfStops) > 1 ? __(' stops') : __(' stop')) %> (<%= pair.stopsCodes.join(', ') %>)
-              <% } else { %>
-              <%= __(' nonstop') %>
-              <% } %></div>
-      </div>
-    <% }); %>
-    <div class="row collapse" id="cli<%=i%>"><div class="col-xs-12">
-    <% sRes.citypairs.forEach(function (pair, c) { %>
-    <div class="row" style="margin-top: 4px;">
-      <div class="col-sm-12">
-        <strong><%= pair.direction %></strong>
-      </div>
-    </div>
-      <% pair.flights.forEach(function (flight, j) { %>
-
-      <% if (j > 0) {%>
-      <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-6 text-nowrap">&#10162; <%= __('Change planes') %></div>
-        <div class="col-xs-2"><%= pair.stops[j-1].code %></div>
-        <div class="col-xs-4 text-right"><%= pair.stops[j-1].duration %></div>
-      </div>
-      <% } %>
-      <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
-        <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
-        <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
-          <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
-          <% } %></div>
+        <div class="col-xs-12 itinerary-airline col-from-to">
+          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
+        <!--</div>-->
+        <!--<div class="col-xs-8 itinerary-airline">-->
+          <span><%= sRes.citypairs[0].from.airline %> </span>
+        </div>
+        <!--div class="col-xs-3 text-center itinerary-price">
+          <% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
+        </div-->
       </div>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.from.date).format('MM/DD/YYYY') %></div>
-        <div class="col-xs-3"><%= flight.from.code %></div>
-      </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
-      <div class="row">
-        <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
-        <div class="col-xs-2"><%= stop.code %></div>
-        <div class="col-xs-4 text-right"><%= stop.duration %></div>
-      </div><% }); %><% } %>
-      <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.to.date).format('MM/DD/YYYY') %></div>
-        <div class="col-xs-3"><%= flight.to.code %></div>
-      </div>
-
-    <% if (flight.merchandising && flight.merchandising.length) { %>
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('more')%></button>
+        <div class="col-xs-9">
+          <% sRes.citypairs.forEach(function (pair) { %>
+          <div class="itinerary-info">
+            <!--<div class="col-xs-1"></div>-->
+            <div class="col-xs-3 text-right">
+              <%= pair.from.time %> <%= pair.from.code %></div>
+            <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
+            <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
+            <div class="col-xs-3"><%= pair.duration %></div>
+          </div>
+          <% }); %>
+        </div>
+        <div class="col-xs-3 buy-button">
+          <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %></button>
+          <!--button class="btn btn-sm btn-primary btn-block center-block"><%= __('BOOK') %></button-->
         </div>
       </div>
-      <div class="row hidden mymorecontent<%= iterator %>_<%= c %>">
-        <div class="panel panel-default">
-          <div class="panel-heading">Merchandising Information</div>
-          <div class="panel-body" style="background-color: lightblue">
-            <ul>
-              <% flight.merchandising.forEach(function (item) { %>
-              <li><%= item %></li>
-              <% }) %>
-            </ul>
+
+
+
+      <!--div class="row collapse" id="cli<%= i %>"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
+        <div class="row" style="margin-top: 4px;">
+          <div class="col-sm-12">
+            <strong><%= pair.direction %></strong>
           </div>
         </div>
-      </div>
-    <% } %>
-      <% }); %>
-    <% }); %>
-    </div></div>
+        <% pair.flights.forEach(function (flight, j) { %>
+        <% if (j > 0) {%>
+        <div class="row" style="margin-top: 4px;">
+          <div class="col-xs-6 text-nowrap">&#10162; <%= __('Change planes') %></div>
+          <div class="col-xs-2"><%= pair.stops[j-1].code %></div>
+          <div class="col-xs-4 text-right"><%= pair.stops[j-1].duration %></div>
+        </div>
+        <% } %>
+        <div class="row" style="margin-top: 4px;">
+          <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
+          <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
+          <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
+            <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
+          <% } %></div>
+        </div>
+        <div class="row">
+          <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
+          <div class="col-xs-3"><%= sails.moment(flight.from.date).format('MM/DD/YYYY') %></div>
+          <div class="col-xs-3"><%= flight.from.code %></div>
+        </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
+        <div class="row">
+          <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
+          <div class="col-xs-2"><%= stop.code %></div>
+          <div class="col-xs-4 text-right"><%= stop.duration %></div>
+        </div><% }); %><% } %>
+        <div class="row">
+          <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
+          <div class="col-xs-3"><%= sails.moment(flight.to.date).format('MM/DD/YYYY') %></div>
+          <div class="col-xs-3"><%= flight.to.code %></div>
+        </div>
 
-  <% iterator++ %>
+        <% if (flight.merchandising && flight.merchandising.length) { %>
+        <div class="row">
+          <div class="col-xs-12">
+            <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('more') %></button>
+          </div>
+        </div>
+        <div class="row hidden mymorecontent<%= iterator %>_<%= c %>">
+          <div class="panel panel-default">
+            <div class="panel-heading">Merchandising Information</div>
+            <div class="panel-body" style="background-color: lightblue">
+              <ul>
+                <% flight.merchandising.forEach(function (item) { %>
+                <li><%= item %></li>
+                <% }); %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <% }); %>
+      <% }); %></div></div-->
+
+      <% iterator++ %>
+    </div>
   </div>
-</div>
 
-  <% }) %>
+  <% }); %>
   <% } %>
 </div>
 
 <style>
     body {
-      padding-top: 200px;
+      padding-top: 300px;
     }
 </style>
 
-<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>
+<!--<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>-->
 
 <!--Airlines Frequent Flier Miles Programs-->
 <fieldset class="hidden" for="" id="AFFMP">
@@ -143,3 +180,8 @@
     <div class="alert alert-danger" role="alert"><%= __('We have found no flights connecting these destinations') %></div>
     <a href="/search"  class="btn btn-sm btn-primary btn-block center-block"  style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" role="button"><%= __('Back to search') %></a>
 <% } %>
+
+<form action="/buy" method="post" id="booking_form" >
+  <input type="hidden" name="id" id="_id" value=""/>
+  <input type="hidden" name="passengers" id="passengers" value="<%= searchParams.passengers %>"/>
+</form>
