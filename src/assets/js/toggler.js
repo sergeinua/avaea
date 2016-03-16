@@ -729,7 +729,7 @@ $(document).ready(function() {
     var hasTo = !!$('#destinationAirport').val();
     switch (type) {
       case 'round_trip':
-        $('.flight-direction-item-comming-soon').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&#8596;');
@@ -770,7 +770,7 @@ $(document).ready(function() {
         $('.flight-additional-info').removeClass('hidden');
         break;
       case 'multi_city':
-        $('.flight-direction-item-comming-soon').removeClass('hidden');
+        $('.flight-direction-item-coming-soon').removeClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').addClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -781,7 +781,7 @@ $(document).ready(function() {
         $('.flight-additional-info').addClass('hidden');
         break;
       case 'one_way':
-        $('.flight-direction-item-comming-soon').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&rarr;');
