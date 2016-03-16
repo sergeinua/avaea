@@ -19,7 +19,8 @@ declare -a ports
 ports=( ["8000"]="8000 - Production web interface"
         ["8080"]="8080 - Production backend web interface"
         ["9000"]="9000 - Staging web interface"
-        ["9090"]="9090 - Staging backend web interface" )
+        ["9090"]="9090 - Staging backend web interface"
+        ["5555"]="5555 - Application for farelogix" )
 
 
 # Collecting check results
@@ -61,7 +62,7 @@ else
         echo "$curr_time" >> ./email.txt
         echo "$email_body" >> ./email.txt
 
-        ssmtp "$recipient" < ./email.txt
+        /usr/sbin/ssmtp "$recipient" < ./email.txt
 
     done
 

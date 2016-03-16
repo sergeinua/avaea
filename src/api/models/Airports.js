@@ -31,7 +31,9 @@ module.exports = {
     pax:        { type: 'float' },
     neighbors:  { type: 'string' }
   },
-  tableName: 'airports_new'
+  tableName: 'airports_new',
+
+  ALL_AIRPORTS_NAME: 'All Airports' // Generic airport name in DB
 
 };
 

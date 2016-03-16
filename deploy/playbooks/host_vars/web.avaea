@@ -1,0 +1,9 @@
+www:
+  dir: /home/deerploy/prod
+  demo: demo
+  abo: abo
+
+stage:
+  dir: /home/deerploy/stage
+  demo: stage_demo
+  abo: stage_abo

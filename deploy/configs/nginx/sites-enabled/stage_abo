@@ -1,0 +1,8 @@
+server {
+	listen avaea:80;
+	# Make site accessible from http://localhost/
+	server_name abo.stage.avaea.com abo.www.stage.avaea.com;
+	location / {
+		proxy_pass http://localhost:9090;
+	}
+}

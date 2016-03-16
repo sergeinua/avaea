@@ -1,5 +1,12 @@
 $(document).ready(function() {
 
+  $('#snowflake').hide();
+  $('#spider').hide();
+
+  // Config: timers intervals
+  var cfg_interval_get_log_action = 14000;
+  var cfg_interval_draw_chart =  14000;
+
   var currentChartType;
   var user_id = 0, prevLog, prevSnowflake, prevSpider,
     lastUpdated = 0,
@@ -214,8 +221,8 @@ $(document).ready(function() {
       getLogAction();
       drawCurrentChartType();
 
-      interval1 = setInterval(getLogAction, 2000);
-      interval2 = setInterval(drawCurrentChartType, 2000);
+      interval1 = setInterval(getLogAction, cfg_interval_get_log_action);
+      interval2 = setInterval(drawCurrentChartType, cfg_interval_draw_chart);
     }
 
     return false;
