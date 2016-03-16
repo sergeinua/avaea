@@ -258,16 +258,31 @@ body {
 
 .itinerary-airline {
   font-family: WhitneyHTF-MediumCondensed;
+  font-size: 0;
+}
+
+.itinerary-airline span {
   font-size: 14px;
   line-height: 1.1;
   letter-spacing: 0.3px;
   color: #333333;
   text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.itinerary-airline span.glyphicon {
+  position: static;
+  top: 0;
+}
+
+.itinerary-airline img {
+  display: inline;
+  vertical-align: middle;
 }
 
 .itinerary-price {
   font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.2;
   letter-spacing: 0.4px;
   color: #333333;

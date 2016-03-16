@@ -4,46 +4,42 @@
 %>
 <form action="/booking" method="post" id="form_booking">
 
-  <div class="">
+  <div id="searchResultData">
     <% iterator = 0; %>
     <% if (order.length) { %>
     <% order.forEach(function (sRes, i) {
-
       orderPrice = (sRes.currency == 'USD') ? "$"+sRes.price : sRes.price +' '+ sRes.currency;
     %>
-    <div id="<%= sRes.id %>" for="cli<%=i%>" class="row itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+    <div id="<%= sRes.id %>" for="cli<%= i %>" class="row itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>" style="margin: 0">
 
       <div class="col-xs-12">
 
         <div class="row">
-          <div class="col-xs-9  itinerary-airline col-from-to">
+          <div class="col-xs-9 itinerary-airline">
             <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
-            <%= sRes.citypairs[0].from.airline %>
+            <span><%= sRes.citypairs[0].from.airline %> </span>
           </div>
-          <div class="col-xs-3 text-center itinerary-price">
+          <div class="col-xs-3 text-right itinerary-price">
             <%= orderPrice %>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-9">
+          <div class="col-xs-11">
             <% sRes.citypairs.forEach(function (pair) { %>
             <div class="itinerary-info">
-              <div class="col-xs-7 text-left">
-                <%= pair.from.time %> <%= pair.from.code %><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%=pair.noOfStops%></span><% } %>&rarr;<%= pair.to.time %> </div>
-              <div class="col-xs-2 col-from-to"><%= pair.to.code %></div>
-              <div class="col-xs-3 col-from-to"><%= pair.duration %></div>
+              <div class="col-xs-3 text-right">
+                <%= pair.from.time %> <%= pair.from.code %></div>
+              <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
+              <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
+              <div class="col-xs-3"><%= pair.duration %></div>
             </div>
             <% }); %>
           </div>
-          <!--<div class="col-xs-3 text-right buy-button">-->
-            <!--<button class="btn btn-sm btn-primary btn-block center-block"><%= __('BOOK')%></button>-->
-          <!--</div>-->
         </div>
 
         <% iterator++ %>
       </div>
     </div>
-
     <% }) %>
     <% } %>
   </div>

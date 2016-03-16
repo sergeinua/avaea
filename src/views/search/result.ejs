@@ -51,7 +51,7 @@
           <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
         <!--</div>-->
         <!--<div class="col-xs-8 itinerary-airline">-->
-          <%= sRes.citypairs[0].from.airline %>
+          <span><%= sRes.citypairs[0].from.airline %> </span>
         </div>
         <!--div class="col-xs-3 text-center itinerary-price">
           <% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>

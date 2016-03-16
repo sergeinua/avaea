@@ -23,7 +23,7 @@ $(document).ready(function() {
     //tile recalculation
     var recalcTiles = function () {
         var filters = $('.selectedfilters').attr('filters');
-        filters = filters.split(' ');
+        filters = filters ? filters.split(' ') : [];
         var groups = {};
         if (filters.length) {
             filters.forEach(function(filter) {
@@ -78,9 +78,7 @@ $(document).ready(function() {
     var filtersCount = {};
     var filterItineraries = function () {
         var filters = $('.selectedfilters').attr('filters');
-        if (filters) {
-            filters = filters.split(' ');
-        }
+        filters = filters ? filters.split(' ') : [];
         $('.itinerary').show();
         $('.mybucket').each(function() {
 
@@ -418,47 +416,54 @@ $(document).ready(function() {
       recalcTiles();
     }
 
-    //loading
-    $('#search_form').submit(function(event) {
-        $('.search-button').hide();
-        $("body").addClass("loading");
-        return true;
-    });
+  //loading
+  $('#search_form').submit(function (event) {
+    $('.search-button').hide();
+    $("body").addClass("loading");
+    return true;
+  });
 
-    $('.itinerary').click(function (event) {
-        $('.itinerary').removeClass('selected');
-        $(this).addClass('selected');
-        var itineraryId = $(this).attr('id');
-        var details = $(this).attr('for');
-        if (details) {
-            $('#' + details).toggle();
+  $('.itinerary').click(function (event) {
+    $('.itinerary').removeClass('selected');
+    $(this).addClass('selected');
+    var itineraryId = $(this).attr('id');
+    var details = $(this).attr('for');
+    if (details) {
+      $('#' + details).toggle();
 
-            if ($('#' + details).is(':visible')) {
-                $(this).find('div:first').find('div:first').find('div:first').find('span')
-                    .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
-
-                logAction('on_itinerary_purchase', {
-                    action    : 'itinerary_expanded',
-                    itinerary : {
-                        id : itineraryId
-                    }
-                });
-            } else {
-                $(this).find('div:first').find('div:first').find('div:first').find('span')
-                    .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-            }
+      if ($('#' + details).is(':visible')) {
+        if ($(this).hasClass('recommended')) {
+          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
+            .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
         }
 
-        //$('#buy_button').removeAttr('disabled');
-    });
-
-    $('.buy-button>button').click(function(event) {
-        //var id = $(this).parent().parent().parent().parent().attr('id');
-        //console.log('Order id:', id);
-        if ($('.selected')) {
-            location.href = '/order?id=' + $('.selected').attr('id');
+        logAction('on_itinerary_purchase', {
+          action: 'itinerary_expanded',
+          itinerary: {
+            id: itineraryId
+          }
+        });
+      } else {
+        if ($(this).hasClass('recommended')) {
+          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
+            .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
         }
-    });
+      }
+    }
+
+    //$('#buy_button').removeAttr('disabled');
+  });
+
+  $('.buy-button>button').click(function (event) {
+    var id = $(this).parents('.itinerary').attr('id');
+    //if ($('.itinerary.selected')) {
+    //  id = $('.selected').attr('id');
+    //}
+    console.log('Order id:', id);
+    if (id) {
+      location.href = '/order?id=' + id;
+    }
+  });
 
   /**
    * Client validation during booking of itinerary
