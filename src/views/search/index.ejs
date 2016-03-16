@@ -3,7 +3,7 @@
     <div class="flight-type-form">
       <div class="row">
         <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
-        <div id="round_trip" class="col-xs-4 flight-type-item active-choice"><%= __('Round trip')%></div>
+        <div id="round_trip" class="col-xs-4 flight-type-item active-choice"><%= __('Round trip') %></div>
         <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
       </div>
     </div>
@@ -12,59 +12,59 @@
   <div class="flight-direction row">
     <div class="row text-center" style="padding-top:70px; left:50%; width:300px;margin-left: -150px; position: fixed;">
       <div id="from-area" class="col-xs-5 flight-direction-item"><span>+</span>
-        <div class="flight-direction-item-from-to"><%=__('from')%></div>
+        <div class="flight-direction-item-from-to"><%= __('from') %></div>
       </div>
       <div id="from-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
-        <div class="flight-direction-item-from-to"><%=__('from')%></div>
+        <div class="flight-direction-item-from-to"><%= __('from') %></div>
         <span id="from-airport-selected"></span>
         <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
       </div>
       <div class="col-xs-2 flight-direction-item-arrow">&rarr;</div>
       <div id="to-area" class="col-xs-5 flight-direction-item"><span>+</span>
-        <div class="flight-direction-item-from-to"><%=__('to')%></div>
+        <div class="flight-direction-item-from-to"><%= __('to') %></div>
       </div>
       <div id="to-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
-        <div class="flight-direction-item-from-to"><%=__('to')%></div>
+        <div class="flight-direction-item-from-to"><%= __('to') %></div>
         <span id="to-airport-selected"></span>
         <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
       </div>
-      <div class="col-xs-5 flight-direction-item-coming-soon hidden"><%= __('Coming soon')%></div>
+      <div class="col-xs-5 flight-direction-item-coming-soon hidden"><%= __('Coming soon') %></div>
     </div>
   </div>
 
   <div class="flight-date-info row">
     <div class="flight-date-info-item dep col-xs-6">+
-      <div class="flight-date-info-item-depart"><%=__('depart')%></div>
+      <div class="flight-date-info-item-depart"><%= __('depart') %></div>
     </div>
-    <div class="flight-date-info-item sel dep hide col-xs-6" style="font-size: 14px; padding-top: 0; text-align: left; border-right: 2px solid white;">
+    <div class="flight-date-info-item sel dep hide col-xs-6">
       <div class="row">
-        <div class="col-xs-12" style="padding: 15px; font-family: WhitneyHTF-MediumCondensed; font-size: 16px; line-height: 1.1; letter-spacing: 0.1px; color: rgba(16, 23, 66, 0.4); text-transform: uppercase;">
-          <%=__('depart')%>
+        <div class="col-xs-12">
+          <%= __('depart') %>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-7 text-center" style="font-family: WhitneyHTF-MediumCondensed; font-size: 28px; line-height: 1.2; letter-spacing: 0.2px; color: #101742;">
+        <div class="col-xs-7 text-center">
           23 JAN
         </div>
-        <div class="col-xs-5" style="font-family: WhitneyHTF-BookCondensed; font-size: 12px; line-height: 1.3; letter-spacing: 0.1px; color: #101742;">
+        <div class="col-xs-5">
           Saturday 2016
         </div>
       </div>
     </div>
     <div class="flight-date-info-item ret hide col-xs-6">+
-      <div class="flight-date-info-item-return"><%=__('return')%></div>
+      <div class="flight-date-info-item-return"><%= __('return') %></div>
     </div>
-    <div class="flight-date-info-item sel ret hide col-xs-6" style="font-size: 14px; padding-top: 0; text-align: left;">
+    <div class="flight-date-info-item sel ret hide col-xs-6">
       <div class="row">
-        <div class="col-xs-12" style="padding: 15px; font-family: WhitneyHTF-MediumCondensed; font-size: 16px; line-height: 1.1; letter-spacing: 0.1px; color: rgba(16, 23, 66, 0.4); text-transform: uppercase;">
-          <%=__('return')%>
+        <div class="col-xs-12">
+          <%= __('return') %>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-7 text-center" style="font-family: WhitneyHTF-MediumCondensed; font-size: 28px; line-height: 1.2; letter-spacing: 0.2px; color: #101742;">
+        <div class="col-xs-7 text-center">
           23 JAN
         </div>
-        <div class="col-xs-5" style="font-family: WhitneyHTF-BookCondensed; font-size: 12px; line-height: 1.3; letter-spacing: 0.1px; color: #101742;">
+        <div class="col-xs-5">
           Saturday 2016
         </div>
       </div>
@@ -74,17 +74,17 @@
   <div class="flight-additional-info row">
     <div class="col-xs-12">
       <div class="flight-passengers-info-item row">
-        <div class="text-label col-xs-6"><%=__('passengers')%></div>
+        <div class="text-label col-xs-6"><%= __('passengers') %></div>
         <div class="text-picker col-xs-6"><span class="passengers_count">1</span> <span class="passengers_text"><%=__('Adult')%></span></div>
       </div>
       <div class="flight-class-info-item row">
-        <div class="text-label col-xs-6"><%=__('class')%></div>
-        <div class="text-picker col-xs-6"><%=__('Economy')%></div>
+        <div class="text-label col-xs-6"><%= __('class') %></div>
+        <div class="text-picker col-xs-6"><%= __('Economy') %></div>
       </div>
     </div>
   </div>
 
-<script>var serviceClass=<%- JSON.stringify(serviceClass) %></script>
+<script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
   <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>"/>
@@ -93,5 +93,5 @@
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
   <input type="hidden" name="passengers" id="passengers" value="1"/>
-  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%=__('Search flights')%></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Search flights') %></button>
 </form>
