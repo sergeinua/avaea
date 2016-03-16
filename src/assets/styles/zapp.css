@@ -45,4 +45,8 @@
     .collapse.in{
         display:block !important;
     }
+
+    .mCSB_scrollTools {
+        max-height: 135px
+    }
 }

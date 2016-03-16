@@ -115,7 +115,8 @@ $(document).ready(function() {
     $('#clear').click(function() {
         $('.selectedfilters').attr('filters', '');
         $('#tiles').find('li.selected').removeClass('selected');
-        $($('.slick-slide')[0]).trigger('click');
+        //$($('.slick-slide')[0]).trigger('click');
+        $('#tiles').mCustomScrollbar('scrollTo','first');
         filterItineraries();
     });
 
@@ -127,8 +128,9 @@ $(document).ready(function() {
             filters.pop();
             $('.selectedfilters').attr('filters', filters.join(' '));
             if (lastElement) {
-              var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
-              $($('.slick-slide')[slickIndex]).trigger('click');
+              //var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
+              //$($('.slick-slide')[slickIndex]).trigger('click');
+              $('#tiles').mCustomScrollbar('scrollTo','last');
               $('[for='+lastElement+']').removeClass('selected');
             }
             filterItineraries();
@@ -294,23 +296,24 @@ $(document).ready(function() {
         filterItineraries();
     });
 
-    var getSliderSettings = function() {
-        return {
-            dots: false,
-            arrows: false,
-            infinite: false,
-            mobileFirst: true,
-            adaptiveHeight: false,
-            //slidesToShow: Math.min(Math.floor($('body').outerWidth(true)/150), $('.mybucket').length),
-            slidesToScroll: 1,
-            variableWidth: true,
-            appendArrows: $('.myarr .slick'),
-            prevArrow: '<button type="button" data-role="none" class="slick-prev"></button>',
-            //appendDots: $('.myarr'), // For DEMO-97. But can't setup position in div without slick-narrow bug
-            focusOnSelect: true
-        }
-    };
-    $('#tiles').slick(getSliderSettings());
+  // Horizontal scroll for tiles
+  $('#tiles').mCustomScrollbar({
+    axis:"x",
+    advanced:{autoExpandHorizontalScroll:true},
+    scrollButtons:{ enable: false },
+    theme: "rounded-dots-dark"
+    //callbacks:{
+    //  onInit:function(){
+    //    $(".mCSB_draggerContainer").hide(); // hide scroll bar
+    //  }
+    //}
+  });
+  //$('.list-group').mCustomScrollbar({
+  //  axis:"y",
+  //  advanced:{autoExpandHorizontalScroll:true},
+  //  scrollButtons:{ enable: false },
+  //  theme: "dark"
+  //});
     //$( window ).resize(function() {
         //$('#tiles').slick('unslick');
         //$('#tiles').slick(getSliderSettings());
