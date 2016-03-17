@@ -116,7 +116,7 @@ $(document).ready(function() {
         $('.selectedfilters').attr('filters', '');
         $('#tiles').find('li.selected').removeClass('selected');
         //$($('.slick-slide')[0]).trigger('click');
-        $('#tiles').mCustomScrollbar('scrollTo','first');
+        swiper.slideTo(0);
         filterItineraries();
     });
 
@@ -130,7 +130,7 @@ $(document).ready(function() {
             if (lastElement) {
               //var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
               //$($('.slick-slide')[slickIndex]).trigger('click');
-              $('#tiles').mCustomScrollbar('scrollTo','last');
+              swiper.slideTo(7);
               $('[for='+lastElement+']').removeClass('selected');
             }
             filterItineraries();
@@ -297,23 +297,53 @@ $(document).ready(function() {
     });
 
   // Horizontal scroll for tiles
-  $('#tiles').mCustomScrollbar({
-    axis:"x",
-    advanced:{autoExpandHorizontalScroll:true},
-    scrollButtons:{ enable: false },
-    theme: "rounded-dots-dark"
-    //callbacks:{
-    //  onInit:function(){
-    //    $(".mCSB_draggerContainer").hide(); // hide scroll bar
-    //  }
-    //}
+  var swiper = new Swiper ('#tiles', {
+    direction: 'horizontal',
+    loop: false,
+    freeMode: true,
+    slidesPerView: 8,
+    paginationHide: true,
+    breakpoints: {
+      // when window width is <= 320px
+      320: {
+        slidesPerView: 2,
+        spaceBetweenSlides: 1
+      },
+      // when window width is <= 480px
+      480: {
+        slidesPerView: 3,
+        spaceBetweenSlides: 2
+      },
+      600: {
+        slidesPerView: 3,
+        spaceBetweenSlides: 3
+      },
+      640: {
+        slidesPerView: 4,
+        spaceBetweenSlides: 3
+      },
+      720: {
+        slidesPerView: 4,
+        spaceBetweenSlides: 3
+      },
+      768: {
+        slidesPerView: 5,
+        spaceBetweenSlides: 3
+      },
+      800: {
+        slidesPerView: 5,
+        spaceBetweenSlides: 3
+      },
+      960: {
+        slidesPerView: 6,
+        spaceBetweenSlides: 3
+      },
+      1024: {
+        slidesPerView: 7,
+        spaceBetweenSlides: 3
+      }
+    }
   });
-  //$('.list-group').mCustomScrollbar({
-  //  axis:"y",
-  //  advanced:{autoExpandHorizontalScroll:true},
-  //  scrollButtons:{ enable: false },
-  //  theme: "dark"
-  //});
     //$( window ).resize(function() {
         //$('#tiles').slick('unslick');
         //$('#tiles').slick(getSliderSettings());
