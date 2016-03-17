@@ -130,7 +130,7 @@ $(document).ready(function() {
             if (lastElement) {
               //var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
               //$($('.slick-slide')[slickIndex]).trigger('click');
-              swiper.slideTo(7);
+              swiper.slideTo(lastElement);
               $('[for='+lastElement+']').removeClass('selected');
             }
             filterItineraries();
@@ -297,52 +297,9 @@ $(document).ready(function() {
     });
 
   // Horizontal scroll for tiles
-  var swiper = new Swiper ('#tiles', {
-    direction: 'horizontal',
-    loop: false,
+  var swiper = new Swiper ('.swiper-container', {
     freeMode: true,
-    slidesPerView: 8,
-    paginationHide: true,
-    breakpoints: {
-      // when window width is <= 320px
-      320: {
-        slidesPerView: 2,
-        spaceBetweenSlides: 1
-      },
-      // when window width is <= 480px
-      480: {
-        slidesPerView: 3,
-        spaceBetweenSlides: 2
-      },
-      600: {
-        slidesPerView: 3,
-        spaceBetweenSlides: 3
-      },
-      640: {
-        slidesPerView: 4,
-        spaceBetweenSlides: 3
-      },
-      720: {
-        slidesPerView: 4,
-        spaceBetweenSlides: 3
-      },
-      768: {
-        slidesPerView: 5,
-        spaceBetweenSlides: 3
-      },
-      800: {
-        slidesPerView: 5,
-        spaceBetweenSlides: 3
-      },
-      960: {
-        slidesPerView: 6,
-        spaceBetweenSlides: 3
-      },
-      1024: {
-        slidesPerView: 7,
-        spaceBetweenSlides: 3
-      }
-    }
+    slidesPerView: 'auto'
   });
     //$( window ).resize(function() {
         //$('#tiles').slick('unslick');
