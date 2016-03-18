@@ -37,6 +37,7 @@ module.exports = {
           return res.json(found.rows);
         }
         else {
+          sails.log.error(err);
           return res.json([]);
         }
       });
