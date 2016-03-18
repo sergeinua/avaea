@@ -87,8 +87,8 @@
 <script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
-  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>"/>
-  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>"/>
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"/>
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>"/>
   <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>

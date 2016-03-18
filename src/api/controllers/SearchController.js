@@ -40,13 +40,52 @@ module.exports = {
       req.session.tiles = null;
     }
 
-    return res.view('search/index', {
-      title         : 'Search for flights',
-      user          : req.user,
-      defaultParams : params,
-      serviceClass  : Search.serviceClass,
-      errors        : error
-    });
+    // Fetch City names by location codes and put to the template
+    async.parallel({
+        depart_city: function(callback) {
+          if(_.isEmpty(params.DepartureLocationCode))
+            return callback(null, '');
+
+          Airports.findOne({iata_3code: params.DepartureLocationCode})
+            .exec(function (err, result) {
+              if (err) {
+                return callback(err);
+              }
+
+              callback(null, result);
+            });
+        },
+        arriv_city: function(callback) {
+          if(_.isEmpty(params.ArrivalLocationCode))
+            return callback(null, '');
+
+          Airports.findOne({iata_3code: params.ArrivalLocationCode})
+            .exec(function (err, result) {
+              if (err) {
+                return callback(err);
+              }
+
+              callback(null, result);
+            });
+        }
+      },
+      // Final callback
+      function(err, results) {
+        if(!err)
+        {
+          params.departCity = results.depart_city.city;
+          params.arrivCity = results.arriv_city.city;
+        }
+
+        return res.view('search/index', {
+          title         : 'Search for flights',
+          user          : req.user,
+          defaultParams : params,
+          serviceClass  : Search.serviceClass,
+          errors        : error
+        });
+      }
+    );
   },
 
   /**
