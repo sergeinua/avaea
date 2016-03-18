@@ -1,14 +1,14 @@
 <% if (tiles) { %>
 <!--<div class="row" style="width: 100%;display:inline-block; overflow: auto; white-space: nowrap; margin:0px auto;"></div>-->
-<div class="swiper-container" style="width: 100%">
-  <!--<div id="tiles" class="tiles row swiper-wrapper">-->
+<div class="col-xs-12" style="padding: 0">
+<div class="swiper-container" style="width: 100%;">
   <div id="tiles" class="swiper-wrapper">
   <%
   for(var name in tiles) {
     var tile = tiles[name];
     if (tile.name == 'Duration' && searchParams.returnDate) {tile.name += '&#8644;'}
   %>
-    <div class="swiper-slide" style="width: 150px; margin: 0 4px;">
+    <div class="swiper-slide">
       <div class="mybucket" id="<%= tile.id%>">
       <div id="<%= __(tile.id)%>"  class="mycustomtab" ><%= __(tile.name)%></div>
       <ul class="list-group" style='margin-bottom:0px;max-height:140px;overflow:auto'>
@@ -23,6 +23,6 @@
     </div>
   <% } %>
 </div></div>
-
+</div>
 <% } %>
 <div class="selectedfilters row" filters=''></div>
