@@ -17,12 +17,14 @@
           </span>
         <% }%><!--&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
       </div>
+    </div>
       <% if (typeof timelog != 'undefined' && timelog) { %>
       <!--<div class="alert alert-danger" role="alert" id="timeAlert">
         <p class="text-info" style="color: grey"><%= timelog %></p>
       </div>-->
       <% } %>
       <%- partial('bucket')%>
+    <div class="col-xs-12">
       <div class="total-count row">
         <div class="col-xs-9" style="padding-top: 2px">
           <span id='search_count'><%= searchResult.length %></span> of <%= searchResult.length %> Flights
