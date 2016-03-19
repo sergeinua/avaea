@@ -414,8 +414,8 @@ $(document).ready(function() {
   });
 
   $('.itinerary').click(function (event) {
-    $('.itinerary').removeClass('selected');
-    $(this).addClass('selected');
+    //$('.itinerary').removeClass('selected');
+    //$(this).addClass('selected');
     var itineraryId = $(this).attr('id');
     var details = $(this).attr('for');
     if (details) {
@@ -449,7 +449,7 @@ $(document).ready(function() {
     //if ($('.itinerary.selected')) {
     //  id = $('.selected').attr('id');
     //}
-    console.log('Order id:', id);
+    //console.log('Order id:', id);
     if (id) {
       location.href = '/order?id=' + id;
     }

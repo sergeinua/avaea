@@ -190,10 +190,8 @@ body {
 
 .selected {
   font-weight: normal;
-  /*
   background-color: #9acfea !important;
   border-color: #E3F0DF;
-  */
 }
 
 .disabled {
