@@ -1,3 +1,23 @@
+- name: Copy nginx configs
+  copy: src=configs/nginx/sites-enabled/{{ item }}
+    dest=/etc/nginx/sites-enabled/{{ item }}
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - "{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}"
+    - "{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}"
+
+- name: Copy upstart configs
+  copy: src=configs/upstart/{{ item }}.conf
+    dest=/etc/init/{{ item }}.conf
+    owner=root
+    group=root
+    mode=0644
+  with_items:
+    - "{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}"
+    - "{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}"
+
 - name: Update codebase
   git: repo=git@bitbucket.org:avaea_eng/avaea.git
     dest="{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
