@@ -6,7 +6,7 @@ module.exports = {
   alpha : sails.config.prediction.tiles.alpha,
   default: {
     tile_position : sails.config.prediction.tiles.default.tile_position,
-    confidence  : sails.config.prediction.tiles.default.confidence,
+    confidence    : sails.config.prediction.tiles.default.confidence,
     counter       : sails.config.prediction.tiles.default.counter
   },
 
