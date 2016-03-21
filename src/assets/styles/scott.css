@@ -87,7 +87,7 @@ body {
 
 .flight-info {
   font-family: WhitneyHTF-BookCondensed;
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.2;
   letter-spacing: 0.1px;
   padding: 5px 0;
@@ -98,15 +98,13 @@ body {
 }
 
 .requested-airports {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 18px;
+  font-family: WhitneyHTF-SemiBoldCondensed;
+  font-size: 17px;
   line-height: 1.0;
   letter-spacing: 0.1px;
 }
 
 .flight-type {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 17px;
   line-height: 1.0;
   letter-spacing: 0.1px;
   text-align: center;
@@ -115,25 +113,28 @@ body {
 }
 
 .flight-date {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.3;
   letter-spacing: 0.1px;
   padding-top: 10px;
 }
 
 .flight-date>span {
-  font-size: 9px;
+  font-size: 6px;
   margin-bottom: 2px;
   top: 0 !important;
 }
 
 .flight-date>span.passengers_count {
-  font-size: 14px;
+  font-size: inherit;
+}
+
+#user-icon-small {
+  font-size: 0.8em;
 }
 
 .text-spacer {
-  padding-left:  20px;
+  padding-left:  15px;
 }
 
 .mycustomtab {
