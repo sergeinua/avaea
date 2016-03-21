@@ -15,7 +15,11 @@
 
 @font-face {
   font-family: WhitneyHTF-BookCondensed;
-  src: url('../fonts/WhitneyHTF-BookCondensed.otf');
+  font-style: normal;
+  font-weight: 300;
+  src: local('Oswald Light'), local('Oswald-Light'), url(https://fonts.gstatic.com/s/oswald/v10/HqHm7BVC_nzzTui2lzQTDVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+  /*src: url('../fonts/WhitneyHTF-BookCondensed.otf');*/
 }
 
 @font-face {
@@ -97,7 +101,7 @@ body {
 
 .flight-type {
   font-family: WhitneyHTF-BookCondensed;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.0;
   letter-spacing: 0.1px;
   color: #ffffff;
@@ -167,8 +171,8 @@ body {
 
 .mybucket .list-group-item, .mybucket .list-group-item .selected {
   height: 35px;
-   font-family: WhitneyHTF-BookCondensed;
-  font-size: 18px;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 16px;
   line-height: 1.1;
   letter-spacing: 0.4px;
   color: #101742;
@@ -249,8 +253,8 @@ body {
   border-top: 1px solid #E8E8E8;
   /*border-bottom: 1px solid #E8E8E8;*/
   font-family: WhitneyHTF-BookCondensed;
-  font-size: 14px;
-  line-height: 0.9;
+  font-size: 13px;
+  /*line-height: 0.9;*/
   letter-spacing: 0.3px;
   color: #333333;
   padding-top: 10px;

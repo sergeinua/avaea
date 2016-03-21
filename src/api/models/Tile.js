@@ -715,7 +715,7 @@ module.exports = {
           next_rank++;
         }
       }
-      cicstanford.print_many_itineraries(itineraries);
+      //cicstanford.print_many_itineraries(itineraries);
       /* }}} Smart Ranking */
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
@@ -979,7 +979,7 @@ module.exports = {
       delete tmp.lastArrival;
       delete tmp.uniqArrival;
 
-      var maxOrderTile = _.max(tileArr, 'order');
+      var maxOrderTile = _.min(tileArr, 'order');
       switch (maxOrderTile.id) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');
