@@ -33,56 +33,56 @@ module.exports = {
     sourceArrival: {
       name: 'Arrival',
       id: 'source_arrival_tile',
-      order: 0,
+      order: 99,
       filters: [
       ]
     },
     destinationDeparture: {
       name: 'Departure',
       id: 'destination_departure_tile',
-      order: 0,
+      order: 99,
       filters: [
       ]
     },
     Arrival: {
       name: 'Arrival',
       id: 'arrival_tile',
-      order: 0,
+      order: 99,
       filters: [
       ]
     },
     Departure: {
       name: 'Departure',
       id: 'departure_tile',
-      order: 0,
+      order: 98,
       filters: [
       ]
     },
     Airline: {
       name: 'Airline',
       id: 'airline_tile',
-      order: 0,
+      order: 97,
       filters: [
       ]
     },
     Duration: {
       name: 'Duration',
       id: 'duration_tile',
-      order: 0,
+      order: 96,
       filters: [
       ]
     },
     Price: {
       name: 'Price',
       id: 'price_tile',
-      order: 0,
+      order: 95,
       filters: [
       ]
     },
     Merchandising: { // Merchandising Fake data Issue #39
       name: 'Merchandising',
       id: 'merchandising_tile',
-      order: 0,
+      order: 99,
       filters: [
         {
           title: 'WiFi',
@@ -715,7 +715,7 @@ module.exports = {
           next_rank++;
         }
       }
-      cicstanford.print_many_itineraries(itineraries);
+      //cicstanford.print_many_itineraries(itineraries);
       /* }}} Smart Ranking */
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
@@ -979,7 +979,7 @@ module.exports = {
       delete tmp.lastArrival;
       delete tmp.uniqArrival;
 
-      var maxOrderTile = _.max(tileArr, 'order');
+      var maxOrderTile = _.min(tileArr, 'order');
       switch (maxOrderTile.id) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');

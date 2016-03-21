@@ -29,11 +29,12 @@ module.exports = {
     }
     //check action
     var data = req.allParams();
-    var recalculateTiles = true;
-    if (data) {
-        if (data.recalculate) {
-            recalculateTiles = false;
-        }
+
+    var recalculateTiles = false;
+    if (!_.isEmpty(data)) {
+      if (data.recalculate == 'true') {
+        recalculateTiles = true;
+      }
     }
     //( tile )
     if (recalculateTiles) {

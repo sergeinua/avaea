@@ -16,7 +16,7 @@ $(document).ready(function() {
             data: data
         })
         .done(function( msg ) {
-            //console.log( "Data Saved: " + msg );
+            //console.log( "Data Saved: ",  type, msg );
         });
     };
 
@@ -238,7 +238,7 @@ $(document).ready(function() {
         if ($(this).hasClass('disabled')) {
             return false;
         }
-        var tileId = $(this).parent().parent().find('a').attr('id');
+        var tileId = $(this).parent().parent().attr('id');
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             var filters = $('.selectedfilters').attr('filters');
@@ -248,11 +248,11 @@ $(document).ready(function() {
             var needRecalculate = !$(this).siblings('.selected').length;
             // log to abo
             logAction('on_tile_choice', {
-                action         : 'filter_remove',
+                action      : 'filter_remove',
                 tileName    : tileId,
-                tileValue     : $(this).html(),
-                tileId           : $(this).attr('for'),
-                sample       : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+                tileValue   : $(this).html(),
+                tileId      : $(this).attr('for'),
+                sample      : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
                 recalculate : needRecalculate
             });
             var result = [];
@@ -279,11 +279,11 @@ $(document).ready(function() {
             }
             // log to abo
             logAction('on_tile_choice', {
-                action         : 'filter_add',
+                action      : 'filter_add',
                 tileName    : tileId,
-                tileValue     : $(this).html(),
-                tileId           : $(this).attr('for'),
-                sample       : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+                tileValue   : $(this).html(),
+                tileId      : $(this).attr('for'),
+                sample      : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
                 recalculate : needRecalculate
             });
 
