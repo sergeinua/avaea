@@ -187,10 +187,14 @@ body {
   font-weight: normal;
   top: 5px;
 }
+.mybucket .selected > .badge {
+  color: #FFFFFF;
+}
 
 .selected {
   font-weight: normal;
-  background-color: #9acfea !important;
+  background-color: #004a99 !important;
+  color: #FFFFFF !important;
   border-color: #E3F0DF;
 }
 
