@@ -408,6 +408,12 @@ $(document).ready(function() {
 
   //loading
   $('#search_form').submit(function (event) {
+    // Check existence of the return date for the round trip
+    if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+      $('.flight-date-info-item.ret').addClass("error_elem");
+      return false;
+    }
+
     $('.search-button').hide();
     $("body").addClass("loading");
     return true;
@@ -713,6 +719,9 @@ $(document).ready(function() {
     // cache values
     $('#departureDate').data('date', $('#depart_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
     $('#returnDate').data('date', $('#return_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
+
+    if($('.flight-date-info-item.ret').hasClass("error_elem"))
+      $('.flight-date-info-item.ret').removeClass("error_elem");
 
     changeFlightTab($('#search_form').data('flight-type'));
   });
