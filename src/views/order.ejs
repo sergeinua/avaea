@@ -165,7 +165,7 @@
       </div>
 
       <div>
-        <label class="control-label">Country</label>
+        <label class="control-label">Country Code</label>
         <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
       </div>
 
@@ -204,9 +204,9 @@
 
   <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
     <div class="container-fluid">
-      <button id="booking_button" class="btn btn-sm btn-primary btn-block center-block" style="max-width: 100%">
+      <div class="buy-button"><button id="booking_button" class="btn btn-sm btn-primary btn-block center-block" style="max-width: 100%">
         BOOK FOR <%= orderPrice %>
-      </button>
+      </button></div>
     </div>
   </nav>
 

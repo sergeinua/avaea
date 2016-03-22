@@ -34,7 +34,11 @@ module.exports = {
         ]
     },
     showTiles         : { type: 'boolean'},
-    preferredAirlines : { type: 'json' }
+    preferredAirlines : { type: 'json' },
+    city              : { type: 'string' },
+    state             : { type: 'string' },
+    country_code      : { type: 'string' },
+    zip_code          : { type: 'string' }
   },
 
   findOneByUserId: function (id) {

@@ -26,11 +26,20 @@ module.exports = {
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
 
       if (found) {
-        var profileFields = {FirstName:"firstName", LastName:"lastName", Address1:"address"};
+        // map between form fields (mondee API fields) and DB profile fields
+        var profileFields = {
+          FirstName: "firstName",
+          LastName: "lastName",
+          Address1: "address",
+          City: "city",
+          State: "state",
+          Country: "country_code",
+          ZipCode: "zip_code"
+        };
 
         // Apply DB values if form fields is not defined yet
         for(var prop in profileFields) {
-          if(typeof reqParams[prop] == 'undefined' || reqParams[prop].trim()=="")
+          if(typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim()==""))
             reqParams[prop] = found[profileFields[prop]];
         }
       }

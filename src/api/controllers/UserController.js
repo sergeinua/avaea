@@ -27,11 +27,23 @@ module.exports = {
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (!found) {
         res.redirect('create');
-      } else {
+      }
+      else {
+        // Assign fields for the view
+        var profile_fields = {};
+        for(var prop in found) {
+          if(!found.hasOwnProperty(prop))
+            continue;
+          if(typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()==""))
+            profile_fields[prop] = '';
+          else
+            profile_fields[prop] = found[prop];
+        }
+
         return res.view('user/profile', {
           title:'Update profile',
           user: req.user,
-          Profile: found
+          Profile: profile_fields
         });
       }
     });
