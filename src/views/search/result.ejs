@@ -79,8 +79,7 @@
         <% }); %>
       </div>
       <div class="col-xs-3 buy-button">
-        <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %></button>
-        <!--button class="btn btn-sm btn-primary btn-block center-block"><%= __('BOOK') %></button-->
+        <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
       </div>
     </div>
 

@@ -195,11 +195,17 @@ body {
   font-weight: normal;
   top: 5px;
 }
-
 .selected {
   font-weight: normal;
   background-color: #9acfea !important;
   border-color: #E3F0DF;
+}
+.mybucket .selected {
+  color: #FFFFFF;
+  background-color: #101742 !important;
+}
+.mybucket .selected > .badge {
+  color: #FFFFFF;
 }
 
 .disabled {
@@ -672,6 +678,7 @@ body.loading .modal {
   letter-spacing: 0.3px;
   color: #ffffff;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 #date_select_main {
