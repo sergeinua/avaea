@@ -128,9 +128,7 @@ $(document).ready(function() {
             filters.pop();
             $('.selectedfilters').attr('filters', filters.join(' '));
             if (lastElement) {
-              //var slickIndex = $('[for='+lastElement+']').parent().parent().attr('data-slick-index') || 0;
-              //$($('.slick-slide')[slickIndex]).trigger('click');
-              swiper.slideTo(lastElement);
+              swiper.slideTo($('[for='+lastElement+']').parents('.swiper-slide').index());
               $('[for='+lastElement+']').removeClass('selected');
             }
             filterItineraries();
@@ -239,6 +237,7 @@ $(document).ready(function() {
             return false;
         }
         var tileId = $(this).parent().parent().attr('id');
+        swiper.slideTo($(this).parents('.swiper-slide').index());
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
             var filters = $('.selectedfilters').attr('filters');
@@ -408,6 +407,12 @@ $(document).ready(function() {
 
   //loading
   $('#search_form').submit(function (event) {
+    // Check existence of the return date for the round trip
+    if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+      $('.flight-date-info-item.ret').addClass("error_elem");
+      return false;
+    }
+
     $('.search-button').hide();
     $("body").addClass("loading");
     return true;
@@ -714,6 +719,9 @@ $(document).ready(function() {
     $('#departureDate').data('date', $('#depart_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
     $('#returnDate').data('date', $('#return_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
 
+    if($('.flight-date-info-item.ret').hasClass("error_elem"))
+      $('.flight-date-info-item.ret').removeClass("error_elem");
+
     changeFlightTab($('#search_form').data('flight-type'));
   });
   /* }}} Depart/Return Date selection */
@@ -888,6 +896,17 @@ $(document).ready(function() {
     changeFlightTab(choosenTab);
     drawAirportData('originAirport');
     drawAirportData('destinationAirport');
+  }
+
+  // result page init
+  {
+    if ($('.flight-info').length) {
+      $('.flight-info > div:first-child').css('padding-left', '0')
+      $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
+      $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
+      $('.flight-info').removeClass('hide').addClass('navbar-header').wrap('<div class="container-fluid"/>');
+      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+    }
   }
 
 
