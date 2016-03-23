@@ -344,6 +344,8 @@ $(document).ready(function() {
         $('#from-area-selected').removeClass('hidden');
         $('#from-airport-selected').text(airportCode);
         $('#from-city-selected').text(cityName);
+        if($('#from-area').hasClass("error_elem"))
+          $('#from-area').removeClass("error_elem");
       } else {
         $('#from-area-selected').addClass('hidden');
         $('#from-area').removeClass('hidden');
@@ -356,6 +358,8 @@ $(document).ready(function() {
         $('#to-area-selected').removeClass('hidden');
         $('#to-airport-selected').text(airportCode);
         $('#to-city-selected').text(cityName);
+        if($('#to-area').hasClass("error_elem"))
+          $('#to-area').removeClass("error_elem");
       } else {
         $('#to-area-selected').addClass('hidden');
         $('#to-area').removeClass('hidden');
@@ -407,11 +411,26 @@ $(document).ready(function() {
 
   //loading
   $('#search_form').submit(function (event) {
+    var _isError = false;
+
+    // Check airports selection
+    if($('#originAirport').val() == '') {
+      $('#from-area').addClass("error_elem");
+      _isError = true;
+    }
+    if($('#destinationAirport').val() == '') {
+      $('#to-area').addClass("error_elem");
+      _isError = true;
+    }
+
     // Check existence of the return date for the round trip
     if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
       $('.flight-date-info-item.ret').addClass("error_elem");
-      return false;
+      _isError = true;
     }
+
+    if(_isError)
+      return false;
 
     $('.search-button').hide();
     $("body").addClass("loading");

@@ -545,13 +545,6 @@ body.loading .modal {
   position: fixed;
   bottom: 0;
 }
-.error_elem {
-  background-color: #ff2600;
-  color: #ffffff;
-}
-.error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
-  color: #ffffff;
-}
 
 .nav.navbar-nav > li {
   font-family: WhitneyHTF-MediumCondensed;
@@ -820,4 +813,12 @@ body.loading .modal {
 
 #form_booking div.panel {
   margin-top: 20px;
+}
+
+.error_elem {
+  background-color: #ff2600;
+  color: #ffffff;
+}
+.error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
+  color: #ffffff;
 }
