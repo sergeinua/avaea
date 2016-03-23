@@ -449,10 +449,6 @@ module.exports = {
         }
         currentNum++;
 
-        if (itinerary.smartRank > 0) {
-          filterClass = filterClass + ' smart';
-        }
-
         itinerary.filterClass = filterClass;
         return doneCallback(null);
       }, function (err) {
@@ -1129,10 +1125,6 @@ module.exports = {
           filterClass = filterClass + ' recommended';
         }
         currentNum++;
-
-        if (itinerary.smartRank > 0) {
-          filterClass = filterClass + ' smart';
-        }
 
         itinerary.filterClass = filterClass;
         return doneCallback(null);

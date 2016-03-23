@@ -37,6 +37,30 @@
   </div>
   <div class="selectedfilters row" filters=''></div>
   <% } %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="sort-button">
+        <button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Sort by <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <% var i=0; for(var name in tiles) { %>
+          <% var tile = tiles[name];
+            if (tile.name == 'Duration' && searchParams.returnDate) {
+              tile.name += '&#8644;'
+            }
+            var tileClasses = [];
+            for(var f=0; f < tile.filters.length; f++) {
+              tileClasses.push(tile.filters[f].id);
+            } %>
+          <li sort="<%= tileClasses.join(' ') %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><%= __(tile.name) %><span class="caret pull-right<%if (i) { %> hide<% } %>"></span></a></li>
+          <% i++; if (i == 4) break; } %>
+          <li role="separator" class="divider"></li>
+          <li sort="smart"><a href="#">Smart<span class="caret pull-right<%if (i) { %> hide<% } %>"></span></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
   <!--div class="total-count row">
     <div class="col-xs-9" style="padding-top: 2px;">
     </div>

@@ -6,8 +6,8 @@
         tile.name += '&#8644;'
       } %>
     <div class="swiper-slide">
-      <div class="mybucket" id="<%= tile.id%>">
-        <div id="<%= __(tile.id) %>" class="mycustomtab"><%= __(tile.name) %></div>
+      <div class="mybucket" id="<%= tile.id %>">
+        <div class="mycustomtab"><%= __(tile.name) %></div>
         <ul class="list-group" style='margin-bottom:0px;max-height:140px;overflow:auto'>
           <% tile.filters.forEach( function (filter) {
             if (parseInt(filter.count) > 0) { %>

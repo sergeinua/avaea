@@ -227,22 +227,57 @@ body {
   color: #333333;
 }
 
-.undo-button {
-  /*
-  width: 79px;
-  height: 35px;
-  background-color: rgba(109, 109, 109, 0.8);
+.sort-button {
+  width: 80px;
+  height: 36px;
   position: fixed;
-  top: 90px;
-  right: 10px;
+  margin-left: -40px;
+  left:50%;
+}
+
+.sort-button .dropdown-menu {
+  left: 50%;
+  right: auto;
+  transform: translate(-50%, 0);
+  font-family: WhitneyHTF-MediumCondensed;
+  text-transform: uppercase;
+  vertical-align: middle;
+}
+
+.sort-button .selected {
+  color: #FFFFFF !important;
+  background-color: #004a99 !important;
+}
+
+.sort-button .selected a {
+  color: #FFFFFF !important;
+}
+
+.sort-button .dropdown-menu li, .sort-button .dropdown-menu li span {
+  vertical-align: middle;
+  margin: auto 0;
+}
+
+.sort-button .dropdown-menu li span {
+  margin-top: 8px;
+}
+
+.sort-button button.btn {
+  width: 80px;
+  height: 36px;
+  background-color: rgba(109, 109, 109, 0.8);
   font-family: WhitneyHTF-BookCondensed;
   font-size: 18px;
   line-height: 1.0;
   letter-spacing: 0.3px;
   color: #ffffff;
-  text-align: center;
-  padding-top: 10px;
-  */
+}
+
+.sort-button .btn.focus, .sort-button .btn:focus,
+.sort-button .btn.active, .sort-button .btn:active,
+.sort-button .btn:hover {
+  color: #ffffff;
+  outline: none;
 }
 
 .itinerary {
@@ -806,7 +841,7 @@ body.loading .modal {
   background-color:white !important;
 }
 
-.divider {
+.navbar-nav .divider {
   /*background-color:white !important;*/
   border: 1px dotted grey;
 }

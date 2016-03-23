@@ -1,343 +1,335 @@
 /* global $ */
 $(document).ready(function() {
-    $('#timeAlert').fadeOut(5000, function () {
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
-    });
-    var showTotal = !!$('.itinerary:visible').length;
-    /**
-    * Possible types
-    * on_tile_choice | on_itinerary_purchase
-    *
-    */
-    var logAction = function (type, data) {
-        $.ajax({
-            method: "POST",
-            url: "/prediction/" + type,
-            data: data
-        })
-        .done(function( msg ) {
-            //console.log( "Data Saved: ",  type, msg );
-        });
-    };
+  $('#timeAlert').fadeOut(5000, function () {
+    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
+  });
+  var showTotal = !!$('.itinerary:visible').length;
+  /**
+   * Possible types
+   * on_tile_choice | on_itinerary_purchase
+   *
+   */
+  var logAction = function (type, data) {
+    $.ajax({
+        method: "POST",
+        url: "/prediction/" + type,
+        data: data
+      })
+      .done(function( msg ) {
+        //console.log( "Data Saved: ",  type, msg );
+      });
+  };
 
-    //tile recalculation
-    var recalcTiles = function () {
-        var filters = $('.selectedfilters').attr('filters');
-        filters = filters ? filters.split(' ') : [];
-        var groups = {};
-        if (filters.length) {
-            filters.forEach(function(filter) {
-              if (filter && filter != '') {
-                  var tileGroup = filter.replace(/(tile).+/, '$1');
-                  if (typeof groups[tileGroup] == 'undefined') {
-                    groups[tileGroup] = [];
-                  }
-                  groups[tileGroup].push(filter);
-              }
-            });
-        }
-        $('#tiles').find('li').each(function(item) {
-            var tile = $(this);
-            var sCount = 0;
-            if (tile.hasClass('selected')) {
-                sCount = $('.' + tile.attr('for') + ':visible').length;
-            } else {
-                if (tile.attr('for')) {
-                  var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
-                  var predictedClass = '.' + tile.attr('for');
-                  if ($('#smart').prop('checked')) {
-                    predictedClass = predictedClass + '.smart';
-                  }
-                  var predictedResult = $(predictedClass);
-
-                  for (var key in groups) {
-                    if (!groups.hasOwnProperty(key)) continue;
-
-                    if (key != tileGroup) {
-                      predictedResult = predictedResult.filter('.' + groups[key].join(',.'));
-                    }
-                  }
-                  sCount = predictedResult.length;
-                }
-            }
-            if ( sCount > 0 ) {
-                $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
-                tile.removeClass('disabled');
-            } else if ( sCount <= 0 ) {
-                $('[for='+tile.attr('for')+'] > span.badge').text('');
-                tile.removeClass('selected');
-                var filters = $('.selectedfilters').attr('filters');
-                var re = new RegExp('\b' + tile.attr('for') + '\b');
-                filters = filters.replace(re, '');
-                $('.selectedfilters').attr('filters', filters);
-                tile.addClass('disabled');
-            }
-        });
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
-    };
-    var filtersCount = {};
-    var filterItineraries = function () {
-        var filters = $('.selectedfilters').attr('filters');
-        filters = filters ? filters.split(' ') : [];
-        $('.itinerary').show();
-        $('.mybucket').each(function() {
-
-            var selectedTileFilers = [];
-            var tileName = $(this).attr('id');
-            $(this).find('li').each(function() {
-                var tileId = $(this).attr('for');
-                if ($.inArray(tileId, filters) != -1) {
-                    selectedTileFilers.push(tileId);
-                }
-            });
-
-            if (selectedTileFilers.length) {
-                filtersCount[tileName] = $('.itinerary:visible').filter('.' + selectedTileFilers.join(',.')).length;
-                $('.itinerary:visible').not('.' + selectedTileFilers.join(',.')).hide();
-            }
-        });
-
-        if ($('#smart').prop('checked')) {
-          $('.itinerary:visible').not('.smart').hide();
-          recalcTiles();
-        }
-
-        if (showTotal) {
-            var sCount = $('.itinerary:visible').length;
-            $('#search_count').text(sCount);
-            $('#search_count').removeClass('hidden');
-            recalcTiles();
-        }
-    };
-
-    filterItineraries();
-
-    $('#clear').click(function() {
-        $('.selectedfilters').attr('filters', '');
-        $('#tiles').find('li.selected').removeClass('selected');
-        //$($('.slick-slide')[0]).trigger('click');
-        swiper.slideTo(0);
-        filterItineraries();
-    });
-
-    $('#undo').click(function() {
-        var filters = $('.selectedfilters').attr('filters');
-        filters = filters.split(' ');
-        if (filters.length) {
-            var lastElement = filters[filters.length - 1];
-            filters.pop();
-            $('.selectedfilters').attr('filters', filters.join(' '));
-            if (lastElement) {
-              swiper.slideTo($('[for='+lastElement+']').parents('.swiper-slide').index());
-              $('[for='+lastElement+']').removeClass('selected');
-            }
-            filterItineraries();
-        }
-    });
-
-    var stopPropagationSmart = false;
-    var smartCache = [];
-    $('#smart').change(function() {
-      if (!stopPropagationSmart) {
-        if (confirm('All buckets will be reset. Are you sure?')) {
-          if (!$(this).prop('checked')) {
-            // restore initial sorting
-            $('#searchResultData').replaceWith(smartCache);
-            smartCache = [];
+  //tile recalculation
+  var recalcTiles = function () {
+    var filters = $('.selectedfilters').attr('filters');
+    filters = filters ? filters.split(' ') : [];
+    var groups = {};
+    if (filters.length) {
+      filters.forEach(function(filter) {
+        if (filter && filter != '') {
+          var tileGroup = filter.replace(/(tile).+/, '$1');
+          if (typeof groups[tileGroup] == 'undefined') {
+            groups[tileGroup] = [];
           }
-          $('#clear').click();
-          if ($(this).prop('checked')) {
-            // clone result for restoring initial sorting when smart mode is off
-            smartCache = $('#searchResultData').clone(true);
-
-            var myArray = $('.itinerary.smart');
-
-            // sort itineraries based on smart rank
-            myArray.sort(function (a, b) {
-
-              // convert to integers from strings
-              a = parseInt($(a).attr("smart"));
-              b = parseInt($(b).attr("smart"));
-              // compare
-              if(a > b) {
-                return 1;
-              } else if(a < b) {
-                return -1;
-              } else {
-                return 0;
-              }
-            });
-            // remove visible itineraries and place it in smart order
-            $('.itinerary.smart').detach();
-            $('#searchResultData').prepend(myArray);
-          }
-        } else {
-          stopPropagationSmart = true;
-          $(this).bootstrapToggle($(this).prop('checked')?'off':'on');
+          groups[tileGroup].push(filter);
         }
+      });
+    }
+    $('#tiles').find('li').each(function(item) {
+      var tile = $(this);
+      var sCount = 0;
+      if (tile.hasClass('selected')) {
+        sCount = $('.' + tile.attr('for') + ':visible').length;
       } else {
-        stopPropagationSmart = false;
+        if (tile.attr('for')) {
+          var tileGroup = tile.attr('for').replace(/(tile).+/, '$1');
+          var predictedClass = '.' + tile.attr('for');
+          var predictedResult = $(predictedClass);
+
+          for (var key in groups) {
+            if (!groups.hasOwnProperty(key)) continue;
+
+            if (key != tileGroup) {
+              predictedResult = predictedResult.filter('.' + groups[key].join(',.'));
+            }
+          }
+          sCount = predictedResult.length;
+        }
+      }
+      if ( sCount > 0 ) {
+        $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
+        tile.removeClass('disabled');
+      } else if ( sCount <= 0 ) {
+        $('[for='+tile.attr('for')+'] > span.badge').text('');
+        tile.removeClass('selected');
+        var filters = $('.selectedfilters').attr('filters');
+        var re = new RegExp('\b' + tile.attr('for') + '\b');
+        filters = filters.replace(re, '');
+        $('.selectedfilters').attr('filters', filters);
+        tile.addClass('disabled');
+      }
+    });
+    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+  };
+  var filtersCount = {};
+  var filterItineraries = function () {
+    var filters = $('.selectedfilters').attr('filters');
+    filters = filters ? filters.split(' ') : [];
+    $('.itinerary').show();
+    $('.mybucket').each(function() {
+
+      var selectedTileFilers = [];
+      var tileName = $(this).attr('id');
+      $(this).find('li').each(function() {
+        var tileId = $(this).attr('for');
+        if ($.inArray(tileId, filters) != -1) {
+          selectedTileFilers.push(tileId);
+        }
+      });
+
+      if (selectedTileFilers.length) {
+        filtersCount[tileName] = $('.itinerary:visible').filter('.' + selectedTileFilers.join(',.')).length;
+        $('.itinerary:visible').not('.' + selectedTileFilers.join(',.')).hide();
       }
     });
 
-    $('.mymoreprofilebutton').click(function(el) {
-        var cloneTarget = $(this).attr('for');
-        var clone = $('#' + cloneTarget).clone().find("input").val("").end();
+    if (showTotal) {
+      var sCount = $('.itinerary:visible').length;
+      $('#search_count').text(sCount);
+      $('#search_count').removeClass('hidden');
+      recalcTiles();
+    }
+  };
 
-        clone.find('hr').removeClass('hidden');
-        clone.appendTo($('#' + cloneTarget).parent());
-        return false;
-    });
+  filterItineraries();
 
-    // more/less button for merchandising
-    $('.mymorebutton').click(function() {
-        var _it = $(this).attr('for');
-        var _mmcnt = '.mymorecontent' + _it;
-        $(_mmcnt).toggleClass(function() {
-            if($(_mmcnt).is( ".hidden" )) {
-                $('#mymorebtn' + _it).text("less")
-            } else {
-                $('#mymorebtn' + _it).text("more")
-            }
-            return "hidden";
+  $('#clear').click(function() {
+    $('.selectedfilters').attr('filters', '');
+    $('#tiles').find('li.selected').removeClass('selected');
+    //$($('.slick-slide')[0]).trigger('click');
+    swiper.slideTo(0);
+    filterItineraries();
+  });
+
+  $('#undo').click(function() {
+    var filters = $('.selectedfilters').attr('filters');
+    filters = filters.split(' ');
+    if (filters.length) {
+      var lastElement = filters[filters.length - 1];
+      filters.pop();
+      $('.selectedfilters').attr('filters', filters.join(' '));
+      if (lastElement) {
+        swiper.slideTo($('[for='+lastElement+']').parents('.swiper-slide').index());
+        $('[for='+lastElement+']').removeClass('selected');
+      }
+      filterItineraries();
+    }
+  });
+
+  $('.sort-button .dropdown-menu li').not('.divider').click(function() {
+    if (!$(this).hasClass('selected')) {
+      $('span.caret', '.sort-button .dropdown-menu li.selected').addClass('hide');
+      $('.sort-button .dropdown-menu li.selected').removeAttr('order').removeClass('selected');
+      $('span.caret', this).removeClass('hide');
+      $(this).addClass('selected');
+    }
+    var
+      sort = $(this).attr('sort'),
+      order = 'asc';
+    $(this).removeClass('dropup');
+    if ($(this).attr('order') == 'asc') {
+      $(this).addClass('dropup');
+      order = 'desc';
+    }
+    $(this).attr('order', order);
+    switch (sort) {
+      case 'smart':
+        var itineraries = $('.itinerary');
+        // sort itineraries based on smart rank
+        itineraries.sort(function (a, b) {
+          var
+            a = parseInt($(a).attr("smart")),
+            b = parseInt($(b).attr("smart"));
+          if (order == 'desc') {
+            b = [a, a = b][0];
+          }
+          return (a > b) ? 1 : ((a < b) ? -1 : 0);
         });
-        return false;
-    });
-
-    $('.recommended').each(function(item){
-        $(this).find('div:first').find('div:first').find('div:first')
-        .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-    });
-/*
-
-    //set dates for search request
-    //min attr for date pickers
-    $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
-    $('#departureDate').change(function() {
-        $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
-    });
-    // Set +14days for empty returnDate
-    $('#returnDate').focus(function(){
-        if($('#returnDate').val().trim() == '' && $('#departureDate').val().trim() != '')
-        {
-            var dd = Date.parse($('#departureDate').val().replace(/\s/g, ''));
-            $('#returnDate').val(new Date(dd + 86400000*14).toISOString().slice(0, 10));
-            $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
+        $('#searchResultData').append(itineraries);
+        break;
+      default:
+        // sort by class but not by value; TODO: real sorting should be by value
+        tileClasses = sort.split(' ');
+        tileClasses.sort(String.naturalCompare);
+        if (order == 'desc') {
+          tileClasses.reverse();
         }
-    });
-*/
-
-    //tiles
-    var firstSelectionCount = {};
-    var globalSelectionCount = 0;
-    var numberOfTiles = $('.mybucket').length;
-
-    $('.list-group-item').click(function(event) {
-        if ($(this).hasClass('disabled')) {
-            return false;
+        for (var i=0; i < tileClasses.length; i++) {
+          $('#searchResultData').append($('.' + tileClasses[i]));
         }
-        var tileId = $(this).parent().parent().attr('id');
-        swiper.slideTo($(this).parents('.swiper-slide').index());
-        if ($(this).hasClass('selected')) {
-            $(this).removeClass('selected');
-            var filters = $('.selectedfilters').attr('filters');
-            filters = filters.split(' ');
+        break;
+    }
+  });
 
-            //Check if the very last bucket in a tile is unselected
-            var needRecalculate = !$(this).siblings('.selected').length;
-            // log to abo
-            logAction('on_tile_choice', {
-                action      : 'filter_remove',
-                tileName    : tileId,
-                tileValue   : $(this).html(),
-                tileId      : $(this).attr('for'),
-                sample      : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
-                recalculate : needRecalculate
-            });
-            var result = [];
-            var current = $(this).attr('for');
-            if (filters.length) {
-              filters.forEach(function(filter) {
-                if (filter && filter != current && filter != '') {
-                  result.push(filter);
-                }
-              });
+  $('.mymoreprofilebutton').click(function(el) {
+    var cloneTarget = $(this).attr('for');
+    var clone = $('#' + cloneTarget).clone().find("input").val("").end();
 
-              $('.selectedfilters').attr('filters', result.join(' '));
-            }
-        } else {
-            $(this).addClass('selected');
-            var filters = $('.selectedfilters').attr('filters');
-            $('.selectedfilters').attr('filters', filters + ' ' + $(this).attr('for'));
+    clone.find('hr').removeClass('hidden');
+    clone.appendTo($('#' + cloneTarget).parent());
+    return false;
+  });
 
-             // Check if the very first bucket in a tile is selected
-            var needRecalculate = !$(this).siblings('.selected').length;
-            globalSelectionCount++;
-            if (needRecalculate) {
-              firstSelectionCount[ tileId ] = globalSelectionCount;
-            }
-            // log to abo
-            logAction('on_tile_choice', {
-                action      : 'filter_add',
-                tileName    : tileId,
-                tileValue   : $(this).html(),
-                tileId      : $(this).attr('for'),
-                sample      : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
-                recalculate : needRecalculate
-            });
-
-            var current = $(this).attr('for');
-            if (current && current.indexOf('airline_tile') != -1) {
-                checkAirlineFlierMilesProgram(current);
-            }
-        }
-        // recalculate search result
-        filterItineraries();
+  // more/less button for merchandising
+  $('.mymorebutton').click(function() {
+    var _it = $(this).attr('for');
+    var _mmcnt = '.mymorecontent' + _it;
+    $(_mmcnt).toggleClass(function() {
+      if($(_mmcnt).is( ".hidden" )) {
+        $('#mymorebtn' + _it).text("less")
+      } else {
+        $('#mymorebtn' + _it).text("more")
+      }
+      return "hidden";
     });
+    return false;
+  });
+
+  $('.recommended').each(function(item){
+    $(this).find('div:first').find('div:first').find('div:first')
+      .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
+  });
+  /*
+
+   //set dates for search request
+   //min attr for date pickers
+   $('#departureDate').attr('min', new Date().toISOString().slice(0, 10));
+   $('#departureDate').change(function() {
+   $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
+   });
+   // Set +14days for empty returnDate
+   $('#returnDate').focus(function(){
+   if($('#returnDate').val().trim() == '' && $('#departureDate').val().trim() != '')
+   {
+   var dd = Date.parse($('#departureDate').val().replace(/\s/g, ''));
+   $('#returnDate').val(new Date(dd + 86400000*14).toISOString().slice(0, 10));
+   $('#returnDate').attr('min', $('#departureDate').val().replace(/\s/g, ''));
+   }
+   });
+   */
+
+  //tiles
+  var firstSelectionCount = {};
+  var globalSelectionCount = 0;
+  var numberOfTiles = $('.mybucket').length;
+
+  $('.list-group-item').click(function(event) {
+    if ($(this).hasClass('disabled')) {
+      return false;
+    }
+    var tileId = $(this).parent().parent().attr('id');
+    swiper.slideTo($(this).parents('.swiper-slide').index());
+    if ($(this).hasClass('selected')) {
+      $(this).removeClass('selected');
+      var filters = $('.selectedfilters').attr('filters');
+      filters = filters.split(' ');
+
+      //Check if the very last bucket in a tile is unselected
+      var needRecalculate = !$(this).siblings('.selected').length;
+      // log to abo
+      logAction('on_tile_choice', {
+        action      : 'filter_remove',
+        tileName    : tileId,
+        tileValue   : $(this).html(),
+        tileId      : $(this).attr('for'),
+        sample      : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+        recalculate : needRecalculate
+      });
+      var result = [];
+      var current = $(this).attr('for');
+      if (filters.length) {
+        filters.forEach(function(filter) {
+          if (filter && filter != current && filter != '') {
+            result.push(filter);
+          }
+        });
+
+        $('.selectedfilters').attr('filters', result.join(' '));
+      }
+    } else {
+      $(this).addClass('selected');
+      var filters = $('.selectedfilters').attr('filters');
+      $('.selectedfilters').attr('filters', filters + ' ' + $(this).attr('for'));
+
+      // Check if the very first bucket in a tile is selected
+      var needRecalculate = !$(this).siblings('.selected').length;
+      globalSelectionCount++;
+      if (needRecalculate) {
+        firstSelectionCount[ tileId ] = globalSelectionCount;
+      }
+      // log to abo
+      logAction('on_tile_choice', {
+        action      : 'filter_add',
+        tileName    : tileId,
+        tileValue   : $(this).html(),
+        tileId      : $(this).attr('for'),
+        sample      : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
+        recalculate : needRecalculate
+      });
+
+      var current = $(this).attr('for');
+      if (current && current.indexOf('airline_tile') != -1) {
+        checkAirlineFlierMilesProgram(current);
+      }
+    }
+    // recalculate search result
+    filterItineraries();
+  });
 
   // Horizontal scroll for tiles
   var swiper = new Swiper ('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto'
   });
-    //$( window ).resize(function() {
-        //$('#tiles').slick('unslick');
-        //$('#tiles').slick(getSliderSettings());
-        //$('.selectedfilters > li').each(function(index) {
-            //var target = $(this).attr('for');
-            //$('#' + target).hide();
-        //})
-    //});
+  //$( window ).resize(function() {
+  //$('#tiles').slick('unslick');
+  //$('#tiles').slick(getSliderSettings());
+  //$('.selectedfilters > li').each(function(index) {
+  //var target = $(this).attr('for');
+  //$('#' + target).hide();
+  //})
+  //});
 
 
-    /**
-     * Make request to the remote server and fetch data for the typehead rendering
-     *
-     * @param {string} controllerName
-     * @param {string} actionName
-     * @returns {Function}
-     */
-    var fetchTypeheadSrc = function(controllerName, actionName) {
-        return function (q, cb) {
-            $.ajax({
-                    url: '/'+controllerName+'/'+actionName,
-                    type: 'get',
-                    data: {q: q},
-                    dataType: 'json',
-                    async: false // required, because typehead doesn't work with ajax in async mode
-                })
-                .done(function( msg ) {
-                    cb(msg ? msg : []);
-                })
-                .fail(function (msg) {
-                    cb([{city: "System error", name: "please try later", value: "---"}]);
-                });
-        };
+  /**
+   * Make request to the remote server and fetch data for the typehead rendering
+   *
+   * @param {string} controllerName
+   * @param {string} actionName
+   * @returns {Function}
+   */
+  var fetchTypeheadSrc = function(controllerName, actionName) {
+    return function (q, cb) {
+      $.ajax({
+          url: '/'+controllerName+'/'+actionName,
+          type: 'get',
+          data: {q: q},
+          dataType: 'json',
+          async: false // required, because typehead doesn't work with ajax in async mode
+        })
+        .done(function( msg ) {
+          cb(msg ? msg : []);
+        })
+        .fail(function (msg) {
+          cb([{city: "System error", name: "please try later", value: "---"}]);
+        });
     };
+  };
 
   var drawAirportData = function (target) {
-   var cityName = $('#' + target).attr('city');
-   var airportCode = $('#' + target).val();
+    var cityName = $('#' + target).attr('city');
+    var airportCode = $('#' + target).val();
     if (target == 'originAirport') {
       if (airportCode) {
         $('#from-area').addClass('hidden');
@@ -364,46 +356,46 @@ $(document).ready(function() {
       }
     }
   };
-    $('#airport-input').typeahead({
-      hint: true,
-      highlight: true,
-      minLength: 2
-    }, {
-      name: 'airports',
-      display: 'value',
-      limit: 99, // Increase default value. Will limited by controller
-      source: fetchTypeheadSrc('ac', 'airports'),
-      templates: {
-        empty: [
-          '<div class="empty-message">',
-          'unable to find the airport that match the current query',
-          '</div>'
-        ].join('\n'),
-        suggestion: function(vars) {
-          return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
-        }
+  $('#airport-input').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 2
+  }, {
+    name: 'airports',
+    display: 'value',
+    limit: 99, // Increase default value. Will limited by controller
+    source: fetchTypeheadSrc('ac', 'airports'),
+    templates: {
+      empty: [
+        '<div class="empty-message">',
+        'unable to find the airport that match the current query',
+        '</div>'
+      ].join('\n'),
+      suggestion: function(vars) {
+        return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
       }
-    }).on('typeahead:selected', function (obj, datum) {
-      $('#' + $(this).attr('target')).val(datum.value);
-      $('#' + $(this).attr('target')).attr('city', datum.city);
-      $('#search_title').addClass('hidden');
-      $('#main').removeClass('hidden');
-      $('#main_title').removeClass('hidden');
-      $('#airport-input').val('');
-      $('#airport-input').typeahead('val','');
-      //$('#airport-input').typeahead('setQuery', '');
-      drawAirportData($(this).attr('target'));
-    });
-    $('.tt-hint').addClass('form-control');
-
-    //search count
-    var sCount = $('.itinerary:visible').length;
-    $('#search_count').text(sCount);
-    if (showTotal) {
-      $('#search_count').removeClass('hidden');
-      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
-      recalcTiles();
     }
+  }).on('typeahead:selected', function (obj, datum) {
+    $('#' + $(this).attr('target')).val(datum.value);
+    $('#' + $(this).attr('target')).attr('city', datum.city);
+    $('#search_title').addClass('hidden');
+    $('#main').removeClass('hidden');
+    $('#main_title').removeClass('hidden');
+    $('#airport-input').val('');
+    $('#airport-input').typeahead('val','');
+    //$('#airport-input').typeahead('setQuery', '');
+    drawAirportData($(this).attr('target'));
+  });
+  $('.tt-hint').addClass('form-control');
+
+  //search count
+  var sCount = $('.itinerary:visible').length;
+  $('#search_count').text(sCount);
+  if (showTotal) {
+    $('#search_count').removeClass('hidden');
+    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+    recalcTiles();
+  }
 
   //loading
   $('#search_form').submit(function (event) {
@@ -464,149 +456,149 @@ $(document).ready(function() {
    * Client validation during booking of itinerary
    */
   $("#form_booking").validate({
-        rules: {
-            PaxType: {
-                required: true
-            },
-            FirstName: {
-                required: true
-            },
-            LastName: {
-                required: true
-            },
-            Gender: {
-                required: true
-            },
-            DateOfBirth: {
-                required: true,
-                date: true,
-                minlength: 10,
-                maxlength: 10
-            },
-            Address1: {
-                required: true
-            },
-            City: {
-                required: true
-            },
-            State: {
-                required: true
-            },
-            Country: {
-                required: true
-            },
-            ZipCode: {
-                required: true
-            },
-            CardType: {
-                required: true
-            },
-            CardNumber: {
-                required: true,
-                digits: true,
-                minlength: 16,
-                maxlength: 16
-            },
-            ExpiryDate: {
-                required: true,
-                minlength: 7,
-                maxlength: 7
-            },
-            CVV: {
-                required: true,
-                digits: true,
-                minlength: 3,
-                maxlength: 3
-            }
-        },
-        errorPlacement: function(error, element){}, // Skip error messages
-        highlight: function(input) {
-            $(input).parent().addClass('has-error');
-        },
-        unhighlight: function(input) {
-            $(input).parent().removeClass('has-error');
-        }
-        //onkeyup: false
-    });
+    rules: {
+      PaxType: {
+        required: true
+      },
+      FirstName: {
+        required: true
+      },
+      LastName: {
+        required: true
+      },
+      Gender: {
+        required: true
+      },
+      DateOfBirth: {
+        required: true,
+        date: true,
+        minlength: 10,
+        maxlength: 10
+      },
+      Address1: {
+        required: true
+      },
+      City: {
+        required: true
+      },
+      State: {
+        required: true
+      },
+      Country: {
+        required: true
+      },
+      ZipCode: {
+        required: true
+      },
+      CardType: {
+        required: true
+      },
+      CardNumber: {
+        required: true,
+        digits: true,
+        minlength: 16,
+        maxlength: 16
+      },
+      ExpiryDate: {
+        required: true,
+        minlength: 7,
+        maxlength: 7
+      },
+      CVV: {
+        required: true,
+        digits: true,
+        minlength: 3,
+        maxlength: 3
+      }
+    },
+    errorPlacement: function(error, element){}, // Skip error messages
+    highlight: function(input) {
+      $(input).parent().addClass('has-error');
+    },
+    unhighlight: function(input) {
+      $(input).parent().removeClass('has-error');
+    }
+    //onkeyup: false
+  });
 
-    $("#cancelMilesPrograms").click(function () {
-        cancelMilesPrograms();
-    });
+  $("#cancelMilesPrograms").click(function () {
+    cancelMilesPrograms();
+  });
 
-    var cancelMilesPrograms = function () {
-        var _fieldset = $('#AFFMP');
-        _fieldset.addClass('hidden');
-        $('#buy_button, #searchResultData, nav.navbar').removeClass('hidden');
-        $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
-        $( window ).trigger('resize');
-        $('input[name=airlineName]', _fieldset).val('');
-        $('input[name=accountNumber]', _fieldset).val('');
-        $('input[name=flierMiles]', _fieldset).val('');
-        $('input[name=expirationDate]', _fieldset).val('');
-    };
+  var cancelMilesPrograms = function () {
+    var _fieldset = $('#AFFMP');
+    _fieldset.addClass('hidden');
+    $('#buy_button, #searchResultData, nav.navbar').removeClass('hidden');
+    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+    $( window ).trigger('resize');
+    $('input[name=airlineName]', _fieldset).val('');
+    $('input[name=accountNumber]', _fieldset).val('');
+    $('input[name=flierMiles]', _fieldset).val('');
+    $('input[name=expirationDate]', _fieldset).val('');
+  };
 
-    var checkAirlineFlierMilesProgram = function (filter) {
-        var name = $.trim(filter.replace('airline_tile_', '')),
-            _name = name.replace('_', ' '),
-            _fieldset = $('#AFFMP');
-        if (_fieldset.attr('for') == name) return;
-        $('input[name=airlineName]', _fieldset).val(_name);
-        if (name) {
-            $.ajax({
-                method: "POST",
-                url: "/user/checkAFFMP",
-                data: {
-                    airlineName: name.replace('_', ' ')
+  var checkAirlineFlierMilesProgram = function (filter) {
+    var name = $.trim(filter.replace('airline_tile_', '')),
+      _name = name.replace('_', ' '),
+      _fieldset = $('#AFFMP');
+    if (_fieldset.attr('for') == name) return;
+    $('input[name=airlineName]', _fieldset).val(_name);
+    if (name) {
+      $.ajax({
+          method: "POST",
+          url: "/user/checkAFFMP",
+          data: {
+            airlineName: name.replace('_', ' ')
+          }
+        })
+        .done(function( msg ) {
+          if (msg && !msg.checked) {
+            $('#buy_button, #searchResultData, nav.navbar').addClass('hidden');
+            $('body').css('padding-top', 0);
+            _fieldset.removeClass('hidden');
+          }
+        });
+    }
+
+    _fieldset.attr('for', name);
+  };
+
+  $('#saveMilesPrograms').click(function () {
+    var _fieldset = $('#AFFMP'),
+      data = {
+        airlineName:    $.trim($('input[name=airlineName]', _fieldset).val()),
+        accountNumber:  $.trim($('input[name=accountNumber]', _fieldset).val()),
+        flierMiles:     $.trim($('input[name=flierMiles]', _fieldset).val()),
+        expirationDate: $.trim($('input[name=expirationDate]', _fieldset).val())
+      };
+    if (data.airlineName) {
+      $.ajax({
+          method: "POST",
+          url:    "/user/addMilesPrograms",
+          data:   data
+        })
+        .done(function( msg ) {
+          if (msg.error) {
+            $('#timeAlert').text('Error saving data to Airlines Frequent Flier Miles Programs.')
+              .fadeIn('slow', function () {
+                  $(this).fadeOut(5000, function () {
+                    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
+                  });
                 }
-            })
-            .done(function( msg ) {
-                if (msg && !msg.checked) {
-                    $('#buy_button, #searchResultData, nav.navbar').addClass('hidden');
-                    $('body').css('padding-top', 0);
-                    _fieldset.removeClass('hidden');
+              );
+          } else {
+            $('#timeAlert').text('Your data for Airlines Frequent Flier Miles Programs has been saved.')
+              .fadeIn('slow', function () {
+                  $(this).fadeOut(5000, function () {
+                    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
+                  });
                 }
-            });
-        }
-
-        _fieldset.attr('for', name);
-    };
-
-    $('#saveMilesPrograms').click(function () {
-        var _fieldset = $('#AFFMP'),
-            data = {
-            airlineName:    $.trim($('input[name=airlineName]', _fieldset).val()),
-            accountNumber:  $.trim($('input[name=accountNumber]', _fieldset).val()),
-            flierMiles:     $.trim($('input[name=flierMiles]', _fieldset).val()),
-            expirationDate: $.trim($('input[name=expirationDate]', _fieldset).val())
-        };
-        if (data.airlineName) {
-            $.ajax({
-                method: "POST",
-                url:    "/user/addMilesPrograms",
-                data:   data
-            })
-            .done(function( msg ) {
-                if (msg.error) {
-                    $('#timeAlert').text('Error saving data to Airlines Frequent Flier Miles Programs.')
-                        .fadeIn('slow', function () {
-                            $(this).fadeOut(5000, function () {
-                                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
-                            });
-                        }
-                    );
-                } else {
-                    $('#timeAlert').text('Your data for Airlines Frequent Flier Miles Programs has been saved.')
-                        .fadeIn('slow', function () {
-                            $(this).fadeOut(5000, function () {
-                                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
-                            });
-                        }
-                    );
-                }
-            });
-        }
-        cancelMilesPrograms();
-    });
+              );
+          }
+        });
+    }
+    cancelMilesPrograms();
+  });
 
   //remove fieldset
   $('.remove-fieldset').click(function(event){
@@ -614,10 +606,10 @@ $(document).ready(function() {
       iterator = $(this).attr('iterator');
 
     $.ajax({
-      method: "POST",
-      url: "/user/removeFieldSet",
-      data: {fieldset: fieldset, iterator: iterator}
-    })
+        method: "POST",
+        url: "/user/removeFieldSet",
+        data: {fieldset: fieldset, iterator: iterator}
+      })
       .done(function( msg ) {
 
 
@@ -625,11 +617,11 @@ $(document).ready(function() {
 
           $('#timeAlert').text('Error saving data to ' + fieldset + '.')
             .fadeIn('slow', function () {
-              $(this).fadeOut(5000, function () {
-                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
-              });
-            }
-          );
+                $(this).fadeOut(5000, function () {
+                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
+                });
+              }
+            );
 
         } else {
 
@@ -641,11 +633,11 @@ $(document).ready(function() {
 
           $('#timeAlert').text('Record was removed successfully.')
             .fadeIn('slow', function () {
-              $(this).fadeOut(5000, function () {
-                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
-              });
-            }
-          );
+                $(this).fadeOut(5000, function () {
+                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+                });
+              }
+            );
         }
       });
 
