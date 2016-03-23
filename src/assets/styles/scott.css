@@ -676,6 +676,8 @@ body.loading .modal {
   letter-spacing: 0.2px;
   color: #ffffff;
   text-transform: uppercase;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .flight-direction-item-from-to-city {
