@@ -328,14 +328,13 @@ $(document).ready(function() {
     for (var ii=0; ii < maxBucketVisibleFilters; ii++) {
       _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
     }
-    console.log("_am_disabled: ", _am_disabled);
     if(_am_disabled < maxBucketVisibleFilters) // not need scrolling
       return;
 
     // Scroll to the first enabled filter
     var _scrollItem = $(_parentElem).children().not('.disabled').first();
     if(typeof _scrollItem == 'object') {
-      console.log("_item: ", $(_scrollItem).text());
+      //console.log("_item: ", $(_scrollItem).text());
       $(_parentElem).scrollTo(_scrollItem);
     }
   };
