@@ -32,7 +32,7 @@ var roundTo30mins = function (durationMinutes, isTime) {
   var _remain = durationMinutes % 60;
 
   if (_remain > 45) {
-    if(!(isTime && durationMinutesRounded==24))
+    if(!(isTime && durationMinutesRounded/60 >= 24))
       durationMinutesRounded += 60;
   }
   else if (_remain > 15) {
