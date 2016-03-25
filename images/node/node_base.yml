@@ -1,0 +1,14 @@
+version: '2'
+services:
+  nodebase:
+    build:
+      context: ../../
+      dockerfile: images/node/node.Dockerfile
+
+
+
+#  command: /usr/local/bin/run
+#  volumes:
+#    - /usr/var/avaea
+#  env_file:
+#    - ./env_files/php.env

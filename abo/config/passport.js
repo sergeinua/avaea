@@ -43,42 +43,18 @@ module.exports.passport = {
   //     scope: ['email'] /* email is necessary for login behavior */
   //   }
   // },
+
+//test account set up to http://localhost:1337
   google: {
     name: 'Google',
     protocol: 'oauth2',
     strategy: require('passport-google-oauth').OAuth2Strategy,
     options: {
-      clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
-      clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs',
+      clientID: '964565280166-e77at51l90hu9a4q41kmbhdc1tbnnlmd.apps.googleusercontent.com',
+      clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
       prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
     }
-  },
+  }
 
- //production settings
- // google: {
- //   name: 'Google',
- //   protocol: 'oauth2',
- //   strategy: require('passport-google-oauth').OAuth2Strategy,
- //   options: {
- //     clientID: '353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com',
- //     clientSecret: 'wURGldrAW0CS1kS8PX1QJi1m',
- //     prompt: 'select_account',
- //     scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
- //   }
- // },
-
-//test account set up to http://localhost:1337
-//  google: {
-//    name: 'Google',
-//    protocol: 'oauth2',
-//    strategy: require('passport-google-oauth').OAuth2Strategy,
-//    options: {
-//      clientID: '964565280166-e77at51l90hu9a4q41kmbhdc1tbnnlmd.apps.googleusercontent.com',
-//      clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
-//      prompt: 'select_account',
-//      scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
-//    }
-//  }
-//*/
 };

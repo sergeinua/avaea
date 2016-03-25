@@ -26,7 +26,7 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'http://www.avaea.com/',
+  proxyHost: 'http://www.avaea.com',
   proxyPort: 80,
   explicitHost: 'localhost',
 
@@ -40,7 +40,7 @@ module.exports = {
   },
 
   session: {
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
