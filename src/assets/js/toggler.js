@@ -1,5 +1,7 @@
 /* global $ */
 $(document).ready(function() {
+  var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
+
   $('#timeAlert').fadeOut(5000, function () {
     $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
   });
@@ -11,13 +13,13 @@ $(document).ready(function() {
    */
   var logAction = function (type, data) {
     $.ajax({
-        method: "POST",
-        url: "/prediction/" + type,
-        data: data
-      })
-      .done(function( msg ) {
-        //console.log( "Data Saved: ",  type, msg );
-      });
+      method: "POST",
+      url: "/prediction/" + type,
+      data: data
+    })
+    .done(function( msg ) {
+      //console.log( "Data Saved: ",  type, msg );
+    });
   };
 
   //tile recalculation
@@ -228,8 +230,12 @@ $(document).ready(function() {
     if ($(this).hasClass('disabled')) {
       return false;
     }
+
     var tileId = $(this).parent().parent().attr('id');
-    swiper.slideTo($(this).parents('.swiper-slide').index());
+    if(tileId == 'airline_tile') {
+      $('#' + tileId).data("_is_touched", 1);
+    }
+
     if ($(this).hasClass('selected')) {
       $(this).removeClass('selected');
       var filters = $('.selectedfilters').attr('filters');
@@ -285,7 +291,46 @@ $(document).ready(function() {
     }
     // recalculate search result
     filterItineraries();
+
+    scrollAirlines();
+    swiper.slideTo($(this).parents('.swiper-slide').index());
   });
+
+  /**
+   * Scroll to the destination element
+   *
+   * @param {object|string} elem Selector or object
+   * @returns {$}
+   */
+  $.fn.scrollTo = function(elem) {
+    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top);
+    return this;
+  };
+
+  var scrollAirlines = function() {
+    // Bucket was touched. Not need scrolling
+    if($('#airline_tile').data('_is_touched')) {
+      return;
+    }
+
+    // get parent object for the filters
+    var _parentElem = $('#airline_tile').children('.list-group');
+
+    // Define if a bucket has all disabled filters at the beginning of the list
+    var _am_disabled = 0;
+    for (var ii=0; ii < maxBucketVisibleFilters; ii++) {
+      _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
+    }
+    if(_am_disabled < maxBucketVisibleFilters) // not need scrolling
+      return;
+
+    // Scroll to the first enabled filter
+    var _scrollItem = $(_parentElem).children().not('.disabled').first();
+    if(typeof _scrollItem == 'object') {
+      //console.log("_item: ", $(_scrollItem).text());
+      $(_parentElem).scrollTo(_scrollItem);
+    }
+  };
 
   // Horizontal scroll for tiles
   var swiper = new Swiper ('.swiper-container', {
@@ -336,6 +381,9 @@ $(document).ready(function() {
         $('#from-area-selected').removeClass('hidden');
         $('#from-airport-selected').text(airportCode);
         $('#from-city-selected').text(cityName);
+        if($('#from-area').hasClass("error_elem")) {
+          $('#from-area').removeClass("error_elem");
+        }
       } else {
         $('#from-area-selected').addClass('hidden');
         $('#from-area').removeClass('hidden');
@@ -348,6 +396,9 @@ $(document).ready(function() {
         $('#to-area-selected').removeClass('hidden');
         $('#to-airport-selected').text(airportCode);
         $('#to-city-selected').text(cityName);
+        if($('#to-area').hasClass("error_elem")) {
+          $('#to-area').removeClass("error_elem");
+        }
       } else {
         $('#to-area-selected').addClass('hidden');
         $('#to-area').removeClass('hidden');
@@ -399,11 +450,26 @@ $(document).ready(function() {
 
   //loading
   $('#search_form').submit(function (event) {
+    var _isError = false;
+
+    // Check airports selection
+    if($('#originAirport').val() == '') {
+      $('#from-area').addClass("error_elem");
+      _isError = true;
+    }
+    if($('#destinationAirport').val() == '') {
+      $('#to-area').addClass("error_elem");
+      _isError = true;
+    }
+
     // Check existence of the return date for the round trip
     if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
       $('.flight-date-info-item.ret').addClass("error_elem");
-      return false;
+      _isError = true;
     }
+
+    if(_isError)
+      return false;
 
     $('.search-button').hide();
     $("body").addClass("loading");

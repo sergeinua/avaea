@@ -280,6 +280,13 @@ body {
   outline: none;
 }
 
+.result-data {
+  position: absolute;
+  left: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
 .itinerary {
   background-color: #ffffff;
   border-top: 1px solid #E8E8E8;
@@ -573,13 +580,6 @@ body.loading .modal {
   position: fixed;
   bottom: 0;
 }
-.error_elem {
-  background-color: #ff2600;
-  color: #ffffff;
-}
-.error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
-  color: #ffffff;
-}
 
 .nav.navbar-nav > li {
   font-family: WhitneyHTF-MediumCondensed;
@@ -848,4 +848,12 @@ body.loading .modal {
 
 #form_booking div.panel {
   margin-top: 20px;
+}
+
+.error_elem {
+  background-color: #ff2600;
+  color: #ffffff;
+}
+.error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
+  color: #ffffff;
 }
