@@ -145,33 +145,17 @@ $(document).ready(function() {
       order = 'desc';
     }
     $(this).attr('order', order);
-    switch (sort) {
-      case 'smart':
-        var itineraries = $('.itinerary');
-        // sort itineraries based on smart rank
-        itineraries.sort(function (a, b) {
-          var
-            a = parseInt($(a).attr("smart")),
-            b = parseInt($(b).attr("smart"));
-          if (order == 'desc') {
-            b = [a, a = b][0];
-          }
-          return (a > b) ? 1 : ((a < b) ? -1 : 0);
-        });
-        $('#searchResultData').append(itineraries);
-        break;
-      default:
-        // sort by class but not by value; TODO: real sorting should be by value
-        tileClasses = sort.split(' ');
-        tileClasses.sort(String.naturalCompare);
-        if (order == 'desc') {
-          tileClasses.reverse();
-        }
-        for (var i=0; i < tileClasses.length; i++) {
-          $('#searchResultData').append($('.' + tileClasses[i]));
-        }
-        break;
-    }
+    var itineraries = $('.itinerary');
+    itineraries.sort(function (a, b) {
+      var
+        a = parseFloat($(a).data(sort)),
+        b = parseFloat($(b).data(sort));
+      if (order == 'desc') {
+        b = [a, a = b][0];
+      }
+      return (a > b) ? 1 : ((a < b) ? -1 : 0);
+    });
+    $('#searchResultData').append(itineraries);
   });
 
   $('.mymoreprofilebutton').click(function(el) {
@@ -962,7 +946,7 @@ $(document).ready(function() {
       $('.flight-info > div:first-child').css('padding-left', '0')
       $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
-      $('.flight-info').removeClass('hide').addClass('navbar-header').wrap('<div class="container-fluid"/>');
+      $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
       $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
     }
   }
