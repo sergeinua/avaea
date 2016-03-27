@@ -8,10 +8,10 @@
     <div class="swiper-slide">
       <div class="mybucket" id="<%= tile.id%>">
         <div class="mycustomtab"><%= __(tile.name) %></div>
-        <ul class="list-group" style='margin-bottom:0px;max-height:140px;overflow:auto'>
+        <ul class="list-group">
           <% tile.filters.forEach( function (filter) {
             if (parseInt(filter.count) > 0) { %>
-          <li for='<%= filter.id %>' style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;' class="list-group-item"><%- filter.title %><span class="badge" style="position:absolute;right:0; background-color:transparent;"></span></li>
+          <li for='<%= filter.id %>' class="list-group-item"><%- filter.title %><span class="badge"></span></li>
             <% }
           }); %>
         </ul>
