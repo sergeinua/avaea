@@ -141,7 +141,6 @@ body {
 
 .mycustomtab {
   height: 30px;
-  border-top: 4px solid  #fee148;
   font-family: WhitneyHTF-SemiBoldCondensed;
   font-size: 14px;
   line-height: 1.0;
@@ -152,11 +151,6 @@ body {
   background-color: white;
 }
 
-.mybucket {
-  /* Don't set width here ! Only via Swiper container or other elements */
-  background-color: white;
-}
-
 .good-bad-flights {
   font-family: sans-serif;
   font-size: 14px;
@@ -164,18 +158,26 @@ body {
   padding-top: 20px;
 }
 
-.mybucket .list-group {
-  min-height: 140px;
-  border-radius: 0;
+.mybucket {
+  /* Don't set width here ! Only via Swiper container or other elements */
+  background-color: white;
+  border-top: 4px solid  #fee148;
   border-bottom: 4px solid  #fee148;
+}
+
+.mybucket .list-group {
+  margin-bottom: 0;
+  height: 137px;
+  border-radius: 0;
   background-color: #F2F5F8;
+  overflow: auto;
 }
 
 .mybucket .list-group-item:first-child {
   border-radius: 0;
 }
 
-.mybucket .list-group-item, .mybucket .list-group-item .selected {
+.mybucket .list-group-item {
   height: 35px;
   font-family: WhitneyHTF-BookCondensed;
   font-size: 16px;
@@ -186,17 +188,27 @@ body {
   border-left: 0;
   border-right: 0;
   border-bottom: 1px solid #eeeeee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.mybucket .list-group-item>span, .mybucket .list-group-item .selected>span {
+.mybucket .list-group-item>span {
   font-family: WhitneyHTF-BookCondensed;
   font-size: 14px;
   line-height: 1.3;
   letter-spacing: 0.3px;
   color: rgba(16, 23, 66, 0.4);
   font-weight: normal;
-  top: 5px;
 }
+
+.mybucket .list-group-item>span.badge {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  background-color: transparent;
+}
+
 .selected {
   font-weight: normal;
   background-color: #9acfea !important;

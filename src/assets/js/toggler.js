@@ -287,7 +287,7 @@ $(document).ready(function() {
    * @returns {$}
    */
   $.fn.scrollTo = function(elem) {
-    $(this).scrollTop($(this).scrollTop() - $(this).offset().top + $(elem).offset().top);
+    $(this).slimScroll({scrollTo: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top});
     return this;
   };
 
@@ -298,7 +298,7 @@ $(document).ready(function() {
     }
 
     // get parent object for the filters
-    var _parentElem = $('#airline_tile').children('.list-group');
+    var _parentElem = $('#airline_tile .list-group');
 
     // Define if a bucket has all disabled filters at the beginning of the list
     var _am_disabled = 0;
@@ -949,6 +949,9 @@ $(document).ready(function() {
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
       $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
     }
+    $('.list-group').slimScroll({
+      height: '137px'
+    });
   }
 
 
