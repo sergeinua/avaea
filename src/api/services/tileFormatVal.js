@@ -102,7 +102,7 @@ module.exports = {
       if(value2) {
         value2 = parseInt(value2);
         if(value1 != value2)
-          _res = _res +'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+ value2 +'</span>';
+          _res = _res +'<span class="visible-xs-inline">&#65291;</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+ value2 +'</span>';
       }
     }
 
