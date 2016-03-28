@@ -43,6 +43,19 @@ module.exports.passport = {
   //     scope: ['email'] /* email is necessary for login behavior */
   //   }
   // },
+  //*/ //production settings
+  google: {
+    name: 'Google',
+    protocol: 'oauth2',
+    strategy: require('passport-google-oauth').OAuth2Strategy,
+    options: {
+      clientID: '353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com',
+      clientSecret: 'CBLE2DqRbNcRPMuakCHGe8Gs',
+      prompt: 'select_account',
+      scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
+    }
+  },
+/*/
 //test account setted up to http://localhost:1337
   google: {
     name: 'Google',
@@ -53,6 +66,7 @@ module.exports.passport = {
       clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
       prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
-    }
-  }
+     }
+   },
+//*/
 };
