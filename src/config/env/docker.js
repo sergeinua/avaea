@@ -50,8 +50,8 @@ module.exports = {
     searchProvider: ['mondee'/*, 'mystifly'*/]
   },
 
-  hookTimeout: 60000,
-  
+  hookTimeout: 120000,
+
   memcacheConf: {
     host: 'cache',
     port: '11211',

@@ -23,9 +23,6 @@ services:
       NODE_ENV: "docker"
     ports:
       - "8000:8000"
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
 
   abo:
     extends:
@@ -42,10 +39,6 @@ services:
       NODE_ENV: "docker"
     ports:
       - "8080:8080"
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
-
 
   nginx:
     build:
@@ -76,4 +69,3 @@ services:
 networks:
   avaea_network:
     driver: bridge
-
