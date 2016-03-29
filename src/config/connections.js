@@ -55,12 +55,18 @@ module.exports.connections = {
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
+  dockerPostgresqlServer: {
+    adapter: 'sails-postgresql',
+    host: 'postgres',
+    user: 'avaea',
+    password: 'a1v2a3e4a5',
+    database: 'avaea'
+  },
   memcacheConf: {
     host: 'localhost',
     port: '11211',
     exptime: 60*30 // 30 minutes
-  }
-
+  },
 
   /***************************************************************************
   *                                                                          *

@@ -49,6 +49,6 @@
 
 /* Horizontal scroll for the tiles */
 .swiper-slide {
-    width: 150px;
-    margin: 0 4px;
+    max-width: 140px;
+    margin: 0 2px;
 }

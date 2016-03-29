@@ -55,7 +55,7 @@ module.exports.passport = {
     }
   },
 
- //production settings
+   //production settings
  // google: {
  //   name: 'Google',
  //   protocol: 'oauth2',

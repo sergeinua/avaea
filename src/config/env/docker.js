@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-    connection: 'productionPostgresqlServer'
+    connection: 'dockerPostgresqlServer'
   },
 
   /***************************************************************************
@@ -26,9 +26,9 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'http://www.avaea.com',
+  proxyHost: 'http://test.com',
   proxyPort: 80,
-  explicitHost: 'localhost',
+  explicitHost: 'avaea',
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -40,7 +40,7 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: 'postgres',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
@@ -50,6 +50,12 @@ module.exports = {
     searchProvider: ['mondee'/*, 'mystifly'*/]
   },
 
-  hookTimeout: 30000
+  hookTimeout: 120000,
+
+  memcacheConf: {
+    host: 'cache',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
+  }
 
 };
