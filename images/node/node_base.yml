@@ -1,0 +1,6 @@
+version: '2'
+services:
+  nodebase:
+    build:
+      context: ../../
+      dockerfile: images/node/node.Dockerfile

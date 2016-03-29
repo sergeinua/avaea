@@ -1,0 +1,71 @@
+version: '2'
+services:
+  sources:
+    image: ubuntu:14.04
+    volumes:
+      - .:/usr/var/avaea
+    networks:
+      - avaea_network
+    command: bash -c "sleep infinity"
+
+  avaea:
+    extends:
+      file: images/node/node_base.yml
+      service: nodebase
+    volumes_from:
+      - sources
+    networks:
+      - avaea_network
+    working_dir: /usr/var/avaea/src
+    command: bash -c "/usr/local/bin/run_avaea.sh"
+    environment:
+      NODE_PATH: "/usr/var/avaea/src/node_modules"
+      NODE_ENV: "docker"
+    ports:
+      - "8000:8000"
+
+  abo:
+    extends:
+      file: images/node/node_base.yml
+      service: nodebase
+    volumes_from:
+      - sources
+    networks:
+      - avaea_network
+    working_dir: /usr/var/avaea/abo
+    command: bash -c "/usr/local/bin/run_abo.sh"
+    environment:
+      NODE_PATH: "/usr/var/avaea/abo/node_modules"
+      NODE_ENV: "docker"
+    ports:
+      - "8080:8080"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: ./images/nginx/nginx.Dockerfile
+    networks:
+      - avaea_network
+    ports:
+      - "80:80"
+
+  cache:
+    image: memcached
+    networks:
+      - avaea_network
+    ports:
+      - "11211:11211"
+
+
+  postgres:
+    build:
+      context: .
+      dockerfile: images/postgres/postgres.Dockerfile
+    networks:
+      - avaea_network
+    ports:
+      - "5432:5432"
+
+networks:
+  avaea_network:
+    driver: bridge
