@@ -43,7 +43,7 @@ module.exports.passport = {
   //     scope: ['email'] /* email is necessary for login behavior */
   //   }
   // },
-//*/ //production settings
+  //*/ //production settings
   google: {
     name: 'Google',
     protocol: 'oauth2',
@@ -66,7 +66,7 @@ module.exports.passport = {
       clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
       prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
-    }
-  },
+     }
+   },
 //*/
 };

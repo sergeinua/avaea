@@ -18,18 +18,17 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-    connection: 'productionPostgresqlServer'
+    connection: 'dockerPostgresqlServer'
   },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 8000,
-  proxyHost: 'http://www.avaea.com',
+  port: 8080,
+  proxyHost: 'http://abo.test.com',
   proxyPort: 80,
-  explicitHost: 'localhost',
-
+  explicitHost: 'abo',
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
@@ -40,16 +39,16 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: 'postgres',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
 
   flightapis: {
-    searchProvider: ['mondee'/*, 'mystifly'*/]
+    searchProvider: 'mondee' // 'mystifly'
   },
 
-  hookTimeout: 30000
+  hookTimeout: 60000
 
 };

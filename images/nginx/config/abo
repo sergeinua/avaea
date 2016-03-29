@@ -1,0 +1,8 @@
+server {
+	listen nginx:80;
+	# Make site accessible from http://localhost/
+	server_name abo.test.com;
+	location / {
+		proxy_pass http://abo:8080;
+	}
+}
