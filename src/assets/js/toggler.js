@@ -240,7 +240,7 @@ $(document).ready(function() {
             return false;
         }
 
-        var tileId = $(this).parent().parent().attr('id');
+        var tileId = $(this).closest('.mybucket').attr('id');
         if(tileId == 'airline_tile')
           $('#'+tileId).data("_is_touched", 1);
 
