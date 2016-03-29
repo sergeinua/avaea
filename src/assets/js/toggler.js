@@ -332,7 +332,6 @@ $(document).ready(function() {
     if(start_elem + maxBucketVisibleFilters > am_elems) {
       start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
     }
-    console.log("start, elems:", start_elem, am_elems);
 
     // Define if a bucket has all disabled filters on an entire scroll window
     var _am_disabled = 0;
@@ -345,14 +344,12 @@ $(document).ready(function() {
     // Scroll to the first enabled filter
     var _scrollItem = $(_parentElem).children().not('.disabled').first();
     if(typeof _scrollItem == 'object') {
-      //console.log("_item: ", $(_scrollItem).text());
       $(_parentElem).scrollTo(_scrollItem);
     }
   };
   // Track and remember airlines scroll position
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
-    //console.log("pos:", Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh));
   });
 
   // Horizontal scroll for tiles
