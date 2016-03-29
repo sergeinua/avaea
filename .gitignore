@@ -4,3 +4,4 @@ singlepage/node_modules
 singlepage/server_logs
 singlepage/public/bower_components
 *.retry
+npm-debug.log

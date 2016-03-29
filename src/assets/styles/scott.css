@@ -218,7 +218,7 @@ body {
   color: #FFFFFF;
   background-color: #004a99 !important;
 }
-.mybucket .selected > .badge {
+.mybucket .selected > .badge, .mybucket .selected > span {
   color: #FFFFFF;
 }
 

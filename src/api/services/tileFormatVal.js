@@ -32,7 +32,7 @@ var roundTo30mins = function (durationMinutes, isTime) {
   var _remain = durationMinutes % 60;
 
   if (_remain > 45) {
-    if(!(isTime && durationMinutesRounded==24))
+    if(!(isTime && durationMinutesRounded/60 >= 24))
       durationMinutesRounded += 60;
   }
   else if (_remain > 15) {
@@ -102,7 +102,7 @@ module.exports = {
       if(value2) {
         value2 = parseInt(value2);
         if(value1 != value2)
-          _res = _res +'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+ value2 +'</span>';
+          _res = _res +'<span class="visible-xs-inline">&#65291;</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+ value2 +'</span>';
       }
     }
 
