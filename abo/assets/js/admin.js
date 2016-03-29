@@ -1,5 +1,55 @@
 $(document).ready(function() {
 
+  var socket = io.sails.connect('http://avaea.com');
+  log('Connecting to (http://avaea.com) Sails.js...');
+
+  socket.on('connect', function socketConnected() {
+    socket.get('/user', function (res) {
+      log('New comet message received :: ', res);
+    });
+    socket.on('user', function (event) {
+      log('New comet message received :: ', event);
+      switch (event.verb) {
+        case 'created':
+          // This is where code that handles this socket event should go.
+          // (e.g. to update the user interface)
+          // => see below for the contents of `event`
+          if (!user_id || !event.data || event.data.id != user_id) return;
+
+          getLogAction();
+          drawCurrentChartType();
+
+          break;
+        default:
+          console.warn('Unrecognized socket event (`%s`) from server:',event.verb, event);
+      }
+    });
+
+  });
+
+  socket.on('disconnect', function(){
+    log('Lost connection to server');
+    socket.off('user');
+  });
+
+  var socketAbo = io.sails.connect();
+  log('Connecting to (http://abo.avaea.com) Sails.js...');
+  socketAbo.on('connect', function socketConnected() {
+    // Listen for Comet messages from Sails
+    socketAbo.on('message', function messageReceived(message) {
+
+      ///////////////////////////////////////////////////////////
+      // Replace the following with your own custom logic
+      // to run when a new message arrives from the Sails.js
+      // server.
+      ///////////////////////////////////////////////////////////
+      log('New comet message received :: ', message);
+      //////////////////////////////////////////////////////
+
+    });
+  });
+
+
   $('#snowflake').hide();
   $('#spider').hide();
 
@@ -28,42 +78,34 @@ $(document).ready(function() {
     var fieldset = $(this).attr('fieldset'),
       iterator = $(this).attr('iterator');
 
-    $.ajax({
-      method: "POST",
-      url: "/user/removeFieldSet",
-      data: {fieldset: fieldset, iterator: iterator}
-    })
-      .done(function( msg ) {
+    socketAbo.post("/user/removeFieldSet", {fieldset: fieldset, iterator: iterator}, function( msg ) {
+      if (msg.error) {
 
-
-        if (msg.error) {
-
-          $('#timeAlert').text('Error saving data to ' + fieldset + '.')
-            .fadeIn('slow', function () {
-              $(this).fadeOut(5000, function () {
-                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
-              });
-            }
-          );
-
-        } else {
-
-          $('#' + fieldset + '[fieldset-number="' + iterator + '"]').remove();
-          $('#' + fieldset + ':first > hr').remove();
-          if ($('#' + fieldset + ' .remove-fieldset').length == 1) {
-            $('#' + fieldset + ' .remove-fieldset').remove();
+        $('#timeAlert').text('Error saving data to ' + fieldset + '.')
+          .fadeIn('slow', function () {
+            $(this).fadeOut(5000, function () {
+              $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+            });
           }
+        );
 
-          $('#timeAlert').text('Record was removed successfully.')
-            .fadeIn('slow', function () {
-              $(this).fadeOut(5000, function () {
-                $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
-              });
-            }
-          );
+      } else {
+
+        $('#' + fieldset + '[fieldset-number="' + iterator + '"]').remove();
+        $('#' + fieldset + ':first > hr').remove();
+        if ($('#' + fieldset + ' .remove-fieldset').length == 1) {
+          $('#' + fieldset + ' .remove-fieldset').remove();
         }
-      });
 
+        $('#timeAlert').text('Record was removed successfully.')
+          .fadeIn('slow', function () {
+            $(this).fadeOut(5000, function () {
+              $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) ) + 'px');
+            });
+          }
+        );
+      }
+    });
   });
 
   if(!$('.filter_user').length) {
@@ -132,62 +174,58 @@ $(document).ready(function() {
     );
   };
   var getLogAction = function () {
-      if (!user_id) {
-        return false;
-      }
-      $.ajax({
-          method: "POST",
-          url: "/getbyuser/" + user_id,
-          data: {lastUpdated:lastUpdated}
-      })
-      .done(function( msg ) {
+    if (!user_id || !socketAbo.isConnected()) {
+      return false;
+    }
 
-          if (msg.userActions.length) {
+    socketAbo.post("/getbyuser/" + user_id, {lastUpdated:lastUpdated}, function( msg, jwres ) {
 
-            msg.userActions.forEach(function(data) {
-              if (lastUpdated < data.id) {
-                lastUpdated = data.id;
-              }
-              var action = actionMap[data.actionType].title;
-              var colorClass = actionMap[data.actionType].colorClass;
-              if (data.actionType == 'on_tile_choice') {
-                if (data.logInfo.action == 'filter_add') {
-                  action = 'select tile';
-                } else {
-                  action = 'deselect tile';
-                }
-              }
-              if (data.actionType == 'itinerary_prediction' || data.actionType == 'tile_prediction') {
-                  data.actionType = 'prediction';
-              }
-              if (data.actionType == 'order_tiles') {
-                for (var tile in data.logInfo) {
-                  data.logInfo[tile].filters = ['...'];
-                }
-                if (data.logInfo.action == 'order') {
-                  action = 'itinerary ordered';
-                } else {
-                  action = 'itinerary expanded';
-                }
-              }
-              var date = new Date(data.createdAt).toLocaleString();
+      if (msg.userActions.length) {
 
-              $('#log_actions').append($('<tr class="'+data.actionType+' alert '+colorClass+' user_id_'
-                  +data.user+'"><td>'+date+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
-            });
-
-            $('.filters_checkbox').each(function() {
-              filter = $(this).attr('for');
-              if (filter && $(this).is(':checked')) {
-                $('.alert').filter('.' + filter).show();
-              } else if (filter) {
-                $('.alert').filter('.' + filter).hide();
-              }
-            });
-
-            autoscrollme();
+        msg.userActions.forEach(function(data) {
+          if (lastUpdated < data.id) {
+            lastUpdated = data.id;
           }
-      });
+          var action = actionMap[data.actionType].title;
+          var colorClass = actionMap[data.actionType].colorClass;
+          if (data.actionType == 'on_tile_choice') {
+            if (data.logInfo.action == 'filter_add') {
+              action = 'select tile';
+            } else {
+              action = 'deselect tile';
+            }
+          }
+          if (data.actionType == 'itinerary_prediction' || data.actionType == 'tile_prediction') {
+            data.actionType = 'prediction';
+          }
+          if (data.actionType == 'order_tiles') {
+            for (var tile in data.logInfo) {
+              data.logInfo[tile].filters = ['...'];
+            }
+            if (data.logInfo.action == 'order') {
+              action = 'itinerary ordered';
+            } else {
+              action = 'itinerary expanded';
+            }
+          }
+          var date = new Date(data.createdAt).toLocaleString();
+
+          $('#log_actions').append($('<tr class="'+data.actionType+' alert '+colorClass+' user_id_'
+          +data.user+'"><td>'+date+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
+        });
+
+        $('.filters_checkbox').each(function() {
+          filter = $(this).attr('for');
+          if (filter && $(this).is(':checked')) {
+            $('.alert').filter('.' + filter).show();
+          } else if (filter) {
+            $('.alert').filter('.' + filter).hide();
+          }
+        });
+
+        autoscrollme();
+      }
+    });
   };
 
   var radarChartData = {
@@ -221,8 +259,8 @@ $(document).ready(function() {
       getLogAction();
       drawCurrentChartType();
 
-      interval1 = setInterval(getLogAction, cfg_interval_get_log_action);
-      interval2 = setInterval(drawCurrentChartType, cfg_interval_draw_chart);
+      //interval1 = setInterval(getLogAction, cfg_interval_get_log_action);
+      //interval2 = setInterval(drawCurrentChartType, cfg_interval_draw_chart);
     }
 
     return false;
@@ -248,61 +286,54 @@ $(document).ready(function() {
       $('#spider').show();
 
       console.log('get spiderchart for userId: ' + user_id);
+      socketAbo.post("/gettilesbyuser/" + user_id, {}, function( msg ) {
+        $('.user-profile-button').show();
+        if (msg.data) {
 
-      $.ajax({
-        method: "POST",
-        url: "/gettilesbyuser/" + user_id
-      })
-        .done(function( msg ) {
-          $('.user-profile-button').show();
-          if (msg.data) {
+          if (JSON.stringify(prevSpider) == JSON.stringify(msg)) {
+            return true;
+          }
 
-            if (JSON.stringify(prevSpider) == JSON.stringify(msg)) {
-              return true;
-            }
-
-            msg.data.forEach(function(item) {
-              if (typeof(item.E) != 'undefined') {
-                console.log(item);
-                var radarChartDataItem = {
-                  label: "User tile prediction values ("+serviceClass['E']+")",
-                  fillColor: "rgba(220,220,220,0.2)",
-                  strokeColor: "rgba(220,220,220,1)",
-                  pointColor: "rgba(220,220,220,1)",
-                  pointStrokeColor: "#fff",
-                  pointHighlightFill: "#fff",
-                  pointHighlightStroke: "rgba(220,220,220,1)",
-                  data: [
-                    item.E[6]['price_tile'],//"Price"
-                    item.E[5]['duration_tile'],//"Duration"
-                    item.E[4]['airline_tile'],//"Airline"
-                    item.E[3]['departure_tile'],//"Outbound Departure"
-                    item.E[2]['arrival_tile'],//"Outbound Arrival"
-                    item.E[1]['destination_departure_tile'],//"Inbound Departure"
-                    item.E[0]['source_arrival_tile']//"Inbound Arrival"
-                  ]
-                };
+          msg.data.forEach(function(item) {
+            if (typeof(item.E) != 'undefined') {
+              console.log(item);
+              var radarChartDataItem = {
+                label: "User tile prediction values ("+serviceClass['E']+")",
+                fillColor: "rgba(220,220,220,0.2)",
+                strokeColor: "rgba(220,220,220,1)",
+                pointColor: "rgba(220,220,220,1)",
+                pointStrokeColor: "#fff",
+                pointHighlightFill: "#fff",
+                pointHighlightStroke: "rgba(220,220,220,1)",
+                data: [
+                  item.E[6]['price_tile'],//"Price"
+                  item.E[5]['duration_tile'],//"Duration"
+                  item.E[4]['airline_tile'],//"Airline"
+                  item.E[3]['departure_tile'],//"Outbound Departure"
+                  item.E[2]['arrival_tile'],//"Outbound Arrival"
+                  item.E[1]['destination_departure_tile'],//"Inbound Departure"
+                  item.E[0]['source_arrival_tile']//"Inbound Arrival"
+                ]
+              };
 //                    console.log(radarChartDataItem);
-                radarChartData.datasets.push(radarChartDataItem);
-              }
-
-            });
-
-            if (radarChartData.datasets.length) {
-              window.myRadar = new Chart(document.getElementById("spider").getContext("2d")).Radar(radarChartData, {
-                responsive: true
-              });
+              radarChartData.datasets.push(radarChartDataItem);
             }
+
+          });
+
+          if (radarChartData.datasets.length) {
+            window.myRadar = new Chart(document.getElementById("spider").getContext("2d")).Radar(radarChartData, {
+              responsive: true
+            });
+          }
 
 //          $('#chart_legend').html($(window.myRadar.generateLegend()));
 //          console.log(window.myRadar.generateLegend());
 
-            prevSpider = {};
-            $.extend(true, prevSpider, msg);
-          }
-
-
-        });
+          prevSpider = {};
+          $.extend(true, prevSpider, msg);
+        }
+      });
     } else {
       $('.user-profile-button').hide();
       user_id = 0;
@@ -320,38 +351,34 @@ $(document).ready(function() {
       $('#snowflake').show();
 
       console.log('get snowflake for userId: ' + user_id);
-      $.ajax({
-        method: "POST",
-        url: "/gettilesbyuser/" + user_id
-      })
-        .done(function (msg) {
+      socketAbo.post("/gettilesbyuser/" + user_id, {}, function (msg) {
 
-          if (JSON.stringify(prevSnowflake) == JSON.stringify(msg)) {
-            return true;
-          }
+        if (JSON.stringify(prevSnowflake) == JSON.stringify(msg)) {
+          return true;
+        }
 
-          console.log(msg);
+        console.log(msg);
 
-          $('.user-profile-button').show();
+        $('.user-profile-button').show();
 
-          var _keys, _data = msg.data[0].E, _arr = [];
+        var _keys, _data = msg.data[0].E, _arr = [];
 
-          if (!_data) {
-            return;
-          }
+        if (!_data) {
+          return;
+        }
 
-          for (var i = 0; i < _data.length; i++) {
-            _keys = Object.keys(_data[i]);
-            _arr.push(_data[i][_keys[0]]);
-          }
-          _arr = _arr.sort(function(a, b){return a-b}).reverse();
+        for (var i = 0; i < _data.length; i++) {
+          _keys = Object.keys(_data[i]);
+          _arr.push(_data[i][_keys[0]]);
+        }
+        _arr = _arr.sort(function(a, b){return a-b}).reverse();
 
-          snowflakeInit(document.getElementById("snowflake"), [_arr[0], _arr[1], _arr[2]]);
+        snowflakeInit(document.getElementById("snowflake"), [_arr[0], _arr[1], _arr[2]]);
 
-          prevSnowflake = {};
-          $.extend(true, prevSnowflake, msg);
+        prevSnowflake = {};
+        $.extend(true, prevSnowflake, msg);
 
-        });
+      });
     }  else {
       $('.user-profile-button').hide();
       user_id = 0;
@@ -381,5 +408,12 @@ $(document).ready(function() {
       window.location.href = (GlobalSelectedAirline ? '/' + GlobalSelectedAirline : '') + '/profile/' + user_id;
     }
   })
+
+  // Simple log function to keep the example simple
+  function log () {
+    if (typeof console !== 'undefined') {
+      console.log.apply(console, arguments);
+    }
+  }
 
 });

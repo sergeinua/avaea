@@ -99,10 +99,12 @@ module.exports = {
                 sails.log.error(err);
               } else {
                 UserAction.saveAction(user, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
+                User.publishCreate(user);
               }
           });// end of iPrediction.create
         } else {
           UserAction.saveAction(user, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
+          User.publishCreate(user);
         }
 
       });// end of iPrediction.update
