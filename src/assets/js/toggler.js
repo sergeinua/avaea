@@ -992,6 +992,5 @@ $(document).ready(function() {
     toggle: false,
     placement: 'left'
   });
-  //$('#nav_slide_menu').offcanvas('hide');
 
 });
