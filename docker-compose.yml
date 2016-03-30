@@ -50,6 +50,8 @@ services:
       - avaea_network
     ports:
       - "81:80"
+      - "23457:23457"
+    command: bash -c "/usr/local/bin/setup_and_run.sh"
 
   cache:
     image: memcached

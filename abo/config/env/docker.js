@@ -61,7 +61,11 @@ module.exports = {
   },
 
   flightapis: {
-    searchProvider: 'mondee' // 'mystifly'
+    mondee: {
+      baseEndPoint: 'http://nginx:23457/api/v2', // 'http://sandbox.trippro.com/api/v2',
+      clientId: 'CFS1017'
+    },
+    searchProvider: /*'mystifly'*/  'mondee'
   },
 
   hookTimeout: 60000

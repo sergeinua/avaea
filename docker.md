@@ -23,3 +23,8 @@ If you have Mac OS you need to create docker machine
     sudo echo '{IP_ADDRESS}  test.com abo.test.com' >> /etc/hosts
     
 IP_ADDRESS could be localhost or ip of your docker-machine
+
+## Application
+
+    http://test.com:81
+    http://abo.test.com:81
