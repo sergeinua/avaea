@@ -1,6 +1,8 @@
 /* global $ */
 $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
+  var bucketFilterItemHeigh = 34; // pixes
+  var bucketAirlineScrollPos = 0;
 
   $('#timeAlert').fadeOut(5000, function () {
     $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
@@ -215,7 +217,7 @@ $(document).ready(function() {
       return false;
     }
 
-    var tileId = $(this).parent().parent().attr('id');
+    var tileId = $(this).closest('.mybucket').attr('id');
     if(tileId == 'airline_tile') {
       $('#' + tileId).data("_is_touched", 1);
     }
@@ -300,9 +302,17 @@ $(document).ready(function() {
     // get parent object for the filters
     var _parentElem = $('#airline_tile .list-group');
 
-    // Define if a bucket has all disabled filters at the beginning of the list
+    // Define start element of the bucket scroll window
+    var start_elem = Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh);
+    var am_elems = $(_parentElem).children().length;
+    // Iteration will overflow visible window
+    if(start_elem + maxBucketVisibleFilters > am_elems) {
+      start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
+    }
+
+    // Define if a bucket has all disabled filters on an entire scroll window
     var _am_disabled = 0;
-    for (var ii=0; ii < maxBucketVisibleFilters; ii++) {
+    for (var ii = start_elem; ii < (start_elem + maxBucketVisibleFilters); ii++) {
       _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
     }
     if(_am_disabled < maxBucketVisibleFilters) // not need scrolling
@@ -311,10 +321,13 @@ $(document).ready(function() {
     // Scroll to the first enabled filter
     var _scrollItem = $(_parentElem).children().not('.disabled').first();
     if(typeof _scrollItem == 'object') {
-      //console.log("_item: ", $(_scrollItem).text());
       $(_parentElem).scrollTo(_scrollItem);
     }
   };
+  // Track and remember airlines scroll position
+  $('#airline_tile .list-group').scroll(function () {
+    bucketAirlineScrollPos = $(this).scrollTop();
+  });
 
   // Horizontal scroll for tiles
   var swiper = new Swiper ('.swiper-container', {
