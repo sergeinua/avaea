@@ -61,7 +61,7 @@
           }
           var i=0;
           for (var name in sortOptions) { %>
-          <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><%= sortOptions[name] %><span class="caret pull-right<%if (i) { %> hide<% } %>"></span></a></li>
+          <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><span class="caret pull-right<%if (i) { %> hide<% } %>"></span><%= sortOptions[name] %></a></li>
           <% i++; } %>
         </ul>
       </div>
