@@ -4,8 +4,9 @@
 
 Install docker on your operation system and be sure that docker version is not under 1.10
 
-[ Install document on Linux ](https://docs.docker.com/linux/step_one/)
+[ Install document on Linux ](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
 [ Install document on MacOS ](https://docs.docker.com/engine/installation/mac/)
+[ Install docker compose ](https://docs.docker.com/compose/install/)
 
 
 ## Pre requirements

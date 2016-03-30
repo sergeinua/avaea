@@ -1,4 +1,4 @@
-FROM node:4.4.0
+FROM node:4.4.1-slim
 
 COPY ./images/node/bin/run_avaea.sh /usr/local/bin/run_avaea.sh
 
