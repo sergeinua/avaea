@@ -200,14 +200,22 @@
     </div>
 </div>
 
-    <!--SCRIPTS-->
-
-    <!--SCRIPTS END-->
+    <script src="/js/dependencies/jquery.js"></script>
+    <script src="/js/dependencies/Chart.js"></script>
+    <script src="/js/dependencies/bootstrap.js"></script>
+    <script src="/js/dependencies/sails.io.js" autoConnect="false"></script>
+    <script src="/js/dependencies/snowflake.js"></script>
+    <script src="/js/dependencies/typeahead.bundle.min.js"></script>
+    <script src="/js/admin.js"></script>
     <script type="text/javascript">
       <% if (selectedAirline) { %>
           var GlobalSelectedAirline = '<%=selectedAirline %>';
       <% } else { %>
         var GlobalSelectedAirline = null;
+      <% } %>
+      var remoteSocket;
+      <% if (sails.config.remoteSocket) { %>
+        remoteSocket = '<%=sails.config.remoteSocket%>';
       <% } %>
       </script>
 

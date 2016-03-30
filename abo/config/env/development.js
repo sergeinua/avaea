@@ -38,6 +38,8 @@ module.exports = {
   proxyHost: 'http://abo.avaea.com',
   proxyPort: 80,
 
+  remoteSocket: 'http://avaea.com',
+
   flightapis: {
     mondee: {
       baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',

@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
-  var socket = io.sails.connect('http://avaea.com');
-  log('Connecting to (http://avaea.com) Sails.js...');
+  var socket = io.sails.connect(remoteSocket);
+  log('Connecting to (' + remoteSocket + ') Sails.js...');
 
   socket.on('connect', function socketConnected() {
     socket.get('/user', function (res) {
@@ -33,7 +33,7 @@ $(document).ready(function() {
   });
 
   var socketAbo = io.sails.connect();
-  log('Connecting to (http://abo.avaea.com) Sails.js...');
+  log('Connecting to (local) Sails.js...');
   socketAbo.on('connect', function socketConnected() {
     // Listen for Comet messages from Sails
     socketAbo.on('message', function messageReceived(message) {
@@ -52,10 +52,6 @@ $(document).ready(function() {
 
   $('#snowflake').hide();
   $('#spider').hide();
-
-  // Config: timers intervals
-  var cfg_interval_get_log_action = 14000;
-  var cfg_interval_draw_chart =  14000;
 
   var currentChartType;
   var user_id = 0, prevLog, prevSnowflake, prevSpider,
@@ -258,9 +254,6 @@ $(document).ready(function() {
 
       getLogAction();
       drawCurrentChartType();
-
-      //interval1 = setInterval(getLogAction, cfg_interval_get_log_action);
-      //interval2 = setInterval(drawCurrentChartType, cfg_interval_draw_chart);
     }
 
     return false;

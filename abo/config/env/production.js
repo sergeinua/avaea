@@ -29,6 +29,9 @@ module.exports = {
   proxyHost: 'http://abo.avaea.com',
   proxyPort: 80,
   explicitHost: 'localhost',
+
+  remoteSocket: 'http://avaea.com',
+
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/

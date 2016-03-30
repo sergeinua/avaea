@@ -44,6 +44,9 @@ module.exports = {
   proxyPort: process.env.PROXY_PORT,
   //proxyPort: 80,
   explicitHost: 'abo',
+
+  remoteSocket: 'http://test.com',
+
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
