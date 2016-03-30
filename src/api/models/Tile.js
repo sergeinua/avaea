@@ -274,8 +274,9 @@ module.exports = {
         count : 0
       });
 
-      var maxOrderTile = _.max(tileArr, 'order');
-      switch (maxOrderTile.id) {
+      var orderBy = _.min(tileArr, 'order').id;
+      orderBy = 'smart';
+      switch (orderBy) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');
           itineraries = _.sortBy(itineraries, 'durationMinutes');
@@ -316,9 +317,10 @@ module.exports = {
             return item.citypairs[lastElement].to.quarter;
           });
           break;
+        case 'smart':
         default:
-          sails.log.info('Ordered by Price');
-          itineraries = _.sortBy(itineraries, 'price');
+          sails.log.info('Ordered by smartRank');
+          itineraries = _.sortBy(itineraries, 'smartRank');
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
@@ -448,10 +450,6 @@ module.exports = {
           filterClass = filterClass + ' recommended';
         }
         currentNum++;
-
-        if (itinerary.smartRank > 0) {
-          filterClass = filterClass + ' smart';
-        }
 
         itinerary.filterClass = filterClass;
         return doneCallback(null);
@@ -979,8 +977,9 @@ module.exports = {
       delete tmp.lastArrival;
       delete tmp.uniqArrival;
 
-      var maxOrderTile = _.min(tileArr, 'order');
-      switch (maxOrderTile.id) {
+      var orderBy = _.min(tileArr, 'order').id;
+      orderBy = 'smart';
+      switch (orderBy) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');
           itineraries = _.sortBy(itineraries, 'durationMinutes');
@@ -1021,9 +1020,10 @@ module.exports = {
             return item.citypairs[lastElement].to.minutes;
           });
           break;
+        case 'smart':
         default:
-          sails.log.info('Ordered by Price');
-          itineraries = _.sortBy(itineraries, 'price');
+          sails.log.info('Ordered by smartRank');
+          itineraries = _.sortBy(itineraries, 'smartRank');
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
@@ -1129,10 +1129,6 @@ module.exports = {
           filterClass = filterClass + ' recommended';
         }
         currentNum++;
-
-        if (itinerary.smartRank > 0) {
-          filterClass = filterClass + ' smart';
-        }
 
         itinerary.filterClass = filterClass;
         return doneCallback(null);
