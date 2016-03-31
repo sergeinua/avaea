@@ -1,0 +1,11 @@
+<%
+/* global site_info */
+  var cur_year = new Date().getFullYear();
+ %>
+<div class="text-center row" style="margin-top: 5em">
+  <p>(c) <%= cur_year-1 %>, <%= cur_year %> AVAEA Inc.</p>
+
+  <p>Software version: <%= site_info.software_version %></p>
+
+  <p>Contact: <a href="mailto:<%= site_info.contact_email %>"><%= site_info.contact_email %></a></p>
+</div>

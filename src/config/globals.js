@@ -61,4 +61,10 @@ module.exports.globals = {
 
 	// models: true,
 	bucketizationFunction: 'getTilesDataAlternative', //'getTilesData' or just empty for default getTilesData
+
+  // For site pages
+  site_info: {
+    software_version: '0.1.10',
+    contact_email: 'info@avaea.com'
+  }
 };

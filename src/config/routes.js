@@ -60,6 +60,7 @@ module.exports.routes = {
 
   'get /voicesearch': 'VoicesearchController.index',
 
+  'get /site/:page_name': 'SiteController.index', // For simple site pages
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
