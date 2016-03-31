@@ -37,6 +37,36 @@
   </div>
   <div class="selectedfilters row" filters=''></div>
   <% } %>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="sort-button">
+        <button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <%= __('Sort') %> <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+          <%
+          var sortOptions = {
+            smart:    __('Smart Rank'),
+            price:    __('Price'),
+            duration: __('Duration'),
+            odepart:  __('Departure'),
+            oarrival: __('Arrival')
+          };
+          if (searchParams.returnDate) {
+            sortOptions.duration += '&#8644;';
+            sortOptions.idepart =  searchParams.ArrivalLocationCode + ' ' + sortOptions.odepart;
+            sortOptions.iarrival = searchParams.DepartureLocationCode + ' ' + sortOptions.oarrival;
+            sortOptions.odepart =  searchParams.DepartureLocationCode + ' ' + sortOptions.odepart;
+            sortOptions.oarrival = searchParams.ArrivalLocationCode + ' ' + sortOptions.oarrival;
+          }
+          var i=0;
+          for (var name in sortOptions) { %>
+          <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><span class="caret pull-right<%if (i) { %> hide<% } %>"></span><%= sortOptions[name] %></a></li>
+          <% i++; } %>
+        </ul>
+      </div>
+    </div>
+  </div>
   <!--div class="total-count row">
     <div class="col-xs-9" style="padding-top: 2px;">
     </div>
@@ -46,12 +76,15 @@
   </div-->
 </nav>
 
-<div id="searchResultData" class="row result-data">
+<div id="searchResultData" class="row">
   <% iterator = 0; %>
   <% if (searchResult.length) { %>
   <% searchResult.forEach(function (sRes, i) { %>
 
-  <div id="<%= sRes.id %>" for="cli<%= i %>" class="col-xs-12 itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+  <div id="<%= sRes.id %>" for="cli<%= i %>" class="col-xs-12 itinerary <%= sRes.filterClass %>"
+     data-smart="<%= sRes.smartRank %>" data-price="<%= sRes.price %>" data-duration="<%= sRes.durationMinutes %>"
+     data-odepart="<%= sRes.citypairs[0].from.minutes %>" data-oarrival="<%= sRes.citypairs[0].to.minutes %>"<% if (searchParams.returnDate) { %>
+     data-idepart="<%= sRes.citypairs[sRes.citypairs.length - 1].from.minutes %>" data-iarrival="<%= sRes.citypairs[sRes.citypairs.length - 1].to.minutes %>"<% } %>>
 
     <div class="row">
       <div class="col-xs-12 itinerary-airline col-from-to">
