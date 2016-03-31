@@ -53,6 +53,11 @@
     margin: 0 2px;
 }
 
+/* For slide-left menu by jasny bootstrap */
 .navmenu {
     margin-top: 50px;
+}
+.navbar-nav {
+    margin: 7.5px 0;
+    width: 100%;
 }

@@ -31,34 +31,6 @@
   overflow-y: auto;
   border-radius: 0;
 }
-.navmenu-fixed-left,
-.navbar-offcanvas.navmenu-fixed-left {
-  right: auto;
-  left: 0;
-  border-width: 0 1px 0 0;
-}
-.navmenu-fixed-right,
-.navbar-offcanvas {
-  right: 0;
-  left: auto;
-  border-width: 0 0 0 1px;
-}
-.navmenu-nav {
-  margin-bottom: 10px;
-}
-.navmenu-nav.dropdown-menu {
-  position: static;
-  float: none;
-  padding-top: 0;
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.navbar-offcanvas .navbar-nav {
-  margin: 0;
-}
 
 .navmenu-default,
 .navbar-default .navbar-offcanvas {
