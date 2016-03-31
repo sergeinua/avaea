@@ -17,8 +17,8 @@ module.exports = {
     var _query = req.param('q').replace(/^\s*/,"");
 
     Airports.query('SELECT name, city, iata_3code FROM '+Airports.tableName +
-        " WHERE (name ~* $1) OR (city ~* $1) OR (iata_3code ~* $1)" +
-        " ORDER BY (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, pax DESC, levenshtein($3, city) ASC LIMIT 8",
+      " WHERE (name ~* $1) OR (city ~* $1) OR (iata_3code ~* $1)" +
+      " ORDER BY (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, pax DESC, levenshtein($3, city) ASC LIMIT 8",
 
       ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], // query params
 

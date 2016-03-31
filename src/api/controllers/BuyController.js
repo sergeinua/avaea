@@ -57,6 +57,7 @@ module.exports = {
           itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
+          User.publishCreate(req.user);
 
           // Save for booking action
           req.session.booking_itinerary = {
