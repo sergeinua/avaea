@@ -1,7 +1,4 @@
-
-var c = document.getElementById("snowflake");
-var dimX = c.width;
-var dimY = c.height;
+var c, dimX, dimY;
 
 var lenFactor = 0.8, polySize = 0.9, starSize = 0.7;
 
@@ -13,6 +10,11 @@ var oldParams1;
 
 // Init by admin.js
 function snowflakeInit(_canvas, params) {
+
+  c = _canvas;
+  dimX = c.width;
+  dimY = c.height;
+
   var nSides =  10;
   oldParams1 = normalizeParams(params);
 
@@ -351,7 +353,6 @@ function drawSegment(seg, style) {
   ctrX = dimX / 2;
   ctrY = dimY / 2;
 
-  var c = document.getElementById("snowflake");
   var ctx = c.getContext("2d");
   ctx.beginPath();
   ctx.moveTo(ctrX + x0, ctrY + y0);
@@ -362,7 +363,6 @@ function drawSegment(seg, style) {
 }
 
 function fillCanvas() {
-  var c = document.getElementById("snowflake");
   var ctx = c.getContext("2d");
   ctx.clearRect(0, 0, c.width, c.height);
 
