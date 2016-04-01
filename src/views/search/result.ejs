@@ -158,10 +158,10 @@
       <% if (flight.merchandising && flight.merchandising.length) { %>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('more') %></button>
+          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= j %>" role="button" for="<%= iterator %>_<%= j %>"><%= __('more') %></button>
         </div>
       </div>
-      <div class="row hidden mymorecontent<%= iterator %>_<%= c %>">
+      <div class="row hidden mymorecontent<%= iterator %>_<%= j %>">
         <div class="panel panel-default">
           <div class="panel-heading">Merchandising Information</div>
           <div class="panel-body">

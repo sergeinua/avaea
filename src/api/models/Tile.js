@@ -95,7 +95,7 @@ module.exports = {
           count: 0
         },
         {
-          title: 'Priority Seat',
+          title: 'Priority seat',
           id: 'merchandising_tile_priority_seat',
           count: 0
         }

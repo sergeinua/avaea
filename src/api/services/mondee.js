@@ -395,7 +395,7 @@ var mapItinerary = function(itinerary) {
       mapMerchandising(res.citypairs, '1st bag free');
   }
   if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
-      mapMerchandising(res.citypairs, 'Priority Seat');
+      mapMerchandising(res.citypairs, 'Priority seat');
   }
 
   return res;
