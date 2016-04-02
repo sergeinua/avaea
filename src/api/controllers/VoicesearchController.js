@@ -6,8 +6,6 @@
  */
 
 module.exports = {
-	
-
 
   /**
    * `VoicesearchController.index()`
@@ -32,13 +30,16 @@ module.exports = {
       req.session.tiles = null;
     }
 
-    return res.view('voiceSearch/index', {
-      title         : 'Search flights voice',
-      user          : req.user,
-      defaultParams : params,
-      serviceClass  : Search.serviceClass,
-      errors        : error
-    });
+    return res.ok(
+      {
+        title         : 'Search flights voice',
+        user          : req.user,
+        defaultParams : params,
+        serviceClass  : Search.serviceClass,
+        errors        : error
+      },
+      'voiceSearch/index'
+    );
   },
 
 

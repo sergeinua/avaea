@@ -14,10 +14,13 @@ module.exports = {
    * `UserController.login()`
    */
   create: function (req, res) {
-    return res.view('user/create', {
-      title:'Create profile',
-      user: req.user
-    });
+    return res.ok(
+      {
+        title:'Create profile',
+        user: req.user
+      },
+      'user/create'
+    );
   },
 
   /**
@@ -40,11 +43,14 @@ module.exports = {
             profile_fields[prop] = found[prop];
         }
 
-        return res.view('user/profile', {
-          title:'Update profile',
-          user: req.user,
-          Profile: profile_fields
-        });
+        return res.ok(
+          {
+            title:'Update profile',
+            user: req.user,
+            Profile: profile_fields
+          },
+          'user/profile'
+        );
       }
     });
   },

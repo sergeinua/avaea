@@ -77,13 +77,16 @@ module.exports = {
           params.arrivCity = results.arriv_city.city;
         }
 
-        return res.view('search/index', {
-          title         : 'Search for flights',
-          user          : req.user,
-          defaultParams : params,
-          serviceClass  : Search.serviceClass,
-          errors        : error
-        });
+        return res.ok(
+          {
+            title         : 'Search for flights',
+            user          : req.user,
+            defaultParams : params,
+            serviceClass  : Search.serviceClass,
+            errors        : error
+          },
+          'search/index'
+        );
       }
     );
   },
@@ -139,20 +142,23 @@ module.exports = {
       var serviceClass = Search.serviceClass;
 
       if (!itineraries.length) {
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: {},
-          searchParams: {
-            DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
-            ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
-            CabinClass: serviceClass[params.searchParams.CabinClass],
-            passengers: req.param('passengers', 1)
+        return  res.ok(
+          {
+            user: req.user,
+            title: title,
+            tiles: {},
+            searchParams: {
+              DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
+              ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
+              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              CabinClass: serviceClass[params.searchParams.CabinClass],
+              passengers: req.param('passengers', 1)
+            },
+            searchResult: []
           },
-          searchResult: []
-        });
+          'search/result'
+        );
       }
       var algorithm = sails.config.globals.bucketizationFunction;
 
@@ -174,21 +180,24 @@ module.exports = {
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
         //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
         User.publishCreate(req.user);
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: tiles,
-          searchParams: {
-            DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
-            ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
-            CabinClass: serviceClass[params.CabinClass],
-            passengers: req.param('passengers', 1)
+        return  res.ok(
+          {
+            user: req.user,
+            title: title,
+            tiles: tiles,
+            searchParams: {
+              DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
+              ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
+              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              CabinClass: serviceClass[params.CabinClass],
+              passengers: req.param('passengers', 1)
+            },
+            searchResult: itineraries,
+            timelog: req.session.time_log.join('<br/>')
           },
-          searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>')
-        });
+          'search/result'
+        );
       });
     });
   }
