@@ -48,6 +48,9 @@ services:
       dockerfile: ./images/nginx/nginx.Dockerfile
     networks:
       - avaea_network
+    depends_on:
+      - avaea
+      - abo
     ports:
       - "81:80"
       - "23457:23457"
