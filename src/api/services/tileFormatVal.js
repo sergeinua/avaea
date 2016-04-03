@@ -12,7 +12,7 @@ var convertToHours = function (timeMinutes) {
     return hours + minutes +'am';
   }
   else if (hours == 12) {
-    return (minutes=="") ? '12n' : ('0' + minutes +'pm');
+    return (minutes=="") ? '12n' : ('12' + minutes +'pm');
   }
   else if (hours > 12) {
     hours -= 12;
