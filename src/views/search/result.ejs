@@ -18,8 +18,8 @@
     </div>
     <div class="col-xs-3 text-right">
       <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
-      &middot; <span id="clear" class="clear-all-filters"><%= __('Clear') %></span> &middot;
-      <span id="undo" class="undo-button"><%= __('Undo')%></span> &middot;
+      &middot; <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
+      <span id="undo" class="undo-button disabled"><%= __('Undo')%></span> &middot;
     </div>
   </div>
   <% if (typeof timelog != 'undefined' && timelog) { %>
