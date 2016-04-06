@@ -12,7 +12,7 @@ module.exports.prediction = {
   tiles: {
     alpha: 0.2,
     default: {
-      tile_position : 0.1,
+      tile_position : 1.0,
       confidence    : 0,
       counter       : 0 // numbers starts from
     }

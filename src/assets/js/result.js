@@ -80,6 +80,11 @@ $(document).ready(function() {
   var filterItineraries = function () {
     var filters = $('.selectedfilters').attr('filters');
     filters = filters ? filters.split(' ') : [];
+    if (filters.length) {
+      $('#clear, #undo').removeClass('disabled');
+    } else {
+      $('#clear, #undo').addClass('disabled');
+    }
     $('.itinerary').show();
     $('.mybucket').each(function() {
 
@@ -109,6 +114,9 @@ $(document).ready(function() {
   filterItineraries();
 
   $('#clear').click(function() {
+    if ($(this).hasClass('disabled')) {
+      return;
+    }
     $('.selectedfilters').attr('filters', '');
     $('#tiles').find('li.selected').removeClass('selected');
     //$($('.slick-slide')[0]).trigger('click');
@@ -117,6 +125,9 @@ $(document).ready(function() {
   });
 
   $('#undo').click(function() {
+    if ($(this).hasClass('disabled')) {
+      return;
+    }
     var filters = $('.selectedfilters').attr('filters');
     filters = filters.split(' ');
     if (filters.length) {

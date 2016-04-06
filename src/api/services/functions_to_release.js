@@ -549,9 +549,9 @@ module.exports = {
     // output is the array of integer indices [i1 i2 ... iN], such that data[i1] is better than data[i2], which is better than data[i3], ..., which is better than data[iN]
     // TODO: do we need to assign the same rank to itineraries with the same  values?
     {
-        if (data.length == 0) return data; // If empty, then nothing to do
-        if (data.length == 1) return data; // If one element, then nothing to do
-        if (data.length == 2) return data; // If two elements, then nothing to do
+        if (data.length == 0) return []; // If empty, then nothing to do
+        if (data.length == 1) return [0]; // If one element, then nothing to do
+        if (data.length == 2) return [0,1]; // If two elements, then nothing to do
 
         //console.log("data length = " + data.length);
 
