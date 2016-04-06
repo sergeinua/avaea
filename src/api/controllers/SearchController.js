@@ -142,7 +142,7 @@ module.exports = {
       var serviceClass = Search.serviceClass;
 
       if (!itineraries.length) {
-        return  res.ok(
+        return res.ok(
           {
             user: req.user,
             title: title,
