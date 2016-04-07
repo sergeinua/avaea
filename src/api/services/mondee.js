@@ -397,6 +397,9 @@ var mapItinerary = function(itinerary) {
   if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Priority seat');
   }
+  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+      mapMerchandising(res.citypairs, 'Lounge');
+  }
 
   return res;
 };

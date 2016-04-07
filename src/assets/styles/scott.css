@@ -387,7 +387,7 @@ body {
   padding: 3px;
 }
 
-.modal {
+.modalLoader {
   display:    none;
   position:   fixed;
   z-index:    1000;
@@ -409,7 +409,7 @@ body.loading {
 
 /* Anytime the body has the loading class, our
    modal element will be visible */
-body.loading .modal {
+body.loading .modalLoader {
   display: block;
 }
 
@@ -881,4 +881,16 @@ body.loading .modal {
 }
 .error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
   color: #ffffff;
+}
+
+.itinerary-airline .modal {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.3px;
+  color: #333333;
+}
+
+.modal-content .border-up {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
