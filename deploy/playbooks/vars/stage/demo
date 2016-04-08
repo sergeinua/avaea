@@ -1,0 +1,12 @@
+dir: /home/deerploy/stage
+
+nginx:
+  listen_host: avaea
+  listen_port: 80
+  server_name: stage.avaea.com www.stage.avaea.com
+  proxy_pass_host: localhost
+  proxy_pass_port: 9000
+  config_name: stage_demo.conf
+
+upstart:
+ config_name: stage_abo.conf
