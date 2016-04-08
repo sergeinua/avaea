@@ -22,8 +22,6 @@
     force=yes
     key_file=/root/.ssh/bitbucket_rsa
 
-- name: Restart demo service
+- name: Restart "{{ APP }}" service
   service: name="{{ APP }}" state=restarted
 
-- name: Restart abo service
-  service: name="{{ APP }}" state=restarted
