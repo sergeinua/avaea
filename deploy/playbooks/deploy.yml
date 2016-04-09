@@ -1,8 +1,7 @@
-- name: Deploy avaea applicaition to production server
+- name: Deploy avaea application to production server
   hosts: web.avaea
   gather_facts: false
-#  connection: ssh
-  connection: local
+  connection: ssh
   vars_files:
     - vars/{{ ENV }}/{{ APP }}
 

@@ -9,4 +9,4 @@ nginx:
   config_name: stage_demo.conf
 
 upstart:
- config_name: stage_abo.conf
+ config_name: stage_demo.conf
