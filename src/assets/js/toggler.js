@@ -486,7 +486,7 @@ $(document).ready(function() {
     return true;
   });
 
-  $('.itinerary').click(function (event) {
+  $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
     var itineraryId = $(this).attr('id');
