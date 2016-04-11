@@ -116,7 +116,7 @@
       <input type="hidden" name="id" value="<%= reqParams.id %>">
 
       <div><!-- div for error highlight -->
-        <label class="control-label">Pax Type</label>
+        <label class="control-label">Passenger Type</label>
         <%- _res = widgets.dropDownList(reqParams, "PaxType", {
             ADT: "Adult",
             CHD: "Child",
@@ -165,13 +165,13 @@
       </div>
 
       <div>
-        <label class="control-label">Country Code</label>
-        <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
+        <label class="control-label">Zip Code</label>
+        <input type="text" name="ZipCode" class="form-control input-sm" value="<%= reqParams.ZipCode ? reqParams.ZipCode : '' %>">
       </div>
 
       <div>
-        <label class="control-label">Zip Code</label>
-        <input type="text" name="ZipCode" class="form-control input-sm" value="<%= reqParams.ZipCode ? reqParams.ZipCode : '' %>">
+        <label class="control-label">Country</label>
+        <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
       </div>
 
       <div>
