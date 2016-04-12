@@ -68,9 +68,14 @@ $(document).ready(function() {
         $('[for='+tile.attr('for')+'] > span.badge').text('');
         tile.removeClass('selected');
         var filters = $('.selectedfilters').attr('filters');
-        var re = new RegExp('\b' + tile.attr('for') + '\b');
-        filters = filters.replace(re, '');
-        $('.selectedfilters').attr('filters', filters);
+        filters = filters.split(' ');
+        if (filters.length) {
+          var _indx = filters.indexOf(tile.attr('for'));
+          if (_indx != -1) {
+            delete filters[_indx];
+            $('.selectedfilters').attr('filters', filters.join(' '));
+          }
+        }
         tile.addClass('disabled');
       }
     });
@@ -300,6 +305,7 @@ $(document).ready(function() {
    * @returns {$}
    */
   $.fn.scrollTo = function(elem) {
+    if (!$(elem).offset()) return;
     $(this).slimScroll({scrollTo: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top});
     return this;
   };
