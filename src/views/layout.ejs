@@ -31,8 +31,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand"><%= __('Avaea Agent') %>
-            <!--<%= !title ? __('Avaea Agent') : title %><% if (typeof searchResult != 'undefined') {
+          <div class="navbar-brand">
+            <%- typeof head_content == 'undefined' ? __('Avaea Agent') : head_content %><!--<% if (typeof searchResult != 'undefined') {
               %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
               if (searchParams.returnDate) {
                 %>, Return&nbsp;<%= searchParams.returnDate %><%
@@ -40,7 +40,7 @@
               %>, <%= searchParams.CabinClass %></span><%
             }
             %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
-          </a>
+          </div>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
