@@ -101,6 +101,52 @@
 		$('#result').empty();
 	});
 
+	/**
+	 * Make request to the remote server and fetch data for the typehead rendering
+	 *
+	 * @param {string} controllerName
+	 * @param {string} actionName
+	 * @returns {Function}
+	 */
+	var fetchTypeheadAirport = function(controllerName, actionName) {
+		return function (q, cb) {
+			$.ajax({
+				url: '/'+controllerName+'/'+actionName,
+				type: 'get',
+				data: {q: q},
+				dataType: 'json',
+				async: false // required, because typehead doesn't work with ajax in async mode
+			})
+				.done(function( msg ) {
+					cb(msg ? msg : []);
+				})
+				.fail(function (msg) {
+					cb([{city: "System error", name: "please try later", value: "---"}]);
+				});
+		};
+	};
+
+	$('#originAirport, #destinationAirport').typeahead({
+		hint: true,
+		highlight: true,
+		minLength: 2
+	}, {
+		name: 'airports',
+		display: 'value',
+		limit: 8,
+		source: fetchTypeheadAirport('ac', 'airports'),
+		templates: {
+			empty: [
+				'<div class="empty-message">',
+				'unable to find the airport that match the current query',
+				'</div>'
+			].join('\n'),
+			suggestion: function(vars) {
+				return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
+			}
+		}
+	});
+
 	$('#originAirport, #destinationAirport', '.voiceSearch').bind('typeahead:render', function (ev, item) {
 		if (item && item.value) {
 			$(this).val(item.value);
@@ -117,16 +163,15 @@
 		text = text.replace(/\bfour/ig,"4");
 		text = text.replace(/\bfive/ig,"5");
 		text = text.replace(/\bsix/ig,"6");
-		var out_field = document.getElementById("result");
-		// document.getElementById("disclaimers").innerHTML = "";
+		var out_field = '';
 
 		if (/Fly me to the moon/i.exec(text)) {
-			out_field.innerHTML = "Meri says: <br> &nbsp; &nbsp;Fill my heart with song and<br>"
-			+ "&nbsp;&nbsp; Let me sing for ever more<br> &nbsp;&nbsp; You are all I long for<br>"
-			+ "&nbsp;&nbsp; All I worship and adore";
+			out_field = "Meri says: Fill my heart with song and \n"
+			+ "Let me sing for ever more You are all I long for \n"
+			+ "All I worship and adore";
 			return;
 		}
-		out_field.innerHTML = "Meri says: ";
+		out_field += "Meri says: ";
 
 		var cities = parseCities(text);
 		if (cities && (cities[0] || cities[1])) {
@@ -136,11 +181,10 @@
 			if (cities[1]) {
 				$('#destinationAirport', '.voiceSearch').typeahead('val', cities[1]);
 			} else cities[1] = "an unknown airport";
-			out_field.innerHTML = out_field.innerHTML
-			+ "<u>here is what I understood </u> - <br>"
-			+ "&nbsp;&nbsp;&nbsp; The trip is from <b>" + cities[0] + "</b> to <b>" + cities[1] + "</b>";
+			out_field += " here is what I understood -"
+				+ " The trip is from " + cities[0] + " to " + cities[1];
 		} else {
-			out_field.innerHTML = out_field.innerHTML + "&nbsp;  I did not understand where you are flying to.<br><br><br>";
+			out_field += " I did not understand where you are flying to.";
 			return;
 		}
 
@@ -165,10 +209,9 @@
 				returning = dates[1].toDateString();
 				//$('input[name=returnDate]', '.voiceSearch').val(returning);
 			}
-			out_field.innerHTML = out_field.innerHTML + ", leaving on <b> " + leaving + "</b>"
-			+ (returning ? " returning on <b> " + returning + "</b>." : ".");
+			out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
 		} else {
-			out_field.innerHTML = out_field.innerHTML + "<b>I did not find dates in your request.</b>";
+			out_field += " I did not find dates in your request. ";
 			return;
 		}
 
@@ -186,12 +229,14 @@
 		}
 
 		if (num && (num > 0 || num == "multiple")) {
-			out_field.innerHTML = out_field.innerHTML + "<br>&nbsp;&nbsp;&nbsp; You need <b>" + num
-			+ (num == 1 ? " ticket" : " tickets") + "</b>"
-			+ (cls ? " in <b>" + cls + " class</b>" : "") + ".<br>";
+			out_field += " You need " + num
+				+ (num == 1 ? " ticket" : " tickets") + " "
+				+ (cls ? " in " + cls + " class " : "") + ". \n";
 		} else if (cls) {
-			out_field.innerHTML = out_field.innerHTML + "<br>&nbsp;&nbsp;&nbsp; You are travelling in <b>" + cls + "</b> class.";
-		} else out_field.innerHTML = out_field.innerHTML + "<br><br>";
+			out_field += " You are travelling in " + cls + " class.";
+		}
+
+		log(out_field);
 	}
 
 	function parseDates(str) {
@@ -346,6 +391,13 @@
 		// This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
 		if (/\bI\s+(need\s+to\s+)?(am|be|get|fly|reach|arrive|land)\b/i.exec(text)) return 1;
 		return null;
+	}
+
+	// Simple log function to keep the example simple
+	function log () {
+		if (typeof console !== 'undefined') {
+			console.log.apply(console, arguments);
+		}
 	}
 
 })();
