@@ -51,12 +51,10 @@ module.exports = {
               sails.log.error(err);
             } else {
               UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
-              User.publishCreate(user);
             }
         });
       } else {
         UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
-        User.publishCreate(user);
       }
     });
   }

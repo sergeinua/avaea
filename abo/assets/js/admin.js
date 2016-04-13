@@ -27,7 +27,7 @@ $(document).ready(function() {
 
   });
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     log('Lost connection to server');
     socket.off('user');
   });
@@ -55,8 +55,7 @@ $(document).ready(function() {
 
   var currentChartType;
   var user_id = 0, prevLog, prevSnowflake, prevSpider,
-    lastUpdated = 0,
-    interval1, interval2;
+    lastUpdated = 0;
 
   currentChartType = $('#chartSelection').val();
 
@@ -244,14 +243,6 @@ $(document).ready(function() {
     }
 
     if (user_id) {
-
-      if (interval1) {
-        clearInterval(interval1);
-      }
-      if (interval2) {
-        clearInterval(interval2);
-      }
-
       getLogAction();
       drawCurrentChartType();
     }
