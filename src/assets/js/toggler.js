@@ -200,10 +200,12 @@ $(document).ready(function() {
     return false;
   });
 
-  $('.recommended').each(function(item){
-    $(this).find('div:first').find('div:first').find('div:first')
+  // disabled, TODO: confirm this functionality still needed
+  /*$('.recommended').each(function(item){
+    // $(this).find('div:first').find('div:first').find('div:first')
+    $(this).find('.itinerary-airline')
       .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-  });
+  });*/
   /*
 
    //set dates for search request
@@ -490,7 +492,7 @@ $(document).ready(function() {
     return true;
   });
 
-  $('.itinerary').click(function (event) {
+  $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
     var itineraryId = $(this).attr('id');
@@ -499,10 +501,11 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
-        if ($(this).hasClass('recommended')) {
-          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
+        // disabled, TODO: confirm this functionality still needed
+        /*if ($(this).hasClass('recommended')) {
+          $(this).find('.itinerary-airline').find('span:last')
             .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
-        }
+        }*/
 
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
@@ -511,10 +514,11 @@ $(document).ready(function() {
           }
         });
       } else {
-        if ($(this).hasClass('recommended')) {
-          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
+        // disabled, TODO: confirm this functionality still needed
+        /*if ($(this).hasClass('recommended')) {
+          $(this).find('.itinerary-airline').find('span:last')
             .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-        }
+        }*/
       }
     }
 
