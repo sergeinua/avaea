@@ -43,7 +43,7 @@ module.exports = {
         return res.view('user/profile', {
           title:'Update profile',
           user: req.user,
-          Profile: profile_fields
+          profile_fields: profile_fields
         });
       }
     });

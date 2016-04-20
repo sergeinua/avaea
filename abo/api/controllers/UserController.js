@@ -77,7 +77,7 @@ module.exports = {
           title:'Update profile',
           selectedUser: req.params.user_id,
           user: req.user,
-          Profile: profile_fields
+          profile_fields: profile_fields
         });
       }
     });

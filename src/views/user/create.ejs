@@ -25,30 +25,22 @@
     <input type="text" name="middleName" class="form-control input-sm" placeholder="Middle Name"/>
     <label>Last Name</label>
     <input type="text" name="lastName" class="form-control input-sm" placeholder="Last Name"required/>
+    <label>Gender</label>
+    <%- _res = widgets.dropDownList({}, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
+    <label>Birthday</label>
+    <input type="text" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"/>
+    <label>Passenger Type</label>
+    <%- _res = widgets.dropDownList({}, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
     <label>Address</label>
     <input type="text" name="address" class="form-control input-sm" placeholder="Address"/>
     <label>City</label>
     <input type="text" name="city" class="form-control input-sm" placeholder="City"/>
     <label>State</label>
     <input type="text" name="state" class="form-control input-sm" placeholder="State"/>
-    <label>Country Code</label>
-    <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"/>
     <label>Zip Code</label>
     <input type="text" name="zip_code" class="form-control input-sm" placeholder="ZipCode"/>
-
-    <label>Ethnicity (Race)</label>
-    <select name="ethnicity" class="form-control input-sm">
-        <option value=''>please choose</option>
-        <option value='European'>European</option>
-        <option value='Mexican'>Mexican</option>
-        <option value='Latin American'>Latin American</option>
-        <option value='Eastern European'>Eastern European</option>
-        <option value='South East Asian (India, Pakistan, Bangladesh)'>South East Asian (India, Pakistan, Bangladesh)</option>
-        <option value='Chinese'>Chinese</option>
-        <option value='Asian'>Asian</option>
-        <option value='African'>African</option>
-        <option value='South Pacific'>South Pacific</option>
-    </select>
+    <label>Country</label>
+    <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"/>
 
     <!--In Case of Emergency Notify-->
     <label>In Case of Emergency Notify</label>
