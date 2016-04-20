@@ -146,8 +146,8 @@ module.exports = {
           searchParams: {
             DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
             ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+            departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
+            returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass],
             passengers: req.param('passengers', 1)
           },
@@ -181,8 +181,8 @@ module.exports = {
           searchParams: {
             DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
             ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-            departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+            departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
+            returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.CabinClass],
             passengers: req.param('passengers', 1)
           },
