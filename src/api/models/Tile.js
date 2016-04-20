@@ -1125,6 +1125,36 @@ module.exports = {
           }
         });
 
+        // Flight information popup Fake data Issue #255
+        var additionalPrice = 0;
+        itinerary.informationTmp = [];
+        _.forEach(itinerary.citypairs, function (cityPair) {
+          if (cityPair.flights.length) {
+            _.forEach(cityPair.flights, function (flight) {
+              if (flight.merchandising && flight.merchandising.length) {
+                itinerary.informationTmp = _.union(itinerary.informationTmp, flight.merchandising);
+              }
+            });
+          }
+        });
+
+        var maxPrice = 5;
+        var minPrice = 50;
+        itinerary.information = [];
+        _.forEach(itinerary.informationTmp, function (item) {
+          if (item) {
+            var infoItem = {};
+            infoItem.name = item;
+            infoItem.price = Math.floor(Math.random() * (maxPrice - minPrice)) + minPrice;
+            additionalPrice += infoItem.price;
+            itinerary.information.push(infoItem);
+          }
+        });
+        itinerary.specialprice = itinerary.price - additionalPrice;
+        itinerary.specialprice = itinerary.specialprice.toFixed(2);
+        delete itinerary.informationTmp;
+
+
         if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
         }

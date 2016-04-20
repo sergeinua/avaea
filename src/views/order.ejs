@@ -115,16 +115,6 @@
 
       <input type="hidden" name="id" value="<%= reqParams.id %>">
 
-      <div><!-- div for error highlight -->
-        <label class="control-label">Pax Type</label>
-        <%- _res = widgets.dropDownList(reqParams, "PaxType", {
-            ADT: "Adult",
-            CHD: "Child",
-            INF: "Infant"
-          },
-          {"class": "form-control input-sm"}) %>
-      </div>
-
       <div>
         <label class="control-label">First Name</label>
         <input type="text" name="FirstName" class="form-control input-sm" placeholder="First Name" value="<%= reqParams.FirstName ? reqParams.FirstName : '' %>">
@@ -137,16 +127,17 @@
 
       <div>
         <label class="control-label">Gender</label>
-        <%- _res = widgets.dropDownList(reqParams, "Gender", {
-            M: "Male",
-            F: "Female"
-          },
-          {"class": "form-control input-sm"}) %>
+        <%- _res = widgets.dropDownList(reqParams, "Gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
       </div>
 
       <div>
         <label class="control-label">Birthday</label>
         <input type="date" name="DateOfBirth" class="form-control input-sm" placeholder="MM/DD/YYYY" maxlength="10" value="<%= reqParams.DateOfBirth ? reqParams.DateOfBirth : '' %>">
+      </div>
+
+      <div>
+        <label class="control-label">Passenger Type</label>
+        <%- _res = widgets.dropDownList(reqParams, "PaxType", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
       </div>
 
       <div>
@@ -165,13 +156,13 @@
       </div>
 
       <div>
-        <label class="control-label">Country Code</label>
-        <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
+        <label class="control-label">Zip Code</label>
+        <input type="text" name="ZipCode" class="form-control input-sm" value="<%= reqParams.ZipCode ? reqParams.ZipCode : '' %>">
       </div>
 
       <div>
-        <label class="control-label">Zip Code</label>
-        <input type="text" name="ZipCode" class="form-control input-sm" value="<%= reqParams.ZipCode ? reqParams.ZipCode : '' %>">
+        <label class="control-label">Country</label>
+        <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
       </div>
 
       <div>

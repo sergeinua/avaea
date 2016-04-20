@@ -30,6 +30,9 @@ module.exports = {
         var profileFields = {
           FirstName: "firstName",
           LastName: "lastName",
+          Gender : "gender",
+          DateOfBirth: "birthday",
+          PaxType: "pax_type",
           Address1: "address",
           City: "city",
           State: "state",
@@ -42,6 +45,9 @@ module.exports = {
           if(typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim()==""))
             reqParams[prop] = found[profileFields[prop]];
         }
+        // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
+        if(typeof reqParams.DateOfBirth == 'object')
+          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('MM/DD/YYYY');
       }
 
       var id = req.param('id');
@@ -68,6 +74,7 @@ module.exports = {
           return res.view('order', {
             user: req.user,
             reqParams: reqParams,
+            head_content: Search.getHeadContent(),
             order:[logData.itinerary]
           });
         }

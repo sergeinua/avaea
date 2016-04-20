@@ -12,6 +12,13 @@ module.exports = {
     firstName        : { type: 'alpha' },
     middleName       : { type: 'string' },
     lastName         : { type: 'alpha' },
+    gender           : {
+      type: 'string', enum: ['M', 'F']
+    },
+    birthday         : { type: 'date' },
+    pax_type         : {
+      type: 'string', enum: ['ADT', 'CHD', 'INF']
+    },
     address          : { type: 'string' },
     notifyContact    : { type: 'json' },
     travelWith       : { type: 'json' },
@@ -40,6 +47,16 @@ module.exports = {
     country_code      : { type: 'string' },
     zip_code          : { type: 'string' }
 },
+
+  attr_gender: {
+    M: "Male",
+    F: "Female"
+  },
+  attr_pax_type : {
+    ADT: "Adult",
+    CHD: "Child",
+    INF: "Infant"
+  },
 
   findOneByUserId: function (id) {
     return this.findOne({user:id});

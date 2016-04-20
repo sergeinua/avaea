@@ -150,6 +150,14 @@ module.exports = {
       return doneCb(null);
     });
     return;
+  },
+
+  /**
+   * Used in the booking as temporary link for last result of the flights search
+   * @returns {string}
+   */
+  getHeadContent: function() {
+    return '<span onclick="window.history.back();">&lt; Flights</span>';
   }
 };
 
