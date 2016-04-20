@@ -1,18 +1,21 @@
 FROM nginx
 
-RUN apt-get update && apt-get install -y openssh-server
-
+# Setup ssh for tunneling
+RUN apt-get update && apt-get install -y openssh-server build-essential python-dev python-setuptools python-pip python-smbus
 RUN mkdir /root/.ssh
-
 COPY ./images/nginx/keys/* /root/.ssh/
-
 RUN chmod 0400 /root/.ssh/*
 
-COPY ./images/nginx/config/demo /etc/nginx/conf.d/default.conf
+RUN pip install ansible
 
-COPY ./images/nginx/config/abo /etc/nginx/conf.d/abo.conf
+RUN mkdir /var/run/sshd
+
+RUN unlink /etc/nginx/conf.d/default.conf
 
 COPY ./images/nginx/bin/setup_and_run.sh /usr/local/bin/setup_and_run.sh
 
 RUN chmod +x /usr/local/bin/setup_and_run.sh
+
+WORKDIR /usr/var/avaea/deploy/playbooks
+
 
