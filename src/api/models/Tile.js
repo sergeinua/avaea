@@ -33,14 +33,14 @@ module.exports = {
     sourceArrival: {
       name: 'Arrival',
       id: 'source_arrival_tile',
-      order: 99,
+      order: 101,
       filters: [
       ]
     },
     destinationDeparture: {
       name: 'Departure',
       id: 'destination_departure_tile',
-      order: 99,
+      order: 100,
       filters: [
       ]
     },
