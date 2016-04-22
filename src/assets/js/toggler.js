@@ -288,10 +288,13 @@ $(document).ready(function() {
         recalculate : needRecalculate
       });
 
-      var current = $(this).attr('for');
-      if (current && current.indexOf('airline_tile') != -1) {
-        checkAirlineFlierMilesProgram(current);
-      }
+      /**
+       * @description #DEMO-267 (Remove frequent flyer miles popup)
+       */
+      //var current = $(this).attr('for');
+      //if (current && current.indexOf('airline_tile') != -1) {
+      //  checkAirlineFlierMilesProgram(current);
+      //}
     }
     // recalculate search result
     filterItineraries();
