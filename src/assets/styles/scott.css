@@ -828,7 +828,20 @@ body.loading .modalLoader {
   border-bottom: 1px solid #e8e8e8;
 }
 .datepicker table td.day {
-  line-height: 28px !important;
+  line-height: 16px !important;
+}
+/* iPhone 6+ */
+@media (min-width: 414px) {
+  .datepicker table td.day {
+    line-height: 28px !important;
+  }
+}
+/* iPad */
+@media (min-width: 768px) {
+  .datepicker table td.day {
+    font-size: 16px !important;
+    line-height: 28px !important;
+  }
 }
 
 .datepicker table td.day.old,
