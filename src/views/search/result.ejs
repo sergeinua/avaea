@@ -230,29 +230,6 @@
 
 <!--<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>-->
 
-<!--Airlines Frequent Flier Miles Programs-->
-<fieldset class="hidden" for="" id="AFFMP">
-    <legend style="margin-bottom:0; font-size:18px;">Airlines Frequent Flier Miles Programs</legend>
-    <div class="panel-body">
-
-        <div id="milesPrograms">
-            <label>Airline Name</label>
-            <input type="text" name="airlineName" class="form-control input-sm" placeholder="Airline Name" value="" disabled />
-            <label>Account Number</label>
-            <input type="text" name="accountNumber" class="form-control input-sm" placeholder="Account Number" value=""/>
-            <label>Frequent Flier Miles</label>
-            <input type="text" name="flierMiles" class="form-control input-sm" placeholder="Frequent Flier Miles" value=""/>
-            <label>Expiration Date</label>
-            <input type="date" name="expirationDate" class="form-control input-sm" placeholder="xx-xx-xxxx" value=""/>
-        </div>
-
-    </div>
-    <div class="panel-footer">
-        <button class="btn btn-sm btn-primary btn-block saveFlierMilesProgram" role="button" id="saveMilesPrograms">Save</button>
-        <button class="btn btn-sm btn-default btn-block cancelFlierMilesProgram" role="button" id="cancelMilesPrograms">Dismiss</button>
-    </div>
-</fieldset>
-
 <% } else { %>
     <div class="alert alert-danger" role="alert"><%= __('We have found no flights connecting these destinations') %></div>
     <a href="/search"  class="btn btn-sm btn-primary btn-block center-block"  style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" role="button"><%= __('Back to search') %></a>
