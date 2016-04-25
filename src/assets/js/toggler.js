@@ -904,8 +904,9 @@ $(document).ready(function() {
 
   $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
     var currentValue = $('#passengers').val();
+    var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
-    if ( currentValue < 3 ) {
+    if ( currentValue < 4 ) {
       currentValue++;
       $('.passengers_text').text('Adults');
     } else {
@@ -913,7 +914,7 @@ $(document).ready(function() {
       $('.passengers_text').text('Adult');
     }
     $('#passengers').val(currentValue);
-    $('.passengers_count').text(currentValue);
+    $('.passengers_count').text(digits[currentValue]);
   });
 
   $('.flight-class-info-item .text-picker').on('click', function () {
