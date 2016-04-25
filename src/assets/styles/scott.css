@@ -589,21 +589,22 @@ body.loading .modalLoader {
 }
 
 .search-button {
-  width: 375px;
-  height: 64px;
-  background-color: #ff2600;
-  border-radius: 0;
+  width: 240px;
+  height: 48px;
+  background-color: #7c1d00;
+  border-radius: 5px;
   font-family: WhitneyHTF-BookCondensed;
-  font-size: 24px;
+  font-size: 22px;
   line-height: 1.0;
   letter-spacing: 0.2px;
   color: #ffffff;
   text-transform: uppercase;
   border: 0;
   left:50%;
-  margin-left: -187px;
+  margin-left: -120px;
   position: fixed;
-  bottom: 0;
+  bottom: 10px;
+  box-shadow: 6px 6px 7px  #888888;
 }
 
 .nav.navbar-nav > li {
@@ -828,7 +829,20 @@ body.loading .modalLoader {
   border-bottom: 1px solid #e8e8e8;
 }
 .datepicker table td.day {
-  line-height: 28px !important;
+  line-height: 16px !important;
+}
+/* iPhone 6+ */
+@media (min-width: 414px) {
+  .datepicker table td.day {
+    line-height: 28px !important;
+  }
+}
+/* iPad */
+@media (min-width: 768px) {
+  .datepicker table td.day {
+    font-size: 16px !important;
+    line-height: 28px !important;
+  }
 }
 
 .datepicker table td.day.old,

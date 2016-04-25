@@ -1,28 +1,3 @@
-#AFFMP {
-    background-image: linear-gradient(0, #f7f7ee, #FFFFFF);
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10000;
-    background: #fff;
-    &:after {
-        background: #fff;
-    }
-    .panel-footer {
-        text-align: center;
-    }
-    .panel-footer .btn-block {
-        width: 30%;
-        display: inline-block;
-        margin: 2px;
-        min-width: 100px;
-    }
-}
-
 #searchResultData {
     .itinerary {
         .col-icon-airline {
@@ -42,5 +17,26 @@
         font-size: 15px;
         background-color: #101742;
         color: white;
+    }
+    .merchandising {
+        li {
+            list-style: none;
+            .gicon {
+                background: transparent url("../../images/merchandising-icons-sprite-15x14-30.png") no-repeat center;
+                width: 15px;
+                height: 15px;
+                display: inline-block;
+                margin: 7px 10px 0 0;
+            }
+            .wifi {
+                background-position: 0 0;
+            }
+            .priority_seat {
+                background-position: 0 -47px;
+            }
+            .luggage {
+                background-position: 0 -112px;
+            }
+        }
     }
 }
