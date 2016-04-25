@@ -1,25 +1,32 @@
 <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
 <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top container-fluid">
   <div class="flight-info row hide">
-    <div class="col-xs-9">
-      <%if (title) {%><span class="requested-airports"><%= title %></span><% } %>
-      <% if (typeof searchResult != 'undefined') { %>
-      <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round Trip') %><%} else {%><%= __('One Way') %><%}%></span>
-      <br/>
-      <span class="flight-date"><%= searchParams.departureDate %>
-        <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
-        <span class="text-spacer"></span>
-        <span class="passengers_count"><%= searchParams.passengers %></span>
-        <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
-        <span class="text-spacer"></span>
-        <%= searchParams.CabinClass %>
-      </span>
-      <% }%>
+    <div class="col-xs-8">
+      <div style="float: left; width: auto;">
+        <%if (title) {%><span class="requested-airports"><%= title %></span><% } %>
+        <% if (typeof searchResult != 'undefined') { %>
+        <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round Trip') %><%} else {%><%= __('One Way') %><%}%></span>
+      </div>
+      <div style="float: left; width: auto;">
+        <span class="flight-date"><%= searchParams.departureDate %>
+          <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
+          <span class="text-spacer"></span>
+          <span class="passengers_count"><%= searchParams.passengers %></span>
+          <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
+          <span class="text-spacer"></span>
+          <%= searchParams.CabinClass %>
+        </span>
+        <% }%>
+      </div>
     </div>
-    <div class="col-xs-3 text-right">
-      <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
-      &middot; <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
-      <span id="undo" class="undo-button disabled"><%= __('Undo')%></span> &middot;
+    <div class="col-xs-4 text-right">
+      <div style="float: right; width: auto;" class="text-right">
+        <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
+      </div>
+      <div style="float: right; width: auto;" class="text-right">
+        &middot; <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
+        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span> &middot;
+      </div>
     </div>
   </div>
   <% if (typeof timelog != 'undefined' && timelog) { %>
