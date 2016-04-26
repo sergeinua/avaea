@@ -22,6 +22,6 @@
     force=yes
     key_file=/root/.ssh/bitbucket_rsa
 
-- name: Restart "{{ ENV }}_{{ APP }}" service
-  service: name="{{ ENV }}_{{ APP }}" state=restarted
+- name: Restart "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=restarted
 
