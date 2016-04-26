@@ -109,9 +109,10 @@
     </div>
     <div id="main" class="main container-fluid clearfix">
 
-      <% if (typeof errors != 'undefined') {%>
-        <% errors.forEach(function (error) { %>
-          <!--<div class="alert alert-danger" role="alert"><%= __(error) %></div>-->
+      <% // Rename errors var to the tmp_errors temporary. For displaying error for booking
+      if (typeof tmp_errors != 'undefined') {  %>
+        <% tmp_errors.forEach(function (error) { %>
+          <div class="alert alert-danger" role="alert"><%= __(error) %></div>
         <% }); %>
       <% } %>
 
