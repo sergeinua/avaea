@@ -154,6 +154,7 @@ $(document).ready(function() {
       $('span.caret', this).removeClass('hide');
       $(this).addClass('selected');
     }
+    $('.sort-button button > i').replaceWith($('i', this).clone());
     var
       sort = $(this).attr('sort'),
       order = 'asc';
