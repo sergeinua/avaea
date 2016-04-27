@@ -295,8 +295,8 @@ body {
   font-size: 12px;
   color: #ffffff;
   border-radius: 0;
-  background-color: #101742;
-  border-color: #101742;
+  border-color: #004a99 !important;
+  background-color: #004a99 !important;
   max-width: 80px;
   padding: 2px 5px;
 }
