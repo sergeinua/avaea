@@ -1,173 +1,35 @@
-.voiceSearch {
-  .twitter-typeahead {
+.flight-direction-item-voice-search {
+  .voice-search-textarea {
     width: 100%;
+    padding-right: 25px;
+    color: #000000;
+    resize: none;
   }
-  .typeahead {
-    background-color: #fff;
-    &:focus {
-      border: 2px solid #0097cf;
+  .voice-search-buttons {
+    i {
+      margin: 0 0 5px 0;
+      font-size: 18px;
+      font-weight: 100;
+      &.fa-microphone, &.fa-microphone-slash {
+        position: absolute;
+        right: 64px;
+        color: #000000;
+        top: 5px;
+        cursor: pointer;
+        &.listening {
+          border-radius: 50%;
+          -webkit-animation-name: blink; /* Chrome, Safari, Opera */
+          animation-name: blink;
+          -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+          -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+          -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+          outline: 0;
+        }
+      }
     }
-  }
-  .tt-query {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  }
-  .tt-hint {
-    color: #999;
-  }
-  .tt-menu {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 12px 0;
-    padding: 8px 0;
-  }
-  .tt-suggestion, .empty-message {
-    padding: 3px 20px;
-  }
-  .tt-suggestion:hover {
-    background-color: #0097cf;
-    color: #fff;
-    cursor: pointer;
-  }
-  .tt-suggestion.tt-cursor {
-    background-color: #0097cf;
-    color: #fff;
-  }
-  .tt-suggestion p {
-    margin: 0;
-  }
-
-  .searchBox {
-    padding-right: 0;
-    display: inline;
-  }
-
-  .si-wrapper {
-    display: inline-block;
-    position: relative;
-    width: 70%;
-    input {
-      width: 100%;
-      margin: 0;
-      font-size: 2em;
-      padding: .1em;
-    }
-    button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 18px;
-      width: 18px;
-      margin: 0;
-      border: 0;
-      padding: 0;
-      background: none;
-      font: 0/0 a;
-    }
-  }
-
-  .glyphicon {
-    font-size: 2em;
-    display: inline-block;
-    padding: 5px;
-    top: 5px;
-    margin: 0 0 0 4px;
-    border: 1px solid #808080;
-    cursor: pointer;
-    line-height: 38px;
-  }
-
-  .si-mic,
-  .si-mic:after,
-  .si-holder,
-  .si-holder:before,
-  .si-holder:after {
-    position: absolute;
-    background: #333;
-  }
-
-  /* Microphone icon */
-  .si-mic {
-    display: block;
-    height: 25%; /* 8px / 32px */
-    top: 9.375%; /* 3px / 32px */
-    left: 37.5%; /* 12px / 32px */
-    right: 37.5%; /* 12px / 32px */
-    -webkit-border-radius: 99px 99px 0 0;
-    -moz-border-radius: 99px 99px 0 0;
-    border-radius: 99px 99px 0 0;
-  }
-
-  .si-mic:before,
-  .si-mic:after,
-  .si-holder {
-    -webkit-border-radius: 0 0 99px 99px;
-    -moz-border-radius: 0 0 99px 99px;
-    border-radius: 0 0 99px 99px;
-  }
-
-  .si-mic:before {
-    position: absolute;
-    z-index: 1;
-    content: '';
-    width: 150%; /* 12px / 8px */
-    height: 137.5%; /* 11px / 8px */
-    top: 100%; /* 8px / 8px */
-    left: -25%; /* -2px / 8px */
-    background: #fff;
-  }
-
-  .si-mic:after {
-    z-index: 1;
-    content: '';
-    width: 100%; /* 10px / 10px */
-    height: 100%; /* 10px / 10px */
-    top: 110%; /* 11px / 10px */
-    left: 0;
-  }
-
-  .si-holder {
-    display: block;
-    height: 40.625%; /* 13px / 32px */
-    width: 50%; /* 16px / 32px */
-    left: 25%; /* 8px / 32px */
-    top: 37.5%; /* 12px / 32px */
-  }
-
-  .si-holder:after {
-    content: '';
-    width: 66.666%; /* 8px / 16px */
-    height: 18.182%; /* 2px / 13px */
-    bottom: -30.769%; /* -4px / 13px */
-    left: 16.667%; /* 2px / 16px */
-  }
-
-  .si-holder:before {
-    content: '';
-    width: 33.333%; /* 4px / 16px */
-    height: 27.273%; /* 3px / 13px */
-    top: 92.308%; /* 12px / 13px */
-    left: 33.333%; /* 4px / 16px */
-  }
-  .si-btn {
-    &.listening {
-      border-radius: 50%;
-      -webkit-animation-name: blink; /* Chrome, Safari, Opera */
-      animation-name: blink;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
-      -webkit-animation-iteration-count: infinite;
-      animation-iteration-count: infinite;
-      -webkit-animation-duration: 3s;
-      animation-duration: 3s;
-      outline: 0;
-    }
-  }
-
-  form {
-    display: none;
-    margin-top: 20px;
   }
 }
 

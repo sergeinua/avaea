@@ -724,7 +724,7 @@ $(document).ready(function() {
     var hasTo = !!$('#destinationAirport').val();
     switch (type) {
       case 'round_trip':
-        $('.flight-direction-item-coming-soon').addClass('hidden');
+        $('.flight-direction-item-voice-search').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&#8596;');
@@ -763,9 +763,10 @@ $(document).ready(function() {
         $('#date_select p.header span.ret').removeClass('hidden');
         $('#date_select p.info span.ret').removeClass('hidden');
         $('.flight-additional-info').removeClass('hidden');
+        $('.search-button').show();
         break;
-      case 'multi_city':
-        $('.flight-direction-item-coming-soon').removeClass('hidden');
+      case 'voice_search':
+        $('.flight-direction-item-voice-search').removeClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').addClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -774,9 +775,10 @@ $(document).ready(function() {
         $('#to-area-selected').addClass('hidden');
         $('.flight-date-info').addClass('hidden');
         $('.flight-additional-info').addClass('hidden');
+        $('.search-button').hide();
         break;
       case 'one_way':
-        $('.flight-direction-item-coming-soon').addClass('hidden');
+        $('.flight-direction-item-voice-search').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('.flight-direction-item-arrow').html('&rarr;');
@@ -806,6 +808,7 @@ $(document).ready(function() {
         $('#date_select p.header span.ret').addClass('hidden');
         $('#date_select p.info span.ret').addClass('hidden');
         $('.flight-additional-info').removeClass('hidden');
+        $('.search-button').show();
         break;
     }
   }
