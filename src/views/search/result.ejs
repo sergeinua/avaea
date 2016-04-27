@@ -5,7 +5,7 @@
       <div style="float: left; width: auto;">
         <%if (title) {%><span class="requested-airports"><%= title %></span><% } %>
         <% if (typeof searchResult != 'undefined') { %>
-        <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round Trip') %><%} else {%><%= __('One Way') %><%}%></span>
+        <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round trip') %><%} else {%><%= __('One way') %><%}%></span>
       </div>
       <div style="float: left; width: auto;">
         <span class="flight-date"><%= searchParams.departureDate %>

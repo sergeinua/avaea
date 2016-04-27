@@ -964,11 +964,15 @@ body.loading .modalLoader {
   .search-button {
     height: 44px;
   }
-  /*.search-button {*/
-    /*width: 165px;*/
-    /*left: 0;*/
-    /*margin-left: 0;*/
-  /*}*/
+  .flight-type {
+    padding-left: 5px;
+  }
+  .requested-airports {
+    padding-left: 5px;
+  }
+  #search_count {
+    padding-left: 5px;
+  }
   .flight-class-info-item {
     height: 30px;
     padding-top: 0;
