@@ -681,16 +681,18 @@ $(document).ready(function() {
   $("#depart_picker").on("dp.change", function (e) {
     $('#date_select p.info span.dep').text(moment(e.date).format('ddd DD MMM'));
     var dep_sel = $('.flight-date-info-item.sel.dep');
+    $('.row:eq(0) > div:eq(0) > div:eq(1)', dep_sel).text(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', dep_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', dep_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    $('.row:eq(1) > div:eq(1)', dep_sel).text(moment(e.date).format('YYYY'));
     $('#return_picker').data("DateTimePicker").minDate(moment(e.date));
   });
 
   $("#return_picker").on("dp.change", function (e) {
     $('#date_select p.info span.ret').text(' - ' + moment(e.date).format('ddd DD MMM'));
     var ret_sel = $('.flight-date-info-item.sel.ret');
+    $('.row:eq(0) > div:eq(0) > div:eq(1)', ret_sel).text(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', ret_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', ret_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    $('.row:eq(1) > div:eq(1)', ret_sel).text(moment(e.date).format('YYYY'));
   });
   // }}} bind dp.change event
 
