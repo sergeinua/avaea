@@ -10,3 +10,4 @@ nginx:
 
 upstart:
  config_name: abo.conf
+ service_name: abo

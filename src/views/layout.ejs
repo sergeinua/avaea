@@ -66,7 +66,7 @@
       <div id="search_title" class="hidden">
         <div class="navbar-header">
           <div style="width:auto; float: left">
-            <input id="airport-input" type="text" name="airport" target="" value=""/>
+            <input id="airport-input" type="text" name="airport" target="" value="" placeholder="Type the name or code of the airpoirt"/>
           </div>
           <div style="width:auto; float: left">
             <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
@@ -109,9 +109,10 @@
     </div>
     <div id="main" class="main container-fluid clearfix">
 
-      <% if (typeof errors != 'undefined') {%>
-        <% errors.forEach(function (error) { %>
-          <!--<div class="alert alert-danger" role="alert"><%= __(error) %></div>-->
+      <% // Rename errors var to the tmp_errors temporary. For displaying error for booking
+      if (typeof tmp_errors != 'undefined') {  %>
+        <% tmp_errors.forEach(function (error) { %>
+          <div class="alert alert-danger" role="alert"><%= __(error) %></div>
         <% }); %>
       <% } %>
 

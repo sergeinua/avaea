@@ -48,27 +48,48 @@
     <div class="col-xs-12">
       <div class="sort-button">
         <button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <%= __('Sort') %> <span class="caret"></span>
+          <!--<i class="fa fa-exchange fa-rotate-90" aria-hidden="true"></i> <%= __('Sort') %>--><i class="fa fa-lightbulb-o" aria-hidden="true"></i> <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
           <%
           var sortOptions = {
-            smart:    __('Smart Rank'),
-            price:    __('Price'),
-            duration: __('Duration'),
-            odepart:  __('Departure'),
-            oarrival: __('Arrival')
+            smart: {
+              icon: '<i class="fa fa-lightbulb-o" aria-hidden="true"></i>',
+              title: __('Smart Rank')
+            },
+            price: {
+              icon: '<i class="fa fa-usd" aria-hidden="true"></i>',
+              title: __('Price')
+            },
+            duration: {
+              icon: '<i class="fa fa-clock-o" aria-hidden="true"></i>',
+              title: __('Duration')
+            },
+            odepart: {
+              icon: '<i class="fa fa-plane" aria-hidden="true"></i>',
+              title: __('Departure')
+            },
+            oarrival: {
+              icon: '<i class="fa fa-plane fa-flip-vertical" aria-hidden="true"></i>',
+              title: __('Arrival')
+            }
           };
           if (searchParams.returnDate) {
-            sortOptions.duration += '&#8644;';
-            sortOptions.idepart =  searchParams.ArrivalLocationCode + ' ' + sortOptions.odepart;
-            sortOptions.iarrival = searchParams.DepartureLocationCode + ' ' + sortOptions.oarrival;
-            sortOptions.odepart =  searchParams.DepartureLocationCode + ' ' + sortOptions.odepart;
-            sortOptions.oarrival = searchParams.ArrivalLocationCode + ' ' + sortOptions.oarrival;
+            sortOptions.duration.title += '&#8644;';
+            sortOptions.idepart =  {
+              icon: '<i class="fa fa-plane fa-flip-horizontal" aria-hidden="true"></i>',
+              title: searchParams.ArrivalLocationCode + ' ' + sortOptions.odepart.title
+            };
+            sortOptions.iarrival = {
+              icon: '<i class="fa fa-plane fa-rotate-180" aria-hidden="true"></i>',
+              title: searchParams.DepartureLocationCode + ' ' + sortOptions.oarrival.title
+            };
+            sortOptions.odepart.title =  searchParams.DepartureLocationCode + ' ' + sortOptions.odepart.title;
+            sortOptions.oarrival.title = searchParams.ArrivalLocationCode + ' ' + sortOptions.oarrival.title;
           }
           var i=0;
           for (var name in sortOptions) { %>
-          <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><span class="caret pull-right<%if (i) { %> hide<% } %>"></span><%= sortOptions[name] %></a></li>
+          <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><span class="caret pull-right<%if (i) { %> hide<% } %>"></span><%- sortOptions[name].icon %> <%= sortOptions[name].title %></a></li>
           <% i++; } %>
         </ul>
       </div>
@@ -151,7 +172,7 @@
           <div class="col-xs-3 text-right">
             <%= pair.from.time %> <%= pair.from.code %></div>
           <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
-          <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
+          <div class="col-xs-3"><%= pair.to.time %> <%= pair.to.code %></div>
           <div class="col-xs-3"><%= pair.duration %></div>
         </div>
         <% }); %>
@@ -163,7 +184,7 @@
 
 
 
-    <div class="row collapse" id="cli<%= i %>"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
+    <div class="row collapse" id="cli<%= i %>" style="line-height: 1.8"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
       <div class="row" style="margin-top: 4px;">
         <div class="col-sm-12">
           <strong><%= pair.direction %></strong>
@@ -201,15 +222,9 @@
       </div>
 
       <% if (flight.merchandising && flight.merchandising.length) { %>
-      <div class="row">
-        <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= itrMerch %>" role="button" for="<%= iterator %>_<%= itrMerch %>"><%= __('more') %></button>
-        </div>
-      </div>
-      <div class="row hidden mymorecontent<%= iterator %>_<%= itrMerch %>">
+      <div class="row mymorecontent<%= iterator %>_<%= itrMerch %>">
         <div class="panel panel-default">
-          <div class="panel-heading">Merchandising Information</div>
-          <div class="panel-body">
+          <div class="panel-heading">Merchandising Information:
             <ul class="merchandising">
               <% flight.merchandising.forEach(function (item) {
                 var merchKey = item.toLowerCase().replace(/\W+/g, '_'),
@@ -222,7 +237,7 @@
                   merchClass = 'priority_seat';
                 }
               %>
-              <li><% if (merchClass) { %><span class="gicon <%= merchClass %>"></span><% } %><%= item %></li>
+              <li><% if (merchClass) { %><span class="gicon <%= merchClass %>" title="<%= item %>"></span><% } else { %><%= item %><%}%></li>
               <% }); %>
             </ul>
           </div>

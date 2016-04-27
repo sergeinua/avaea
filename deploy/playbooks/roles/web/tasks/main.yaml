@@ -6,7 +6,7 @@
     mode=0644
 
 - name: Copy upstart configs
-  copy: src=configs/upstart/{{ APP }}.conf
+  copy: src=configs/upstart/{{ upstart.config_name }}
     dest=/etc/init/{{ upstart.config_name }}
     owner=root
     group=root
@@ -22,6 +22,6 @@
     force=yes
     key_file=/root/.ssh/bitbucket_rsa
 
-- name: Restart "{{ APP }}" service
-  service: name="{{ APP }}" state=restarted
+- name: Restart "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=restarted
 

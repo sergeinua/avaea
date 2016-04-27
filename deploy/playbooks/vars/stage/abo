@@ -10,3 +10,4 @@ nginx:
 
 upstart:
  config_name: stage_abo.conf
+ service_name: stage_abo
