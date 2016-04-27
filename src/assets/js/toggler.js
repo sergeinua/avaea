@@ -464,24 +464,26 @@ $(document).ready(function() {
   $('#search_form').submit(function (event) {
     var _isError = false;
 
+    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
     // Check airports selection
-    if($('#originAirport').val() == '') {
+    if ($('#originAirport').val() == '') {
       $('#from-area').addClass("error_elem");
       _isError = true;
     }
-    if($('#destinationAirport').val() == '') {
+    if ($('#destinationAirport').val() == '') {
       $('#to-area').addClass("error_elem");
       _isError = true;
     }
 
     // Check existence of the return date for the round trip
-    if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+    if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
       $('.flight-date-info-item.ret').addClass("error_elem");
       _isError = true;
     }
 
-    if(_isError)
+    if (_isError) {
       return false;
+    }
 
     $('.search-button').hide();
     $("body").addClass("loading");
