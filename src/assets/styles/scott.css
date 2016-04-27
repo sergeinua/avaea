@@ -639,6 +639,7 @@ body.loading .modalLoader {
 /* end of Smart button styles */
 
 #search_title input[type=text] {
+  padding-left: 4px;
   margin:10px;
   width: 269px;
   height: 40px;

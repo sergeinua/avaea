@@ -856,6 +856,7 @@ $(document).ready(function() {
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
+    $('#airport-input').focus();
     if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
       $('#airport-input').attr('target', 'originAirport');
     } else {
