@@ -683,7 +683,6 @@ $(document).ready(function() {
     $('.row:eq(0) > div:eq(0) > div:eq(1)', dep_sel).html(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', dep_sel).text(moment(e.date).format('DD MMM'));
     $('.row:eq(1) > div:eq(1)', dep_sel).text(moment(e.date).format('YYYY'));
-    //$('.row:eq(1) > div:eq(1)', dep_sel).html(moment(e.date).format('dddd<br>YYYY'));
     $('.row:eq(1) > div:eq(1)', dep_sel).html(moment(e.date).format('YYYY'));
     $('#return_picker').data("DateTimePicker").minDate(moment(e.date));
   });
@@ -694,7 +693,6 @@ $(document).ready(function() {
     $('.row:eq(0) > div:eq(0) > div:eq(1)', ret_sel).html(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', ret_sel).text(moment(e.date).format('DD MMM'));
     $('.row:eq(1) > div:eq(1)', ret_sel).text(moment(e.date).format('YYYY'));
-    //$('.row:eq(1) > div:eq(1)', ret_sel).html(moment(e.date).format('dddd<br>YYYY'));
     $('.row:eq(1) > div:eq(1)', ret_sel).html(moment(e.date).format('YYYY'));
   });
   // }}} bind dp.change event
