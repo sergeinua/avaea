@@ -33,8 +33,13 @@ body {
   background-color: #F2F5F8;
   color: #333333;
 }
+
 .navbar-header,.navbar-fixed-top {
   border-width: 0;
+}
+
+.navbar,.navbar-header{
+  min-height: 30px;
 }
 
 .navbar-default {
@@ -112,6 +117,7 @@ body {
   text-align: center;
   border-bottom: 0;
   padding-left: 15px;
+  padding-right: 5px;
 }
 
 .flight-date {
@@ -295,8 +301,8 @@ body {
   font-size: 12px;
   color: #ffffff;
   border-radius: 0;
-  background-color: #101742;
-  border-color: #101742;
+  border-color: #004a99 !important;
+  background-color: #004a99 !important;
   max-width: 80px;
   padding: 2px 5px;
 }
@@ -413,7 +419,7 @@ body.loading .modalLoader {
   display: block;
 }
 
-.flight-type-form>.row, .flight-direction>.row{
+.flight-type-form>.row {
   margin: 0;
   padding: 0;
 }
@@ -530,14 +536,30 @@ body.loading .modalLoader {
 }
 
 .flight-date-info-item.sel > div.row:first-child > div {
-  padding: 15px;
+  padding: 15px 0;
   font-family: WhitneyHTF-MediumCondensed;
   font-size: 16px;
   line-height: 1.1;
   letter-spacing: 0.1px;
   color: rgba(16, 23, 66, 0.4);
-  text-transform: uppercase;
+  text-transform: capitalize;
 }
+
+.flight-date-info-item.sel div.direction, .flight-date-info-item.sel div.weekday {
+  width: 50%;
+  float: left;
+}
+
+.flight-date-info-item.sel div.direction {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.flight-date-info-item.sel div.weekday {
+  text-align: left;
+  padding-left: 5px;
+}
+
 
 .flight-date-info-item.sel > div.row:last-child > div:first-child {
   font-family: WhitneyHTF-MediumCondensed;
@@ -545,14 +567,23 @@ body.loading .modalLoader {
   line-height: 1.2;
   letter-spacing: 0.2px;
   color: #101742;
+
+  width: 50%;
+  padding-left: 0;
+  padding-right: 5px;
+  text-align: right;
 }
 
 .flight-date-info-item.sel > div.row:last-child > div:last-child {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 12px;
-  line-height: 1.3;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 28px;
+  line-height: 1.2;
   letter-spacing: 0.1px;
   color: #101742;
+  width: 50%;
+  padding-left: 5px;
+  padding-right: 0;
+  text-align: left;
 }
 
 .flight-additional-info {
@@ -639,6 +670,7 @@ body.loading .modalLoader {
 /* end of Smart button styles */
 
 #search_title input[type=text] {
+  padding-left: 4px;
   margin:10px;
   width: 269px;
   height: 40px;
@@ -907,4 +939,77 @@ body.loading .modalLoader {
 
 .modal-content .border-up {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.searchform-top {
+  border:0;
+  margin-top:50px;
+  z-index:10;
+}
+
+.searchform-flight-direction {
+  padding-top:70px;
+  left:50%;
+  width:300px;
+  margin-left: -150px;
+  position: fixed;
+}
+
+.swiper-container {
+  background-color: #F2F5F8;
+}
+
+@media all and (min-width: 480px) {
+  .navbar-default .navbar-toggle {
+    padding: 0 4px;
+  }
+  #tiles_ui {
+    margin-top: 30px;
+  }
+  .navmenu {
+    margin-top: 30px !important;
+  }
+  .navbar-brand {
+    padding: 4px;
+  }
+  .navbar,.navbar-header{
+    height: 30px;
+  }
+  .searchform-top {
+    border: 0;
+    margin-top: 30px;
+    z-index: 10;
+  }
+  .searchform-flight-direction {
+    padding-top: 30px;
+  }
+  .flight-direction {
+    height: 132px;
+  }
+  .search-button {
+    height: 44px;
+  }
+  .flight-type {
+    padding-left: 5px;
+  }
+  .requested-airports {
+    padding-left: 5px;
+  }
+  #search_count {
+    padding-left: 5px;
+  }
+  .flight-class-info-item {
+    height: 30px;
+    padding-top: 0;
+  }
+  .flight-date-info-item {
+    height: 60px;
+    padding-top: 0;
+  }
+  .flight-date-info-item-return {
+    display: none;
+  }
+  .flight-date-info-item.sel > div.row:first-child > div {
+    padding: 4px;
+  }
 }

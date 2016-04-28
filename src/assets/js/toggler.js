@@ -3,9 +3,20 @@ $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
+  var heightNav = 0;
+
+  var recalculateBodyPadding = function () {
+    setTimeout( function () {
+        var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+        var navHeight = $('#main_title').outerHeight(true) || 0;
+        var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
+        $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
+        console.log($('body').css('padding-top'));
+    } , 500);
+  };
 
   $('#timeAlert').fadeOut(5000, function () {
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
+    recalculateBodyPadding();
   });
   var showTotal = !!$('.itinerary:visible').length;
   /**
@@ -79,7 +90,7 @@ $(document).ready(function() {
         tile.addClass('disabled');
       }
     });
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+    recalculateBodyPadding();
   };
   var filtersCount = {};
   var filterItineraries = function () {
@@ -154,6 +165,7 @@ $(document).ready(function() {
       $('span.caret', this).removeClass('hide');
       $(this).addClass('selected');
     }
+    $('.sort-button button > i').replaceWith($('i', this).clone());
     var
       sort = $(this).attr('sort'),
       order = 'asc';
@@ -348,6 +360,9 @@ $(document).ready(function() {
     freeMode: true,
     slidesPerView: 'auto'
   });
+  $( window ).resize(function() {
+    recalculateBodyPadding();
+  });
   //$( window ).resize(function() {
   //$('#tiles').slick('unslick');
   //$('#tiles').slick(getSliderSettings());
@@ -445,6 +460,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
     //$('#airport-input').typeahead('setQuery', '');
     drawAirportData($(this).attr('target'));
   });
@@ -455,7 +471,7 @@ $(document).ready(function() {
   $('#search_count').text(sCount);
   if (showTotal) {
     $('#search_count').removeClass('hidden');
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+    recalculateBodyPadding();
     recalcTiles();
   }
 
@@ -618,7 +634,7 @@ $(document).ready(function() {
           $('#timeAlert').text('Error saving data to ' + fieldset + '.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
+                  recalculateBodyPadding();
                 });
               }
             );
@@ -634,7 +650,7 @@ $(document).ready(function() {
           $('#timeAlert').text('Record was removed successfully.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+                  recalculateBodyPadding();
                 });
               }
             );
@@ -680,21 +696,25 @@ $(document).ready(function() {
   $("#depart_picker").on("dp.change", function (e) {
     $('#date_select p.info span.dep').text(moment(e.date).format('ddd DD MMM'));
     var dep_sel = $('.flight-date-info-item.sel.dep');
+    $('.row:eq(0) > div:eq(0) > div:eq(1)', dep_sel).text(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', dep_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', dep_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    $('.row:eq(1) > div:eq(1)', dep_sel).text(moment(e.date).format('YYYY'));
     $('#return_picker').data("DateTimePicker").minDate(moment(e.date));
   });
 
   $("#return_picker").on("dp.change", function (e) {
     $('#date_select p.info span.ret').text(' - ' + moment(e.date).format('ddd DD MMM'));
     var ret_sel = $('.flight-date-info-item.sel.ret');
+    $('.row:eq(0) > div:eq(0) > div:eq(1)', ret_sel).text(moment(e.date).format('dddd'));
     $('.row:eq(1) > div:eq(0)', ret_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', ret_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    $('.row:eq(1) > div:eq(1)', ret_sel).text(moment(e.date).format('YYYY'));
   });
   // }}} bind dp.change event
 
   // bind date controls click event
   $('.flight-date-info-item').on('click', function () {
+    heightNav = $('.navbar-header').outerHeight(true);
+    $('.navbar-header').height('50px');
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');
@@ -714,6 +734,7 @@ $(document).ready(function() {
     if($('.flight-date-info-item.ret').hasClass("error_elem"))
       $('.flight-date-info-item.ret').removeClass("error_elem");
 
+    $('.navbar-header').height(heightNav);
     changeFlightTab($('#search_form').data('flight-type'));
   });
   /* }}} Depart/Return Date selection */
@@ -855,9 +876,12 @@ $(document).ready(function() {
   });
 
   $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
+    heightNav = $('.navbar-header').outerHeight(true);
+    $('.navbar-header').height('60px');
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
+    $('#airport-input').focus();
     if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
       $('#airport-input').attr('target', 'originAirport');
     } else {
@@ -871,6 +895,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
   });
 
   // search form init
@@ -901,7 +926,7 @@ $(document).ready(function() {
       $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
-      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+      recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
       height: '137px'

@@ -187,6 +187,8 @@
   }
 
   function notSupported() {
+    log('Web Speech API is not supported by this browser.');
+
     upgrade();
   }
 
