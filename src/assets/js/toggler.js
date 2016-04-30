@@ -476,6 +476,9 @@ $(document).ready(function() {
   }
 
   //loading
+  $('.search-top-button').click(function () {
+    $('#topSearchOnly').val(1)
+  });
   $('#search_form').submit(function (event) {
     var _isError = false;
 
@@ -499,6 +502,7 @@ $(document).ready(function() {
       return false;
 
     $('.search-button').hide();
+    $('.search-top-button').hide();
     $("body").addClass("loading");
     return true;
   });

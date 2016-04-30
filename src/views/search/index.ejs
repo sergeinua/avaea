@@ -95,5 +95,7 @@
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
   <input type="hidden" name="passengers" id="passengers" value="1"/>
+  <input type="hidden" name="topSearchOnly" id="topSearchOnly" value="0"/>
   <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-top-button"><%= __('Show top flights') %></button>
 </form>
