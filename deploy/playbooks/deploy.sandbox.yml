@@ -1,0 +1,9 @@
+- name: Deploy nginx configs for docker environment
+  hosts: nginx.sandbox
+  connection: local
+  gather_facts: false
+  vars_files:
+    - vars/sandbox/{{ APP }}
+
+  roles:
+  - sandbox.nginx

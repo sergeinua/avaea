@@ -1,11 +1,23 @@
 /* global $ */
+var heightNav = 0;
+
+var recalculateBodyPadding = function () {
+  setTimeout( function () {
+    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+    var navHeight = $('#main_title').outerHeight(true) || 0;
+    var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
+    $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
+    console.log($('body').css('padding-top'));
+  } , 500);
+};
+
 $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
 
   $('#timeAlert').fadeOut(5000, function () {
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
+    recalculateBodyPadding();
   });
   var showTotal = !!$('.itinerary:visible').length;
   /**
@@ -68,13 +80,18 @@ $(document).ready(function() {
         $('[for='+tile.attr('for')+'] > span.badge').text('');
         tile.removeClass('selected');
         var filters = $('.selectedfilters').attr('filters');
-        var re = new RegExp('\b' + tile.attr('for') + '\b');
-        filters = filters.replace(re, '');
-        $('.selectedfilters').attr('filters', filters);
+        filters = filters.split(' ');
+        if (filters.length) {
+          var _indx = filters.indexOf(tile.attr('for'));
+          if (_indx != -1) {
+            delete filters[_indx];
+            $('.selectedfilters').attr('filters', filters.join(' '));
+          }
+        }
         tile.addClass('disabled');
       }
     });
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+    recalculateBodyPadding();
   };
   var filtersCount = {};
   var filterItineraries = function () {
@@ -149,6 +166,7 @@ $(document).ready(function() {
       $('span.caret', this).removeClass('hide');
       $(this).addClass('selected');
     }
+    $('.sort-button button > i').replaceWith($('i', this).clone());
     var
       sort = $(this).attr('sort'),
       order = 'asc';
@@ -235,11 +253,6 @@ $(document).ready(function() {
         sample      : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
         recalculate : needRecalculate
       });
-
-      var current = $(this).attr('for');
-      if (current && current.indexOf('airline_tile') != -1) {
-        checkAirlineFlierMilesProgram(current);
-      }
     }
     // recalculate search result
     filterItineraries();
@@ -254,11 +267,11 @@ $(document).ready(function() {
   $('#search_count').text(sCount);
   if (showTotal) {
     $('#search_count').removeClass('hidden');
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+    recalculateBodyPadding();
     recalcTiles();
   }
 
-  $('.itinerary').click(function (event) {
+  $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
     var itineraryId = $(this).attr('id');
@@ -267,10 +280,11 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
-        if ($(this).hasClass('recommended')) {
-          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
-            .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
-        }
+        // disabled, TODO: confirm this functionality still needed
+        /*if ($(this).hasClass('recommended')) {
+         $(this).find('.itinerary-airline').find('span:last')
+         .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
+         }*/
 
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
@@ -279,10 +293,11 @@ $(document).ready(function() {
           }
         });
       } else {
-        if ($(this).hasClass('recommended')) {
-          $(this).find('div:first').find('div:first').find('div:first').find('span:last')
-            .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-        }
+        // disabled, TODO: confirm this functionality still needed
+        /*if ($(this).hasClass('recommended')) {
+         $(this).find('.itinerary-airline').find('span:last')
+         .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
+         }*/
       }
     }
 
@@ -296,13 +311,16 @@ $(document).ready(function() {
    * @returns {$}
    */
   $.fn.scrollTo = function(elem) {
+    if (!$(elem).offset()) {
+      return;
+    }
     $(this).slimScroll({scrollTo: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top});
     return this;
   };
 
   var scrollAirlines = function() {
     // Bucket was touched. Not need scrolling
-    if($('#airline_tile').data('_is_touched')) {
+    if ($('#airline_tile').data('_is_touched')) {
       return;
     }
 
@@ -313,7 +331,7 @@ $(document).ready(function() {
     var start_elem = Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh);
     var am_elems = $(_parentElem).children().length;
     // Iteration will overflow visible window
-    if(start_elem + maxBucketVisibleFilters > am_elems) {
+    if (start_elem + maxBucketVisibleFilters > am_elems) {
       start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
     }
 
@@ -322,12 +340,13 @@ $(document).ready(function() {
     for (var ii = start_elem; ii < (start_elem + maxBucketVisibleFilters); ii++) {
       _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
     }
-    if(_am_disabled < maxBucketVisibleFilters) // not need scrolling
+    if (_am_disabled < maxBucketVisibleFilters) {// not need scrolling
       return;
+    }
 
     // Scroll to the first enabled filter
     var _scrollItem = $(_parentElem).children().not('.disabled').first();
-    if(typeof _scrollItem == 'object') {
+    if (typeof _scrollItem == 'object') {
       $(_parentElem).scrollTo(_scrollItem);
     }
   };
@@ -341,6 +360,9 @@ $(document).ready(function() {
     freeMode: true,
     slidesPerView: 'auto'
   });
+  $( window ).resize(function() {
+    recalculateBodyPadding();
+  });
 
 
   // result page init
@@ -350,7 +372,7 @@ $(document).ready(function() {
       $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
-      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+      recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
       height: '137px'

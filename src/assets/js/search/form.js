@@ -1,6 +1,98 @@
 /* global $ */
-$(document).ready(function() {
 
+function changeFlightTab(type) {
+  $('#search_form').data('flight-type', type);
+  var hasFrom = !!$('#originAirport').val();
+  var hasTo = !!$('#destinationAirport').val();
+  switch (type) {
+    case 'round_trip':
+      $('.flight-direction-item-coming-soon').addClass('hidden');
+      $('.flight-direction-item').removeClass('hidden');
+      $('.flight-direction-item-arrow').removeClass('hidden');
+      $('.flight-direction-item-arrow').html('&#8596;');
+      if (hasFrom) {
+        $('#from-area').addClass('hidden');
+        $('#from-area-selected').removeClass('hidden');
+      }
+      if (hasTo) {
+        $('#to-area').addClass('hidden');
+        $('#to-area-selected').removeClass('hidden');
+      }
+      $('.flight-date-info').removeClass('hidden');
+      if ($('#departureDate').data('date')) {
+        $('#departureDate').val($('#departureDate').data('date'));
+      }
+      if (!!$('#departureDate').val()) {
+        $('#departureDate').data('date', $('#departureDate').val());
+        $('.flight-date-info-item.sel.dep').removeClass('hide');
+        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+      } else {
+        $('.flight-date-info-item.sel.dep').addClass('hide');
+        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      }
+      if ($('#returnDate').data('date')) {
+        $('#returnDate').val($('#returnDate').data('date'));
+      }
+      if (!!$('#returnDate').val()) {
+        $('#returnDate').data('date', $('#returnDate').val());
+        $('.flight-date-info-item.sel.ret').removeClass('hide');
+        $('.flight-date-info-item.ret').not('.sel').addClass('hide');
+      } else {
+        $('.flight-date-info-item.sel.ret').addClass('hide');
+        $('.flight-date-info-item.ret').not('.sel').removeClass('hide');
+      }
+      $('#date_select_main .row.return').removeClass('hidden');
+      $('#date_select p.header span.ret').removeClass('hidden');
+      $('#date_select p.info span.ret').removeClass('hidden');
+      $('.flight-additional-info').removeClass('hidden');
+      break;
+    case 'multi_city':
+      $('.flight-direction-item-coming-soon').removeClass('hidden');
+      $('.flight-direction-item').addClass('hidden');
+      $('.flight-direction-item-arrow').addClass('hidden');
+      $('#from-area-selected').addClass('hidden');
+      $('#to-area-selected').addClass('hidden');
+      $('#from-area-selected').addClass('hidden');
+      $('#to-area-selected').addClass('hidden');
+      $('.flight-date-info').addClass('hidden');
+      $('.flight-additional-info').addClass('hidden');
+      break;
+    case 'one_way':
+      $('.flight-direction-item-coming-soon').addClass('hidden');
+      $('.flight-direction-item').removeClass('hidden');
+      $('.flight-direction-item-arrow').removeClass('hidden');
+      $('.flight-direction-item-arrow').html('&rarr;');
+      if (hasFrom) {
+        $('#from-area').addClass('hidden');
+        $('#from-area-selected').removeClass('hidden');
+      }
+      if (hasTo) {
+        $('#to-area').addClass('hidden');
+        $('#to-area-selected').removeClass('hidden');
+      }
+      $('.flight-date-info').removeClass('hidden');
+      if ($('#departureDate').data('date')) {
+        $('#departureDate').val($('#departureDate').data('date'));
+      }
+      if (!!$('#departureDate').val()) {
+        $('.flight-date-info-item.sel.dep').removeClass('hide');
+        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+      } else {
+        $('.flight-date-info-item.sel.dep').addClass('hide');
+        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      }
+      $('#returnDate').val('');
+      $('.flight-date-info-item.sel.ret').addClass('hide');
+      $('.flight-date-info-item').not('.sel').eq(1).addClass('hide');
+      $('#date_select_main .row.return').addClass('hidden');
+      $('#date_select p.header span.ret').addClass('hidden');
+      $('#date_select p.info span.ret').addClass('hidden');
+      $('.flight-additional-info').removeClass('hidden');
+      break;
+  }
+}
+
+$(document).ready(function() {
 
   /**
    * Make request to the remote server and fetch data for the typehead rendering
@@ -90,6 +182,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
     //$('#airport-input').typeahead('setQuery', '');
     drawAirportData($(this).attr('target'));
   });
@@ -123,100 +216,6 @@ $(document).ready(function() {
     return true;
   });
 
-
-  function changeFlightTab(type) {
-    $('#search_form').data('flight-type', type);
-    var hasFrom = !!$('#originAirport').val();
-    var hasTo = !!$('#destinationAirport').val();
-    switch (type) {
-      case 'round_trip':
-        $('.flight-direction-item-coming-soon').addClass('hidden');
-        $('.flight-direction-item').removeClass('hidden');
-        $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&#8596;');
-        if (hasFrom) {
-          $('#from-area').addClass('hidden');
-          $('#from-area-selected').removeClass('hidden');
-        }
-        if (hasTo) {
-          $('#to-area').addClass('hidden');
-          $('#to-area-selected').removeClass('hidden');
-        }
-        $('.flight-date-info').removeClass('hidden');
-        if ($('#departureDate').data('date')) {
-          $('#departureDate').val($('#departureDate').data('date'));
-        }
-        if (!!$('#departureDate').val()) {
-          $('#departureDate').data('date', $('#departureDate').val());
-          $('.flight-date-info-item.sel.dep').removeClass('hide');
-          $('.flight-date-info-item.dep').not('.sel').addClass('hide');
-        } else {
-          $('.flight-date-info-item.sel.dep').addClass('hide');
-          $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
-        }
-        if ($('#returnDate').data('date')) {
-          $('#returnDate').val($('#returnDate').data('date'));
-        }
-        if (!!$('#returnDate').val()) {
-          $('#returnDate').data('date', $('#returnDate').val());
-          $('.flight-date-info-item.sel.ret').removeClass('hide');
-          $('.flight-date-info-item.ret').not('.sel').addClass('hide');
-        } else {
-          $('.flight-date-info-item.sel.ret').addClass('hide');
-          $('.flight-date-info-item.ret').not('.sel').removeClass('hide');
-        }
-        $('#date_select_main .row.return').removeClass('hidden');
-        $('#date_select p.header span.ret').removeClass('hidden');
-        $('#date_select p.info span.ret').removeClass('hidden');
-        $('.flight-additional-info').removeClass('hidden');
-        break;
-      case 'multi_city':
-        $('.flight-direction-item-coming-soon').removeClass('hidden');
-        $('.flight-direction-item').addClass('hidden');
-        $('.flight-direction-item-arrow').addClass('hidden');
-        $('#from-area-selected').addClass('hidden');
-        $('#to-area-selected').addClass('hidden');
-        $('#from-area-selected').addClass('hidden');
-        $('#to-area-selected').addClass('hidden');
-        $('.flight-date-info').addClass('hidden');
-        $('.flight-additional-info').addClass('hidden');
-        break;
-      case 'one_way':
-        $('.flight-direction-item-coming-soon').addClass('hidden');
-        $('.flight-direction-item').removeClass('hidden');
-        $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&rarr;');
-        if (hasFrom) {
-          $('#from-area').addClass('hidden');
-          $('#from-area-selected').removeClass('hidden');
-        }
-        if (hasTo) {
-          $('#to-area').addClass('hidden');
-          $('#to-area-selected').removeClass('hidden');
-        }
-        $('.flight-date-info').removeClass('hidden');
-        if ($('#departureDate').data('date')) {
-          $('#departureDate').val($('#departureDate').data('date'));
-        }
-        if (!!$('#departureDate').val()) {
-          $('.flight-date-info-item.sel.dep').removeClass('hide');
-          $('.flight-date-info-item.dep').not('.sel').addClass('hide');
-        } else {
-          $('.flight-date-info-item.sel.dep').addClass('hide');
-          $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
-        }
-        $('#returnDate').val('');
-        $('.flight-date-info-item.sel.ret').addClass('hide');
-        $('.flight-date-info-item').not('.sel').eq(1).addClass('hide');
-        $('#date_select_main .row.return').addClass('hidden');
-        $('#date_select p.header span.ret').addClass('hidden');
-        $('#date_select p.info span.ret').addClass('hidden');
-        $('.flight-additional-info').removeClass('hidden');
-        break;
-    }
-  }
-
-
   $('.flight-type-item').on('click', function () {
     $('.flight-type-item').removeClass('active-choice');
     $(this).addClass('active-choice');
@@ -226,8 +225,9 @@ $(document).ready(function() {
 
   $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
     var currentValue = $('#passengers').val();
+    var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
-    if ( currentValue < 3 ) {
+    if ( currentValue < 4 ) {
       currentValue++;
       $('.passengers_text').text('Adults');
     } else {
@@ -235,7 +235,7 @@ $(document).ready(function() {
       $('.passengers_text').text('Adult');
     }
     $('#passengers').val(currentValue);
-    $('.passengers_count').text(currentValue);
+    $('.passengers_count').text(digits[currentValue]);
   });
 
   $('.flight-class-info-item .text-picker').on('click', function () {
@@ -257,9 +257,12 @@ $(document).ready(function() {
   });
 
   $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
+    heightNav = $('.navbar-header').outerHeight(true);
+    $('.navbar-header').height('60px');
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
+    $('#airport-input').focus();
     if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
       $('#airport-input').attr('target', 'originAirport');
     } else {
@@ -273,6 +276,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
   });
 
   // search form init

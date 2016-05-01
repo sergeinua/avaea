@@ -1,7 +1,9 @@
-- name: Test connection and permissions
+- name: Deploy avaea application to production server
   hosts: web.avaea
   gather_facts: false
   connection: ssh
+  vars_files:
+    - vars/{{ ENV }}/{{ APP }}
 
   roles:
   - web

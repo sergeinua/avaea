@@ -1,10 +1,12 @@
 /* global $ */
 $(document).ready(function() {
+  // disabled, TODO: confirm this functionality still needed
+  /*$('.recommended').each(function(item){
+   // $(this).find('div:first').find('div:first').find('div:first')
+   $(this).find('.itinerary-airline')
+   .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
+   });*/
 
-  $('.recommended').each(function(item){
-    $(this).find('div:first').find('div:first').find('div:first')
-      .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-  });
 
   var getIconForAirline = function (el) {
     var _image = new Image(),

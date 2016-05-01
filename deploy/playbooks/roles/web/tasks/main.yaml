@@ -1,26 +1,20 @@
-- name: Copy nginx configs
-  copy: src=configs/nginx/sites-enabled/{{ item }}
-    dest=/etc/nginx/sites-enabled/{{ item }}
+- name: Deploy nginx configs
+  template: src=configs/nginx/sites-enabled/{{ APP }}
+    dest=/etc/nginx/sites-enabled/{{ nginx.config_name }}
     owner=root
     group=root
     mode=0644
-  with_items:
-    - "{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}"
-    - "{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}"
 
 - name: Copy upstart configs
-  copy: src=configs/upstart/{{ item }}.conf
-    dest=/etc/init/{{ item }}.conf
+  copy: src=configs/upstart/{{ upstart.config_name }}
+    dest=/etc/init/{{ upstart.config_name }}
     owner=root
     group=root
     mode=0644
-  with_items:
-    - "{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}"
-    - "{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}"
 
 - name: Update codebase
   git: repo=git@bitbucket.org:avaea_eng/avaea.git
-    dest="{{ hostvars['web.avaea'][NODE_ENV]['dir'] }}"
+    dest="{{ dir }}"
     version="{{ GIT_BRANCH }}"
     update=yes
     clone=no
@@ -28,8 +22,6 @@
     force=yes
     key_file=/root/.ssh/bitbucket_rsa
 
-- name: Restart demo service
-  service: name="{{ hostvars['web.avaea'][NODE_ENV]['demo'] }}" state=restarted
+- name: Restart "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=restarted
 
-- name: Restart abo service
-  service: name="{{ hostvars['web.avaea'][NODE_ENV]['abo'] }}" state=restarted

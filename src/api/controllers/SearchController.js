@@ -43,8 +43,9 @@ module.exports = {
     // Fetch City names by location codes and put to the template
     async.parallel({
         depart_city: function(callback) {
-          if(_.isEmpty(params.DepartureLocationCode))
+          if (_.isEmpty(params.DepartureLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.DepartureLocationCode})
             .exec(function (err, result) {
@@ -56,8 +57,9 @@ module.exports = {
             });
         },
         arriv_city: function(callback) {
-          if(_.isEmpty(params.ArrivalLocationCode))
+          if (_.isEmpty(params.ArrivalLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.ArrivalLocationCode})
             .exec(function (err, result) {
@@ -71,8 +73,7 @@ module.exports = {
       },
       // Final callback
       function(err, results) {
-        if(!err)
-        {
+        if (!err) {
           params.departCity = results.depart_city.city;
           params.arrivCity = results.arriv_city.city;
         }
@@ -150,8 +151,8 @@ module.exports = {
             searchParams: {
               DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
               ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
               CabinClass: serviceClass[params.searchParams.CabinClass],
               passengers: req.param('passengers', 1)
             },
@@ -188,8 +189,8 @@ module.exports = {
             searchParams: {
               DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
               ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-              departureDate: sails.moment(depDate).format('MM/DD/YYYY'),
-              returnDate: (retDate)?sails.moment(retDate).format('MM/DD/YYYY'):'',
+              departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
+              returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
               CabinClass: serviceClass[params.CabinClass],
               passengers: req.param('passengers', 1)
             },

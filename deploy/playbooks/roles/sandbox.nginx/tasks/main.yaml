@@ -1,0 +1,7 @@
+- name: Deploy nginx configs
+  template:
+    src=configs/nginx/sites-enabled/{{ APP }}
+    dest=/etc/nginx/conf.d/{{ nginx.config_name }}
+    owner=root
+    group=root
+    mode=0644

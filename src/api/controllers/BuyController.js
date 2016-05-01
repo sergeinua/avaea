@@ -16,7 +16,7 @@ module.exports = {
 
     // Flash errors
     if (!_.isEmpty(req.session.flash)) {
-      res.locals.errors = [_.clone(req.session.flash)]; //will display by layout
+      res.locals.tmp_errors = [_.clone(req.session.flash)]; //will display by layout
       req.session.flash = '';
     }
 
@@ -30,6 +30,9 @@ module.exports = {
         var profileFields = {
           FirstName: "firstName",
           LastName: "lastName",
+          Gender : "gender",
+          DateOfBirth: "birthday",
+          PaxType: "pax_type",
           Address1: "address",
           City: "city",
           State: "state",
@@ -42,6 +45,9 @@ module.exports = {
           if(typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim()==""))
             reqParams[prop] = found[profileFields[prop]];
         }
+        // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
+        if(typeof reqParams.DateOfBirth == 'object')
+          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('MM/DD/YYYY');
       }
 
       var id = req.param('id');
@@ -69,6 +75,7 @@ module.exports = {
             {
               user: req.user,
               reqParams: reqParams,
+              head_content: Search.getHeadContent(),
               order:[logData.itinerary]
             },
             'order'
@@ -101,7 +108,7 @@ module.exports = {
     var parseFlightBooking = function (err, result) {
 
       if (err) {
-        req.session.flash = err;
+        req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
         // redirect to order action, i.e. repeat request
         res.redirect(url.format({pathname: "/order", query: req.allParams()}));
         return;

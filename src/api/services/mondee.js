@@ -397,12 +397,21 @@ var mapItinerary = function(itinerary) {
   if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Priority seat');
   }
+  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+      mapMerchandising(res.citypairs, 'Lounge');
+  }
 
   return res;
 };
 
 var getFlightBookingRq = function(id, params) {
   var req = getBaseRq(id);
+
+  // Check input date
+  var d_birth = sails.moment(params.DateOfBirth);
+  if(!d_birth.isValid()) {
+    return new Error('Invalid date of birthday format: '+params.DateOfBirth+' Must be MM/DD/YYYY');
+  }
 
   req.BookItineraryRequest = {
     ItineraryId: params.id,
@@ -411,7 +420,7 @@ var getFlightBookingRq = function(id, params) {
       FirstName: params.FirstName,
       LastName: params.LastName,
       Gender: params.Gender,
-      DateOfBirth: params.DateOfBirth
+      DateOfBirth: d_birth.format('MM/DD/YYYY')
     },
     // Optional fields, but may be need
     //MarkUp: {
@@ -559,6 +568,9 @@ module.exports = {
       else {
         var req = getFlightBookingRq(guid, params);
         sails.log.info("flightBooking request:", util.inspect(req, {showHidden: true, depth: null}));
+        if(req instanceof Error) {
+          return callback(req, {});
+        }
 
         return client.BookItinerary(req, function(err, result, raw, soapHeader) {
 
