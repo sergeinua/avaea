@@ -28,3 +28,27 @@ $(document).ready(function() {
   });
 
 });
+
+let nodes = [];
+
+const ReactContentRenderer = {
+  unmountAll() {
+    if (nodes.length === 0) {
+      return;
+    }
+    nodes.forEach(node => React.unmountComponentAtNode(node));
+    nodes = [];
+  },
+  render(element, container, callback) {
+    if (container instanceof jQuery) {
+      container = container.get(0);
+    }
+    ReactDOM.render(element, container, callback);
+    nodes.push(container);
+  }
+};
+
+$(function () {
+  $('#content')
+    .on('content-will-change', ReactContentRenderer.unmountAll);
+});
