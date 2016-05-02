@@ -97,3 +97,23 @@
   <input type="hidden" name="passengers" id="passengers" value="1"/>
   <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
 </form>
+
+  <!-- Modal -->
+  <div id="searchBanner" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-body">
+          We are searching best priced flights and constructing smart filters, to help you select your perfect flight.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="planePath" class="hidden" style="position:absolute;left:0;bottom:0;z-index:99999; width:100%;height: 50px; background-color: white;">
+    <div id="plane" style="position:absolute;left:0;bottom:0;z-index:99999">
+      <img src="/images/plane.jpg">
+    </div>
+  </div>
