@@ -1138,6 +1138,7 @@ module.exports = {
           }
         });
 
+        itinerary.informationTmp.push('2000 FF miles');
         var maxPrice = 5;
         var minPrice = 50;
         itinerary.information = [];
