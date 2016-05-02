@@ -20,7 +20,6 @@ $(document).ready(function() {
         var navHeight = $('#main_title').outerHeight(true) || 0;
         var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
         $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
-        console.log($('body').css('padding-top'));
     } , 500);
   };
 
