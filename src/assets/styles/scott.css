@@ -135,6 +135,13 @@ body {
 
 .flight-date>span.passengers_count {
   font-size: inherit;
+  min-width: 6px;
+  display: inline-block;
+}
+
+#search_count {
+  min-width: 25px;
+  display: inline-block;
 }
 
 #user-icon-small {
@@ -441,8 +448,7 @@ body.loading .modalLoader {
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   text-align: center;
-  padding-top: 15px;
-  padding-bottom: 14px;
+  padding: 15px 10px 14px;
 }
 
 .flight-type-item.active-choice {
