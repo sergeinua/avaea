@@ -851,7 +851,7 @@ $(document).ready(function() {
     changeFlightTab(id);
   });
 
-  $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
+  $('.flight-passengers-info-item .text-picker').on('click', function () {
     var currentValue = $('#passengers').val();
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
@@ -864,6 +864,17 @@ $(document).ready(function() {
     }
     $('#passengers').val(currentValue);
     $('.passengers_count').text(digits[currentValue]);
+  });
+  $('#user-icon-small').on('click', function () {
+    var currentValue = $('#passengers').val();
+
+    if ( currentValue < 4 ) {
+      currentValue++;
+    } else {
+      currentValue = 1;
+    }
+    $('#passengers').val(currentValue);
+    $('.passengers_count').text(currentValue);
   });
 
   $('.flight-class-info-item .text-picker').on('click', function () {
