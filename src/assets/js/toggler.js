@@ -1,4 +1,13 @@
 /* global $ */
+var fly = function (target) {
+  var pos = $(target).position();
+  var speed = 1;
+  if ($('body').outerWidth() < pos.left+speed) {
+    pos.left = -50;
+  }
+  $(target).css('left', pos.left+speed);
+};
+
 $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
@@ -11,7 +20,6 @@ $(document).ready(function() {
         var navHeight = $('#main_title').outerHeight(true) || 0;
         var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
         $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
-        console.log($('body').css('padding-top'));
     } , 500);
   };
 
@@ -478,7 +486,7 @@ $(document).ready(function() {
   //loading
   $('#search_form').submit(function (event) {
     var _isError = false;
-
+    $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
     // Check airports selection
     if ($('#originAirport').val() == '') {
@@ -502,6 +510,8 @@ $(document).ready(function() {
 
     $('.search-button').hide();
     $("body").addClass("loading");
+    $('#planePath').removeClass('hidden');
+    setInterval('fly("#plane")', 40);
     return true;
   });
 
