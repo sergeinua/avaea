@@ -132,7 +132,7 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-xs-6"><%= __('Fare') %></div>
-                  <div class="col-xs-6 text-right">$<%= sRes.specialprice %></div>
+                  <div class="col-xs-6 text-right">$<%= sRes.price %></div>
                 </div>
                 <% sRes.information.forEach(function (item) { %>
                 <div class="row">
@@ -148,13 +148,13 @@
                   <div class="col-xs-6 text-right"><%= __('Price') %></div>
                   <div class="col-xs-6 text-right">
                     <span style='color:red;text-decoration:line-through'>
-                      <span style='color:black; font-size: 18px'>$<%= sRes.price %></span>
+                      <span style='color:black; font-size: 18px'>$<%= sRes.specialprice %></span>
                     </span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-xs-6 text-right" style="color: red"><%= __('Your Price') %></div>
-                  <div class="col-xs-6 text-right" style="color: red">$<%= sRes.specialprice %></div>
+                  <div class="col-xs-6 text-right" style="color: red">$<%= sRes.price %></div>
                 </div>
               </div>
               <div class="modal-footer">

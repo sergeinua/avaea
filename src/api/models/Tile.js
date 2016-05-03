@@ -1139,9 +1139,10 @@ module.exports = {
         });
 
         itinerary.informationTmp.push('2000 FF miles');
-        var maxPrice = 5;
-        var minPrice = 50;
+        var maxPrice = 50;
+        var minPrice = 5;
         itinerary.information = [];
+        additionalPrice = 0;
         _.forEach(itinerary.informationTmp, function (item) {
           if (item) {
             var infoItem = {};
@@ -1151,7 +1152,7 @@ module.exports = {
             itinerary.information.push(infoItem);
           }
         });
-        itinerary.specialprice = itinerary.price - additionalPrice;
+        itinerary.specialprice = parseInt(itinerary.price) + additionalPrice;
         itinerary.specialprice = itinerary.specialprice.toFixed(2);
         delete itinerary.informationTmp;
 
