@@ -563,7 +563,16 @@ body.loading .modalLoader {
   text-transform: capitalize;
 }
 
-.flight-date-info-item.sel div.direction, .flight-date-info-item.sel div.weekday {
+.flight-date-info-item.sel span.calendar {
+  width: 15%;
+  padding-left: 1.4em;
+  float: left;
+}
+.flight-date-info-item.sel div.direction {
+  width: 35%;
+  float: left;
+}
+.flight-date-info-item.sel div.weekday {
   width: 50%;
   float: left;
 }
