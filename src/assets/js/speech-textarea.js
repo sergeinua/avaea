@@ -155,12 +155,12 @@
         return;
       }
       log('End speech');
-      if (window.getSelection) {
-        window.getSelection().removeAllRanges();
-        var range = document.createRange();
-        range.selectNode(document.getElementById('voiceSearchTextarea'));
-        window.getSelection().addRange(range);
-      }
+      //if (window.getSelection) {
+      //  window.getSelection().removeAllRanges();
+      //  var range = document.createRange();
+      //  range.selectNode(document.getElementById('voiceSearchTextarea'));
+      //  window.getSelection().addRange(range);
+      //}
     };
 
     recognition.onresult = function (event) {
