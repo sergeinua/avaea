@@ -742,7 +742,7 @@ $(document).ready(function() {
     $(picker_id).data("DateTimePicker").date(dest_date);
 
     // Finalize dates choice
-    $('#date_select_top').click();
+    finalizeValues(false);
   }
 
   $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
@@ -764,12 +764,7 @@ $(document).ready(function() {
     $('#date_select_main').removeClass('hidden');
   });
 
-  $('#date_select_top').on('click', function () {
-    $('#main_title').removeClass('hidden');
-    $('#main').removeClass('hidden');
-    $('#date_select').addClass('hidden');
-    $('#date_select_main').addClass('hidden');
-
+  function finalizeValues(isModNavbar) {
     // cache values
     $('#departureDate').data('date', $('#depart_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
     $('#returnDate').data('date', $('#return_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
@@ -777,8 +772,19 @@ $(document).ready(function() {
     if($('.flight-date-info-item.ret').hasClass("error_elem"))
       $('.flight-date-info-item.ret').removeClass("error_elem");
 
-    $('.navbar-header').height(heightNav);
+    if(isModNavbar) {
+      $('.navbar-header').height(heightNav);
+    }
     changeFlightTab($('#search_form').data('flight-type'));
+  }
+
+  $('#date_select_top').on('click', function () {
+    $('#main_title').removeClass('hidden');
+    $('#main').removeClass('hidden');
+    $('#date_select').addClass('hidden');
+    $('#date_select_main').addClass('hidden');
+
+    finalizeValues(true);
   });
   /* }}} Depart/Return Date selection */
 
