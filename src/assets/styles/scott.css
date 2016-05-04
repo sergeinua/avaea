@@ -981,6 +981,10 @@ body.loading .modalLoader {
   background-color: #F2F5F8;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 @media all and (min-width: 480px) {
   .navbar-default .navbar-toggle {
     padding: 0 4px;
