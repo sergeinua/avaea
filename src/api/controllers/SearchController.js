@@ -82,7 +82,8 @@ module.exports = {
           user          : req.user,
           defaultParams : params,
           serviceClass  : Search.serviceClass,
-          errors        : error
+          errors        : error,
+          head_title    : 'Search for flights with Avaea Agent'
         });
       }
     );
@@ -210,7 +211,12 @@ module.exports = {
             passengers: params.passengers
           },
           searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>')
+          timelog: req.session.time_log.join('<br/>'),
+          head_title: 'Flights from '
+            + params.DepartureLocationCode
+            + ' to '+params.ArrivalLocationCode
+            + sails.moment(depDate).format(" on DD MMM 'YY")
+            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):'')
         });
       });
     });

@@ -186,9 +186,30 @@
 
     <div class="row collapse" id="cli<%= i %>" style="line-height: 1.8"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
       <div class="row" style="margin-top: 4px;">
-        <div class="col-sm-12">
-          <strong><%= pair.direction %></strong>
+
+        <div class="col-xs-3"><strong><%= pair.direction %></strong></div>
+        <div class="col-xs-9">
+          <% pair.flights.forEach(function (flight, j) { %>
+            <% if (flight.merchandising && flight.merchandising.length) { %>
+              <ul class="merchandising">
+                <% flight.merchandising.forEach(function (item) {
+                  var merchKey = item.toLowerCase().replace(/\W+/g, '_'),
+                          merchClass;
+                  if (merchKey == '1st_bag_free') {
+                    merchClass = 'luggage';
+                  } else if (merchKey == 'wifi') {
+                    merchClass = 'wifi';
+                  } else if (merchKey == 'priority_seat') {
+                    merchClass = 'priority_seat';
+                  }
+                %>
+                <li><% if (merchClass) { %><span class="gicon <%= merchClass %>" title="<%= item %>"></span><% } else { %><%= item %><%}%></li>
+                <% }); %>
+              </ul>
+            <% itrMerch++; } %>
+          <% }); %>
         </div>
+
       </div>
       <% pair.flights.forEach(function (flight, j) { %>
       <% if (j > 0) {%>
@@ -220,31 +241,6 @@
         <div class="col-xs-3"><%= sails.moment(flight.to.date).format('DD MMM YYYY') %></div>
         <div class="col-xs-3"><%= flight.to.code %></div>
       </div>
-
-      <% if (flight.merchandising && flight.merchandising.length) { %>
-      <div class="row mymorecontent<%= iterator %>_<%= itrMerch %>">
-        <div class="panel panel-default">
-          <div class="panel-heading">Merchandising Information:
-            <ul class="merchandising">
-              <% flight.merchandising.forEach(function (item) {
-                var merchKey = item.toLowerCase().replace(/\W+/g, '_'),
-                    merchClass;
-                if (merchKey == '1st_bag_free') {
-                  merchClass = 'luggage';
-                } else if (merchKey == 'wifi') {
-                  merchClass = 'wifi';
-                } else if (merchKey == 'priority_seat') {
-                  merchClass = 'priority_seat';
-                }
-              %>
-              <li><% if (merchClass) { %><span class="gicon <%= merchClass %>" title="<%= item %>"></span><% } else { %><%= item %><%}%></li>
-              <% }); %>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <% itrMerch++;
-      } %>
       <% }); %>
     <% }); %></div></div>
 
