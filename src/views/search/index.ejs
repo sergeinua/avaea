@@ -30,7 +30,7 @@
         <span id="from-airport-selected"></span>
         <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
       </div>
-      <div class="col-xs-2 flight-direction-item-arrow">&rarr;</div>
+      <div class="col-xs-2 flight-direction-item-arrow">&nbsp;</div>
       <div id="to-area" class="col-xs-5 flight-direction-item"><span>+</span>
         <div class="flight-direction-item-from-to"><%= __('to') %></div>
       </div>
@@ -104,7 +104,8 @@
   <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
-  <input type="hidden" name="passengers" id="passengers" value="1"/>
+  <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
+  <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
   <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
 </form>
 

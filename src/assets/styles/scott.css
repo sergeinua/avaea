@@ -221,6 +221,12 @@ nav {
   font-weight: normal;
 }
 
+.mybucket .list-group-item>div.text {
+  width: 114px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mybucket .list-group-item>span.badge {
   position: absolute;
   top: 4px;
@@ -970,6 +976,10 @@ body.loading .modalLoader {
 
 .swiper-container {
   background-color: #F2F5F8;
+}
+
+.clickable {
+  cursor: pointer;
 }
 
 @media all and (min-width: 480px) {
