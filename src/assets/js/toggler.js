@@ -761,7 +761,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&#8596;');
+        //$('.flight-direction-item-arrow').html('&#8596;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -813,7 +813,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&rarr;');
+        //$('.flight-direction-item-arrow').html('&rarr;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
