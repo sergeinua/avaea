@@ -11,7 +11,7 @@
         <ul class="list-group">
           <% tile.filters.forEach( function (filter) {
             if (parseInt(filter.count) > 0) { %>
-          <li for='<%= filter.id %>' class="list-group-item"><%- filter.title %><span class="badge"></span></li>
+          <li for='<%= filter.id %>' class="list-group-item"><div class="text"><%- filter.title %></div><span class="badge"></span></li>
             <% }
           }); %>
         </ul>
