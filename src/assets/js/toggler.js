@@ -706,10 +706,11 @@ $(document).ready(function() {
 
   // bind dp.change event {{{
   function setDisplayedDate(context_sel, dest_date) {
-    $('.weekday', context_sel).text(moment(dest_date).format('dddd'));
-    $('.tap-date', context_sel).text(moment(dest_date).format('DD'));
-    $('.tap-month', context_sel).text(moment(dest_date).format('MMM'));
-    $('.tap-year', context_sel).text(moment(dest_date).format('YYYY'));
+    var _moment = moment(dest_date);
+    $('.weekday', context_sel).text(_moment.format('dddd'));
+    $('.tap-date', context_sel).text(_moment.format('DD'));
+    $('.tap-month', context_sel).text(_moment.format('MMM'));
+    $('.tap-year', context_sel).text(_moment.format('YYYY'));
   }
 
   $("#depart_picker").on("dp.change", function (e) {
