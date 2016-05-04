@@ -689,32 +689,62 @@ $(document).ready(function() {
     inline: true,
     format: "YYYY-MM-DD",
     minDate: moment($('#depart_picker').data("DateTimePicker").date()),
-    maxDate: moment().add(1, 'years'),
+    maxDate: moment().add(2, 'years'),
     defaultDate: $('#returnDate').val() || moment($('#depart_picker').data("DateTimePicker").date()).add(14, 'days')
   });
   // }}} datetimepickers
 
   // bind dp.change event {{{
+  function setDisplayedDate(context_sel, dest_date) {
+    $('.weekday', context_sel).text(moment(dest_date).format('dddd'));
+    $('.tap-date', context_sel).text(moment(dest_date).format('DD'));
+    $('.tap-month', context_sel).text(moment(dest_date).format('MMM'));
+    $('.tap-year', context_sel).text(moment(dest_date).format('YYYY'));
+  }
+
   $("#depart_picker").on("dp.change", function (e) {
     $('#date_select p.info span.dep').text(moment(e.date).format('ddd DD MMM'));
-    var dep_sel = $('.flight-date-info-item.sel.dep');
-    $('.row:eq(0) > div:eq(0) > div:eq(1)', dep_sel).text(moment(e.date).format('dddd'));
-    $('.row:eq(1) > div:eq(0)', dep_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', dep_sel).text(moment(e.date).format('YYYY'));
+    setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
     $('#return_picker').data("DateTimePicker").minDate(moment(e.date));
   });
 
   $("#return_picker").on("dp.change", function (e) {
     $('#date_select p.info span.ret').text(' - ' + moment(e.date).format('ddd DD MMM'));
-    var ret_sel = $('.flight-date-info-item.sel.ret');
-    $('.row:eq(0) > div:eq(0) > div:eq(1)', ret_sel).text(moment(e.date).format('dddd'));
-    $('.row:eq(1) > div:eq(0)', ret_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', ret_sel).text(moment(e.date).format('YYYY'));
+    setDisplayedDate($('.flight-date-info-item.sel.ret'), e.date);
   });
   // }}} bind dp.change event
 
+  // Tapable date elements {{{
+  function changeDate(event) {
+    var picker_id = '#'+ event.data.picker_id;
+    var dest_date = $(picker_id).data("DateTimePicker").date();
+    var cur_year = moment().year();
+
+    if((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
+      dest_date.year(cur_year);
+    }
+    else {
+      dest_date.add(1, event.data.date_key);
+    }
+
+    // Set new date in the datetimepicker. Also dp.change event will emits
+    $(picker_id).data("DateTimePicker").date(dest_date);
+
+    // Finalize dates choice
+    $('#date_select_top').click();
+  }
+
+  $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
+  $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
+  $('.flight-date-info-item.sel.dep .tap-year').on('click', {picker_id:'depart_picker', date_key:'years'}, changeDate);
+
+  $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
+  $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
+  $('.flight-date-info-item.sel.ret .tap-year').on('click', {picker_id:'return_picker', date_key:'years'}, changeDate);
+  // }}}} Tapable date elements
+
   // bind date controls click event
-  $('.flight-date-info-item').on('click', function () {
+  $('.open-calendar').on('click', function () {
     heightNav = $('.navbar-header').outerHeight(true);
     $('.navbar-header').height('50px');
     $('#main_title').addClass('hidden');
