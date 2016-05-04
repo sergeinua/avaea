@@ -121,7 +121,7 @@
       <!--<div class="col-xs-8 itinerary-airline">-->
         <span><%= sRes.citypairs[0].from.airline %> </span>
         <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
-        <span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
+        <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
 
         <!-- Modal -->
         <div id="flightInfo<%= i%>" class="modal fade" role="dialog">
@@ -132,21 +132,29 @@
               <div class="modal-body">
                 <div class="row">
                   <div class="col-xs-6"><%= __('Fare') %></div>
-                  <div class="col-xs-6 text-right">$<%= sRes.specialprice %></div>
+                  <div class="col-xs-6 text-right">$<%= sRes.price %></div>
                 </div>
                 <% sRes.information.forEach(function (item) { %>
                 <div class="row">
-                  <div class="col-xs-6"><%= item.name %></div>
+                  <div class="col-xs-6">
+                    <span style='color:red;text-decoration: underline; text-transform: none'>
+                      <span style='color:black; font-size: 18px'><%= item.name %></span>
+                    </span>
+                  </div>
                   <div class="col-xs-6 text-right">$<%= item.price %></div>
                 </div>
                 <% }); %>
-                <div class="row border-up">
+                <div class="row">
                   <div class="col-xs-6 text-right"><%= __('Price') %></div>
-                  <div class="col-xs-6 text-right"><del>$<%= sRes.price %></del></div>
+                  <div class="col-xs-6 text-right">
+                    <span style='color:red;text-decoration:line-through'>
+                      <span style='color:black; font-size: 18px'>$<%= sRes.specialprice %></span>
+                    </span>
+                  </div>
                 </div>
                 <div class="row">
-                  <div class="col-xs-6 text-right"><%= __('Your Price') %></div>
-                  <div class="col-xs-6 text-right">$<%= sRes.specialprice %></div>
+                  <div class="col-xs-6 text-right" style="color: red"><%= __('Your Price') %></div>
+                  <div class="col-xs-6 text-right" style="color: red">$<%= sRes.price %></div>
                 </div>
               </div>
               <div class="modal-footer">
