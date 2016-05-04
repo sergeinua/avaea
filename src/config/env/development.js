@@ -34,10 +34,9 @@ module.exports = {
     port: 5432
   },
 
-  port: 8000,
-  proxyHost: 'http://avaea.com/',
+  port: 80,
+  proxyHost: 'http://www.avaea.com/',
   proxyPort: 80,
-  explicitHost: 'localhost',
 
   flightapis: {
     mondee: {
