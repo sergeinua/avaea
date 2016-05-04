@@ -1,4 +1,13 @@
 /* global $ */
+var fly = function (target) {
+  var pos = $(target).position();
+  var speed = 1;
+  if ($('body').outerWidth() < pos.left+speed) {
+    pos.left = -50;
+  }
+  $(target).css('left', pos.left+speed);
+};
+
 $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
@@ -11,7 +20,6 @@ $(document).ready(function() {
         var navHeight = $('#main_title').outerHeight(true) || 0;
         var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
         $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
-        console.log($('body').css('padding-top'));
     } , 500);
   };
 
@@ -481,7 +489,6 @@ $(document).ready(function() {
   });
   $('#search_form').submit(function (event) {
     var _isError = false;
-
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
     // Check airports selection
     if ($('#originAirport').val() == '') {
@@ -503,9 +510,12 @@ $(document).ready(function() {
       return false;
     }
 
+    $("#searchBanner").modal();
     $('.search-button').hide();
     $('.search-top-button').hide();
     $("body").addClass("loading");
+    $('#planePath').removeClass('hidden');
+    setInterval('fly("#plane")', 40);
     return true;
   });
 
@@ -747,6 +757,7 @@ $(document).ready(function() {
 
   function changeFlightTab(type) {
     $('#search_form').data('flight-type', type);
+    $('#search_form #flightType').val(type);
     var hasFrom = !!$('#originAirport').val();
     var hasTo = !!$('#destinationAirport').val();
     switch (type) {
@@ -754,7 +765,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&#8596;');
+        //$('.flight-direction-item-arrow').html('&#8596;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -806,7 +817,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&rarr;');
+        //$('.flight-direction-item-arrow').html('&rarr;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -845,22 +856,51 @@ $(document).ready(function() {
     changeFlightTab(id);
   });
 
-  $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
-    var currentValue = $('#passengers').val();
+  var setPassengersCount = function() {
+    var currentValue = +$('#passengers').val();
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
+
+    $('.passengers_count').text(digits[currentValue]);
+    if ( currentValue > 1 ) {
+      $('.passengers_text').text('Adults');
+    } else {
+      $('.passengers_text').text('Adult');
+    }
+
+  };
+
+  $('.flight-passengers-info-item .text-picker').on('click', function () {
+    var currentValue = +$('#passengers').val();
+    if ( currentValue < 4 ) {
+      $('#passengers').val(currentValue + 1);
+    } else {
+      $('#passengers').val(1);
+    }
+
+    setPassengersCount();
+  });
+
+  $('#user-icon-small').on('click', function () {
+    var currentValue = $('#passengers').val();
 
     if ( currentValue < 4 ) {
       currentValue++;
-      $('.passengers_text').text('Adults');
     } else {
       currentValue = 1;
-      $('.passengers_text').text('Adult');
     }
     $('#passengers').val(currentValue);
-    $('.passengers_count').text(digits[currentValue]);
+    $('.passengers_count').text(currentValue);
   });
 
+
+  var setCabinClass = function() {
+    if (typeof serviceClass != 'undefined') {
+      $('.flight-class-info-item .text-picker').text(serviceClass[$('#preferedClass').val()]);
+    }
+  };
+
   $('.flight-class-info-item .text-picker').on('click', function () {
+
     var currentValue = $('#preferedClass').val();
     var flagNext = false;
     var newValue = 'E';
@@ -875,7 +915,9 @@ $(document).ready(function() {
       }
     }
     $('#preferedClass').val(newValue);
-    $(this).text(serviceClass[newValue]);
+
+    setCabinClass();
+
   });
 
   $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
@@ -916,16 +958,21 @@ $(document).ready(function() {
     });
     // }}} force dp.change event hook
 
+    $('.flight-type-item').removeClass('active-choice');
+    $('#' + $('#flightType').val()).addClass('active-choice');
+
     var choosenTab = $('.flight-type-item.active-choice').attr('id');
     changeFlightTab(choosenTab);
     drawAirportData('originAirport');
     drawAirportData('destinationAirport');
+    setPassengersCount();
+    setCabinClass();
   }
 
   // result page init
   {
     if ($('.flight-info').length) {
-      $('.flight-info > div:first-child').css('padding-left', '0')
+      $('.flight-info > div:first-child').css('padding-left', '0');
       $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
