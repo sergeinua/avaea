@@ -890,7 +890,9 @@ $(document).ready(function() {
 
 
   var setCabinClass = function() {
-    $('.flight-class-info-item .text-picker').text(serviceClass[$('#preferedClass').val()]);
+    if (typeof serviceClass != 'undefined') {
+      $('.flight-class-info-item .text-picker').text(serviceClass[$('#preferedClass').val()]);
+    }
   };
 
   $('.flight-class-info-item .text-picker').on('click', function () {
@@ -953,9 +955,8 @@ $(document).ready(function() {
     // }}} force dp.change event hook
 
     $('.flight-type-item').removeClass('active-choice');
-    if (selectedFlightType) {
-      $('#' + selectedFlightType).addClass('active-choice');
-    }
+    $('#' + $('#flightType').val()).addClass('active-choice');
+
     var choosenTab = $('.flight-type-item.active-choice').attr('id');
     changeFlightTab(choosenTab);
     drawAirportData('originAirport');

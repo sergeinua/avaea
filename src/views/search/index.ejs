@@ -86,12 +86,7 @@
     </div>
   </div>
 
-<script>
-  var serviceClass = <%- JSON.stringify(serviceClass) %>,
-      selectedFlightType = '<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>',
-      selectedPassengersCount = '<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>',
-      selectedCabinClass = '<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>';
-</script>
+<script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
   <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"/>
@@ -100,7 +95,7 @@
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
   <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
-  <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType %>"/>
+  <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
   <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
 </form>
 
