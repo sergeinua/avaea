@@ -18,8 +18,7 @@ $(document).ready(function() {
     setTimeout( function () {
         var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
         var navHeight = $('#main_title').outerHeight(true) || 0;
-        var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
-        $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
+        $('body').css('padding-top', ( tilesHeight + navHeight ) + 'px');
     } , 500);
   };
 
@@ -408,6 +407,8 @@ $(document).ready(function() {
 
   var drawAirportData = function (target) {
     var cityName = $('#' + target).attr('city');
+    var nearleftCode = $('#' + target).attr('nearleft');
+    var nearrightCode = $('#' + target).attr('nearright');
     var airportCode = $('#' + target).val();
     if (target == 'originAirport') {
       if (airportCode) {
@@ -415,6 +416,8 @@ $(document).ready(function() {
         $('#from-area-selected').removeClass('hidden');
         $('#from-airport-selected').text(airportCode);
         $('#from-city-selected').text(cityName);
+        $('#from-airport-nearleft').text(nearleftCode);
+        $('#from-airport-nearright').text(nearrightCode);
         if($('#from-area').hasClass("error_elem")) {
           $('#from-area').removeClass("error_elem");
         }
@@ -430,6 +433,8 @@ $(document).ready(function() {
         $('#to-area-selected').removeClass('hidden');
         $('#to-airport-selected').text(airportCode);
         $('#to-city-selected').text(cityName);
+        $('#to-airport-nearleft').text(nearleftCode);
+        $('#to-airport-nearright').text(nearrightCode);
         if($('#to-area').hasClass("error_elem")) {
           $('#to-area').removeClass("error_elem");
         }
@@ -441,6 +446,14 @@ $(document).ready(function() {
       }
     }
   };
+
+  var setAirportData = function(target, data) {
+    $('#' + target).val(data.value);
+    $('#' + target).attr('city', data.city);
+    $('#' + target).attr('nearleft', data.neighbors[0].iata_3code);
+    $('#' + target).attr('nearright', data.neighbors[1].iata_3code);
+  };
+
   $('#airport-input').typeahead({
     hint: true,
     highlight: true,
@@ -461,8 +474,7 @@ $(document).ready(function() {
       }
     }
   }).on('typeahead:selected', function (obj, datum) {
-    $('#' + $(this).attr('target')).val(datum.value);
-    $('#' + $(this).attr('target')).attr('city', datum.city);
+    setAirportData($(this).attr('target'), datum);
     $('#search_title').addClass('hidden');
     $('#main').removeClass('hidden');
     $('#main_title').removeClass('hidden');
@@ -797,8 +809,6 @@ $(document).ready(function() {
       case 'round_trip':
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
-        $('.flight-direction-item-arrow').removeClass('hidden');
-        //$('.flight-direction-item-arrow').html('&#8596;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -838,7 +848,6 @@ $(document).ready(function() {
       case 'multi_city':
         $('.flight-direction-item-coming-soon').removeClass('hidden');
         $('.flight-direction-item').addClass('hidden');
-        $('.flight-direction-item-arrow').addClass('hidden');
         $('#from-area-selected').addClass('hidden');
         $('#to-area-selected').addClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -849,8 +858,6 @@ $(document).ready(function() {
       case 'one_way':
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
-        $('.flight-direction-item-arrow').removeClass('hidden');
-        //$('.flight-direction-item-arrow').html('&rarr;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -965,6 +972,25 @@ $(document).ready(function() {
     } else {
       $('#airport-input').attr('target', 'destinationAirport');
     }
+  });
+
+  $('#from-airport-nearleft, #from-airport-nearright, #to-airport-nearleft, #to-airport-nearright').on('click', function(e) {
+    e.stopPropagation();
+    if ($(this).is('#from-airport-nearleft') || $(this).is('#from-airport-nearright')) {
+      var target = 'originAirport';
+    } else {
+      var target = 'destinationAirport';
+    }
+    $.ajax({
+        url: '/ac/airports',
+        type: 'get',
+        data: {q: $(this).text(), l: 1},
+        dataType: 'json'
+      })
+      .done(function( msg ) {
+        setAirportData(target, msg[0]);
+        drawAirportData(target);
+      });
   });
 
   $('#search_button_top').on('click', function () {
