@@ -544,7 +544,7 @@ body.loading .modalLoader {
   letter-spacing: 0.3px;
   color: #ffffff;
   text-transform: uppercase;
-  white-space: nowrap;
+  /*white-space: nowrap;*/
   padding-bottom: 10px;
 }
 
