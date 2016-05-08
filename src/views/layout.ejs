@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Avaea</title>
+    <title><%= (typeof head_title != 'undefined') ? head_title :__('Avaea Agent') %></title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -66,7 +66,7 @@
       <div id="search_title" class="hidden">
         <div class="navbar-header">
           <div style="width:auto; float: left">
-            <input id="airport-input" type="text" name="airport" target="" value=""/>
+            <input id="airport-input" type="text" name="airport" target="" value="" placeholder="Type the name or code of the airpoirt"/>
           </div>
           <div style="width:auto; float: left">
             <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
@@ -119,7 +119,7 @@
       <%- body %>
     </div>
 
-    <div class="modal"></div>
+    <div class="modalLoader"></div>
 
     <!--
         Client-side Templates

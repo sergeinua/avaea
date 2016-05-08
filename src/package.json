@@ -5,6 +5,7 @@
   "description": "Demo application",
   "keywords": [],
   "dependencies": {
+    "atob": "^2.0.3",
     "bcryptjs": "^2.3.0",
     "blueimp-md5": "^1.1.1",
     "connect-redis": "^1.4.5",

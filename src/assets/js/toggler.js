@@ -1,11 +1,30 @@
 /* global $ */
+var fly = function (target) {
+  var pos = $(target).position();
+  var speed = 1;
+  if ($('body').outerWidth() < pos.left+speed) {
+    pos.left = -50;
+  }
+  $(target).css('left', pos.left+speed);
+};
+
 $(document).ready(function() {
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
+  var heightNav = 0;
+
+  var recalculateBodyPadding = function () {
+    setTimeout( function () {
+        var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+        var navHeight = $('#main_title').outerHeight(true) || 0;
+        var searchTabsHeight = $('.flight-type-form').outerHeight(true) || 0;
+        $('body').css('padding-top', ( tilesHeight + navHeight + searchTabsHeight ) + 'px');
+    } , 500);
+  };
 
   $('#timeAlert').fadeOut(5000, function () {
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) -20) + 'px');
+    recalculateBodyPadding();
   });
   var showTotal = !!$('.itinerary:visible').length;
   /**
@@ -79,7 +98,7 @@ $(document).ready(function() {
         tile.addClass('disabled');
       }
     });
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+    recalculateBodyPadding();
   };
   var filtersCount = {};
   var filterItineraries = function () {
@@ -154,6 +173,7 @@ $(document).ready(function() {
       $('span.caret', this).removeClass('hide');
       $(this).addClass('selected');
     }
+    $('.sort-button button > i').replaceWith($('i', this).clone());
     var
       sort = $(this).attr('sort'),
       order = 'asc';
@@ -348,6 +368,9 @@ $(document).ready(function() {
     freeMode: true,
     slidesPerView: 'auto'
   });
+  $( window ).resize(function() {
+    recalculateBodyPadding();
+  });
   //$( window ).resize(function() {
   //$('#tiles').slick('unslick');
   //$('#tiles').slick(getSliderSettings());
@@ -445,6 +468,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
     //$('#airport-input').typeahead('setQuery', '');
     drawAirportData($(this).attr('target'));
   });
@@ -455,35 +479,39 @@ $(document).ready(function() {
   $('#search_count').text(sCount);
   if (showTotal) {
     $('#search_count').removeClass('hidden');
-    $('body').css('padding-top', ($('#tiles_ui').outerHeight(true)) + 'px');
+    recalculateBodyPadding();
     recalcTiles();
   }
 
   //loading
   $('#search_form').submit(function (event) {
     var _isError = false;
-
+    $("#searchBanner").modal();
+    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
     // Check airports selection
-    if($('#originAirport').val() == '') {
+    if ($('#originAirport').val() == '') {
       $('#from-area').addClass("error_elem");
       _isError = true;
     }
-    if($('#destinationAirport').val() == '') {
+    if ($('#destinationAirport').val() == '') {
       $('#to-area').addClass("error_elem");
       _isError = true;
     }
 
     // Check existence of the return date for the round trip
-    if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+    if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
       $('.flight-date-info-item.ret').addClass("error_elem");
       _isError = true;
     }
 
-    if(_isError)
+    if (_isError) {
       return false;
+    }
 
     $('.search-button').hide();
     $("body").addClass("loading");
+    $('#planePath').removeClass('hidden');
+    setInterval('fly("#plane")', 40);
     return true;
   });
 
@@ -618,7 +646,7 @@ $(document).ready(function() {
           $('#timeAlert').text('Error saving data to ' + fieldset + '.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20 ) + 'px');
+                  recalculateBodyPadding();
                 });
               }
             );
@@ -634,7 +662,7 @@ $(document).ready(function() {
           $('#timeAlert').text('Record was removed successfully.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+                  recalculateBodyPadding();
                 });
               }
             );
@@ -671,42 +699,72 @@ $(document).ready(function() {
     inline: true,
     format: "YYYY-MM-DD",
     minDate: moment($('#depart_picker').data("DateTimePicker").date()),
-    maxDate: moment().add(1, 'years'),
+    maxDate: moment().add(2, 'years'),
     defaultDate: $('#returnDate').val() || moment($('#depart_picker').data("DateTimePicker").date()).add(14, 'days')
   });
   // }}} datetimepickers
 
   // bind dp.change event {{{
+  function setDisplayedDate(context_sel, dest_date) {
+    var _moment = moment(dest_date);
+    $('.weekday', context_sel).text(_moment.format('dddd'));
+    $('.tap-date', context_sel).text(_moment.format('DD'));
+    $('.tap-month', context_sel).text(_moment.format('MMM'));
+    $('.tap-year', context_sel).text(_moment.format('YYYY'));
+  }
+
   $("#depart_picker").on("dp.change", function (e) {
     $('#date_select p.info span.dep').text(moment(e.date).format('ddd DD MMM'));
-    var dep_sel = $('.flight-date-info-item.sel.dep');
-    $('.row:eq(1) > div:eq(0)', dep_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', dep_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
     $('#return_picker').data("DateTimePicker").minDate(moment(e.date));
   });
 
   $("#return_picker").on("dp.change", function (e) {
     $('#date_select p.info span.ret').text(' - ' + moment(e.date).format('ddd DD MMM'));
-    var ret_sel = $('.flight-date-info-item.sel.ret');
-    $('.row:eq(1) > div:eq(0)', ret_sel).text(moment(e.date).format('DD MMM'));
-    $('.row:eq(1) > div:eq(1)', ret_sel).html(moment(e.date).format('dddd<br>YYYY'));
+    setDisplayedDate($('.flight-date-info-item.sel.ret'), e.date);
   });
   // }}} bind dp.change event
 
+  // Tapable date elements {{{
+  function changeDate(event) {
+    var picker_id = '#'+ event.data.picker_id;
+    var dest_date = $(picker_id).data("DateTimePicker").date();
+    var cur_year = moment().year();
+
+    if((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
+      dest_date.year(cur_year);
+    }
+    else {
+      dest_date.add(1, event.data.date_key);
+    }
+
+    // Set new date in the datetimepicker. Also dp.change event will emits
+    $(picker_id).data("DateTimePicker").date(dest_date);
+
+    // Finalize dates choice
+    finalizeValues(false);
+  }
+
+  $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
+  $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
+  $('.flight-date-info-item.sel.dep .tap-year').on('click', {picker_id:'depart_picker', date_key:'years'}, changeDate);
+
+  $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
+  $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
+  $('.flight-date-info-item.sel.ret .tap-year').on('click', {picker_id:'return_picker', date_key:'years'}, changeDate);
+  // }}}} Tapable date elements
+
   // bind date controls click event
-  $('.flight-date-info-item').on('click', function () {
+  $('.open-calendar').on('click', function () {
+    heightNav = $('.navbar-header').outerHeight(true);
+    $('.navbar-header').height('50px');
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');
     $('#date_select_main').removeClass('hidden');
   });
 
-  $('#date_select_top').on('click', function () {
-    $('#main_title').removeClass('hidden');
-    $('#main').removeClass('hidden');
-    $('#date_select').addClass('hidden');
-    $('#date_select_main').addClass('hidden');
-
+  function finalizeValues(isModNavbar) {
     // cache values
     $('#departureDate').data('date', $('#depart_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
     $('#returnDate').data('date', $('#return_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
@@ -714,12 +772,25 @@ $(document).ready(function() {
     if($('.flight-date-info-item.ret').hasClass("error_elem"))
       $('.flight-date-info-item.ret').removeClass("error_elem");
 
+    if(isModNavbar) {
+      $('.navbar-header').height(heightNav);
+    }
     changeFlightTab($('#search_form').data('flight-type'));
+  }
+
+  $('#date_select_top').on('click', function () {
+    $('#main_title').removeClass('hidden');
+    $('#main').removeClass('hidden');
+    $('#date_select').addClass('hidden');
+    $('#date_select_main').addClass('hidden');
+
+    finalizeValues(true);
   });
   /* }}} Depart/Return Date selection */
 
   function changeFlightTab(type) {
     $('#search_form').data('flight-type', type);
+    $('#search_form #flightType').val(type);
     var hasFrom = !!$('#originAirport').val();
     var hasTo = !!$('#destinationAirport').val();
     switch (type) {
@@ -727,7 +798,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&#8596;');
+        //$('.flight-direction-item-arrow').html('&#8596;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -779,7 +850,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.flight-direction-item-arrow').html('&rarr;');
+        //$('.flight-direction-item-arrow').html('&rarr;');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -818,22 +889,51 @@ $(document).ready(function() {
     changeFlightTab(id);
   });
 
-  $('.flight-passengers-info-item .text-picker, #user-icon-small').on('click', function () {
-    var currentValue = $('#passengers').val();
+  var setPassengersCount = function() {
+    var currentValue = +$('#passengers').val();
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
+
+    $('.passengers_count').text(digits[currentValue]);
+    if ( currentValue > 1 ) {
+      $('.passengers_text').text('Adults');
+    } else {
+      $('.passengers_text').text('Adult');
+    }
+
+  };
+
+  $('.flight-passengers-info-item .text-picker').on('click', function () {
+    var currentValue = +$('#passengers').val();
+    if ( currentValue < 4 ) {
+      $('#passengers').val(currentValue + 1);
+    } else {
+      $('#passengers').val(1);
+    }
+
+    setPassengersCount();
+  });
+
+  $('#user-icon-small').on('click', function () {
+    var currentValue = $('#passengers').val();
 
     if ( currentValue < 4 ) {
       currentValue++;
-      $('.passengers_text').text('Adults');
     } else {
       currentValue = 1;
-      $('.passengers_text').text('Adult');
     }
     $('#passengers').val(currentValue);
-    $('.passengers_count').text(digits[currentValue]);
+    $('.passengers_count').text(currentValue);
   });
 
+
+  var setCabinClass = function() {
+    if (typeof serviceClass != 'undefined') {
+      $('.flight-class-info-item .text-picker').text(serviceClass[$('#preferedClass').val()]);
+    }
+  };
+
   $('.flight-class-info-item .text-picker').on('click', function () {
+
     var currentValue = $('#preferedClass').val();
     var flagNext = false;
     var newValue = 'E';
@@ -848,13 +948,18 @@ $(document).ready(function() {
       }
     }
     $('#preferedClass').val(newValue);
-    $(this).text(serviceClass[newValue]);
+
+    setCabinClass();
+
   });
 
   $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
+    heightNav = $('.navbar-header').outerHeight(true);
+    $('.navbar-header').height('60px');
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
+    $('#airport-input').focus();
     if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
       $('#airport-input').attr('target', 'originAirport');
     } else {
@@ -868,6 +973,7 @@ $(document).ready(function() {
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
+    $('.navbar-header').height(heightNav);
   });
 
   // search form init
@@ -885,20 +991,25 @@ $(document).ready(function() {
     });
     // }}} force dp.change event hook
 
+    $('.flight-type-item').removeClass('active-choice');
+    $('#' + $('#flightType').val()).addClass('active-choice');
+
     var choosenTab = $('.flight-type-item.active-choice').attr('id');
     changeFlightTab(choosenTab);
     drawAirportData('originAirport');
     drawAirportData('destinationAirport');
+    setPassengersCount();
+    setCabinClass();
   }
 
   // result page init
   {
     if ($('.flight-info').length) {
-      $('.flight-info > div:first-child').css('padding-left', '0')
+      $('.flight-info > div:first-child').css('padding-left', '0');
       $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
-      $('body').css('padding-top', ($('#tiles_ui').outerHeight(true) - 20) + 'px');
+      recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
       height: '137px'

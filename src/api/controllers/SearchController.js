@@ -26,7 +26,9 @@ module.exports = {
       ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
       CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
       departureDate: _.isEmpty(req.session.departureDate) ? sails.moment().add(3, 'w').format('YYYY-MM-DD') : req.session.departureDate,
-      returnDate: _.isEmpty(req.session.returnDate) ? '' : req.session.returnDate
+      returnDate: _.isEmpty(req.session.returnDate) ? '' : req.session.returnDate,
+      passengers: _.isEmpty(req.session.passengers) ? '' : req.session.passengers,
+      flightType: _.isEmpty(req.session.flightType) ? '' : req.session.flightType
     };
     var error;
     if (!_.isEmpty(req.session.flash)) {
@@ -82,7 +84,8 @@ module.exports = {
           user          : req.user,
           defaultParams : params,
           serviceClass  : Search.serviceClass,
-          errors        : error
+          errors        : error,
+          head_title    : 'Search for flights with Avaea Agent'
         });
       }
     );
@@ -93,29 +96,53 @@ module.exports = {
    */
   result: function (req, res) {
     utils.timeLog('search result');
+    var savedParams = {};
+    if (req.param('s')) {
+      var atob = require('atob');
+      try {
+        var savedParamsTmp = JSON.parse(atob(req.param('s')));
+        var savedParams = {};
+        _.forEach(savedParamsTmp, function (param) {
+          savedParams[param.name] = param.value.trim().toUpperCase();
+        });
+      } catch (e) {
+        sails.log.error('Unable restore search parameters from encoded string');
+      }
+    }
     var
       params = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
-          ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
-          CabinClass: req.param('preferedClass').toUpperCase(),
-          passengers: req.param('passengers', 1),
+          DepartureLocationCode: !_.isEmpty(savedParams.originAirport)?savedParams.originAirport:req.param('originAirport').trim().toUpperCase(),
+          ArrivalLocationCode: !_.isEmpty(savedParams.destinationAirport)?savedParams.destinationAirport:req.param('destinationAirport').trim().toUpperCase(),
+          CabinClass: !_.isEmpty(savedParams.preferedClass)?savedParams.preferedClass:req.param('preferedClass').toUpperCase(),
+          passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
+          flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
           returnDate: ''
         }
       },
       depDate = new Date();
 
-    if (!isNaN(Date.parse(req.param('departureDate')))) {
-      depDate = new Date(req.param('departureDate'));
+    if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
+      depDate = new Date(savedParams.departureDate);
+    } else {
+      if (!isNaN(Date.parse(req.param('departureDate')))) {
+        depDate = new Date(req.param('departureDate'));
+      }
     }
     params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
     req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
-    if (!isNaN(Date.parse(req.param('returnDate')))) {
-      var retDate = new Date(req.param('returnDate'));
+    if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
+      var retDate = new Date(savedParams.returnDate);
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
       req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
+    } else {
+      if (!isNaN(Date.parse(req.param('returnDate')))) {
+        var retDate = new Date(req.param('returnDate'));
+        params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
+        req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
+      }
     }
     title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
@@ -129,6 +156,8 @@ module.exports = {
     req.session.DepartureLocationCode = params.searchParams.DepartureLocationCode;
     req.session.ArrivalLocationCode = params.searchParams.ArrivalLocationCode;
     req.session.CabinClass = params.searchParams.CabinClass;
+    req.session.passengers = params.searchParams.passengers;
+    req.session.flightType = params.searchParams.flightType;
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
     tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
@@ -144,12 +173,13 @@ module.exports = {
           title: title,
           tiles: {},
           searchParams: {
-            DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
-            ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
+            DepartureLocationCode: params.searchParams.DepartureLocationCode,
+            ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
             departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass],
-            passengers: req.param('passengers', 1)
+            passengers: params.searchParams.passengers,
+            flightType: params.searchParams.flightType
           },
           searchResult: []
         });
@@ -179,15 +209,21 @@ module.exports = {
           title: title,
           tiles: tiles,
           searchParams: {
-            DepartureLocationCode: req.param('originAirport').trim().toUpperCase(),
-            ArrivalLocationCode: req.param('destinationAirport').trim().toUpperCase(),
+            DepartureLocationCode: params.DepartureLocationCode,
+            ArrivalLocationCode: params.ArrivalLocationCode,
             departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
             returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.CabinClass],
-            passengers: req.param('passengers', 1)
+            passengers: params.passengers,
+            flightType: params.flightType
           },
           searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>')
+          timelog: req.session.time_log.join('<br/>'),
+          head_title: 'Flights from '
+            + params.DepartureLocationCode
+            + ' to '+params.ArrivalLocationCode
+            + sails.moment(depDate).format(" on DD MMM 'YY")
+            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):'')
         });
       });
     });
