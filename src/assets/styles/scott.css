@@ -171,6 +171,10 @@ nav {
   background-color: white;
 }
 
+.landscape-mode .mycustomtab {
+  height: 23px;
+}
+
 .good-bad-flights {
   font-family: sans-serif;
   font-size: 14px;
