@@ -1,7 +1,7 @@
 FROM nginx
 
 # Setup ssh for tunneling
-RUN apt-get update && apt-get install -y openssh-server \
+RUN apt-get update && apt-get install -y --fix-missing openssh-server \
     build-essential \
     python-dev \
     python-setuptools \
@@ -16,6 +16,8 @@ COPY ./images/nginx/keys/* /root/.ssh/
 RUN chmod 0400 /root/.ssh/*
 
 RUN wget https://bootstrap.pypa.io/ez_setup.py -O - | python
+
+RUN pip install pyasn1 --upgrade
 
 RUN pip install ansible
 
