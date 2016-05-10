@@ -202,10 +202,10 @@ nav {
 }
 
 .mybucket .list-group-item {
-  height: 35px;
+  height: 32px;
   font-family: WhitneyHTF-BookCondensed;
   font-size: 16px;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: 0.4px;
   color: #101742;
   padding: 7px;
