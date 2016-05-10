@@ -39,6 +39,8 @@ module.exports = {
           else
             profile_fields[prop] = found[prop];
         }
+        if(typeof profile_fields.birthday == 'object')
+          profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
 
         return res.view('user/profile', {
           title:'Update profile',
