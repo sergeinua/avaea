@@ -979,6 +979,49 @@ body.loading .modalLoader {
   background-color: #F2F5F8;
 }
 
+.show-tiles-arrow #tiles_ui .row:after {
+  background-image: url(/images/arrow-right-black.png);
+  position: absolute;
+  width: 48px;
+  height: 175px;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  background-repeat: no-repeat;
+  background-size: 48px 115px;
+  opacity: 0.3;
+  background-position-y: 28px;
+}
+
+
+@keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-o-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-moz-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-webkit-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% {
+    opacity: 0.3;; }
+}
+.show-tiles-arrow #tiles_ui .row:after {
+  -webkit-animation: tileArrowAnimation 2s infinite;
+  -moz-animation: tileArrowAnimation 2s infinite;
+  -o-animation: tileArrowAnimation 2s infinite;
+  animation: tileArrowAnimation 2s infinite;
+}
+
 .clickable {
   cursor: pointer;
 }
