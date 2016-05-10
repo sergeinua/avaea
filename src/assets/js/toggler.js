@@ -1044,7 +1044,7 @@ $(document).ready(function() {
       recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
-      height: '125px'
+      height: '137px'
     });
   }
 
