@@ -1056,8 +1056,8 @@ $(document).ready(function() {
   if (+showMoreTiles !== 1) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
-    // hide arrow in 13 sec
-    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 15000);
+    // hide arrow in 5 sec
+    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 5000);
   } else {
     $('body').removeClass('show-tiles-arrow');
   }
