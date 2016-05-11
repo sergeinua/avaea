@@ -1,34 +1,33 @@
 .flight-direction-item-voice-search {
+  padding: 10px;
   .voice-search-textarea {
     width: 100%;
     padding-right: 25px;
     color: #000000;
     resize: none;
   }
-  .voice-search-buttons {
-    i {
-      margin: 0 0 5px 0;
-      font-size: 18px;
-      font-weight: 100;
-      cursor: pointer;
-      &.fa-microphone, &.fa-microphone-slash {
-        position: absolute;
-        right: 64px;
-        color: #000000;
-        top: 5px;
+  i {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    font-weight: 100;
+    cursor: pointer;
+    &.fa-microphone, &.fa-microphone-slash {
+      position: absolute;
+      right: 20px;
+      color: #000000;
+      top: 5px;
 
-        &.listening {
-          border-radius: 50%;
-          -webkit-animation-name: blink; /* Chrome, Safari, Opera */
-          animation-name: blink;
-          -webkit-animation-fill-mode: both;
-          animation-fill-mode: both;
-          -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-          -webkit-animation-duration: 3s;
-          animation-duration: 3s;
-          outline: 0;
-        }
+      &.listening {
+        border-radius: 50%;
+        -webkit-animation-name: blink; /* Chrome, Safari, Opera */
+        animation-name: blink;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-iteration-count: infinite;
+        animation-iteration-count: infinite;
+        -webkit-animation-duration: 3s;
+        animation-duration: 3s;
+        outline: 0;
       }
     }
   }

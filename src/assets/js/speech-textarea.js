@@ -27,6 +27,12 @@
       if ($(this).hasClass('disabled')) return;
 
       final_textarea.val('');
+      final_transcript = '';
+      recognizing = false;
+
+      $('#airport-input').val('');
+      $('#airport-input').typeahead('val','');
+
       $('#originAirport, #destinationAirport').val('');
       //$('#from-airport-selected').empty();
       //$('#from-city-selected').empty();
@@ -78,11 +84,15 @@
 
     var drawAirportData = function (target) {
       var cityName = $('#' + target).attr('city');
+      var nearleftCode = $('#' + target).attr('nearleft');
+      var nearrightCode = $('#' + target).attr('nearright');
       var airportCode = $('#' + target).val();
       if (target == 'originAirport') {
         if (airportCode) {
           $('#from-airport-selected').text(airportCode);
           $('#from-city-selected').text(cityName);
+          $('#from-airport-nearleft').text(nearleftCode);
+          $('#from-airport-nearright').text(nearrightCode);
           if($('#from-area').hasClass("error_elem")) {
             $('#from-area').removeClass("error_elem");
           }
@@ -94,6 +104,8 @@
         if (airportCode) {
           $('#to-airport-selected').text(airportCode);
           $('#to-city-selected').text(cityName);
+          $('#to-airport-nearleft').text(nearleftCode);
+          $('#to-airport-nearright').text(nearrightCode);
           if($('#to-area').hasClass("error_elem")) {
             $('#to-area').removeClass("error_elem");
           }
@@ -103,12 +115,17 @@
         }
       }
     };
-    $('#originAirport, #destinationAirport').bind('typeahead:render', function (ev, item) {
+    var setAirportData = function(target, data) {
+      $('#' + target).val(data.value);
+      $('#' + target).attr('city', data.city);
+      $('#' + target).attr('nearleft', data.neighbors[0].iata_3code);
+      $('#' + target).attr('nearright', data.neighbors[1].iata_3code);
+    };
+
+    $('#airport-input').bind('typeahead:render', function (ev, item) {
       if (item && item.value) {
-        $(this).val(item.value);
-        $('#' + ev.target.id).val(item.value);
-        $('#' + ev.target.id).attr('city', item.city);
-        drawAirportData(ev.target.id);
+        setAirportData($(this).attr('target'), item);
+        drawAirportData($(this).attr('target'));
       }
     });
 
@@ -178,8 +195,10 @@
           interim_transcript += event.results[i][0].transcript;
         }
       }
+
       final_transcript = capitalize(final_transcript);
-      final_textarea.val(final_transcript);
+      log(final_transcript);
+      final_textarea.empty().val(final_transcript);
       if (final_transcript || interim_transcript) {
         showButtons(false);
       }
@@ -264,10 +283,14 @@
     var cities = speechSearchParse.parseCities(text);
     if (cities && (cities[0] || cities[1])) {
       if (cities[0]) {
-        $('#originAirport').typeahead('val', cities[0]);
+        $('#airport-input').attr('target', 'originAirport');
+        $('#airport-input').typeahead('val', cities[0]);
+        //$('#originAirport').typeahead('val', cities[0]);
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
-        $('#destinationAirport').typeahead('val', cities[1]);
+        $('#airport-input').attr('target', 'destinationAirport');
+        $('#airport-input').typeahead('val', cities[1]);
+        //$('#destinationAirport').typeahead('val', cities[1]);
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
       + " The trip is from " + cities[0] + " to " + cities[1];
@@ -306,6 +329,9 @@
         //$('input[name=returnDate]', '.voiceSearch').val(returning);
         roundTrip = true;
       }
+
+      $('#date_select_top').trigger('click');
+
       out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
     } else {
       out_field += " I did not find dates in your request. ";

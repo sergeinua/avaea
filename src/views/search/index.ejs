@@ -4,81 +4,86 @@
       <div class="row">
         <div id="voice_search" class="col-xs-4 flight-type-item"><i class="fa fa-microphone"></i></div>
         <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
-        <div id="round_trip" class="col-xs-4 flight-type-item active-choice"><%= __('Round trip') %></div>
+        <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip') %></div>
       </div>
     </div>
   </nav>
 
-  <div class="flight-direction row">
-    <div class="row text-center searchform-flight-direction">
-      <div class="col-xs-12 row flight-direction-item-voice-search hidden">
+  <div class="row text-center flight-direction">
+    <div class="col-xs-12 flight-direction-item-voice-search hidden">
+      <div class="row clearfix">
         <div class="col-xs-10 voice-search-content">
           <textarea rows="3" name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea" placeholder="Enter/dictate a flight request"></textarea>
+          <i class="fa fa-microphone" id="start_button"></i>
         </div>
         <div class="col-xs-2 voice-search-buttons">
-          <i class="fa fa-microphone" id="start_button"></i>
           <i class="fa fa-search disabled" title="Search" id="voiceSearchFlight"></i>
           <i class="glyphicon glyphicon-remove disabled" title="Clear" id="voiceClearFlight"></i>
           <i class="fa fa-check disabled" title="Check" id="checkSearchFlight"></i>
         </div>
       </div>
-      <div id="from-area" class="col-xs-5 flight-direction-item"><span>+</span>
-        <div class="flight-direction-item-from-to"><%= __('from') %></div>
-      </div>
-      <div id="from-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
-        <div class="flight-direction-item-from-to"><%= __('from') %></div>
-        <span id="from-airport-selected"></span>
-        <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
-      </div>
-      <div class="col-xs-2 flight-direction-item-arrow">&nbsp;</div>
-      <div id="to-area" class="col-xs-5 flight-direction-item"><span>+</span>
-        <div class="flight-direction-item-from-to"><%= __('to') %></div>
-      </div>
-      <div id="to-area-selected" class="col-xs-5 flight-direction-item-selected hidden">
-        <div class="flight-direction-item-from-to"><%= __('to') %></div>
-        <span id="to-airport-selected"></span>
-        <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
-      </div>
     </div>
+      <div class="col-xs-12 clearfix flight-direction-form">
+        <div class="row clearfix">
+          <div class="col-xs-6">
+            <div id="from-area" class="flight-direction-item"><span>+</span>
+              <div class="flight-direction-item-from-to"><%= __('from') %></div>
+            </div>
+            <div id="from-area-selected" class="flight-direction-item-selected hidden">
+              <div class="flight-direction-item-from-to"><%= __('from') %></div>
+              <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
+              <div>
+                <span id="from-airport-nearleft"></span> <span id="from-airport-selected"></span> <span id="from-airport-nearright"></span>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <div id="to-area" class="flight-direction-item"><span>+</span>
+              <div class="flight-direction-item-from-to"><%= __('to') %></div>
+            </div>
+            <div id="to-area-selected" class="flight-direction-item-selected hidden">
+              <div class="flight-direction-item-from-to"><%= __('to') %></div>
+              <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
+              <div>
+                <span id="to-airport-nearleft"></span> <span id="to-airport-selected"></span> <span id="to-airport-nearright"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 
   <div class="flight-date-info row">
-    <div class="flight-date-info-item dep col-xs-6">+
+    <div class="flight-date-info-item dep col-xs-6 open-calendar">+
       <div class="flight-date-info-item-depart"><%= __('depart') %></div>
     </div>
     <div class="flight-date-info-item sel dep hide col-xs-6">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 open-calendar">
+          <span class="glyphicon glyphicon-calendar calendar"></span>
           <div class="direction"><%= __('depart') %></div>
           <div class="weekday"></div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-7 text-center">
-          23 JAN
-        </div>
-        <div class="col-xs-5">
-          Saturday 2016
-        </div>
+        <div class="col-xs-7"><span class="tap-date"></span> <span class="tap-month"></span></div>
+        <div class="col-xs-5 tap-year"></div>
       </div>
     </div>
-    <div class="flight-date-info-item ret hide col-xs-6">+
+    <div class="flight-date-info-item ret hide col-xs-6 open-calendar">+
       <div class="flight-date-info-item-return"><%= __('return') %></div>
     </div>
     <div class="flight-date-info-item sel ret hide col-xs-6">
       <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-12 open-calendar">
+          <span class="glyphicon glyphicon-calendar calendar"></span>
           <div class="direction"><%= __('return') %></div>
           <div class="weekday"></div>
         </div>
       </div>
       <div class="row">
-        <div class="col-xs-7 text-center">
-          23 JAN
-        </div>
-        <div class="col-xs-5">
-          Saturday 2016
-        </div>
+        <div class="col-xs-7"><span class="tap-date"></span> <span class="tap-month"></span></div>
+        <div class="col-xs-5 tap-year"></div>
       </div>
     </div>
   </div>
@@ -99,8 +104,8 @@
 <script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
-  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"/>
-  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>"/>
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"<% if (defaultParams.departNeighbors) { %> nearleft="<%= defaultParams.departNeighbors[0] ? defaultParams.departNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.departNeighbors[1] ? defaultParams.departNeighbors[1].iata_3code : '' %>"<% } %>/>
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>"<% if (defaultParams.arrivNeighbors) { %> nearleft="<%= defaultParams.arrivNeighbors[0] ? defaultParams.arrivNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.arrivNeighbors[1] ? defaultParams.arrivNeighbors[1].iata_3code : '' %>"<% } %>/>
   <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
