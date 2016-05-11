@@ -945,7 +945,7 @@ $(document).ready(function() {
     var currentValue = +$('#passengers').val();
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
-    $('.passengers_count').text(digits[currentValue]);
+    $('#passengers_count').text(digits[currentValue]);
     if ( currentValue > 1 ) {
       $('.passengers_text').text('Adults');
     } else {
@@ -964,19 +964,6 @@ $(document).ready(function() {
 
     setPassengersCount();
   });
-
-  $('#user-icon-small').on('click', function () {
-    var currentValue = $('#passengers').val();
-
-    if ( currentValue < 4 ) {
-      currentValue++;
-    } else {
-      currentValue = 1;
-    }
-    $('#passengers').val(currentValue);
-    $('.passengers_count').text(currentValue);
-  });
-
 
   var setCabinClass = function() {
     if (typeof serviceClass != 'undefined') {
