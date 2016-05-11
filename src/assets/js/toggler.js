@@ -13,6 +13,7 @@ $(document).ready(function() {
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
   var heightNav = 0;
+  var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
   var recalculateBodyPadding = function () {
     setTimeout( function () {
@@ -509,8 +510,11 @@ $(document).ready(function() {
   //loading
   $('#search_form').submit(function (event) {
     var _isError = false;
-    $("#searchBanner").modal();
-    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
+
+    if($('.search-button').hasClass('disabled')) {
+      _isError = true;
+    }
+
     // Check airports selection
     if ($('#originAirport').val() == '') {
       $('#from-area').addClass("error_elem");
@@ -530,6 +534,9 @@ $(document).ready(function() {
     if (_isError) {
       return false;
     }
+
+    $("#searchBanner").modal();
+    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 
     $('.search-button').hide();
     $("body").addClass("loading");
@@ -770,11 +777,9 @@ $(document).ready(function() {
 
   $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
   $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
-  $('.flight-date-info-item.sel.dep .tap-year').on('click', {picker_id:'depart_picker', date_key:'years'}, changeDate);
 
   $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
   $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
-  $('.flight-date-info-item.sel.ret .tap-year').on('click', {picker_id:'return_picker', date_key:'years'}, changeDate);
   // }}}} Tapable date elements
 
   // bind date controls click event
@@ -788,16 +793,45 @@ $(document).ready(function() {
   });
 
   function finalizeValues(isModNavbar) {
+    var moment_dp = $('#depart_picker').data("DateTimePicker").date();
+    var moment_rp = $('#return_picker').data("DateTimePicker").date();
+    var _isError = false;
+    
     // cache values
-    $('#departureDate').data('date', $('#depart_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
-    $('#returnDate').data('date', $('#return_picker').data("DateTimePicker").date().format('YYYY-MM-DD'));
+    $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
+    $('#returnDate').data('date', moment_rp.format('YYYY-MM-DD'));
 
-    if($('.flight-date-info-item.ret').hasClass("error_elem"))
-      $('.flight-date-info-item.ret').removeClass("error_elem");
+    // Check depart date
+    if(moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+      $('.flight-date-info-item.dep').addClass("error_elem");
+      _isError = true;
+    }
+    else if($('.flight-date-info-item.dep').hasClass("error_elem")) {
+      $('.flight-date-info-item.dep').removeClass("error_elem");
+    }
+
+    // Check return date
+    if ($('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+      if(moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+        $('.flight-date-info-item.ret').addClass("error_elem");
+        _isError = true;
+      }
+      else if($('.flight-date-info-item.ret').hasClass("error_elem")) {
+        $('.flight-date-info-item.ret').removeClass("error_elem");
+      }
+    }
 
     if(isModNavbar) {
       $('.navbar-header').height(heightNav);
     }
+
+    if(_isError) {
+      $('.search-button').addClass('disabled');
+    }
+    else if($('.search-button').hasClass('disabled')) {
+      $('.search-button').removeClass('disabled');
+    }
+
     changeFlightTab($('#search_form').data('flight-type'));
   }
 
