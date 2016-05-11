@@ -509,7 +509,6 @@ $(document).ready(function() {
   //loading
   $('#search_form').submit(function (event) {
     var _isError = false;
-    $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
     // Check airports selection
     if ($('#originAirport').val() == '') {
@@ -531,6 +530,7 @@ $(document).ready(function() {
       return false;
     }
 
+    $("#searchBanner").modal();
     $('.search-button').hide();
     $("body").addClass("loading");
     $('#planePath').removeClass('hidden');
