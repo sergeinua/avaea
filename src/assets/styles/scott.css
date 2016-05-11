@@ -1030,6 +1030,18 @@ body.loading .modalLoader {
   cursor: pointer;
 }
 
+#searchBanner {
+  width: 300px;
+  left:50%;
+  margin-left: -150px;
+  margin-top: -150px;
+  top: 50%;
+}
+
+#searchBanner > div > .modal-content {
+  background-color: lightgrey;
+}
+
 @media all and (min-width: 480px) {
   body {
     padding-top: 30px;
