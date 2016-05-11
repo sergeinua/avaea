@@ -17,6 +17,12 @@ $(document).ready(function() {
 
   var recalculateBodyPadding = function () {
     setTimeout( function () {
+
+        $('body').removeClass('landscape-mode');
+        if (window.outerWidth > window.outerHeight) {
+          $('body').addClass('landscape-mode');
+        }
+
         var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
         var navHeight = $('#main_title').outerHeight(true) || 0;
         $('body').css('padding-top', ( tilesHeight + navHeight ) + 'px');
@@ -1072,7 +1078,7 @@ $(document).ready(function() {
       recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
-      height: '137px'
+      height: '125px'
     });
   }
 
