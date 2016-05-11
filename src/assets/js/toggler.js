@@ -371,7 +371,12 @@ $(document).ready(function() {
   // Horizontal scroll for tiles
   var swiper = new Swiper ('.swiper-container', {
     freeMode: true,
-    slidesPerView: 'auto'
+    slidesPerView: 'auto',
+    onSlideNextStart: function(swiper) {
+      $('body').removeClass('show-tiles-arrow');
+      // set cookie that user has already scrolled - set cookie for 1 year
+      setCookie('tiles-scrolled', 1, {expires: (86400 * 30 * 12), domain: document.location.hostname});
+    }
   });
   $( window ).resize(function() {
     recalculateBodyPadding();
@@ -1053,4 +1058,51 @@ $(document).ready(function() {
     placement: 'left'
   });
 
+  var showMoreTiles = getCookie('tiles-scrolled');
+  if (+showMoreTiles !== 1) {
+    // start arrow blinking
+    $('body').addClass('show-tiles-arrow');
+    // hide arrow in 5 sec
+    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 5000);
+  } else {
+    $('body').removeClass('show-tiles-arrow');
+  }
+
 });
+
+function getCookie(name) {
+  var matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+function setCookie(name, value, options) {
+  options = options || {};
+
+  var expires = options.expires;
+
+  if (typeof expires == "number" && expires) {
+    var d = new Date();
+    d.setTime(d.getTime() + expires * 1000);
+    expires = options.expires = d;
+  }
+  if (expires && expires.toUTCString) {
+    options.expires = expires.toUTCString();
+  }
+
+  value = encodeURIComponent(value);
+
+  var updatedCookie = name + "=" + value;
+
+  for (var propName in options) {
+    updatedCookie += "; " + propName;
+    var propValue = options[propName];
+    if (propValue !== true) {
+      updatedCookie += "=" + propValue;
+    }
+  }
+
+  document.cookie = updatedCookie;
+}
+
