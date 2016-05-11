@@ -133,11 +133,14 @@ require('async').parallel(
         // For neighbours calculation, see https://www.npmjs.com/package/kd.tree
         var kdTree = require('kd.tree');
         // Make source data for kd-tree as array of airports objects
-        var airports_data_array = [];
+        var neighbors_array = [];
         for( var iata_3code in airports_data ) {
-            airports_data_array.push(airports_data[iata_3code]);
+	    // Do not include local airports into neighbors
+	    if( airports_pax.hasOwnProperty(iata_3code) ) {
+		neighbors_array.push(airports_data[iata_3code]);
+	    }
         }
-        var tree = new kdTree.createKdTree(airports_data_array,function( a, b ) {
+        var neighbors_kdtree = new kdTree.createKdTree(neighbors_array,function( a, b ) {
             return geolib.getDistance(a,b);
         }, ['latitude','longitude']);
 
@@ -145,7 +148,7 @@ require('async').parallel(
             var data = airports_data[iata_3code];
             data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
 
-            data.neighbors = tree.nearest(data,11).sort(function(a,b) {
+            data.neighbors = neighbors_kdtree.nearest(data,11).sort(function(a,b) {
                 return a[1]-b[1];
             }).slice(1).map(function( dd ) {
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
