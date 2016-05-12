@@ -76,7 +76,9 @@ module.exports = {
         if(!err)
         {
           params.departCity = results.depart_city.city;
+          params.departNeighbors = results.depart_city.neighbors ? JSON.parse(results.depart_city.neighbors).slice(0,2) : [{"iata_3code": "", "distance": 0},{"iata_3code": "", "distance": 0}];
           params.arrivCity = results.arriv_city.city;
+          params.arrivNeighbors = results.depart_city.neighbors ? JSON.parse(results.arriv_city.neighbors).slice(0,2) : [{"iata_3code": "", "distance": 0},{"iata_3code": "", "distance": 0}];
         }
 
         return res.view('search/index', {

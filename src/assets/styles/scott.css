@@ -32,6 +32,7 @@
 body {
   background-color: #F2F5F8;
   color: #333333;
+  padding-top: 50px;
 }
 
 nav {
@@ -170,6 +171,10 @@ nav {
   background-color: white;
 }
 
+.landscape-mode .mycustomtab {
+  height: 23px;
+}
+
 .good-bad-flights {
   font-family: sans-serif;
   font-size: 14px;
@@ -197,10 +202,10 @@ nav {
 }
 
 .mybucket .list-group-item {
-  height: 35px;
+  height: 32px;
   font-family: WhitneyHTF-BookCondensed;
   font-size: 16px;
-  line-height: 1.1;
+  line-height: 1.2;
   letter-spacing: 0.4px;
   color: #101742;
   padding: 7px;
@@ -219,6 +224,12 @@ nav {
   letter-spacing: 0.3px;
   color: rgba(16, 23, 66, 0.4);
   font-weight: normal;
+}
+
+.mybucket .list-group-item>div.text {
+  width: 114px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mybucket .list-group-item>span.badge {
@@ -463,9 +474,19 @@ body.loading .modalLoader {
 }
 
 .flight-direction {
+  margin-top: 50px;
   height: 222px;
   background-color: #004a99;
   box-shadow: 0 2px 0 0 rgba(0, 74, 153, 0.2);
+  position: relative;
+  /*align-content: center;*/
+}
+
+.flight-direction-form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .flight-direction-item {
@@ -477,34 +498,20 @@ body.loading .modalLoader {
   font-size: 50px;
   padding-top: 10px;
   color:rgba(255, 255, 255, 0.2);
-}
-
-.flight-direction-item span {
-  margin-bottom: -10px;
-}
-
-.flight-direction-item-arrow {
-  width: 98px;
-  font-size: 50px;
-  padding-top: 10px;
-  color:rgba(255, 255, 255, 0.2);
-}
-
-.flight-direction {
-  align-content: center;
+  margin: 0 auto;
 }
 
 .flight-direction-item-coming-soon {
-  width: 300px;
-  height: 100px;
-  padding-top: 40px;
   font-family: WhitneyHTF-MediumCondensed;
   font-size: 18px;
   line-height: 1.1;
   letter-spacing: 0.1px;
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
-  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .flight-direction-item-from-to {
@@ -515,6 +522,40 @@ body.loading .modalLoader {
   color: rgba(255, 255, 255, 0.4);
   text-transform: uppercase;
   padding-bottom: 10px;
+}
+
+.flight-direction-item-selected {
+  width: 100px;
+  height: 100px;
+  background-color: #004a99;
+  font-family: WhitneyHTF-SemiBoldCondensed;
+  font-size: 16px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+#from-airport-selected, #to-airport-selected {
+  font-size: 22px;
+}
+
+.flight-direction-item-from-to-city {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 16px;
+  line-height: 1.0;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  text-transform: uppercase;
+  /*white-space: nowrap;*/
+  padding-bottom: 10px;
+}
+
+.searchform-top {
+  border:0;
+  margin-top:50px;
+  z-index:10;
 }
 
 .flight-date-info-item {
@@ -557,7 +598,16 @@ body.loading .modalLoader {
   text-transform: capitalize;
 }
 
-.flight-date-info-item.sel div.direction, .flight-date-info-item.sel div.weekday {
+.flight-date-info-item.sel span.calendar {
+  width: 15%;
+  padding-left: 1.4em;
+  float: left;
+}
+.flight-date-info-item.sel div.direction {
+  width: 35%;
+  float: left;
+}
+.flight-date-info-item.sel div.weekday {
   width: 50%;
   float: left;
 }
@@ -712,7 +762,6 @@ body.loading .modalLoader {
   color: #101742;
 }
 
-
 .search_button_top_cancel {
   border: 0;
   background-color: transparent;
@@ -786,30 +835,6 @@ body.loading .modalLoader {
 
 .tt-highlight {
  /*color:red;*/
-}
-
-.flight-direction-item-selected {
-  width: 100px;
-  height: 100px;
-  background-color: #004a99;
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  font-size: 48px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-.flight-direction-item-from-to-city {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 16px;
-  line-height: 1.0;
-  letter-spacing: 0.3px;
-  color: #ffffff;
-  text-transform: uppercase;
-  white-space: nowrap;
 }
 
 #date_select_main {
@@ -970,29 +995,73 @@ body.loading .modalLoader {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.searchform-top {
-  border:0;
-  margin-top:50px;
-  z-index:10;
-}
-
-.searchform-flight-direction {
-  padding-top:70px;
-  left:50%;
-  width:300px;
-  margin-left: -150px;
-  position: fixed;
-}
-
 .swiper-container {
   background-color: #F2F5F8;
+}
+
+.show-tiles-arrow #tiles_ui .row:after {
+  background-image: url(/images/arrow-right-black.png);
+  position: absolute;
+  width: 48px;
+  height: 175px;
+  z-index: 1000;
+  top: 0;
+  right: 0;
+  background-repeat: no-repeat;
+  background-size: 48px 115px;
+  opacity: 0.3;
+  background-position-y: 28px;
+}
+
+
+@keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-o-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-moz-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% { opacity:0.3; }
+}
+@-webkit-keyframes tileArrowAnimation {
+  0%   { opacity:0.3; }
+  50%  { opacity:0; }
+  100% {
+    opacity: 0.3;; }
+}
+.show-tiles-arrow #tiles_ui .row:after {
+  -webkit-animation: tileArrowAnimation 2s infinite;
+  -moz-animation: tileArrowAnimation 2s infinite;
+  -o-animation: tileArrowAnimation 2s infinite;
+  animation: tileArrowAnimation 2s infinite;
 }
 
 .clickable {
   cursor: pointer;
 }
 
+#searchBanner {
+  width: 300px;
+  left:50%;
+  margin-left: -150px;
+  margin-top: -150px;
+  top: 50%;
+}
+
+#searchBanner > div > .modal-content {
+  background-color: lightgrey;
+}
+
 @media all and (min-width: 480px) {
+  body {
+    padding-top: 30px;
+  }
   .navbar-default .navbar-toggle {
     padding: 0 4px;
   }
