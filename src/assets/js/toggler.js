@@ -511,6 +511,9 @@ $(document).ready(function() {
   $('.search-top-button').click(function () {
     $('#topSearchOnly').val(1);
   });
+  $('.search-button').click(function () {
+    $('#topSearchOnly').val(0);
+  });
   $('#search_form').submit(function (event) {
     var _isError = false;
 

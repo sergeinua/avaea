@@ -515,7 +515,14 @@ module.exports = {
     }
     //DEMO-285 temporary shrink result based on smart rank
     if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
-      itineraries = _.dropRight(itineraries, Math.floor(itineraries.length / 2));
+      sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      var tmp = [];
+      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
+        tmp.push(itineraries[i]);
+      }
+      sails.log.info('before DEMO-285', itineraries.length);
+      itineraries = tmp;
+      sails.log.info('after DEMO-285', itineraries.length);
     }
     // cicstanford.print_many_itineraries(itineraries);
     /* }}} Smart Ranking */
