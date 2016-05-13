@@ -1,3 +1,6 @@
+- name: Stopping "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=stopped
+
 - name: Deploy nginx configs
   template: src=configs/nginx/sites-enabled/{{ APP }}
     dest=/etc/nginx/sites-enabled/{{ nginx.config_name }}
@@ -23,5 +26,5 @@
     key_file=/root/.ssh/bitbucket_rsa
 
 - name: Restart "{{ upstart.service_name }}" service
-  service: name="{{ upstart.service_name }}" state=restarted
+  service: name="{{ upstart.service_name }}" state=started
 
