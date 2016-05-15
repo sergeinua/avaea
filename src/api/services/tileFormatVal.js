@@ -73,8 +73,7 @@ module.exports = {
       if(value2) {
         value2 = convertToHours(value2);
         if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : ' - ')+ value2;
-          //_res = _res +(res_type == 2 ? ', ' : ' &ndash; ')+ value2;
+          _res = _res +(res_type == 2 ? ', ' : ' &ndash; ')+ value2;
       }
     }
 
