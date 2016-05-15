@@ -121,7 +121,7 @@ passport.connect = function (req, query, profile, next) {
             //           authentication provider.
             // Action:   Create a new user and assign them a passport.
             if (!passport) {
-              User.create(user, function (err, user) {
+              User.findOrCreate(user, user, function (err, user) {
                 if (err) {
                   if (err.code === 'E_VALIDATION') {
                     if (err.invalidAttributes.email) {
