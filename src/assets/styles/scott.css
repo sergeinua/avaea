@@ -684,7 +684,7 @@ body.loading .modalLoader {
 }
 
 .search-button {
-  width: 180px;
+  width: 145px;
   height: 48px;
   background-color: #7c1d00;
   border-radius: 5px;
@@ -701,7 +701,7 @@ body.loading .modalLoader {
   box-shadow: 6px 6px 7px  #888888;
 }
 .search-top-button {
-  width: 180px;
+  width: 145px;
   height: 48px;
   background-color: #7c1d00;
   border-radius: 5px;

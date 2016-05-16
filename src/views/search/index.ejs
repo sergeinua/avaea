@@ -112,8 +112,8 @@
   <input type="hidden" name="topSearchOnly" id="topSearchOnly" value="0"/>
   <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
   <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
-  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
-  <button type="submit" class="btn btn-sm btn-primary btn-block search-top-button"><%= __('Show top flights') %></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('All flights') %></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-top-button"><%= __('Top flights') %></button>
 </form>
 
   <!-- Modal -->
