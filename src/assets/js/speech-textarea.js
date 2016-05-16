@@ -11,6 +11,14 @@
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
+
+    final_textarea.keyup(function () {
+      var _value = $.trim($(this).val());
+      if (_value != '' && _value.length > 0) {
+        showButtons(false);
+      }
+    });
+
   } else {
 
     var talkMsg = 'Start Talking';
@@ -191,12 +199,6 @@
 */
   }
 
-  final_textarea.keyup(function () {
-    var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0) {
-      showButtons(false);
-    }
-  });
 
   $('#voiceClearFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
