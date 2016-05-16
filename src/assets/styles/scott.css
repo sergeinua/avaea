@@ -878,7 +878,7 @@ body.loading .modalLoader {
   margin-top: 2px;
   width: 80px;
   height: 40px;
-  background-color: #ff2600;
+  background-color: #7c1d00;
   border-radius: 0;
   font-family: WhitneyHTF-BookCondensed;
   font-size: 20px;
@@ -977,7 +977,7 @@ body.loading .modalLoader {
 }
 
 .error_elem {
-  background-color: #ff2600;
+  background-color: #b92200;
   color: #ffffff;
 }
 .error_elem .flight-date-info-item-depart, .error_elem .flight-date-info-item-return {
