@@ -29,7 +29,7 @@
     <label>Gender</label>
     <%- _res = widgets.dropDownList(profile_fields, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
     <label>Birthday</label>
-    <input type="text" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"  value="<%= profile_fields.birthday %>" />
+    <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"  value="<%= profile_fields.birthday %>" />
     <label>Passenger Type</label>
     <%- _res = widgets.dropDownList(profile_fields, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
     <label>Address</label>

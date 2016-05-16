@@ -47,7 +47,7 @@ module.exports = {
         }
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
         if(typeof reqParams.DateOfBirth == 'object')
-          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('MM/DD/YYYY');
+          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
       }
 
       var id = req.param('id');
