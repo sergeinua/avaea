@@ -2,14 +2,27 @@
   <nav class="navbar navbar-default navbar-fixed-top searchform-top" >
     <div class="flight-type-form">
       <div class="row">
-        <div id="one_way"    class="col-xs-4 flight-type-item"><%= __('One way')%></div>
+        <div id="voice_search" class="col-xs-4 flight-type-item"><i class="fa fa-microphone"></i></div>
+        <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
         <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip') %></div>
-        <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
       </div>
     </div>
   </nav>
 
   <div class="row text-center flight-direction">
+    <div class="col-xs-12 clearfix flight-direction-item-voice-search hidden">
+      <div class="row clearfix">
+        <div class="col-xs-10 voice-search-content si-wrapper">
+          <textarea rows="3" name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Enter/dictate a flight request"></textarea>
+          <i class="fa fa-microphone si-btn" id="start_button"></i>
+        </div>
+        <div class="col-xs-2 voice-search-buttons">
+          <i class="fa fa-search disabled" title="Search" id="voiceSearchFlight"></i>
+          <i class="glyphicon glyphicon-remove disabled" title="Clear" id="voiceClearFlight"></i>
+          <i class="fa fa-check disabled" title="Check" id="checkSearchFlight"></i>
+        </div>
+      </div>
+    </div>
       <div class="col-xs-12 clearfix flight-direction-form">
         <div class="row clearfix">
           <div class="col-xs-6">
@@ -38,7 +51,6 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 flight-direction-item-coming-soon hidden"><%= __('Coming soon') %></div>
   </div>
 
   <div class="flight-date-info row">
