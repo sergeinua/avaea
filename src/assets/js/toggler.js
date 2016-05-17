@@ -15,16 +15,42 @@ $(document).ready(function() {
   var heightNav = 0;
   var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
+  var isMobile = {
+    Android: function() {
+      return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+      return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+      return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+      return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+      return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+    },
+    any: function() {
+      return (typeof window.orientation !== 'undefined' // Deprecated legacy property. But remains for browser which support it
+      || isMobile.Android() || isMobile.iOS() || isMobile.Windows() || isMobile.Opera() || isMobile.BlackBerry());
+    }
+  };
+
   var recalculateBodyPadding = function () {
     setTimeout( function () {
 
         $('body').removeClass('landscape-mode');
         if (window.outerWidth > window.outerHeight) {
           $('body').addClass('landscape-mode');
-          $('#landscapeMode').modal('show');
+          if(isMobile.any()) {
+            $('#landscapeMode').modal('show');
+          }
         }
         else {
-          $('#landscapeMode').modal('hide');
+          if(isMobile.any()) {
+            $('#landscapeMode').modal('hide');
+          }
         }
 
         var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
