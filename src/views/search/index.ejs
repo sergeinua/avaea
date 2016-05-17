@@ -18,10 +18,8 @@
             </div>
             <div id="from-area-selected" class="flight-direction-item-selected hidden">
               <div class="flight-direction-item-from-to"><%= __('from') %></div>
+              <span id="from-airport-selected"></span>
               <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
-              <div>
-                <span id="from-airport-nearleft"></span> <span id="from-airport-selected"></span> <span id="from-airport-nearright"></span>
-              </div>
             </div>
           </div>
           <div class="col-xs-6">
@@ -30,10 +28,8 @@
             </div>
             <div id="to-area-selected" class="flight-direction-item-selected hidden">
               <div class="flight-direction-item-from-to"><%= __('to') %></div>
+              <span id="to-airport-selected"></span>
               <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
-              <div>
-                <span id="to-airport-nearleft"></span> <span id="to-airport-selected"></span> <span id="to-airport-nearright"></span>
-              </div>
             </div>
           </div>
         </div>
@@ -92,8 +88,8 @@
 <script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
-  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"<% if (defaultParams.departNeighbors) { %> nearleft="<%= defaultParams.departNeighbors[0] ? defaultParams.departNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.departNeighbors[1] ? defaultParams.departNeighbors[1].iata_3code : '' %>"<% } %>/>
-  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>"<% if (defaultParams.arrivNeighbors) { %> nearleft="<%= defaultParams.arrivNeighbors[0] ? defaultParams.arrivNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.arrivNeighbors[1] ? defaultParams.arrivNeighbors[1].iata_3code : '' %>"<% } %>/>
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>" />
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>" />
   <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
