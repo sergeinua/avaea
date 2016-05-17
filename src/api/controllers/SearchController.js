@@ -99,7 +99,9 @@ module.exports = {
   result: function (req, res) {
     utils.timeLog('search result');
     var savedParams = {};
+    res.locals.searchId = null;
     if (req.param('s')) {
+      res.locals.searchId = req.param('s');
       var atob = require('atob');
       try {
         var savedParamsTmp = JSON.parse(atob(req.param('s')));

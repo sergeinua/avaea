@@ -592,7 +592,7 @@ $(document).ready(function() {
     //}
     //console.log('Order id:', id);
     if (id) {
-      location.href = '/order?id=' + id;
+      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
 
