@@ -1047,10 +1047,16 @@ body.loading .modalLoader {
   cursor: pointer;
 }
 
-#searchBanner, #landscapeMode {
+#searchBanner {
   width: 300px;
   left:50%;
   margin-left: -150px;
+  margin-top: -150px;
+  top: 50%;
+}
+#landscapeMode {
+  /*left:50%;*/
+  /*margin-left: -150px;*/
   margin-top: -150px;
   top: 50%;
 }

@@ -1103,6 +1103,7 @@ $(document).ready(function() {
     $('body').removeClass('show-tiles-arrow');
   }
 
+  recalculateBodyPadding();
 });
 
 function getCookie(name) {
