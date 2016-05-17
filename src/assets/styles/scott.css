@@ -1047,7 +1047,7 @@ body.loading .modalLoader {
   cursor: pointer;
 }
 
-#searchBanner {
+#searchBanner, #landscapeMode {
   width: 300px;
   left:50%;
   margin-left: -150px;
@@ -1055,7 +1055,8 @@ body.loading .modalLoader {
   top: 50%;
 }
 
-#searchBanner > div > .modal-content {
+#searchBanner > div > .modal-content,
+#landscapeMode > div > .modal-content {
   background-color: lightgrey;
 }
 

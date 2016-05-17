@@ -21,6 +21,10 @@ $(document).ready(function() {
         $('body').removeClass('landscape-mode');
         if (window.outerWidth > window.outerHeight) {
           $('body').addClass('landscape-mode');
+          $('#landscapeMode').modal('show');
+        }
+        else {
+          $('#landscapeMode').modal('hide');
         }
 
         var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
