@@ -150,7 +150,11 @@ require('async').parallel(
 
             data.neighbors = neighbors_kdtree.nearest(data,11).sort(function(a,b) {
                 return a[1]-b[1];
-            }).slice(1).map(function( dd ) {
+            }).filter(function( dd ) {
+		// Exclude the airport itself as its nearest neighbo
+		return dd[0].iata_3code!=iata_3code;
+	    }).map(function( dd ) {
+		// Map the remainder into a data structure
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
             });
 
