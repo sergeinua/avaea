@@ -11,14 +11,6 @@
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
-
-    final_textarea.keyup(function () {
-      var _value = $.trim($(this).val());
-      if (_value != '' && _value.length > 0) {
-        showButtons(false);
-      }
-    });
-
   } else {
 
     var talkMsg = 'Start Talking';
@@ -37,7 +29,7 @@
       var oldPlaceholder = null;
       var recognition = new webkitSpeechRecognition();
       recognition.lang = 'en-US';
-      recognition.continuous = true;
+      //recognition.continuous = true;
       //recognition.interimResults = true;
 
       function restartTimer() {
@@ -78,7 +70,8 @@
       recognition.onend = function() {
         recognizing = false;
         clearTimeout(timeout);
-        micBtn.classList.remove('listening');
+        start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
+        //micBtn.classList.remove('listening');
         if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
       };
 
@@ -90,10 +83,10 @@
           upgrade();
           return;
         }
-
+log(event);
         for (var i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
+            finalTranscript = event.results[i][0].transcript;
           }
         }
         finalTranscript = capitalize(finalTranscript);
@@ -111,6 +104,14 @@
           recognition.stop();
           return;
         }
+
+        final_transcript = '';
+        ignore_onend = false;
+        final_textarea.val('');
+        start_button.toggleClass('fa-microphone fa-microphone-slash');
+        log('info_allow');
+        showButtons(true);
+        start_timestamp = event.timeStamp;
         inputEl.value = finalTranscript = '';
         recognition.start();
       }, false);
@@ -199,6 +200,14 @@
 */
   }
 
+
+
+  final_textarea.keyup(function () {
+    var _value = $.trim($(this).val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
+  });
 
   $('#voiceClearFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
@@ -476,7 +485,7 @@
       }
     }
 
-    $(window).trigger('resize');
+    //$(window).trigger('resize');
 
     speechSearchParse.log(out_field);
   }

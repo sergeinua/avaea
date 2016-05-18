@@ -918,6 +918,7 @@ $(document).ready(function() {
         $('#date_select p.info span.ret').removeClass('hidden');
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
+        $('.search-top-button').show();
         break;
       case 'voice_search':
         $('.flight-direction-item-voice-search').removeClass('hidden');
@@ -930,6 +931,7 @@ $(document).ready(function() {
         $('.flight-date-info').addClass('hidden');
         $('.flight-additional-info').addClass('hidden');
         $('.search-button').hide();
+        $('.search-top-button').hide();
         break;
       case 'one_way':
         $('.flight-direction-item-voice-search').addClass('hidden');
@@ -962,6 +964,7 @@ $(document).ready(function() {
         $('#date_select p.info span.ret').addClass('hidden');
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
+        $('.search-top-button').show();
         break;
     }
   }
