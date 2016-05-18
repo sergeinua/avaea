@@ -2,7 +2,7 @@
 /* global reqParams */
   var orderPrice;
 %>
-<form action="/booking" method="post" id="form_booking">
+<form action="/booking?searchId=<%= reqParams.searchId %>" method="post" id="form_booking">
 
   <div id="searchResultData" class="row">
     <% iterator = 0; %>
