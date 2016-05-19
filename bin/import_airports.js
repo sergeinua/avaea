@@ -158,6 +158,16 @@ require('async').parallel(
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
             });
 
+	    // Some patch to avoid situations when
+	    //   city name is "Tallinn-ulemiste International'
+	    //   aiport name os 'Tallin'
+	    // Should be the other way around
+	    if( (iata_3code=='TLL') || (iata_3code=='ZQN') ) {
+		var tmp = data.city;
+		data.city = data.name;
+		data.name = tmp;
+	    }
+	    
             console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
