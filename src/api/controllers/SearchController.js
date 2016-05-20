@@ -97,7 +97,9 @@ module.exports = {
   result: function (req, res) {
     utils.timeLog('search result');
     var savedParams = {};
+    res.locals.searchId = null;
     if (req.param('s')) {
+      res.locals.searchId = req.param('s');
       var atob = require('atob');
       try {
         var savedParamsTmp = JSON.parse(atob(req.param('s')));
@@ -118,6 +120,7 @@ module.exports = {
           ArrivalLocationCode: !_.isEmpty(savedParams.destinationAirport)?savedParams.destinationAirport:req.param('destinationAirport').trim().toUpperCase(),
           CabinClass: !_.isEmpty(savedParams.preferedClass)?savedParams.preferedClass:req.param('preferedClass').toUpperCase(),
           passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
+          topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
           returnDate: ''
         }
@@ -160,7 +163,7 @@ module.exports = {
     req.session.flightType = params.searchParams.flightType;
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
-    tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
+    // tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     Search.getResult(params, function ( err, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
@@ -179,6 +182,7 @@ module.exports = {
             returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass],
             passengers: params.searchParams.passengers,
+            topSearchOnly: params.searchParams.topSearchOnly,
             flightType: params.searchParams.flightType
           },
           searchResult: []

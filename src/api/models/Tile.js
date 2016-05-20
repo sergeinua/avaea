@@ -484,6 +484,49 @@ module.exports = {
     } else {
       tileArr = _.clone(this.default_tiles, true);
     }
+
+    /* Smart Ranking {{{ */
+    sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+    cicstanford.compute_departure_times_in_minutes(itineraries);
+    cicstanford.determine_airline(itineraries);
+    var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+    var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+    // append the default zero smartRank
+    for (var i = 0; i < itineraries.length; i++) {
+      itineraries[i].smartRank = 0;
+    }
+    // extract all the itinerary IDs into a separate array
+    var ID = itineraries.map(function (it) {
+      return it.id
+    });
+    // the itineraries remained after pruning have a non-zero smartRank
+    for (var i = 0; i < temp_ranked_in_4D.length; i++) {
+      var itin_id = temp_ranked_in_4D[i].id;
+      var itin_index = ID.indexOf(itin_id);
+      itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+    }
+    // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
+    var next_rank = temp_ranked_in_4D.length + 1;
+    for (var i = 0; i < itineraries.length; i++) {
+      if (itineraries[i].smartRank == 0) {
+        itineraries[i].smartRank = next_rank;
+        next_rank++;
+      }
+    }
+    //DEMO-285 temporary shrink result based on smart rank
+    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+      sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      var tmp = [];
+      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
+        tmp.push(itineraries[i]);
+      }
+      sails.log.info('before DEMO-285', itineraries.length);
+      itineraries = tmp;
+      sails.log.info('after DEMO-285', itineraries.length);
+    }
+    // cicstanford.print_many_itineraries(itineraries);
+    /* }}} Smart Ranking */
+
     // Max first displayed items in the tile filter
     var N = Math.floor(itineraries.length / 4);
     var index = null;
@@ -685,36 +728,6 @@ module.exports = {
 
     // Generic processing for both trips: round & one way
     if (itineraries) {
-      /* Smart Ranking {{{ */
-      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
-      // append the default zero smartRank
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
-      }
-      // extract all the itinerary IDs into a separate array
-      var ID = itineraries.map(function (it) {
-        return it.id
-      });
-      // the itineraries remained after pruning have a non-zero smartRank
-      for (var i = 0; i < temp_ranked_in_4D.length; i++) {
-        var itin_id = temp_ranked_in_4D[i].id;
-        var itin_index = ID.indexOf(itin_id);
-        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-      }
-      // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
-      var next_rank = temp_ranked_in_4D.length + 1;
-      for (var i = 0; i < itineraries.length; i++) {
-        if (itineraries[i].smartRank == 0) {
-          itineraries[i].smartRank = next_rank;
-          next_rank++;
-        }
-      }
-      //cicstanford.print_many_itineraries(itineraries);
-      /* }}} Smart Ranking */
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
       Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);

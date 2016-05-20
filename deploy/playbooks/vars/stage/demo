@@ -11,3 +11,5 @@ nginx:
 upstart:
  config_name: stage_demo.conf
  service_name: stage_demo
+
+cache_dir: src/.tmp/public

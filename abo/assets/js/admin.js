@@ -159,7 +159,8 @@ $(document).ready(function() {
     order_itineraries     : {title: 'search',               colorClass: 'warning'},
     on_itinerary_purchase : {title: 'itinerary',            colorClass: 'danger'},
     tile_prediction       : {title: 'tile prediction',      colorClass: 'default'},
-    itinerary_prediction  : {title: 'itinerary prediction', colorClass: 'active'}
+    itinerary_prediction  : {title: 'itinerary prediction', colorClass: 'active'},
+    empty                 : {title: 'empty log',            colorClass: 'danger'}
   };
   var autoscrollme = function () {
     $('#log_table_div').animate({
@@ -243,6 +244,8 @@ $(document).ready(function() {
     }
 
     if (user_id) {
+      lastUpdated = 0;
+      $('#log_actions').html('');
       getLogAction();
       drawCurrentChartType();
     }
@@ -363,7 +366,7 @@ $(document).ready(function() {
         $.extend(true, prevSnowflake, msg);
 
       });
-    }  else {
+    } else {
       $('.user-profile-button').hide();
       user_id = 0;
       if(window.myRadar) {
