@@ -67,7 +67,6 @@ services:
     ports:
       - "11212:11211"
 
-
   postgres:
     build:
       context: .

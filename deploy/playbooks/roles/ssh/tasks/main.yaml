@@ -1,0 +1,8 @@
+- name: Add ssh user keys
+  blockinfile:
+    dest: /home/ubuntu/.ssh/authorized_keys
+    block: |
+      {{ item.key }}
+    marker: "# {{ item.name }}"
+  with_items:
+    - "{{ authorized_users }}"

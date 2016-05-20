@@ -1,0 +1,27 @@
+- name: Deploy a bitbucket key
+  copy: src=vars/production/bitbucket_rsa
+    dest=/root/.ssh/bitbucket_rsa
+    owner=root
+    group=root
+    mode=0400
+
+- name: install npm
+  shell: curl -sL https://deb.nodesource.com/setup_4.x | bash -
+
+- name: installing some dependencies
+  apt: pkg={{ item }} state=installed update_cache=yes
+  with_items:
+  - git
+  - build-essential
+  - nodejs
+
+- name: Copy db dump
+  copy: src=../../images/postgres/data/avaea.sql.gz
+    dest=/tmp
+    owner=root
+    group=root
+    mode=0644
+
+- name: Upload sql dump to db
+  shell: gunzip -c /tmp/avaea.sql.gz | psql -U postgres
+

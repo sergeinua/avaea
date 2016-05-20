@@ -1,0 +1,13 @@
+dir: /root/abo
+
+nginx:
+  listen_host: avaea
+  listen_port: 80
+  server_name: demoabo.avaea.com
+  proxy_pass_host: localhost
+  proxy_pass_port: 8080
+  config_name: abo.conf
+
+upstart:
+ config_name: abo.conf
+ service_name: abo
