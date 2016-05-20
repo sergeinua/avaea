@@ -1,6 +1,11 @@
 - name: Stopping "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=stopped
 
+- name: Reset cached folders
+  file:
+    path={{ dir }}/{{ cache_dir }}/
+    state=absent
+
 - name: Update codebase
   git: repo=git@bitbucket.org:avaea_eng/avaea.git
     dest="{{ dir }}"
@@ -33,4 +38,3 @@
 
 - name: Restart "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=started
-

@@ -150,10 +150,24 @@ require('async').parallel(
 
             data.neighbors = neighbors_kdtree.nearest(data,11).sort(function(a,b) {
                 return a[1]-b[1];
-            }).slice(1).map(function( dd ) {
+            }).filter(function( dd ) {
+		// Exclude the airport itself as its nearest neighbo
+		return dd[0].iata_3code!=iata_3code;
+	    }).map(function( dd ) {
+		// Map the remainder into a data structure
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
             });
 
+	    // Some patch to avoid situations when
+	    //   city name is "Tallinn-ulemiste International'
+	    //   aiport name os 'Tallin'
+	    // Should be the other way around
+	    if( (iata_3code=='TLL') || (iata_3code=='ZQN') ) {
+		var tmp = data.city;
+		data.city = data.name;
+		data.name = tmp;
+	    }
+	    
             console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
