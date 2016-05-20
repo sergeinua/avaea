@@ -74,7 +74,7 @@ module.exports = {
           return res.view('order', {
             user: req.user,
             reqParams: reqParams,
-            head_content: Search.getHeadContent(),
+            head_content: Search.getHeadContent(req.param('searchId')),
             order:[logData.itinerary]
           });
         }

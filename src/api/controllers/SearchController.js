@@ -76,9 +76,7 @@ module.exports = {
         if(!err)
         {
           params.departCity = results.depart_city.city;
-          params.departNeighbors = results.depart_city.neighbors ? JSON.parse(results.depart_city.neighbors).slice(0,2) : [{"iata_3code": "", "distance": 0},{"iata_3code": "", "distance": 0}];
           params.arrivCity = results.arriv_city.city;
-          params.arrivNeighbors = results.depart_city.neighbors ? JSON.parse(results.arriv_city.neighbors).slice(0,2) : [{"iata_3code": "", "distance": 0},{"iata_3code": "", "distance": 0}];
         }
 
         return res.view('search/index', {
@@ -99,7 +97,9 @@ module.exports = {
   result: function (req, res) {
     utils.timeLog('search result');
     var savedParams = {};
+    res.locals.searchId = null;
     if (req.param('s')) {
+      res.locals.searchId = req.param('s');
       var atob = require('atob');
       try {
         var savedParamsTmp = JSON.parse(atob(req.param('s')));
@@ -120,6 +120,7 @@ module.exports = {
           ArrivalLocationCode: !_.isEmpty(savedParams.destinationAirport)?savedParams.destinationAirport:req.param('destinationAirport').trim().toUpperCase(),
           CabinClass: !_.isEmpty(savedParams.preferedClass)?savedParams.preferedClass:req.param('preferedClass').toUpperCase(),
           passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
+          topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
           returnDate: ''
         }
@@ -181,6 +182,7 @@ module.exports = {
             returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass],
             passengers: params.searchParams.passengers,
+            topSearchOnly: params.searchParams.topSearchOnly,
             flightType: params.searchParams.flightType
           },
           searchResult: []
