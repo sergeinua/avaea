@@ -156,8 +156,8 @@ module.exports = {
    * Used in the booking as temporary link for last result of the flights search
    * @returns {string}
    */
-  getHeadContent: function() {
-    return '<span onclick="window.history.back();">&lt; Flights</span>';
+  getHeadContent: function(searchId) {
+    return '<span onclick="window.location.href=\'/result?s='+searchId+'\'">&lt; Flights</span>';
   }
 };
 

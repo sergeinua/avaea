@@ -71,7 +71,13 @@ module.exports = {
           });
       } else {
         return res.json({
-            userActions:[]
+            userActions:[{
+              actionType: 'empty',
+              user: userId,
+              createdAt: 0,
+              id: 0,
+              logInfo: {error: 'Cant find actions data for user id #' + userId}
+            }]
           });
       }
     });
