@@ -163,7 +163,7 @@ module.exports = {
     req.session.flightType = params.searchParams.flightType;
 
     Tile.tiles = _.clone(Tile.default_tiles, true);
-    tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
+    // tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     Search.getResult(params, function ( err, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
