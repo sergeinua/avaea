@@ -11,3 +11,5 @@ nginx:
 upstart:
   config_name: demo.conf
   service_name: demo
+
+cache_dir: src/.tmp/public

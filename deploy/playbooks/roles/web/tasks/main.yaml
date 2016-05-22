@@ -1,5 +1,10 @@
+- name: Check if upstart config file exists or not
+  stat: path=/etc/init/{{ upstart.config_name }}
+  register: upstart_path
+
 - name: Stopping "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=stopped
+  when: upstart_path.stat.exists == True
 
 - name: Reset cached folders
   file:

@@ -5,6 +5,11 @@
 - name: Stopping "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=stopped
   when: upstart_path.stat.exists == True
+  
+- name: Reset cached folders
+  file:
+    path={{ dir }}/{{ cache_dir }}/
+    state=absent
 
 - name: Get a codebase for service
   git: repo=git@bitbucket.org:avaea_eng/avaea.git
