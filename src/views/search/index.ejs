@@ -2,14 +2,27 @@
   <nav class="navbar navbar-default navbar-fixed-top searchform-top" >
     <div class="flight-type-form">
       <div class="row">
-        <div id="one_way"    class="col-xs-4 flight-type-item"><%= __('One way')%></div>
+        <div id="voice_search" class="col-xs-4 flight-type-item"><i class="fa fa-microphone"></i></div>
+        <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
         <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip') %></div>
-        <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
       </div>
     </div>
   </nav>
 
   <div class="row text-center flight-direction">
+    <div class="col-xs-12 clearfix flight-direction-item-voice-search hidden">
+      <div class="row clearfix">
+        <div class="col-xs-10 voice-search-content si-wrapper">
+          <textarea rows="3" name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Enter/dictate a flight request"></textarea>
+          <i class="fa fa-microphone si-btn" id="start_button"></i>
+        </div>
+        <div class="col-xs-2 voice-search-buttons">
+          <i class="fa fa-search disabled" title="Search" id="voiceSearchFlight"></i>
+          <i class="glyphicon glyphicon-remove disabled" title="Clear" id="voiceClearFlight"></i>
+          <i class="fa fa-check disabled" title="Check" id="checkSearchFlight"></i>
+        </div>
+      </div>
+    </div>
       <div class="col-xs-12 clearfix flight-direction-form">
         <div class="row clearfix">
           <div class="col-xs-6">
@@ -18,10 +31,8 @@
             </div>
             <div id="from-area-selected" class="flight-direction-item-selected hidden">
               <div class="flight-direction-item-from-to"><%= __('from') %></div>
+              <span id="from-airport-selected"></span>
               <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
-              <div>
-                <span id="from-airport-nearleft"></span> <span id="from-airport-selected"></span> <span id="from-airport-nearright"></span>
-              </div>
             </div>
           </div>
           <div class="col-xs-6">
@@ -30,15 +41,12 @@
             </div>
             <div id="to-area-selected" class="flight-direction-item-selected hidden">
               <div class="flight-direction-item-from-to"><%= __('to') %></div>
+              <span id="to-airport-selected"></span>
               <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
-              <div>
-                <span id="to-airport-nearleft"></span> <span id="to-airport-selected"></span> <span id="to-airport-nearright"></span>
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-xs-12 flight-direction-item-coming-soon hidden"><%= __('Coming soon') %></div>
   </div>
 
   <div class="flight-date-info row">
@@ -92,14 +100,16 @@
 <script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
 
 <form action="/result" method="post" id="search_form" >
-  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>"<% if (defaultParams.departNeighbors) { %> nearleft="<%= defaultParams.departNeighbors[0] ? defaultParams.departNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.departNeighbors[1] ? defaultParams.departNeighbors[1].iata_3code : '' %>"<% } %>/>
-  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>"<% if (defaultParams.arrivNeighbors) { %> nearleft="<%= defaultParams.arrivNeighbors[0] ? defaultParams.arrivNeighbors[0].iata_3code : '' %>" nearright="<%= defaultParams.arrivNeighbors[1] ? defaultParams.arrivNeighbors[1].iata_3code : '' %>"<% } %>/>
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>" />
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>" />
   <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
   <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
   <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
+  <input type="hidden" name="topSearchOnly" id="topSearchOnly" value="0"/>
   <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
   <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
-  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('Show all flights') %></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-button"><%= __('All flights') %></button>
+  <button type="submit" class="btn btn-sm btn-primary btn-block search-top-button"><%= __('Top flights') %></button>
 </form>
 
   <!-- Modal -->
@@ -109,12 +119,13 @@
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body">
-          We are searching best priced flights and constructing smart filters, to help you select your perfect flight.
+          We are searching best priced flights and constructing smart filters to help you select your perfect flight.
         </div>
       </div>
 
     </div>
   </div>
+  <%- partial('landscape')%>
 
   <div id="planePath" class="hidden" style="position:absolute;left:0;bottom:0;z-index:99999; width:100%;height: 50px; background-color: white;">
     <div id="plane" style="position:absolute;left:0;bottom:0;z-index:99999">
