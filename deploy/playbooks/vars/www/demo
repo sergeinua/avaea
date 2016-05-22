@@ -13,3 +13,5 @@ upstart:
  service_name: demo
 
 cache_dir: src/.tmp/public
+
+node_env: production
