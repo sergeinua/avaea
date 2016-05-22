@@ -31,7 +31,7 @@ module.exports = {
     this.find({user: user, uuid: uuid}).exec(function (err, rows) {
       var tiles = _.clone(Tile.default_tiles, true);
       if (!err && !_.isEmpty(rows)) {
-        newtiles = _.map(tiles, function (item) {
+        var newtiles = _.map(tiles, function (item) {
           var r = {};
           var i = _.findIndex(rows, {tile_name: item.id});
           if (i !== -1) {
@@ -46,7 +46,17 @@ module.exports = {
         result[uuid] = newtiles;
         return cb(null, result);
       } else {
-        return cb(null, {});
+        sails.log.error('did not find tiles prediction for uuid: ['+uuid+'] userId #'+user);
+
+        var newtiles = _.map(Tile.default_tiles, function (item) {
+          var r = {};
+          r[item.id] = item.order;
+          return r;
+        });
+        var result = {};
+        result[uuid] = newtiles;
+
+        return cb(null, result);
       }
     });
   }
