@@ -235,8 +235,8 @@
         <% } %></div>
       </div>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.from.date).format('DD MMM YYYY') %></div>
+        <div class="col-xs-4 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
+        <div class="col-xs-5"><%= sails.moment(flight.from.date).format('DD MMM YYYY') %></div>
         <div class="col-xs-3"><%= flight.from.code %></div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
@@ -245,8 +245,8 @@
         <div class="col-xs-4 text-right"><%= stop.duration %></div>
       </div><% }); %><% } %>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.to.date).format('DD MMM YYYY') %></div>
+        <div class="col-xs-4 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
+        <div class="col-xs-5"><%= sails.moment(flight.to.date).format('DD MMM YYYY') %></div>
         <div class="col-xs-3"><%= flight.to.code %></div>
       </div>
       <% }); %>
