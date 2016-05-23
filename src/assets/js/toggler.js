@@ -433,7 +433,7 @@ $(document).ready(function() {
           cb(msg ? msg : []);
         })
         .fail(function (msg) {
-          cb([{city: "System error", name: "please try later", value: "---"}]);
+          cb([{city: '', name: 'Error, please try later', value: ''}]);
         });
     };
   };
@@ -490,6 +490,9 @@ $(document).ready(function() {
         '</div>'
       ].join('\n'),
       suggestion: function(vars) {
+        if(vars.value === '') {
+          return '<div class="empty-message">'+ vars.name + '</div>';
+        }
         return '<div>('+vars.value+') '+vars.city+', '+vars.name+'</div>';
       }
     }
