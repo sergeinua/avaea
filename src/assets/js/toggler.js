@@ -433,7 +433,7 @@ $(document).ready(function() {
           cb(msg ? msg : []);
         })
         .fail(function (msg) {
-          cb([{city: "System error", name: "please try later", value: "---"}]);
+          cb([]);
         });
     };
   };
