@@ -189,7 +189,15 @@
         <% }); %>
       </div>
       <div class="col-xs-3 buy-button">
-        <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+        <div class="btn-group text-nowrap">
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a id="buy-cron-button-<%= i %>" href="#" class="our-dropdown">or better</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -231,27 +239,24 @@
       </div>
       <% } %>
       <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
+        <div class="col-xs-3 text-nowrap">
+          <strong><%= (pair.direction == 'Depart' ? '&#128747; ' : '&#128748; ') + flight.abbrNumber %></strong>
+        </div>
         <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
         <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
           <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
         <% } %></div>
       </div>
       <div class="row">
-        <div class="col-xs-4 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
-        <div class="col-xs-5"><%= sails.moment(flight.from.date).format('DD MMM YYYY') %></div>
-        <div class="col-xs-3"><%= flight.from.code %></div>
+        <div class="col-xs-4 text-nowrap"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
+        <div class="col-xs-4 text-nowrap"><%= flight.from.code %> <%= flight.to.code %></div>
+        <div class="col-xs-4 text-nowrap"><%= flight.from.time%>-<%= flight.to.time %></div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
         <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
         <div class="col-xs-2"><%= stop.code %></div>
         <div class="col-xs-4 text-right"><%= stop.duration %></div>
       </div><% }); %><% } %>
-      <div class="row">
-        <div class="col-xs-4 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
-        <div class="col-xs-5"><%= sails.moment(flight.to.date).format('DD MMM YYYY') %></div>
-        <div class="col-xs-3"><%= flight.to.code %></div>
-      </div>
       <% }); %>
     <% }); %></div></div>
 
