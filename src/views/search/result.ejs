@@ -186,7 +186,15 @@
         <% }); %>
       </div>
       <div class="col-xs-3 buy-button">
-        <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+        <div class="btn-group text-nowrap">
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a id="buy-cron-button-<%= i %>" href="#" class="our-dropdown">or better</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
