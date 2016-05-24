@@ -1165,8 +1165,9 @@ module.exports = {
             itinerary.information.push(infoItem);
           }
         });
-        itinerary.specialprice = parseInt(itinerary.price) + additionalPrice;
+        itinerary.specialprice = parseFloat(itinerary.price) + additionalPrice;
         itinerary.specialprice = itinerary.specialprice.toFixed(2);
+        itinerary.additionalPrice = additionalPrice.toFixed(2);
         delete itinerary.informationTmp;
 
 
