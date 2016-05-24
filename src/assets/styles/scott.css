@@ -1069,6 +1069,18 @@ body.loading .modalLoader {
   background-color: lightgrey;
 }
 
+.btn-sm, .btn-group-sm > .btn {
+  padding: 4px;
+}
+
+.our-dropdown {
+  padding: 4px !important;
+}
+
+.dropdown-menu {
+  min-width: 60px;
+}
+
 @media all and (min-width: 480px) {
   body {
     padding-top: 30px;
