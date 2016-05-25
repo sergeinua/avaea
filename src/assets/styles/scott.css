@@ -921,6 +921,14 @@ body.loading .modalLoader {
 .datepicker table td.day {
   line-height: 16px !important;
 }
+
+.dropdown-menu {
+  background-color: #204D74;
+}
+.dropdown-menu>li>a.our-dropdown {
+  color: white;
+}
+
 /* iPhone 6+ */
 @media (min-width: 414px) {
   .datepicker table td.day {
