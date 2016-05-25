@@ -176,54 +176,6 @@
     $('.navbar-header').css('height', heightNav);
   });
 
-  var drawAirportData = function (target) {
-    var cityName = $('#' + target).attr('city');
-    var nearleftCode = $('#' + target).attr('nearleft');
-    var nearrightCode = $('#' + target).attr('nearright');
-    var airportCode = $('#' + target).val();
-    if (target == 'originAirport') {
-      if (airportCode) {
-        $('#from-airport-selected').text(airportCode);
-        $('#from-city-selected').text(cityName);
-        $('#from-airport-nearleft').text(nearleftCode);
-        $('#from-airport-nearright').text(nearrightCode);
-        if($('#from-area').hasClass("error_elem")) {
-          $('#from-area').removeClass("error_elem");
-        }
-      } else {
-        $('#from-airport-selected').text('');
-        $('#from-city-selected').text('');
-      }
-    } else if (target == 'destinationAirport') {
-      if (airportCode) {
-        $('#to-airport-selected').text(airportCode);
-        $('#to-city-selected').text(cityName);
-        $('#to-airport-nearleft').text(nearleftCode);
-        $('#to-airport-nearright').text(nearrightCode);
-        if($('#to-area').hasClass("error_elem")) {
-          $('#to-area').removeClass("error_elem");
-        }
-      } else {
-        $('#to-airport-selected').text('');
-        $('#to-city-selected').text('');
-      }
-    }
-  };
-  var setAirportData = function(target, data) {
-    $('#' + target).val(data.value);
-    $('#' + target).attr('city', data.city);
-    $('#' + target).attr('nearleft', data.neighbors[0].iata_3code);
-    $('#' + target).attr('nearright', data.neighbors[1].iata_3code);
-  };
-
-  $('#airport-input').bind('typeahead:render', function (ev, item) {
-    if (item && item.value) {
-      setAirportData($(this).attr('target'), item);
-      drawAirportData($(this).attr('target'));
-    }
-  });
-
-
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
 
@@ -289,14 +241,28 @@
     var cities = speechSearchParse.parseCities(text);
     if (cities && (cities[0] || cities[1])) {
       if (cities[0]) {
-        $('#airport-input').attr('target', 'originAirport');
-        $('#airport-input').typeahead('val', cities[0]);
-        //$('#originAirport').typeahead('val', cities[0]);
+        var target = 'originAirport';
+        $.ajax({
+          url: '/ac/airports',
+          type: 'get',
+          data: {q: cities[0], l: 1},
+          dataType: 'json'
+        }).done(function( msg ) {
+          setAirportData(target, msg[0]);
+          drawAirportData(target);
+        });
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
-        $('#airport-input').attr('target', 'destinationAirport');
-        $('#airport-input').typeahead('val', cities[1]);
-        //$('#destinationAirport').typeahead('val', cities[1]);
+        var target = 'destinationAirport';
+        $.ajax({
+          url: '/ac/airports',
+          type: 'get',
+          data: {q: cities[1], l: 1},
+          dataType: 'json'
+        }).done(function( msg ) {
+          setAirportData(target, msg[0]);
+          drawAirportData(target);
+        });
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
       + " The trip is from " + cities[0] + " to " + cities[1];
