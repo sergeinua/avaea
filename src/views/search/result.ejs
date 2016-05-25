@@ -123,50 +123,53 @@
         <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
         <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
 
-        <!-- Modal -->
-        <div id="flightInfo<%= i%>" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-xs-6"><%= __('Fare') %></div>
-                  <div class="col-xs-6 text-right">$<%= sRes.price %></div>
-                </div>
-                <% sRes.information.forEach(function (item) { %>
-                <div class="row">
-                  <div class="col-xs-6">
-                    <span style='color:red;text-decoration: underline; text-transform: none'>
-                      <span style='color:black; font-size: 18px'><%= item.name %></span>
-                    </span>
-                  </div>
-                  <div class="col-xs-6 text-right">$<%= item.price %></div>
-                </div>
-                <% }); %>
-                <div class="row">
-                  <div class="col-xs-6 text-right"><%= __('Price') %></div>
-                  <div class="col-xs-6 text-right">
-                    <span style='color:red;text-decoration:line-through'>
-                      <span style='color:black; font-size: 18px'>$<%= sRes.specialprice %></span>
-                    </span>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-6 text-right" style="color: red"><%= __('Your Price') %></div>
-                  <div class="col-xs-6 text-right" style="color: red">$<%= sRes.price %></div>
-                </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
 
         <% } %>
       </div>
+      <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
+      <!-- Modal -->
+      <div id="flightInfo<%= i%>" class="modal fade" role="dialog" style="font-family: WhitneyHTF-MediumCondensed; font-size: 16px;">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-xs-6"><%= __('Fare') %></div>
+                <div class="col-xs-6 text-right">$<%= sRes.specialprice %></div>
+              </div>
+              <div class="row">
+                <div class="col-xs-11 col-xs-offset-1"><%= __('includes') %>:</div>
+              </div>
+              <% sRes.information.forEach(function (item) { %>
+              <div class="row">
+                <div class="col-xs-5 col-xs-offset-1">
+                    <span>
+                      <span><%= item.name %></span>
+                    </span>
+                </div>
+                <div class="col-xs-6 text-right">$<%= item.price.toFixed(2) %></div>
+              </div>
+              <% }); %>
+              <div class="row" style="border-top: 1px solid #e5e5e5;">
+                <div class="col-xs-8"><%= sRes.citypairs[0].from.airline %> <%= __('discount') %>:</div>
+                <div class="col-xs-4 text-right">
+                  <span style='color:red;'>- $<%= sRes.additionalPrice %></span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-8"><%= __('Your Price') %>:</div>
+                <div class="col-xs-4 text-right">$<%= sRes.price %></div>
+              </div>
+            </div>
+            <div class="modal-footer" style="border-top: none; background-color: #F2F5F8; border-bottom-right-radius: 6px; border-bottom-left-radius: 6px;">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <% } %>
       <!--div class="col-xs-3 text-center itinerary-price">
         <% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
       </div-->
@@ -186,7 +189,15 @@
         <% }); %>
       </div>
       <div class="col-xs-3 buy-button">
-        <button class="btn btn-sm btn-primary btn-block center-block"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+        <div class="btn-group text-nowrap">
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a id="buy-cron-button-<%= i %>" href="#" class="our-dropdown">or better</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -228,27 +239,24 @@
       </div>
       <% } %>
       <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
+        <div class="col-xs-3 text-nowrap">
+          <strong><%= (pair.direction == 'Depart' ? '&#128747; ' : '&#128748; ') + flight.abbrNumber %></strong>
+        </div>
         <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
         <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
           <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
         <% } %></div>
       </div>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.from.date).format('DD MMM YYYY') %></div>
-        <div class="col-xs-3"><%= flight.from.code %></div>
+        <div class="col-xs-4 text-nowrap"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
+        <div class="col-xs-4 text-nowrap"><%= flight.from.code %> <%= flight.to.code %></div>
+        <div class="col-xs-4 text-nowrap"><%= flight.from.time%>-<%= flight.to.time %></div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
         <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
         <div class="col-xs-2"><%= stop.code %></div>
         <div class="col-xs-4 text-right"><%= stop.duration %></div>
       </div><% }); %><% } %>
-      <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
-        <div class="col-xs-3"><%= sails.moment(flight.to.date).format('DD MMM YYYY') %></div>
-        <div class="col-xs-3"><%= flight.to.code %></div>
-      </div>
       <% }); %>
     <% }); %></div></div>
 
