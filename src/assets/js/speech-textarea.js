@@ -71,7 +71,9 @@
       recognition.onend = function() {
         recognizing = false;
         clearTimeout(timeout);
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-pause');
+        start_button.removeClass('listening');
+        start_button.removeClass('fa-repeat');
+        start_button.removeClass('fa-pause').addClass('fa-microphone');
         //micBtn.classList.remove('listening');
         if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
       };
@@ -99,20 +101,33 @@
         } else {
           inputEl.innerHTML = oldPlaceholder;
         }
-        start_button.removeClass('listening fa-microphone fa-pause').addClass('fa-repeat');
+        start_button.removeClass('listening');
+        start_button.removeClass('fa-microphone');
+        start_button.removeClass('fa-pause').addClass('fa-repeat');
       };
 
       micBtn.addEventListener('click', function(event) {
         event.preventDefault();
         if (recognizing) {
+          if (start_button.hasClass('fa-repeat')) {
+            clearVoiceSearch();
+            start_button.removeClass('listening');
+            start_button.removeClass('fa-repeat');
+            start_button.removeClass('fa-pause').addClass('fa-microphone');
+          } else {
+            start_button.removeClass('listening');
+            start_button.removeClass('fa-repeat');
+            start_button.removeClass('fa-pause').addClass('fa-microphone');
+          }
           recognition.stop();
           return;
         }
 
-        clearVoiceSearch();
         final_transcript = '';
         ignore_onend = false;
-        start_button.toggleClass('fa-repeat fa-microphone fa-pause');
+        start_button.removeClass('listening');
+        start_button.removeClass('fa-microphone');
+        start_button.removeClass('fa-repeat').addClass('fa-pause');
         log('info_allow');
         showButtons(true);
         start_timestamp = event.timeStamp;
@@ -126,7 +141,7 @@
   var clearVoiceSearch = function () {
     if ($(this).hasClass('disabled')) return;
 
-    final_textarea.innerHTML = oldPlaceholder;
+    final_textarea.empty();
     final_transcript = '';
     recognizing = false;
 
