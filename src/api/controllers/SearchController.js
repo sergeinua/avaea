@@ -178,8 +178,8 @@ module.exports = {
           searchParams: {
             DepartureLocationCode: params.searchParams.DepartureLocationCode,
             ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
-            departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
+            departureDate: sails.moment(depDate).format('DD MMM'),
+            returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
             CabinClass: serviceClass[params.searchParams.CabinClass],
             passengers: params.searchParams.passengers,
             topSearchOnly: params.searchParams.topSearchOnly,
@@ -215,8 +215,8 @@ module.exports = {
           searchParams: {
             DepartureLocationCode: params.DepartureLocationCode,
             ArrivalLocationCode: params.ArrivalLocationCode,
-            departureDate: (retDate)?sails.moment(depDate).format('DD MMM'):sails.moment(depDate).format('DD MMM YYYY'),
-            returnDate: (retDate)?sails.moment(retDate).format('DD MMM YYYY'):'',
+            departureDate: sails.moment(depDate).format('DD MMM'),
+            returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
             CabinClass: serviceClass[params.CabinClass],
             passengers: params.passengers,
             flightType: params.flightType

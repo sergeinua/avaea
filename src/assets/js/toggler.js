@@ -466,7 +466,7 @@ $(document).ready(function() {
           cb(msg ? msg : []);
         })
         .fail(function (msg) {
-          cb([{city: "System error", name: "please try later", value: "---"}]);
+          cb([]);
         });
     };
   };
@@ -847,7 +847,7 @@ $(document).ready(function() {
     var moment_dp = $('#depart_picker').data("DateTimePicker").date();
     var moment_rp = $('#return_picker').data("DateTimePicker").date();
     var _isError = false;
-    
+
     // cache values
     $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
     $('#returnDate').data('date', moment_rp.format('YYYY-MM-DD'));
@@ -1071,11 +1071,12 @@ $(document).ready(function() {
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
     $('#airport-input').focus();
-    if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
-      $('#airport-input').attr('target', 'originAirport');
-    } else {
-      $('#airport-input').attr('target', 'destinationAirport');
-    }
+    var target = ($(this).is('#from-area') || $(this).is('#from-area-selected') ? 'origin' : 'destination') + 'Airport';
+    $('#airport-input').attr('target', target);
+    var val = $('#' + target).val();
+    $('#airport-input').val(val);
+    $('#airport-input').typeahead('val', val);
+    $('#airport-input').typeahead('open');
   });
 
   $('#search_button_top').on('click', function () {
