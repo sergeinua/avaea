@@ -89,7 +89,7 @@
 
         for (var i = event.resultIndex; i < event.results.length; ++i) {
           if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
+            finalTranscript = event.results[i][0].transcript;
           }
         }
         finalTranscript = capitalize(finalTranscript);
