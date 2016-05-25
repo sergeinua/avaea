@@ -488,10 +488,10 @@ body.loading .modalLoader {
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 .flight-direction-item {
   width: 100px;
@@ -505,7 +505,7 @@ body.loading .modalLoader {
   margin: 0 auto;
 }
 
-.flight-direction-item-coming-soon, .flight-direction-item-voice-search {
+.flight-direction-item-coming-soon {
   font-family: WhitneyHTF-MediumCondensed;
   font-size: 18px;
   line-height: 1.1;
@@ -515,7 +515,11 @@ body.loading .modalLoader {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+     -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+       -o-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
 }
 
 .flight-direction-item-from-to {
