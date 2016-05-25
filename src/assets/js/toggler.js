@@ -812,36 +812,51 @@ $(document).ready(function() {
   // }}} bind dp.change event
 
   // Tapable date elements {{{
-  function changeDate(event) {
-    var picker_id = '#'+ event.data.picker_id;
-    var dest_date = $(picker_id).data("DateTimePicker").date();
-    var cur_year = moment().year();
+  if (false) { // TODO: DEMO-332: disabled instead of ger rid, this is approved by Igor Markov for the later stage
+    function changeDate(event) {
+      event.stopPropagation();
+      var picker_id = '#' + event.data.picker_id;
+      var dest_date = $(picker_id).data("DateTimePicker").date();
+      var cur_year = moment().year();
 
-    if((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
-      dest_date.year(cur_year);
+      if ((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
+        dest_date.year(cur_year);
+      }
+      else {
+        dest_date.add(1, event.data.date_key);
+      }
+
+      // Set new date in the datetimepicker. Also dp.change event will emits
+      $(picker_id).data("DateTimePicker").date(dest_date);
+
+      // Finalize dates choice
+      finalizeValues(false);
     }
-    else {
-      dest_date.add(1, event.data.date_key);
-    }
 
-    // Set new date in the datetimepicker. Also dp.change event will emits
-    $(picker_id).data("DateTimePicker").date(dest_date);
+    $('.flight-date-info-item.sel.dep .tap-date').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.dep .tap-month').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'months'
+    }, changeDate);
 
-    // Finalize dates choice
-    finalizeValues(false);
+    $('.flight-date-info-item.sel.ret .tap-date').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.ret .tap-month').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'months'
+    }, changeDate);
   }
-
-  $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
-
-  $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
   // }}}} Tapable date elements
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
     heightNav = $('.navbar-header').outerHeight(true);
-    $('.navbar-header').height('50px');
+    $('.navbar-header').height(heightNav);
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');
