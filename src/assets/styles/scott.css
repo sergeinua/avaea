@@ -505,7 +505,7 @@ body.loading .modalLoader {
   margin: 0 auto;
 }
 
-.flight-direction-item-coming-soon, .flight-direction-item-voice-search {
+.flight-direction-item-coming-soon {
   font-family: WhitneyHTF-MediumCondensed;
   font-size: 18px;
   line-height: 1.1;
