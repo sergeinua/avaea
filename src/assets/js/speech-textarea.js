@@ -165,13 +165,15 @@
 
   $('#voiceSearchFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
-
+    var heightNav = $('.navbar-header').outerHeight(true);
     demo();
+
     if (roundTrip) {
       $('#round_trip').trigger('click');
     } else {
       $('#one_way').trigger('click');
     }
+    $('.navbar-header').css('height', heightNav);
   });
 
   function notSupported() {
