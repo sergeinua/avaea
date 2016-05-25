@@ -9,6 +9,39 @@ var fly = function (target) {
 };
 
 $(document).ready(function() {
+  $("#user-price-modal").modal();
+
+  $("#form_user_price").validate({
+    rules: {
+      user_timelimit: {
+        required: true,
+        digits: true,
+        minlength: 1,
+        maxlength: 2
+      },
+      user_price: {
+        required: true,
+        digits: true,
+        minlength: 2,
+        maxlength: 5
+      }
+    },
+    errorPlacement: function(error, element){}, // Skip error messages
+    highlight: function(input) {
+      $(input).parent().addClass('has-error');
+    },
+    unhighlight: function(input) {
+      $(input).parent().removeClass('has-error');
+    },
+    submitHandler: function(form) {
+      $('.itinerary-price').text('$' + $('#user_price').val() + '*');
+      $('#user-time-limit-target-div').removeClass('hidden');
+      $('#user-time-limit-target').text($('#user_timelimit').val());
+      $("#user-price-modal").modal("hide");
+      return false;
+    }
+  });
+
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
@@ -433,7 +466,7 @@ $(document).ready(function() {
           cb(msg ? msg : []);
         })
         .fail(function (msg) {
-          cb([{city: "System error", name: "please try later", value: "---"}]);
+          cb([]);
         });
     };
   };
@@ -593,14 +626,17 @@ $(document).ready(function() {
     //$('#buy_button').removeAttr('disabled');
   });
 
-  $('.buy-button>button').click(function (event) {
+  $('[id*=buy-button-]').click(function (event) {
     var id = $(this).parents('.itinerary').attr('id');
-    //if ($('.itinerary.selected')) {
-    //  id = $('.selected').attr('id');
-    //}
-    //console.log('Order id:', id);
     if (id) {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
+    }
+  });
+
+  $('[id*=buy-cron-button-]').click(function (event) {
+    var id = $(this).parents('.itinerary').attr('id');
+    if (id) {
+      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val() + '&special=1';
     }
   });
 
@@ -811,7 +847,7 @@ $(document).ready(function() {
     var moment_dp = $('#depart_picker').data("DateTimePicker").date();
     var moment_rp = $('#return_picker').data("DateTimePicker").date();
     var _isError = false;
-    
+
     // cache values
     $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
     $('#returnDate').data('date', moment_rp.format('YYYY-MM-DD'));
@@ -1113,11 +1149,12 @@ $(document).ready(function() {
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
     $('#airport-input').focus();
-    if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
-      $('#airport-input').attr('target', 'originAirport');
-    } else {
-      $('#airport-input').attr('target', 'destinationAirport');
-    }
+    var target = ($(this).is('#from-area') || $(this).is('#from-area-selected') ? 'origin' : 'destination') + 'Airport';
+    $('#airport-input').attr('target', target);
+    var val = $('#' + target).val();
+    $('#airport-input').val(val);
+    $('#airport-input').typeahead('val', val);
+    $('#airport-input').typeahead('open');
   });
 
   $('#search_button_top').on('click', function () {
