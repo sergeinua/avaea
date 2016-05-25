@@ -8,6 +8,47 @@ var fly = function (target) {
   $(target).css('left', pos.left+speed);
 };
 
+var setAirportData = function(target, data) {
+  $('#' + target).val(data.value);
+  $('#' + target).attr('city', data.city);
+};
+
+var drawAirportData = function (target) {
+  var cityName = $('#' + target).attr('city');
+  var airportCode = $('#' + target).val();
+  if (target == 'originAirport') {
+    if (airportCode) {
+      $('#from-area').addClass('hidden');
+      $('#from-area-selected').removeClass('hidden');
+      $('#from-airport-selected').text(airportCode);
+      $('#from-city-selected').text(cityName);
+      if($('#from-area').hasClass("error_elem")) {
+        $('#from-area').removeClass("error_elem");
+      }
+    } else {
+      $('#from-area-selected').addClass('hidden');
+      $('#from-area').removeClass('hidden');
+      $('#from-airport-selected').text('');
+      $('#from-city-selected').text('');
+    }
+  } else if (target == 'destinationAirport') {
+    if (airportCode) {
+      $('#to-area').addClass('hidden');
+      $('#to-area-selected').removeClass('hidden');
+      $('#to-airport-selected').text(airportCode);
+      $('#to-city-selected').text(cityName);
+      if($('#to-area').hasClass("error_elem")) {
+        $('#to-area').removeClass("error_elem");
+      }
+    } else {
+      $('#to-area-selected').addClass('hidden');
+      $('#to-area').removeClass('hidden');
+      $('#to-airport-selected').text('');
+      $('#to-city-selected').text('');
+    }
+  }
+};
+
 $(document).ready(function() {
   $("#user-price-modal").modal();
 
@@ -471,42 +512,6 @@ $(document).ready(function() {
     };
   };
 
-  var drawAirportData = function (target) {
-    var cityName = $('#' + target).attr('city');
-    var airportCode = $('#' + target).val();
-    if (target == 'originAirport') {
-      if (airportCode) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-        $('#from-airport-selected').text(airportCode);
-        $('#from-city-selected').text(cityName);
-        if($('#from-area').hasClass("error_elem")) {
-          $('#from-area').removeClass("error_elem");
-        }
-      } else {
-        $('#from-area-selected').addClass('hidden');
-        $('#from-area').removeClass('hidden');
-        $('#from-airport-selected').text('');
-        $('#from-city-selected').text('');
-      }
-    } else if (target == 'destinationAirport') {
-      if (airportCode) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-        $('#to-airport-selected').text(airportCode);
-        $('#to-city-selected').text(cityName);
-        if($('#to-area').hasClass("error_elem")) {
-          $('#to-area').removeClass("error_elem");
-        }
-      } else {
-        $('#to-area-selected').addClass('hidden');
-        $('#to-area').removeClass('hidden');
-        $('#to-airport-selected').text('');
-        $('#to-city-selected').text('');
-      }
-    }
-  };
-
   $('#airport-input').typeahead({
     hint: true,
     highlight: true,
@@ -527,15 +532,15 @@ $(document).ready(function() {
       }
     }
   }).on('typeahead:selected', function (obj, datum) {
-    $('#' + $(this).attr('target')).val(datum.value);
-    $('#' + $(this).attr('target')).attr('city', datum.city);
+    var target = $(this).attr('target');
+    setAirportData(target, datum);
+    drawAirportData(target);
     $('#search_title').addClass('hidden');
     $('#main').removeClass('hidden');
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
     $('.navbar-header').height(heightNav);
-    drawAirportData($(this).attr('target'));
   });
   $('.tt-hint').addClass('form-control');
 
