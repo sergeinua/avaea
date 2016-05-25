@@ -872,7 +872,7 @@ $(document).ready(function() {
   });
   /* }}} Depart/Return Date selection */
 
-  function changeFlightTab(type) {
+  function changeFlightTab(type, prevTab) {
     $('#search_form').data('flight-type', type);
     $('#search_form #flightType').val(type);
     var hasFrom = !!$('#originAirport').val();
@@ -880,6 +880,7 @@ $(document).ready(function() {
     switch (type) {
       case 'round_trip':
         $('.flight-direction-item-voice-search').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         if (hasFrom) {
@@ -919,9 +920,25 @@ $(document).ready(function() {
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
         $('.search-top-button').show();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
         break;
-      case 'voice_search':
-        $('.flight-direction-item-voice-search').removeClass('hidden');
+      case 'multi_city':
+        $('.flight-direction-item-coming-soon').removeClass('hidden');
+        $('.flight-direction-item-voice-search').addClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -932,9 +949,54 @@ $(document).ready(function() {
         $('.flight-additional-info').addClass('hidden');
         $('.search-button').hide();
         $('.search-top-button').hide();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
+        break;
+      case 'voice_search':
+        $('.flight-direction-item-voice-search').removeClass('hidden');
+        $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.back-history').click(function () {
+          if (prevTab) $('#' + prevTab).trigger('click');
+        }).removeClass('hidden');
+
+        $('.flight-direction-item-coming-soon').addClass('hidden');
+        $('.flight-direction-item').addClass('hidden');
+        $('#from-area-selected').addClass('hidden');
+        $('#to-area-selected').addClass('hidden');
+        $('#from-area-selected').addClass('hidden');
+        $('#to-area-selected').addClass('hidden');
+        $('.flight-date-info').addClass('hidden');
+        $('.flight-additional-info').addClass('hidden');
+        $('.searchform-top').addClass('hidden');
+        $('.container-fluid').css({
+          'height': '100%'
+        });
+        $('.flight-direction').css({
+          'height': '100%',
+          'margin-top': 0
+        });
+        $('.navbar-brand').text('Voice Search');
+        $('.navbar-toggle').addClass('hidden');
+
+        $('.search-button').hide();
+        $('.search-top-button').hide();
         break;
       case 'one_way':
         $('.flight-direction-item-voice-search').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         if (hasFrom) {
@@ -965,16 +1027,32 @@ $(document).ready(function() {
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
         $('.search-top-button').show();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
         break;
     }
   }
 
 
   $('.flight-type-item').on('click', function () {
+    var prevTab = $('.flight-type-item.active-choice').attr('id');
     $('.flight-type-item').removeClass('active-choice');
     $(this).addClass('active-choice');
     var id = $(this).attr('id');
-    changeFlightTab(id);
+    changeFlightTab(id, prevTab);
   });
 
   var setPassengersCount = function() {
