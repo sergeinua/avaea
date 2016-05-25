@@ -99,9 +99,7 @@
         } else {
           inputEl.innerHTML = oldPlaceholder;
         }
-        start_button.removeClass('listening');
-        start_button.removeClass('fa-microphone');
-        start_button.removeClass('fa-pause').addClass('fa-repeat');
+        start_button.removeClass('listening fa-microphone fa-pause').addClass('fa-repeat');
       };
 
       micBtn.addEventListener('click', function(event) {
@@ -114,7 +112,7 @@
         clearVoiceSearch();
         final_transcript = '';
         ignore_onend = false;
-        start_button.toggleClass('fa-microphone fa-pause');
+        start_button.toggleClass('fa-repeat fa-microphone fa-pause');
         log('info_allow');
         showButtons(true);
         start_timestamp = event.timeStamp;
@@ -243,8 +241,8 @@
       $('.voice-search-buttons').addClass('hidden');
       $('#voiceSearchFlight').addClass('disabled');
     } else {
-      $('#voiceSearchFlight').removeClass('disabled');
-      $('#voiceSearchFlight').removeClass('hidden');
+      $('.voice-search-buttons').removeClass('hidden');
+      $('#voiceSearchFlight').removeClass('disabled hidden');
     }
   }
 
