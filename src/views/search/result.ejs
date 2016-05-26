@@ -253,9 +253,10 @@
         </div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
-        <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
+        <div class="col-xs-5 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
         <div class="col-xs-2"><%= stop.code %></div>
-        <div class="col-xs-4 text-right"><%= stop.duration %></div>
+        <div class="col-xs-3"> </div>
+        <div class="col-xs-2 text-right"><%= stop.duration %></div>
       </div><% }); %><% } %>
       <% }); %>
     <% }); %></div></div>
