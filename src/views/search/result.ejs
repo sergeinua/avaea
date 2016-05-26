@@ -233,24 +233,24 @@
       <% pair.flights.forEach(function (flight, j) { %>
       <% if (j > 0) {%>
       <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-6 text-nowrap">&#10162; <%= __('Change planes') %></div>
+        <div class="col-xs-5 text-nowrap">&#10162; <%= __('Change planes') %></div>
         <div class="col-xs-2"><%= pair.stops[j-1].code %></div>
-        <div class="col-xs-4 text-right"><%= pair.stops[j-1].duration %></div>
+        <div class="col-xs-3"> </div>
+        <div class="col-xs-2"><%= pair.stops[j-1].duration %></div>
       </div>
       <% } %>
-      <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-3 text-nowrap">
-          <strong><%= (pair.direction == 'Depart' ? '&#128747; ' : '&#128748; ') + flight.abbrNumber %></strong>
-        </div>
-        <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
-        <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
-          <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
-        <% } %></div>
-      </div>
       <div class="row">
-        <div class="col-xs-4 text-nowrap"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
-        <div class="col-xs-4 text-nowrap"><%= flight.from.code %> <%= flight.to.code %></div>
-        <div class="col-xs-4 text-nowrap"><%= flight.from.time%>-<%= flight.to.time %></div>
+        <div class="col-xs-2 text-nowrap">
+          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
+          <%= flight.abbrNumber %>
+        </div>
+        <div class="col-xs-3 text-nowrap"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
+        <div class="col-xs-2 text-nowrap"><%= flight.from.code %> <%= flight.to.code %></div>
+        <div class="col-xs-3 text-nowrap"><%= flight.from.time%>&ndash;<%= flight.to.time %></div>
+        <div class="col-xs-2 text-nowrap"><%= flight.duration%><% if (flight.noOfStops > 0) { %>
+          <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
+          <% } %>
+        </div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
         <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
