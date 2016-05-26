@@ -1,0 +1,13 @@
+- name: Provision production environment
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars_files:
+    - vars/production/instances.yaml
+    - vars/production/security_groups.yaml
+
+  tasks:
+    - include: tasks/aws/keypair.yaml name="production"
+    - include: tasks/aws/securitygroup.yaml
+    - include: tasks/aws/instance.yaml keypair="production"

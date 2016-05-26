@@ -1,0 +1,2 @@
+[sandbox]
+nginx.sandbox ansible_connection=local

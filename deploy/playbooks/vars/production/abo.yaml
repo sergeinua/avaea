@@ -1,9 +1,9 @@
-dir: /home/deerploy/prod
+dir: /root/abo
 
 nginx:
   listen_host: avaea
   listen_port: 80
-  server_name: abo.avaea.com abo.www.avaea.com
+  server_name: abotest.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8080
   config_name: abo.conf
@@ -14,4 +14,4 @@ upstart:
 
 cache_dir: abo/.tmp/public
 
-node_env: production
+node_env: preproduction

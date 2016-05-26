@@ -1,0 +1,68 @@
+- name: Wait for become yes
+  hosts:
+    - tag_Name_avaea1
+  connection: ssh
+  gather_facts: no
+  remote_user: ubuntu
+  tasks:
+    - command: sleep "{{ item }}"
+      become: yes
+      with_items:
+        - 1
+        - 15
+
+- name: Deploy developers ssh public keys to ubuntu user
+  hosts:
+    - tag_Name_avaea1
+  connection: ssh
+  gather_facts: yes
+  remote_user: ubuntu
+
+  vars_files:
+    - vars/production/ssh_users.yaml
+
+  roles:
+    - ssh
+
+- name: Fill in hosts files
+  hosts:
+    - tag_Name_avaea1
+  connection: ssh
+  gather_facts: yes
+  become: yes
+  remote_user: ubuntu
+
+  tasks:
+    - name: Update /etc/hosts file for better network name resolution
+      blockinfile:
+        dest: /etc/hosts
+        block: |
+          {{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_private_ip_address'] }} avaea
+        marker: "# {{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_tag_Name'] }}"
+
+
+- name: Deploy avaea application to a production server
+  hosts:
+    - tag_Name_avaea1
+  gather_facts: true
+  connection: ssh
+  remote_user: ubuntu
+  become: yes
+
+  roles:
+  - ansible-role-postgresql
+  - ansible-role-memcached
+  - ansible-role-nginx
+  - full-stack
+
+
+- name: Associate webserver with elastic ip
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars_files:
+    - vars/production/elastic_ip.yaml
+
+  tasks:
+    - include: tasks/aws/elastic_ip.yaml device="{{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_id'] }}" ip="{{ elastic_ip.value }}"

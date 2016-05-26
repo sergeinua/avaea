@@ -13,3 +13,5 @@ upstart:
  service_name: stage_abo
 
 cache_dir: abo/.tmp/public
+
+node_env: production

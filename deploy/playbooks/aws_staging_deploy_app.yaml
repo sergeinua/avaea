@@ -1,4 +1,4 @@
-- name: Deploy avaea application to production server
+- name: Deploy avaea application to stage server
   hosts: web.avaea
   gather_facts: false
   connection: ssh
@@ -6,4 +6,4 @@
     - vars/{{ ENV }}/{{ APP }}
 
   roles:
-  - web
+  - app

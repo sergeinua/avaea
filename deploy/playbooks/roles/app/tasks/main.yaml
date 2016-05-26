@@ -5,25 +5,25 @@
 - name: Stopping "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=stopped
   when: upstart_path.stat.exists == True
-
+  
 - name: Reset cached folders
   file:
     path={{ dir }}/{{ cache_dir }}/
     state=absent
 
-- name: Update codebase
+- name: Get a codebase for service
   git: repo=git@bitbucket.org:avaea_eng/avaea.git
     dest="{{ dir }}"
     version="{{ GIT_BRANCH }}"
     update=yes
-    clone=no
     accept_hostkey=yes
     force=yes
+    ssh_opts="-o StrictHostKeyChecking=no"
     key_file=/root/.ssh/bitbucket_rsa
 
 - name: Delete if exists nginx defualt config
   file:
-   path=/etc/nginx/sites-enabled/default.conf
+   path=/etc/nginx/sites-enabled/default
    state=absent
 
 - name: Deploy nginx configs
@@ -43,3 +43,6 @@
 
 - name: Restart "{{ upstart.service_name }}" service
   service: name="{{ upstart.service_name }}" state=started
+
+- name: Restart nginx service
+  service: name=nginx state=restarted
