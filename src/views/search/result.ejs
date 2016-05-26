@@ -11,10 +11,10 @@
         <span class="flight-date"><%= searchParams.departureDate %>
           <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
           <span class="text-spacer"></span>
+          <%= searchParams.CabinClass %>
+          <span class="text-spacer"></span>
           <span class="passengers_count"><%= searchParams.passengers %></span>
           <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
-          <span class="text-spacer"></span>
-          <%= searchParams.CabinClass %>
         </span>
         <% }%>
       </div>
