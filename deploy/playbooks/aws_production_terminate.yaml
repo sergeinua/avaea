@@ -1,0 +1,48 @@
+- name: Terminate instances
+  hosts: security_group_avaeaprod
+  connection: local
+  gather_facts: true
+
+  vars_files:
+    - vars/production/security_groups.yaml
+
+  tasks:
+    - name: Terminate instances that were previously launched
+      ec2:
+        region: "{{ region|default('us-west-2') }}"
+        instance_ids: '{{ ec2_id }}'
+        state: 'absent'
+        wait: yes
+
+- name: Delete security groups
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars_files:
+    - vars/production/security_groups.yaml
+
+  tasks:
+    - name: Take security groups sdown
+      local_action:
+        module: ec2_group
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        region: "{{ region|default('us-west-2') }}"
+        state: 'absent'
+      with_items: "{{ security_groups }}"
+
+
+- name: Delete security groups
+  hosts: localhost
+  gather_facts: false
+  connection: local
+
+  tasks:
+    - name: remove production key
+      local_action:
+        module: ec2_key
+        name: production
+        wait: yes
+        region: "{{ region|default('us-west-2') }}"
+        state: absent

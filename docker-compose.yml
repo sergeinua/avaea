@@ -57,7 +57,6 @@ services:
     ports:
       - "81:80"
       - "23457:23457"
-      - "8022:22"
     command: bash -c "/usr/local/bin/setup_and_run.sh"
 
   cache:
@@ -66,7 +65,6 @@ services:
       - avaea_network
     ports:
       - "11212:11211"
-
 
   postgres:
     build:

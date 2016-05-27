@@ -3,7 +3,7 @@ dir: /home/deerploy/prod
 nginx:
   listen_host: avaea
   listen_port: 80
-  server_name: abo.avaea.com abo.www.avaea.com
+  server_name: stage.abo.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8080
   config_name: abo.conf
@@ -13,3 +13,5 @@ upstart:
  service_name: abo
 
 cache_dir: abo/.tmp/public
+
+node_env: staging

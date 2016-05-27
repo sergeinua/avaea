@@ -1,0 +1,13 @@
+# Install memcached
+- name: ansible-role-memcached
+  src: https://github.com/geerlingguy/ansible-role-memcached
+
+
+# Install postgresql
+- name: ansible-role-postgresql
+  src: ANXS.postgresql
+
+
+# Install nginx
+- name: ansible-role-nginx
+  src: https://github.com/geerlingguy/ansible-role-nginx
