@@ -49,6 +49,9 @@
   remote_user: ubuntu
   become: yes
 
+  vars_files:
+    - vars/production/general.yaml
+
   roles:
   - ansible-role-postgresql
   - ansible-role-memcached

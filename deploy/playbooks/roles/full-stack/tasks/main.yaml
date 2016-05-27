@@ -1,3 +1,6 @@
+- name: set hostname to host
+  hostname: name={{ hostname }}
+
 - name: Deploy a bitbucket key
   copy: src=vars/production/bitbucket_rsa
     dest=/root/.ssh/bitbucket_rsa
@@ -21,6 +24,16 @@
     owner=root
     group=root
     mode=0644
+  when: artifact_source is not defined
+
+- name: Copy db dump from s3 bucket
+  s3: bucket=avaeadbpostgres
+    aws_access_key="{{ lookup('env','AWS_ACCESS_KEY') }}"
+    aws_secret_key="{{ lookup('env','AWS_SECRET_KEY') }}"
+    object=/avaea.sql.gz
+    dest=/tmp/avaea.sql.gz
+    mode=get
+  when: artifact_source is defined and artifact_source == 's3'
 
 - name: Upload sql dump to db
   shell: gunzip -c /tmp/avaea.sql.gz | psql -U postgres
