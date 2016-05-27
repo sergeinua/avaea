@@ -3,7 +3,7 @@ dir: /root/demo
 nginx:
   listen_host: avaea
   listen_port: 80
-  server_name: demotest.avaea.com
+  server_name: avaea.com www.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8000
   config_name: demo.conf
@@ -14,4 +14,4 @@ upstart:
 
 cache_dir: src/.tmp/public
 
-node_env: preproduction
+node_env: production

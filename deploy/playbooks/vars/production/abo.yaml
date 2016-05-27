@@ -3,7 +3,7 @@ dir: /root/abo
 nginx:
   listen_host: avaea
   listen_port: 80
-  server_name: abotest.avaea.com
+  server_name: abo.avaea.com www.abo.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8080
   config_name: abo.conf
@@ -14,4 +14,4 @@ upstart:
 
 cache_dir: abo/.tmp/public
 
-node_env: preproduction
+node_env: production
