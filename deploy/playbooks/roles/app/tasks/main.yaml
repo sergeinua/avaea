@@ -35,7 +35,7 @@
 
 - name: Copy upstart configs
   template:
-    src=configs/upstart/{{ upstart.config_name }}
+    src=configs/upstart/{{ APP }}.conf
     dest=/etc/init/{{ upstart.config_name }}
     owner=root
     group=root
