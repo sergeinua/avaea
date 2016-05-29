@@ -25,10 +25,6 @@
   }
 }
 
-.container-fluid, .flight-direction {
-//  height: 100%;
-}
-
 .flight-direction-item-voice-search {
   padding: 10%;
   font-family: WhitneyHTF-MediumCondensed;
@@ -36,32 +32,30 @@
   line-height: 1.1;
   letter-spacing: 0.1px;
   color: rgba(255, 255, 255, 0.4);
-//  background: linear-gradient(to bottom right, #004b9a, #0080c9);
   background-image: linear-gradient(45deg, #0081c9 0%, #004a99 100%);
   height: 100%;
   .voice-search-content {
     height: 60%;
     text-align: center;
     .voice-search-textarea {
-//      background:rgba(255,255,255,0.20);
       border:1px solid #004a99;
       width: 100%;
       height: 100%;
       padding: 19px 15px 55px 21px;
       color: #fff;
-//      opacity:0.5;
       font-family:WhitneyCondensed-Bold;
       font-size:20px;
       color:#ffffff;
       text-align:left;
       background: #3389c5;
+      outline: none;
     }
     i {
       margin: 0 0 5px 0;
       font-size: 70px;
       font-weight: 100;
       cursor: pointer;
-      &.fa-microphone, &.fa-microphone-slash, &.fa-pause, &.fa-repeat {
+      &.fa-microphone, &.fa-microphone-slash, &.fa-pause, &.fa-repeat, &.fa-stop {
         position: relative;
         color: #fff;
         top: -50px;
