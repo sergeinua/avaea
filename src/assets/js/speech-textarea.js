@@ -17,6 +17,7 @@
       startButton(e);
     }).show();
 
+    var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.continuous = true;
@@ -78,9 +79,17 @@
       }
       for (var i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-          final_transcript += event.results[i][0].transcript;
+          if (isMobileDev) {
+            final_transcript = event.results[i][0].transcript;
+          } else {
+            final_transcript += event.results[i][0].transcript;
+          }
         } else {
-          interim_transcript += event.results[i][0].transcript;
+          if (isMobileDev) {
+            interim_transcript = event.results[i][0].transcript;
+          } else {
+            interim_transcript += event.results[i][0].transcript;
+          }
         }
       }
 
