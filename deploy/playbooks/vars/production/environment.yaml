@@ -1,3 +1,3 @@
 env_vars:
-  clientID: 353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com
-  clientSecret: CBLE2DqRbNcRPMuakCHGe8Gs
+  google_clientID: 353849264959-ebsmth4gponpnu0atr9dtlu7oe3db0nk.apps.googleusercontent.com
+  google_clientSecret: CBLE2DqRbNcRPMuakCHGe8Gs

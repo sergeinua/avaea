@@ -41,8 +41,8 @@ services:
       NODE_PATH: "/usr/var/avaea/abo/node_modules"
       NODE_ENV: "docker"
       PROXY_PORT: "81"
-      OAUTH_CLIENT_ID: 353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com
-      OAUTH_CLIENT_SECRET: wURGldrAW0CS1kS8PX1QJi1m
+      GOOGLE_OAUTH_CLIENT_ID: 353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com
+      GOOGLE_OAUTH_CLIENT_SECRET: wURGldrAW0CS1kS8PX1QJi1m
     ports:
       - "8081:8080"
 
