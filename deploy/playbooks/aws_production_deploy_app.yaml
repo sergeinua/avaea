@@ -20,6 +20,7 @@
   become: yes
   vars_files:
     - vars/production/{{ APP }}.yaml
+    - vars/production/environment.yaml
 
   roles:
   - app
