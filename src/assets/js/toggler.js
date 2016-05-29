@@ -8,6 +8,47 @@ var fly = function (target) {
   $(target).css('left', pos.left+speed);
 };
 
+var setAirportData = function(target, data) {
+  $('#' + target).val(data.value);
+  $('#' + target).attr('city', data.city);
+};
+
+var drawAirportData = function (target) {
+  var cityName = $('#' + target).attr('city');
+  var airportCode = $('#' + target).val();
+  if (target == 'originAirport') {
+    if (airportCode) {
+      $('#from-area').addClass('hidden');
+      $('#from-area-selected').removeClass('hidden');
+      $('#from-airport-selected').text(airportCode);
+      $('#from-city-selected').text(cityName);
+      if($('#from-area').hasClass("error_elem")) {
+        $('#from-area').removeClass("error_elem");
+      }
+    } else {
+      $('#from-area-selected').addClass('hidden');
+      $('#from-area').removeClass('hidden');
+      $('#from-airport-selected').text('');
+      $('#from-city-selected').text('');
+    }
+  } else if (target == 'destinationAirport') {
+    if (airportCode) {
+      $('#to-area').addClass('hidden');
+      $('#to-area-selected').removeClass('hidden');
+      $('#to-airport-selected').text(airportCode);
+      $('#to-city-selected').text(cityName);
+      if($('#to-area').hasClass("error_elem")) {
+        $('#to-area').removeClass("error_elem");
+      }
+    } else {
+      $('#to-area-selected').addClass('hidden');
+      $('#to-area').removeClass('hidden');
+      $('#to-airport-selected').text('');
+      $('#to-city-selected').text('');
+    }
+  }
+};
+
 $(document).ready(function() {
   $("#user-price-modal").modal();
 
@@ -471,42 +512,6 @@ $(document).ready(function() {
     };
   };
 
-  var drawAirportData = function (target) {
-    var cityName = $('#' + target).attr('city');
-    var airportCode = $('#' + target).val();
-    if (target == 'originAirport') {
-      if (airportCode) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-        $('#from-airport-selected').text(airportCode);
-        $('#from-city-selected').text(cityName);
-        if($('#from-area').hasClass("error_elem")) {
-          $('#from-area').removeClass("error_elem");
-        }
-      } else {
-        $('#from-area-selected').addClass('hidden');
-        $('#from-area').removeClass('hidden');
-        $('#from-airport-selected').text('');
-        $('#from-city-selected').text('');
-      }
-    } else if (target == 'destinationAirport') {
-      if (airportCode) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-        $('#to-airport-selected').text(airportCode);
-        $('#to-city-selected').text(cityName);
-        if($('#to-area').hasClass("error_elem")) {
-          $('#to-area').removeClass("error_elem");
-        }
-      } else {
-        $('#to-area-selected').addClass('hidden');
-        $('#to-area').removeClass('hidden');
-        $('#to-airport-selected').text('');
-        $('#to-city-selected').text('');
-      }
-    }
-  };
-
   $('#airport-input').typeahead({
     hint: true,
     highlight: true,
@@ -527,15 +532,15 @@ $(document).ready(function() {
       }
     }
   }).on('typeahead:selected', function (obj, datum) {
-    $('#' + $(this).attr('target')).val(datum.value);
-    $('#' + $(this).attr('target')).attr('city', datum.city);
+    var target = $(this).attr('target');
+    setAirportData(target, datum);
+    drawAirportData(target);
     $('#search_title').addClass('hidden');
     $('#main').removeClass('hidden');
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
     $('.navbar-header').height(heightNav);
-    drawAirportData($(this).attr('target'));
   });
   $('.tt-hint').addClass('form-control');
 
@@ -807,36 +812,51 @@ $(document).ready(function() {
   // }}} bind dp.change event
 
   // Tapable date elements {{{
-  function changeDate(event) {
-    var picker_id = '#'+ event.data.picker_id;
-    var dest_date = $(picker_id).data("DateTimePicker").date();
-    var cur_year = moment().year();
+  if (false) { // TODO: DEMO-332: disabled instead of ger rid, this is approved by Igor Markov for the later stage
+    function changeDate(event) {
+      event.stopPropagation();
+      var picker_id = '#' + event.data.picker_id;
+      var dest_date = $(picker_id).data("DateTimePicker").date();
+      var cur_year = moment().year();
 
-    if((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
-      dest_date.year(cur_year);
+      if ((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
+        dest_date.year(cur_year);
+      }
+      else {
+        dest_date.add(1, event.data.date_key);
+      }
+
+      // Set new date in the datetimepicker. Also dp.change event will emits
+      $(picker_id).data("DateTimePicker").date(dest_date);
+
+      // Finalize dates choice
+      finalizeValues(false);
     }
-    else {
-      dest_date.add(1, event.data.date_key);
-    }
 
-    // Set new date in the datetimepicker. Also dp.change event will emits
-    $(picker_id).data("DateTimePicker").date(dest_date);
+    $('.flight-date-info-item.sel.dep .tap-date').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.dep .tap-month').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'months'
+    }, changeDate);
 
-    // Finalize dates choice
-    finalizeValues(false);
+    $('.flight-date-info-item.sel.ret .tap-date').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.ret .tap-month').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'months'
+    }, changeDate);
   }
-
-  $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
-
-  $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
   // }}}} Tapable date elements
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
     heightNav = $('.navbar-header').outerHeight(true);
-    $('.navbar-header').height('50px');
+    $('.navbar-header').height(heightNav);
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');
