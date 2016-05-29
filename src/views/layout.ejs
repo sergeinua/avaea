@@ -41,7 +41,7 @@
             }
             %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
           </div>
-          <% if (typeof user != 'undefined') { %>
+          <% if (typeof user != 'undefined' && req.options.controller == 'search') { %>
           <div id="voice_search" class="flight-type-item voice-search-button"><i class="fa fa-microphone"></i></div>
           <% } %>
         </div>

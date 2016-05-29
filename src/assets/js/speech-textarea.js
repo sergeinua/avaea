@@ -13,135 +13,100 @@
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
   } else {
+    start_button.click(function (e) {
+      startButton(e);
+    }).show();
 
-    var talkMsg = 'Start Talking';
-    var patience = 6;
-    var speechInputWrappers = document.getElementsByClassName('si-wrapper');
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = true;
 
-    [].forEach.call(speechInputWrappers, function(speechInputWrapper) {
-      // find elements
-      var inputEl = speechInputWrapper.querySelector('.si-input');
-      var micBtn = speechInputWrapper.querySelector('.si-btn');
+    recognition.onstart = function () {
+      recognizing = true;
+      log('info_speak_now');
+      start_button.addClass('listening');
+    };
 
-      // setup recognition
-      var finalTranscript = '';
-      var recognizing = false;
-      var timeout;
-      var recognition = new webkitSpeechRecognition();
-      recognition.lang = 'en-US';
-      recognition.continuous = true;
-      //recognition.interimResults = true;
+    recognition.onerror = function (event) {
+      if (event.error == 'no-speech') {
+        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
+        log('info_no_speech');
+        ignore_onend = true;
+      }
+      if (event.error == 'audio-capture') {
+        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
+        log('info_no_microphone');
+        ignore_onend = true;
+      }
+      if (event.error == 'not-allowed') {
+        if (event.timeStamp - start_timestamp < 100) {
+          log('info_blocked');
+        } else {
+          log('info_denied');
+        }
+        ignore_onend = true;
+      }
+    };
 
-      function restartTimer() {
-        timeout = setTimeout(function() {
-          recognition.stop();
-        }, patience * 1000);
+    recognition.onend = function () {
+      recognizing = false;
+      if (ignore_onend) {
+        return;
+      }
+      start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
+      if (!final_transcript) {
+        log('info_start');
+        return;
+      }
+      log('End speech');
+      //if (window.getSelection) {
+      //  window.getSelection().removeAllRanges();
+      //  var range = document.createRange();
+      //  range.selectNode(document.getElementById('voiceSearchTextarea'));
+      //  window.getSelection().addRange(range);
+      //}
+    };
+
+    recognition.onresult = function (event) {
+      var interim_transcript = '';
+      if (typeof(event.results) == 'undefined') {
+        recognition.onend = null;
+        recognition.stop();
+        upgrade();
+        return;
+      }
+      for (var i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final_transcript += event.results[i][0].transcript;
+        } else {
+          interim_transcript += event.results[i][0].transcript;
+        }
       }
 
-      recognition.onerror = function (event) {
-        log(event);
-        if (event.error == 'no-speech') {
-          start_button.removeClass('listening').toggleClass('fa-microphone fa-pause');
-          log('info_no_speech');
-          ignore_onend = true;
-        }
-        if (event.error == 'audio-capture') {
-          start_button.removeClass('listening').toggleClass('fa-microphone fa-pause');
-          log('info_no_microphone');
-          ignore_onend = true;
-        }
-        if (event.error == 'not-allowed') {
-          if (event.timeStamp - start_timestamp < 100) {
-            log('info_blocked');
-          } else {
-            log('info_denied');
-          }
-          ignore_onend = true;
-        }
-      };
+      final_transcript = capitalize(final_transcript);
+      log(final_transcript);
+      if (final_textarea) final_textarea.empty().val(final_transcript);
+      if (interim_transcript) final_textarea.val(capitalize(interim_transcript));
+      if (final_transcript || interim_transcript) {
+        showButtons(false);
+      }
+    };
 
-      recognition.onstart = function() {
-        oldPlaceholder = inputEl.placeholder;
-        //inputEl.placeholder = talkMsg;
-        recognizing = true;
-        micBtn.classList.add('listening');
-        restartTimer();
-      };
-
-      recognition.onend = function() {
-        recognizing = false;
-        clearTimeout(timeout);
-        start_button.removeClass('listening');
-        start_button.removeClass('fa-repeat');
-        start_button.removeClass('fa-pause').addClass('fa-microphone');
-        //micBtn.classList.remove('listening');
-        if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
-      };
-
-      recognition.onresult = function(event) {
-        clearTimeout(timeout);
-        if (typeof(event.results) == 'undefined') {
-          recognition.onend = null;
-          recognition.stop();
-          upgrade();
-          return;
-        }
-
-        for (var i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            finalTranscript = event.results[i][0].transcript;
-          }
-        }
-        finalTranscript = capitalize(finalTranscript);
-        log(finalTranscript);
-        inputEl.innerHTML = finalTranscript;
-        restartTimer();
-        if (finalTranscript) {
-          showButtons(false);
-        } else {
-          inputEl.innerHTML = oldPlaceholder;
-        }
-        start_button.removeClass('listening');
-        start_button.removeClass('fa-microphone');
-        start_button.removeClass('fa-pause').addClass('fa-repeat');
-      };
-
-      micBtn.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (recognizing) {
-          if (start_button.hasClass('fa-repeat')) {
-            clearVoiceSearch();
-            start_button.removeClass('listening');
-            start_button.removeClass('fa-repeat');
-            start_button.removeClass('fa-pause').addClass('fa-microphone');
-          } else {
-            start_button.removeClass('listening');
-            start_button.removeClass('fa-repeat');
-            start_button.removeClass('fa-pause').addClass('fa-microphone');
-          }
-          recognition.stop();
-          return;
-        }
-
-        final_transcript = '';
-        ignore_onend = false;
-        start_button.removeClass('listening');
-        start_button.removeClass('fa-microphone');
-        start_button.removeClass('fa-repeat').addClass('fa-pause');
-        log('info_allow');
-        showButtons(true);
-        start_timestamp = event.timeStamp;
-        inputEl.innerHTML = finalTranscript = '';
-        recognition.start();
-      }, false);
-    });
   }
 
+
+  final_textarea.keyup(function () {
+    var _value = $.trim($(this).val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
+  });
 
   var clearVoiceSearch = function () {
     if ($(this).hasClass('disabled')) return;
 
-    final_textarea.empty();
+    final_textarea.val('');
     final_transcript = '';
     recognizing = false;
 
@@ -194,6 +159,21 @@
     });
   }
 
+  function startButton(event) {
+    if (recognizing) {
+      recognition.stop();
+      return;
+    }
+    final_transcript = '';
+    recognition.start();
+    ignore_onend = false;
+    final_textarea.val('');
+    start_button.toggleClass('fa-microphone fa-stop');
+    log('info_allow');
+    showButtons(true);
+    start_timestamp = event.timeStamp;
+  }
+
   function log() {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
@@ -220,8 +200,8 @@
    * I would like to fly from San Francisco to Kiev on 30th the first class with my son return on July 30th
    */
   function demo() {
-    log(final_textarea.html());
-    var text = $.trim(final_textarea.html());
+    log(final_textarea.val());
+    var text = $.trim(final_textarea.val());
     text = text.replace(/\bone|fir(?= st)/ig,"1");
     text = text.replace(/\btwo|seco(?= nd)/ig,"2");
     text = text.replace(/\bthree|thi(?= rd)/ig,"3");
