@@ -1,4 +1,4 @@
-dir: /home/deerploy/prod
+dir: /root/demo
 
 nginx:
   listen_host: avaea
@@ -9,7 +9,9 @@ nginx:
   config_name: demo.conf
 
 upstart:
- config_name: demo.conf
- service_name: demo
+  config_name: demo.conf
+  service_name: demo
 
 cache_dir: src/.tmp/public
+
+node_env: production

@@ -25,10 +25,12 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 8000,
-  proxyHost: 'http://demotest.avaea.com',
+  port: 9090,
+  proxyHost: 'http://dev.abo.avaea.com',
   proxyPort: 80,
   explicitHost: 'localhost',
+
+  remoteSocket: 'http://stage.avaea.com',
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -40,16 +42,15 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
 
   flightapis: {
-    searchProvider: ['mondee'/*, 'mystifly'*/]
+    searchProvider: 'mondee' // 'mystifly'
   },
-
   hookTimeout: 60000
 
 };

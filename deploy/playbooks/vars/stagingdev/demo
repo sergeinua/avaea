@@ -3,7 +3,7 @@ dir: /home/deerploy/stage
 nginx:
   listen_host: avaea
   listen_port: 80
-  server_name: stage.avaea.com www.stage.avaea.com
+  server_name: dev.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 9000
   config_name: stage_demo.conf
@@ -13,3 +13,5 @@ upstart:
  service_name: stage_demo
 
 cache_dir: src/.tmp/public
+
+node_env: stagingdev
