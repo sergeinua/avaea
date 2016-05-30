@@ -533,7 +533,7 @@ body.loading .modalLoader {
 }
 
 .flight-direction-item-selected {
-  width: 100px;
+  width: 120px;
   height: 100px;
   background-color: #004a99;
   font-family: WhitneyHTF-SemiBoldCondensed;
