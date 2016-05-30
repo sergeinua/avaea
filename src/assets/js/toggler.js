@@ -8,7 +8,81 @@ var fly = function (target) {
   $(target).css('left', pos.left+speed);
 };
 
+var setAirportData = function(target, data) {
+  $('#' + target).val(data.value);
+  $('#' + target).attr('city', data.city);
+};
+
+var drawAirportData = function (target) {
+  var cityName = $('#' + target).attr('city');
+  var airportCode = $('#' + target).val();
+  if (target == 'originAirport') {
+    if (airportCode) {
+      $('#from-area').addClass('hidden');
+      $('#from-area-selected').removeClass('hidden');
+      $('#from-airport-selected').text(airportCode);
+      $('#from-city-selected').text(cityName);
+      if($('#from-area').hasClass("error_elem")) {
+        $('#from-area').removeClass("error_elem");
+      }
+    } else {
+      $('#from-area-selected').addClass('hidden');
+      $('#from-area').removeClass('hidden');
+      $('#from-airport-selected').text('');
+      $('#from-city-selected').text('');
+    }
+  } else if (target == 'destinationAirport') {
+    if (airportCode) {
+      $('#to-area').addClass('hidden');
+      $('#to-area-selected').removeClass('hidden');
+      $('#to-airport-selected').text(airportCode);
+      $('#to-city-selected').text(cityName);
+      if($('#to-area').hasClass("error_elem")) {
+        $('#to-area').removeClass("error_elem");
+      }
+    } else {
+      $('#to-area-selected').addClass('hidden');
+      $('#to-area').removeClass('hidden');
+      $('#to-airport-selected').text('');
+      $('#to-city-selected').text('');
+    }
+  }
+};
+
 $(document).ready(function() {
+  $("#user-price-modal").modal();
+
+  $("#form_user_price").validate({
+    rules: {
+      user_timelimit: {
+        required: true,
+        digits: true,
+        minlength: 1,
+        maxlength: 2
+      },
+      user_price: {
+        required: true,
+        digits: true,
+        minlength: 2,
+        maxlength: 5
+      }
+    },
+    errorPlacement: function(error, element){}, // Skip error messages
+    highlight: function(input) {
+      $(input).parent().addClass('has-error');
+    },
+    unhighlight: function(input) {
+      $(input).parent().removeClass('has-error');
+    },
+    submitHandler: function(form) {
+      $('.itinerary-price').text('$' + $('#user_price').val() + '*');
+      $('#user-time-limit-target-div').removeClass('hidden');
+      $('#user-time-limit-target').text($('#user_timelimit').val());
+      $("#user-price-modal").modal("hide");
+      return false;
+    }
+  });
+
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
@@ -433,45 +507,9 @@ $(document).ready(function() {
           cb(msg ? msg : []);
         })
         .fail(function (msg) {
-          cb([{city: "System error", name: "please try later", value: "---"}]);
+          cb([]);
         });
     };
-  };
-
-  var drawAirportData = function (target) {
-    var cityName = $('#' + target).attr('city');
-    var airportCode = $('#' + target).val();
-    if (target == 'originAirport') {
-      if (airportCode) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-        $('#from-airport-selected').text(airportCode);
-        $('#from-city-selected').text(cityName);
-        if($('#from-area').hasClass("error_elem")) {
-          $('#from-area').removeClass("error_elem");
-        }
-      } else {
-        $('#from-area-selected').addClass('hidden');
-        $('#from-area').removeClass('hidden');
-        $('#from-airport-selected').text('');
-        $('#from-city-selected').text('');
-      }
-    } else if (target == 'destinationAirport') {
-      if (airportCode) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-        $('#to-airport-selected').text(airportCode);
-        $('#to-city-selected').text(cityName);
-        if($('#to-area').hasClass("error_elem")) {
-          $('#to-area').removeClass("error_elem");
-        }
-      } else {
-        $('#to-area-selected').addClass('hidden');
-        $('#to-area').removeClass('hidden');
-        $('#to-airport-selected').text('');
-        $('#to-city-selected').text('');
-      }
-    }
   };
 
   $('#airport-input').typeahead({
@@ -494,15 +532,15 @@ $(document).ready(function() {
       }
     }
   }).on('typeahead:selected', function (obj, datum) {
-    $('#' + $(this).attr('target')).val(datum.value);
-    $('#' + $(this).attr('target')).attr('city', datum.city);
+    var target = $(this).attr('target');
+    setAirportData(target, datum);
+    drawAirportData(target);
     $('#search_title').addClass('hidden');
     $('#main').removeClass('hidden');
     $('#main_title').removeClass('hidden');
     $('#airport-input').val('');
     $('#airport-input').typeahead('val','');
     $('.navbar-header').height(heightNav);
-    drawAirportData($(this).attr('target'));
   });
   $('.tt-hint').addClass('form-control');
 
@@ -593,14 +631,17 @@ $(document).ready(function() {
     //$('#buy_button').removeAttr('disabled');
   });
 
-  $('.buy-button>button').click(function (event) {
+  $('[id*=buy-button-]').click(function (event) {
     var id = $(this).parents('.itinerary').attr('id');
-    //if ($('.itinerary.selected')) {
-    //  id = $('.selected').attr('id');
-    //}
-    //console.log('Order id:', id);
     if (id) {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
+    }
+  });
+
+  $('[id*=buy-cron-button-]').click(function (event) {
+    var id = $(this).parents('.itinerary').attr('id');
+    if (id) {
+      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val() + '&special=1';
     }
   });
 
@@ -771,36 +812,51 @@ $(document).ready(function() {
   // }}} bind dp.change event
 
   // Tapable date elements {{{
-  function changeDate(event) {
-    var picker_id = '#'+ event.data.picker_id;
-    var dest_date = $(picker_id).data("DateTimePicker").date();
-    var cur_year = moment().year();
+  if (false) { // TODO: DEMO-332: disabled instead of ger rid, this is approved by Igor Markov for the later stage
+    function changeDate(event) {
+      event.stopPropagation();
+      var picker_id = '#' + event.data.picker_id;
+      var dest_date = $(picker_id).data("DateTimePicker").date();
+      var cur_year = moment().year();
 
-    if((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
-      dest_date.year(cur_year);
+      if ((event.data.date_key == 'y' || event.data.date_key == 'years') && cur_year != dest_date.year()) {
+        dest_date.year(cur_year);
+      }
+      else {
+        dest_date.add(1, event.data.date_key);
+      }
+
+      // Set new date in the datetimepicker. Also dp.change event will emits
+      $(picker_id).data("DateTimePicker").date(dest_date);
+
+      // Finalize dates choice
+      finalizeValues(false);
     }
-    else {
-      dest_date.add(1, event.data.date_key);
-    }
 
-    // Set new date in the datetimepicker. Also dp.change event will emits
-    $(picker_id).data("DateTimePicker").date(dest_date);
+    $('.flight-date-info-item.sel.dep .tap-date').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.dep .tap-month').on('click', {
+      picker_id: 'depart_picker',
+      date_key: 'months'
+    }, changeDate);
 
-    // Finalize dates choice
-    finalizeValues(false);
+    $('.flight-date-info-item.sel.ret .tap-date').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'days'
+    }, changeDate);
+    $('.flight-date-info-item.sel.ret .tap-month').on('click', {
+      picker_id: 'return_picker',
+      date_key: 'months'
+    }, changeDate);
   }
-
-  $('.flight-date-info-item.sel.dep .tap-date').on('click', {picker_id:'depart_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.dep .tap-month').on('click', {picker_id:'depart_picker', date_key:'months'}, changeDate);
-
-  $('.flight-date-info-item.sel.ret .tap-date').on('click', {picker_id:'return_picker', date_key:'days'}, changeDate);
-  $('.flight-date-info-item.sel.ret .tap-month').on('click', {picker_id:'return_picker', date_key:'months'}, changeDate);
   // }}}} Tapable date elements
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
     heightNav = $('.navbar-header').outerHeight(true);
-    $('.navbar-header').height('50px');
+    $('.navbar-header').height(heightNav);
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');
@@ -811,7 +867,7 @@ $(document).ready(function() {
     var moment_dp = $('#depart_picker').data("DateTimePicker").date();
     var moment_rp = $('#return_picker').data("DateTimePicker").date();
     var _isError = false;
-    
+
     // cache values
     $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
     $('#returnDate').data('date', moment_rp.format('YYYY-MM-DD'));
@@ -872,7 +928,7 @@ $(document).ready(function() {
   });
   /* }}} Depart/Return Date selection */
 
-  function changeFlightTab(type) {
+  function changeFlightTab(type, prevTab) {
     $('#search_form').data('flight-type', type);
     $('#search_form #flightType').val(type);
     var hasFrom = !!$('#originAirport').val();
@@ -880,6 +936,7 @@ $(document).ready(function() {
     switch (type) {
       case 'round_trip':
         $('.flight-direction-item-voice-search').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         if (hasFrom) {
@@ -919,9 +976,25 @@ $(document).ready(function() {
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
         $('.search-top-button').show();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
         break;
-      case 'voice_search':
-        $('.flight-direction-item-voice-search').removeClass('hidden');
+      case 'multi_city':
+        $('.flight-direction-item-coming-soon').removeClass('hidden');
+        $('.flight-direction-item-voice-search').addClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -932,9 +1005,54 @@ $(document).ready(function() {
         $('.flight-additional-info').addClass('hidden');
         $('.search-button').hide();
         $('.search-top-button').hide();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
+        break;
+      case 'voice_search':
+        $('.flight-direction-item-voice-search').removeClass('hidden');
+        $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.back-history').click(function () {
+          if (prevTab) $('#' + prevTab).trigger('click');
+        }).removeClass('hidden');
+
+        $('.flight-direction-item-coming-soon').addClass('hidden');
+        $('.flight-direction-item').addClass('hidden');
+        $('#from-area-selected').addClass('hidden');
+        $('#to-area-selected').addClass('hidden');
+        $('#from-area-selected').addClass('hidden');
+        $('#to-area-selected').addClass('hidden');
+        $('.flight-date-info').addClass('hidden');
+        $('.flight-additional-info').addClass('hidden');
+        $('.searchform-top').addClass('hidden');
+        $('.container-fluid').css({
+          'height': '100%'
+        });
+        $('.flight-direction').css({
+          'height': '100%',
+          'margin-top': 0
+        });
+        $('.navbar-brand').text('Avaea Voice');
+        $('.navbar-toggle').addClass('hidden');
+
+        $('.search-button').hide();
+        $('.search-top-button').hide();
         break;
       case 'one_way':
         $('.flight-direction-item-voice-search').addClass('hidden');
+        $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
         if (hasFrom) {
@@ -965,16 +1083,32 @@ $(document).ready(function() {
         $('.flight-additional-info').removeClass('hidden');
         $('.search-button').show();
         $('.search-top-button').show();
+
+        $('.back-history').addClass('hidden');
+        $('.searchform-top').removeClass('hidden');
+        $('.container-fluid').css({
+          'height': ''
+        });
+        $('.flight-direction').css({
+          'height': '',
+          'margin-top': ''
+        });
+        $('.navbar-brand').text('Avaea Agent');
+        $('.navbar-toggle').removeClass('hidden');
+        $('.voice-search-buttons').addClass('hidden');
+        $('#voiceSearchFlight').addClass('disabled');
+
         break;
     }
   }
 
 
   $('.flight-type-item').on('click', function () {
+    var prevTab = $('.flight-type-item.active-choice').attr('id');
     $('.flight-type-item').removeClass('active-choice');
     $(this).addClass('active-choice');
     var id = $(this).attr('id');
-    changeFlightTab(id);
+    changeFlightTab(id, prevTab);
   });
 
   var setPassengersCount = function() {
@@ -1035,11 +1169,12 @@ $(document).ready(function() {
     $('#main').addClass('hidden');
     $('#search_title').removeClass('hidden');
     $('#airport-input').focus();
-    if ($(this).is('#from-area') || $(this).is('#from-area-selected')) {
-      $('#airport-input').attr('target', 'originAirport');
-    } else {
-      $('#airport-input').attr('target', 'destinationAirport');
-    }
+    var target = ($(this).is('#from-area') || $(this).is('#from-area-selected') ? 'origin' : 'destination') + 'Airport';
+    $('#airport-input').attr('target', target);
+    var val = $('#' + target).val();
+    $('#airport-input').val(val);
+    $('#airport-input').typeahead('val', val);
+    $('#airport-input').typeahead('open');
   });
 
   $('#search_button_top').on('click', function () {

@@ -2,61 +2,58 @@
   <nav class="navbar navbar-default navbar-fixed-top searchform-top" >
     <div class="flight-type-form">
       <div class="row">
-        <div id="voice_search" class="col-xs-4 flight-type-item"><i class="fa fa-microphone"></i></div>
         <div id="one_way" class="col-xs-4 flight-type-item"><%= __('One way')%></div>
         <div id="round_trip" class="col-xs-4 flight-type-item"><%= __('Round trip') %></div>
+        <div id="multi_city" class="col-xs-4 flight-type-item"><%= __('Multi city')%></div>
       </div>
     </div>
   </nav>
 
   <div class="row text-center flight-direction">
     <div class="col-xs-12 clearfix flight-direction-item-voice-search hidden">
+      <div class="voice-search-content si-wrapper">
+        <textarea name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Press the button and dictate a flight request"></textarea>
+        <i class="fa fa-microphone si-btn" id="start_button"></i>
+      </div>
+    </div>
+    <div class="col-xs-12 clearfix voice-search-buttons hidden">
+      <div class="button-search-continue" id="voiceSearchFlight">CONTINUE</div>
+    </div>
+    <div class="col-xs-12 clearfix flight-direction-form">
       <div class="row clearfix">
-        <div class="col-xs-10 voice-search-content si-wrapper">
-          <textarea rows="3" name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Enter/dictate a flight request"></textarea>
-          <i class="fa fa-microphone si-btn" id="start_button"></i>
+        <div class="col-xs-6">
+          <div id="from-area" class="flight-direction-item"><span>+</span>
+            <div class="flight-direction-item-from-to"><%= __('from') %></div>
+          </div>
+          <div id="from-area-selected" class="flight-direction-item-selected hidden">
+            <div class="flight-direction-item-from-to"><%= __('from') %></div>
+            <span id="from-airport-selected"></span>
+            <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
+          </div>
         </div>
-        <div class="col-xs-2 voice-search-buttons">
-          <i class="fa fa-search disabled" title="Search" id="voiceSearchFlight"></i>
-          <i class="glyphicon glyphicon-remove disabled" title="Clear" id="voiceClearFlight"></i>
-          <i class="fa fa-check disabled" title="Check" id="checkSearchFlight"></i>
+        <div class="col-xs-6">
+          <div id="to-area" class="flight-direction-item"><span>+</span>
+            <div class="flight-direction-item-from-to"><%= __('to') %></div>
+          </div>
+          <div id="to-area-selected" class="flight-direction-item-selected hidden">
+            <div class="flight-direction-item-from-to"><%= __('to') %></div>
+            <span id="to-airport-selected"></span>
+            <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
+          </div>
         </div>
       </div>
     </div>
-      <div class="col-xs-12 clearfix flight-direction-form">
-        <div class="row clearfix">
-          <div class="col-xs-6">
-            <div id="from-area" class="flight-direction-item"><span>+</span>
-              <div class="flight-direction-item-from-to"><%= __('from') %></div>
-            </div>
-            <div id="from-area-selected" class="flight-direction-item-selected hidden">
-              <div class="flight-direction-item-from-to"><%= __('from') %></div>
-              <span id="from-airport-selected"></span>
-              <div id="from-city-selected" class="flight-direction-item-from-to-city"></div>
-            </div>
-          </div>
-          <div class="col-xs-6">
-            <div id="to-area" class="flight-direction-item"><span>+</span>
-              <div class="flight-direction-item-from-to"><%= __('to') %></div>
-            </div>
-            <div id="to-area-selected" class="flight-direction-item-selected hidden">
-              <div class="flight-direction-item-from-to"><%= __('to') %></div>
-              <span id="to-airport-selected"></span>
-              <div  id="to-city-selected" class="flight-direction-item-from-to-city"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="col-xs-12 flight-direction-item-coming-soon hidden"><%= __('Coming soon') %></div>
   </div>
 
   <div class="flight-date-info row">
     <div class="flight-date-info-item dep col-xs-6 open-calendar">+
       <div class="flight-date-info-item-depart"><%= __('depart') %></div>
     </div>
-    <div class="flight-date-info-item sel dep hide col-xs-6">
+    <div class="flight-date-info-item sel dep hide col-xs-6 open-calendar">
       <div class="row">
-        <div class="col-xs-12 open-calendar">
-          <span class="glyphicon glyphicon-calendar calendar"></span>
+        <div class="col-xs-12">
+          <span class="calendar">&nbsp;</span>
           <div class="direction"><%= __('depart') %></div>
           <div class="weekday"></div>
         </div>
@@ -69,10 +66,10 @@
     <div class="flight-date-info-item ret hide col-xs-6 open-calendar">+
       <div class="flight-date-info-item-return"><%= __('return') %></div>
     </div>
-    <div class="flight-date-info-item sel ret hide col-xs-6">
+    <div class="flight-date-info-item sel ret hide col-xs-6 open-calendar">
       <div class="row">
-        <div class="col-xs-12 open-calendar">
-          <span class="glyphicon glyphicon-calendar calendar"></span>
+        <div class="col-xs-12">
+          <span class="calendar">&nbsp;</span>
           <div class="direction"><%= __('return') %></div>
           <div class="weekday"></div>
         </div>

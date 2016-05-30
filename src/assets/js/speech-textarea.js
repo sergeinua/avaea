@@ -8,125 +8,20 @@
   var final_textarea = $('#voiceSearchTextarea');
   var roundTrip = false;
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
+  var oldPlaceholder = 'Press the button and dictate a flight request';
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
   } else {
-
-    var talkMsg = 'Start Talking';
-    var patience = 6;
-    var speechInputWrappers = document.getElementsByClassName('si-wrapper');
-
-    [].forEach.call(speechInputWrappers, function(speechInputWrapper) {
-      // find elements
-      var inputEl = speechInputWrapper.querySelector('.si-input');
-      var micBtn = speechInputWrapper.querySelector('.si-btn');
-
-      // setup recognition
-      var finalTranscript = '';
-      var recognizing = false;
-      var timeout;
-      var oldPlaceholder = null;
-      var recognition = new webkitSpeechRecognition();
-      recognition.lang = 'en-US';
-      //recognition.continuous = true;
-      //recognition.interimResults = true;
-
-      function restartTimer() {
-        timeout = setTimeout(function() {
-          recognition.stop();
-        }, patience * 2000);
-      }
-
-      recognition.onerror = function (event) {
-        if (event.error == 'no-speech') {
-          start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
-          log('info_no_speech');
-          ignore_onend = true;
-        }
-        if (event.error == 'audio-capture') {
-          start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
-          log('info_no_microphone');
-          ignore_onend = true;
-        }
-        if (event.error == 'not-allowed') {
-          if (event.timeStamp - start_timestamp < 100) {
-            log('info_blocked');
-          } else {
-            log('info_denied');
-          }
-          ignore_onend = true;
-        }
-      };
-
-      recognition.onstart = function() {
-        oldPlaceholder = inputEl.placeholder;
-        inputEl.placeholder = talkMsg;
-        recognizing = true;
-        micBtn.classList.add('listening');
-        restartTimer();
-      };
-
-      recognition.onend = function() {
-        recognizing = false;
-        clearTimeout(timeout);
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
-        //micBtn.classList.remove('listening');
-        if (oldPlaceholder !== null) inputEl.placeholder = oldPlaceholder;
-      };
-
-      recognition.onresult = function(event) {
-        clearTimeout(timeout);
-        if (typeof(event.results) == 'undefined') {
-          recognition.onend = null;
-          recognition.stop();
-          upgrade();
-          return;
-        }
-log(event);
-        for (var i = event.resultIndex; i < event.results.length; ++i) {
-          if (event.results[i].isFinal) {
-            finalTranscript = event.results[i][0].transcript;
-          }
-        }
-        finalTranscript = capitalize(finalTranscript);
-        log(finalTranscript);
-        inputEl.value = finalTranscript;
-        restartTimer();
-        if (finalTranscript) {
-          showButtons(false);
-        }
-      };
-
-      micBtn.addEventListener('click', function(event) {
-        event.preventDefault();
-        if (recognizing) {
-          recognition.stop();
-          return;
-        }
-
-        final_transcript = '';
-        ignore_onend = false;
-        final_textarea.val('');
-        start_button.toggleClass('fa-microphone fa-microphone-slash');
-        log('info_allow');
-        showButtons(true);
-        start_timestamp = event.timeStamp;
-        inputEl.value = finalTranscript = '';
-        recognition.start();
-      }, false);
-    });
-
-
-/*
     start_button.click(function (e) {
       startButton(e);
     }).show();
 
+    var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
-    //recognition.continuous = true;
-    //recognition.interimResults = true;
+    recognition.continuous = true;
+    recognition.interimResults = true;
 
     recognition.onstart = function () {
       recognizing = true;
@@ -136,12 +31,12 @@ log(event);
 
     recognition.onerror = function (event) {
       if (event.error == 'no-speech') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
+        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
         log('info_no_speech');
         ignore_onend = true;
       }
       if (event.error == 'audio-capture') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
+        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
         log('info_no_microphone');
         ignore_onend = true;
       }
@@ -160,7 +55,7 @@ log(event);
       if (ignore_onend) {
         return;
       }
-      start_button.removeClass('listening').toggleClass('fa-microphone fa-microphone-slash');
+      start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
       if (!final_transcript) {
         log('info_start');
         return;
@@ -184,22 +79,30 @@ log(event);
       }
       for (var i = event.resultIndex; i < event.results.length; ++i) {
         if (event.results[i].isFinal) {
-          final_transcript += event.results[i][0].transcript;
+          if (isMobileDev) {
+            final_transcript = event.results[i][0].transcript;
+          } else {
+            final_transcript += event.results[i][0].transcript;
+          }
         } else {
-          interim_transcript += event.results[i][0].transcript;
+          if (isMobileDev) {
+            interim_transcript = event.results[i][0].transcript;
+          } else {
+            interim_transcript += event.results[i][0].transcript;
+          }
         }
       }
 
       final_transcript = capitalize(final_transcript);
       log(final_transcript);
-      final_textarea.empty().val(final_transcript);
+      if (final_textarea) final_textarea.empty().val(final_transcript);
+      if (interim_transcript) final_textarea.val(capitalize(interim_transcript));
       if (final_transcript || interim_transcript) {
         showButtons(false);
       }
     };
-*/
-  }
 
+  }
 
 
   final_textarea.keyup(function () {
@@ -209,7 +112,7 @@ log(event);
     }
   });
 
-  $('#voiceClearFlight').click(function () {
+  var clearVoiceSearch = function () {
     if ($(this).hasClass('disabled')) return;
 
     final_textarea.val('');
@@ -220,101 +123,32 @@ log(event);
     $('#airport-input').typeahead('val','');
 
     $('#originAirport, #destinationAirport').val('');
-    //$('#from-airport-selected').empty();
-    //$('#from-city-selected').empty();
 
     $('#departureDate').data('date', moment());
     var pickerDepart = $('#depart_picker').data('DateTimePicker');
     pickerDepart.date(moment());
 
     $('#returnDate').data('date', '').val('');
-    //var pickerReturn = $('#return_picker').data('DateTimePicker');
-    //pickerReturn.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
     $('#passengers').val(1);
     $('.passengers_count').text(digits[1]);
 
     $('#preferedClass').val('E');
     $('.flight-class-info-item .text-picker').text(serviceClass['E']);
-  });
+  };
 
   $('#voiceSearchFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
-
+    var heightNav = $('.navbar-header').outerHeight(true);
     demo();
+
     if (roundTrip) {
       $('#round_trip').trigger('click');
     } else {
       $('#one_way').trigger('click');
     }
+    $('.navbar-header').css('height', heightNav);
   });
-
-  $('#checkSearchFlight').click(function () {
-    if ($(this).hasClass('disabled')) return;
-
-    demo();
-
-    // Check airports selection
-    if($('#originAirport').val() == '') {
-      $('#from-area').addClass("error_elem");
-    }
-    if($('#destinationAirport').val() == '') {
-      $('#to-area').addClass("error_elem");
-    }
-
-    // Check existence of the return date for the round trip
-    if($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
-      $('.flight-date-info-item.ret').addClass("error_elem");
-    }
-  });
-
-  var drawAirportData = function (target) {
-    var cityName = $('#' + target).attr('city');
-    var nearleftCode = $('#' + target).attr('nearleft');
-    var nearrightCode = $('#' + target).attr('nearright');
-    var airportCode = $('#' + target).val();
-    if (target == 'originAirport') {
-      if (airportCode) {
-        $('#from-airport-selected').text(airportCode);
-        $('#from-city-selected').text(cityName);
-        $('#from-airport-nearleft').text(nearleftCode);
-        $('#from-airport-nearright').text(nearrightCode);
-        if($('#from-area').hasClass("error_elem")) {
-          $('#from-area').removeClass("error_elem");
-        }
-      } else {
-        $('#from-airport-selected').text('');
-        $('#from-city-selected').text('');
-      }
-    } else if (target == 'destinationAirport') {
-      if (airportCode) {
-        $('#to-airport-selected').text(airportCode);
-        $('#to-city-selected').text(cityName);
-        $('#to-airport-nearleft').text(nearleftCode);
-        $('#to-airport-nearright').text(nearrightCode);
-        if($('#to-area').hasClass("error_elem")) {
-          $('#to-area').removeClass("error_elem");
-        }
-      } else {
-        $('#to-airport-selected').text('');
-        $('#to-city-selected').text('');
-      }
-    }
-  };
-  var setAirportData = function(target, data) {
-    $('#' + target).val(data.value);
-    $('#' + target).attr('city', data.city);
-    $('#' + target).attr('nearleft', data.neighbors[0].iata_3code);
-    $('#' + target).attr('nearright', data.neighbors[1].iata_3code);
-  };
-
-  $('#airport-input').bind('typeahead:render', function (ev, item) {
-    if (item && item.value) {
-      setAirportData($(this).attr('target'), item);
-      drawAirportData($(this).attr('target'));
-    }
-  });
-
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
@@ -343,7 +177,7 @@ log(event);
     recognition.start();
     ignore_onend = false;
     final_textarea.val('');
-    start_button.toggleClass('fa-microphone fa-microphone-slash');
+    start_button.toggleClass('fa-microphone fa-stop');
     log('info_allow');
     showButtons(true);
     start_timestamp = event.timeStamp;
@@ -362,9 +196,11 @@ log(event);
     }
     current_disable = disable;
     if (disable) {
-      $('#voiceClearFlight, #voiceSearchFlight, #checkSearchFlight').addClass('disabled');
+      $('.voice-search-buttons').addClass('hidden');
+      $('#voiceSearchFlight').addClass('disabled');
     } else {
-      $('#voiceClearFlight, #voiceSearchFlight, #checkSearchFlight').removeClass('disabled');
+      $('.voice-search-buttons').removeClass('hidden');
+      $('#voiceSearchFlight').removeClass('disabled hidden');
     }
   }
 
@@ -394,14 +230,26 @@ log(event);
     var cities = speechSearchParse.parseCities(text);
     if (cities && (cities[0] || cities[1])) {
       if (cities[0]) {
-        $('#airport-input').attr('target', 'originAirport');
-        $('#airport-input').typeahead('val', cities[0]);
-        //$('#originAirport').typeahead('val', cities[0]);
+        $.ajax({
+          url: '/ac/airports',
+          type: 'get',
+          data: {q: $.trim(cities[0]), l: 1},
+          dataType: 'json'
+        }).done(function( msg ) {
+          setAirportData('originAirport', msg[0]);
+          drawAirportData('originAirport');
+        });
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
-        $('#airport-input').attr('target', 'destinationAirport');
-        $('#airport-input').typeahead('val', cities[1]);
-        //$('#destinationAirport').typeahead('val', cities[1]);
+        $.ajax({
+          url: '/ac/airports',
+          type: 'get',
+          data: {q: $.trim(cities[1]), l: 1},
+          dataType: 'json'
+        }).done(function( msg ) {
+          setAirportData('destinationAirport', msg[0]);
+          drawAirportData('destinationAirport');
+        });
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
       + " The trip is from " + cities[0] + " to " + cities[1];
@@ -484,8 +332,6 @@ log(event);
         $('.flight-class-info-item .text-picker').text(serviceClass[cls]);
       }
     }
-
-    //$(window).trigger('resize');
 
     speechSearchParse.log(out_field);
   }
