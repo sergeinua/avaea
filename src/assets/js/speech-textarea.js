@@ -230,27 +230,25 @@
     var cities = speechSearchParse.parseCities(text);
     if (cities && (cities[0] || cities[1])) {
       if (cities[0]) {
-        var target = 'originAirport';
         $.ajax({
           url: '/ac/airports',
           type: 'get',
-          data: {q: cities[0], l: 1},
+          data: {q: $.trim(cities[0]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData(target, msg[0]);
-          drawAirportData(target);
+          setAirportData('originAirport', msg[0]);
+          drawAirportData('originAirport');
         });
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
-        var target = 'destinationAirport';
         $.ajax({
           url: '/ac/airports',
           type: 'get',
-          data: {q: cities[1], l: 1},
+          data: {q: $.trim(cities[1]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData(target, msg[0]);
-          drawAirportData(target);
+          setAirportData('destinationAirport', msg[0]);
+          drawAirportData('destinationAirport');
         });
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
