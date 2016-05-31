@@ -48,8 +48,8 @@ module.exports.passport = {
     protocol: 'oauth2',
     strategy: require('passport-google-oauth').OAuth2Strategy,
     options: {
-      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+      clientID: process.env.GOOGLE_OAUTH_CLIENT_ID || '353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com',
+      clientSecret: process.env.GOOGLE_OAUTH_CLIENT_SECRET || 'wURGldrAW0CS1kS8PX1QJi1m',
       prompt: 'select_account',
       scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
     }
