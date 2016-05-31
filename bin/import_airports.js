@@ -25,11 +25,17 @@ const readDatfile = function( callback ) {
     const airports = {};
     request(argv.datfile).pipe(datStream).on('data',function(data) {
         if( data.iata_3code ) {
-            // Need to do this or kdTree will do wrong sorting
-            data.longitude = Number(data.longitude);
-            data.latitude = Number(data.latitude);
-            // Add it 
-            airports[data.iata_3code.toUpperCase()] = data;
+	    switch( data.iata_3code ) {
+	    case 'NID':
+		// Skip some airports
+		return;
+	    default:
+		// Need to do this or kdTree will do wrong sorting
+		data.longitude = Number(data.longitude);
+		data.latitude = Number(data.latitude);
+		// Add it 
+		airports[data.iata_3code.toUpperCase()] = data;
+	    }
         }
     }).on('end',function() {
         callback(null,airports);
@@ -158,17 +164,21 @@ require('async').parallel(
                 return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
             });
 
-	    // Some patch to avoid situations when
-	    //   city name is "Tallinn-ulemiste International'
-	    //   aiport name os 'Tallin'
-	    // Should be the other way around
-	    if( (iata_3code=='TLL') || (iata_3code=='ZQN') ) {
+	    // Patch some airports
+	    switch( iata_3code ) {
+	    case 'TLL':
+	    case 'ZQN':
+		// see http://prntscr.com/bafap0
 		var tmp = data.city;
 		data.city = data.name;
 		data.name = tmp;
+		break;
+	    case 'PWM':
+		data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+		break;
 	    }
-	    
-            console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
+
+	    console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
                         formatSqlString(data.name),
