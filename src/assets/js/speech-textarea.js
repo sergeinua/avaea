@@ -200,10 +200,9 @@
     if (disable) {
       $('.voice-search-buttons').addClass('hidden');
       $('#voiceSearchFlight').addClass('disabled');
-    } else {
+    } else if (!$('.flight-direction-item-voice-search').hasClass('hidden')) {
       $('.voice-search-buttons').removeClass('hidden');
       $('#voiceSearchFlight').removeClass('disabled');
-      $('#voiceSearchFlight').removeClass('hidden');
     }
   }
 
