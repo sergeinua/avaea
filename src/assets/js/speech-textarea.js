@@ -148,6 +148,9 @@
 
   $('#voiceSearchFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
+    if (recognition && recognizing) {
+      recognition.stop();
+    }
     var heightNav = $('.navbar-header').outerHeight(true);
     demo();
 
@@ -156,7 +159,7 @@
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
-
+    final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
     upgrade();
   }
 
