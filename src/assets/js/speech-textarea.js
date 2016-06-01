@@ -6,7 +6,6 @@
   var start_timestamp;
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
-  var roundTrip = false;
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var oldPlaceholder = 'Press the button and dictate a flight request';
 
@@ -142,11 +141,6 @@
     var heightNav = $('.navbar-header').outerHeight(true);
     demo();
 
-    if (roundTrip) {
-      $('#round_trip').trigger('click');
-    } else {
-      $('#one_way').trigger('click');
-    }
     $('.navbar-header').css('height', heightNav);
   });
 
@@ -260,6 +254,13 @@
 
     var dates = speechSearchParse.parseDates(text);
     log(dates);
+
+    if (dates.length == 2) {
+      $('#round_trip').trigger('click');
+    } else {
+      $('#one_way').trigger('click');
+    }
+
     if (dates) {
       var leaving = "an unknown date", returning;
       if (dates[0]) {
@@ -272,8 +273,6 @@
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
-        //$('input[name=departureDate]', '.voiceSearch').val(leaving);
-        roundTrip = false;
       }
       if (dates[1]) {
         var _month = dates[1].getMonth() + 1,
@@ -285,8 +284,6 @@
         picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
         returning = dates[1].toDateString();
-        //$('input[name=returnDate]', '.voiceSearch').val(returning);
-        roundTrip = true;
       }
 
       $('#date_select_top').trigger('click');
@@ -294,7 +291,6 @@
       out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
     } else {
       out_field += " I did not find dates in your request. ";
-      roundTrip = false;
       return;
     }
 
