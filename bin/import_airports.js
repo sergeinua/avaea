@@ -13,8 +13,9 @@ const datFile_headers = ['id','name','city','country','iata_3code','icao_4code',
 
 // Function for read and parse data file as csv
 const readDatfile = function( callback ) {
-    if( argv.loglevel>0 )
-        console.log("Reading %s",argv.datfile);
+    if ( argv.loglevel>0 ) {
+        console.log("Reading %s", argv.datfile);
+    }
     const request   = require('request');
     const datStream = csv({
         separator: ',',
@@ -23,29 +24,30 @@ const readDatfile = function( callback ) {
         headers: datFile_headers 
     });
     const airports = {};
-    request(argv.datfile).pipe(datStream).on('data',function(data) {
-        if( data.iata_3code ) {
-	    switch( data.iata_3code ) {
-	    case 'NID':
-		// Skip some airports
-		return;
-	    default:
-		// Need to do this or kdTree will do wrong sorting
-		data.longitude = Number(data.longitude);
-		data.latitude = Number(data.latitude);
-		// Add it 
-		airports[data.iata_3code.toUpperCase()] = data;
-	    }
+    request(argv.datfile).pipe(datStream).on('data', function(data) {
+        if ( data.iata_3code ) {
+            switch ( data.iata_3code ) {
+                case 'NID':
+                    // Skip some airports
+                    return;
+                default:
+                    // Need to do this or kdTree will do wrong sorting
+                    data.longitude = Number(data.longitude);
+                    data.latitude = Number(data.latitude);
+                    // Add it
+                    airports[data.iata_3code.toUpperCase()] = data;
+            }
         }
-    }).on('end',function() {
-        callback(null,airports);
+    }).on('end', function() {
+        callback(null, airports);
     });
 };
 
 const getReadCsvfile = function( csvfile_name ) {
     return function( callback ) {
-        if( argv.loglevel>0 ) 
-            console.log("Reading %s",csvfile_name);
+        if ( argv.loglevel>0 ) {
+            console.log("Reading %s", csvfile_name);
+        }
         var csvStream = csv({
             separator: ',',
             quite: '"',
@@ -53,24 +55,25 @@ const getReadCsvfile = function( csvfile_name ) {
             headers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
         });
         var get_hash_index_by_value = function( h, v ) {
-            for( k in h ) {
-                if( h[k]==v ) 
-                    return k; 
+            for ( k in h ) {
+                if ( h[k]==v ) {
+                    return k;
+                }
             } 
-        }
+        };
         const result = {};
         var   code_ndx = undefined;
         var   pax_ndx  = undefined;
-        fs.createReadStream(csvfile_name).pipe(csvStream).on('data',function(data) {
-            if( code_ndx==undefined && pax_ndx==undefined ) {
-                code_ndx = get_hash_index_by_value(data,"Code");
-                pax_ndx  = get_hash_index_by_value(data,"Pax 2014");
+        fs.createReadStream(csvfile_name).pipe(csvStream).on('data', function(data) {
+            if ( code_ndx==undefined && pax_ndx==undefined ) {
+                code_ndx = get_hash_index_by_value(data, "Code");
+                pax_ndx  = get_hash_index_by_value(data, "Pax 2014");
             }
             else {
                 result[data[code_ndx].toUpperCase()] = data[pax_ndx];
             }
-        }).on('end',function() {
-            callback(null,{'csvfile_name': csvfile_name, 'pax': result});
+        }).on('end', function() {
+            callback(null, {'csvfile_name': csvfile_name, 'pax': result});
         });
     };
 };
@@ -81,7 +84,9 @@ require('async').parallel(
     function( err, result ) {
         const util = require('util');
         const formatSqlString = function( s ) {
-            if( s=='\\N' ) return 'null';
+            if ( s=='\\N' ) {
+                return 'null';
+            }
             var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
                 switch (s) {
                 case "\0":
@@ -102,12 +107,12 @@ require('async').parallel(
                     return "\\" + s;
                 }
             });
-            return r!=s ? util.format("E'%s'",r) : util.format("'%s'",r); 
+            return r!=s ? util.format("E'%s'", r) : util.format("'%s'", r);
         };
         var airports_pax = {};
-        for( var ndx=1; ndx<result.length; ndx++ ) {
-            for( k in result[ndx].pax ) {
-                if( result[ndx].pax[k]>0 ) {
+        for ( var ndx=1; ndx<result.length; ndx++ ) {
+            for ( k in result[ndx].pax ) {
+                if ( result[ndx].pax[k]>0 ) {
                     airports_pax[k] = {
                         'csvfile_name' : result[ndx].csvfile_name,
                         'pax' : result[ndx].pax[k]
@@ -120,18 +125,18 @@ require('async').parallel(
         console.log("BEGIN;\n"+
                     "ALTER TABLE airports_new RENAME TO airports_old;\n"+
                     "CREATE TABLE airports_new (\n"+
-                    "  id		int primary key,\n"+
-                    "  name 	varchar,\n"+
-                    "  city 	varchar,\n"+
-                    "  country	varchar,\n"+
-                    "  iata_3code	varchar(5),\n"+
-                    "  icao_4code	varchar(5),\n"+
-                    "  latitude	float,\n"+
-                    "  longitude	float,\n"+
-                    "  altitude	float,\n"+
-                    "  timezone	float,\n"+
-                    "  dst		varchar(2),\n"+
-                    "  tz		varchar,\n"+
+                    "  id        int primary key,\n"+
+                    "  name     varchar,\n"+
+                    "  city     varchar,\n"+
+                    "  country    varchar,\n"+
+                    "  iata_3code    varchar(5),\n"+
+                    "  icao_4code    varchar(5),\n"+
+                    "  latitude    float,\n"+
+                    "  longitude    float,\n"+
+                    "  altitude    float,\n"+
+                    "  timezone    float,\n"+
+                    "  dst        varchar(2),\n"+
+                    "  tz        varchar,\n"+
                     "  pax          float,\n"+
                     "  neighbors varchar\n"+
                     ");");
@@ -140,45 +145,45 @@ require('async').parallel(
         var kdTree = require('kd.tree');
         // Make source data for kd-tree as array of airports objects
         var neighbors_array = [];
-        for( var iata_3code in airports_data ) {
-	    // Do not include local airports into neighbors
-	    if( airports_pax.hasOwnProperty(iata_3code) ) {
-		neighbors_array.push(airports_data[iata_3code]);
-	    }
+        for ( var iata_3code in airports_data ) {
+            // Do not include local airports into neighbors
+            if ( airports_pax.hasOwnProperty(iata_3code) ) {
+                neighbors_array.push(airports_data[iata_3code]);
+            }
         }
-        var neighbors_kdtree = new kdTree.createKdTree(neighbors_array,function( a, b ) {
-            return geolib.getDistance(a,b);
-        }, ['latitude','longitude']);
+        var neighbors_kdtree = new kdTree.createKdTree(neighbors_array, function( a, b ) {
+            return geolib.getDistance(a, b);
+            }, ['latitude','longitude']);
 
-        for( var iata_3code in airports_data ) {
+        for ( var iata_3code in airports_data ) {
             var data = airports_data[iata_3code];
             data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
 
-            data.neighbors = neighbors_kdtree.nearest(data,11).sort(function(a,b) {
+            data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function(a, b) {
                 return a[1]-b[1];
             }).filter(function( dd ) {
-		// Exclude the airport itself as its nearest neighbo
-		return dd[0].iata_3code!=iata_3code;
-	    }).map(function( dd ) {
-		// Map the remainder into a data structure
-                return {'iata_3code':dd[0].iata_3code,'distance':dd[1]};
+                // Exclude the airport itself as its nearest neighbors
+                return dd[0].iata_3code != iata_3code;
+            }).map(function( dd ) {
+        // Map the remainder into a data structure
+                return {'iata_3code':dd[0].iata_3code, 'distance':dd[1]};
             });
 
-	    // Patch some airports
-	    switch( iata_3code ) {
-	    case 'TLL':
-	    case 'ZQN':
-		// see http://prntscr.com/bafap0
-		var tmp = data.city;
-		data.city = data.name;
-		data.name = tmp;
-		break;
-	    case 'PWM':
-		data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
-		break;
-	    }
+        // Patch some airports
+        switch ( iata_3code ) {
+            case 'TLL':
+            case 'ZQN':
+                // see http://prntscr.com/bafap0
+                var tmp = data.city;
+                data.city = data.name;
+                data.name = tmp;
+                break;
+            case 'PWM':
+                data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+            break;
+        }
 
-	    console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
+        console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
                         formatSqlString(data.name),

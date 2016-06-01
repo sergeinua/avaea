@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 cat <<EOF
 BEGIN;
 ALTER TABLE airports_new RENAME TO airports_old;
