@@ -238,8 +238,10 @@
           data: {q: $.trim(cities[0]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData('originAirport', msg[0]);
-          drawAirportData('originAirport');
+          if (msg && msg.length) {
+            setAirportData('originAirport', msg[0]);
+            drawAirportData('originAirport');
+          }
         });
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
@@ -249,8 +251,10 @@
           data: {q: $.trim(cities[1]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData('destinationAirport', msg[0]);
-          drawAirportData('destinationAirport');
+          if (msg && msg.length) {
+            setAirportData('destinationAirport', msg[0]);
+            drawAirportData('destinationAirport');
+          }
         });
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
