@@ -108,7 +108,17 @@
     var _value = $.trim($(this).val());
     if (_value != '' && _value.length > 0) {
       showButtons(false);
+    } else {
+      showButtons(true);
     }
+  }).focus(function () {
+    start_button.addClass('hidden');
+    var _value = $.trim(final_textarea.val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
+  }).blur(function () {
+    start_button.removeClass('hidden');
   });
 
   var clearVoiceSearch = function () {
@@ -183,18 +193,14 @@
     }
   }
 
-  var current_disable;
   function showButtons(disable) {
-    if (disable == current_disable) {
-      return;
-    }
-    current_disable = disable;
     if (disable) {
       $('.voice-search-buttons').addClass('hidden');
       $('#voiceSearchFlight').addClass('disabled');
     } else {
       $('.voice-search-buttons').removeClass('hidden');
-      $('#voiceSearchFlight').removeClass('disabled hidden');
+      $('#voiceSearchFlight').removeClass('disabled');
+      $('#voiceSearchFlight').removeClass('hidden');
     }
   }
 
