@@ -6,7 +6,6 @@
   var start_timestamp;
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
-  var roundTrip = false;
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var oldPlaceholder = 'Press the button and dictate a flight request';
 
@@ -109,7 +108,17 @@
     var _value = $.trim($(this).val());
     if (_value != '' && _value.length > 0) {
       showButtons(false);
+    } else {
+      showButtons(true);
     }
+  }).focus(function () {
+    start_button.addClass('hidden');
+    var _value = $.trim(final_textarea.val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
+  }).blur(function () {
+    start_button.removeClass('hidden');
   });
 
   var clearVoiceSearch = function () {
@@ -139,20 +148,18 @@
 
   $('#voiceSearchFlight').click(function () {
     if ($(this).hasClass('disabled')) return;
+    if (recognition && recognizing) {
+      recognition.stop();
+    }
     var heightNav = $('.navbar-header').outerHeight(true);
     demo();
 
-    if (roundTrip) {
-      $('#round_trip').trigger('click');
-    } else {
-      $('#one_way').trigger('click');
-    }
     $('.navbar-header').css('height', heightNav);
   });
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
-
+    final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
     upgrade();
   }
 
@@ -189,18 +196,13 @@
     }
   }
 
-  var current_disable;
   function showButtons(disable) {
-    if (disable == current_disable) {
-      return;
-    }
-    current_disable = disable;
     if (disable) {
       $('.voice-search-buttons').addClass('hidden');
       $('#voiceSearchFlight').addClass('disabled');
-    } else {
+    } else if (!$('.flight-direction-item-voice-search').hasClass('hidden')) {
       $('.voice-search-buttons').removeClass('hidden');
-      $('#voiceSearchFlight').removeClass('disabled hidden');
+      $('#voiceSearchFlight').removeClass('disabled');
     }
   }
 
@@ -236,8 +238,10 @@
           data: {q: $.trim(cities[0]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData('originAirport', msg[0]);
-          drawAirportData('originAirport');
+          if (msg && msg.length) {
+            setAirportData('originAirport', msg[0]);
+            drawAirportData('originAirport');
+          }
         });
       } else cities[0] = "an unknown airport";
       if (cities[1]) {
@@ -247,8 +251,10 @@
           data: {q: $.trim(cities[1]), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
-          setAirportData('destinationAirport', msg[0]);
-          drawAirportData('destinationAirport');
+          if (msg && msg.length) {
+            setAirportData('destinationAirport', msg[0]);
+            drawAirportData('destinationAirport');
+          }
         });
       } else cities[1] = "an unknown airport";
       out_field += " here is what I understood -"
@@ -260,6 +266,13 @@
 
     var dates = speechSearchParse.parseDates(text);
     log(dates);
+
+    if (dates.length == 2) {
+      $('#round_trip').trigger('click');
+    } else {
+      $('#one_way').trigger('click');
+    }
+
     if (dates) {
       var leaving = "an unknown date", returning;
       if (dates[0]) {
@@ -272,8 +285,6 @@
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
-        //$('input[name=departureDate]', '.voiceSearch').val(leaving);
-        roundTrip = false;
       }
       if (dates[1]) {
         var _month = dates[1].getMonth() + 1,
@@ -285,8 +296,6 @@
         picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
         returning = dates[1].toDateString();
-        //$('input[name=returnDate]', '.voiceSearch').val(returning);
-        roundTrip = true;
       }
 
       $('#date_select_top').trigger('click');
@@ -294,7 +303,6 @@
       out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
     } else {
       out_field += " I did not find dates in your request. ";
-      roundTrip = false;
       return;
     }
 
