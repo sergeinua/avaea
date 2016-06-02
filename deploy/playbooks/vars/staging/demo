@@ -6,7 +6,7 @@ nginx:
   server_name: stage.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8000
-  config_name: demo.conf
+  config_name: staging_demo.conf
 
 upstart:
  config_name: staging_demo.conf
