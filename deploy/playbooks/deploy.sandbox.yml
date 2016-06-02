@@ -4,6 +4,7 @@
   gather_facts: false
   vars_files:
     - vars/sandbox/{{ APP }}
+    - vars/sandbox/environment.yaml
 
   roles:
   - sandbox.nginx
