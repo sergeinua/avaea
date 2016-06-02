@@ -11,6 +11,7 @@ nginx:
 upstart:
  config_name: stage_abo.conf
  service_name: stage_abo
+ log_name: stagingdev_abo.log
 
 cache_dir: abo/.tmp/public
 

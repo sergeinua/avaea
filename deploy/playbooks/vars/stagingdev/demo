@@ -7,6 +7,7 @@ nginx:
   proxy_pass_host: localhost
   proxy_pass_port: 9000
   config_name: stage_demo.conf
+  log_name: stagingdev_demo.log
 
 upstart:
  config_name: stage_demo.conf
