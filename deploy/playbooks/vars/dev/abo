@@ -9,9 +9,9 @@ nginx:
   config_name: stage_abo.conf
 
 upstart:
- config_name: stage_abo.conf
- service_name: stage_abo
- log_name: stagingdev_abo.log
+ config_name: dev_abo.conf
+ service_name: dev_abo
+ log_name: dev_abo.log
 
 cache_dir: abo/.tmp/public
 

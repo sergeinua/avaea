@@ -9,8 +9,8 @@ nginx:
   config_name: demo.conf
 
 upstart:
- config_name: demo.conf
- service_name: demo
+ config_name: staging_demo.conf
+ service_name: staging_demo
  log_name: staging_demo.log
 
 cache_dir: src/.tmp/public

@@ -9,8 +9,8 @@ nginx:
   config_name: abo.conf
 
 upstart:
- config_name: abo.conf
- service_name: abo
+ config_name: staging_abo.conf
+ service_name: staging_abo
  log_name: staging_abo.log
 
 cache_dir: abo/.tmp/public
