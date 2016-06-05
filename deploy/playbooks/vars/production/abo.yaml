@@ -11,6 +11,7 @@ nginx:
 upstart:
  config_name: abo.conf
  service_name: abo
+ log_name: abo.log
 
 cache_dir: abo/.tmp/public
 
