@@ -7,6 +7,7 @@ nginx:
   proxy_pass_host: localhost
   proxy_pass_port: 9090
   config_name: dev_abo.conf
+  source_name: staging_abo
 
 upstart:
  config_name: dev_abo.conf

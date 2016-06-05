@@ -7,6 +7,7 @@ nginx:
   proxy_pass_host: localhost
   proxy_pass_port: 8000
   config_name: demo.conf
+  source_name: demo
 
 upstart:
   config_name: demo.conf

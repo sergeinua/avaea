@@ -27,7 +27,7 @@
    state=absent
 
 - name: Deploy nginx configs
-  template: src=configs/nginx/sites-enabled/{{ APP }}
+  template: src=configs/nginx/sites-enabled/{{ nginx.source_name }}
     dest=/etc/nginx/sites-enabled/{{ nginx.config_name }}
     owner=root
     group=root
