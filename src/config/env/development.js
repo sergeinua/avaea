@@ -35,7 +35,7 @@ module.exports = {
   },
 
   port: 80,
-  proxyHost: 'http://www.avaea.com/',
+  proxyHost: 'http://stage.avaea.com/',
   proxyPort: 80,
 
   flightapis: {

@@ -351,8 +351,8 @@ nav {
   /*line-height: 0.9;*/
   letter-spacing: 0.3px;
   color: #333333;
-  padding-top: 10px;
-  padding-bottom:10px;
+  padding-top: 6px;
+  padding-bottom: 6px;
 }
 
 .itinerary-airline {
@@ -533,7 +533,7 @@ body.loading .modalLoader {
 }
 
 .flight-direction-item-selected {
-  width: 100px;
+  width: 120px;
   height: 100px;
   background-color: #004a99;
   font-family: WhitneyHTF-SemiBoldCondensed;
@@ -909,6 +909,12 @@ body.loading .modalLoader {
   background-color: #ffffff !important;
 }
 
+.datepicker span.range:not(.new):not(.old):not(.disabled),
+.datepicker table td.day.range:not(.new):not(.old):not(.disabled) {
+  background-color: #FFFBEB !important;
+}
+
+.datepicker span.active, .bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
   background-color: #ffe03f !important;
   border-radius: 0;
@@ -949,7 +955,8 @@ body.loading .modalLoader {
 
 .datepicker table td.day.old,
 .datepicker table td.day.new {
-  background-color: #FFFBEB !important;
+  /*background-color: #FFFBEB !important;*/
+  background: none !important;
 }
 
 .datepicker table td.day.disabled.old,
@@ -962,6 +969,7 @@ body.loading .modalLoader {
 .datepicker table td.disabled,
 .datepicker table td.disabled:hover {
   background: none !important;
+  text-decoration: line-through;
 }
 
 .bootstrap-datetimepicker-widget table td,
