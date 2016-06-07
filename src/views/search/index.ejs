@@ -12,7 +12,7 @@
   <div class="row text-center flight-direction">
     <div class="col-xs-12 clearfix flight-direction-item-voice-search hidden">
       <div class="voice-search-content si-wrapper">
-        <textarea name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Press the button and dictate a flight request"></textarea>
+        <textarea name="voiceSearch" id="voiceSearchTextarea" class="voice-search-textarea si-input" placeholder="Tap the microphone and say how many tickets you need, from where to where, and on which dates."></textarea>
         <i class="fa fa-microphone si-btn" id="start_button"></i>
       </div>
     </div>
@@ -124,8 +124,8 @@
   </div>
   <%- partial('landscape')%>
 
-  <div id="planePath" class="hidden" style="position:absolute;left:0;bottom:0;z-index:99999; width:100%;height: 50px; background-color: white;">
-    <div id="plane" style="position:absolute;left:0;bottom:0;z-index:99999">
+  <div id="planePath" class="hidden" style="position:absolute;left:0;bottom:0;z-index:99999; width:100%;height: 50px; background-color: white; overflow: hidden;">
+    <div id="plane" style="position:inherit;left:0;bottom:0;z-index:99999">
       <img src="/images/plane.jpg">
     </div>
   </div>

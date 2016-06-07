@@ -6,11 +6,13 @@ nginx:
   server_name: stage.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 8000
-  config_name: demo.conf
+  config_name: staging_demo.conf
+  source_name: staging_demo
 
 upstart:
- config_name: demo.conf
- service_name: demo
+ config_name: staging_demo.conf
+ service_name: staging_demo
+ log_name: staging_demo.log
 
 cache_dir: src/.tmp/public
 

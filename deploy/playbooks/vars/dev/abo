@@ -6,11 +6,13 @@ nginx:
   server_name: dev.abo.avaea.com
   proxy_pass_host: localhost
   proxy_pass_port: 9090
-  config_name: stage_abo.conf
+  config_name: dev_abo.conf
+  source_name: staging_abo
 
 upstart:
- config_name: stage_abo.conf
- service_name: stage_abo
+ config_name: dev_abo.conf
+ service_name: dev_abo
+ log_name: dev_abo.log
 
 cache_dir: abo/.tmp/public
 
