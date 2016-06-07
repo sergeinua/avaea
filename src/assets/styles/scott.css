@@ -690,6 +690,18 @@ body.loading .modalLoader {
   padding-right: 15px;
 }
 
+.container-bottom {
+  position: fixed;
+  bottom: 10px;
+  width: 100%;
+  margin-left: -15px;
+}
+.search-col-left {
+  padding-right: 2px;
+}
+.search-col-right {
+  padding-left: 2px;
+}
 .search-button {
   width: 145px;
   height: 44px;
