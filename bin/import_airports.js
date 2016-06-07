@@ -13,7 +13,7 @@ const datFile_headers = ['id','name','city','country','iata_3code','icao_4code',
 
 // Function for read and parse data file as csv
 const readDatfile = function( callback ) {
-    if ( argv.loglevel>0 ) {
+    if ( argv.loglevel > 0 ) {
         console.log("Reading %s", argv.datfile);
     }
     const request   = require('request');
@@ -43,9 +43,53 @@ const readDatfile = function( callback ) {
     });
 };
 
+var limit = require("simple-rate-limiter");
+var limitedRequest = limit(require("request")).to(10).per(1000);
+const getGoogleApiData = function(data, cb) {
+    if (data.country == 'United States') {
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
+            data.latitude + ',' + data.longitude +
+            '&key=AIzaSyASMByFEx-M1HAtPIRchtC7YxmD5_Cc-VU';
+
+        return limitedRequest(url, function(error, response, google_data) {
+            var jdata = JSON.parse(google_data);
+            if (!error && jdata.results && jdata.results[0]) {
+                for ( var i = 0; i < jdata.results[0].address_components.length; i++ ) {
+                    var addr = jdata.results[0].address_components[i];
+                    if (addr.types[0] == 'administrative_area_level_1') {
+                        var result = {
+                            'state': addr.long_name,
+                            'state_short': addr.short_name
+                        };
+                        return cb(null, result, data);
+                    }
+                }
+            } else {
+                if ( argv.loglevel > 0 ) {
+                    console.log('Error:', error, 'Data:', data);
+                }
+                return cb(error, {}, data);
+            }
+        });
+    } else {
+        return cb(null, {}, data);
+    }
+};
+
 const getReadCsvfile = function( csvfile_name ) {
+    // The .csv files with information about airport passenger traffic are gotten from http://www.anna.aero/databases/
+    //
+    // Another option for figuring out which airports take and do not take passenger traffic is information about
+    // "airport enplanements". This information is publicly available at
+    // http://www.faa.gov/airports/planning_capacity/passenger_allcargo_stats/passenger/media/cy14-commercial-service-enplanements.xlsx
+    // The good news that it has enplanement information for about 500 US airports, compare this with http://www.anna.aero/databases/
+    // which has passenger information about 93 US airports out of 1457 total airports in USA. The bad news is that FAA information
+    // does not give any information about not USA airports. To support "enplanements" information we will have to create another column in
+    // the database.
+    //
+    // One other way to get airport passenger information is scraping pages like http://www.transtats.bts.gov/airports.asp?Airport=PWM
     return function( callback ) {
-        if ( argv.loglevel>0 ) {
+        if ( argv.loglevel > 0 ) {
             console.log("Reading %s", csvfile_name);
         }
         var csvStream = csv({
@@ -56,7 +100,7 @@ const getReadCsvfile = function( csvfile_name ) {
         });
         var get_hash_index_by_value = function( h, v ) {
             for ( k in h ) {
-                if ( h[k]==v ) {
+                if ( h[k] == v ) {
                     return k;
                 }
             } 
@@ -65,7 +109,7 @@ const getReadCsvfile = function( csvfile_name ) {
         var   code_ndx = undefined;
         var   pax_ndx  = undefined;
         fs.createReadStream(csvfile_name).pipe(csvStream).on('data', function(data) {
-            if ( code_ndx==undefined && pax_ndx==undefined ) {
+            if ( code_ndx == undefined && pax_ndx == undefined ) {
                 code_ndx = get_hash_index_by_value(data, "Code");
                 pax_ndx  = get_hash_index_by_value(data, "Pax 2014");
             }
@@ -84,7 +128,7 @@ require('async').parallel(
     function( err, result ) {
         const util = require('util');
         const formatSqlString = function( s ) {
-            if ( s=='\\N' ) {
+            if ( !s || s == '\\N' ) {
                 return 'null';
             }
             var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
@@ -107,12 +151,12 @@ require('async').parallel(
                     return "\\" + s;
                 }
             });
-            return r!=s ? util.format("E'%s'", r) : util.format("'%s'", r);
+            return (r != s) ? util.format("E'%s'", r) : util.format("'%s'", r);
         };
         var airports_pax = {};
         for ( var ndx=1; ndx<result.length; ndx++ ) {
             for ( k in result[ndx].pax ) {
-                if ( result[ndx].pax[k]>0 ) {
+                if ( result[ndx].pax[k] > 0 ) {
                     airports_pax[k] = {
                         'csvfile_name' : result[ndx].csvfile_name,
                         'pax' : result[ndx].pax[k]
@@ -120,7 +164,9 @@ require('async').parallel(
                 }
             }
         }
+
         var geolib        = require('geolib');
+        var _ = require('lodash');
         var airports_data = result[0];
         console.log("BEGIN;\n"+
                     "ALTER TABLE airports_new RENAME TO airports_old;\n"+
@@ -137,6 +183,8 @@ require('async').parallel(
                     "  timezone    float,\n"+
                     "  dst        varchar(2),\n"+
                     "  tz        varchar,\n"+
+                    "  state     varchar,\n"+
+                    "  state_short     varchar,\n"+
                     "  pax          float,\n"+
                     "  neighbors varchar\n"+
                     ");");
@@ -156,51 +204,60 @@ require('async').parallel(
             }, ['latitude','longitude']);
 
         for ( var iata_3code in airports_data ) {
-            var data = airports_data[iata_3code];
-            data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+            var data = _.clone(airports_data[iata_3code], true);
 
-            data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function(a, b) {
-                return a[1]-b[1];
-            }).filter(function( dd ) {
-                // Exclude the airport itself as its nearest neighbors
-                return dd[0].iata_3code != iata_3code;
-            }).map(function( dd ) {
-        // Map the remainder into a data structure
-                return {'iata_3code':dd[0].iata_3code, 'distance':dd[1]};
+                data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+
+                data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function (a, b) {
+                    return a[1] - b[1];
+                }).filter(function (dd) {
+                    // Exclude the airport itself as its nearest neighbors
+                    return dd[0].iata_3code != iata_3code;
+                }).map(function (dd) {
+                    // Map the remainder into a data structure
+                    return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
+                });
+
+                // Patch some airports
+                switch (iata_3code) {
+                    case 'TLL':
+                    case 'ZQN':
+                        // see http://prntscr.com/bafap0
+                        var tmp = data.city;
+                        data.city = data.name;
+                        data.name = tmp;
+                        break;
+                    case 'PWM':
+                        data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+                        break;
+                }
+
+            getGoogleApiData(data, function (error, apiResult, data) {
+                data.state = apiResult.state || '';
+                data.state_short = apiResult.state_short || '';
+                console.log("INSERT INTO airports_new(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
+                    datFile_headers.join(","),
+                    data.id,
+                    formatSqlString(data.name),
+                    formatSqlString(data.city),
+                    formatSqlString(data.country),
+                    formatSqlString(data.iata_3code),
+                    formatSqlString(data.icao_4code),
+                    data.latitude,
+                    data.longitude,
+                    data.altitude,
+                    data.timezone,
+                    formatSqlString(data.dst),
+                    formatSqlString(data.tz),
+                    formatSqlString(data.state),
+                    formatSqlString(data.state_short),
+                    data.pax,
+                    formatSqlString(JSON.stringify(data.neighbors)));
+                return data;
             });
 
-        // Patch some airports
-        switch ( iata_3code ) {
-            case 'TLL':
-            case 'ZQN':
-                // see http://prntscr.com/bafap0
-                var tmp = data.city;
-                data.city = data.name;
-                data.name = tmp;
-                break;
-            case 'PWM':
-                data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
-            break;
         }
-
-        console.log("INSERT INTO airports_new(%s,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%d,%s);",
-                        datFile_headers.join(","),
-                        data.id,
-                        formatSqlString(data.name),
-                        formatSqlString(data.city),
-                        formatSqlString(data.country),
-                        formatSqlString(data.iata_3code),
-                        formatSqlString(data.icao_4code),
-                        data.latitude,
-                        data.longitude,
-                        data.altitude,
-                        data.timezone,
-                        formatSqlString(data.dst),
-                        formatSqlString(data.tz),
-                        data.pax,
-                        formatSqlString(JSON.stringify(data.neighbors)));
-        }
-        console.log("DROP TABLE airports_old;\n"+
-                    "COMMIT;");
     }
 );
+console.log("DROP TABLE airports_old;\n"+
+    "COMMIT;");

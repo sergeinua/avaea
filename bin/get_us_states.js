@@ -30,10 +30,7 @@ const readDatfile = function(url) {
 
                 parsed = rx.exec(data);
                 console.log("UPDATE airports_new SET city = city || ', " +
-                    airports.state + "' WHERE icao_4code = '" + airports.icao_4code + "' AND id IN (" +
-                "SELECT id FROM airports_new WHERE city IN (" +
-                    "SELECT city FROM airports_new GROUP BY 1 HAVING count(*) > 1" +
-            ") AND country = 'United States' ORDER BY city);");
+                    airports.state + "' WHERE icao_4code = '" + airports.icao_4code + "'");
             }
         });
     });
