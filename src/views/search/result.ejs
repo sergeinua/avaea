@@ -25,18 +25,18 @@
         <div style="float: right; min-width: 30px; margin-top:-3px;" class="text-right">
           <div class="sort-button">
             <button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-lightbulb-o" aria-hidden="true"></i>  <span id="sort-menu-direction">&darr;<!-- &uarr; --></span>
+              <i class="fa fa-usd" aria-hidden="true"></i>  <span id="sort-menu-direction">&darr;</span>
             </button>
             <ul class="dropdown-menu">
               <%
                 var sortOptions = {
-                  smart: {
-                    icon: '<i class="fa fa-lightbulb-o" aria-hidden="true"></i>',
-                    title: __('Smart Rank')
-                  },
                   price: {
                     icon: '<i class="fa fa-usd" aria-hidden="true"></i>',
                     title: __('Price')
+                  },
+                  smart: {
+                    icon: '<i class="fa fa-lightbulb-o" aria-hidden="true"></i>',
+                    title: __('Smart Rank')
                   },
                   duration: {
                     icon: '<i class="fa fa-clock-o" aria-hidden="true"></i>',
@@ -270,7 +270,7 @@
 
 <style>
     body {
-      padding-top: 220px;
+      padding-top: 210px;
     }
 </style>
 
