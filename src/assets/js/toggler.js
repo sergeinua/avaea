@@ -292,6 +292,13 @@ $(document).ready(function() {
       $(this).addClass('dropup');
       order = 'desc';
     }
+    if (order == 'asc') {
+      $('#sort-menu-direction').html('&darr;');
+      console.log(order);
+    } else {
+      $('#sort-menu-direction').html('&uarr;');
+      console.log(order);
+    }
     $(this).attr('order', order);
     var itineraries = $('.itinerary');
     itineraries.sort(function (a, b) {
