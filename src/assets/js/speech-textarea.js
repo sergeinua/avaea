@@ -7,7 +7,7 @@
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
-  var oldPlaceholder = 'Press the button and dictate a flight request';
+  var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
@@ -16,7 +16,6 @@
       startButton(e);
     }).show();
 
-    var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.continuous = true;
@@ -118,7 +117,11 @@
       showButtons(false);
     }
   }).blur(function () {
-    start_button.removeClass('hidden');
+    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
+    var _value = $.trim(final_textarea.val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
   });
 
   var clearVoiceSearch = function () {
@@ -159,12 +162,14 @@
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
-    final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    if (!isMobileDev) {
+      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    }
     upgrade();
   }
 
   function upgrade() {
-    start_button.hide();
+    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
