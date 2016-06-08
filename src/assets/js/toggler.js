@@ -1081,7 +1081,7 @@ $(document).ready(function() {
         $('.flight-date-info').addClass('hidden');
         $('.flight-additional-info').addClass('hidden');
         $('.searchform-top').addClass('hidden');
-        $('.container-fluid').css({
+        $('.main.container-fluid').css({
           'height': '100%'
         });
         $('.flight-direction').css({
