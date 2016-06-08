@@ -23,4 +23,5 @@
     - vars/production/environment.yaml
 
   roles:
+  - production.nginx
   - app

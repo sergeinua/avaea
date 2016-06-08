@@ -1,0 +1,15 @@
+- name: Copy nginx certificate chain
+  copy:
+    src=configs/nginx/certificates/avaea.com.crt
+    dest=/root/avaea.com.crt
+    owner=root
+    group=root
+    mode=0400
+
+- name: Copy nginx certificate key
+  copy:
+    src=configs/nginx/certificates/avaea.key
+    dest=/root/avaea.key
+    owner=root
+    group=root
+    mode=0400
