@@ -1157,4 +1157,10 @@ body.loading .modalLoader {
   .flight-date-info-item.sel > div.row:first-child > div {
     padding: 4px;
   }
+  span.flight-date {
+    padding-left: 20px;
+  }
+  .text-spacer {
+    padding-left: 20px;
+  }
 }
