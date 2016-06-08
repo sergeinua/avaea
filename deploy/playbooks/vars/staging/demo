@@ -1,4 +1,4 @@
-dir: /home/deerploy/prod
+dir: /home/deerploy/staging_demo
 
 nginx:
   listen_host: avaea
