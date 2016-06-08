@@ -306,6 +306,11 @@ $(document).ready(function() {
       $(this).addClass('dropup');
       order = 'desc';
     }
+    if (order == 'asc') {
+      $('#sort-menu-direction').html('&darr;');
+    } else {
+      $('#sort-menu-direction').html('&uarr;');
+    }
     $(this).attr('order', order);
     var itineraries = $('.itinerary');
     itineraries.sort(function (a, b) {
