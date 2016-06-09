@@ -232,32 +232,30 @@ require('async').parallel(
                         break;
                 }
 
-            getGoogleApiData(data, function (error, apiResult, data) {
-                data.state = apiResult.state || '';
-                data.state_short = apiResult.state_short || '';
-                console.log("INSERT INTO airports_new(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
-                    datFile_headers.join(","),
-                    data.id,
-                    formatSqlString(data.name),
-                    formatSqlString(data.city),
-                    formatSqlString(data.country),
-                    formatSqlString(data.iata_3code),
-                    formatSqlString(data.icao_4code),
-                    data.latitude,
-                    data.longitude,
-                    data.altitude,
-                    data.timezone,
-                    formatSqlString(data.dst),
-                    formatSqlString(data.tz),
-                    formatSqlString(data.state),
-                    formatSqlString(data.state_short),
-                    data.pax,
-                    formatSqlString(JSON.stringify(data.neighbors)));
-                return data;
-            });
-
+            // require('async').parallel([function (cb) {
+                getGoogleApiData(data, function (error, apiResult, data) {
+                    data.state = apiResult.state || '';
+                    data.state_short = apiResult.state_short || '';
+                    console.log("INSERT INTO airports_new(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
+                        datFile_headers.join(","),
+                        data.id,
+                        formatSqlString(data.name),
+                        formatSqlString(data.city),
+                        formatSqlString(data.country),
+                        formatSqlString(data.iata_3code),
+                        formatSqlString(data.icao_4code),
+                        data.latitude,
+                        data.longitude,
+                        data.altitude,
+                        data.timezone,
+                        formatSqlString(data.dst),
+                        formatSqlString(data.tz),
+                        formatSqlString(data.state),
+                        formatSqlString(data.state_short),
+                        data.pax,
+                        formatSqlString(JSON.stringify(data.neighbors)));
+                    return data;
+                });
         }
     }
 );
-console.log("DROP TABLE airports_old;\n"+
-    "COMMIT;");
