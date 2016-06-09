@@ -503,7 +503,10 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
-    recalculateBodyPadding();
+    clearTimeout(window.resizedFinished);
+    window.resizedFinished = setTimeout(function(){
+      recalculateBodyPadding();
+    }, 250);
   });
 
   /**
