@@ -5,5 +5,4 @@ singlepage/server_logs
 singlepage/public/bower_components
 *.retry
 npm-debug.log
-**/keys
-avaea.sql.gz
+

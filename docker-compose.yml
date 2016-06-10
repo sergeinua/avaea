@@ -74,6 +74,8 @@ services:
     build:
       context: .
       dockerfile: images/postgres/postgres.Dockerfile
+    volumes:
+      - ./images/postgres/data/:/docker-entrypoint-initdb.d/
     networks:
       - avaea_network
     ports:
