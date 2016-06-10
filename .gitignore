@@ -5,4 +5,4 @@ singlepage/server_logs
 singlepage/public/bower_components
 *.retry
 npm-debug.log
-
+deploy/playbooks/keys
