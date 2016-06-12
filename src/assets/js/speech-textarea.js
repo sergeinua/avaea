@@ -286,7 +286,7 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#departureDate').data('date', dates[0].getFullYear() + '-' +	_month + '-' + _day);
-        var picker = $('#depart_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
@@ -297,7 +297,7 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#returnDate').data('date', dates[1].getFullYear() + '-' + _month + '-' + _day);
-        var picker = $('#return_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
         picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
         returning = dates[1].toDateString();
