@@ -144,7 +144,10 @@ $(document).ready(function() {
     }
 
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-    var navHeight = $('#main_title').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -503,10 +506,13 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
-    clearTimeout(window.resizedFinished);
-    window.resizedFinished = setTimeout(function(){
-      recalculateBodyPadding();
-    }, 250);
+    //DEMO-318 an unused horizontal stripe between tiles and itin summaries
+    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
+    $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
   /**
