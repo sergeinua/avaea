@@ -8,24 +8,9 @@
 module.exports = {
 
   attributes: {
-    user             : { model: 'User', required: true },
-    firstName        : { type: 'alpha' },
-    middleName       : { type: 'string' },
-    lastName         : { type: 'alpha' },
-    gender           : {
-      type: 'string', enum: ['M', 'F']
-    },
-    birthday         : { type: 'date' },
-    pax_type         : {
-      type: 'string', enum: ['ADT', 'CHD', 'INF']
-    },
-    address          : { type: 'string' },
-    notifyContact    : { type: 'json' },
-    travelWith       : { type: 'json' },
-    milesPrograms    : { type: 'json' },
-    loungeMembership : { type: 'json' },
-    employer         : { type: 'json' },
-    ethnicity        : {
+    user               : { model: 'User', required: true },
+    personal_info      : { type: 'json' },
+    ethnicity          : {
       type: 'string',
       enum:
         [
@@ -40,12 +25,12 @@ module.exports = {
           'South Pacific'
         ]
     },
-    showTiles         : { type: 'boolean'},
-    preferredAirlines : { type: 'json' },
-    city              : { type: 'string' },
-    state             : { type: 'string' },
-    country_code      : { type: 'string' },
-    zip_code          : { type: 'string' }
+    notify_contact     : { type: 'json' },
+    travel_with        : { type: 'json' },
+    miles_programs     : { type: 'json' },
+    lounge_membership  : { type: 'json' },
+    employer           : { type: 'json' },
+    preferred_airlines : { type: 'json' }
   },
 
   attr_gender: {
@@ -66,18 +51,32 @@ module.exports = {
     var jsonStruct = form;
     jsonStruct.user = user.id;
 
-    jsonStruct.notifyContact = {
-      name: form['notifyContact.name'],
-      phone: form['notifyContact.phone']
+    jsonStruct.personal_info = {
+      first_name  : form['first_name'],
+      middle_name : form['middle_name'],
+      last_name   : form['last_name'],
+      gender      : form['gender'],
+      birthday    : form['birthday'],
+      pax_type    : form['pax_type'],
+      address     : {
+        street        : form['street'],
+        city          : form['city'],
+        state         : form['state'],
+        country_code  : form['country_code'],
+        zip_code      : form['zip_code']
+      },
+      show_tiles  : form['show_tiles']
     };
-
-    jsonStruct.travelWith = [];
-    jsonStruct.milesPrograms = [];
-    jsonStruct.loungeMembership = [];
-    jsonStruct.preferredAirlines = [];
-
+    jsonStruct.notify_contact = {
+      name: form['notify_contact.name'],
+      phone: form['notify_contact.phone']
+    };
+    jsonStruct.travel_with = [];
+    jsonStruct.miles_programs = [];
+    jsonStruct.lounge_membership = [];
+    jsonStruct.preferred_airlines = [];
     jsonStruct.employer = {
-      companyName: form["employer.companyName"],
+      company_name: form["employer.company_name"],
       address: form["employer.address"],
       phone: form["employer.phone"],
       position: form["employer.position"],
@@ -85,48 +84,47 @@ module.exports = {
       income: form["employer.income"]
     };
 
-    jsonStruct.showTiles = form['showTiles'];
+    if (form['travel_with.first_name']) {
+      for (var i = 0; i < form['travel_with.first_name'].length; i++) {
+        jsonStruct.travel_with.push({
+          first_name: form['travel_with.first_name'][i],
+          last_name: form['travel_with.last_name'][i],
+          gender: form['travel_with.gender'][i],
+          date_of_birth: form['travel_with.date_of_birth'][i]
+        });
+      }
+    } else {
+      jsonStruct.travel_with.push({
+        first_name: '',
+        last_name: '',
+        gender: '',
+        date_of_birth: ''
+      });
+    }
 
-      if (form['travelWith.firstName']) {
-        for (var i = 0; i < form['travelWith.firstName'].length; i++) {
-          jsonStruct.travelWith.push({
-            firstName: form['travelWith.firstName'][i],
-            lastName: form['travelWith.lastName'][i],
-            gender: form['travelWith.gender'][i],
-            DateOfBirth: form['travelWith.DateOfBirth'][i]
-          });
-        }
-      } else {
-        jsonStruct.travelWith.push({
-          firstName: '',
-          lastName: '',
-          gender: '',
-          DateOfBirth: ''
-        });
-      }
-      for (var i = 0; i < form['milesPrograms.airlineName'].length; i++) {
-        jsonStruct.milesPrograms.push({
-          airlineName:    form['milesPrograms.airlineName'][i],
-          accountNumber:  form['milesPrograms.accountNumber'][i],
-          flierMiles:     form['milesPrograms.flierMiles'][i],
-          expirationDate: form['milesPrograms.expirationDate'][i]
-        });
-      }
-      for (var i = 0; i < form['loungeMembership.airlineName'].length; i++) {
-        jsonStruct.loungeMembership.push({
-          airlineName:      form['loungeMembership.airlineName'][i],
-          membershipNumber: form['loungeMembership.membershipNumber'][i],
-          expirationDate:   form['loungeMembership.expirationDate'][i]
-        });
-      }
+    for (var i = 0; i < form['miles_programs.airline_name'].length; i++) {
+      jsonStruct.miles_programs.push({
+        airline_name:    form['miles_programs.airline_name'][i],
+        account_number:  form['miles_programs.account_number'][i],
+        flier_miles:     form['miles_programs.flier_miles'][i],
+        expiration_date: form['miles_programs.expiration_date'][i]
+      });
+    }
+    for (var i = 0; i < form['lounge_membership.airline_name'].length; i++) {
+      jsonStruct.lounge_membership.push({
+        airline_name:      form['lounge_membership.airline_name'][i],
+        membership_number: form['lounge_membership.membership_number'][i],
+        expiration_date:   form['lounge_membership.expiration_date'][i]
+      });
+    }
 
-      for (var i = 0; i < form['preferredAirlines.travelType'].length; i++) {
-        jsonStruct.preferredAirlines.push({
-          travelType: form['preferredAirlines.travelType'][i],
-          airlineName: form['preferredAirlines.airlineName'][i]
-        });
-      }
+    for (var i = 0; i < form['preferred_airlines.travelType'].length; i++) {
+      jsonStruct.preferred_airlines.push({
+        travel_type: form['preferred_airlines.travelType'][i],
+        airline_name: form['preferred_airlines.airline_name'][i]
+      });
+    }
 
-      return jsonStruct;
+    return jsonStruct;
   }
 };
