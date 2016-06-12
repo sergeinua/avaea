@@ -1102,6 +1102,7 @@ $(document).ready(function() {
 
         $('.search-button').hide();
         $('.search-top-button').hide();
+        $('#voiceSearchTextarea').focus();
         break;
       case 'one_way':
         $('.flight-direction-item-voice-search').addClass('hidden');
