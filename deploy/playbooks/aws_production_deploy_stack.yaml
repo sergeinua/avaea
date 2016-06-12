@@ -32,6 +32,9 @@
   become: yes
   remote_user: ubuntu
 
+  vars_files:
+    - vars/production/general.yaml
+
   tasks:
     - name: Update /etc/hosts file for better network name resolution
       blockinfile:
@@ -39,6 +42,13 @@
         block: |
           {{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_private_ip_address'] }} avaea
         marker: "# {{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_tag_Name'] }}"
+
+    - name: Update /etc/hosts file with hostname
+      blockinfile:
+        dest: /etc/hosts
+        block: |
+          {{ hostvars[groups['tag_Name_avaea1'][0]]['ec2_private_ip_address'] }} {{ hostname }}
+        marker: "# {{ hostname}}"
 
 
 - name: Deploy avaea application to a production server
