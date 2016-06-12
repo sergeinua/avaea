@@ -21,12 +21,24 @@ module.exports = {
    */
   index: function (req, res) {
 
+    var tmpDefaultDepDate = sails.moment().add(2, 'w');
+    var tmpDefaultRetDate = sails.moment().add(4, 'w');
+    var nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
+
+    if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
+      tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+      tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
+    } else {
+      tmpDefaultDepDate = sails.moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+      tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+    }
+
     var params = {
       DepartureLocationCode: _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
       ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
       CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
-      departureDate: _.isEmpty(req.session.departureDate) ? sails.moment().add(3, 'w').format('YYYY-MM-DD') : req.session.departureDate,
-      returnDate: _.isEmpty(req.session.returnDate) ? '' : req.session.returnDate,
+      departureDate: _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
+      returnDate: _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
       passengers: _.isEmpty(req.session.passengers) ? '' : req.session.passengers,
       flightType: _.isEmpty(req.session.flightType) ? '' : req.session.flightType
     };

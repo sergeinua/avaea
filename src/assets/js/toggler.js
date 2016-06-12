@@ -22,9 +22,7 @@ var drawAirportData = function (target) {
       $('#from-area-selected').removeClass('hidden');
       $('#from-airport-selected').text(airportCode);
       $('#from-city-selected').text(cityName);
-      if($('#from-area').hasClass("error_elem")) {
-        $('#from-area').removeClass("error_elem");
-      }
+      unsetErrorElement('#from-area');
     } else {
       $('#from-area-selected').addClass('hidden');
       $('#from-area').removeClass('hidden');
@@ -37,15 +35,31 @@ var drawAirportData = function (target) {
       $('#to-area-selected').removeClass('hidden');
       $('#to-airport-selected').text(airportCode);
       $('#to-city-selected').text(cityName);
-      if($('#to-area').hasClass("error_elem")) {
-        $('#to-area').removeClass("error_elem");
-      }
+      unsetErrorElement('#to-area');
     } else {
       $('#to-area-selected').addClass('hidden');
       $('#to-area').removeClass('hidden');
       $('#to-airport-selected').text('');
       $('#to-city-selected').text('');
     }
+  }
+};
+
+// Vars
+var flashErrorTimeout = 700;
+
+// For elements with error
+var setErrorElement = function (selector) {
+  // Logic and animation
+  $(selector).addClass('error_elem error_flash');
+  // Animation
+  setTimeout(function() {
+    $(selector).removeClass('error_flash');
+  }, flashErrorTimeout);
+};
+var unsetErrorElement = function (selector) {
+  if($(selector).hasClass("error_elem")) {
+    $(selector).removeClass("error_elem");
   }
 };
 
@@ -130,7 +144,10 @@ $(document).ready(function() {
     }
 
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-    var navHeight = $('#main_title').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -291,6 +308,11 @@ $(document).ready(function() {
     if ($(this).attr('order') == 'asc') {
       $(this).addClass('dropup');
       order = 'desc';
+    }
+    if (order == 'asc') {
+      $('#sort-menu-direction').html('&darr;');
+    } else {
+      $('#sort-menu-direction').html('&uarr;');
     }
     $(this).attr('order', order);
     var itineraries = $('.itinerary');
@@ -484,7 +506,13 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
-    recalculateBodyPadding();
+    //DEMO-318 an unused horizontal stripe between tiles and itin summaries
+    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
+    $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
   /**
@@ -569,17 +597,17 @@ $(document).ready(function() {
 
     // Check airports selection
     if ($('#originAirport').val() == '') {
-      $('#from-area').addClass("error_elem");
+      setErrorElement('#from-area');
       _isError = true;
     }
     if ($('#destinationAirport').val() == '') {
-      $('#to-area').addClass("error_elem");
+      setErrorElement('#to-area');
       _isError = true;
     }
 
     // Check existence of the return date for the round trip
     if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
-      $('.flight-date-info-item.ret').addClass("error_elem");
+      setErrorElement('.flight-date-info-item.ret');
       _isError = true;
     }
 
@@ -911,19 +939,19 @@ $(document).ready(function() {
 
     // Check depart date
     if(moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
-      $('.flight-date-info-item.dep').addClass("error_elem");
+      setErrorElement('.flight-date-info-item.dep');
       _isError = true;
-    } else if($('.flight-date-info-item.dep').hasClass("error_elem")) {
-      $('.flight-date-info-item.dep').removeClass("error_elem");
+    } else {
+      unsetErrorElement('.flight-date-info-item.dep');
     }
 
     // Check return date
     if (flightType == 'round_trip') {
       if(moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
-        $('.flight-date-info-item.ret').addClass("error_elem");
+        setErrorElement('.flight-date-info-item.ret');
         _isError = true;
-      } else if($('.flight-date-info-item.ret').hasClass("error_elem")) {
-        $('.flight-date-info-item.ret').removeClass("error_elem");
+      } else {
+        unsetErrorElement('.flight-date-info-item.ret');
       }
     }
 
@@ -1062,7 +1090,7 @@ $(document).ready(function() {
         $('.flight-date-info').addClass('hidden');
         $('.flight-additional-info').addClass('hidden');
         $('.searchform-top').addClass('hidden');
-        $('.container-fluid').css({
+        $('.main.container-fluid').css({
           'height': '100%'
         });
         $('.flight-direction').css({
@@ -1074,6 +1102,7 @@ $(document).ready(function() {
 
         $('.search-button').hide();
         $('.search-top-button').hide();
+        $('#voiceSearchTextarea').focus();
         break;
       case 'one_way':
         $('.flight-direction-item-voice-search').addClass('hidden');

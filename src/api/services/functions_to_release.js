@@ -981,10 +981,10 @@ module.exports = {
 
 	if ( (price_preference==0) || (duration_preference==0) || (departure_preference==0) || (airline_preference==0) )
         {
-            price_preference     += 0.2;
-            duration_preference  += 0.2;
-            departure_preference += 0.2;
-            airline_preference   += 0.2;
+            price_preference     += 0.1;
+            duration_preference  += 0.1;
+            departure_preference += 0.1;
+            airline_preference   += 0.1;
         }
 
         //console.log("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
