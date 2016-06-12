@@ -287,6 +287,7 @@
         if (_day < 10) _day = '0' + _day;
         $('#departureDate').data('date', dates[0].getFullYear() + '-' +	_month + '-' + _day);
         var picker = $('#dr_picker').data('DateTimePicker');
+        picker.clear();
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
