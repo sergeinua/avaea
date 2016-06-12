@@ -242,7 +242,7 @@
       <% } %>
       <div class="row">
         <div class="col-xs-3 text-nowrap notable-text detail-col-left">
-          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= pair.from.airlineCode %>" title="<%= pair.from.airline %>" data-code="<%= pair.from.airlineCode %>" data-name="<%= pair.from.airline %>" >
+          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= flight.airlineCode %>" title="<%= flight.airline %>" data-code="<%= flight.airlineCode %>" data-name="<%= flight.airline %>" >
           <%= flight.abbrNumber %>
         </div>
         <div class="col-xs-2 text-nowrap detail-col"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
