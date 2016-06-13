@@ -937,7 +937,9 @@ body.loading .modalLoader {
 }
 
 .dropdown-menu {
-  background-color: #204D74;
+  background-color: #101742;
+  padding: 0;
+  margin: -1px;
 }
 .dropdown-menu>li>a.our-dropdown {
   color: white;
