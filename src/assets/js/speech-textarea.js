@@ -7,7 +7,7 @@
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
-  var oldPlaceholder = 'Press the button and dictate a flight request';
+  var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
@@ -16,7 +16,6 @@
       startButton(e);
     }).show();
 
-    var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.continuous = true;
@@ -118,7 +117,11 @@
       showButtons(false);
     }
   }).blur(function () {
-    start_button.removeClass('hidden');
+    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
+    var _value = $.trim(final_textarea.val());
+    if (_value != '' && _value.length > 0) {
+      showButtons(false);
+    }
   });
 
   var clearVoiceSearch = function () {
@@ -159,12 +162,14 @@
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
-    final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    if (!isMobileDev) {
+      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    }
     upgrade();
   }
 
   function upgrade() {
-    start_button.hide();
+    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
@@ -281,7 +286,8 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#departureDate').data('date', dates[0].getFullYear() + '-' +	_month + '-' + _day);
-        var picker = $('#depart_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
+        picker.clear();
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
@@ -292,7 +298,7 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#returnDate').data('date', dates[1].getFullYear() + '-' + _month + '-' + _day);
-        var picker = $('#return_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
         picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
         returning = dates[1].toDateString();
