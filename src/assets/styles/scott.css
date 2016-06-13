@@ -1121,6 +1121,10 @@ body.loading .modalLoader {
   padding: 0 0 0 2px !important;
 }
 
+.stops-letter-spacing {
+  letter-spacing: 2px;
+}
+
 @media all and (min-width: 480px) {
   body {
     padding-top: 30px;
