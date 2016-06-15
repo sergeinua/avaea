@@ -155,7 +155,8 @@
       recognition.stop();
     }
     var heightNav = $('.navbar-header').outerHeight(true);
-    demo();
+    var res = demo();
+    loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
 
     $('.navbar-header').css('height', heightNav);
   });
@@ -211,9 +212,24 @@
     }
   }
 
+  function loggerQuery(q, result) {
+    $.ajax({
+      url: '/search/voiceLog',
+      type: 'post',
+      data: {
+        q: $.trim(q),
+        result: result
+      },
+      dataType: 'json'
+    }).done(function( msg ) {
+      console.log(msg);
+    });
+  }
+
   /**
    * I would like to fly from San Francisco to London on 29th
    * I would like to fly from San Francisco to Kiev on 30th the first class with my son return on July 30th
+   * I need 2 tickets from San Jose to Moscow on July 10th returning two weeks later
    */
   function demo() {
     log(final_textarea.val());
@@ -230,7 +246,7 @@
       out_field = "Meri says: Fill my heart with song and \n"
       + "Let me sing for ever more You are all I long for \n"
       + "All I worship and adore";
-      return;
+      return false;
     }
     out_field += "Meri says: ";
 
@@ -266,7 +282,7 @@
       + " The trip is from " + cities[0] + " to " + cities[1];
     } else {
       out_field += " I did not understand where you are flying to.";
-      return;
+      return false;
     }
 
     var dates = speechSearchParse.parseDates(text);
@@ -309,7 +325,7 @@
       out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
     } else {
       out_field += " I did not find dates in your request. ";
-      return;
+      return false;
     }
 
     var num = speechSearchParse.parseNumTix(text);
@@ -348,5 +364,6 @@
     }
 
     speechSearchParse.log(out_field);
+    return true;
   }
 })();

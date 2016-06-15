@@ -134,7 +134,8 @@ module.exports = {
           passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
           topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
-          returnDate: ''
+          returnDate: '',
+          voiceSearchQuery: req.param('voiceSearchQuery').trim() || ''
         }
       },
       depDate = new Date();
@@ -252,5 +253,22 @@ module.exports = {
         });
       });
     });
+  },
+
+  voiceLog: function (req, res) {
+    utils.timeLog('search voice');
+    if (req.param('q')) {
+      var params = {
+        searchParams: {
+          queryString: req.param('q')
+        }
+      },
+      queryResult = req.param('result') || 'failed';
+      sails.log.info('Search Voice Params:', params);
+      UserAction.saveAction(req.user, 'voice_search_' + queryResult, params);
+      User.publishCreate(req.user);
+      return res.json({'success': true});
+    }
+    return res.json([]);
   }
 };
