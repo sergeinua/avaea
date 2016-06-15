@@ -192,7 +192,7 @@ module.exports = {
             ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
             departureDate: sails.moment(depDate).format('DD MMM'),
             returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-            CabinClass: serviceClass[params.searchParams.CabinClass],
+            CabinClass: serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F')?' class':''),
             passengers: params.searchParams.passengers,
             topSearchOnly: params.searchParams.topSearchOnly,
             flightType: params.searchParams.flightType
@@ -236,7 +236,7 @@ module.exports = {
               ArrivalLocationCode: params.ArrivalLocationCode,
               departureDate: sails.moment(depDate).format('DD MMM'),
               returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-              CabinClass: serviceClass[params.CabinClass],
+              CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
               passengers: params.passengers,
               flightType: params.flightType
             },

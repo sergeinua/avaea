@@ -22,7 +22,7 @@ module.exports = {
     E:'Economy',
     P:'Premium',
     B:'Business',
-    F:'First class'
+    F:'First'
   },
 
   getCurrentSearchGuid: function () {
