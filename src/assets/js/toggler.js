@@ -63,6 +63,12 @@ var unsetErrorElement = function (selector) {
   }
 };
 
+var setupVoiceSearch = function () {
+  if($('#result_empty').text()) {
+    $('#voice_search').hide();
+  }
+};
+
 $(document).ready(function() {
   $("#user-price-modal").modal();
 
@@ -1301,6 +1307,8 @@ $(document).ready(function() {
   }
 
   recalculateBodyPadding();
+
+  setupVoiceSearch();
 });
 
 function getCookie(name) {
