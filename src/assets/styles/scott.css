@@ -349,7 +349,7 @@ nav {
   font-size: 0;
 }
 
-.itinerary-airline span {
+.itinerary-airline span.airline-text {
   font-size: 14px;
   line-height: 1.1;
   letter-spacing: 0.3px;
@@ -364,10 +364,23 @@ nav {
   padding: 5px 12px 5px 2px;
 }
 
-.itinerary-airline img {
+.itinerary-airline .itinerary-airline-icon {
   display: inline;
   vertical-align: middle;
 }
+
+.itinerary-airline-icon {
+  width: 15px;
+  height: 15px;
+  float: left;
+  margin: 0 3px;
+  background: url("/images/airlines/avaea-airlines-sprite.png");
+}
+
+.detail-col-left .itinerary-airline-icon {
+  margin-top: 4px;
+}
+
 
 .itinerary-price {
   font-family: WhitneyHTF-MediumCondensed;

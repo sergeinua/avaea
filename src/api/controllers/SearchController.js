@@ -220,26 +220,35 @@ module.exports = {
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
         //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
         User.publishCreate(req.user);
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: tiles,
-          searchParams: {
-            DepartureLocationCode: params.DepartureLocationCode,
-            ArrivalLocationCode: params.ArrivalLocationCode,
-            departureDate: sails.moment(depDate).format('DD MMM'),
-            returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-            CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
-            passengers: params.passengers,
-            flightType: params.flightType
-          },
-          searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>'),
-          head_title: 'Flights from '
+
+        Airlines.makeIconSpriteMap(function (err, iconSpriteMap) {
+          if (err) {
+            sails.log.error(err);
+            iconSpriteMap = {};
+          }
+
+          return  res.view('search/result', {
+            user: req.user,
+            title: title,
+            tiles: tiles,
+            searchParams: {
+              DepartureLocationCode: params.DepartureLocationCode,
+              ArrivalLocationCode: params.ArrivalLocationCode,
+              departureDate: sails.moment(depDate).format('DD MMM'),
+              returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
+              CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
+              passengers: params.passengers,
+              flightType: params.flightType
+            },
+            searchResult: itineraries,
+            timelog: req.session.time_log.join('<br/>'),
+            head_title: 'Flights from '
             + params.DepartureLocationCode
             + ' to '+params.ArrivalLocationCode
             + sails.moment(depDate).format(" on DD MMM 'YY")
-            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):'')
+            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):''),
+            iconSpriteMap: iconSpriteMap
+          });
         });
       });
     });

@@ -118,10 +118,10 @@
 
     <div class="row">
       <div class="col-xs-12 itinerary-airline col-from-to">
-        <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
+        <span class="itinerary-airline-icon" data-sprite_num="<%= iconSpriteMap[sRes.citypairs[0].from.airlineCode] %>" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>"></span>
       <!--</div>-->
       <!--<div class="col-xs-8 itinerary-airline">-->
-        <span><%= sRes.citypairs[0].from.airline %> </span>
+        <span class="airline-text"><%= sRes.citypairs[0].from.airline %> </span>
         <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
         <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
 
@@ -242,7 +242,7 @@
       <% } %>
       <div class="row">
         <div class="col-xs-3 text-nowrap notable-text detail-col-left">
-          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= flight.airlineCode %>" title="<%= flight.airline %>" data-code="<%= flight.airlineCode %>" data-name="<%= flight.airline %>" >
+          <span class="itinerary-airline-icon" data-sprite_num="<%= iconSpriteMap[flight.airlineCode] %>" alt="<%= flight.airlineCode %>" title="<%= flight.airline %>"></span>
           <%= flight.abbrNumber %>
         </div>
         <div class="col-xs-2 text-nowrap detail-col"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
