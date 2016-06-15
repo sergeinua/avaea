@@ -5,6 +5,6 @@ nginx:
   proxy_pass_host: avaea
   proxy_pass_port: 8000
   config_name: demo.conf
-  source_name: demo
+  source_name: staging_demo
 
 node_env: production

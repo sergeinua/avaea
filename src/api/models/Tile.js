@@ -991,7 +991,7 @@ module.exports = {
       delete tmp.uniqArrival;
 
       var orderBy = _.min(tileArr, 'order').id;
-      orderBy = 'smart';
+      orderBy = 'price_tile';
       switch (orderBy) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');
