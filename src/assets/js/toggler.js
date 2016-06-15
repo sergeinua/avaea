@@ -785,18 +785,9 @@ $(document).ready(function() {
 
   });
 
-  var getIconForAirline = function (el) {
-    var _image = new Image(),
-      _code = el.data('code'),
-      _file = '/images/airlines/' + _code + '.png';
-    _image.onload = function () {
-      el.attr('src', _file);
-    };
-    _image.src = _file;
-  };
-
-  $('.airlineIcon').each(function () {
-    getIconForAirline($(this));
+  // Set sprite number for the every airlines icon
+  $('.itinerary-airline-icon').each(function () {
+    $(this).css('background-position', '0 -'+ $(this).data('sprite_num')*15 +'px');
   });
 
   /* Depart/Return Date selection {{{ */
