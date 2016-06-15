@@ -1,11 +1,12 @@
 
 var fs = require('fs');
 
-var icons_dir = 'assets/images/airlines';
+var assets_dir = '.tmp/public';
+var icons_dir = 'images/airlines';
 var sprite_map_file = 'avaea-airlines-sprite.json';
 
 var getSpriteMapFileName = function () {
-  return icons_dir + '/' + sprite_map_file;
+  return assets_dir +'/'+ icons_dir + '/' + sprite_map_file;
 };
 
 module.exports = {
@@ -30,7 +31,7 @@ module.exports = {
             }
 
             // Read icons dir and then save sprite map to json file
-            fs.readdir(icons_dir, function (err, files) {
+            fs.readdir(assets_dir +'/'+ icons_dir, function (err, files) {
               if (err) {
                 callback(err);
                 return;
