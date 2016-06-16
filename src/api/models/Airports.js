@@ -28,6 +28,8 @@ module.exports = {
     timezone:   { type: 'integer' },
     dst:        { type: 'string' },
     tz:         { type: 'string' },
+    state:      { type: 'string' },
+    sate_short: { type: 'string' },
     pax:        { type: 'float' },
     neighbors:  { type: 'string' }
   },
