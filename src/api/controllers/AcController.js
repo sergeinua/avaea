@@ -14,11 +14,11 @@ module.exports = {
     //res.header('Pragma', 'no-cache');
 
     // Trim left whitespaces
-    var _query = req.param('q').replace(/^\s*/,"");
+    var _query = req.param('q').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
     var _limit = parseInt(req.param('l'));
 
-    Airports.query('SELECT name, city, country, iata_3code, state, state_short, neighbors FROM '+Airports.tableName +
-      " WHERE (name ~* $1) OR (city ~* $1) OR (iata_3code ~* $1) OR (state ~* $1) " +
+    Airports.query('SELECT name, city, country, iata_3code, state, state_short, neighbors, concat(city, \',\', state) as city_state FROM '+Airports.tableName +
+      " WHERE (name ~* $1) OR (city ~* $1) OR (iata_3code ~* $1) OR (state ~* $1) OR (concat(city, \',\', state) ~* $1) OR (concat(city, \',\', country) ~* $1) " +
       " ORDER BY (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, pax DESC, levenshtein($3, city) ASC LIMIT " + (_limit ? _limit : 8),
 
       ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], // query params
@@ -39,12 +39,23 @@ module.exports = {
               uniqCityCountry[found.rows[i].city]++;
             }
             //found.rows[i] = found.rows[i].city + ', ' + found.rows[i].name + ' (' + found.rows[i].iata_3code + ')';
-            found.rows[i].city_full = found.rows[i].city + (found.rows[i].state?', ' + found.rows[i].state:', ' + found.rows[i].country);
+            found.rows[i].city_full = found.rows[i].city + (found.rows[i].state ? ', ' + found.rows[i].state : ', ' + found.rows[i].country);
             result[i] = {
               city: found.rows[i].city,
               name: found.rows[i].name,
               value: found.rows[i].iata_3code,
-              neighbors: found.rows[i].neighbors ? JSON.parse(found.rows[i].neighbors).slice(0,2) : [{"iata_3code": "", "distance": 0},{"iata_3code": "", "distance": 0}],
+              neighbors: found.rows[i].neighbors ?
+                JSON.parse(found.rows[i].neighbors).slice(0, 2) :
+                [
+                  {
+                    "iata_3code": "",
+                    "distance": 0
+                  },
+                  {
+                    "iata_3code": "",
+                    "distance": 0
+                  }
+                ],
               tokens: found.rows[i].city.toLowerCase().split(/\s+/).concat(found.rows[i].name.toLowerCase().split(/\s+/).concat([found.rows[i].iata_3code.toLowerCase()]))
             };
           }
@@ -55,9 +66,12 @@ module.exports = {
             }
           }
           return res.json(result);
-        }
-        else {
-          sails.log.error(err);
+        } else {
+          if (err) {
+            sails.log.error(err);
+          } else {
+            sails.log.error('nothing is found for query', _query);
+          }
           return res.json([]);
         }
       });
