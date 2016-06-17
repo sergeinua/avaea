@@ -29,11 +29,11 @@ module.exports = {
     dst:        { type: 'string' },
     tz:         { type: 'string' },
     state:      { type: 'string' },
-    sate_short: { type: 'string' },
+    state_short: { type: 'string' },
     pax:        { type: 'float' },
     neighbors:  { type: 'string' }
   },
-  tableName: 'airports_new',
+  tableName: 'airports',
 
   ALL_AIRPORTS_NAME: 'All Airports' // Generic airport name in DB
 
