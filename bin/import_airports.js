@@ -64,6 +64,7 @@ const getGoogleApiData = function(data, cb) {
                         return cb(null, result, data);
                     }
                 }
+                return cb(null, {}, data);
             } else {
                 if ( argv.loglevel > 0 ) {
                     console.log('Error:', error, 'Data:', data);
@@ -169,8 +170,8 @@ require('async').parallel(
         var _ = require('lodash');
         var airports_data = result[0];
         console.log("BEGIN;\n"+
-                    "ALTER TABLE airports_new RENAME TO airports_old;\n"+
-                    "CREATE TABLE airports_new (\n"+
+                    "ALTER TABLE airports RENAME TO airports_old;\n"+
+                    "CREATE TABLE airports (\n"+
                     "  id        int primary key,\n"+
                     "  name     varchar,\n"+
                     "  city     varchar,\n"+
@@ -187,7 +188,9 @@ require('async').parallel(
                     "  state_short     varchar,\n"+
                     "  pax          float,\n"+
                     "  neighbors varchar\n"+
-                    ");");
+                    ");\n"+
+                    "CREATE INDEX ON airports ((lower(iata_3code)));"
+                    );
 
         // For neighbours calculation, see https://www.npmjs.com/package/kd.tree
         var kdTree = require('kd.tree');
@@ -232,11 +235,11 @@ require('async').parallel(
                         break;
                 }
 
-            // require('async').parallel([function (cb) {
+                var done = false;
                 getGoogleApiData(data, function (error, apiResult, data) {
                     data.state = apiResult.state || '';
                     data.state_short = apiResult.state_short || '';
-                    console.log("INSERT INTO airports_new(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
+                    console.log("INSERT INTO airports(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
                         datFile_headers.join(","),
                         data.id,
                         formatSqlString(data.name),
@@ -253,9 +256,17 @@ require('async').parallel(
                         formatSqlString(data.state),
                         formatSqlString(data.state_short),
                         data.pax,
-                        formatSqlString(JSON.stringify(data.neighbors)));
+                        formatSqlString(JSON.stringify(data.neighbors))
+                    );
+
+                    done = true;
                     return data;
                 });
+                require('deasync').loopWhile(function() {return !done;});
         }
+        console.log(
+            "DROP TABLE airports_old;\n"+
+            "COMMIT;"
+        );
     }
 );
