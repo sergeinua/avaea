@@ -105,7 +105,7 @@
 
   final_textarea.keyup(function () {
     var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0) {
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     } else {
       showButtons(true);
@@ -113,16 +113,21 @@
   }).focus(function () {
     start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
-    if (_value != '' && _value.length > 0) {
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     }
   }).blur(function () {
     if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
     var _value = $.trim(final_textarea.val());
-    if (_value != '' && _value.length > 0) {
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     }
   });
+
+  var cntWords = function (val) {
+    var words = val.split(' ');
+    return (words.length >= 4);
+  };
 
   var clearVoiceSearch = function () {
     if ($(this).hasClass('disabled')) return;
