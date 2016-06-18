@@ -936,10 +936,30 @@ body.loading .modalLoader {
   line-height: 16px !important;
 }
 
+.buy-button-group {
+  width:68px;
+}
+
+.buy-button-price {
+  width: 40px;
+}
+.buy-button-price-open {
+  border-bottom-left-radius: 0;
+}
 .dropdown-menu {
-  background-color: #101742;
+  width:65px;
+  background-color: #151444;
+  border-color: #151444;
+  border-radius: 0 0 3px 3px;
   padding: 0;
-  margin: -1px;
+  margin: -2px;
+  margin-left: 0;
+  z-index: 4;
+}
+button.buy-button-arrow[aria-expanded=true] {
+  background-color: #151444 !important;
+  border-bottom-right-radius: 0;
+  border-bottom-color: #151444;
 }
 .dropdown-menu>li>a.our-dropdown {
   color: white;
