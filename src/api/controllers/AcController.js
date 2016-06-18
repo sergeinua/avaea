@@ -17,12 +17,31 @@ module.exports = {
     var _query = req.param('q').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
     var _limit = parseInt(req.param('l'));
 
-    Airports.query('SELECT name, city, country, iata_3code, state, state_short, neighbors, concat(city, \',\', state) as city_state FROM '+Airports.tableName +
-      " WHERE (name ~* $1) OR (city ~* $1) OR (iata_3code ~* $1) OR (state ~* $1) OR (concat(city, \',\', state) ~* $1) OR (concat(city, \',\', country) ~* $1) OR (concat(city, \' \', state) ~* $1) OR (concat(city, \' \', country) ~* $1) " +
-      " ORDER BY (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, pax DESC, levenshtein($3, city) ASC LIMIT " + (_limit ? _limit : 8),
-
-      ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], // query params
-
+    Airports.query(
+      // query itself
+      "SELECT "+
+      "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state "+
+      "FROM "+
+          Airports.tableName+" "+
+      "WHERE "+
+      "   (name ~* $1) OR "+
+      "   (city ~* $1) OR "+
+      "   (iata_3code ~* $1) OR "+
+      "   (state ~* $1) OR "+
+      "   (concat(city,',',state) ~* $1) OR "+
+      "   (concat(city,',',state_short) ~* $1) OR "+
+      "   (concat(city,',',country) ~* $1) OR "+
+      "   (concat(city,' ',state) ~* $1) OR "+
+      "   (concat(city,' ',state_short) ~* $1) OR "+
+      "   (concat(city,' ',country) ~* $1) " +
+      "ORDER BY "+
+      "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
+      "   pax DESC, "+
+      "   levenshtein($3, city) ASC "+
+      "LIMIT " + (_limit ? _limit : 8),
+      // query params
+      ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query],
+      // callback
       function (err, found) {
         if (!err && found.rows.length) {
           var uniqCityCountry = {};
