@@ -173,8 +173,17 @@ require('async').parallel(
 		data.city = data.name;
 		data.name = tmp;
 		break;
+	    case 'MOW':
+		data.name = 'All Airports';
+		data.pax  = 77355917;
+		break;
+	    case 'BKA':
+		// see https://en.wikipedia.org/wiki/Bykovo_Airport
+		data.pax = 15412;
+		break;
 	    case 'PWM':
-		data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+		// see https://en.wikipedia.org/wiki/Portland_International_Jetport
+		data.pax = 1667734; 
 		break;
 	    }
 
