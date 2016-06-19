@@ -167,7 +167,7 @@ require('async').parallel(
         }
 
         var geolib        = require('geolib');
-        var _ = require('lodash');
+        var _             = require('lodash');
         var airports_data = result[0];
         console.log("BEGIN;\n"+
                     "ALTER TABLE airports RENAME TO airports_old;\n"+
@@ -209,60 +209,68 @@ require('async').parallel(
         for ( var iata_3code in airports_data ) {
             var data = _.clone(airports_data[iata_3code], true);
 
-                data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+            data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
+	    
+            data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function (a, b) {
+                return a[1] - b[1];
+            }).filter(function (dd) {
+                // Exclude the airport itself as its nearest neighbors
+                return dd[0].iata_3code != iata_3code;
+            }).map(function (dd) {
+                // Map the remainder into a data structure
+                return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
+            });
 
-                data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function (a, b) {
-                    return a[1] - b[1];
-                }).filter(function (dd) {
-                    // Exclude the airport itself as its nearest neighbors
-                    return dd[0].iata_3code != iata_3code;
-                }).map(function (dd) {
-                    // Map the remainder into a data structure
-                    return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
-                });
+	    switch( iata_3code ) {
+	    case 'TLL':
+	    case 'ZQN':
+		// see http://prntscr.com/bafap0
+		var tmp = data.city;
+		data.city = data.name;
+		data.name = tmp;
+		break;
+	    case 'MOW':
+		data.name = 'All Airports';
+		data.pax  = 77355917;
+		break;
+	    case 'BKA':
+		// see https://en.wikipedia.org/wiki/Bykovo_Airport
+		data.pax = 15412;
+		break;
+	    case 'PWM':
+		// see https://en.wikipedia.org/wiki/Portland_International_Jetport
+		data.pax = 1667734; 
+		break;
+	    }
 
-                // Patch some airports
-                switch (iata_3code) {
-                    case 'TLL':
-                    case 'ZQN':
-                        // see http://prntscr.com/bafap0
-                        var tmp = data.city;
-                        data.city = data.name;
-                        data.name = tmp;
-                        break;
-                    case 'PWM':
-                        data.pax = 1667734; // see https://en.wikipedia.org/wiki/Portland_International_Jetport
-                        break;
-                }
-
-                var done = false;
-                getGoogleApiData(data, function (error, apiResult, data) {
-                    data.state = apiResult.state || '';
-                    data.state_short = apiResult.state_short || '';
-                    console.log("INSERT INTO airports(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
-                        datFile_headers.join(","),
-                        data.id,
-                        formatSqlString(data.name),
-                        formatSqlString(data.city),
-                        formatSqlString(data.country),
-                        formatSqlString(data.iata_3code),
-                        formatSqlString(data.icao_4code),
-                        data.latitude,
-                        data.longitude,
-                        data.altitude,
-                        data.timezone,
-                        formatSqlString(data.dst),
-                        formatSqlString(data.tz),
-                        formatSqlString(data.state),
-                        formatSqlString(data.state_short),
-                        data.pax,
-                        formatSqlString(JSON.stringify(data.neighbors))
-                    );
-
-                    done = true;
-                    return data;
-                });
-                require('deasync').loopWhile(function() {return !done;});
+            var done = false;
+            getGoogleApiData(data, function (error, apiResult, data) {
+                data.state = apiResult.state || '';
+                data.state_short = apiResult.state_short || '';
+                console.log("INSERT INTO airports(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
+                            datFile_headers.join(","),
+                            data.id,
+                            formatSqlString(data.name),
+                            formatSqlString(data.city),
+                            formatSqlString(data.country),
+                            formatSqlString(data.iata_3code),
+                            formatSqlString(data.icao_4code),
+                            data.latitude,
+                            data.longitude,
+                            data.altitude,
+                            data.timezone,
+                            formatSqlString(data.dst),
+                            formatSqlString(data.tz),
+                            formatSqlString(data.state),
+                            formatSqlString(data.state_short),
+                            data.pax,
+                            formatSqlString(JSON.stringify(data.neighbors))
+			   );
+		
+                done = true;
+                return data;
+            });
+            require('deasync').loopWhile(function() {return !done;});
         }
         console.log(
             "DROP TABLE airports_old;\n"+
