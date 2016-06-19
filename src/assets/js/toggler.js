@@ -911,18 +911,6 @@ $(document).ready(function() {
     drawDateRange(this, $(this).data("DateTimePicker").range);
   });
 
-  $("#dr_picker").swipeleft(function(e) {
-    e.stopImmediatePropagation();
-    $(this).data("DateTimePicker").next();
-    console.log('swipeleft');
-  });
-
-  $("#dr_picker").swiperight(function(e) {
-    e.stopImmediatePropagation();
-    $(this).data("DateTimePicker").previous();
-    console.log('swiperight');
-  });
-
   // bind date controls click event
   $('.open-calendar').on('click', function () {
     heightNav = $('.navbar-header').outerHeight(true);
