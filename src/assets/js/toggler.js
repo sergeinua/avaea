@@ -63,6 +63,12 @@ var unsetErrorElement = function (selector) {
   }
 };
 
+var setupVoiceSearch = function () {
+  if($('#result_empty').text()) {
+    $('#voice_search').hide();
+  }
+};
+
 $(document).ready(function() {
   $("#user-price-modal").modal();
 
@@ -615,6 +621,8 @@ $(document).ready(function() {
       return false;
     }
 
+    var voiceSearchQuery = $.trim($('#voiceSearchTextarea').val()) || '';
+    $('#voiceSearchQuery').val(voiceSearchQuery);
     $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 
@@ -785,18 +793,9 @@ $(document).ready(function() {
 
   });
 
-  var getIconForAirline = function (el) {
-    var _image = new Image(),
-      _code = el.data('code'),
-      _file = '/images/airlines/' + _code + '.png';
-    _image.onload = function () {
-      el.attr('src', _file);
-    };
-    _image.src = _file;
-  };
-
-  $('.airlineIcon').each(function () {
-    getIconForAirline($(this));
+  // Set sprite number for the every airlines icon
+  $('.itinerary-airline-icon').each(function () {
+    $(this).css('background-position', '0 -'+ $(this).data('sprite_num')*15 +'px');
   });
 
   /* Depart/Return Date selection {{{ */
@@ -1301,6 +1300,8 @@ $(document).ready(function() {
   }
 
   recalculateBodyPadding();
+
+  setupVoiceSearch();
 });
 
 function getCookie(name) {

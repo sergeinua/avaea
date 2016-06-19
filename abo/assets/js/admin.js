@@ -160,6 +160,8 @@ $(document).ready(function() {
     on_itinerary_purchase : {title: 'itinerary',            colorClass: 'danger'},
     tile_prediction       : {title: 'tile prediction',      colorClass: 'default'},
     itinerary_prediction  : {title: 'itinerary prediction', colorClass: 'active'},
+    voice_search_success  : {title: 'voice_search_success', colorClass: 'success'},
+    voice_search_failed   : {title: 'voice_search_failed',  colorClass: 'danger'},
     empty                 : {title: 'empty log',            colorClass: 'danger'}
   };
   var autoscrollme = function () {

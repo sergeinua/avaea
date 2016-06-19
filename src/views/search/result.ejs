@@ -118,10 +118,10 @@
 
     <div class="row">
       <div class="col-xs-12 itinerary-airline col-from-to">
-        <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
+        <span class="itinerary-airline-icon" data-sprite_num="<%= iconSpriteMap[sRes.citypairs[0].from.airlineCode] %>" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>"></span>
       <!--</div>-->
       <!--<div class="col-xs-8 itinerary-airline">-->
-        <span><%= sRes.citypairs[0].from.airline %> </span>
+        <span class="airline-text"><%= sRes.citypairs[0].from.airline %> </span>
         <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
         <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
 
@@ -172,9 +172,6 @@
         </div>
       </div>
       <% } %>
-      <!--div class="col-xs-3 text-center itinerary-price">
-        <% if(sRes.currency == 'USD') { %>$<%= sRes.price %> <% } else { %><%= sRes.price %> <%= fare.currency %><% } %>
-      </div-->
     </div>
 
     <div class="row">
@@ -184,20 +181,20 @@
           <!--<div class="col-xs-1"></div>-->
           <div class="col-xs-3 text-right">
             <%= pair.from.time %> <%= pair.from.code %></div>
-          <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
+          <div class="col-xs-2 text-center stops-letter-spacing"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
           <div class="col-xs-3"><%= pair.to.time %> <%= pair.to.code %></div>
           <div class="col-xs-3"><%= pair.duration %></div>
         </div>
         <% }); %>
       </div>
       <div class="col-xs-3 buy-button">
-        <div class="btn-group text-nowrap">
-          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
-          <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <div class="btn-group text-nowrap buy-button-group">
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary buy-button-price"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button type="button" class="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu">
-            <li><a id="buy-cron-button-<%= i %>" href="#" class="our-dropdown">or better</a></li>
+            <li><a id="buy-cron-button-<%= i %>" href="#" class="our-dropdown text-center">or better</a></li>
           </ul>
         </div>
       </div>
@@ -242,7 +239,7 @@
       <% } %>
       <div class="row">
         <div class="col-xs-3 text-nowrap notable-text detail-col-left">
-          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= flight.airlineCode %>" title="<%= flight.airline %>" data-code="<%= flight.airlineCode %>" data-name="<%= flight.airline %>" >
+          <span class="itinerary-airline-icon" data-sprite_num="<%= iconSpriteMap[flight.airlineCode] %>" alt="<%= flight.airlineCode %>" title="<%= flight.airline %>"></span>
           <%= flight.abbrNumber %>
         </div>
         <div class="col-xs-2 text-nowrap detail-col"><%= sails.moment(flight.from.date).format('DD MMM') %></div>
@@ -277,7 +274,7 @@
 <!--<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>-->
 
 <% } else { %>
-    <div class="alert alert-danger" role="alert"><%= __('We have found no flights connecting these destinations') %></div>
+    <div class="alert alert-danger" role="alert" id="result_empty"><%= __('We have found no flights connecting these destinations') %></div>
     <a href="/search"  class="btn btn-sm btn-primary btn-block center-block"  style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" role="button"><%= __('Back to search') %></a>
 <% } %>
 
