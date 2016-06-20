@@ -1280,7 +1280,8 @@ $(document).ready(function() {
       recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
-      height: '125px'
+      height: '125px',
+      touchScrollStep: 30
     });
   }
 
