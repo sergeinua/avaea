@@ -673,11 +673,13 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-
-  $('[id*=buy-cron-button-]').click(function (event) {
+  $(window).scroll(function(){
+    $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+  });
+  $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
     if (id) {
-      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val() + '&special=1';
+      location.href = '/order?special=1&id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
 
