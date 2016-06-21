@@ -1,0 +1,60 @@
+drop table profile_tmp;
+
+CREATE TABLE  "profile_tmp" ("user" INTEGER  , "personal_info" JSON  ,
+"notify_contact" JSON  , "travel_with" JSON  , "miles_programs" JSON  ,
+"lounge_membership" JSON  , "employer" JSON  , "preferred_airlines" JSON  )
+
+insert into profile
+(
+    "user","firstName","middleName","lastName","birthday","gender",
+    "pax_type","address","notifyContact","travelWith","milesPrograms",
+    "loungeMembership","employer","ethnicity","showTiles","preferredAirlines",
+    "city","state","country_code","zip_code"
+)
+values
+(
+    1,
+    'oleh',
+    'germes',
+    'shvedov',
+    DATE '21-11-1981',
+    'M',
+    'ADT',
+    'address',
+    '{"name": "n-name","phone": "n-phone"}',
+    '{"firstName": "t-firts",
+       "lastName": "t-last",
+       "gender": "m",
+       "DateOfBirth": "10/20/1980"
+     }',
+    '{
+       "airlineName":    "milesPrograms.airlineName",
+       "accountNumber":  "milesPrograms.accountNumber",
+       "flierMiles":     "milesPrograms.flierMiles",
+       "expirationDate": "milesPrograms.expirationDate"
+     }',
+    '{
+       "airlineName":      "loungeMembership.airlineName",
+       "membershipNumber": "loungeMembership.membershipNumber",
+       "expirationDate":   "loungeMembership.expirationDate"
+     }',
+    '{
+       "companyName": "employer.companyName",
+       "address": "employer.address",
+       "phone": "employer.phone",
+       "position": "employer.position",
+       "salary": 666,
+       "income": "employer.income"
+     }',
+    'European',
+    true,
+    '{
+      "travelType": "preferredAirlines.travelType",
+      "airlineName": "preferredAirlines.airlineName"
+    }',
+    'city',
+    'state',
+    'country-code',
+    'zip-code'
+)
+
