@@ -7,7 +7,7 @@
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
-  var oldPlaceholder = 'Press the button and dictate a flight request';
+  var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
   if (!('webkitSpeechRecognition' in window)) {
     notSupported();
@@ -16,7 +16,6 @@
       startButton(e);
     }).show();
 
-    var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     var recognition = new webkitSpeechRecognition();
     recognition.lang = 'en-US';
     recognition.continuous = true;
@@ -106,7 +105,7 @@
 
   final_textarea.keyup(function () {
     var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0) {
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     } else {
       showButtons(true);
@@ -114,12 +113,21 @@
   }).focus(function () {
     start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
-    if (_value != '' && _value.length > 0) {
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     }
   }).blur(function () {
-    start_button.removeClass('hidden');
+    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
+    var _value = $.trim(final_textarea.val());
+    if (_value != '' && _value.length > 0 && cntWords(_value)) {
+      showButtons(false);
+    }
   });
+
+  var cntWords = function (val) {
+    var words = val.split(' ');
+    return (words.length >= 4);
+  };
 
   var clearVoiceSearch = function () {
     if ($(this).hasClass('disabled')) return;
@@ -152,19 +160,22 @@
       recognition.stop();
     }
     var heightNav = $('.navbar-header').outerHeight(true);
-    demo();
+    var res = demo();
+    loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
 
     $('.navbar-header').css('height', heightNav);
   });
 
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
-    final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    if (!isMobileDev) {
+      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+    }
     upgrade();
   }
 
   function upgrade() {
-    start_button.hide();
+    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
@@ -206,9 +217,24 @@
     }
   }
 
+  function loggerQuery(q, result) {
+    $.ajax({
+      url: '/search/voiceLog',
+      type: 'post',
+      data: {
+        q: $.trim(q),
+        result: result
+      },
+      dataType: 'json'
+    }).done(function( msg ) {
+      console.log(msg);
+    });
+  }
+
   /**
    * I would like to fly from San Francisco to London on 29th
    * I would like to fly from San Francisco to Kiev on 30th the first class with my son return on July 30th
+   * I need 2 tickets from San Jose to Moscow on July 10th returning two weeks later
    */
   function demo() {
     log(final_textarea.val());
@@ -225,7 +251,7 @@
       out_field = "Meri says: Fill my heart with song and \n"
       + "Let me sing for ever more You are all I long for \n"
       + "All I worship and adore";
-      return;
+      return false;
     }
     out_field += "Meri says: ";
 
@@ -261,7 +287,7 @@
       + " The trip is from " + cities[0] + " to " + cities[1];
     } else {
       out_field += " I did not understand where you are flying to.";
-      return;
+      return false;
     }
 
     var dates = speechSearchParse.parseDates(text);
@@ -281,7 +307,8 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#departureDate').data('date', dates[0].getFullYear() + '-' +	_month + '-' + _day);
-        var picker = $('#depart_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
+        picker.clear();
         picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
 
         leaving = dates[0].toDateString();
@@ -292,7 +319,7 @@
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
         $('#returnDate').data('date', dates[1].getFullYear() + '-' + _month + '-' + _day);
-        var picker = $('#return_picker').data('DateTimePicker');
+        var picker = $('#dr_picker').data('DateTimePicker');
         picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
 
         returning = dates[1].toDateString();
@@ -303,7 +330,7 @@
       out_field += ", leaving on " + leaving + " "	+ (returning ? " returning on " + returning + " " : ".");
     } else {
       out_field += " I did not find dates in your request. ";
-      return;
+      return false;
     }
 
     var num = speechSearchParse.parseNumTix(text);
@@ -342,5 +369,6 @@
     }
 
     speechSearchParse.log(out_field);
+    return true;
   }
 })();
