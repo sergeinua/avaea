@@ -71,14 +71,14 @@
             </ul>
           </div>
         </div>
-        <div style="float: right; width: auto;" class="text-right">
+        <div class="itin-result-count text-right">
           <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
         </div>
       </div>
 
-      <div style="float: right; width: auto;" class="text-right">
-        &middot; <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
-        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span> &middot;
+      <div class="clear-undo-buttons text-right">
+        <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
+        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span>
       </div>
     </div>
   </div>
