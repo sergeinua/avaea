@@ -105,6 +105,7 @@ nav {
   line-height: 1.2;
   letter-spacing: 0.1px;
   padding: 5px 0;
+  color: #BABCC8;
 }
 
 .flight-info > div {
@@ -141,6 +142,18 @@ nav {
   font-size: inherit;
   min-width: 6px;
   display: inline-block;
+}
+
+.clear-undo-buttons {
+  float: right;
+  width: auto;
+  color: white;
+}
+
+.itin-result-count {
+  float: right;
+  width: auto;
+  color: #FFE03E;
 }
 
 #search_count {
