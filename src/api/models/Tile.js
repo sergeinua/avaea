@@ -995,15 +995,11 @@ module.exports = {
       switch (orderBy) {
         case 'duration_tile':
           sails.log.info('Ordered by Duration');
-          itineraries = _.sortBy(itineraries, function(item) {
-            return parseInt(item.durationMinutes);
-          });
+          itineraries = _.sortBy(itineraries, 'durationMinutes');
           break;
         case 'price_tile':
           sails.log.info('Ordered by Price');
-          itineraries = _.sortBy(itineraries, function(item) {
-            return parseFloat(item.price);
-          });
+          itineraries = _.sortBy(itineraries, 'price');
           break;
         case 'airline_tile':
           sails.log.info('Ordered by Airline');
@@ -1014,35 +1010,33 @@ module.exports = {
         case 'arrival_tile':
           sails.log.info('Ordered by Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
-            return parseInt(item.citypairs[0].to.minutes);
+            return item.citypairs[0].to.minutes;
           });
           break;
         case 'departure_tile':
           sails.log.info('Ordered by Departure');
           itineraries = _.sortBy(itineraries, function (item) {
-            return parseInt(item.citypairs[0].from.minutes);
+            return item.citypairs[0].from.minutes;
           });
           break;
         case 'destination_departure_tile':
           sails.log.info('Ordered by Destination Departure');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
-            return parseInt(item.citypairs[lastElement].from.minutes);
+            return item.citypairs[lastElement].from.minutes;
           });
           break;
         case 'source_arrival_tile':
           sails.log.info('Ordered by Source Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
-            return parseInt(item.citypairs[lastElement].to.minutes);
+            return item.citypairs[lastElement].to.minutes;
           });
           break;
         case 'smart':
         default:
           sails.log.info('Ordered by smartRank');
-          itineraries = _.sortBy(itineraries, function(item) {
-            return parseInt(item.smartRank);
-          });
+          itineraries = _.sortBy(itineraries, 'smartRank');
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
