@@ -33,6 +33,9 @@ body {
   background-color: #F2F5F8;
   color: #333333;
   padding-top: 50px;
+
+  background-image: url("/images/pattern.png");
+  background-size: contain;
 }
 
 nav {
