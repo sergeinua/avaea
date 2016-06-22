@@ -17,7 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
   </head>
 
+  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
+  <body class="search-result">
+  <% } else {%>
   <body>
+  <% } %>
     <nav class="navbar navbar-default navbar-fixed-top">
       <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->

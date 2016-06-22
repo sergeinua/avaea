@@ -33,7 +33,9 @@ body {
   background-color: #F2F5F8;
   color: #333333;
   padding-top: 50px;
+}
 
+body.search-result {
   background-image: url("/images/pattern.png");
   background-size: contain;
 }
