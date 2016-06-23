@@ -467,7 +467,7 @@ module.exports = {
 
   /**
    * Function for alternative bucketization algorithm DEMO-42
-   * @param {array} itineraries From search result
+   * @param {Array} itineraries From search result
    * @param {object} params Search params
    * @param {function} callback Invoke on return
    * @returns {*}
