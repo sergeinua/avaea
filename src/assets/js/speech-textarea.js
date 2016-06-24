@@ -239,12 +239,7 @@
   function demo() {
     log(final_textarea.val());
     var text = $.trim(final_textarea.val());
-    text = text.replace(/\bone|fir(?= st)/ig,"1");
-    text = text.replace(/\btwo|seco(?= nd)/ig,"2");
-    text = text.replace(/\bthree|thi(?= rd)/ig,"3");
-    text = text.replace(/\bfour/ig,"4");
-    text = text.replace(/\bfive/ig,"5");
-    text = text.replace(/\bsix/ig,"6");
+    var result = speechSearchParse.run(text);
     var out_field = '';
 
     if (/Fly me to the moon/i.exec(text)) {
@@ -255,13 +250,12 @@
     }
     out_field += "Meri says: ";
 
-    var cities = speechSearchParse.parseCities(text);
-    if (cities && (cities[0] || cities[1])) {
-      if (cities[0]) {
+    if (result.origin_airport.value || result.destination_airport.value) {
+      if (result.origin_airport.value) {
         $.ajax({
           url: '/ac/airports',
           type: 'get',
-          data: {q: $.trim(cities[0]), l: 1},
+          data: {q: $.trim(result.origin_airport.value), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
           if (msg && msg.length) {
@@ -269,12 +263,12 @@
             drawAirportData('originAirport');
           }
         });
-      } else cities[0] = "an unknown airport";
-      if (cities[1]) {
+      } else result.origin_airport.value = "an unknown airport";
+      if (result.destination_airport.value) {
         $.ajax({
           url: '/ac/airports',
           type: 'get',
-          data: {q: $.trim(cities[1]), l: 1},
+          data: {q: $.trim(result.destination_airport.value), l: 1},
           dataType: 'json'
         }).done(function( msg ) {
           if (msg && msg.length) {
@@ -282,47 +276,45 @@
             drawAirportData('destinationAirport');
           }
         });
-      } else cities[1] = "an unknown airport";
+      } else result.destination_airport.value = "an unknown airport";
       out_field += " here is what I understood -"
-      + " The trip is from " + cities[0] + " to " + cities[1];
+      + " The trip is from " + result.origin_airport.value + " to " + result.destination_airport.value;
     } else {
       out_field += " I did not understand where you are flying to.";
       return false;
     }
 
-    var dates = speechSearchParse.parseDates(text);
-    log(dates);
-
-    if (dates.length == 2) {
+    if (result.type.value == 'round_trip') {
       $('#round_trip').trigger('click');
-    } else {
+    }
+    if (result.type.value == 'one_way') {
       $('#one_way').trigger('click');
     }
 
-    if (dates) {
+    if (result.origin_date.value || result.return_date.value) {
       var leaving = "an unknown date", returning;
-      if (dates[0]) {
-        var _month = dates[0].getMonth() + 1,
-          _day = dates[0].getDate();
+      if (result.origin_date.value) {
+        var _month = result.origin_date.value.getMonth() + 1,
+          _day = result.origin_date.value.getDate();
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
-        $('#departureDate').data('date', dates[0].getFullYear() + '-' +	_month + '-' + _day);
+        $('#departureDate').data('date', result.origin_date.value.getFullYear() + '-' +	_month + '-' + _day);
         var picker = $('#dr_picker').data('DateTimePicker');
         picker.clear();
-        picker.date(dates[0].getFullYear() + '-' +	_month + '-' + _day);
+        picker.date(result.origin_date.value.getFullYear() + '-' +	_month + '-' + _day);
 
-        leaving = dates[0].toDateString();
+        leaving = result.origin_date.value.toDateString();
       }
-      if (dates[1]) {
-        var _month = dates[1].getMonth() + 1,
-          _day = dates[1].getDate();
+      if (result.return_date.value) {
+        var _month = result.return_date.value.getMonth() + 1,
+          _day = result.return_date.value.getDate();
         if (_month < 10) _month = '0' + _month;
         if (_day < 10) _day = '0' + _day;
-        $('#returnDate').data('date', dates[1].getFullYear() + '-' + _month + '-' + _day);
+        $('#returnDate').data('date', result.return_date.value.getFullYear() + '-' + _month + '-' + _day);
         var picker = $('#dr_picker').data('DateTimePicker');
-        picker.date(dates[1].getFullYear() + '-' +	_month + '-' + _day);
+        picker.date(result.return_date.value.getFullYear() + '-' +	_month + '-' + _day);
 
-        returning = dates[1].toDateString();
+        returning = result.return_date.value.toDateString();
       }
 
       $('#date_select_top').trigger('click');
@@ -333,42 +325,38 @@
       return false;
     }
 
-    var num = speechSearchParse.parseNumTix(text);
-    var cls = speechSearchParse.parseClass(text);
-
-    if (cls) {
+    if (result.class_of_service.value) {
       $('input[name=preferedClass]').each(function (i, o) {
         var _txt = $(o).parents('label').text();
-        if (_txt.toLowerCase().indexOf(cls.toLowerCase()) != -1) {
+        if (_txt.toLowerCase().indexOf(result.class_of_service.value.toLowerCase()) != -1) {
           $(o).prop('checked', true);
           $(o).parents('label').trigger('click');
         }
       });
     }
 
-    if (num && (num > 0 || num == "multiple")) {
-      out_field += " You need " + num
-      + (num == 1 ? " ticket" : " tickets") + " "
-      + (cls ? " in " + cls + " class " : "") + ". \n";
-      if (num == "multiple") {
-        num = 4;
+    if (result.number_of_tickets.value && (result.number_of_tickets.value > 0 || result.number_of_tickets.value == "multiple")) {
+      out_field += " You need " + result.number_of_tickets.value
+      + (result.number_of_tickets.value == 1 ? " ticket" : " tickets") + " "
+      + (result.class_of_service.value ? " in " + result.class_of_service.value + " class " : "") + ". \n";
+      if (result.number_of_tickets.value == "multiple") {
+        result.number_of_tickets.value = 4;
       }
 
-      if (digits[num]) {
-        $('#passengers').val(num);
-        $('.passengers_count').text(digits[num]);
-      }
-    }
-
-    if (cls) {
-      out_field += " You are travelling in " + cls + " class.";
-      if (serviceClass && serviceClass[cls]) {
-        $('#preferedClass').val(cls);
-        $('.flight-class-info-item .text-picker').text(serviceClass[cls]);
+      if (digits[result.number_of_tickets.value]) {
+        $('#passengers').val(result.number_of_tickets.value);
+        $('.passengers_count').text(digits[result.number_of_tickets.value]);
       }
     }
 
-    speechSearchParse.log(out_field);
+    if (result.class_of_service.value) {
+      out_field += " You are travelling in " + result.class_of_service.value + " class.";
+      if (serviceClass && serviceClass[result.class_of_service.value]) {
+        $('#preferedClass').val(result.class_of_service.value);
+        $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service.value]);
+      }
+    }
+
     return true;
   }
 })();
