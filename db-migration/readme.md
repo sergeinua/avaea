@@ -2,7 +2,7 @@ db migration instruction
 
 0. cd <repo root>/db-migration
 1. npm install
-2. folders 'migrations' contains script for database migrations
+2. folder 'migrations' contains scripts for database migrations
 3. database.json describes key for the servers, that you can to define
 at start migration script
  
