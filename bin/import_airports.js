@@ -5,6 +5,22 @@ var csv  = require('csv-parser');
 
 // Parse argv for source data file and log level
 var argv = require('minimist')(process.argv.slice(2));
+if( (argv._.length==0) || argv.hasOwnProperty('help') ) {
+    console.log(
+	    "This script is to compile information about airports from several publicly accessible sources and print out a\n"+
+	    "bunch of INSERT INTO airports() values(...); statements that you can feed into the database.\n\n"+
+	    "USAGE: %s [--loglevel=loglevel] [--datfile=datfile] [pax1.csv pax2.csv...]\n\n"+
+	    "\t--loglevel - defines verbosity. For production of the SQL INSERT statements needs to be set to 0 or left default\n"+
+	    "\t--datfile  - URL to grab the basic airport information from. Defaults to airports data from opeflights github project\n"+
+	    "\tpaxN.csv   - a set of .csv files containing information about airport passenger traffic (PAX). Normally you first\n"+
+	    "\t             need to produce these files using bin/get_airport_pax_data.sh script and pass all those files on command\n"+
+  	    "\t             line to this script. There should be at least one file like that\n\n"+
+	    "Keep in mind that one of the things that the script is doing is converting the geolocations of the airports into their\n"+
+	    "states and countries. For that we use Google getcoding API that allows us only so many calls per day. Normally one\n"+
+	    "successful run of this script uses so much of geocoding quota that you cannot run it again for the next 24 hours.\n",
+	    process.argv[1]);
+    process.exit(0);
+}
 argv.datfile  = argv.hasOwnProperty('datfile') ? argv.datfile : 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
 argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
 
