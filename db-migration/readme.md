@@ -16,7 +16,7 @@ how to
     <current datetime>-<migration name>.js
     
 2. run migration up (basic usage)
-    a. go to <repo root>/db-migrations
+    a. go to <repo root>/db-migration
     b. run named migration by 
     node_modules/db-migrate/bin/db-migrate up <migration name> -e <dev|prod|...>
     or run <count> steps forward by
@@ -26,7 +26,7 @@ how to
     
 
 3. run migration down (basic usage)
-    a. go to <repo root>/db-migrations
+    a. go to <repo root>/db-migration
     b. node_modules/db-migrate/bin/db-migrate down -c <step count>
 
 

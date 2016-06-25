@@ -4,7 +4,7 @@
   "user": "avaea",
   "password": "avaea",
   "database": "avaea_db"
-},
+  },
   "docker": {
     "driver": "pg",
     "host": "postgres",
