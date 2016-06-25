@@ -935,12 +935,9 @@ $(document).ready(function() {
     }
 
     // cache values
-    if (moment_dp) {
-      $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
-    }
-    if (moment_rp) {
-      $('#returnDate').data('date', flightType == 'round_trip' ? moment_rp.format('YYYY-MM-DD') : null);
-    }
+    $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
+    $('#returnDate').data('date', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
+
     // Check depart date
     if (moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
       setErrorElement('.flight-date-info-item.dep');
