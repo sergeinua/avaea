@@ -4,6 +4,9 @@ var async = require('async');
 
 exports.up = function(db, callback) {
 
+  // just for safe trainings :)
+    callback();
+
     db.createTable('profile_new', {
       user               : { type: "integer", required: true},
       personal_info      : { type: 'json' },
@@ -91,5 +94,8 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
+  // just for safe trainings :)
+  callback();
+
   db.dropTable('profile_new', callback);
 };
