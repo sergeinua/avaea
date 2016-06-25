@@ -6,6 +6,7 @@ exports.up = function(db, callback) {
 
   // just for safe trainings :)
     callback();
+  return;
 
     db.createTable('profile_new', {
       user               : { type: "integer", required: true},
@@ -96,6 +97,7 @@ exports.up = function(db, callback) {
 exports.down = function(db, callback) {
   // just for safe trainings :)
   callback();
+  return;
 
   db.dropTable('profile_new', callback);
 };
