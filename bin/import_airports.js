@@ -210,7 +210,7 @@ require('async').parallel(
             var data = _.clone(airports_data[iata_3code], true);
 
             data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
-	    
+
             data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function (a, b) {
                 return a[1] - b[1];
             }).filter(function (dd) {
@@ -221,27 +221,27 @@ require('async').parallel(
                 return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
             });
 
-	    switch( iata_3code ) {
-	    case 'TLL':
-	    case 'ZQN':
-		// see http://prntscr.com/bafap0
-		var tmp = data.city;
-		data.city = data.name;
-		data.name = tmp;
-		break;
-	    case 'MOW':
-		data.name = 'All Airports';
-		data.pax  = 77355917;
-		break;
-	    case 'BKA':
-		// see https://en.wikipedia.org/wiki/Bykovo_Airport
-		data.pax = 15412;
-		break;
-	    case 'PWM':
-		// see https://en.wikipedia.org/wiki/Portland_International_Jetport
-		data.pax = 1667734; 
-		break;
-	    }
+        switch( iata_3code ) {
+            case 'TLL':
+            case 'ZQN':
+                // see http://prntscr.com/bafap0
+                var tmp = data.city;
+                data.city = data.name;
+                data.name = tmp;
+                break;
+            case 'MOW':
+                data.name = 'All Airports';
+                data.pax  = 77355917;
+                break;
+            case 'BKA':
+                // see https://en.wikipedia.org/wiki/Bykovo_Airport
+                data.pax = 15412;
+                break;
+            case 'PWM':
+                // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+                data.pax = 1667734;
+                break;
+        }
 
             var done = false;
             getGoogleApiData(data, function (error, apiResult, data) {
@@ -265,16 +265,30 @@ require('async').parallel(
                             formatSqlString(data.state_short),
                             data.pax,
                             formatSqlString(JSON.stringify(data.neighbors))
-			   );
-		
+                );
+
                 done = true;
                 return data;
             });
             require('deasync').loopWhile(function() {return !done;});
         }
         console.log(
-            "DROP TABLE airports_old;\n"+
-            "COMMIT;"
+            "DROP TABLE airports_old;\n" +
+            "COMMIT;\n" +
+            "UPDATE \n" +
+            "airports \n" +
+            "SET pax=s.pax \n" +
+            "FROM \n" +
+            "(select city,state,country,sum(pax) pax from airports where lower(name)!='all airports' group by 1,2,3) s \n" +
+            "WHERE \n" +
+            "(lower(airports.name)='all airports') \n" +
+            "AND (airports.city=s.city) \n" +
+            "AND ( \n" +
+            "    CASE WHEN COALESCE(airports.state,'')!='' THEN \n" +
+            "(airports.state=COALESCE(s.state,'') AND airports.country=COALESCE(s.country,'')) \n" +
+            "ELSE \n" +
+            "airports.country=COALESCE(s.country,'') \n" +
+            "END);\n"
         );
     }
 );
