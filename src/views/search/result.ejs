@@ -71,14 +71,14 @@
             </ul>
           </div>
         </div>
-        <div style="float: right; width: auto;" class="text-right">
+        <div class="itin-result-count text-right">
           <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
         </div>
       </div>
 
-      <div style="float: right; width: auto;" class="text-right">
-        &middot; <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
-        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span> &middot;
+      <div class="clear-undo-buttons text-right">
+        <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
+        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span>
       </div>
     </div>
   </div>
@@ -123,7 +123,7 @@
       <!--<div class="col-xs-8 itinerary-airline">-->
         <span class="airline-text"><%= sRes.citypairs[0].from.airline %> </span>
         <% if (sRes.smartRank <= 3 && sRes.information && sRes.information.length) { %>
-        <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
+        <span class="glyphicon glyphicon-thumbs-up clickable" style="color:forestgreen; font-size: 13px;" data-toggle="modal" data-target="#flightInfo<%= i%>"></span>
 
 
         <% } %>

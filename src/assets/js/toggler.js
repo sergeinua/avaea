@@ -912,6 +912,11 @@ $(document).ready(function() {
     // redraw date range on each picker update
     drawDateRange(this, $(this).data("DateTimePicker").range);
   });
+  $("#dr_picker").hammer().bind("swipeleft", function (e) {
+    $(this).data("DateTimePicker").next();
+  }).bind("swiperight", function (e) {
+    $(this).data("DateTimePicker").previous();
+  });
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
@@ -1281,7 +1286,8 @@ $(document).ready(function() {
       recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
-      height: '125px'
+      height: '125px',
+      touchScrollStep: 30
     });
   }
 
