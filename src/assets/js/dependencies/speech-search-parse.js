@@ -1,332 +1,260 @@
-var speechSearchParse = {
-  meriParseResult: {
-    origin_airport: {
-      value: '',
-      matched: ''
-    },
-    destination_airport: {
-      value: '',
-      matched: ''
-    },
-    class_of_service: {
-      value: '',
-      matched: ''
-    },
-    origin_date: {
-      value: '',
-      matched: ''
-    },
-    return_date: {
-      value: '',
-      matched: ''
-    },
-    number_of_tickets: {
-      value: '',
-      matched: ''
-    },
-    type: {
-      value: '',
-      matched: ''
-    },
-    not_parsed: ''
-  },
+// Classes
+function Regexp_and_Conversion( pattern, conversion_proc ) {
+  // if the pattern is an object then assume that it is a regexp already
+  this.re              = (typeof(pattern)=='string') ? new RegExp(pattern,'i') : pattern;
+  this.conversion_proc = conversion_proc;
+}
+function AvaeaTextParser( text ) {
 
-  saveState: function (value_name, value, regex) {
-    this.meriParseResult[value_name].value = value;
-    if (regex) {
-      this.meriParseResult[value_name].matched = regex.exec(this.meriParseResult.not_parsed)[0];
-      this.meriParseResult.not_parsed = this.meriParseResult.not_parsed.replace(regex, '');
-    }
-  },
+  // Properties
+  this.not_parsed = text;
 
-  parseDates: function (str) {
-    var today = new Date();
-    var dates = [];
-    if (/today|(depart|leav|fly)\w+\s+now|earliest|soon|quickly/i.exec(str)) {
-      dates[0] = today.toDateString();
-      this.saveState('origin_date', dates[0], /today|(depart|leav|fly)\w+\s+now|earliest|soon|quickly/i);
-    }
-    if (/(?! after\s*)tomorrow/i.exec(str)) {
-      var tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      if (dates.length == 1) {
-        this.saveState('return_date', tomorrow, /(?! after\s*)tomorrow/i);
-        return [today, tomorrow];
-      }
-      dates[0] = tomorrow.toDateString();
-      this.saveState('origin_date', dates[0], /(?! after\s*)tomorrow/i);
-    }
-
-    var dateRegex = /(\d{1,2}\s+)?\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sep(t)?(ember)?|oct(ober)?|nov(ember)?|dec(ember)?)\b(\s+\d{1,2})?(,?\s*\d{4})?/ig;
-    var match = dateRegex.exec(str);
-    if (match) {
-      dates.push(match[0]);
-      this.saveState('origin_date', match[0], /(\d{1,2}\s+)?\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sep(t)?(ember)?|oct(ober)?|nov(ember)?|dec(ember)?)\b(\s+\d{1,2})?(,?\s*\d{4})?/i);
-    }
-
-    match = dateRegex.exec(str);
-    if (match) {
-      dates[1] = match[0];
-      this.saveState('return_date', dates[1], /(\d{1,2}\s+)?\b(jan(uary)?|feb(ruary)?|mar(ch)?|apr(il)?|may|jun(e)?|jul(y)?|aug(ust)?|sep(t)?(ember)?|oct(ober)?|nov(ember)?|dec(ember)?)\b(\s+\d{1,2})?(,?\s*\d{4})?/i);
-    }
-
-    for (var i = 0; i != dates.length; i++) {
-      if (!/\d{4}/.exec(dates[i])) dates[i] = dates[i] + " " + today.getFullYear();
-      dates[i] = new Date(dates[i]);
-      if (i == 0) {
-        this.saveState('origin_date', dates[i]);
-      } else {
-        this.saveState('return_date', dates[i]);
-      }
-    }
-    if (dates.length == 2 && dates[1].getTime() < dates[0].getTime()) {
-      var year = dates[1].getFullYear();
-      dates[1].setFullYear(++year);
-      this.saveState('return_date', dates[i]);
-    }
-
-    if (dates.length <= 1) {
-      var back = new Date();
-      if (dates.length == 1) {
-        back = new Date(dates[0]);
-        this.saveState('return_date', back);
-      }
-
-      if (/the next day/i.exec(str)) {
-        if (!/[A-Z][A-z\-]+\s+the next day/.exec(str)) {
-          back.setDate(back.getDate() + 1);
-          dates.push(back);
-          this.saveState('return_date', back, dateRegex);
-          return dates;
-        }
-      }
-      if (/(in (a|1)|next) week/i.exec(str)) {
-        back.setDate(back.getDate() + 7);
-        dates.push(back);
-        this.saveState('return_date', back, /(in (a|1)|next) week/i);
-        return dates;
-      }
-      match = /\d(?= week)/i.exec(str);
-      if (match) {
-        back.setDate(back.getDate() + 7 * match[0]);
-        dates.push(back);
-        this.saveState('return_date', back, /\d(?= week)/i);
-        return dates;
-      }
-      match = /\d(?= day)/i.exec(str);
-      if (match) {
-        back.setDate(back.getDate() + 1 * match[0]);
-        dates.push(back);
-        this.saveState('return_date', back, /\d(?= day)/i);
-        return dates;
-      }
-      match = /\d{1,2}(?=(st|nd|rd|th))/i.exec(str);
-      if (match) {
-        back.setDate(match[0]);
-        if (!dates[0] || back.getTime() < dates[0].getTime()) {
-          var month = back.getMonth();
-          back.setMonth(++month);
-        }
-        dates.push(back);
-        this.saveState('return_date', back, /\d{1,2}(?=(st|nd|rd|th))/i);
-        return dates;
-      }
-    }
-
-    return dates;
-  },
-
-
-  parseCities: function (str) {
-    var cities = this.parseCitiesWorker(str);
-    // now remove trailing months ("Hong Kong, August") and commas ("Boston"),
-    // but preserve states and countries ("Portland, Maine" and "Odessa, Ukraine")
-    for (var c in cities) {
-      if (cities[c]) {
-        cities[c] = cities[c].replace(/,\s+(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec).*/, "");
-        if (',' == cities[c].slice(-1)) {
-          cities[c] = cities[c].slice(0, -1);
-        }
-      }
-    }
-    return cities;
-  },
-
-  parseCitiesWorker: function (str) {
-    var fromRegex = /\b([Ff]rom|[Dd]epart\w*|(am|is|are)\s+\w+\s+in)\s+[A-Z][A-z\-,]+(\s+[A-Z]\w+,?){0,2}/;
-    var toRegex = /\b([Tt]o|[Aa]t|[Rr]each\w*|[Aa]rriv\w*)\s+[A-Z][A-z\-,]+(\s+[A-Z]\w+,?){0,2}/;
-    str = str.replace(/\b[Ss]t. ?/ig, "St ");  // St. Paul, St. Peterburg
-    str = str.replace(/\b[Ff]t. ?/ig, "Ft ");  // Ft. Lauderdale
-    var from = fromRegex.exec(str);
-    this.saveState('origin_airport', from, fromRegex);
-    var to = toRegex.exec(str);
-    this.saveState('destination_airport', to, toRegex);
-    var from0, to0;
-    if (from) {
-      from0 = from[0].replace(/([Ff]rom|[Dd]epart\w*|(am|is|are)\s+\w+\s+in)/, "");
-      this.saveState('origin_airport', from0);
-    }
-    if (to) {
-      to0 = to[0].replace(/([Tt]o|[Aa]t|[Rr]each\w*|[Aa]rriv\w*)/, "");
-      this.saveState('destination_airport', to0);
-    }
-    if (!from && to) {
-      var altRegex1 = /[A-Z][A-z\-,]+(\s+[A-Z]\w+,?){0,2}\s+to\s+[A-Z][A-z\-,]+(\s+[A-Z]\w+,?){0,2}/;
-      var match = altRegex1.exec(str);
-      if (match) {
-        var cities = match[0].split(" to ");
-
-        this.saveState('origin_airport', cities[0], altRegex1);
-        this.saveState('destination_airport', cities[1], altRegex1);
-
-        return [cities[0], cities[1]];
-      }
-    }
-    if (from && !to) {
-      var altRegex2 = /[A-Z][A-z\-,]+(\s+[A-Z]\w+,){0,2}\s+from\s+[A-Z][A-z\-,]+(\s+[A-Z]\w+,?){0,2}/;
-      var match = altRegex2.exec(str);
-      if (match) {
-        var cities = match[0].split(" from ");
-
-        this.saveState('origin_airport', cities[1], altRegex2);
-        this.saveState('destination_airport', cities[0], altRegex2);
-
-        return [cities[1], cities[0]];
-      }
-    }
-    if (!from && !to) {
-      var comboRegex = /[A-Z][A-z]+-[A-Z][A-z]+/;
-      var match = comboRegex.exec(str);
-      if (match) {
-        var cities = match[0].split("-");
-
-        this.saveState('origin_airport', cities[0], comboRegex);
-        this.saveState('destination_airport', cities[1], comboRegex);
-
-        return [cities[0], cities[1]];
-      }
-    }
-    return [from0, to0];
-  },
-
-  // "E":"Economy","P":"Premium","B":"Business","F":"First"
-  parseClass: function (text) {
-    if (/economy/i.exec(text)) {
-      this.saveState('class_of_service', "E", /economy/i);
-      return "E";
-    } else if (/premium/i.exec(text)) {
-      this.saveState('class_of_service', "P", /premium/i);
-      return "P";
-    } else if (/business/i.exec(text)) {
-      this.saveState('class_of_service', "B", /business/i);
-      return "B";
-    } else if (/first/i.exec(text)) {
-      this.saveState('class_of_service', "F", /first/i);
-      return "F";
-    }
-    var match = /\w+\s*(?= class)/i.exec(text);
-    if (match) {
-      this.saveState('class_of_service', match[0], /\w+\s*(?= class)/i);
-      return match[0];
-    }
-    return null;
-  },
-
-  parseNumTickets: function (text) {
-    if (/\b(ticket|needs|by myself)\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 1, /\b(ticket|needs|by myself)\b/i);
-      return 1;
-    }
-    var match = /\d+(\s+[a-z\-]+)?(\s+[a-z\-]+)?\s+ticket/i.exec(text);
-    if (match) {
-      this.saveState('number_of_tickets', match[0].replace(/\s.*/, /\d+(\s+[a-z\-]+)?(\s+[a-z\-]+)?\s+ticket/i));
-      return match[0].replace(/\s.*/, "");
-    }
-
-    if (/s\s+(with|and)\s+(I|myself|me)\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 3, /s\s+(with|and)\s+(I|myself|me)\b/i);
-      return 3;
-    }
-    if (/\b(with|and)\s+(I|myself|me)\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 2, /\b(with|and)\s+(I|myself|me)\b/i);
-      return 2;
-    }
-    if (/\b(with|and)\s+my\s+\w+s\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 3, /\b(with|and)\s+my\s+\w+s\b/i);
-      return 3;
-    }
-    if (/\b(with|and)\s+(my|a)\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 2, /\b(with|and)\s+(my|a)\b/i);
-      return 2;
-    }
-    if (/and\s*my\s+\w+s\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 2, /and\s*my\s+\w+s\b/i);
-      return 2;
-    }
-
-    if (/\b([Ww]e|are)\s+/.exec(text)) {
-      this.saveState('number_of_tickets', 'multiple', /\b([Ww]e|are)\s+/i);
-      return "multiple";
-    }
-    if (/\b[Oo]ur\s+/.exec(text)) {
-      this.saveState('number_of_tickets', 'multiple', /\b[Oo]ur\s+/);
-      return "multiple";
-    }
-    if (/\b(children|students|a group)\s+/i.exec(text)) {
-      this.saveState('number_of_tickets', 'multiple', /\b(children|students|a group)\s+/i);
-      return "multiple";
-    }
-    if (/tickets/i.exec(text)) {
-      this.saveState('number_of_tickets', 'multiple', /tickets/i);
-      return "multiple";
-    }
-
-    if (/[Hh]ow much does it cost/.exec(text)) {
-      this.saveState('number_of_tickets', 1, /[Hh]ow much does it cost/);
-      return 1;
-    }
-
-    // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
-    if (/\bI\s+(need\s+to\s+)?(am|be|get|fly|reach|arrive|land)\b/i.exec(text)) {
-      this.saveState('number_of_tickets', 1, /\bI\s+(need\s+to\s+)?(am|be|get|fly|reach|arrive|land)\b/i);
-      return 1;
-    }
-    return null;
-  },
-
-  run: function (text) {
-    text = $.trim(text);
-    text = text.replace(/\bone|fir(?= st)/ig, "1");
-    text = text.replace(/\btwo|seco(?= nd)/ig, "2");
-    text = text.replace(/\bthree|thi(?= rd)/ig, "3");
-    text = text.replace(/\bfour/ig, "4");
-    text = text.replace(/\bfive/ig, "5");
-    text = text.replace(/\bsix/ig, "6");
-    this.meriParseResult.not_parsed = text;
-
-    this.parseDates(this.meriParseResult.not_parsed);
-    if (this.meriParseResult.return_date.value) {
-      this.saveState('type', 'round_trip');
-    } else {
-      this.saveState('type', 'one_way');
-    }
-
-    this.parseCities(this.meriParseResult.not_parsed);
-
-    this.parseNumTickets(this.meriParseResult.not_parsed);
-
-    this.parseClass(this.meriParseResult.not_parsed);
-
-    this.log(this.meriParseResult);
-    return this.meriParseResult;
-  },
-  /**
-   * @description Simple log function to keep the example simple
-   */
-  log: function () {
+  // Methods
+  this.log = function() {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
     }
+  };
+  this.match_and_convert = function( regexp_and_conversion ) {
+    var matches = regexp_and_conversion.re.exec(this.not_parsed);
+    if( !matches )
+      return undefined;
+    try {
+      var result = {};
+      result['matches'] = matches;
+      result['value']   = regexp_and_conversion.conversion_proc ? regexp_and_conversion.conversion_proc(matches,this) : matches[matches.length-1];
+      this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re,'');
+      return result;
+    }
+    catch( e ) {
+      return undefined;
+    }
+  };
+  this.dates = function() {
+    const ordinal_to_number = function( s ) {
+      if( /one|first/i.exec(s) ) return 1;
+      if( /two|second/i.exec(s) ) return 2;
+      if( /three|third/i.exec(s) ) return 3;
+      if( /four|fourth/i.exec(s) ) return 4;
+      if( /five|fivth/i.exec(s) ) return 5;
+      if( /six|sixth/i.exec(s) ) return 6;
+      if( /seven|seventh/i.exec(s) ) return 7;
+      if( /eight|eighth/i.exec(s) ) return 8;
+      if( /nine|nineth/i.exec(s) ) return 9;
+      if( /ten|tenth/i.exec(s) ) return 10;
+      if( /eleven|eleventh/i.exec(s) ) return 11;
+      if( /twelve|twelveth/i.exec(s) ) return 12;
+      return Number(s);
+    };
+    const get_today = function() {
+      return (new Date());
+    };
+    const get_tomorrow = function() {
+      var result = new Date();
+      result.setDate(result.getDate()+1);
+      return result;
+    };
+    const notcapturing_date = "(?:\\d{1,2})|"+
+      "(?:first)|"+
+      "(?:second)|"+
+      "(?:third)|"+
+      "(?:fourth)|"+
+      "(?:fivth)|"+
+      "(?:sixth)|"+
+      "(?:seventh)|"+
+      "(?:eighth)|"+
+      "(?:nineth)|"+
+      "(?:tenth)|"+
+      "(?:eleventh)|"+
+      "(?:twelveth)";
+    const notcapturing_month = "(?:jan(?:uary)?)|"+
+      "(?:feb(?:ruary)?)|"+
+      "(?:mar(?:ch)?)|"+
+      "(?:apr(?:il)?)|"+
+      "(?:may)|"+
+      "(?:jun(?:e)?)|"+
+      "(?:jul(?:y)?)|"+
+      "(?:aug(?:ust)?)|"+
+      "(?:sep(?:t)?(?:ember)?)|"+
+      "(?:oct(?:ober)?)|"+
+      "(?:nov(?:ember)?)|"+
+      "(?:dec(?:ember)?)";
+    const notcapturing_number = "(?:\\d{1,2})|"+
+      "(?:one)|"+
+      "(?:two)|"+
+      "(?:three)|"+
+      "(?:four)|"+
+      "(?:five)|"+
+      "(?:six)|"+
+      "(?:seven)|"+
+      "(?:eight)|"+
+      "(?:nine)|"+
+      "(?:ten)|"+
+      "(?:eleven)|"+
+      "(?:twelve)";
+    var origin_date_regexps = [
+      new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly',get_today),
+      new Regexp_and_Conversion('(?! after\\s*)tomorrow',get_tomorrow),
+      new Regexp_and_Conversion('(('+notcapturing_date+')\\s+('+notcapturing_month+')[,; \\t]*(\\d{4})?)',function( matches, result ) {
+        var date  = ordinal_to_number(matches[2]);
+        var month = matches[3];
+        var year  = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
+        return new Date(date+" "+month+" "+year);
+      }),
+      new Regexp_and_Conversion('(('+notcapturing_month+')\\s+('+notcapturing_date+')[,; \\t]*(\\d{4})?)',function( matches, result ) {
+        var date  = ordinal_to_number(matches[3]);
+        var month = matches[2];
+        var year  = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
+        return new Date(date+" "+month+" "+year);
+      }),
+      new Regexp_and_Conversion('next\\s+((?:week)|(?:month))',function( matches, result ) {
+        return (new Date((new Date()).getTime() + (matches[1]=='week'?7:30)*24*60*60*1000));
+      }),
+      new Regexp_and_Conversion('('+notcapturing_number+')\\s+((?:week)|(?:month))',function( matches, result ) {
+        return (new Date((new Date()).getTime() + ordinal_to_number(matches[1])*(matches[2]=='week'?7:30)*24*60*60*1000));
+      })
+    ];
+    var return_date_regexps = [
+      new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly',get_today),
+      new Regexp_and_Conversion('(?! after\\s*)tomorrow',get_tomorrow),
+      new Regexp_and_Conversion('(('+notcapturing_date+')\\s+('+notcapturing_month+')[,; \\t]*(\\d{2,4})?)',function( matches, result ) {
+        var date  = ordinal_to_number(matches[2]);
+        var month = matches[3];
+        var year  = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
+        return new Date(date+" "+month+" "+year);
+      }),
+      new Regexp_and_Conversion('(('+notcapturing_month+')\\s+('+notcapturing_date+')[,; \\t]*(\\d{4})?)',function( matches, result ) {
+        var date  = ordinal_to_number(matches[3]);
+        var month = matches[2];
+        var year  = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
+        return new Date(date+" "+month+" "+year);
+      }),
+      new Regexp_and_Conversion('the next day',function( matches, result ) {
+        var r = new Date(result.origin_date.value.getTime());
+        r.setDate(r.getDate()+1);
+        return r;
+      }),
+      new Regexp_and_Conversion('(in (a|1)|next) week',function( matches, result ) {
+        var r = new Date(result.origin_date.value.getTime());
+        r.setDate(r.getDate()+7);
+        return r;
+      }),
+      new Regexp_and_Conversion('(('+notcapturing_number+')(?=\\s+week))',function( matches, result ) {
+        var r = new Date(result.origin_date.value.getTime());
+        r.setDate(r.getDate()+7*ordinal_to_number(matches[1]));
+        return r;
+      }),
+      new Regexp_and_Conversion('(('+notcapturing_number+')(?=\\s+day))',function( matches, result ) {
+        var r = new Date(result.origin_date.value.getTime());
+        r.setDate(r.getDate()+1*ordinal_to_number(matches[1]));
+        return r;
+      }),
+      new Regexp_and_Conversion('('+notcapturing_date+')',function( matches, result ) {
+        var r = new Date(result.origin_date.value.getTime());
+        r.setDate(matches[matches.length-1]);
+        if( r.toDateString()=="Invalid Date" )
+          throw new Exception("Cannot convert '"+matches[matches.length-1]+"' to date");
+        if( r.getTime()<result.origin_date.value.getTime() )
+          r.setMonth(r.getMonth()+1);
+        return r;
+      })
+    ];
+    origin_date_regexps.find(function( re ) {
+      return this['origin_date'] = this.match_and_convert(re);
+    },this);
+    if( !this.hasOwnProperty('return_date') ) {
+      return_date_regexps.find(function( re ) {
+        return this['return_date'] = this.match_and_convert(re);
+      },this);
+    }
+    return this;
+  };
+  this.airports = function() {
+    const chopoff_trailing = function( s ) {
+      return s.replace(/( on|[^a-z]+)$/i,'');
+    };
+    // Handle St. and Ft. leading in city names
+    const city_name = "(?:(?:Petit\\s+St\\.?\\s+Vincent)|(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z]\\w+,?){0,2}))";
+    var origin_airport_regexps = [
+      new Regexp_and_Conversion(new RegExp("("+city_name+")\\s*(?:to|-)\\s*("+city_name+")"),function( matches, result ) {
+        result['return_airport'] = {
+          value : chopoff_trailing(matches[2])
+        };
+        return chopoff_trailing(matches[1]);
+      }),
+      new Regexp_and_Conversion(new RegExp("between\\s+("+city_name+")\\s+and\\s*("+city_name+")"),function( matches, result ) {
+        result['return_airport'] = {
+          value : chopoff_trailing(matches[2])
+        };
+        return chopoff_trailing(matches[1]);
+      }),
+      new Regexp_and_Conversion(new RegExp("("+city_name+")\\s+from\\s+("+city_name+")"),function( matches, result ) {
+        result['return_airport'] = {
+          value : chopoff_trailing(matches[1])
+        };
+        return chopoff_trailing(matches[2]);
+      }),
+      new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:am|is|are)\\s+(?:\\w+\\s+)?in))\\s+("+city_name+")"),function( matches, result ) {
+        return chopoff_trailing(matches[1]);
+      })
+    ];
+    var return_airport_regexps = [
+      new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Tt]o)|(?:[Rr]each(?:\\s[Tt]o)?)|(?:[Aa]rrive(?:\\s[Tt]o)?))\\s+("+city_name+")"),function( matches, result ) {
+        return chopoff_trailing(matches[1]);
+      })
+    ];
+    // Cannot really use forEach here becasue need to make a return from parse_dates
+    origin_airport_regexps.find(function( re ) {
+      return this['origin_airport'] = this.match_and_convert(re);
+    },this);
+    if( !this.hasOwnProperty('return_airport') ) {
+      return_airport_regexps.find(function( re ) {
+        return this['return_airport'] = this.match_and_convert(re);
+      },this);
+    }
+    return this;
+  };
+  this.class_of_service = function () {
+    var class_of_service_regexps = [
+      new Regexp_and_Conversion('economy',function() { return "E"; }),
+      new Regexp_and_Conversion('premium',function() { return "P"; }),
+      new Regexp_and_Conversion('business',function() { return "B"; }),
+      new Regexp_and_Conversion('first',function() { return "F"; })
+    ];
+    class_of_service_regexps.find(function( re ) {
+      return this['class_of_service'] = this.match_and_convert(re);
+    },this);
+    return this;
+  };
+  this.number_of_tickets = function () {
+    var number_of_tickets_regexps = [
+      new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
+      new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
+      new Regexp_and_Conversion('(\\d+)(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return Number(s); }),
+      new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
+      new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ),
+      new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
+      new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ),
+      new Regexp_and_Conversion('\\b([Ww]e|are)\\s+',function() { return 'multiple'; } ),
+      new Regexp_and_Conversion('\\b[Oo]ur\\s+',function() { return 'multiple'; } ),
+      new Regexp_and_Conversion('\\b(children|students|a group)\\s+',function() { return 'multiple'; } ),
+      new Regexp_and_Conversion('tickets',function() { return 'multiple'; } ),
+      new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ),
+      // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
+      new Regexp_and_Conversion('\\bi\\s+',function() { return 1; } )
+    ];
+    number_of_tickets_regexps.find(function( re ) {
+      return this['number_of_tickets'] = this.match_and_convert(re);
+    },this);
+    return this;
+  };
+  this.run = function() {
+    this.dates();
+    this.airports();
+    this.class_of_service();
+    this.number_of_tickets();
+    this.type  = this.return_date ? 'round_trip' : 'one_way';
+    this.log(this);
+    return this;
   }
-
 };
