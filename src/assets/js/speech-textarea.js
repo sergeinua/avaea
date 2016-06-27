@@ -242,8 +242,8 @@
     var out_field = '';
     var result  = {};
 
-    var parser = new AvaeaTextParser(text);
-    parser.run();
+    var parser = new AvaeaTextParser();
+    parser.run(text);
     result.origin_airport      = parser.origin_airport    ? parser.origin_airport.value : undefined;
     result.destination_airport = parser.return_airport    ? parser.return_airport.value : undefined;
     result.origin_date         = parser.origin_date       ? parser.origin_date.value : false;
