@@ -76,11 +76,16 @@ module.exports = {
             }
           });
 
-          selectNeighbors = selectNeighbors.replace ('{where}', whereResult.join (' OR '));
-          makeQuery (selectNeighbors, [Airports.ALL_AIRPORTS_NAME, _query], function (neighborRows) {
-            cleanedList = cleanedList.concat (neighborRows);
+          if (whereResult.length) {
+            selectNeighbors = selectNeighbors.replace ('{where}', whereResult.join (' OR '));
+            makeQuery (selectNeighbors, [Airports.ALL_AIRPORTS_NAME, _query], function (neighborRows) {
+              cleanedList = cleanedList.concat (neighborRows);
+              callback (null, cleanedList);
+            });
+          } else {
             callback (null, cleanedList);
-          });
+          }
+
         } else {
           callback (null, []);
         }
@@ -165,3 +170,4 @@ module.exports = {
     }
   }
 };
+
