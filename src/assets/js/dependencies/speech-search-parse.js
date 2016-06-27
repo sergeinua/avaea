@@ -263,7 +263,7 @@ function AvaeaTextParser() {
 	    },this);
 	// find the regexp matching the key... unless key has already been set by an earlier match
 	keys.forEach( function( key ) {
-		if( !this.hasOwnProperty(key) ) {
+		if( !this[key] ) {
 		    this[key+'_regexps'].find( function( re ) {
 			    return this[key] = this.match_and_convert(re);
 			},this);
