@@ -961,7 +961,7 @@ body.loading .modalLoader {
   border-bottom: 1px solid #e8e8e8;
 }
 .datepicker table td.day {
-  line-height: 16px !important;
+  line-height: 26px !important;
 }
 
 .buy-button-group {
@@ -993,17 +993,29 @@ button.buy-button-arrow[aria-expanded=true] {
   color: white;
 }
 
-/* iPhone 6+ */
-@media (min-width: 414px) {
+@media (min-height: 320px) {
   .datepicker table td.day {
-    line-height: 28px !important;
+    line-height: 26px !important;
   }
 }
-/* iPad */
-@media (min-width: 768px) {
+@media (min-height: 360px) {
   .datepicker table td.day {
-    font-size: 16px !important;
-    line-height: 28px !important;
+    line-height: 32px !important;
+  }
+}
+@media (min-height: 414px) {
+  .datepicker table td.day {
+    line-height: 42px !important;
+  }
+}
+@media (min-height: 640px) {
+  .datepicker table td.day {
+    line-height: 54px !important;
+  }
+}
+@media (min-height: 768px) {
+  .datepicker table td.day {
+    line-height: 64px !important;
   }
 }
 
