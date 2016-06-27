@@ -70,6 +70,11 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  $('.dimmer').off('click').on('click', function(){
+    $(this).hide();
+  });
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
