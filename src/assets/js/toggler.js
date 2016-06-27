@@ -885,7 +885,7 @@ $(document).ready(function() {
   $("#dr_picker").on("dp.change", function (e) {
     var flightType = $('#search_form').data('flight-type');
     // enable range functionality for round trip flight type
-    if(e.date && flightType == 'round_trip') {
+    if (e.date && flightType == 'round_trip') {
       // range manipulation {{{
       var range = $(this).data("DateTimePicker").range;
       if (range.start && !range.end && e.date.isAfter(range.start)) {
@@ -941,10 +941,10 @@ $(document).ready(function() {
 
     // cache values
     $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
-    $('#returnDate').data('date', flightType == 'round_trip' ? moment_rp.format('YYYY-MM-DD') : null);
+    $('#returnDate').data('date', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
 
     // Check depart date
-    if(moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+    if (moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
       setErrorElement('.flight-date-info-item.dep');
       _isError = true;
     } else {
@@ -953,7 +953,7 @@ $(document).ready(function() {
 
     // Check return date
     if (flightType == 'round_trip') {
-      if(moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+      if (moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
         setErrorElement('.flight-date-info-item.ret');
         _isError = true;
       } else {
@@ -961,15 +961,14 @@ $(document).ready(function() {
       }
     }
 
-    if(isModNavbar) {
+    if (isModNavbar) {
       $('.navbar-header').height(heightNav);
     }
 
-    if(_isError) {
+    if (_isError) {
       $('.search-button').addClass('disabled');
       $('.search-top-button').addClass('disabled');
-    }
-    else {
+    } else {
       $('.search-button').removeClass('disabled');
       $('.search-top-button').removeClass('disabled');
     }
