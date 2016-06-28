@@ -174,10 +174,11 @@ function AvaeaTextParser() {
                     return get_date_of_next_weekday(result.origin_date.value,matches[1]);
                     }),
                 new Regexp_and_Conversion('('+this.date_pattern+')',function( matches, result ) {
-                    var r = new Date(result.origin_date.value.getTime());
-                    r.setDate(ordinal_to_number(matches[matches.length-1]));
-                    if( r.toDateString()=="Invalid Date" ) 
-                        throw new Exception("Cannot convert '"+matches[matches.length-1]+"' to date");
+                    var r             = new Date(result.origin_date.value.getTime());
+                    var date_of_month = ordinal_to_number(matches[matches.length-1]);
+                    if( date_of_month>31 ) 
+                        throw new Exception("Cannot convert '"+matches[matches.length-1]+"' to a date of a month");
+                    r.setDate(date_of_month);
                     if( r.getTime()<result.origin_date.value.getTime() )
                         r.setMonth(r.getMonth()+1);
                     return r;
