@@ -1,0 +1,23 @@
+{ "dev": {
+  "driver": "pg",
+  "host": "127.0.0.1",
+  "user": "avaea",
+  "password": "avaea",
+  "database": "avaea_db"
+  },
+  "docker": {
+    "driver": "pg",
+    "host": "postgres",
+    "user": "avaea",
+    "password": "avaea",
+    "database": "avaea_db"
+  },
+  "local-docker": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "port": "5433",
+    "user": "avaea",
+    "password": "avaea",
+    "database": "avaea"
+  }
+}
