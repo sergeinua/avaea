@@ -61,7 +61,7 @@ function AvaeaTextParser() {
 		 'number_of_tickets'
 		 ];
     this.date_pattern = "\\d{1,2}(?:st|nd|rd|th)?|"+
-        "first|"+
+        "first(?!\\s+class)|"+
         "second|"+
         "third|"+
         "fourth|"+
@@ -173,7 +173,7 @@ function AvaeaTextParser() {
                 new Regexp_and_Conversion('('+this.weekday_pattern+')',function( matches, result ) {
                     return get_date_of_next_weekday(result.origin_date.value,matches[1]);
                     }),
-                new Regexp_and_Conversion('('+this.date_pattern+')(?!\\s+class)',function( matches, result ) {
+                new Regexp_and_Conversion('('+this.date_pattern+')',function( matches, result ) {
                     var r = new Date(result.origin_date.value.getTime());
                     r.setDate(ordinal_to_number(matches[matches.length-1]));
                     if( r.toDateString()=="Invalid Date" ) 
