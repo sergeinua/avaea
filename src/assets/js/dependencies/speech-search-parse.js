@@ -1,17 +1,18 @@
 // Functions
 function ordinal_to_number( s ) {
+    // TODO: add more ordinals below.
     if( /one|first|1st/i.exec(s) ) return 1; 
     if( /two|second|2nd/i.exec(s) ) return 2; 
     if( /three|third|3rd/i.exec(s) ) return 3; 
     if( /four|fourth|4th/i.exec(s) ) return 4; 
-    if( /five|fivth|5th/i.exec(s) ) return 5; 
+    if( /five|fifth|5th/i.exec(s) ) return 5; 
     if( /six|sixth|6th/i.exec(s) ) return 6; 
     if( /seven|seventh|7th/i.exec(s) ) return 7; 
     if( /eight|eighth|8th/i.exec(s) ) return 8; 
     if( /nine|nineth|9th/i.exec(s) ) return 9; 
     if( /ten|tenth|10th/i.exec(s) ) return 10; 
     if( /eleven|eleventh|11th/i.exec(s) ) return 11; 
-    if( /twelve|twelveth|12th/i.exec(s) ) return 12; 
+    if( /twelve|twelfth|12th/i.exec(s) ) return 12; 
     return Number(s);
 }
 function get_weekday( d ) {
