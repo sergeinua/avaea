@@ -1,19 +1,19 @@
 // Functions
 function ordinal_to_number( s ) {
-    // TODO: add more ordinals below.
-    if( /one|first|1st/i.exec(s) ) return 1; 
-    if( /two|second|2nd/i.exec(s) ) return 2; 
-    if( /three|third|3rd/i.exec(s) ) return 3; 
-    if( /four|fourth|4th/i.exec(s) ) return 4; 
-    if( /five|fifth|5th/i.exec(s) ) return 5; 
-    if( /six|sixth|6th/i.exec(s) ) return 6; 
-    if( /seven|seventh|7th/i.exec(s) ) return 7; 
-    if( /eight|eighth|8th/i.exec(s) ) return 8; 
-    if( /nine|nineth|9th/i.exec(s) ) return 9; 
-    if( /ten|tenth|10th/i.exec(s) ) return 10; 
-    if( /eleven|eleventh|11th/i.exec(s) ) return 11; 
-    if( /twelve|twelfth|12th/i.exec(s) ) return 12; 
-    return Number(s);
+    if( /one|first/i.exec(s) ) return 1; 
+    if( /two|second/i.exec(s) ) return 2; 
+    if( /three|third/i.exec(s) ) return 3; 
+    if( /four|fourth/i.exec(s) ) return 4; 
+    if( /five|fifth/i.exec(s) ) return 5; 
+    if( /six|sixth/i.exec(s) ) return 6; 
+    if( /seven|seventh/i.exec(s) ) return 7; 
+    if( /eight|eighth/i.exec(s) ) return 8; 
+    if( /nine|nineth/i.exec(s) ) return 9; 
+    if( /ten|tenth/i.exec(s) ) return 10; 
+    if( /eleven|eleventh/i.exec(s) ) return 11; 
+    if( /twelve|twelfth/i.exec(s) ) return 12; 
+    var matches = /(\d+)(?:st|nd|rd|th)/.exec(s);
+    return matches ? Number(matches[1]) : Number(s);
 }
 function get_weekday( d ) {
     return d.toDateString().replace(/^([a-z]+)\s.*/i,'$1');
@@ -37,8 +37,11 @@ function get_tomorrow() {
     result.setDate(result.getDate()+1);
     return result;
 }
-function chopoff_trailing( s ) {
-    return s.replace(/( on|[^a-z]+)$/i,''); 
+function validate_city_name( city_name ) {
+    city_name = city_name.replace(/( on|[^a-z]+)$/i,''); 
+    if( /flying|leaving|departing|students/i.exec(city_name) )
+       throw new Exception("Wrong city name"+city_name);
+    return city_name;
 }
 // Classes
 function Regexp_and_Conversion( pattern, conversion_proc ) {
@@ -57,19 +60,19 @@ function AvaeaTextParser() {
 		 'class_of_service',
 		 'number_of_tickets'
 		 ];
-    this.date_pattern = "\\d{1,2}|"+
-        "first|1st|"+
-        "second|2nd|"+
-        "third|3rd|"+
-        "fourth|4th|"+
-        "fivth|5th|"+
-        "sixth|6th|"+
-        "seventh|7th|"+
-        "eighth|8th|"+
-        "nineth|9th|"+
-        "tenth|10th|"+
-        "eleventh|11th|"+
-        "twelveth|12th";
+    this.date_pattern = "\\d{1,2}(?:st|nd|rd|th)?|"+
+        "first|"+
+        "second|"+
+        "third|"+
+        "fourth|"+
+        "fifth|"+
+        "sixth|"+
+        "seventh|"+
+        "eighth|"+
+        "nineth|"+
+        "tenth|"+
+        "eleventh|"+
+        "twelfth";
     this.month_pattern = "jan(?:uary)?|"+
         "feb(?:ruary)?|"+
         "mar(?:ch)?|"+
@@ -102,8 +105,10 @@ function AvaeaTextParser() {
         "friday|"+
         "saturday|"+
         "sunday";
-    // Handle "St. " and "Fd. " leadning in the city names
-    this.city_pattern = "(?:(?:Petit\\s+St\\.?\\s+Vincent)|(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z]\\w+,?){0,2}))";
+    // Handle "St. " and "Fd. " leading in the city names or handle three letter airport codes
+    this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFf]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|"+
+        "(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|"+
+        "(?:[A-Z]{3})";
     // regexps matchign different elements
     this.origin_date_regexps = [
                 new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly',get_today),
@@ -165,52 +170,56 @@ function AvaeaTextParser() {
                     r.setDate(r.getDate()+1*ordinal_to_number(matches[1]));
                     return r;        
                     }),
-                new Regexp_and_Conversion('('+this.date_pattern+')',function( matches, result ) {
+                new Regexp_and_Conversion('('+this.weekday_pattern+')',function( matches, result ) {
+                    return get_date_of_next_weekday(result.origin_date.value,matches[1]);
+                    }),
+                new Regexp_and_Conversion('('+this.date_pattern+')(?!\\s+class)',function( matches, result ) {
                     var r = new Date(result.origin_date.value.getTime());
-                    r.setDate(matches[matches.length-1]);
+                    r.setDate(ordinal_to_number(matches[matches.length-1]));
                     if( r.toDateString()=="Invalid Date" ) 
                         throw new Exception("Cannot convert '"+matches[matches.length-1]+"' to date");
                     if( r.getTime()<result.origin_date.value.getTime() )
                         r.setMonth(r.getMonth()+1);
                     return r;
-                    }),
-                new Regexp_and_Conversion('('+this.weekday_pattern+')',function( matches, result ) {
-                    return get_date_of_next_weekday(result.origin_date.value,matches[1]);
                     })
                 ];
     this.origin_airport_regexps = [
-                   new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s*(?:to|-)\\s*("+this.city_pattern+")"),function( matches, result ) {
-                       // Avoid patterns like "Flying" to or "Leaving to" or "departing to"
-                       var city_name = chopoff_trailing(matches[1]);
-                       if( /(?:flying|leaving|departing)/i.exec(city_name) )
-                           throw new Exception("Wrong city name"+city_name);
+                   new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+(?:to|-)\\s+("+this.city_pattern+")"),function( matches, result ) {
                        result['return_airport'] = {
-                           value : chopoff_trailing(matches[2]),
+                           value : validate_city_name(matches[2]),
 			   pattern : 'same as origin_airport'
                        };
-                       return city_name; 
+                       return validate_city_name(matches[1]); 
                        }),
                    new Regexp_and_Conversion(new RegExp("between\\s+("+this.city_pattern+")\\s+and\\s*("+this.city_pattern+")"),function( matches, result ) {
                        result['return_airport'] = {
-                           value : chopoff_trailing(matches[2]),
+                           value : validate_city_name(matches[2]),
 			   pattern : 'same as origin_airport'
                        };
-                       return chopoff_trailing(matches[1]); 
+                       return validate_city_name(matches[1]); 
                        }),
                    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+from\\s+("+this.city_pattern+")"),function( matches, result ) {
                        result['return_airport'] = {
-                           value : chopoff_trailing(matches[1]),
+                           value : validate_city_name(matches[1]),
 			   pattern : 'same as origin_airport'
                        };
-                       return chopoff_trailing(matches[2]);
+                       return validate_city_name(matches[2]);
                        }),
                    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:am|is|are)\\s+(?:\\w+\\s+)?in))\\s+("+this.city_pattern+")"),function( matches, result ) {
-                       return chopoff_trailing(matches[1]);
+                       return validate_city_name(matches[1]);
                        })
                    ];
     this.return_airport_regexps = [
-                   new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Tt]o)|(?:[Rr]each(?:ing)?(?:\\s[Tt]o)?)|(?:[Aa]rrive(?:\\s[Tt]o)?))\\s+("+this.city_pattern+")"),function( matches, result ) {
-                       return chopoff_trailing(matches[1]);
+                   new Regexp_and_Conversion(new RegExp("\\b(?:(?:(?:(?:[Rr]eache?s?)|(?:[Ff]l[iy]e?s?)|(?:[Aa]rrive?s?)|(?:[Ll]ands?)|(?:[Gg]oe?s?))(?:ing)?(?:\\s+(?:(?:[Tt]o)|(?:[Aa]t)))?)|(?:[Tt]o))\\s+("+this.city_pattern+")"),function( matches, result ) {
+                       return validate_city_name(matches[1]);
+                       }),
+                   // This is the last resort match for cases like "Kiev-Moscow" or even "Kiev Moscow"
+                   new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")(?:-|\\s+)("+this.city_pattern+")"),function( matches, result ) {
+                       result['origin_airport'] = {
+                           value : validate_city_name(matches[1]),
+			   pattern : 'same as return_airport'
+                       };
+                       return validate_city_name(matches[2]); 
                        })
                    ];
     this.class_of_service_regexps = [
@@ -273,6 +282,7 @@ function AvaeaTextParser() {
 			},this);
 		}
 	    },this);
+        // set the type of the travel
 	this.type  = this.return_date ? 'round_trip' : 'one_way';
 	return this.not_parsed;
     }
