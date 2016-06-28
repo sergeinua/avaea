@@ -1,17 +1,17 @@
 // Functions
 function ordinal_to_number( s ) {
-    if( /one|first/i.exec(s) ) return 1; 
-    if( /two|second/i.exec(s) ) return 2; 
-    if( /three|third/i.exec(s) ) return 3; 
-    if( /four|fourth/i.exec(s) ) return 4; 
-    if( /five|fivth/i.exec(s) ) return 5; 
-    if( /six|sixth/i.exec(s) ) return 6; 
-    if( /seven|seventh/i.exec(s) ) return 7; 
-    if( /eight|eighth/i.exec(s) ) return 8; 
-    if( /nine|nineth/i.exec(s) ) return 9; 
-    if( /ten|tenth/i.exec(s) ) return 10; 
-    if( /eleven|eleventh/i.exec(s) ) return 11; 
-    if( /twelve|twelveth/i.exec(s) ) return 12; 
+    if( /one|first|1st/i.exec(s) ) return 1; 
+    if( /two|second|2nd/i.exec(s) ) return 2; 
+    if( /three|third|3rd/i.exec(s) ) return 3; 
+    if( /four|fourth|4th/i.exec(s) ) return 4; 
+    if( /five|fivth|5th/i.exec(s) ) return 5; 
+    if( /six|sixth|6th/i.exec(s) ) return 6; 
+    if( /seven|seventh|7th/i.exec(s) ) return 7; 
+    if( /eight|eighth|8th/i.exec(s) ) return 8; 
+    if( /nine|nineth|9th/i.exec(s) ) return 9; 
+    if( /ten|tenth|10th/i.exec(s) ) return 10; 
+    if( /eleven|eleventh|11th/i.exec(s) ) return 11; 
+    if( /twelve|twelveth|12th/i.exec(s) ) return 12; 
     return Number(s);
 }
 function get_weekday( d ) {
@@ -56,51 +56,51 @@ function AvaeaTextParser() {
 		 'class_of_service',
 		 'number_of_tickets'
 		 ];
-    this.date_pattern = "(?:\\d{1,2})|"+
-        "(?:first)|"+
-        "(?:second)|"+
-        "(?:third)|"+
-        "(?:fourth)|"+
-        "(?:fivth)|"+
-        "(?:sixth)|"+
-        "(?:seventh)|"+
-        "(?:eighth)|"+
-        "(?:nineth)|"+
-        "(?:tenth)|"+
-        "(?:eleventh)|"+
-        "(?:twelveth)";
-    this.month_pattern = "(?:jan(?:uary)?)|"+
-        "(?:feb(?:ruary)?)|"+
-        "(?:mar(?:ch)?)|"+
-        "(?:apr(?:il)?)|"+
-        "(?:may)|"+
-        "(?:jun(?:e)?)|"+
-        "(?:jul(?:y)?)|"+
-        "(?:aug(?:ust)?)|"+
-        "(?:sep(?:t)?(?:ember)?)|"+
-        "(?:oct(?:ober)?)|"+
-        "(?:nov(?:ember)?)|"+
-        "(?:dec(?:ember)?)";
-    this.number_pattern = "(?:\\d{1,2})|"+
-        "(?:one)|"+
-        "(?:two)|"+
-        "(?:three)|"+
-        "(?:four)|"+
-        "(?:five)|"+
-        "(?:six)|"+
-        "(?:seven)|"+
-        "(?:eight)|"+
-        "(?:nine)|"+
-        "(?:ten)|"+
-        "(?:eleven)|"+
-        "(?:twelve)";
-    this.weekday_pattern = "(?:monday)|"+
-        "(?:tuesday)|"+
-        "(?:wednesday)|"+
-        "(?:thursday)|"+
-        "(?:friday)|"+
-        "(?:saturday)|"+
-        "(?:sunday)";
+    this.date_pattern = "\\d{1,2}|"+
+        "first|1st|"+
+        "second|2nd|"+
+        "third|3rd|"+
+        "fourth|4th|"+
+        "fivth|5th|"+
+        "sixth|6th|"+
+        "seventh|7th|"+
+        "eighth|8th|"+
+        "nineth|9th|"+
+        "tenth|10th|"+
+        "eleventh|11th|"+
+        "twelveth|12th";
+    this.month_pattern = "jan(?:uary)?|"+
+        "feb(?:ruary)?|"+
+        "mar(?:ch)?|"+
+        "apr(?:il)?|"+
+        "may|"+
+        "jun(?:e)?|"+
+        "jul(?:y)?|"+
+        "aug(?:ust)?|"+
+        "sep(?:t)?(?:ember)?|"+
+        "oct(?:ober)?|"+
+        "nov(?:ember)?|"+
+        "dec(?:ember)?";
+    this.number_pattern = "\\d{1,2}|"+
+        "one|"+
+        "two|"+
+        "three|"+
+        "four|"+
+        "five|"+
+        "six|"+
+        "seven|"+
+        "eight|"+
+        "nine|"+
+        "ten|"+
+        "eleven|"+
+        "twelve";
+    this.weekday_pattern = "monday|"+
+        "tuesday|"+
+        "wednesday|"+
+        "thursday|"+
+        "friday|"+
+        "saturday|"+
+        "sunday";
     // Handle "St. " and "Fd. " leadning in the city names
     this.city_pattern = "(?:(?:Petit\\s+St\\.?\\s+Vincent)|(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z]\\w+,?){0,2}))";
     // regexps matchign different elements
