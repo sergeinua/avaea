@@ -237,7 +237,7 @@ require('async').parallel(
                 return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
             });
 
-        switch( iata_3code ) {
+            switch( iata_3code ) {
             case 'TLL':
             case 'ZQN':
                 // see http://prntscr.com/bafap0
@@ -256,8 +256,28 @@ require('async').parallel(
             case 'PWM':
                 // see https://en.wikipedia.org/wiki/Portland_International_Jetport
                 data.pax = 1667734;
-                break;
-        }
+		break;
+	    case 'ITO':
+		// https://en.wikipedia.org/wiki/Hilo_International_Airport
+		data.pax = 1279342;
+		break;
+	    case 'OGG':
+		// https://en.wikipedia.org/wiki/Kahului_Airport
+		data.pax = 5346694;
+		break;
+	    case 'KOA':
+		// https://en.wikipedia.org/wiki/Kona_International_Airport
+		data.pax = 2807118;
+		break;
+	    case 'LIH':
+		// https://en.wikipedia.org/wiki/Lihue_Airport
+		data.pax = 2680028;
+		break;
+	    case 'HNL':
+		// https://en.wikipedia.org/wiki/Honolulu_International_Airport
+		data.pax = 19291412;
+		break;
+            }
 
             var done = false;
             getGoogleApiData(data, function (error, apiResult, data) {
