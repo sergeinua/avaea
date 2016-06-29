@@ -3,14 +3,14 @@
   "host": "127.0.0.1",
   "user": "avaea",
   "password": "avaea",
-  "database": "avaea_db"
+  "database": "avaea"
   },
   "docker": {
     "driver": "pg",
     "host": "postgres",
     "user": "avaea",
     "password": "avaea",
-    "database": "avaea_db"
+    "database": "avaea"
   },
   "local-docker": {
     "driver": "pg",
