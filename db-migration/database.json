@@ -19,5 +19,13 @@
     "user": "avaea",
     "password": "avaea",
     "database": "avaea"
+  },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "user": "avaea",
+    "password": "avaea",
+    "database": "avaea_test"
   }
 }
