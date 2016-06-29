@@ -1187,6 +1187,39 @@ button.buy-button-arrow[aria-expanded=true] {
   letter-spacing: 2px;
 }
 
+#landscapeMode {
+  margin-top: -100px;
+  top: 50%;
+  background-color: white;
+}
+
+.landscape-popup {
+  height: 200px;
+  border: 0;
+  box-shadow: none;
+  background-color: white !important;
+}
+
+.landscape-popup div:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -70px;
+  width: 140px;
+  height: 140px;
+  background: url(/images/avaea-sprite@2x.png) no-repeat 0 -1000px;
+}
+
+#landscapeMode .modal-body {
+  border: 0;
+  opacity:0.5;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size:32px;
+  color:#101742;
+  padding-top: 140px;
+}
+
 @media all and (min-width: 480px) {
   body {
     padding-top: 30px;

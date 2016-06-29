@@ -131,6 +131,9 @@ $(document).ready(function() {
     }
   };
   var isLandscapeMode = function () {
+    if ( typeof window.orientation == 'undefined' ) {
+      return (window.outerHeight < window.outerWidth)
+    }
     return (window.orientation == 90 || window.orientation == -90);
   };
 
@@ -512,6 +515,20 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
+    $('body').removeClass('landscape-mode');
+    if (isLandscapeMode()) {
+      $('body').addClass('landscape-mode');
+      if (isMobile.any()) {
+        $('#landscapeMode').modal('show');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
+      }
+    } else {
+      if(isMobile.any()) {
+        $('#landscapeMode').modal('hide');
+      }
+    }
+
     //DEMO-318 an unused horizontal stripe between tiles and itin summaries
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
     var navHeight = 50;
