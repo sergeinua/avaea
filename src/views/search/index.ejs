@@ -94,7 +94,10 @@
     </div>
   </div>
 
-<script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
+<script>
+  var serviceClass = <%- JSON.stringify(serviceClass) %>;
+  var GlobalSearchResultCount = <%= (typeof searchResult != 'undefined') ? searchResult.length : 0  %>;
+</script>
 
 <form action="/result" method="post" id="search_form" >
   <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>" />
