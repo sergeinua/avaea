@@ -11,7 +11,7 @@ until [ $n -ge 6 ]
 do
 
     if [ -e "$file" ] ; then
-        node_modules/db-migrate/bin/db-migrate up modify-profile --config database.json -e docker
+        node_modules/db-migrate/bin/db-migrate up --config database.json -e docker
         echo "Migrations executed successfully."
         exit 0
     else
