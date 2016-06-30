@@ -4,7 +4,7 @@ var fs = require('fs');
 var path = require('path');
 
 exports.up = function(db, callback) {
-  var filePath = path.join(__dirname + '/sqls/20160629184726-airlines-up.sql');
+  var filePath = path.join(__dirname + '/sqls/19700101000002-airports-up.sql');
   fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
     if (err) return callback(err);
       console.log('received data: ' + data);
@@ -17,7 +17,7 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  var filePath = path.join(__dirname + '/sqls/20160629184726-airlines-down.sql');
+  var filePath = path.join(__dirname + '/sqls/19700101000002-airports-down.sql');
   fs.readFile(filePath, {encoding: 'utf-8'}, function(err,data){
     if (err) return callback(err);
       console.log('received data: ' + data);
