@@ -941,16 +941,27 @@ body.loading .modalLoader {
   background-color: #ffffff !important;
 }
 
-.datepicker span.range:not(.new):not(.old):not(.disabled),
-.datepicker table td.day.range:not(.new):not(.old):not(.disabled) {
+.datepicker span.range:not(.disabled),
+.datepicker table td.day.range:not(.disabled) {
   background-color: #FFFBEB !important;
 }
 
+.datepicker span.range.new, .datepicker span.range.old,
+.datepicker table td.day.range.new, .datepicker table td.day.range.old {
+  background-image: url("/images/ydiag_dark.png");
+}
+
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old,
 .datepicker span.active, .bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
   background-color: #ffe03f !important;
   border-radius: 0;
   color: #101742 !important;
+}
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old {
+  background-image: url("/images/ydiag_light.png");
 }
 
 .datepicker table td.today:before {
@@ -1019,21 +1030,14 @@ button.buy-button-arrow[aria-expanded=true] {
   }
 }
 
-.datepicker table td.day.old,
-.datepicker table td.day.new {
-  /*background-color: #FFFBEB !important;*/
-  background: none !important;
-}
-
-.datepicker table td.day.disabled.old,
-.datepicker table td.day.disabled.new {
+.datepicker span.old, .datepicker span.new,
+.datepicker table td.day.old, .datepicker table td.day.new {
   background-color: inherit !important;
 }
 
-.datepicker table th.disabled,
-.datepicker table th.disabled:hover,
-.datepicker table td.disabled,
-.datepicker table td.disabled:hover {
+.datepicker span.disabled, .datepicker span.disabled:hover,
+.datepicker table th.disabled, .datepicker table th.disabled:hover,
+.datepicker table td.disabled, .datepicker table td.disabled:hover {
   background: none !important;
   text-decoration: line-through;
 }
