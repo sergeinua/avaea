@@ -1,15 +1,3 @@
-- name: Install dependencies for migrations
-  shell: npm i
-  args:
-    chdir: "{{ dir }}/db-migration/"
-  when: APP == "demo"
-
-- name: Run migrations
-  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
-  args:
-    chdir: "{{ dir }}/db-migration/"
-  when: APP == "demo"
-
 - name: Check if upstart config file exists or not
   stat: path=/etc/init/{{ upstart.config_name }}
   register: upstart_path
@@ -32,6 +20,18 @@
     force=yes
     ssh_opts="-o StrictHostKeyChecking=no"
     key_file=/root/.ssh/bitbucket_rsa
+
+- name: Install dependencies for migrations
+  shell: npm i
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
+- name: Run migrations
+  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
 
 - name: Delete if exists nginx defualt config
   file:
