@@ -41,7 +41,7 @@ module.exports = {
   flightapis: {
     mondee: {
       baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',
-      clientId: 'CFS1017'
+      //clientId: 'CFS1017' // temporary disabled until sandbox.trippro.com will available again
     },
     searchProvider: ['mondee'/*, 'mystifly'*/]
   }
