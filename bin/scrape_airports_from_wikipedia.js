@@ -15,10 +15,10 @@ var _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|
 				     "<tr><td[^>]*><table[^>]*>"+
 				     // Depending on the airport the number of properties on the statistics section varies from 1 to 4
 				     // However adding {1,4} after the regular expression does not work
-				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)"+
-				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
-				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
-				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?",
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:<sup[^>]*><a[^>]*>[^<]+</a></sup>)?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:<sup[^>]*><a[^>]*>[^<]+</a></sup>)?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:<sup[^>]*><a[^>]*>[^<]+</a></sup>)?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:<sup[^>]*><a[^>]*>[^<]+</a></sup>)?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?",
 				     "i");
 var _IATA_CODE_RE       = new RegExp("<a\\s+href=\"/wiki/International_Air_Transport_Association_airport_code\"[^>]*>IATA</a>:?\\s*<span[^>]*>([A-Z]{3})</span>",
 				     "i");
