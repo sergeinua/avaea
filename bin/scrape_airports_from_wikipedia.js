@@ -7,14 +7,17 @@ var _WIKIPEDIA_API_BASE = "https://en.wikipedia.org/w/api.php?";
 var _PROPS_PATTERN      = "(?:aircraft\\s+operations)"+
     "|(?:total\\s+cargo)"+
     "|(?:total\\s+passengers)"+
+    "|(?:number\\s+of\\s+passengers)"+
     "|(?:passengers)"+
-    "|(?:cargo\\s tonnage)"+
+    "|(?:cargo\\s+tonnage)"+
     "|(?:metric\\s+tonnes\\s+of\\s+cargo)"+
     "|(?:based\\s+aircraft)"+
     "|(?:aircraft\\s+movements)"
     ;
 var _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|h)></tr>"+
 				     "<tr><td[^>]*><table[^>]*>"+
+				     // Depending on the airport the number of properties on the statistics section varies from 1 to 4
+				     // However adding {1,4} after the regular expression does not work
 				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)"+
 				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
 				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
@@ -77,19 +80,52 @@ function stringify_hash( h ) {
     }
     return "{"+result.join(",")+"}";
 }
+function formatSqlString( s ) {
+    if ( !s || s == '\\N' ) {
+	return 'null';
+    }
+    var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
+	switch (s) {
+	case "\0":
+	    return "\\0";
+	case "\n":
+	    return "\\n";
+	case "\r":
+	    return "\\r";
+	case "\b":
+	    return "\\b";
+	case "\t":
+	    return "\\t";
+	case "\x1a":
+	    return "\\Z";
+	case "'":
+	    return "''";
+	default:
+	    return "\\" + s;
+	}
+    });
+    return (r != s) ? util.format("E'%s'", r) : util.format("'%s'", r);
+}
 /////////////////////////////////////////////////////////////////////////////////////////
 // top level code
 /////////////////////////////////////////////////////////////////////////////////////////
-var _           = require('lodash');
-var request     = require('request');
-var argv        = require('minimist')(process.argv.slice(2));
+const _           = require('lodash');
+const request     = require('request');
+const util        = require('util');
+const argv        = require('minimist')(process.argv.slice(2));
 if( argv.hasOwnProperty('help') ) {
     console.log(
-	    "USAGE: %s [--loglevel=loglevel]\n\n"+
+	    "USAGE: %s [--loglevel=loglevel] [--format=sql|csv] \n\n"+
 	    process.argv[1]);
     process.exit(0);
 }
 argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
+if( argv.hasOwnProperty('format') && argv['format']=='csv' ) {
+    cosole.log("name,iata_3code,icao_4code,pax");
+}
+else {
+    console.log("create temp table wikipedia_airports (name varchar, iata_3code varchar, icao_4code varchar, pax int);");
+}
 query_wikipedia({
     "generator" : "categorymembers",
     "gcmtitle"  : "Category:Lists of airports by IATA code"
@@ -117,18 +153,42 @@ query_wikipedia({
 		    if( matches && matches.length ) {
 			var properties = {};
 			var prop_count = 0;
+			var passengers = 0
 			for( var n=1; n<matches.length; n+=2 ) {
 			    if( matches[n] ) {
-				properties[matches[n]] = matches[n+1].replace(/[^\d]/g,"");
+				// Just grab the first number even if the triples in it are separated with commas ot periods
+				properties[matches[n]] = matches[n+1].replace(/^([\d,\.]+).*$/,"$1").replace(/[^\d]/g,"");
+				if( matches[n].toLowerCase().indexOf("passenger")>=0 ) {
+				    passengers = Number(properties[matches[n]]);
+				}
 				prop_count++;
 			    }
 			}
-			if( prop_count ) {
+			if( passengers>0 ) {
 			    var iata_matches = _IATA_CODE_RE.exec(text);
 			    var icao_matches = _ICAO_CODE_RE.exec(text);
-			    var iata_code    = iata_matches ? iata_matches[1] : undefined;
-			    var icao_code    = icao_matches ? icao_matches[1] : undefined;
-			    console.log("Airport "+page.title+", IATA="+iata_code+",ICAO="+icao_code+",properties="+stringify_hash(properties));
+			    var iata_3code    = iata_matches ? iata_matches[1] : undefined;
+			    var icao_4code    = icao_matches ? icao_matches[1] : undefined;
+			    if( argv.loglevel>0 ) {
+				console.log(page.title+",IATA="+iata_3code+",ICAO="+icao_4code+",properties="+stringify_hash(properties));
+			    }
+			    else {
+				if( argv.hasOwnProperty('format') && argv['format']=='csv' ) {
+				    console.log(page.title+","+iata_3code+","+icao_4code+","+passengers);
+				}
+				else {
+				    console.log("insert into wikipedia_airports(name,iata_3code,icao_4code,pax) values("+
+						formatSqlString(page.title)+","+
+						formatSqlString(iata_3code)+","+
+						formatSqlString(icao_4code)+","+
+						passengers+");");
+				}
+			    }
+			}
+			else {
+			    if( argv.loglevel>0 ) {
+				console.log(page.title+",properties="+stringify_hash(properties));
+			    }
 			}
 		    }
 		    else {
