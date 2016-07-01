@@ -1,3 +1,15 @@
+- name: Install dependencies for migrations
+  shell: npm i
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
+- name: Run migrations
+  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
 - name: Check if upstart config file exists or not
   stat: path=/etc/init/{{ upstart.config_name }}
   register: upstart_path
@@ -46,15 +58,3 @@
 
 - name: Restart nginx service
   service: name=nginx state=restarted
-
-- name: Install dependencies for migrations
-  shell: npm i
-  args:
-    chdir: {{ dir }}
-  when: {{ APP }}=="demo"
-
-- name: Run migrations
-  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
-  args:
-    chdir: {{ dir }}
-  when: {{ APP }}=="demo"
