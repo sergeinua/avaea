@@ -21,6 +21,18 @@
     ssh_opts="-o StrictHostKeyChecking=no"
     key_file=/root/.ssh/bitbucket_rsa
 
+- name: Install dependencies for migrations
+  shell: npm i
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
+- name: Run migrations
+  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
 - name: Delete if exists nginx defualt config
   file:
    path=/etc/nginx/sites-enabled/default
