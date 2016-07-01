@@ -46,3 +46,15 @@
 
 - name: Restart nginx service
   service: name=nginx state=restarted
+
+- name: Install dependencies for migrations
+  shell: npm i
+  args:
+    chdir: {{ dir }}
+  when: {{ APP }}=="demo"
+
+- name: Run migrations
+  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
+  args:
+    chdir: {{ dir }}
+  when: {{ APP }}=="demo"

@@ -1,4 +1,12 @@
-{ "dev": {
+{
+  "production": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "user": "avaea",
+    "password": "avaea",
+    "database": "avaea"
+  },
+  "dev": {
   "driver": "pg",
   "host": "127.0.0.1",
   "user": "avaea",
