@@ -1102,7 +1102,7 @@ $(document).ready(function() {
           'height': '100%',
           'margin-top': 0
         });
-        $('.navbar-brand').text('Avaea Voice');
+        $('.navbar-brand').text('Voice Search');
         $('.navbar-toggle').addClass('hidden');
 
         $('.search-button').hide();
