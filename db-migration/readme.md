@@ -10,10 +10,13 @@ how to
 1. add new migration (basic usage)
     a. go to <repo root>/db-migration
     b. add new migration by
-    node_modules/db-migrate/bin/db-migrate create <migration name>
+    node_modules/db-migrate/bin/db-migrate create <migration name> [--sql-file]
     
     script will generate migration script with filename mask 
     <current datetime>-<migration name>.js
+    
+    user can define script type: sql-formatted or js-formatted, 
+        default - js-formatted  
     
 2. run migration up (basic usage)
     a. go to <repo root>/db-migration
