@@ -1,15 +1,41 @@
 #!/usr/bin/nodejs
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// globals
+/////////////////////////////////////////////////////////////////////////////////////////
+var _WIKIPEDIA_API_BASE = "https://en.wikipedia.org/w/api.php?";
+var _PROPS_PATTERN      = "(?:aircraft\\s+operations)"+
+    "|(?:total\\s+cargo)"+
+    "|(?:total\\s+passengers)"+
+    "|(?:passengers)"+
+    "|(?:cargo\\s tonnage)"+
+    "|(?:metric\\s+tonnes\\s+of\\s+cargo)"+
+    "|(?:based\\s+aircraft)"+
+    "|(?:aircraft\\s+movements)"
+    ;
+var _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|h)></tr>"+
+				     "<tr><td[^>]*><table[^>]*>"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
+				     "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?",
+				     "i");
+var _IATA_CODE_RE       = new RegExp("<a\\s+href=\"/wiki/International_Air_Transport_Association_airport_code\"[^>]*>IATA</a>:?\\s*<span[^>]*>([A-Z]{3})</span>",
+				     "i");
+var _ICAO_CODE_RE       = new RegExp("<a\\s+href=\"/wiki/International_Civil_Aviation_Organization_airport_code\"[^>]*>ICAO</a>:?\\s*<span[^>]*>([A-Z]{4})</span>",
+				     "i");
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // functions
 /////////////////////////////////////////////////////////////////////////////////////////
 function query_wikipedia( params, subpage_callback ) {
+    var querystring = require('querystring');
     var url_params   = ["action=query&format=json"];
     for( k in params ) {
 	url_params.push(querystring.escape(k)+"="+querystring.escape(params[k]));
     }
-    const complete_url = "https://en.wikipedia.org/w/api.php?"+url_params.join("&");
-    if( argv.loglevel>0 ) {
+    const complete_url = _WIKIPEDIA_API_BASE+url_params.join("&");
+    if( argv.loglevel>1 ) {
 	console.log("Querying "+complete_url);
     }
     request(complete_url,function( error, response, body ) {
@@ -22,10 +48,15 @@ function query_wikipedia( params, subpage_callback ) {
 		subpage_callback(pageid,json.query.pages[pageid]);
 	    }
 	}
+	else {
+	    if( argv.loglevel>0 ) {
+		console.log("ERROR: Cannot parse JSON of "+complete_url);
+	    }
+	}
 	// See if we have to continue to generate
 	if( json.batchcomplete=='' && json['continue'] && json['continue']['continue']!='' ) {
 	    var continue_name = json['continue']['continue'].replace(/^([a-z]+)[^a-z]+$/i,"$1");
-	    if( argv.loglevel>0 ) {
+	    if( argv.loglevel>1 ) {
 		console.log("Continuting with "+continue_name+"="+json['continue'][continue_name]);
 	    }
 	    var continue_params = _.clone(params);
@@ -37,14 +68,20 @@ function query_wikipedia( params, subpage_callback ) {
 		console.log("Stopping, batchcomplete="+json.batchcomplete+",continue.gcmcontinue="+(json['continue'] ? json['continue'].gcmcontinue : 'n/a'));
 	    }
 	}
-    })
+    });
+}
+function stringify_hash( h ) {
+    var result = [];
+    for( k in h ) {
+	result.push(k+"="+h[k]);
+    }
+    return "{"+result.join(",")+"}";
 }
 /////////////////////////////////////////////////////////////////////////////////////////
 // top level code
 /////////////////////////////////////////////////////////////////////////////////////////
-var querystring = require('querystring');
-var request     = require('request');
 var _           = require('lodash');
+var request     = require('request');
 var argv        = require('minimist')(process.argv.slice(2));
 if( argv.hasOwnProperty('help') ) {
     console.log(
@@ -61,9 +98,52 @@ query_wikipedia({
 	"generator" : "links",
 	"pageids"  : pageid
     },function( pageid, page ) {
+	if( pageid<0 )
+	    return; // see http://prntscr.com/bmu301
 	if( /^.+airport$/i.exec(page.title) ) {
-	    console.log("Got link pageid="+pageid+",title="+page.title);
+	    const complete_url = _WIKIPEDIA_API_BASE+"action=parse&pageid="+pageid+"&format=json&prop=text";
+	    if( argv.loglevel>1 ) {
+		console.log("Parsing "+complete_url);
+	    }
+	    request(complete_url,function( error, response, body ) {
+		if( error || response.statusCode!=200 )
+		    throw new Error("Error of out "+complete_url);
+		var json = JSON.parse(body);
+		if( json.parse && json.parse.text && json.parse.text['*']) {
+		    // I tried to parse HTML but finding in the resulting structure is even worse
+		    // So apply regexps to find statistical properties in the HTML
+		    var text = json.parse.text['*'].replace(/[\n\r]/g,"");
+		    var matches = _PROPS_RE.exec(text);
+		    if( matches && matches.length ) {
+			var properties = {};
+			var prop_count = 0;
+			for( var n=1; n<matches.length; n+=2 ) {
+			    if( matches[n] ) {
+				properties[matches[n]] = matches[n+1].replace(/[^\d]/g,"");
+				prop_count++;
+			    }
+			}
+			if( prop_count ) {
+			    var iata_matches = _IATA_CODE_RE.exec(text);
+			    var icao_matches = _ICAO_CODE_RE.exec(text);
+			    var iata_code    = iata_matches ? iata_matches[1] : undefined;
+			    var icao_code    = icao_matches ? icao_matches[1] : undefined;
+			    console.log("Airport "+page.title+", IATA="+iata_code+",ICAO="+icao_code+",properties="+stringify_hash(properties));
+			}
+		    }
+		    else {
+			if( argv.loglevel>1 ) {
+			    console.log("Cannot find statistical properties in "+complete_url);
+			}
+		    }
+		}
+		else {
+		    if( argv.loglevel>0 ) {
+			console.log("ERROR: cannot parse JSON of "+complete_url);
+		    }
+		}
+	    });
 	}
-    })
+    });
 });
 
