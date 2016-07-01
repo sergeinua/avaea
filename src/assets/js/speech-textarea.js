@@ -102,7 +102,6 @@
     };
 
     clear_button.click(function (e) {
-      recognition.stop();
       final_textarea.val('');
       final_textarea.focus();
     });
