@@ -645,6 +645,28 @@ $(document).ready(function() {
     return true;
   });
 
+// DEMO-429 Collapse tiles
+  $('.clickable-tiles-area').click(function() {
+    shrinkTiles(true);
+    return false;
+  });
+  var tilesHeightFull = $('#tiles').outerHeight();
+  var shrinkTiles = function (revert) {
+    if (!revert) {
+      if ($('#tiles').outerHeight() !== 80) {
+        tilesHeightFull = $('#tiles').outerHeight();
+        $('#tiles').outerHeight(80);
+        recalculateBodyPadding();
+        $('.clickable-tiles-area').removeClass('hidden');
+      }
+    } else {
+        $('.clickable-tiles-area').addClass('hidden');
+        $('#tiles').outerHeight(tilesHeightFull);
+        recalculateBodyPadding();
+        initScroll = $(window).scrollTop();
+    }
+  };
+
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -654,6 +676,7 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
+        shrinkTiles(false);
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -684,8 +707,20 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-  $(window).scroll(function(){
+  var initScroll = 0;
+  var scrollStarted = false;
+  $(window).scroll(function() {
+    if (!scrollStarted) {
+      initScroll = $(this).scrollTop();
+      scrollStarted = true;
+    }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+
+    //DEMO-429 Collapse tiles
+    if (Math.abs(initScroll - $(this).scrollTop()) >= 200 && $('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(false);
+      scrollStarted = false;
+    }
   });
   $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
