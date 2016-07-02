@@ -103,6 +103,7 @@
 
     clear_button.click(function (e) {
       final_textarea.val('');
+      showButtons(true);
       final_textarea.focus();
     });
   }
