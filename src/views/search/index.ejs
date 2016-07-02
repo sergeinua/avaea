@@ -97,7 +97,6 @@
 
 <script>
   var serviceClass = <%- JSON.stringify(serviceClass) %>;
-  var GlobalSearchResultCount = <%= (typeof searchResult != 'undefined') ? searchResult.length : 0  %>;
 </script>
 
 <form action="/result" method="post" id="search_form" >

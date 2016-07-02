@@ -75,7 +75,7 @@ $(document).ready(function() {
     $(this).hide();
   });
 
-  if (GlobalSearchResultCount && GlobalSearchResultCount < 5) {
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount && GlobalSearchResultCount < 5) {
     setTimeout(function(){
       $('.dimmer').fadeOut();
     }, 1000)
