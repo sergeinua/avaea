@@ -403,6 +403,9 @@ $(document).ready(function() {
   var numberOfTiles = $('.mybucket').length;
 
   $('.list-group-item').click(function(event) {
+
+    $('.dimmer').hide();
+
     if ($(this).hasClass('disabled')) {
       return false;
     }
