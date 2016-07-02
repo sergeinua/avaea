@@ -179,7 +179,7 @@ var AuthController = {
 
         Profile.findOneByUserId(req.session.passport.user).exec(function (error, found) {
           if (found) {
-            req.session.showTiles = found.personal_info.show_tiles;
+            req.session.showTiles = found.showTiles;
           }
 
           // Upon successful login, send the user to the homepage were req.user
