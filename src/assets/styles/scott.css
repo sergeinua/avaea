@@ -1254,3 +1254,63 @@ button.buy-button-arrow[aria-expanded=true] {
     margin-top: 0;
   }
 }
+
+
+
+.dimmer {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  position: fixed;
+  z-index: 1000;
+}
+
+.dimmer-close {
+  float: right;
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  margin-top: 16px;
+  background: url('/images/avaea-sprite.png') -50px 100px;
+  cursor: pointer;
+}
+
+.dimmer-row {
+  background: url('/images/avaea-sprite.png') -100px -400px;
+  cursor: pointer;
+  width: 43px;
+  height: 75px;
+  margin: 67px auto 0;
+}
+
+.dimmer-text-light {
+  text-align: center;
+  color: #b9bbc7;
+  margin-top: 21px;
+  height: 30px;
+
+  opacity:0.5;
+  font-family:WhitneyCondensed-Medium;
+  font-size:16px;
+  color:#101742;
+  text-align:center;
+}
+
+.dimmer-text-dark {
+  text-align: center;
+  color: #101742;
+  margin-top: 15px;
+  height: 54px;
+
+  font-family:WhitneyCondensed-Semibold;
+  font-size:24px;
+  color:#101742;
+  text-align:center;
+}
+
+/* iPhone 6+ */
+@media (min-width: 414px) {
+}
+/* iPad */
+@media (min-width: 768px) {
+}

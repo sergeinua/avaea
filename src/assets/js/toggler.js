@@ -70,6 +70,17 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  $('.dimmer').off('click').on('click', function(){
+    $(this).hide();
+  });
+
+  if (GlobalSearchResultCount && GlobalSearchResultCount < 5) {
+    setTimeout(function(){
+      $('.dimmer').fadeOut();
+    }, 1000)
+  }
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
