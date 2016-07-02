@@ -114,7 +114,7 @@
       <legend style="margin-bottom:0">Travelers</legend>
         <div class="panel-body">
 
-            <div id="travel_with">
+            <div id="travelWith">
             <hr class="hidden"/>
             <label>First Name</label>
             <input type="text" name="travel_with.first_name[]" class="form-control input-sm" placeholder="First Name" />
@@ -158,7 +158,7 @@
           <legend style="margin-bottom:0">Preferred Airlines</legend>
           <div class="panel-body">
 
-            <div id="preferred_airlines">
+            <div id="preferredAirlines">
               <hr class="hidden"/>
               <label>Preferred Airlines type</label>
               <select name="preferred_airlines.travel_type[]" class="form-control input-sm">

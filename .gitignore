@@ -6,3 +6,6 @@ singlepage/public/bower_components
 *.retry
 npm-debug.log
 deploy/playbooks/keys
+migrations.lock
+**/.DS_Store
+**/node_modules

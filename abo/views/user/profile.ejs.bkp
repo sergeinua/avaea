@@ -123,7 +123,7 @@ if (profile_fields.travel_with) {
   iterator = 0
   profile_fields.travel_with.forEach(function (travel_with) { %>
 
-      <div id="travel_with" fieldset-number="<%= iterator %>">
+      <div id="travelWith" fieldset-number="<%= iterator %>">
       <hr <% if (isFirst) { %>class="hidden"<% } %>/>
       <label>First Name</label>
 
@@ -183,7 +183,7 @@ if (profile_fields.preferred_airlines) {
   isFirst = true
   iterator = 0
   profile_fields.preferred_airlines.forEach(function (preferred_airlines) { %>
-    <div id="preferred_airlines" fieldset-number="<%= iterator %>">
+    <div id="preferredAirlines" fieldset-number="<%= iterator %>">
       <hr <% if (isFirst) { %>class="hidden"<% } %>/>
       <label>Preferred Airlines type</label>
 

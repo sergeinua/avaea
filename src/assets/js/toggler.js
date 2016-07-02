@@ -70,6 +70,17 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  $('.dimmer').off('click').on('click', function(){
+    $(this).hide();
+  });
+
+  if (GlobalSearchResultCount && GlobalSearchResultCount < 5) {
+    setTimeout(function(){
+      $('.dimmer').fadeOut();
+    }, 1000)
+  }
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
@@ -838,12 +849,12 @@ $(document).ready(function() {
   /* Depart/Return Date selection {{{ */
 
   // init datetimepicker {{{
-  var curMoment = moment();
+  var curMoment = moment(0, "HH");
   $('#dr_picker').datetimepicker({
     inline: true,
     format: "YYYY-MM-DD",
     minDate: curMoment.clone(),
-    maxDate: curMoment.clone().add(searchApiMaxDays-1, 'days')
+    maxDate: curMoment.clone().add(searchApiMaxDays, 'days').subtract(1, 'seconds')
 
   });
   // extends "clear" datepicker method, adding possibility to clear range
@@ -1137,7 +1148,7 @@ $(document).ready(function() {
           'height': '100%',
           'margin-top': 0
         });
-        $('.navbar-brand').text('Avaea Voice');
+        $('.navbar-brand').text('Voice Search');
         $('.navbar-toggle').addClass('hidden');
 
         $('.search-button').hide();
