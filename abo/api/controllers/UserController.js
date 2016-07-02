@@ -42,7 +42,7 @@ module.exports = {
         if (!found.employer) {
 
           found.employer = {
-            company_name: '',
+            companyName: '',
             address:     '',
             phone:       '',
             position:    '',
@@ -52,12 +52,12 @@ module.exports = {
 
         }
 
-        if (!found.travel_with) {
-          found.travel_with = [{
-            first_name: '',
-            last_name: '',
+        if (!found.travelWith) {
+          found.travelWith = [{
+            firstName: '',
+            lastName: '',
             gender: '',
-            date_of_birth: ''
+            DateOfBirth: ''
           }];
         }
 
@@ -91,8 +91,8 @@ module.exports = {
   update: function (req, res) {
     var profileFields = Profile.make(req.body, {id: +req.params.user_id});
 
-    if (!profileFields.personal_info.show_tiles) {
-      profileFields.personal_info.show_tiles = false;
+    if (!profileFields.showTiles) {
+      profileFields.showTiles = false;
     }
 
     var selectedAirline = this._setAirlineCode(req);
