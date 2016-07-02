@@ -18,6 +18,24 @@
   </head>
 
   <body>
+
+  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
+    <div class="dimmer">
+      <div class="dimmer-close"></div>
+      <div class="dimmer-row"></div>
+      <div class="dimmer-text-light">
+        <div>We've found 3 flights.</div>
+        <% if (searchResult.length > 10) { %>
+        <div>Sounds like too many?</div>
+        <% } %>
+      </div>
+      <div class="dimmer-text-dark">
+        <div>Use filters to narrow </div>
+        <div>down search results!</div>
+      </div>
+    </div>
+    <% } %>
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -170,9 +188,12 @@
     <!--SCRIPTS-->
 
     <!--SCRIPTS END-->
-    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-    <script src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
-    <script src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <!-- adding hammer.js library with jquery support -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/hammerjs/jquery.hammer.js/master/jquery.hammer.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
   </body>
 </html>

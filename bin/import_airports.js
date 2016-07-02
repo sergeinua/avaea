@@ -5,6 +5,22 @@ var csv  = require('csv-parser');
 
 // Parse argv for source data file and log level
 var argv = require('minimist')(process.argv.slice(2));
+if( (argv._.length==0) || argv.hasOwnProperty('help') ) {
+    console.log(
+	    "This script is to compile information about airports from several publicly accessible sources and print out a\n"+
+	    "bunch of INSERT INTO airports() values(...); statements that you can feed into the database.\n\n"+
+	    "USAGE: %s [--loglevel=loglevel] [--datfile=datfile] [pax1.csv pax2.csv...]\n\n"+
+	    "\t--loglevel - defines verbosity. For production of the SQL INSERT statements needs to be set to 0 or left default\n"+
+	    "\t--datfile  - URL to grab the basic airport information from. Defaults to airports data from opeflights github project\n"+
+	    "\tpaxN.csv   - a set of .csv files containing information about airport passenger traffic (PAX). Normally you first\n"+
+	    "\t             need to produce these files using bin/get_airport_pax_data.sh script and pass all those files on command\n"+
+  	    "\t             line to this script. There should be at least one file like that\n\n"+
+	    "Keep in mind that one of the things that the script is doing is converting the geolocations of the airports into their\n"+
+	    "states and countries. For that we use Google getcoding API that allows us only so many calls per day. Normally one\n"+
+	    "successful run of this script uses so much of geocoding quota that you cannot run it again for the next 24 hours.\n",
+	    process.argv[1]);
+    process.exit(0);
+}
 argv.datfile  = argv.hasOwnProperty('datfile') ? argv.datfile : 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
 argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
 
@@ -210,7 +226,7 @@ require('async').parallel(
             var data = _.clone(airports_data[iata_3code], true);
 
             data.pax = airports_pax.hasOwnProperty(iata_3code) ? airports_pax[iata_3code].pax : 0;
-	    
+
             data.neighbors = neighbors_kdtree.nearest(data, 11).sort(function (a, b) {
                 return a[1] - b[1];
             }).filter(function (dd) {
@@ -221,27 +237,47 @@ require('async').parallel(
                 return {'iata_3code': dd[0].iata_3code, 'distance': dd[1]};
             });
 
-	    switch( iata_3code ) {
-	    case 'TLL':
-	    case 'ZQN':
-		// see http://prntscr.com/bafap0
-		var tmp = data.city;
-		data.city = data.name;
-		data.name = tmp;
+            switch( iata_3code ) {
+            case 'TLL':
+            case 'ZQN':
+                // see http://prntscr.com/bafap0
+                var tmp = data.city;
+                data.city = data.name;
+                data.name = tmp;
+                break;
+            case 'MOW':
+                data.name = 'All Airports';
+                data.pax  = 77355917;
+                break;
+            case 'BKA':
+                // see https://en.wikipedia.org/wiki/Bykovo_Airport
+                data.pax = 15412;
+                break;
+            case 'PWM':
+                // see https://en.wikipedia.org/wiki/Portland_International_Jetport
+                data.pax = 1667734;
 		break;
-	    case 'MOW':
-		data.name = 'All Airports';
-		data.pax  = 77355917;
+	    case 'ITO':
+		// https://en.wikipedia.org/wiki/Hilo_International_Airport
+		data.pax = 1279342;
 		break;
-	    case 'BKA':
-		// see https://en.wikipedia.org/wiki/Bykovo_Airport
-		data.pax = 15412;
+	    case 'OGG':
+		// https://en.wikipedia.org/wiki/Kahului_Airport
+		data.pax = 5346694;
 		break;
-	    case 'PWM':
-		// see https://en.wikipedia.org/wiki/Portland_International_Jetport
-		data.pax = 1667734; 
+	    case 'KOA':
+		// https://en.wikipedia.org/wiki/Kona_International_Airport
+		data.pax = 2807118;
 		break;
-	    }
+	    case 'LIH':
+		// https://en.wikipedia.org/wiki/Lihue_Airport
+		data.pax = 2680028;
+		break;
+	    case 'HNL':
+		// https://en.wikipedia.org/wiki/Honolulu_International_Airport
+		data.pax = 19291412;
+		break;
+            }
 
             var done = false;
             getGoogleApiData(data, function (error, apiResult, data) {
@@ -265,16 +301,30 @@ require('async').parallel(
                             formatSqlString(data.state_short),
                             data.pax,
                             formatSqlString(JSON.stringify(data.neighbors))
-			   );
-		
+                );
+
                 done = true;
                 return data;
             });
             require('deasync').loopWhile(function() {return !done;});
         }
         console.log(
-            "DROP TABLE airports_old;\n"+
-            "COMMIT;"
+            "DROP TABLE airports_old;\n" +
+            "COMMIT;\n" +
+            "UPDATE \n" +
+            "airports \n" +
+            "SET pax=s.pax \n" +
+            "FROM \n" +
+            "(select city,state,country,sum(pax) pax from airports where lower(name)!='all airports' group by 1,2,3) s \n" +
+            "WHERE \n" +
+            "(lower(airports.name)='all airports') \n" +
+            "AND (airports.city=s.city) \n" +
+            "AND ( \n" +
+            "    CASE WHEN COALESCE(airports.state,'')!='' THEN \n" +
+            "(airports.state=COALESCE(s.state,'') AND airports.country=COALESCE(s.country,'')) \n" +
+            "ELSE \n" +
+            "airports.country=COALESCE(s.country,'') \n" +
+            "END);\n"
         );
     }
 );
