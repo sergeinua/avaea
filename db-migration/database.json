@@ -1,4 +1,12 @@
-{ "dev": {
+{
+  "production": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "user": "avaea",
+    "password": "a1v2a3e4a5",
+    "database": "avaea"
+  },
+  "dev": {
   "driver": "pg",
   "host": "127.0.0.1",
   "user": "avaea",
@@ -10,7 +18,7 @@
     "host": "postgres",
     "user": "avaea",
     "password": "avaea",
-    "database": "avaea_db"
+    "database": "avaea"
   },
   "local-docker": {
     "driver": "pg",
@@ -19,5 +27,13 @@
     "user": "avaea",
     "password": "avaea",
     "database": "avaea"
+  },
+  "test": {
+    "driver": "pg",
+    "host": "127.0.0.1",
+    "port": "5432",
+    "user": "avaea",
+    "password": "avaea",
+    "database": "avaea_test"
   }
 }

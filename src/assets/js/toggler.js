@@ -70,6 +70,17 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  $('.dimmer').off('click').on('click', function(){
+    $(this).hide();
+  });
+
+  if (GlobalSearchResultCount && GlobalSearchResultCount < 5) {
+    setTimeout(function(){
+      $('.dimmer').fadeOut();
+    }, 1000)
+  }
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
@@ -651,6 +662,28 @@ $(document).ready(function() {
     return true;
   });
 
+// DEMO-429 Collapse tiles
+  $('.clickable-tiles-area').click(function() {
+    shrinkTiles(true);
+    return false;
+  });
+  var tilesHeightFull = $('#tiles').outerHeight();
+  var shrinkTiles = function (revert) {
+    if (!revert) {
+      if ($('#tiles').outerHeight() !== 80) {
+        tilesHeightFull = $('#tiles').outerHeight();
+        $('#tiles').outerHeight(80);
+        recalculateBodyPadding();
+        $('.clickable-tiles-area').removeClass('hidden');
+      }
+    } else {
+        $('.clickable-tiles-area').addClass('hidden');
+        $('#tiles').outerHeight(tilesHeightFull);
+        recalculateBodyPadding();
+        initScroll = $(window).scrollTop();
+    }
+  };
+
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -660,6 +693,7 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
+        shrinkTiles(false);
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -690,8 +724,20 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-  $(window).scroll(function(){
+  var initScroll = 0;
+  var scrollStarted = false;
+  $(window).scroll(function() {
+    if (!scrollStarted) {
+      initScroll = $(this).scrollTop();
+      scrollStarted = true;
+    }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+
+    //DEMO-429 Collapse tiles
+    if (Math.abs(initScroll - $(this).scrollTop()) >= 200 && $('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(false);
+      scrollStarted = false;
+    }
   });
   $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
@@ -820,12 +866,12 @@ $(document).ready(function() {
   /* Depart/Return Date selection {{{ */
 
   // init datetimepicker {{{
-  var curMoment = moment();
+  var curMoment = moment(0, "HH");
   $('#dr_picker').datetimepicker({
     inline: true,
     format: "YYYY-MM-DD",
     minDate: curMoment.clone(),
-    maxDate: curMoment.clone().add(searchApiMaxDays-1, 'days')
+    maxDate: curMoment.clone().add(searchApiMaxDays, 'days').subtract(1, 'seconds')
 
   });
   // extends "clear" datepicker method, adding possibility to clear range
@@ -1119,7 +1165,7 @@ $(document).ready(function() {
           'height': '100%',
           'margin-top': 0
         });
-        $('.navbar-brand').text('Avaea Voice');
+        $('.navbar-brand').text('Voice Search');
         $('.navbar-toggle').addClass('hidden');
 
         $('.search-button').hide();

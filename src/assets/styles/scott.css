@@ -941,16 +941,27 @@ body.loading .modalLoader {
   background-color: #ffffff !important;
 }
 
-.datepicker span.range:not(.new):not(.old):not(.disabled),
-.datepicker table td.day.range:not(.new):not(.old):not(.disabled) {
+.datepicker span.range:not(.disabled),
+.datepicker table td.day.range:not(.disabled) {
   background-color: #FFFBEB !important;
 }
 
+.datepicker span.range.new, .datepicker span.range.old,
+.datepicker table td.day.range.new, .datepicker table td.day.range.old {
+  background-image: url("/images/ydiag_dark.png");
+}
+
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old,
 .datepicker span.active, .bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
   background-color: #ffe03f !important;
   border-radius: 0;
   color: #101742 !important;
+}
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old {
+  background-image: url("/images/ydiag_light.png");
 }
 
 .datepicker table td.today:before {
@@ -1019,21 +1030,14 @@ button.buy-button-arrow[aria-expanded=true] {
   }
 }
 
-.datepicker table td.day.old,
-.datepicker table td.day.new {
-  /*background-color: #FFFBEB !important;*/
-  background: none !important;
-}
-
-.datepicker table td.day.disabled.old,
-.datepicker table td.day.disabled.new {
+.datepicker span.old, .datepicker span.new,
+.datepicker table td.day.old, .datepicker table td.day.new {
   background-color: inherit !important;
 }
 
-.datepicker table th.disabled,
-.datepicker table th.disabled:hover,
-.datepicker table td.disabled,
-.datepicker table td.disabled:hover {
+.datepicker span.disabled, .datepicker span.disabled:hover,
+.datepicker table th.disabled, .datepicker table th.disabled:hover,
+.datepicker table td.disabled, .datepicker table td.disabled:hover {
   background: none !important;
   text-decoration: line-through;
 }
@@ -1252,7 +1256,7 @@ div.nothing-found:before{
   position: fixed;
   bottom: 10px;
   width: 200px;
-  left:50%;
+  left: 50%;
   margin-left: -100px;
   padding-top: 10px;
   height: 44px;
@@ -1266,6 +1270,15 @@ div.nothing-found:before{
   text-transform: uppercase;
   border: 0;
   box-shadow: 6px 6px 7px #888888;
+}
+
+.clickable-tiles-area {
+  position: absolute;
+  width: 100%;
+  height: 80px;
+  top: 0;
+  border-bottom: 4px solid  #fee148;
+  z-index: 9999;
 }
 
 @media all and (min-width: 480px) {
@@ -1330,4 +1343,64 @@ div.nothing-found:before{
   .sort-button .dropdown-menu {
     margin-top: 0;
   }
+}
+
+
+
+.dimmer {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  position: fixed;
+  z-index: 1000;
+}
+
+.dimmer-close {
+  float: right;
+  width: 24px;
+  height: 24px;
+  margin-right: 16px;
+  margin-top: 16px;
+  background: url('/images/avaea-sprite.png') -50px 100px;
+  cursor: pointer;
+}
+
+.dimmer-row {
+  background: url('/images/avaea-sprite.png') -100px -400px;
+  cursor: pointer;
+  width: 43px;
+  height: 75px;
+  margin: 67px auto 0;
+}
+
+.dimmer-text-light {
+  text-align: center;
+  color: #b9bbc7;
+  margin-top: 21px;
+  height: 30px;
+
+  opacity:0.5;
+  font-family:WhitneyCondensed-Medium;
+  font-size:16px;
+  color:#101742;
+  text-align:center;
+}
+
+.dimmer-text-dark {
+  text-align: center;
+  color: #101742;
+  margin-top: 15px;
+  height: 54px;
+
+  font-family:WhitneyCondensed-Semibold;
+  font-size:24px;
+  color:#101742;
+  text-align:center;
+}
+
+/* iPhone 6+ */
+@media (min-width: 414px) {
+}
+/* iPad */
+@media (min-width: 768px) {
 }

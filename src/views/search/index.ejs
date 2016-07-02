@@ -12,6 +12,7 @@
   <div class="row text-center flight-direction">
     <div class="col-xs-12 clearfix flight-direction-item-voice-search hidden">
       <div class="voice-search-content si-wrapper">
+        <span id="clear_button"><i class="fa fa-times"></i></span>
         <textarea name="voiceSearch" id="voiceSearchTextarea" autofocus="true" class="voice-search-textarea si-input" placeholder="Tap the mic to specify your from and to cities, and dates of travel."></textarea>
         <!--<i class="fa fa-microphone si-btn hidden" id="start_button"></i>-->
       </div>
@@ -94,7 +95,10 @@
     </div>
   </div>
 
-<script>var serviceClass = <%- JSON.stringify(serviceClass) %></script>
+<script>
+  var serviceClass = <%- JSON.stringify(serviceClass) %>;
+  var GlobalSearchResultCount = <%= (typeof searchResult != 'undefined') ? searchResult.length : 0  %>;
+</script>
 
 <form action="/result" method="post" id="search_form" >
   <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>" />
