@@ -71,14 +71,16 @@ var setupVoiceSearch = function () {
 
 $(document).ready(function() {
 
-  $('.dimmer').off('click').on('click', function(){
-    $(this).hide();
-  });
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
+    _displayDimmer(true);
 
-  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount && GlobalSearchResultCount < 5) {
-    setTimeout(function(){
-      $('.dimmer').fadeOut();
-    }, 1000)
+    if (GlobalSearchResultCount < 5) {
+      setTimeout(function(){
+        $('.dimmer').fadeOut(function(){
+          _displayDimmer(false);
+        });
+      }, 1000)
+    }
   }
 
   $("#user-price-modal").modal();
@@ -404,7 +406,7 @@ $(document).ready(function() {
 
   $('.list-group-item').click(function(event) {
 
-    $('.dimmer').hide();
+    _displayDimmer(false);
 
     if ($(this).hasClass('disabled')) {
       return false;
@@ -1412,3 +1414,31 @@ function setCookie(name, value, options) {
 
   document.cookie = updatedCookie;
 }
+
+function _displayDimmer(flag) {
+
+  if (flag) {
+
+    $('.dimmer').off('click').on('click', function(){
+      _displayDimmer(false);
+    });
+
+    $(document)
+      .off('mousewheel').on('mousewheel', function(event){
+        console.log('mousewheel', event);
+        event.stopPropagation();
+        return false;
+      })
+      .off('swipe').on('swipe', function(event){
+        console.log('swipe', event);
+        event.stopPropagation();
+        return false;
+      });
+
+  } else {
+    $('.dimmer').hide();
+  }
+
+}
+
+
