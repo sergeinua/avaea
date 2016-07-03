@@ -75,7 +75,7 @@ $(document).ready(function() {
     $(this).hide();
   });
 
-  if (GlobalSearchResultCount && GlobalSearchResultCount < 5) {
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount && GlobalSearchResultCount < 5) {
     setTimeout(function(){
       $('.dimmer').fadeOut();
     }, 1000)
@@ -1360,7 +1360,7 @@ $(document).ready(function() {
   });
 
   var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1) {
+  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
     // hide arrow in 5 sec
