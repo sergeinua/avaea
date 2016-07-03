@@ -168,6 +168,7 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -549,6 +550,7 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
@@ -666,6 +668,12 @@ $(document).ready(function() {
   });
 
 // DEMO-429 Collapse tiles
+  $('.clickable-tiles-area-yellow').click(function() {
+    if ($('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(false);
+    }
+    return false;
+  });
   $('.clickable-tiles-area').click(function() {
     shrinkTiles(true);
     return false;
@@ -673,9 +681,9 @@ $(document).ready(function() {
   var tilesHeightFull = $('#tiles').outerHeight();
   var shrinkTiles = function (revert) {
     if (!revert) {
-      if ($('#tiles').outerHeight() !== 80) {
+      if ($('#tiles').outerHeight() !== 50) {
         tilesHeightFull = $('#tiles').outerHeight();
-        $('#tiles').outerHeight(80);
+        $('#tiles').outerHeight(50);
         recalculateBodyPadding();
         $('.clickable-tiles-area').removeClass('hidden');
       }
@@ -687,6 +695,7 @@ $(document).ready(function() {
     }
   };
 
+  var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -696,7 +705,7 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
-        shrinkTiles(false);
+        expandedItitns++;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -710,6 +719,7 @@ $(document).ready(function() {
           }
         });
       } else {
+        expandedItitns--;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -730,14 +740,17 @@ $(document).ready(function() {
   var initScroll = 0;
   var scrollStarted = false;
   $(window).scroll(function() {
-    if (!scrollStarted) {
+    if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(true);
+    }
+    if (!scrollStarted && expandedItitns) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if (Math.abs(initScroll - $(this).scrollTop()) >= 200 && $('.clickable-tiles-area').hasClass('hidden')) {
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
       shrinkTiles(false);
       scrollStarted = false;
     }
