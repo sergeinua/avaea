@@ -1363,7 +1363,7 @@ $(document).ready(function() {
   });
 
   var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1) {
+  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
     // hide arrow in 5 sec
