@@ -36,7 +36,7 @@
     <label>Passenger Type</label>
     <%- _res = widgets.dropDownList({}, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
     <label>Address</label>
-    <input type="text" name="address" class="form-control input-sm" placeholder="Address"/>
+    <input type="text" name="street" class="form-control input-sm" placeholder="Address"/>
     <label>City</label>
     <input type="tex" name="city" class="form-control input-sm" placeholder="City"/>
     <label>State</label>
@@ -172,7 +172,7 @@
             <div id="preferred_airlines">
               <hr class="hidden"/>
               <label>Preferred Airlines type</label>
-              <select name="preferred_airlines.travelType[]" class="form-control input-sm">
+              <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
                 <option value=''>please choose</option>
                 <option value="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
                 <option value="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
@@ -248,3 +248,7 @@
     </nav>
 </div>
 </form>
+
+<script src="/js/dependencies/jquery.js"></script>
+<script src="/js/dependencies/bootstrap.js"></script>
+<!-- script src="/js/profile.js"></script -->

@@ -92,9 +92,9 @@ module.exports = {
       });
     }
 
-    for (var i = 0; i < form['preferred_airlines.travelType'].length; i++) {
+    for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
       jsonStruct.preferred_airlines.push({
-        travel_type: form['preferred_airlines.travelType'][i],
+        travel_type: form['preferred_airlines.travel_type'][i],
         airline_name: form['preferred_airlines.airline_name'][i]
       });
     }

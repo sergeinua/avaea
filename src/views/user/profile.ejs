@@ -47,7 +47,7 @@
         <label>In Case of Emergency Notify</label>
         <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= profile_fields.notify_contact.name %>" />
         <label>Emergency Notify Phone</label>
-        <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone" value="<%= profile_fields.personal_info.notify_contact.phone %>"/>
+        <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone" value="<%= profile_fields.notify_contact.phone %>"/>
 
       </div>
   </div>
@@ -83,14 +83,14 @@ if (profile_fields.preferred_airlines) {
             <input class="remove-fieldset" type="button" value="remove" fieldset="preferredAirlines" iterator="<%= iterator %>"/>
             <% } %>
 
-              <select name="preferredAirlines.travelType[]" class="form-control input-sm">
+              <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
                 <option value=''<% if(preferredAirlines.travel_type) {%> selected<%} %>>please choose</option>
                 <option value="Domestic Short Haul Trips"<% if(preferredAirlines.travel_type == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
                 <option value="Domestic Long Haul Flights"<% if(preferredAirlines.travel_type == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
                 <option value="International Flights"<% if(preferredAirlines.travel_type == 'International Flights') {%> selected<%} %>>International Flights</option>
             </select>
             <label>Airline Name</label>
-              <input type="text" name="preferredAirlines.airlineName[]" value="<%= preferredAirlines.airline_name %>" class="form-control input-sm" placeholder="Airline Name"/>
+              <input type="text" name="preferred_airlines.airline_name[]" value="<%= preferredAirlines.airline_name %>" class="form-control input-sm" placeholder="Airline Name"/>
             </div>
 <%
     isFirst = false

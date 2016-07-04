@@ -50,16 +50,16 @@ if (selectedAirline) { %>
 
     <label>Ethnicity (Race)</label>
     <select name="ethnicity" class="form-control input-sm">
-        <option value='' <% if(!profile_fields.ethnicity) {%>selected<%} %>>please choose</option>
-        <option value='European'<% if(profile_fields.ethnicity == 'European') {%> selected<%} %>>European</option>
-        <option value='Mexican'<% if(profile_fields.ethnicity == 'Mexican') {%> selected<%} %>>Mexican</option>
-        <option value='Latin American'<% if(profile_fields.ethnicity == 'Latin American') {%> selected<%} %>>Latin American</option>
-        <option value='Eastern European'<% if(profile_fields.ethnicity == 'Eastern European') {%> selected<%} %>>Eastern European</option>
-        <option value='South East Asian (India, Pakistan, Bangladesh)'<% if(profile_fields.ethnicity == 'South East Asian (India, Pakistan, Bangladesh)') {%> selected<%} %>>South East Asian (India, Pakistan, Bangladesh)</option>
-        <option value='Chinese'<% if(profile_fields.ethnicity == 'Chinese') {%> selected<%} %>>Chinese</option>
-        <option value='Asian'<% if(profile_fields.ethnicity == 'Asian') {%> selected<%} %>>Asian</option>
-        <option value='African'<% if(profile_fields.ethnicity == 'African') {%> selected<%} %>>African</option>
-        <option value='South Pacific'<% if(profile_fields.ethnicity == 'South Pacific') {%> selected<%} %>>South Pacific</option>
+        <option value='' <% if(!profile_fields.personal_info.ethnicity) {%>selected<%} %>>please choose</option>
+        <option value='European'<% if(profile_fields.personal_info.ethnicity == 'European') {%> selected<%} %>>European</option>
+        <option value='Mexican'<% if(profile_fields.personal_info.ethnicity == 'Mexican') {%> selected<%} %>>Mexican</option>
+        <option value='Latin American'<% if(profile_fields.personal_info.ethnicity == 'Latin American') {%> selected<%} %>>Latin American</option>
+        <option value='Eastern European'<% if(profile_fields.personal_info.ethnicity == 'Eastern European') {%> selected<%} %>>Eastern European</option>
+        <option value='South East Asian (India, Pakistan, Bangladesh)'<% if(profile_fields.personal_info.ethnicity == 'South East Asian (India, Pakistan, Bangladesh)') {%> selected<%} %>>South East Asian (India, Pakistan, Bangladesh)</option>
+        <option value='Chinese'<% if(profile_fields.personal_info.ethnicity == 'Chinese') {%> selected<%} %>>Chinese</option>
+        <option value='Asian'<% if(profile_fields.personal_info.ethnicity == 'Asian') {%> selected<%} %>>Asian</option>
+        <option value='African'<% if(profile_fields.personal_info.ethnicity == 'African') {%> selected<%} %>>African</option>
+        <option value='South Pacific'<% if(profile_fields.personal_info.ethnicity == 'South Pacific') {%> selected<%} %>>South Pacific</option>
     </select>
     <!--In Case of Emergency Notify-->
     <label>In Case of Emergency Notify</label>
@@ -194,6 +194,7 @@ if (profile_fields.preferred_airlines) {
   isFirst = true
   iterator = 0
   profile_fields.preferred_airlines.forEach(function (preferred_airlines) { %>
+
     <div id="preferred_airlines" fieldset-number="<%= iterator %>">
       <hr <% if (isFirst) { %>class="hidden"<% } %>/>
       <label>Preferred Airlines type</label>
@@ -202,11 +203,11 @@ if (profile_fields.preferred_airlines) {
         <input class="remove-fieldset" type="button" value="remove" fieldset="preferred_airlines" iterator="<%= iterator %>"/>
       <% } %>
 
-      <select name="preferred_airlines.travelType[]" class="form-control input-sm">
-        <option value=''<% if(preferred_airlines.travelType) {%> selected<%} %>>please choose</option>
-        <option value="Domestic Short Haul Trips"<% if(preferred_airlines.travelType == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
-        <option value="Domestic Long Haul Flights"<% if(preferred_airlines.travelType == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
-        <option value="International Flights"<% if(preferred_airlines.travelType == 'International Flights') {%> selected<%} %>>International Flights</option>
+      <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
+        <option value=''<% if(preferred_airlines.travel_type) {%> selected<%} %>>please choose</option>
+        <option value="Domestic Short Haul Trips"<% if(preferred_airlines.travel_type == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
+        <option value="Domestic Long Haul Flights"<% if(preferred_airlines.travel_type == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
+        <option value="International Flights"<% if(preferred_airlines.travel_type == 'International Flights') {%> selected<%} %>>International Flights</option>
       </select>
       <label>Airline Name</label>
       <input type="text" name="preferred_airlines.airline_name[]" value="<%= preferred_airlines.airline_name %>" class="form-control input-sm" placeholder="Airline Name"/>
@@ -234,6 +235,7 @@ if (profile_fields.miles_programs) {
   isFirst = true
   iterator = 0
   profile_fields.miles_programs.forEach(function (miles_programs) { %>
+
     <div id="miles_programs" fieldset-number="<%= iterator %>">
       <hr <% if (isFirst) { %>class="hidden"<% } %>/>
       <label>Airline Name</label>
@@ -316,3 +318,8 @@ if (profile_fields.lounge_membership) {
     </nav>
 </div>
 </form>
+
+<script src="/js/dependencies/jquery.js"></script>
+<script src="/js/dependencies/bootstrap.js"></script>
+<!-- script src="/js/profile.js"></script -->
+

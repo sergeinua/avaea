@@ -32,7 +32,6 @@ insert into "user" (username, email, is_whitelist, id, "createdAt", "updatedAt")
 insert into "user" (username, email, is_whitelist, id, "createdAt", "updatedAt")  values (null,  'ksusha.oliynik@gmail.com', '0', '39', '2016-06-05 16:48:13+00', '2016-06-05 16:48:13+00');
 insert into "user" (username, email, is_whitelist, id, "createdAt", "updatedAt")  values (null,  'nechaiolya1@gmail.com', '1', '40', '2016-06-13 15:43:00+00', '2016-06-13 15:43:00+00');
 
-
 UPDATE "user" SET is_whitelist =1
 WHERE email IN(
     'constfilin@gmail.com',
