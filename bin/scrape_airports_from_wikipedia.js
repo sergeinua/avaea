@@ -29,6 +29,50 @@ var _PARSED_PAGEIDS     = {};
 /////////////////////////////////////////////////////////////////////////////////////////
 // functions
 /////////////////////////////////////////////////////////////////////////////////////////
+function stringify_hash( h ) {
+    var result = [];
+    for( k in h ) {
+	result.push(k+"="+h[k]);
+    }
+    return "{"+result.join(",")+"}";
+}
+function formatSqlString( s ) {
+    if ( !s || s == '\\N' ) {
+	return 'null';
+    }
+    var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
+	switch (s) {
+	case "\0":
+	    return "\\0";
+	case "\n":
+	    return "\\n";
+	case "\r":
+	    return "\\r";
+	case "\b":
+	    return "\\b";
+	case "\t":
+	    return "\\t";
+	case "\x1a":
+	    return "\\Z";
+	case "'":
+	    return "''";
+	default:
+	    return "\\" + s;
+	}
+    });
+    return (r != s) ? util.format("E'%s'", r) : util.format("'%s'", r);
+}
+function get_output_format( argv ) {
+    if( argv.hasOwnProperty('format') ) {
+	switch( argv['format'] ) {
+	case 'sql':
+	case 'csv':
+	case 'json':
+	    return argv['format'];
+	}
+    }
+    return 'sql';
+}
 function query_wikipedia( params, subpage_callback ) {
     var querystring = require('querystring');
     var url_params   = ["action=query&format=json"];
@@ -71,39 +115,6 @@ function query_wikipedia( params, subpage_callback ) {
 	}
     });
 }
-function stringify_hash( h ) {
-    var result = [];
-    for( k in h ) {
-	result.push(k+"="+h[k]);
-    }
-    return "{"+result.join(",")+"}";
-}
-function formatSqlString( s ) {
-    if ( !s || s == '\\N' ) {
-	return 'null';
-    }
-    var r = s.replace(/[\0\n\r\b\t\\'\x1a]/g, function (s) {
-	switch (s) {
-	case "\0":
-	    return "\\0";
-	case "\n":
-	    return "\\n";
-	case "\r":
-	    return "\\r";
-	case "\b":
-	    return "\\b";
-	case "\t":
-	    return "\\t";
-	case "\x1a":
-	    return "\\Z";
-	case "'":
-	    return "''";
-	default:
-	    return "\\" + s;
-	}
-    });
-    return (r != s) ? util.format("E'%s'", r) : util.format("'%s'", r);
-}
 /////////////////////////////////////////////////////////////////////////////////////////
 // top level code
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -113,16 +124,22 @@ const util        = require('util');
 const argv        = require('minimist')(process.argv.slice(2));
 if( argv.hasOwnProperty('help') ) {
     console.log(
-	    "USAGE: %s [--loglevel=loglevel] [--format=sql|csv] \n\n"+
+	    "USAGE: %s [--loglevel=loglevel] [--format=sql|csv|json] \n\n"+
 	    process.argv[1]);
     process.exit(0);
 }
 argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
-if( argv.hasOwnProperty('format') && argv['format']=='csv' ) {
-    cosole.log("name,iata_3code,icao_4code,pax");
-}
-else {
-    console.log("create temp table wikipedia_airports (name varchar, iata_3code varchar, icao_4code varchar, pax int);");
+switch( get_output_format(argv) ) {
+case 'csv':
+    console.log("name,iata_3code,icao_4code,pax");
+    break;
+case 'json':
+    console.log("{");
+    break;
+case 'sql':
+    console.log("BEGIN;\n"+
+		"CREATE TABLE wikipedia_airports(name varchar, iata_3code varchar, icao_4code varchar, pax int);");
+    break;
 }
 query_wikipedia({
     "generator" : "categorymembers",
@@ -174,16 +191,20 @@ query_wikipedia({
 				}
 			    }
 			    if( passengers>0 ) {
-				// The main output of the program
-				if( argv.hasOwnProperty('format') && argv['format']=='csv' ) {
+				switch( get_output_format(argv) ) {
+				case 'csv':
 				    console.log(page.title+","+iata_3code+","+icao_4code+","+passengers);
-				}
-				else {
+				    break;
+				case 'json':
+				    console.log("'"+iata_3code+"':{iata_3code:'"+iata_3code+"',icao_4code:'"+icao_4code+"',pax:"+passengers+"},");
+				    break;
+				case 'sql':
 				    console.log("insert into wikipedia_airports(name,iata_3code,icao_4code,pax) values("+
 						formatSqlString(page.title)+","+
 						formatSqlString(iata_3code)+","+
 						formatSqlString(icao_4code)+","+
 						passengers+");");
+				    break;
 				}
 				_PARSED_PAGEIDS[pageid] = properties;
 			    }
@@ -213,5 +234,17 @@ query_wikipedia({
 	    });
 	}
     });
+});
+process.on('exit',function( code ) {
+    switch( get_output_format(argv) ) {
+    case 'csv':
+	break;
+    case 'json':
+	console.log("'some_impossible_airport_code':{}}");
+	break;
+    case 'sql':
+	console.log("COMMIT;");
+	break;
+    }
 });
 

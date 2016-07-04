@@ -1,43 +1,29 @@
 #!/usr/bin/nodejs
 
-var fs   = require('fs');
-var csv  = require('csv-parser');
-
-// Parse argv for source data file and log level
-var argv = require('minimist')(process.argv.slice(2));
-if( (argv._.length==0) || argv.hasOwnProperty('help') ) {
-    console.log(
-	    "This script is to compile information about airports from several publicly accessible sources and print out a\n"+
-	    "bunch of INSERT INTO airports() values(...); statements that you can feed into the database.\n\n"+
-	    "USAGE: %s [--loglevel=loglevel] [--datfile=datfile] [pax1.csv pax2.csv...]\n\n"+
-	    "\t--loglevel - defines verbosity. For production of the SQL INSERT statements needs to be set to 0 or left default\n"+
-	    "\t--datfile  - URL to grab the basic airport information from. Defaults to airports data from opeflights github project\n"+
-	    "\tpaxN.csv   - a set of .csv files containing information about airport passenger traffic (PAX). Normally you first\n"+
-	    "\t             need to produce these files using bin/get_airport_pax_data.sh script and pass all those files on command\n"+
-  	    "\t             line to this script. There should be at least one file like that\n\n"+
-	    "Keep in mind that one of the things that the script is doing is converting the geolocations of the airports into their\n"+
-	    "states and countries. For that we use Google getcoding API that allows us only so many calls per day. Normally one\n"+
-	    "successful run of this script uses so much of geocoding quota that you cannot run it again for the next 24 hours.\n",
-	    process.argv[1]);
-    process.exit(0);
-}
-argv.datfile  = argv.hasOwnProperty('datfile') ? argv.datfile : 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
-argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
-
+/////////////////////////////////////////////////////////////////////////////////////////
+// globals
+/////////////////////////////////////////////////////////////////////////////////////////
+var _FS              = require('fs');
+var _CSV_PARSER      = require('csv-parser');
+var _RATE_LIMITER    = require("simple-rate-limiter");
+var _LIMITED_REQUEST = _RATE_LIMITER(require("request")).to(10).per(1000);
 // Fields in the dat file
-const datFile_headers = ['id','name','city','country','iata_3code','icao_4code','latitude','longitude','altitude','timezone','dst','tz'];
+var _DATFILE_HEADERS = ['id','name','city','country','iata_3code','icao_4code','latitude','longitude','altitude','timezone','dst','tz'];
 
-// Function for read and parse data file as csv
-const readDatfile = function( callback ) {
+/////////////////////////////////////////////////////////////////////////////////////////
+// functions
+/////////////////////////////////////////////////////////////////////////////////////////
+function datfile_reader( callback ) {
+    // Function for read and parse data file as csv
     if ( argv.loglevel > 0 ) {
         console.log("Reading %s", argv.datfile);
     }
     const request   = require('request');
-    const datStream = csv({
+    const datStream = _CSV_PARSER({
         separator: ',',
         quote: '"',
         newline: '\n',
-        headers: datFile_headers 
+        headers: _DATFILE_HEADERS 
     });
     const airports = {};
     request(argv.datfile).pipe(datStream).on('data', function(data) {
@@ -49,7 +35,7 @@ const readDatfile = function( callback ) {
                 default:
                     // Need to do this or kdTree will do wrong sorting
                     data.longitude = Number(data.longitude);
-                    data.latitude = Number(data.latitude);
+                    data.latitude  = Number(data.latitude);
                     // Add it
                     airports[data.iata_3code.toUpperCase()] = data;
             }
@@ -57,43 +43,8 @@ const readDatfile = function( callback ) {
     }).on('end', function() {
         callback(null, airports);
     });
-};
-
-var limit = require("simple-rate-limiter");
-var limitedRequest = limit(require("request")).to(10).per(1000);
-const getGoogleApiData = function(data, cb) {
-    if (data.country == 'United States') {
-        var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
-            data.latitude + ',' + data.longitude +
-            '&key=AIzaSyASMByFEx-M1HAtPIRchtC7YxmD5_Cc-VU';
-
-        return limitedRequest(url, function(error, response, google_data) {
-            var jdata = JSON.parse(google_data);
-            if (!error && jdata.results && jdata.results[0]) {
-                for ( var i = 0; i < jdata.results[0].address_components.length; i++ ) {
-                    var addr = jdata.results[0].address_components[i];
-                    if (addr.types[0] == 'administrative_area_level_1') {
-                        var result = {
-                            'state': addr.long_name,
-                            'state_short': addr.short_name
-                        };
-                        return cb(null, result, data);
-                    }
-                }
-                return cb(null, {}, data);
-            } else {
-                if ( argv.loglevel > 0 ) {
-                    console.log('Error:', error, 'Data:', data);
-                }
-                return cb(error, {}, data);
-            }
-        });
-    } else {
-        return cb(null, {}, data);
-    }
-};
-
-const getReadCsvfile = function( csvfile_name ) {
+}
+function get_csvfile_reader( csvfile_name ) {
     // The .csv files with information about airport passenger traffic are gotten from http://www.anna.aero/databases/
     //
     // Another option for figuring out which airports take and do not take passenger traffic is information about
@@ -109,7 +60,7 @@ const getReadCsvfile = function( csvfile_name ) {
         if ( argv.loglevel > 0 ) {
             console.log("Reading %s", csvfile_name);
         }
-        var csvStream = csv({
+        var csvStream = _CSV_PARSER({
             separator: ',',
             quite: '"',
             newline: '\n',
@@ -125,7 +76,7 @@ const getReadCsvfile = function( csvfile_name ) {
         const result = {};
         var   code_ndx = undefined;
         var   pax_ndx  = undefined;
-        fs.createReadStream(csvfile_name).pipe(csvStream).on('data', function(data) {
+        _FS.createReadStream(csvfile_name).pipe(csvStream).on('data', function(data) {
             if ( code_ndx == undefined && pax_ndx == undefined ) {
                 code_ndx = get_hash_index_by_value(data, "Code");
                 pax_ndx  = get_hash_index_by_value(data, "Pax 2014");
@@ -137,11 +88,61 @@ const getReadCsvfile = function( csvfile_name ) {
             callback(null, {'csvfile_name': csvfile_name, 'pax': result});
         });
     };
-};
-
+}
+function get_state_by_geolocation( data, callback ) {
+    if (data.country=='United States') {
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+data.latitude+','+data.longitude+'&key=AIzaSyASMByFEx-M1HAtPIRchtC7YxmD5_Cc-VU';
+        return _LIMITED_REQUEST(url, function(error, response, google_data) {
+            var jdata = JSON.parse(google_data);
+            if (!error && jdata.results && jdata.results[0]) {
+                for ( var i = 0; i < jdata.results[0].address_components.length; i++ ) {
+                    var addr = jdata.results[0].address_components[i];
+                    if (addr.types[0] == 'administrative_area_level_1') {
+                        var result = {
+                            'state': addr.long_name,
+                            'state_short': addr.short_name
+                        };
+                        return callback(null, result, data);
+                    }
+                }
+                return callback(null, {}, data);
+            } else {
+                if ( argv.loglevel > 0 ) {
+                    console.log('Error:', error, 'Data:', data);
+                }
+                return callback(error, {}, data);
+            }
+        });
+    } else {
+        return callback(null, {}, data);
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////
+// top level
+/////////////////////////////////////////////////////////////////////////////////////////
+// Parse argv for source data file and log level
+var argv = require('minimist')(process.argv.slice(2));
+if( (argv._.length==0) || argv.hasOwnProperty('help') ) {
+    console.log(
+	    "This script is to compile information about airports from several publicly accessible sources and print out a\n"+
+	    "bunch of INSERT INTO airports() values(...); statements that you can feed into the database.\n\n"+
+	    "USAGE: %s [--loglevel=loglevel] [--datfile=datfile] [pax1.csv pax2.csv..]\n\n"+
+	    "\t--loglevel - defines verbosity. For production of the SQL INSERT statements needs to be set to 0 or left default\n"+
+	    "\t--datfile  - URL to grab the basic airport information from. Defaults to airports data from opeflights github project\n"+
+	    "\tpaxN.csv   - a set of .csv files containing information about airport passenger traffic (PAX). Normally you first\n"+
+	    "\t             need to produce these files using bin/get_airport_pax_data.sh script and pass all those files on command\n"+
+	    "\t             line to this script. There should be at least one file like that\n\n"+
+	    "Keep in mind that one of the things that the script is doing is converting the geolocations of the airports into their\n"+
+	    "states and countries. For that we use Google getcoding API that allows us only so many calls per day. Normally one\n"+
+	    "successful run of this script uses so much of geocoding quota that you cannot run it again for the next 24 hours.\n",
+	    process.argv[1]);
+    process.exit(0);
+}
+argv.datfile  = argv.hasOwnProperty('datfile') ? argv.datfile : 'https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat';
+argv.loglevel = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
 // Run process..
 require('async').parallel(
-    [readDatfile].concat(argv._.map(function(a) { return getReadCsvfile(a); })),
+    [datfile_reader].concat(argv._.map(function(a) { return get_csvfile_reader(a); })),
     function( err, result ) {
         const util = require('util');
         const formatSqlString = function( s ) {
@@ -280,11 +281,11 @@ require('async').parallel(
             }
 
             var done = false;
-            getGoogleApiData(data, function (error, apiResult, data) {
-                data.state = apiResult.state || '';
+            get_state_by_geolocation(data, function (error, apiResult, data) {
+                data.state       = apiResult.state || '';
                 data.state_short = apiResult.state_short || '';
                 console.log("INSERT INTO airports(%s,state,state_short,pax,neighbors) VALUES(%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%s,%s,%s,%s,%d,%s);",
-                            datFile_headers.join(","),
+                            _DATFILE_HEADERS.join(","),
                             data.id,
                             formatSqlString(data.name),
                             formatSqlString(data.city),
@@ -302,7 +303,6 @@ require('async').parallel(
                             data.pax,
                             formatSqlString(JSON.stringify(data.neighbors))
                 );
-
                 done = true;
                 return data;
             });
@@ -310,21 +310,22 @@ require('async').parallel(
         }
         console.log(
             "DROP TABLE airports_old;\n" +
-            "COMMIT;\n" +
-            "UPDATE \n" +
-            "airports \n" +
-            "SET pax=s.pax \n" +
-            "FROM \n" +
-            "(select city,state,country,sum(pax) pax from airports where lower(name)!='all airports' group by 1,2,3) s \n" +
-            "WHERE \n" +
-            "(lower(airports.name)='all airports') \n" +
-            "AND (airports.city=s.city) \n" +
-            "AND ( \n" +
+            "UPDATE\n" +
+            "  airports\n" +
+	    "SET\n"+
+	    "  pax=s.pax\n" +
+            "FROM\n" +
+            "  (select city,state,country,sum(pax) pax from airports where lower(name)!='all airports' group by 1,2,3) s \n" +
+            "WHERE\n" +
+            "  (lower(airports.name)='all airports') \n" +
+            "  AND (airports.city=s.city) \n" +
+            "  AND (\n" +
             "    CASE WHEN COALESCE(airports.state,'')!='' THEN \n" +
-            "(airports.state=COALESCE(s.state,'') AND airports.country=COALESCE(s.country,'')) \n" +
-            "ELSE \n" +
-            "airports.country=COALESCE(s.country,'') \n" +
-            "END);\n"
+            "      (airports.state=COALESCE(s.state,'') AND airports.country=COALESCE(s.country,'')) \n" +
+            "    ELSE\n" +
+            "      airports.country=COALESCE(s.country,'') \n" +
+            "    END);\n"
+            "COMMIT;");
         );
     }
 );
