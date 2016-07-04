@@ -17,7 +17,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
   </head>
 
-  <body>
+  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
+    <body class="search-result">
+  <% } else {%>
+    <body>
+  <% } %>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
     <div class="dimmer">
