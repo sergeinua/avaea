@@ -254,6 +254,10 @@ nav {
   border-color: #EFD4D4;
   color: #BFB6C1 !important;
 }
+.disabled.dis-selected {
+  background-color: #004a99 !important;
+  opacity: 0.4;
+}
 
 .total-count {
   padding-bottom: 10px;
