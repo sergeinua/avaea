@@ -20,11 +20,11 @@
 
 
     <label>First Name</label>
-    <input type="text" name="firstName" class="form-control input-sm" placeholder="First Name" required/>
+    <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" required/>
     <label>Middle Name</label>
-    <input type="text" name="middleName" class="form-control input-sm" placeholder="Middle Name"/>
+    <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"/>
     <label>Last Name</label>
-    <input type="text" name="lastName" class="form-control input-sm" placeholder="Last Name"required/>
+    <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name"required/>
     <label>Gender</label>
     <%- _res = widgets.dropDownList({}, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
     <label>Birthday</label>
@@ -32,7 +32,7 @@
     <label>Passenger Type</label>
     <%- _res = widgets.dropDownList({}, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
     <label>Address</label>
-    <input type="text" name="address" class="form-control input-sm" placeholder="Address"/>
+    <input type="text" name="street" class="form-control input-sm" placeholder="Address"/>
     <label>City</label>
     <input type="text" name="city" class="form-control input-sm" placeholder="City"/>
     <label>State</label>
@@ -44,9 +44,9 @@
 
     <!--In Case of Emergency Notify-->
     <label>In Case of Emergency Notify</label>
-    <input type="text" name="notifyContact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"/>
+    <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"/>
     <label>Emergency Notify Phone</label>
-    <input type="tel" name="notifyContact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone"/>
+    <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone"/>
 
     </div>
   </div>
@@ -72,14 +72,14 @@
             <div id="preferredAirlines">
             <hr class="hidden"/>
             <label>Preferred Airlines type</label>
-            <select name="preferredAirlines.travelType[]" class="form-control input-sm">
+            <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
                 <option value=''>please choose</option>
                 <option value="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
                 <option value="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
                 <option value="International Flights">International Flights</option>
             </select>
             <label>Airline Name</label>
-            <input type="text" name="preferredAirlines.airlineName[]" class="form-control input-sm" placeholder="Airline Name"/>
+            <input type="text" name="preferred_airlines.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
             </div>
 
         </div>
@@ -96,13 +96,13 @@
             <div id="milesPrograms">
               <hr class="hidden"/>
               <label>Airline Name</label>
-              <input type="text" name="milesPrograms.airlineName[]" class="form-control input-sm" placeholder="Airline Name"/>
+              <input type="text" name="miles_programs.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
               <label>Account Number</label>
-              <input type="text" name="milesPrograms.accountNumber[]" class="form-control input-sm" placeholder="Account Number"/>
+              <input type="text" name="miles_programs.account_number[]" class="form-control input-sm" placeholder="Account Number"/>
               <label>Frequent Flier Miles</label>
-              <input type="text" name="milesPrograms.flierMiles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" />
+              <input type="text" name="miles_programs.flier_miles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" />
               <label>Expiration Date</label>
-              <input type="text" name="milesPrograms.expirationDate[]" class="form-control input-sm" placeholder="Expiration Date" />
+              <input type="text" name="miles_programs.expiration_date[]" class="form-control input-sm" placeholder="Expiration Date" />
             </div>
 
         </div>
@@ -117,11 +117,11 @@
             <div id="loungeMembership">
               <hr class="hidden"/>
               <label>Airline Name</label>
-              <input type="text" name="loungeMembership.airlineName[]" class="form-control input-sm" placeholder="Airline Name"/>
+              <input type="text" name="lounge_membership.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
               <label>Club Membership Number</label>
-              <input type="text" name="loungeMembership.membershipNumber[]" class="form-control input-sm" placeholder="Club Membership Number"/>
+              <input type="text" name="lounge_membership.membership_number[]" class="form-control input-sm" placeholder="Club Membership Number"/>
               <label>Expiration Date</label>
-              <input type="date" name="loungeMembership.expirationDate[]" class="form-control input-sm"/>
+              <input type="date" name="lounge_membership.expiration_date[]" class="form-control input-sm"/>
             </div>
 
         </div>
