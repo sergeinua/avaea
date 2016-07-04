@@ -194,10 +194,25 @@ $(document).ready(function() {
     });
   };
 
+  var getFilters = function () {
+    var filter = $('.selectedfilters').attr('filters');
+    filter = filter ? filter.split(' ') : [];
+    return (filter.length > 0) ? $.map(filter, function (item) {
+      if (item.length > 0) return item;
+    }) : [];
+  };
+
+  var getDisFilters = function () {
+    var filter = $('.selectedfilters').attr('filters-dis');
+    filter = filter ? filter.split(' ') : [];
+    return (filter.length > 0) ? $.map(filter, function (item) {
+      if (item.length > 0) return item;
+    }) : [];
+  };
+
   //tile recalculation
   var recalcTiles = function () {
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters ? filters.split(' ') : [];
+    var filters = $.merge([], getFilters(), getDisFilters());
     var groups = {};
     if (filters.length) {
       filters.forEach(function(filter) {
@@ -231,19 +246,39 @@ $(document).ready(function() {
           sCount = predictedResult.length;
         }
       }
+
+      var _filter = getFilters(),
+        _disFilter = getDisFilters(),
+        filtIndx = _filter.indexOf(tile.attr('for')),
+        disFiltIndx = _disFilter.indexOf(tile.attr('for'));
+
       if ( sCount > 0 ) {
         $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
         tile.removeClass('disabled');
+        tile.removeClass('dis-selected');
+        if (disFiltIndx != -1) {
+          delete _disFilter[disFiltIndx];
+          $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
+          if (filtIndx == -1) {
+            tile.addClass('selected');
+            _filter.push(tile.attr('for'));
+            $('.selectedfilters').attr('filters', _filter.join(' '));
+            filterItineraries();
+          }
+        }
       } else if ( sCount <= 0 ) {
         $('[for='+tile.attr('for')+'] > span.badge').text('');
         tile.removeClass('selected');
-        var filters = $('.selectedfilters').attr('filters');
-        filters = filters.split(' ');
-        if (filters.length) {
-          var _indx = filters.indexOf(tile.attr('for'));
+        if (_filter.length) {
+          var _indx = _filter.indexOf(tile.attr('for'));
           if (_indx != -1) {
-            delete filters[_indx];
-            $('.selectedfilters').attr('filters', filters.join(' '));
+            if (_disFilter.indexOf(_filter[_indx]) == -1) {
+              _disFilter.push(_filter[_indx]);
+              $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
+            }
+            tile.addClass('dis-selected');
+            delete _filter[_indx];
+            $('.selectedfilters').attr('filters', _filter.join(' '));
           }
         }
         tile.addClass('disabled');
@@ -253,8 +288,7 @@ $(document).ready(function() {
   };
   var filtersCount = {};
   var filterItineraries = function () {
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters ? filters.split(' ') : [];
+    var filters = getFilters();
     if (filters.length) {
       $('#clear, #undo').removeClass('disabled');
     } else {
@@ -293,7 +327,9 @@ $(document).ready(function() {
       return;
     }
     $('.selectedfilters').attr('filters', '');
+    $('.selectedfilters').attr('filters-dis', '');
     $('#tiles').find('li.selected').removeClass('selected');
+    $('#tiles').find('li.dis-selected').removeClass('dis-selected');
     swiper.slideTo(0);
     filterItineraries();
   });
@@ -302,8 +338,7 @@ $(document).ready(function() {
     if ($(this).hasClass('disabled')) {
       return;
     }
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters.split(' ');
+    var filters = getFilters();
     if (filters.length) {
       var lastElement = filters[filters.length - 1];
       filters.pop();
@@ -420,8 +455,7 @@ $(document).ready(function() {
 
     if ($(this).hasClass('selected')) {
       $(this).removeClass('selected');
-      var filters = $('.selectedfilters').attr('filters');
-      filters = filters.split(' ');
+      var filters = getFilters();
 
       //Check if the very last bucket in a tile is unselected
       var needRecalculate = !$(this).siblings('.selected').length;
