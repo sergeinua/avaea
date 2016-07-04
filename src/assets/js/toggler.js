@@ -63,6 +63,12 @@ var unsetErrorElement = function (selector) {
   }
 };
 
+var setupVoiceSearch = function () {
+  if($('#result_empty').text()) {
+    $('#voice_search').hide();
+  }
+};
+
 $(document).ready(function() {
   $("#user-price-modal").modal();
 
@@ -144,7 +150,10 @@ $(document).ready(function() {
     }
 
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-    var navHeight = $('#main_title').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -503,10 +512,13 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
-    clearTimeout(window.resizedFinished);
-    window.resizedFinished = setTimeout(function(){
-      recalculateBodyPadding();
-    }, 250);
+    //DEMO-318 an unused horizontal stripe between tiles and itin summaries
+    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
+    var navHeight = 50;
+    if (window.innerWidth >= 480) {
+      navHeight = 30;
+    }
+    $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
   /**
@@ -609,6 +621,8 @@ $(document).ready(function() {
       return false;
     }
 
+    var voiceSearchQuery = $.trim($('#voiceSearchTextarea').val()) || '';
+    $('#voiceSearchQuery').val(voiceSearchQuery);
     $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 
@@ -659,11 +673,13 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-
-  $('[id*=buy-cron-button-]').click(function (event) {
+  $(window).scroll(function(){
+    $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+  });
+  $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
     if (id) {
-      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val() + '&special=1';
+      location.href = '/order?special=1&id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
 
@@ -779,18 +795,9 @@ $(document).ready(function() {
 
   });
 
-  var getIconForAirline = function (el) {
-    var _image = new Image(),
-      _code = el.data('code'),
-      _file = '/images/airlines/' + _code + '.png';
-    _image.onload = function () {
-      el.attr('src', _file);
-    };
-    _image.src = _file;
-  };
-
-  $('.airlineIcon').each(function () {
-    getIconForAirline($(this));
+  // Set sprite number for the every airlines icon
+  $('.itinerary-airline-icon').each(function () {
+    $(this).css('background-position', '0 -'+ $(this).data('sprite_num')*15 +'px');
   });
 
   /* Depart/Return Date selection {{{ */
@@ -878,7 +885,7 @@ $(document).ready(function() {
   $("#dr_picker").on("dp.change", function (e) {
     var flightType = $('#search_form').data('flight-type');
     // enable range functionality for round trip flight type
-    if(e.date && flightType == 'round_trip') {
+    if (e.date && flightType == 'round_trip') {
       // range manipulation {{{
       var range = $(this).data("DateTimePicker").range;
       if (range.start && !range.end && e.date.isAfter(range.start)) {
@@ -905,6 +912,11 @@ $(document).ready(function() {
     // redraw date range on each picker update
     drawDateRange(this, $(this).data("DateTimePicker").range);
   });
+  $("#dr_picker").hammer().bind("swipeleft", function (e) {
+    $(this).data("DateTimePicker").next();
+  }).bind("swiperight", function (e) {
+    $(this).data("DateTimePicker").previous();
+  });
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
@@ -929,10 +941,10 @@ $(document).ready(function() {
 
     // cache values
     $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
-    $('#returnDate').data('date', flightType == 'round_trip' ? moment_rp.format('YYYY-MM-DD') : null);
+    $('#returnDate').data('date', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
 
     // Check depart date
-    if(moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+    if (moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
       setErrorElement('.flight-date-info-item.dep');
       _isError = true;
     } else {
@@ -941,7 +953,7 @@ $(document).ready(function() {
 
     // Check return date
     if (flightType == 'round_trip') {
-      if(moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
+      if (moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
         setErrorElement('.flight-date-info-item.ret');
         _isError = true;
       } else {
@@ -949,15 +961,14 @@ $(document).ready(function() {
       }
     }
 
-    if(isModNavbar) {
+    if (isModNavbar) {
       $('.navbar-header').height(heightNav);
     }
 
-    if(_isError) {
+    if (_isError) {
       $('.search-button').addClass('disabled');
       $('.search-top-button').addClass('disabled');
-    }
-    else {
+    } else {
       $('.search-button').removeClass('disabled');
       $('.search-top-button').removeClass('disabled');
     }
@@ -1275,7 +1286,8 @@ $(document).ready(function() {
       recalculateBodyPadding();
     }
     $('.list-group').slimScroll({
-      height: '125px'
+      height: '125px',
+      touchScrollStep: 30
     });
   }
 
@@ -1295,6 +1307,8 @@ $(document).ready(function() {
   }
 
   recalculateBodyPadding();
+
+  setupVoiceSearch();
 });
 
 function getCookie(name) {
