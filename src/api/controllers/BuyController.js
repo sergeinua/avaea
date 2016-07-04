@@ -28,8 +28,8 @@ module.exports = {
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
         var profileFields = {
-          FirstName: "firstName",
-          LastName: "lastName",
+          FirstName: "first_name",
+          LastName: "last_name",
           Gender : "gender",
           DateOfBirth: "birthday",
           PaxType: "pax_type",

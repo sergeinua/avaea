@@ -1,0 +1,239 @@
+<% if (selectedAirline) { %>
+<form action="/<%= selectedAirline%>/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+<% } else { %>
+  <form action="/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+<% } %>
+
+<!--<h2 class="form-signin-heading">Update profile</h2>-->
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+<!--BASE INFO/FAMILY-->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Personal information
+        </a>
+      </h4>
+    </div>
+
+<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+
+
+    <label>First Name</label>
+    <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" required/>
+    <label>Middle Name</label>
+    <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"/>
+    <label>Last Name</label>
+    <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name" required/>
+    <label>Gender</label>
+    <%- _res = widgets.dropDownList({}, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
+    <label>Birthday</label>
+    <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"/>
+    <label>Passenger Type</label>
+    <%- _res = widgets.dropDownList({}, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
+    <label>Address</label>
+    <input type="text" name="street" class="form-control input-sm" placeholder="Address"/>
+    <label>City</label>
+    <input type="tex" name="city" class="form-control input-sm" placeholder="City"/>
+    <label>State</label>
+    <input type="text" name="state" class="form-control input-sm" placeholder="State"/>
+    <label>Zip Code</label>
+    <input type="text" name="zip_code" class="form-control input-sm" placeholder="ZipCode"/>
+    <label>Country</label>
+    <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"/>
+
+    <label>Ethnicity (Race)</label>
+    <%- _res = widgets.dropDownList({}, "ethnicity", Profile.attr_ethnicity, {"class": "form-control input-sm"}) %>
+
+    <!--In Case of Emergency Notify-->
+    <label>In Case of Emergency Notify</label>
+    <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"/>
+    <label>Emergency Notify Phone</label>
+    <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone"/>
+
+    <label>Show Tiles</label>
+    <input type="checkbox" name="show_tiles" class="form-control input-sm" value="true" checked="checked"/>
+
+<!--Employer-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+        <legend style="margin-bottom:0">Employer</legend>
+        <div class="panel-body">
+            <label>Company Name</label>
+            <input type="text" name="employer.company_name" class="form-control input-sm" placeholder="Company Name"/>
+            <label>Address</label>
+            <input type="text" name="employer.address" class="form-control input-sm" placeholder="Address"/>
+            <label>Phone number</label>
+            <input type="tel" name="employer.phone" class="form-control input-sm" placeholder="Phone number"/>
+            <label>Position Held</label>
+            <input type="text" name="employer.position" class="form-control input-sm" placeholder="Position Held"/>
+            <label>Salary Range</label>
+            <select name="employer.salary" class="form-control input-sm">
+                <option value=''>please choose</option>
+                <option value="$50K - $100K">$50K - $100K</option>
+                <option value="$100K - $200K">$100K - $200K</option>
+                <option value="$200K - $300K">$200K - $300K</option>
+                <option value="Over $300K">Over $300K</option>
+            </select>
+            <label>Total Household Income</label>
+            <select name="employer.income" class="form-control input-sm">
+                <option value=''>please choose</option>
+                <option value="$50K - $100K">$50K - $100K</option>
+                <option value="$100K - $200K">$100K - $200K</option>
+                <option value="$200K - $300K">$200K - $300K</option>
+                <option value="Over $300K">Over $300K</option>
+            </select>
+        </div>
+    </fieldset>
+
+    </div>
+  </div>
+</div>
+<!--END OF BASE INFO-->
+
+
+<!--FAMILY-->
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Might travel with you
+        </a>
+      </h4>
+    </div>
+
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+
+<!--Name(s) of Family Members who might travel with you-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+      <legend style="margin-bottom:0">Travelers</legend>
+        <div class="panel-body">
+
+            <div id="travelWith">
+            <hr class="hidden"/>
+            <label>First Name</label>
+            <input type="text" name="travel_with.first_name[]" class="form-control input-sm" placeholder="First Name" />
+            <label>Last Name</label>
+            <input type="text" name="travel_with.last_name[]" class="form-control input-sm" placeholder="Last Name"/>
+            <label>Gender</label>
+            <select name="travel_with.gender[]" class="form-control input-sm">
+                <option value=''>please choose</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            </select>
+            <label>Date of birth</label>
+            <input type="date" name="travel_with.date_of_birth[]" class="form-control input-sm"/>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="travel_with"><%= __('One more')%></button>
+        </div>
+      </fieldset>
+
+
+    </div>
+  </div>
+</div>
+<!--END OF FAMILY-->
+
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Airlines/Programs
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+        <!--AIRLINES/PROGRAMS-->
+        <!--Preferred Airlines-->
+        <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+          <legend style="margin-bottom:0">Preferred Airlines</legend>
+          <div class="panel-body">
+
+            <div id="preferredAirlines">
+              <hr class="hidden"/>
+              <label>Preferred Airlines type</label>
+              <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
+                <option value=''>please choose</option>
+                <option value="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
+                <option value="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
+                <option value="International Flights">International Flights</option>
+              </select>
+              <label>Airline Name</label>
+              <input type="text" name="preferred_airlines.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
+            </div>
+
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferred_airlines"><%= __('One more')%></button>
+          </div>
+        </fieldset>
+
+        <!--Airlines Frequent Flier Miles Programs-->
+        <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+          <legend style="margin-bottom:0">Airlines Frequent Flier Miles Programs</legend>
+          <div class="panel-body">
+
+            <div id="milesPrograms">
+              <hr class="hidden"/>
+              <label>Airline Name</label>
+              <input type="text" name="milesPrograms.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
+              <label>Account Number</label>
+              <input type="text" name="milesPrograms.account_number[]" class="form-control input-sm" placeholder="Account Number"/>
+              <label>Frequent Flier Miles</label>
+              <input type="text" name="milesPrograms.flier_miles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" />
+              <label>Expiration Date</label>
+              <input type="text" name="milesPrograms.expiration_date[]" class="form-control input-sm" placeholder="Expiration Date" />
+            </div>
+
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="milesPrograms"><%= __('One more')%></button>
+          </div>
+        </fieldset>
+        <!--Airline Club Lounge Memberships-->
+        <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+          <legend style="margin-bottom:0">Airline Club Lounge Memberships</legend>
+          <div class="panel-body">
+            <div id="loungeMembership">
+              <hr class="hidden"/>
+              <label>Airline Name</label>
+              <input type="text" name="lounge_membership.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
+              <label>Club Membership Number</label>
+              <input type="text" name="lounge_membership.membership_number[]" class="form-control input-sm" placeholder="Club Membership Number"/>
+              <label>Expiration Date</label>
+              <input type="date" name="lounge_membership.expiration_date[]" class="form-control input-sm"/>
+            </div>
+
+          </div>
+          <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="lounge_membership"><%= __('One more')%></button>
+          </div>
+        </fieldset>
+
+      </div>
+    </div>
+  </div>
+<!--END OF AIRLINES/PROGRAMS-->
+
+
+<style>
+    body { padding-bottom: 33px; }
+</style>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom"  style="min-height:33px !important; margin-bottom: 0 !important;">
+      <div class="container-fluid">
+        <button type="submit" class="btn btn-sm btn-primary btn-block" >Create</button>
+      </div>
+    </nav>
+</div>
+</form>

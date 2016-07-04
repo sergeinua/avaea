@@ -70,6 +70,19 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
+    _displayDimmer(true);
+
+    if (GlobalSearchResultCount < 5) {
+      setTimeout(function(){
+        $('.dimmer').fadeOut(function(){
+          _displayDimmer(false);
+        });
+      }, 1000)
+    }
+  }
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
@@ -131,6 +144,9 @@ $(document).ready(function() {
     }
   };
   var isLandscapeMode = function () {
+    if ( typeof window.orientation == 'undefined' ) {
+      return (window.outerHeight < window.outerWidth)
+    }
     return (window.orientation == 90 || window.orientation == -90);
   };
 
@@ -138,7 +154,7 @@ $(document).ready(function() {
     $('body').removeClass('landscape-mode');
     if (isLandscapeMode()) {
       $('body').addClass('landscape-mode');
-      if (isMobile.any()) {
+      if (isMobile.any() && $('#landscapeMode').length) {
         $('#landscapeMode').modal('show');
         $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
         $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
@@ -154,6 +170,7 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -389,6 +406,9 @@ $(document).ready(function() {
   var numberOfTiles = $('.mybucket').length;
 
   $('.list-group-item').click(function(event) {
+
+    _displayDimmer(false);
+
     if ($(this).hasClass('disabled')) {
       return false;
     }
@@ -512,12 +532,27 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
+    $('body').removeClass('landscape-mode');
+    if (isLandscapeMode()) {
+      $('body').addClass('landscape-mode');
+      if (isMobile.any() && $('#landscapeMode').length) {
+        $('#landscapeMode').modal('show');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
+      }
+    } else {
+      if(isMobile.any()) {
+        $('#landscapeMode').modal('hide');
+      }
+    }
+
     //DEMO-318 an unused horizontal stripe between tiles and itin summaries
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
     var navHeight = 50;
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
@@ -634,6 +669,35 @@ $(document).ready(function() {
     return true;
   });
 
+// DEMO-429 Collapse tiles
+  $('.clickable-tiles-area-yellow').click(function() {
+    if ($('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(false);
+    }
+    return false;
+  });
+  $('.clickable-tiles-area').click(function() {
+    shrinkTiles(true);
+    return false;
+  });
+  var tilesHeightFull = $('#tiles').outerHeight();
+  var shrinkTiles = function (revert) {
+    if (!revert) {
+      if ($('#tiles').outerHeight() !== 50) {
+        tilesHeightFull = $('#tiles').outerHeight();
+        $('#tiles').outerHeight(50);
+        recalculateBodyPadding();
+        $('.clickable-tiles-area').removeClass('hidden');
+      }
+    } else {
+        $('.clickable-tiles-area').addClass('hidden');
+        $('#tiles').outerHeight(tilesHeightFull);
+        recalculateBodyPadding();
+        initScroll = $(window).scrollTop();
+    }
+  };
+
+  var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -643,6 +707,7 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
+        expandedItitns++;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -656,6 +721,7 @@ $(document).ready(function() {
           }
         });
       } else {
+        expandedItitns--;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -673,8 +739,23 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-  $(window).scroll(function(){
+  var initScroll = 0;
+  var scrollStarted = false;
+  $(window).scroll(function() {
+    if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(true);
+    }
+    if (!scrollStarted && expandedItitns) {
+      initScroll = $(this).scrollTop();
+      scrollStarted = true;
+    }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+
+    //DEMO-429 Collapse tiles
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
+      shrinkTiles(false);
+      scrollStarted = false;
+    }
   });
   $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
@@ -803,12 +884,12 @@ $(document).ready(function() {
   /* Depart/Return Date selection {{{ */
 
   // init datetimepicker {{{
-  var curMoment = moment();
+  var curMoment = moment(0, "HH");
   $('#dr_picker').datetimepicker({
     inline: true,
     format: "YYYY-MM-DD",
     minDate: curMoment.clone(),
-    maxDate: curMoment.clone().add(searchApiMaxDays-1, 'days')
+    maxDate: curMoment.clone().add(searchApiMaxDays, 'days').subtract(1, 'seconds')
 
   });
   // extends "clear" datepicker method, adding possibility to clear range
@@ -1102,7 +1183,7 @@ $(document).ready(function() {
           'height': '100%',
           'margin-top': 0
         });
-        $('.navbar-brand').text('Avaea Voice');
+        $('.navbar-brand').text('Voice Search');
         $('.navbar-toggle').addClass('hidden');
 
         $('.search-button').hide();
@@ -1297,7 +1378,7 @@ $(document).ready(function() {
   });
 
   var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1) {
+  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
     // hide arrow in 5 sec
@@ -1346,3 +1427,31 @@ function setCookie(name, value, options) {
 
   document.cookie = updatedCookie;
 }
+
+function _displayDimmer(flag) {
+
+  if (flag) {
+
+    $('.dimmer').off('click').on('click', function(){
+      _displayDimmer(false);
+    });
+
+    $(document)
+      .off('mousewheel').on('mousewheel', function(event){
+        console.log('mousewheel', event);
+        event.stopPropagation();
+        return false;
+      })
+      .off('swipe').on('swipe', function(event){
+        console.log('swipe', event);
+        event.stopPropagation();
+        return false;
+      });
+
+  } else {
+    $('.dimmer').hide();
+  }
+
+}
+
+

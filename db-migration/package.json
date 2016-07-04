@@ -1,0 +1,16 @@
+{
+  "name": "db-migration",
+  "version": "1.0.0",
+  "description": "Dummy package for db migration",
+  "main": "",
+  "dependencies": {
+    "async": "^1.5.2",
+    "db-migrate": "^0.9.25"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "germiy@gmail.com",
+  "license": "ISC"
+}

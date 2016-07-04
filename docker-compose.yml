@@ -78,10 +78,24 @@ services:
       dockerfile: images/postgres/postgres.Dockerfile
     volumes:
       - ./images/postgres/data/:/docker-entrypoint-initdb.d/
+    volumes_from:
+      - sources
+    command: bash -c "/usr/local/bin/run_postgres.sh"
     networks:
       - avaea_network
     ports:
       - "5433:5432"
+
+  migrations:
+    extends:
+      file: images/node/node_base.yml
+      service: nodebase
+    volumes_from:
+      - sources
+    networks:
+      - avaea_network
+    working_dir: /usr/var/avaea/db-migration
+    command: bash -c "/usr/local/bin/run_migrations.sh"
 
 networks:
   avaea_network:
