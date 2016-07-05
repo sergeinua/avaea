@@ -10,27 +10,25 @@ module.exports = {
   attributes: {
     user               : { model: 'User', required: true },
     personal_info      : { type: 'json' },
-    ethnicity          : {
-      type: 'string',
-      enum:
-        [
-          'European',
-          'Mexican',
-          'Latin American',
-          'Eastern European',
-          'South East Asian (India, Pakistan, Bangladesh)',
-          'Chinese',
-          'Asian',
-          'African',
-          'South Pacific'
-        ]
-    },
+    ethnicity          : { type: 'string'},
     notify_contact     : { type: 'json' },
     travel_with        : { type: 'json' },
     miles_programs     : { type: 'json' },
     lounge_membership  : { type: 'json' },
     employer           : { type: 'json' },
     preferred_airlines : { type: 'json' }
+  },
+
+  attr_ethnicity: {
+    'European': 'European',
+    'Mexican': 'Mexican',
+    'Latin American': 'Latin American',
+    'Eastern European': 'Eastern European',
+    'South East Asian (India, Pakistan, Bangladesh)': 'South East Asian (India, Pakistan, Bangladesh)',
+    'Chinese': 'Chinese',
+    'Asian': 'Asian',
+    'African': 'African',
+    'South Pacific': 'South Pacific'
   },
 
   attr_gender: {

@@ -49,18 +49,8 @@ if (selectedAirline) { %>
     <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"  value="<%= profile_fields.personal_info.address.country_code %>" />
 
     <label>Ethnicity (Race)</label>
-    <select name="ethnicity" class="form-control input-sm">
-        <option value='' <% if(!profile_fields.personal_info.ethnicity) {%>selected<%} %>>please choose</option>
-        <option value='European'<% if(profile_fields.personal_info.ethnicity == 'European') {%> selected<%} %>>European</option>
-        <option value='Mexican'<% if(profile_fields.personal_info.ethnicity == 'Mexican') {%> selected<%} %>>Mexican</option>
-        <option value='Latin American'<% if(profile_fields.personal_info.ethnicity == 'Latin American') {%> selected<%} %>>Latin American</option>
-        <option value='Eastern European'<% if(profile_fields.personal_info.ethnicity == 'Eastern European') {%> selected<%} %>>Eastern European</option>
-        <option value='South East Asian (India, Pakistan, Bangladesh)'<% if(profile_fields.personal_info.ethnicity == 'South East Asian (India, Pakistan, Bangladesh)') {%> selected<%} %>>South East Asian (India, Pakistan, Bangladesh)</option>
-        <option value='Chinese'<% if(profile_fields.personal_info.ethnicity == 'Chinese') {%> selected<%} %>>Chinese</option>
-        <option value='Asian'<% if(profile_fields.personal_info.ethnicity == 'Asian') {%> selected<%} %>>Asian</option>
-        <option value='African'<% if(profile_fields.personal_info.ethnicity == 'African') {%> selected<%} %>>African</option>
-        <option value='South Pacific'<% if(profile_fields.personal_info.ethnicity == 'South Pacific') {%> selected<%} %>>South Pacific</option>
-    </select>
+    <%- _res = widgets.dropDownList(profile_fields, "ethnicity", Profile.attr_ethnicity, {"class": "form-control input-sm"}) %>
+
     <!--In Case of Emergency Notify-->
     <label>In Case of Emergency Notify</label>
     <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= profile_fields.notify_contact.name %>" />
