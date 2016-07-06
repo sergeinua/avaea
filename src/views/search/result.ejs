@@ -189,7 +189,7 @@
       </div>
       <div class="col-xs-3 buy-button">
         <div class="btn-group text-nowrap buy-button-group">
-          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary buy-button-price"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary buy-button-price"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= sRes.currency %><% } %></button>
           <button type="button" class="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
           </button>
