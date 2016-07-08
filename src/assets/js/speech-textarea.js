@@ -100,14 +100,13 @@
         showButtons(false);
       }
     };
-
-    clear_button.click(function (e) {
-      final_textarea.val('');
-      showButtons(true);
-      final_textarea.focus();
-    });
   }
 
+  clear_button.click(function (e) {
+    final_textarea.val('');
+    showButtons(true);
+    final_textarea.focus();
+  });
 
   final_textarea.keyup(function () {
     var _value = $.trim($(this).val());
