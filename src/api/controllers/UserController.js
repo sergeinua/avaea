@@ -55,20 +55,22 @@ module.exports = {
    * `UserController.profile()`
    */
   update: function (req, res) {
-    var profileFields = Profile.make(req.body, req.user);
+    Profile.make(req.body, req.user, function(profileFields) {
 
-    Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
-      if (err || _.isEmpty(record)) {
-        Profile.create(profileFields).exec(function(err, record) {
-          if (err) {
-            sails.log.error(err);
-          }
+      Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
+        if (err || _.isEmpty(record)) {
+          Profile.create(profileFields).exec(function(err, record) {
+            if (err) {
+              sails.log.error(err);
+            }
+            res.redirect('/profile');
+
+          });
+        } else {
           res.redirect('/profile');
+        }
+      });
 
-        });
-      } else {
-        res.redirect('/profile');
-      }
     });
 
   },
