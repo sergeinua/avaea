@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+var _ = require('lodash');
+
 module.exports = {
   parse: function (req, res) {
     var _query = _.trim(req.param('q'));
