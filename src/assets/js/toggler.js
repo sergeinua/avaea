@@ -70,6 +70,19 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
+
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
+    _displayDimmer(true);
+
+    if (GlobalSearchResultCount < 5) {
+      setTimeout(function(){
+        $('.dimmer').fadeOut(function(){
+          _displayDimmer(false);
+        });
+      }, 1000)
+    }
+  }
+
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
@@ -131,6 +144,9 @@ $(document).ready(function() {
     }
   };
   var isLandscapeMode = function () {
+    if ( typeof window.orientation == 'undefined' ) {
+      return (window.outerHeight < window.outerWidth)
+    }
     return (window.orientation == 90 || window.orientation == -90);
   };
 
@@ -138,7 +154,7 @@ $(document).ready(function() {
     $('body').removeClass('landscape-mode');
     if (isLandscapeMode()) {
       $('body').addClass('landscape-mode');
-      if (isMobile.any()) {
+      if (isMobile.any() && $('#landscapeMode').length) {
         $('#landscapeMode').modal('show');
         $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
         $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
@@ -154,6 +170,7 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -177,10 +194,25 @@ $(document).ready(function() {
     });
   };
 
+  var getFilters = function () {
+    var filter = $('.selectedfilters').attr('filters');
+    filter = filter ? filter.split(' ') : [];
+    return (filter.length > 0) ? $.map(filter, function (item) {
+      if (item.length > 0) return item;
+    }) : [];
+  };
+
+  var getDisFilters = function () {
+    var filter = $('.selectedfilters').attr('filters-dis');
+    filter = filter ? filter.split(' ') : [];
+    return (filter.length > 0) ? $.map(filter, function (item) {
+      if (item.length > 0) return item;
+    }) : [];
+  };
+
   //tile recalculation
   var recalcTiles = function () {
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters ? filters.split(' ') : [];
+    var filters = $.merge([], getFilters(), getDisFilters());
     var groups = {};
     if (filters.length) {
       filters.forEach(function(filter) {
@@ -214,19 +246,39 @@ $(document).ready(function() {
           sCount = predictedResult.length;
         }
       }
+
+      var _filter = getFilters(),
+        _disFilter = getDisFilters(),
+        filtIndx = _filter.indexOf(tile.attr('for')),
+        disFiltIndx = _disFilter.indexOf(tile.attr('for'));
+
       if ( sCount > 0 ) {
         $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
         tile.removeClass('disabled');
+        tile.removeClass('dis-selected');
+        if (disFiltIndx != -1) {
+          delete _disFilter[disFiltIndx];
+          $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
+          if (filtIndx == -1) {
+            tile.addClass('selected');
+            _filter.push(tile.attr('for'));
+            $('.selectedfilters').attr('filters', _filter.join(' '));
+            filterItineraries();
+          }
+        }
       } else if ( sCount <= 0 ) {
         $('[for='+tile.attr('for')+'] > span.badge').text('');
         tile.removeClass('selected');
-        var filters = $('.selectedfilters').attr('filters');
-        filters = filters.split(' ');
-        if (filters.length) {
-          var _indx = filters.indexOf(tile.attr('for'));
+        if (_filter.length) {
+          var _indx = _filter.indexOf(tile.attr('for'));
           if (_indx != -1) {
-            delete filters[_indx];
-            $('.selectedfilters').attr('filters', filters.join(' '));
+            if (_disFilter.indexOf(_filter[_indx]) == -1) {
+              _disFilter.push(_filter[_indx]);
+              $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
+            }
+            tile.addClass('dis-selected');
+            delete _filter[_indx];
+            $('.selectedfilters').attr('filters', _filter.join(' '));
           }
         }
         tile.addClass('disabled');
@@ -236,8 +288,7 @@ $(document).ready(function() {
   };
   var filtersCount = {};
   var filterItineraries = function () {
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters ? filters.split(' ') : [];
+    var filters = getFilters();
     if (filters.length) {
       $('#clear, #undo').removeClass('disabled');
     } else {
@@ -276,7 +327,9 @@ $(document).ready(function() {
       return;
     }
     $('.selectedfilters').attr('filters', '');
+    $('.selectedfilters').attr('filters-dis', '');
     $('#tiles').find('li.selected').removeClass('selected');
+    $('#tiles').find('li.dis-selected').removeClass('dis-selected');
     swiper.slideTo(0);
     filterItineraries();
   });
@@ -285,8 +338,7 @@ $(document).ready(function() {
     if ($(this).hasClass('disabled')) {
       return;
     }
-    var filters = $('.selectedfilters').attr('filters');
-    filters = filters.split(' ');
+    var filters = getFilters();
     if (filters.length) {
       var lastElement = filters[filters.length - 1];
       filters.pop();
@@ -389,6 +441,9 @@ $(document).ready(function() {
   var numberOfTiles = $('.mybucket').length;
 
   $('.list-group-item').click(function(event) {
+
+    _displayDimmer(false);
+
     if ($(this).hasClass('disabled')) {
       return false;
     }
@@ -400,8 +455,7 @@ $(document).ready(function() {
 
     if ($(this).hasClass('selected')) {
       $(this).removeClass('selected');
-      var filters = $('.selectedfilters').attr('filters');
-      filters = filters.split(' ');
+      var filters = getFilters();
 
       //Check if the very last bucket in a tile is unselected
       var needRecalculate = !$(this).siblings('.selected').length;
@@ -512,12 +566,27 @@ $(document).ready(function() {
     }
   });
   $( window ).resize(function() {
+    $('body').removeClass('landscape-mode');
+    if (isLandscapeMode()) {
+      $('body').addClass('landscape-mode');
+      if (isMobile.any() && $('#landscapeMode').length) {
+        $('#landscapeMode').modal('show');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
+        $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
+      }
+    } else {
+      if(isMobile.any()) {
+        $('#landscapeMode').modal('hide');
+      }
+    }
+
     //DEMO-318 an unused horizontal stripe between tiles and itin summaries
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
     var navHeight = 50;
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
+    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
@@ -634,6 +703,35 @@ $(document).ready(function() {
     return true;
   });
 
+// DEMO-429 Collapse tiles
+  $('.clickable-tiles-area-yellow').click(function() {
+    if ($('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(false);
+    }
+    return false;
+  });
+  $('.clickable-tiles-area').click(function() {
+    shrinkTiles(true);
+    return false;
+  });
+  var tilesHeightFull = $('#tiles').outerHeight();
+  var shrinkTiles = function (revert) {
+    if (!revert) {
+      if ($('#tiles').outerHeight() !== 50) {
+        tilesHeightFull = $('#tiles').outerHeight();
+        $('#tiles').outerHeight(50);
+        recalculateBodyPadding();
+        $('.clickable-tiles-area').removeClass('hidden');
+      }
+    } else {
+        $('.clickable-tiles-area').addClass('hidden');
+        $('#tiles').outerHeight(tilesHeightFull);
+        recalculateBodyPadding();
+        initScroll = $(window).scrollTop();
+    }
+  };
+
+  var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -643,6 +741,7 @@ $(document).ready(function() {
       $('#' + details).toggle();
 
       if ($('#' + details).is(':visible')) {
+        expandedItitns++;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -656,6 +755,7 @@ $(document).ready(function() {
           }
         });
       } else {
+        expandedItitns--;
         // disabled, TODO: confirm this functionality still needed
         /*if ($(this).hasClass('recommended')) {
           $(this).find('.itinerary-airline').find('span:last')
@@ -673,8 +773,23 @@ $(document).ready(function() {
       location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
     }
   });
-  $(window).scroll(function(){
+  var initScroll = 0;
+  var scrollStarted = false;
+  $(window).scroll(function() {
+    if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
+      shrinkTiles(true);
+    }
+    if (!scrollStarted && expandedItitns) {
+      initScroll = $(this).scrollTop();
+      scrollStarted = true;
+    }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
+
+    //DEMO-429 Collapse tiles
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
+      shrinkTiles(false);
+      scrollStarted = false;
+    }
   });
   $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
     var id = $(this).parents('.itinerary').attr('id');
@@ -1297,7 +1412,7 @@ $(document).ready(function() {
   });
 
   var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1) {
+  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
     // hide arrow in 5 sec
@@ -1346,3 +1461,31 @@ function setCookie(name, value, options) {
 
   document.cookie = updatedCookie;
 }
+
+function _displayDimmer(flag) {
+
+  if (flag) {
+
+    $('.dimmer').off('click').on('click', function(){
+      _displayDimmer(false);
+    });
+
+    $(document)
+      .off('mousewheel').on('mousewheel', function(event){
+        console.log('mousewheel', event);
+        event.stopPropagation();
+        return false;
+      })
+      .off('swipe').on('swipe', function(event){
+        console.log('swipe', event);
+        event.stopPropagation();
+        return false;
+      });
+
+  } else {
+    $('.dimmer').hide();
+  }
+
+}
+
+
