@@ -18,10 +18,28 @@
   </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-  <body class="search-result">
+    <body class="search-result">
   <% } else {%>
-  <body>
+    <body>
   <% } %>
+
+  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
+    <div class="dimmer">
+      <div class="dimmer-close"></div>
+      <div class="dimmer-arrow"></div>
+      <div class="dimmer-text-light">
+        <div>We've found <%= searchResult.length %> flights.</div>
+        <% if (searchResult.length > 10) { %>
+        <div>Sounds like too many?</div>
+        <% } %>
+      </div>
+      <div class="dimmer-text-dark">
+        <div>Please use filters to</div>
+        <div>narrow down search results</div>
+      </div>
+    </div>
+    <% } %>
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->

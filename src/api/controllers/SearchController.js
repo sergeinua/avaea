@@ -212,11 +212,11 @@ module.exports = {
       }
       Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
         UserAction.saveAction(req.user, 'order_tiles', tiles);
-        var itinerariesData = {
-          searchUuid   : itineraries.guid,
-          searchParams : params,
-          count        : itineraries.length
-        };
+        var itinerariesData = _.merge({
+          searchUuid    : itineraries.guid,
+          searchParams  : params,
+          countAll      : itineraries.length
+        }, Search.getStatistics(itineraries));
         UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
         //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));

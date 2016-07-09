@@ -158,6 +158,46 @@ module.exports = {
    */
   getHeadContent: function(searchId) {
     return '<span onclick="window.location.href=\'/result?s='+searchId+'\'">&lt; Flights</span>';
+  },
+
+  getStatistics: function (itineraries) {
+    var airportsStatistic = [];
+    itineraries.forEach(function (item) {
+      if (!item.citypairs) return;
+      item.citypairs.forEach(function (_it) {
+        if (_.isArray(_it.path) && _it.path.length) {
+          _it.path.forEach(function (path) {
+            var indxCode = _.findIndex(airportsStatistic, {code: path});
+            if (indxCode == -1) {
+              airportsStatistic.push({code: path, count: 1});
+            } else {
+              airportsStatistic[indxCode].count++;
+            }
+          });
+        }
+      });
+    });
+
+    var searchServicesData = {},
+      searchServices = _.uniq(_.map(itineraries, function (item) {
+        return item.service;
+      }));
+
+    if (searchServices.length) {
+      searchServicesData = _.map(searchServices, function (item) {
+        var _tmpFilter = _.filter(itineraries, {service: item}) || [];
+        return {
+          name: item,
+          count: _tmpFilter.length,
+          time: utils.timeLogGetHr(item)
+        };
+      });
+    }
+
+    return {
+      searchInfoByProviders : searchServicesData,
+      searchInfoAirports   : (airportsStatistic.length ? _.sortBy(airportsStatistic, 'count').reverse() : [])
+    };
   }
 };
 

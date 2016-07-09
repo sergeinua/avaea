@@ -1,0 +1,307 @@
+<%
+/* global profile_fields */
+%>
+<% if (selectedAirline) { %>
+  <form action="/<%= selectedAirline%>/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+<% } else { %>
+    <form action="/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+<% } %>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+<!--BASE INFO/FAMILY-->
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          Personal information
+        </a>
+      </h4>
+    </div>
+
+<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+
+
+    <label>First Name</label>
+    <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" value="<%= profile_fields.personal_info.first_name %>" required/>
+    <label>Middle Name</label>
+    <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"  value="<%= profile_fields.personal_info.middle_name %>" />
+    <label>Last Name</label>
+    <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name"  value="<%= profile_fields.personal_info.last_name %>"  required/>
+    <label>Gender</label>
+    <%- _res = widgets.dropDownList(profile_fields.personal_info, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
+    <label>Birthday</label>
+    <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"  value="<%= profile_fields.personal_info.birthday %>" />
+    <label>Passenger Type</label>
+    <%- _res = widgets.dropDownList(profile_fields.personal_info, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
+    <label>Address</label>
+    <input type="text" name="street" class="form-control input-sm" placeholder="Address"  value="<%= profile_fields.personal_info.address.street %>" />
+    <label>City</label>
+    <input type="text" name="city" class="form-control input-sm" placeholder="City"  value="<%= profile_fields.personal_info.address.city %>" />
+    <label>State</label>
+    <input type="text" name="state" class="form-control input-sm" placeholder="State"  value="<%= profile_fields.personal_info.address.state %>" />
+    <label>Zip Code</label>
+    <input type="text" name="zip_code" class="form-control input-sm" placeholder="ZipCode"  value="<%= profile_fields.personal_info.address.zip_code %>" />
+    <label>Country</label>
+    <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"  value="<%= profile_fields.personal_info.address.country_code %>" />
+
+    <label>Ethnicity (Race)</label>
+    <%- _res = widgets.dropDownList(profile_fields.personal_info, "ethnicity", Profile.attr_ethnicity, {"class": "form-control input-sm"}) %>
+
+    <!--In Case of Emergency Notify-->
+    <label>In Case of Emergency Notify</label>
+    <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= profile_fields.notify_contact.name %>" />
+    <label>Emergency Notify Phone</label>
+    <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Emergency Notify Phone" value="<%= profile_fields.notify_contact.phone %>"/>
+
+
+    <label>Show Tiles</label>
+    <input type="checkbox" name="show_tiles" class="form-control input-sm" value="true" <% if(profile_fields.personal_info.show_tiles) {%>checked<%} %>/>
+
+
+<!--Employer-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+        <legend style="margin-bottom:0; font-size:18px;">Employer</legend>
+        <div class="panel-body">
+            <label>Company Name</label>
+            <input type="text" name="employer.company_name" class="form-control input-sm" placeholder="Company Name" value="<%= profile_fields.employer.company_name %>"/>
+            <label>Address</label>
+            <input type="text" name="employer.address" class="form-control input-sm" placeholder="Address"  value="<%= profile_fields.employer.address %>"/>
+            <label>Phone number</label>
+            <input type="tel" name="employer.phone" class="form-control input-sm" placeholder="Phone number"  value="<%= profile_fields.employer.phone %>"/>
+            <label>Position Held</label>
+            <input type="text" name="employer.position" class="form-control input-sm" placeholder="Position Held"  value="<%= profile_fields.employer.position %>"/>
+            <label>Salary Range</label>
+            <select name="employer.salary" class="form-control input-sm">
+                <option value='' <% if(!profile_fields.employer.salary) {%>selected<%} %>>please choose</option>
+                <option value="$50K - $100K"<% if(profile_fields.employer.salary == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
+                <option value="$100K - $200K"<% if(profile_fields.employer.salary == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
+                <option value="$200K - $300K"<% if(profile_fields.employer.salary == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
+                <option value="Over $300K"<% if(profile_fields.employer.salary == 'Over $300K') {%> selected<%} %>>Over $300K</option>
+            </select>
+            <label>Total Household Income</label>
+            <select name="employer.income" class="form-control input-sm">
+                <option value='' <% if(!profile_fields.employer.income) {%>selected<%} %>>please choose</option>
+                <option value="$50K - $100K"<% if(profile_fields.employer.income == '$50K - $100K') {%> selected<%} %>>$50K - $100K</option>
+                <option value="$100K - $200K"<% if(profile_fields.employer.income == '$100K - $200K') {%> selected<%} %>>$100K - $200K</option>
+                <option value="$200K - $300K"<% if(profile_fields.employer.income == '$200K - $300K') {%> selected<%} %>>$200K - $300K</option>
+                <option value="Over $300K"<% if(profile_fields.employer.income == 'Over $300K') {%> selected<%} %>>Over $300K</option>
+            </select>
+        </div>
+    </fieldset>
+
+    </div>
+  </div>
+</div>
+<!--END OF BASE INFO-->
+
+
+<!--FAMILY-->
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingFour">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Might travel with you
+        </a>
+      </h4>
+    </div>
+
+    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+      <div class="panel-body">
+
+<!--Name(s) of Family Members who might travel with you-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+      <legend style="margin-bottom:0; font-size:18px;">Travelers</legend>
+        <div class="panel-body">
+
+<%
+if (profile_fields.travel_with) {
+  isFirst = true
+  iterator = 0
+  profile_fields.travel_with.forEach(function (travel_with) { %>
+
+      <div id="travelWith" fieldset-number="<%= iterator %>">
+      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+      <label>First Name</label>
+
+      <% if (profile_fields.travel_with.length > 1) {%>
+        <input class="remove-fieldset" type="button" value="remove" fieldset="travel_with" iterator="<%= iterator %>"/>
+      <% } %>
+
+      <input type="text" name="travel_with.first_name[]" class="form-control input-sm" placeholder="First Name" value="<%= travel_with.first_name %>"/>
+      <label>Last Name</label>
+      <input type="text" name="travel_with.last_name[]" class="form-control input-sm" placeholder="Last Name" value="<%= travel_with.last_name %>"/>
+      <label>Gender</label>
+      <select name="travel_with.gender[]" class="form-control input-sm">
+          <option value=''<% if(!travel_with.gender) {%> selected<%} %>>please choose</option>
+          <option value="Male"<% if(travel_with.gender == "Male") {%> selected<%} %>>Male</option>
+          <option value="Female"<% if(travel_with.gender == "Female") {%> selected<%} %>>Female</option>
+      </select>
+      <label>Date of birth</label>
+      <input type="date" name="travel_with.date_of_birth[]" class="form-control input-sm" value="<%= travel_with.date_of_birth %>"/>
+      </div>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="travel_with"><%= __('One more')%></button>
+        </div>
+      </fieldset>
+
+
+    </div>
+  </div>
+</div>
+<!--END OF FAMILY-->
+
+
+<div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingTwo">
+      <h4 class="panel-title">
+        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          Airlines/Programs
+        </a>
+      </h4>
+    </div>
+    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+      <div class="panel-body">
+<!--AIRLINES/PROGRAMS-->
+<!--Preferred Airlines-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+      <legend style="margin-bottom:0; font-size:18px;">Preferred Airlines</legend>
+        <div class="panel-body">
+
+<%
+if (profile_fields.preferred_airlines) {
+  isFirst = true
+  iterator = 0
+  profile_fields.preferred_airlines.forEach(function (preferred_airlines) { %>
+    <div id="preferredAirlines" fieldset-number="<%= iterator %>">
+      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+      <label>Preferred Airlines type</label>
+
+      <% if (profile_fields.preferred_airlines.length > 1) {%>
+        <input class="remove-fieldset" type="button" value="remove" fieldset="preferred_airlines" iterator="<%= iterator %>"/>
+      <% } %>
+
+      <select name="preferred_airlines.travelType[]" class="form-control input-sm">
+        <option value=''<% if(preferred_airlines.travelType) {%> selected<%} %>>please choose</option>
+        <option value="Domestic Short Haul Trips"<% if(preferred_airlines.travelType == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
+        <option value="Domestic Long Haul Flights"<% if(preferred_airlines.travelType == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
+        <option value="International Flights"<% if(preferred_airlines.travelType == 'International Flights') {%> selected<%} %>>International Flights</option>
+      </select>
+      <label>Airline Name</label>
+      <input type="text" name="preferred_airlines.airlineName[]" value="<%= preferred_airlines.airlineName %>" class="form-control input-sm" placeholder="Airline Name"/>
+    </div>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
+
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferred_airlines"><%= __('One more')%></button>
+    </div>
+    </fieldset>
+
+    <!--Airlines Frequent Flier Miles Programs-->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+      <legend style="margin-bottom:0; font-size:18px;">Airlines Frequent Flier Miles Programs</legend>
+      <div class="panel-body">
+
+<%
+if (profile_fields.miles_programs) {
+  isFirst = true
+  iterator = 0
+  profile_fields.miles_programs.forEach(function (miles_programs) { %>
+    <div id="milesPrograms" fieldset-number="<%= iterator %>">
+      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+      <label>Airline Name</label>
+
+      <% if (profile_fields.miles_programs.length > 1) {%>
+      <input class="remove-fieldset" type="button" value="remove" fieldset="miles_programs" iterator="<%= iterator %>"/>
+      <% } %>
+
+      <input type="text" name="miles_programs.airlineName[]" class="form-control input-sm" placeholder="Airline Name" value="<%= miles_programs.airline_name %>"/>
+      <label>Account Number</label>
+      <input type="text" name="miles_programs.account_number[]" class="form-control input-sm" placeholder="Account Number" value="<%= miles_programs.account_number %>"/>
+      <label>Frequent Flier Miles</label>
+      <input type="text" name="miles_programs.flier_miles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" value="<%= miles_programs.flier_miles %>"/>
+      <label>Expiration Date</label>
+      <input type="text" name="miles_programs.expiration_date[]" class="form-control input-sm" placeholder="Expiration Date" value="<%= miles_programs.expiration_date %>"/>
+    </div>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
+
+      </div>
+      <div class="panel-footer">
+        <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="miles_programs"><%= __('One more')%></button>
+      </div>
+      </fieldset>
+      <!--Airline Club Lounge Memberships-->
+      <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+        <legend style="margin-bottom:0; font-size:18px;">Airline Club Lounge Memberships</legend>
+       <div class="panel-body">
+
+<%
+if (profile_fields.lounge_membership) {
+  isFirst = true
+  iterator = 0
+  profile_fields.lounge_membership.forEach(function (lounge_membership) { %>
+    <div id="loungeMembership" fieldset-number="<%= iterator %>">
+      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+      <label>Airline Name</label>
+
+      <% if (profile_fields.lounge_membership.length > 1) {%>
+      <input class="remove-fieldset" type="button" value="remove" fieldset="lounge_membership" iterator="<%= iterator %>"/>
+      <% } %>
+
+      <input type="text" name="lounge_membership.airline_name[]" class="form-control input-sm" placeholder="Airline Name" value="<%= lounge_membership.airline_name %>"/>
+      <label>Club Membership Number</label>
+      <input type="text" name="lounge_membership.membership_number[]" class="form-control input-sm" placeholder="Club Membership Number" value="<%= lounge_membership.membership_number %>"/>
+      <label>Expiration Date</label>
+      <input type="date" name="lounge_membership.expiration_date[]" class="form-control input-sm" value="<%= lounge_membership.expiration_date %>"/>
+    </div>
+<%
+    isFirst = false
+    iterator++
+  })
+}
+%>
+
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="lounge_membership"><%= __('One more')%></button>
+        </div>
+    </fieldset>
+
+    </div>
+  </div>
+</div>
+<!--END OF AIRLINES/PROGRAMS-->
+
+<style>
+    body { padding-bottom: 70px; }
+</style>
+
+<div class="container">
+    <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
+      <div class="container-fluid">
+        <button type="submit" class="btn btn-sm btn-primary btn-block" >Update</button>
+      </div>
+    </nav>
+</div>
+</form>
