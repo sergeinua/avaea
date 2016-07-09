@@ -1336,21 +1336,28 @@ div.nothing-found:before{
 }
 
 .dimmer-close {
-  float: right;
+  position: absolute;
+  right: 16px;
+  top: 16px;
   width: 24px;
   height: 24px;
-  margin-right: 16px;
-  margin-top: 16px;
   background: url('/images/avaea-sprite.png') -50px 100px;
   cursor: pointer;
 }
 
-.dimmer-row {
+.dimmer-arrow {
   background: url('/images/avaea-sprite.png') -100px -400px;
   cursor: pointer;
   width: 43px;
   height: 75px;
   margin: 67px auto 0;
+  display: block;
+}
+
+@media (max-height: 510px) {
+  .dimmer-arrow {
+    display: none;
+  }
 }
 
 .dimmer-text-light {
@@ -1360,7 +1367,7 @@ div.nothing-found:before{
   height: 30px;
 
   opacity:0.5;
-  font-family:WhitneyCondensed-Medium;
+  font-family:WhitneyHTF-MediumCondensed;
   font-size:16px;
   color:#101742;
   text-align:center;
@@ -1372,7 +1379,7 @@ div.nothing-found:before{
   margin-top: 15px;
   height: 54px;
 
-  font-family:WhitneyCondensed-Semibold;
+  font-family:WhitneyHTF-SemiBoldCondensed;
   font-size:24px;
   color:#101742;
   text-align:center;
