@@ -102,19 +102,19 @@ if( argv.hasOwnProperty("table") ) {
     // Those "All Airports" need to be updated with sum of the PAXes of all the airports in the same city
     asyncsCounter.sql_query(pgclient,
 			    "UPDATE\n" +
-			    "  airports\n" +
+			    "  "+argv.table+"\n" +
 			    "SET\n"+
 			    "  pax=s.pax\n" +
 			    "FROM \n" +
-			    "  (select city,state,country,sum(pax) pax from airports where lower(name)!='all airports' group by 1,2,3) s\n" +
+			    "  (select city,state,country,sum(pax) pax from "+argv.table+" where lower(name)!='all airports' group by 1,2,3) s\n" +
 			    "WHERE\n" +
-			    "  (lower(airports.name)='all airports')\n"+
-			    "  AND (airports.city=s.city)\n" +
+			    "  (lower("+argv.table+".name)='all airports')\n"+
+			    "  AND ("+argv.table+".city=s.city)\n" +
 			    "  AND (\n" +
-			    "    CASE WHEN COALESCE(airports.state,'')!='' THEN\n" +
-			    "      (airports.state=COALESCE(s.state,'') AND airports.country=COALESCE(s.country,''))\n" +
-			    "    ELSE \n" +
-			    "      airports.country=COALESCE(s.country,'')\n" +
+			    "    CASE WHEN COALESCE("+argv.table+".state,'')!='' THEN\n" +
+			    "      ("+argv.table+".state=COALESCE(s.state,'') AND "+argv.table+".country=COALESCE(s.country,''))\n" +
+			    "    ELSE\n"+
+			    "      "+argv.table+".country=COALESCE(s.country,'')\n" +
 			    "    END);\n"+
 			    "COMMIT;");
     asyncsCounter.wait();
