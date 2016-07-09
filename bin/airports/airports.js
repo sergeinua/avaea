@@ -60,7 +60,7 @@ if( argv.hasOwnProperty("table") ) {
         ["state"      ,"varchar"],
         ["state_short","varchar"],
         ["pax"        ,"int"],
-	["wikipedia"  ,"varchar"],
+	["wikipedia"  ,"varchar"], // New field. Will contain ALL airport properties we were able to grab from Wikipedia (not only pax)
         ["neighbors"  ,"varchar"]
     ];
     asyncsCounter.sql_query(

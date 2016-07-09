@@ -47,6 +47,8 @@ AnnaAero.prototype.run = function( argv, asyncsCounter, airports ) {
             } 
         };
 	asyncsCounter.asyncs_to_finish++;
+        // ssconvert utuility comes with Ubuntu "gnumeric" package. If it is not installed then the following code
+        // will produce an exception
 	var child = _CHILD_PROCESS.spawn("/usr/bin/ssconvert",["--export-type=Gnumeric_stf:stf_csv",url,"fd://1"],{
 	    'stdio' : ['ignore','pipe','ignore']
 	}).on('close',function( code ) {
