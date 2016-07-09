@@ -1,5 +1,3 @@
-#!/usr/bin/nodejs
-
 /////////////////////////////////////////////////////////////////
 // module globals
 /////////////////////////////////////////////////////////////////
@@ -12,6 +10,9 @@ const _LIMITED_REQUEST = _RATE_LIMITER(require('request')).to(10).per(100);
 function Googleapis() {
 };
 Googleapis.prototype.run = function( argv, asyncsCounter, airports ) {
+    if( argv.loglevel>0 ) {
+        console.log("Starting google getlocation API");
+    }
     var quota_exceeded = false;
     for( var iata_3code in airports ) {
 	var data = airports[iata_3code];
