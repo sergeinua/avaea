@@ -21,6 +21,12 @@
     ssh_opts="-o StrictHostKeyChecking=no"
     key_file=/root/.ssh/bitbucket_rsa
 
+- name: Publish branch name
+  shell: git branch > {{ dir }}/{{ commit_file }}
+
+- name: Publish commit id
+  shell: git rev-parse HEAD >> {{ dir }}/{{ commit_file }}
+
 - name: Install dependencies for migrations
   shell: npm i
   args:

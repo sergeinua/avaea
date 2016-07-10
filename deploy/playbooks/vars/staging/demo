@@ -15,5 +15,6 @@ upstart:
  log_name: staging_demo.log
 
 cache_dir: src/.tmp/public
+commit_file: src/assets/rev.txt
 
 node_env: staging
