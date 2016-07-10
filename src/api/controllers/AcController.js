@@ -32,7 +32,8 @@ module.exports = {
       "   (concat(city,',',country) ~* $1) OR "+
       "   (concat(city,' ',state) ~* $1) OR "+
       "   (concat(city,' ',state_short) ~* $1) OR "+
-      "   (concat(city,' ',country) ~* $1) " +
+      "   (concat(city,' ',country) ~* $1) OR" +
+      "   (country ~* $1) " +
       "ORDER BY "+
       "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
       "   pax DESC, "+
