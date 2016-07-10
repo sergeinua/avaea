@@ -170,7 +170,6 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
-    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   };
 
@@ -586,7 +585,6 @@ $(document).ready(function() {
     if (window.innerWidth >= 480) {
       navHeight = 30;
     }
-    $('.clickable-tiles-area-yellow').css('top', (tilesHeight - 5) + 'px');
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
 
@@ -717,9 +715,9 @@ $(document).ready(function() {
   var tilesHeightFull = $('#tiles').outerHeight();
   var shrinkTiles = function (revert) {
     if (!revert) {
-      if ($('#tiles').outerHeight() !== 50) {
+      if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() <= $('body').outerHeight()) {
         tilesHeightFull = $('#tiles').outerHeight();
-        $('#tiles').outerHeight(50);
+        $('#tiles').outerHeight(20);
         recalculateBodyPadding();
         $('.clickable-tiles-area').removeClass('hidden');
       }
