@@ -1468,17 +1468,17 @@ function _displayDimmer(flag) {
       _displayDimmer(false);
     });
 
-    $(document)
-      .off('mousewheel').on('mousewheel', function(event){
-        console.log('mousewheel', event);
-        event.stopPropagation();
-        return false;
-      })
-      .off('swipe').on('swipe', function(event){
-        console.log('swipe', event);
-        event.stopPropagation();
-        return false;
-      });
+    //$(document)
+    //  .off('mousewheel').on('mousewheel', function(event){
+    //    console.log('mousewheel', event);
+    //    event.stopPropagation();
+    //    return false;
+    //  })
+    //  .off('swipe').on('swipe', function(event){
+    //    console.log('swipe', event);
+    //    event.stopPropagation();
+    //    return false;
+    //  });
 
   } else {
     $('.dimmer').hide();
