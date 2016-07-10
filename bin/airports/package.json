@@ -1,0 +1,15 @@
+{
+  "name": "airports",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Airports importer",
+  "dependencies": {
+    "pg":"^6.0.1",
+    "deasync": "^0.1.7",
+    "csv-parser": "^1.9.3",
+    "minimist": "^1.2.0",
+    "lodash": "^4.13.1",
+    "geolib": "^2.0.18",
+    "kd.tree": "^0.1.3"
+  }
+}
