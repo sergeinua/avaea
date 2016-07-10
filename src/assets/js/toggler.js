@@ -715,7 +715,7 @@ $(document).ready(function() {
   var tilesHeightFull = $('#tiles').outerHeight();
   var shrinkTiles = function (revert) {
     if (!revert) {
-      if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() <= $('body').outerHeight()) {
+      if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() >= $('body').outerHeight()) {
         tilesHeightFull = $('#tiles').outerHeight();
         $('#tiles').outerHeight(20);
         recalculateBodyPadding();
