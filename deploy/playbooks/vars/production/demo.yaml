@@ -15,6 +15,6 @@ upstart:
   log_name: demo.log
 
 cache_dir: src/.tmp/public
-commit_file: abo/assets/rev.txt
+commit_file: src/assets/rev.txt
 
 node_env: production
