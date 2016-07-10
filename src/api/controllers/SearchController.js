@@ -135,7 +135,7 @@ module.exports = {
           topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
           returnDate: '',
-          voiceSearchQuery: req.param('voiceSearchQuery').trim() || ''
+          voiceSearchQuery: req.param('voiceSearchQuery') ? req.param('voiceSearchQuery').trim() : ''
         }
       },
       depDate = new Date();
