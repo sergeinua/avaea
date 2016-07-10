@@ -15,6 +15,8 @@ const _PROPS_PATTERN      = "(?:[^<>]*passengers[^<>]*)"+
       "|(?:based\\s+aircraft)"+
       "|(?:aircraft\\s+movements)";
 const _SUPTAG_PATTERN     = "<sup[^>]*><a[^>]*>[^<]+</a></sup>";
+const _REDIRECT_RE        = new RegExp("<ul\\s+class=['\"]redirectText['\"]><li><a\\s+href=['\"]/wiki/([^'\"]+)['\"][^<]*</a></li></ul>",
+				       "i");
 const _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|h)></tr>"+
 				       "<tr><td[^>]*><table[^>]*>"+
 				       // Depending on the airport the number of properties on the statistics section varies from 1 to 4
@@ -71,6 +73,98 @@ WikipediaScraper.prototype.query = function( params, subpage_callback ) {
 	}
     }.bind(this));
 };
+WikipediaScraper.prototype.parse_text = function( airports, complete_url, text ) {
+    var matches    = _IATA_3CODE_RE.exec(text);
+    var iata_3code = matches ? matches[1].toUpperCase() : undefined;
+    if( !iata_3code ) {
+	if( this.argv.loglevel>0 ) {
+	    console.log("Cannot find iata_3code for "+complete_url);
+	}
+    }
+    else if( !airports.hasOwnProperty(iata_3code) ) {
+	if( this.argv.loglevel>1 ) {
+	    console.log("Found airport %s but is it unknown to the rest of the code",iata_3code);
+	}
+    }
+    else {
+	matches = _PROPS_RE.exec(text);
+	if( matches && matches.length ) {
+	    var pax        = 0;
+	    var properties = {};
+	    for( var n=1; n<matches.length; n+=2 ) {
+		if( matches[n] ) {
+		    // Just grab the first number even if the triples in it are separated with commas ot periods
+		    properties[matches[n]] = matches[n+1].replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,"");
+		    if( matches[n].toLowerCase().indexOf("passenger")>=0 ) {
+			// There can be several "passenger" properties, i.e. "Domestic Passengers","International Passengers", etc
+			// Choose the largest one
+			var new_pax  = Number(properties[matches[n]])
+			if( new_pax>pax )
+			    pax = new_pax;
+		    }
+		}
+	    }
+	    if( pax>0 ) {
+		airports[iata_3code].pax = pax;
+	    }
+	    else {
+		if( this.argv.loglevel>0 ) {
+		    console.log("Cannot find any passengers in %s,properties=%j",complete_url,properties);
+		}
+	    }
+	    airports[iata_3code].wikipedia = JSON.stringify(properties);
+	    // console.log("Set properties for %s: %j",iata_3code,properties);
+	}
+	else {
+	    if( this.argv.loglevel>1 ) {
+		console.log("Cannot find statistical properties for airport %s (%s) ",iata_3code,complete_url);
+	    }
+	}
+    }
+};
+WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_count ) {
+    if( redirect_count>3 ) {
+	if( this.argv.loglevel>0 ) {
+	    console.log("Got to parse %s with redirect_count=%d, ignoring it",complete_url,redirect_count);
+	}
+    }
+    else {
+	this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
+	    if( this.argv.loglevel>1 ) {
+		console.log("Parsing "+complete_url);
+	    }
+	    var json = {};
+	    try {
+		json = JSON.parse(body);
+	    }
+	    catch( err ) {
+		console.log("JSON cannot parse the body of %s (%j)",complete_url,err);
+		return;
+	    }
+	    if( json.parse && json.parse.text && json.parse.text['*']) {
+		// I tried to parse HTML but finding in the resulting structure is even worse
+		// So apply regexps to find statistical properties in the HTML
+		var text       = json.parse.text['*'].replace(/[\n\r]/g,"");
+		var matches    = _REDIRECT_RE.exec(text);
+		if( matches ) {
+		    var redirect_url = _WIKIPEDIA_API_BASE+"action=parse&page="+matches[1]+"&format=json&prop=text";
+		    if( this.argv.loglevel>0 ) {
+			console.log("Got redirect from %s to %s",complete_url,redirect_url);
+		    }
+		    this.parse(airports,redirect_url,redirect_count+1);
+		}
+		else {
+		    this.parse_text(airports,complete_url,text);
+		}
+	    }
+	    else {
+		if( this.argv.loglevel>0 ) {
+		    console.log("ERROR: cannot parse JSON of "+complete_url);
+		}
+	    }
+	}.bind(this));
+    }
+};
 WikipediaScraper.prototype.run = function( argv, asyncsCounter, airports ) {
     // Capture some params in this
     this.argv              = argv;
@@ -89,78 +183,13 @@ WikipediaScraper.prototype.run = function( argv, asyncsCounter, airports ) {
 		return; // see http://prntscr.com/bmu301
 	    if( this.parsed_pageids.hasOwnProperty(pageid) ) {
 		if( this.argv.loglevel>0 ) {
-		    console.log("Pageid "+pageid+" has already been parsed: %j",this.parsed_pageids[pageid]);
+		    console.log("Pageid "+pageid+" has already been parsed at %s",this.parsed_pageids[pageid]);
 		}
 	    }
 	    else if( /^.+airport$/i.exec(page.title) ) {
 		const complete_url = _WIKIPEDIA_API_BASE+"action=parse&pageid="+pageid+"&format=json&prop=text";
-		if( this.argv.loglevel>1 ) {
-		    console.log("Parsing "+complete_url);
-		}
-		this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
-		    var json = JSON.parse(body);
-		    if( json.parse && json.parse.text && json.parse.text['*']) {
-			// I tried to parse HTML but finding in the resulting structure is even worse
-			// So apply regexps to find statistical properties in the HTML
-                        // TODO: handle wikipedia redirects: http://prntscr.com/bq9um8
-			var text       = json.parse.text['*'].replace(/[\n\r]/g,"");
-			var matches    = _IATA_3CODE_RE.exec(text);
-			var iata_3code = matches ? matches[1].toUpperCase() : undefined;
-			if( !iata_3code ) {
-			    if( this.argv.loglevel>0 ) {
-				console.log("Cannot find iata_3code for "+complete_url);
-			    }
-			}
-			else if( !airports.hasOwnProperty(iata_3code) ) {
-			    if( this.argv.loglevel>1 ) {
-				console.log("Found airport %s but is it unknown to the rest of the code",iata_3code);
-			    }
-			}
-			else {
-			    matches = _PROPS_RE.exec(text);
-			    if( matches && matches.length ) {
-				var properties = {};
-				var prop_count = 0;
-				var passengers = 0
-				for( var n=1; n<matches.length; n+=2 ) {
-				    if( matches[n] ) {
-					// Just grab the first number even if the triples in it are separated with commas ot periods
-					properties[matches[n]] = matches[n+1].replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,"");
-					if( matches[n].toLowerCase().indexOf("passenger")>=0 ) {
-					    // There can be several "passenger" properties, i.e. "Domestic Passengers","International Passengers", etc
-					    // Choose the largest one
-					    var new_passengers = Number(properties[matches[n]])
-					    if( new_passengers>passengers )
-						passengers = new_passengers;
-					}
-					prop_count++;
-				    }
-				}
-				if( passengers>0 ) {
-				    airports[iata_3code] = _COMMON.set_pax_in_airport_data(airports[iata_3code],passengers);
-				    this.parsed_pageids[pageid] = properties;
-				}
-				else {
-				    if( this.argv.loglevel>0 ) {
-					console.log("Cannot find any passengers in "+page.title+",properties=%j",properties);
-				    }
-				}
-				airports[iata_3code].wikipedia = JSON.stringify(properties);
-				// console.log("Set properties for %s: %j",iata_3code,properties);
-			    }
-			    else {
-				if( this.argv.loglevel>1 ) {
-				    console.log("Cannot find statistical properties for airport %s (%s) ",iata_3code,complete_url);
-				}
-			    }
-			}
-		    }
-		    else {
-			if( this.argv.loglevel>0 ) {
-			    console.log("ERROR: cannot parse JSON of "+complete_url);
-			}
-		    }
-		}.bind(this));
+		this.parse(airports,complete_url,0);
+		this.parsed_pageids[pageid] = complete_url;
 	    }
 	});
     });
