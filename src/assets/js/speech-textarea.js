@@ -164,10 +164,9 @@
     if (recognition && recognizing) {
       recognition.stop();
     }
-
+    var heightNav = $('.navbar-header').outerHeight(true);
     demo(function(res) {
       loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
-      var heightNav = $('.navbar-header').parent('nav').height();
       $('.navbar-header').height(heightNav);
     });
 
