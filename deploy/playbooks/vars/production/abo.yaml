@@ -15,5 +15,6 @@ upstart:
  log_name: abo.log
 
 cache_dir: abo/.tmp/public
+commit_file: abo/assets/rev.txt
 
 node_env: production

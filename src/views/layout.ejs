@@ -9,19 +9,39 @@
     <meta http-equiv='Content-Language' content='en-US' />
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
     <!--STYLES-->
 
     <!--STYLES END-->
+
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
   </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-  <body class="search-result">
+    <body class="search-result">
   <% } else {%>
-  <body>
+    <body>
   <% } %>
+
+  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
+    <div class="dimmer">
+      <div class="dimmer-close"></div>
+      <div class="dimmer-arrow"></div>
+      <div class="dimmer-text-light">
+        <div>We've found <%= searchResult.length %> flights.</div>
+        <% if (searchResult.length > 10) { %>
+        <div>Sounds like too many?</div>
+        <% } %>
+      </div>
+      <div class="dimmer-text-dark">
+        <div>Please use filters to</div>
+        <div>narrow down search results</div>
+      </div>
+    </div>
+    <% } %>
+
     <nav class="navbar navbar-default navbar-fixed-top">
       <div id="main_title">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -174,6 +194,7 @@
     <!--SCRIPTS-->
 
     <!--SCRIPTS END-->
+
     <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <!-- adding hammer.js library with jquery support -->

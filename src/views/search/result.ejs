@@ -1,4 +1,3 @@
-<% if (typeof searchResult != 'undefined' && searchResult.length) {%>
 <nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top container-fluid">
   <div class="flight-info row hide">
     <div class="col-xs-8">
@@ -105,6 +104,7 @@
     </div>
   </div-->
 </nav>
+<% if (typeof searchResult != 'undefined' && searchResult.length) {%>
 
 <div id="searchResultData" class="row">
   <% iterator = 0, itrMerch = 0; %>
@@ -189,7 +189,7 @@
       </div>
       <div class="col-xs-3 buy-button">
         <div class="btn-group text-nowrap buy-button-group">
-          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary buy-button-price"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= fare.currency %><% } %></button>
+          <button id="buy-button-<%= i %>" class="btn btn-sm btn-primary buy-button-price"><% if(sRes.currency == 'USD') { %>$<%= Math.round(sRes.price) %> <% } else { %><%= Math.round(sRes.price) %> <%= sRes.currency %><% } %></button>
           <button type="button" class="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
           </button>
@@ -271,11 +271,9 @@
     }
 </style>
 
-<!--<button id="buy_button" class="btn btn-sm btn-primary btn-block center-block" style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" disabled><%= __('Order') %></button>-->
-
 <% } else { %>
-    <div class="alert alert-danger" role="alert" id="result_empty"><%= __('We have found no flights connecting these destinations') %></div>
-    <a href="/search"  class="btn btn-sm btn-primary btn-block center-block"  style="position: fixed; bottom: 0px;width: 200px;left:50%; margin-left: -100px;" role="button"><%= __('Back to search') %></a>
+    <div class="nothing-found">No matching flights</div>
+    <a href="/search"  class="btn btn-sm btn-primary btn-block center-block new-search-button" role="button"><%= __('Start new search') %></a>
 <% } %>
 
 <form action="/buy" method="post" id="booking_form" >
@@ -284,3 +282,6 @@
   <input type="hidden" name="passengers" id="passengers" value="<%= searchParams.passengers %>"/>
 </form>
 
+<script>
+  var GlobalSearchResultCount = <%= (typeof searchResult != 'undefined') ? searchResult.length : 0  %>;
+</script>

@@ -6,6 +6,7 @@
   var start_timestamp;
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
+  var clear_button = $('#clear_button');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
@@ -99,9 +100,13 @@
         showButtons(false);
       }
     };
-
   }
 
+  clear_button.click(function (e) {
+    final_textarea.val('');
+    showButtons(true);
+    final_textarea.focus();
+  });
 
   final_textarea.keyup(function () {
     var _value = $.trim($(this).val());
@@ -160,10 +165,11 @@
       recognition.stop();
     }
     var heightNav = $('.navbar-header').outerHeight(true);
-    var res = demo();
-    loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
+    demo(function(res) {
+      loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
+      $('.navbar-header').height(heightNav);
+    });
 
-    $('.navbar-header').css('height', heightNav);
   });
 
   function notSupported() {
@@ -227,7 +233,7 @@
       },
       dataType: 'json'
     }).done(function( msg ) {
-      console.log(msg);
+      log(msg);
     });
   }
 
@@ -236,135 +242,135 @@
    * I would like to fly from San Francisco to Kiev on 30th the first class with my son return on July 30th
    * I need 2 tickets from San Jose to Moscow on July 10th returning two weeks later
    */
-  function demo() {
-    log(final_textarea.val());
-    var text = $.trim(final_textarea.val());
-    var out_field = '';
-    var result  = {};
+  function demo(callback) {
+    $.ajax({
+      url: '/voice/parse',
+      type: 'get',
+      data: {q: $.trim(final_textarea.val())},
+      dataType: 'json'
+    }).done(function( result ) {
 
-    var parser = new AvaeaTextParser();
-    parser.run(text);
-    result.origin_airport      = parser.origin_airport    ? parser.origin_airport.value : undefined;
-    result.destination_airport = parser.return_airport    ? parser.return_airport.value : undefined;
-    result.origin_date         = parser.origin_date       ? parser.origin_date.value : false;
-    result.return_date         = parser.return_date       ? parser.return_date.value : false;
-    result.type                = parser.type;
-    result.number_of_tickets   = parser.number_of_tickets ? parser.number_of_tickets.value : undefined;
-    result.class_of_service    = parser.class_of_service  ? parser.class_of_service.value : undefined;
+      result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
+      result.return_date = result.return_date ? new Date(result.return_date) : false;
 
-    if (/Fly me to the moon/i.exec(text)) {
-      out_field = "Meri says: Fill my heart with song and \n"
-      + "Let me sing for ever more You are all I long for \n"
-      + "All I worship and adore";
-      return false;
-    }
-    out_field += "Meri says: ";
+      log(final_textarea.val());
+      var text = $.trim(final_textarea.val());
+      var out_field = '';
 
-    if (result.origin_airport || result.destination_airport) {
-      if (result.origin_airport) {
-        $.ajax({
-          url: '/ac/airports',
-          type: 'get',
-          data: {q: $.trim(result.origin_airport), l: 1},
-          dataType: 'json'
-        }).done(function( msg ) {
-          if (msg && msg.length) {
-            setAirportData('originAirport', msg[0]);
-            drawAirportData('originAirport');
-          }
-        });
-      } else result.origin_airport = "an unknown airport";
-      if (result.destination_airport) {
-        $.ajax({
-          url: '/ac/airports',
-          type: 'get',
-          data: {q: $.trim(result.destination_airport), l: 1},
-          dataType: 'json'
-        }).done(function( msg ) {
-          if (msg && msg.length) {
-            setAirportData('destinationAirport', msg[0]);
-            drawAirportData('destinationAirport');
-          }
-        });
-      } else result.destination_airport = "an unknown airport";
-      out_field += " here is what I understood -"
-      + " The trip is from " + result.origin_airport + " to " + result.destination_airport;
-    } else {
-      out_field += " I did not understand where you are flying to.";
-      return false;
-    }
-
-    if (result.type == 'round_trip') {
-      $('#round_trip').trigger('click');
-    }
-    if (result.type == 'one_way') {
-      $('#one_way').trigger('click');
-    }
-
-    if (result.origin_date || result.return_date) {
-      var leaving = "an unknown date", returning;
-      if (result.origin_date) {
-        var _month = result.origin_date.getMonth() + 1,
-          _day = result.origin_date.getDate();
-        if (_month < 10) _month = '0' + _month;
-        if (_day < 10) _day = '0' + _day;
-        $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
-        var picker = $('#dr_picker').data('DateTimePicker');
-        picker.clear();
-        picker.date(result.origin_date);
-        leaving = result.origin_date.toDateString();
+      if (/Fly me to the moon/i.exec(text)) {
+        out_field = "Meri says: Fill my heart with song and \n"
+          + "Let me sing for ever more You are all I long for \n"
+          + "All I worship and adore";
+        return callback(false);
       }
-      if (result.return_date) {
-        var _month = result.return_date.getMonth() + 1,
-          _day = result.return_date.getDate();
-        if (_month < 10) _month = '0' + _month;
-        if (_day < 10) _day = '0' + _day;
-        $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
-        var picker = $('#dr_picker').data('DateTimePicker');
-        picker.date(result.return_date);
-        returning = result.return_date.toDateString();
+      out_field += "Meri says: ";
+
+      if (result.origin_airport || result.destination_airport) {
+        if (result.origin_airport) {
+          $.ajax({
+            url: '/ac/airports',
+            type: 'get',
+            data: {q: $.trim(result.origin_airport), l: 1},
+            dataType: 'json'
+          }).done(function( msg ) {
+            if (msg && msg.length) {
+              setAirportData('originAirport', msg[0]);
+              drawAirportData('originAirport');
+            }
+          });
+        } else result.origin_airport = "an unknown airport";
+        if (result.destination_airport) {
+          $.ajax({
+            url: '/ac/airports',
+            type: 'get',
+            data: {q: $.trim(result.destination_airport), l: 1},
+            dataType: 'json'
+          }).done(function( msg ) {
+            if (msg && msg.length) {
+              setAirportData('destinationAirport', msg[0]);
+              drawAirportData('destinationAirport');
+            }
+          });
+        } else result.destination_airport = "an unknown airport";
+        out_field += " here is what I understood -"
+          + " The trip is from " + result.origin_airport + " to " + result.destination_airport;
+      } else {
+        out_field += " I did not understand where you are flying to.";
+        return callback(false);
       }
 
-      $('#date_select_top').trigger('click');
+      if (result.type == 'round_trip') {
+        $('#round_trip').trigger('click');
+      }
+      if (result.type == 'one_way') {
+        $('#one_way').trigger('click');
+      }
 
-      out_field += ", leaving on " + leaving + " " + (returning ? " returning on " + returning + " " : ".");
-    } else {
-      out_field += " I did not find dates in your request. ";
-      return false;
-    }
-
-    if (result.class_of_service) {
-      $('input[name=preferedClass]').each(function (i, o) {
-        var _txt = $(o).parents('label').text();
-        if (_txt.toLowerCase().indexOf(result.class_of_service.toLowerCase()) != -1) {
-          $(o).prop('checked', true);
-          $(o).parents('label').trigger('click');
+      if (result.origin_date || result.return_date) {
+        var leaving = "an unknown date", returning;
+        if (result.origin_date) {
+          var _month = result.origin_date.getMonth() + 1,
+            _day = result.origin_date.getDate();
+          if (_month < 10) _month = '0' + _month;
+          if (_day < 10) _day = '0' + _day;
+          $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+          var picker = $('#dr_picker').data('DateTimePicker');
+          picker.clear();
+          picker.date(result.origin_date);
+          leaving = result.origin_date.toDateString();
         }
-      });
-    }
+        if (result.return_date) {
+          var _month = result.return_date.getMonth() + 1,
+            _day = result.return_date.getDate();
+          if (_month < 10) _month = '0' + _month;
+          if (_day < 10) _day = '0' + _day;
+          $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+          var picker = $('#dr_picker').data('DateTimePicker');
+          picker.date(result.return_date);
+          returning = result.return_date.toDateString();
+        }
 
-    if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
-      out_field += " You need " + result.number_of_tickets
-      + (result.number_of_tickets == 1 ? " ticket" : " tickets") + " "
-      + (result.class_of_service ? " in " + result.class_of_service + " class " : "") + ". \n";
-      if (result.number_of_tickets == "multiple") {
-        result.number_of_tickets = 4;
+        $('#date_select_top').trigger('click');
+
+        out_field += ", leaving on " + leaving + " " + (returning ? " returning on " + returning + " " : ".");
+      } else {
+        out_field += " I did not find dates in your request. ";
+        return callback(false);
       }
 
-      if (digits[result.number_of_tickets]) {
-        $('#passengers').val(result.number_of_tickets);
-        $('.passengers_count').text(digits[result.number_of_tickets]);
+      if (result.class_of_service) {
+        $('input[name=preferedClass]').each(function (i, o) {
+          var _txt = $(o).parents('label').text();
+          if (_txt.toLowerCase().indexOf(result.class_of_service.toLowerCase()) != -1) {
+            $(o).prop('checked', true);
+            $(o).parents('label').trigger('click');
+          }
+        });
       }
-    }
 
-    if (result.class_of_service) {
-      out_field += " You are travelling in " + result.class_of_service + " class.";
-      if (serviceClass && serviceClass[result.class_of_service]) {
-        $('#preferedClass').val(result.class_of_service);
-        $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
+      if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
+        out_field += " You need " + result.number_of_tickets
+          + (result.number_of_tickets == 1 ? " ticket" : " tickets") + " "
+          + (result.class_of_service ? " in " + result.class_of_service + " class " : "") + ". \n";
+        if (result.number_of_tickets == "multiple") {
+          result.number_of_tickets = 4;
+        }
+
+        if (digits[result.number_of_tickets]) {
+          $('#passengers').val(result.number_of_tickets);
+          $('.passengers_count').text(digits[result.number_of_tickets]);
+        }
       }
-    }
 
-    return true;
+      if (result.class_of_service) {
+        out_field += " You are travelling in " + result.class_of_service + " class.";
+        if (serviceClass && serviceClass[result.class_of_service]) {
+          $('#preferedClass').val(result.class_of_service);
+          $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
+        }
+      }
+
+      return callback(true);
+    });
   }
 })();

@@ -15,5 +15,6 @@ upstart:
  log_name: staging_abo.log
 
 cache_dir: abo/.tmp/public
+commit_file: abo/assets/rev.txt
 
 node_env: staging
