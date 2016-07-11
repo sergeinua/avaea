@@ -47,19 +47,18 @@ module.exports = {
     return this.findOne({user:id});
   },
 
-  make: function (form, user, externalCallback) {
-
-    var self = this, jsonStruct = {}, storedShowTiles;
+  make: function (form, user, callback) {
 
     async.series([
-      function(callback) {
+      (_cb) => {
 
-        self.findOneByUserId(user.id).exec(function (error, found) {
+        this.findOneByUserId(user.id).exec(function (error, found) {
 
           if (!error) {
 
-            storedShowTiles = found.personal_info.show_tiles;
-            jsonStruct.user = found.user;
+            var jsonStruct = {}, storedShowTiles;
+            storedShowTiles = found ? found.personal_info.show_tiles : true;
+            jsonStruct.user = found ? found.user : user;
 
             jsonStruct.personal_info = {
               first_name: form['first_name'],
@@ -110,21 +109,17 @@ module.exports = {
               });
             }
 
-            callback(jsonStruct);
+            return _cb(jsonStruct);
 
           } else {
-
-            callback(error);
-
+            return _cb(error);
           }
 
         });
 
       }
     ], function(result) {
-
-      externalCallback(result);
-
+      return callback(result);
     });
 
   }
