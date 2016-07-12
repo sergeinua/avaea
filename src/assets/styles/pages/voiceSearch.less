@@ -1,180 +1,140 @@
-.voiceSearch {
-  .twitter-typeahead {
-    width: 100%;
+.navbar-header {
+  clear: both;
+  .back-history {
+    float: left;
+    padding: 15px 6px 5px 6px;
+    font-size: 22px;
+    color: rgba(255,255,255,0.5);
   }
-  .typeahead {
-    background-color: #fff;
-    &:focus {
-      border: 2px solid #0097cf;
+  .flight-type-item {
+    &.active-choice {
+      display: none;
     }
-  }
-  .tt-query {
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  }
-  .tt-hint {
-    color: #999;
-  }
-  .tt-menu {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    margin: 12px 0;
-    padding: 8px 0;
-  }
-  .tt-suggestion, .empty-message {
-    padding: 3px 20px;
-  }
-  .tt-suggestion:hover {
-    background-color: #0097cf;
-    color: #fff;
-    cursor: pointer;
-  }
-  .tt-suggestion.tt-cursor {
-    background-color: #0097cf;
-    color: #fff;
-  }
-  .tt-suggestion p {
-    margin: 0;
-  }
-
-  .searchBox {
-    padding-right: 0;
-    display: inline;
-  }
-
-  .si-wrapper {
-    display: inline-block;
-    position: relative;
-    width: 70%;
-    input {
-      width: 100%;
-      margin: 0;
-      font-size: 2em;
-      padding: .1em;
-    }
-    button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      height: 18px;
-      width: 18px;
-      margin: 0;
-      border: 0;
+    &.voice-search-button {
+      height: 20px;
+      position: relative;
+      top: 15px;
+      width: 14px;
+      right: 29px;
       padding: 0;
-      background: none;
-      font: 0/0 a;
+      float: right;
+      .fa-microphone {
+        font-size: 22px;
+      }
+    }
+  }
+}
+#clear_button {
+  position: absolute;
+  right: -1em;
+  top: -1em;
+  width: 2em;
+  height: 2em;
+  background-color: #878BA0;
+  border-radius: 50%;
+  box-shadow:0px 4px 4px 0px rgba(0,0,0,0.30);
+}
+.flight-direction-item-voice-search {
+  padding: 10% 10%;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.1;
+  letter-spacing: 0.1px;
+  color: rgba(255, 255, 255, 0.4);
+  background-image: linear-gradient(45deg, #0081c9 0%, #004a99 100%);
+  height: 100%;
+  .voice-search-content {
+    height: 70%;
+    text-align: center;
+    position: relative;
+    .voice-search-textarea {
+      border:1px solid #004a99;
+      width: 100%;
+      height: 100%;
+      padding: 19px 15px 55px 15px;
+      color: #fff;
+      font-size:22px;
+      font-weight: bold;
+      color:#ffffff;
+      text-align:left;
+      background: #3389c5;
+      outline: none;
+      resize: none;
+    }
+    i {
+      cursor: pointer;
+      &.fa-times {
+        position: relative;
+        top: 0.33em;
+        font-size: 1.2em;
+        color: #101742;
+      }
+      &.fa-microphone, &.fa-microphone-slash, &.fa-pause, &.fa-repeat, &.fa-stop {
+        position: relative;
+        color: #fff;
+        top: -50px;
+        background:#d81159;
+        box-shadow:0px 4px 4px 0px rgba(0,0,0,0.30);
+        width:100px;
+        height:100px;
+        border-radius:100%;
+        padding-top: 15px;
+
+        &.listening {
+          border-radius: 100%;
+          -webkit-animation-name: blink; /* Chrome, Safari, Opera */
+          animation-name: blink;
+          -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+          -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+          -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+          outline: 0;
+        }
+      }
+      &.fa-repeat {
+        background:#101742;
+        box-shadow:0px 4px 4px 0px rgba(0,0,0,0.30);
+      }
     }
   }
 
-  .glyphicon {
-    font-size: 2em;
-    display: inline-block;
-    padding: 5px;
-    top: 5px;
-    margin: 0 0 0 4px;
-    border: 1px solid #808080;
+}
+
+.voice-search-buttons {
+  text-align: center;
+  width: 100%;
+  position: fixed;
+  bottom: 20px;
+  .button-search-continue {
+    background: #7c1d00;
+    box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.30);
+    border-radius: 100px;
+    width: 170px;
+    height: 44px;
+    font-family: WhitneyHTF-BookCondensed;
+    font-size: 22px;
+    color: #ffffff;
+    text-align: center;
+    margin: 0 auto;
+    padding-top: 10px;
+    text-transform: uppercase;
+    line-height: 1.0;
+    letter-spacing: 0.2px;
     cursor: pointer;
-    line-height: 38px;
-  }
-
-  .si-mic,
-  .si-mic:after,
-  .si-holder,
-  .si-holder:before,
-  .si-holder:after {
-    position: absolute;
-    background: #333;
-  }
-
-  /* Microphone icon */
-  .si-mic {
-    display: block;
-    height: 25%; /* 8px / 32px */
-    top: 9.375%; /* 3px / 32px */
-    left: 37.5%; /* 12px / 32px */
-    right: 37.5%; /* 12px / 32px */
-    -webkit-border-radius: 99px 99px 0 0;
-    -moz-border-radius: 99px 99px 0 0;
-    border-radius: 99px 99px 0 0;
-  }
-
-  .si-mic:before,
-  .si-mic:after,
-  .si-holder {
-    -webkit-border-radius: 0 0 99px 99px;
-    -moz-border-radius: 0 0 99px 99px;
-    border-radius: 0 0 99px 99px;
-  }
-
-  .si-mic:before {
-    position: absolute;
-    z-index: 1;
-    content: '';
-    width: 150%; /* 12px / 8px */
-    height: 137.5%; /* 11px / 8px */
-    top: 100%; /* 8px / 8px */
-    left: -25%; /* -2px / 8px */
-    background: #fff;
-  }
-
-  .si-mic:after {
-    z-index: 1;
-    content: '';
-    width: 100%; /* 10px / 10px */
-    height: 100%; /* 10px / 10px */
-    top: 110%; /* 11px / 10px */
-    left: 0;
-  }
-
-  .si-holder {
-    display: block;
-    height: 40.625%; /* 13px / 32px */
-    width: 50%; /* 16px / 32px */
-    left: 25%; /* 8px / 32px */
-    top: 37.5%; /* 12px / 32px */
-  }
-
-  .si-holder:after {
-    content: '';
-    width: 66.666%; /* 8px / 16px */
-    height: 18.182%; /* 2px / 13px */
-    bottom: -30.769%; /* -4px / 13px */
-    left: 16.667%; /* 2px / 16px */
-  }
-
-  .si-holder:before {
-    content: '';
-    width: 33.333%; /* 4px / 16px */
-    height: 27.273%; /* 3px / 13px */
-    top: 92.308%; /* 12px / 13px */
-    left: 33.333%; /* 4px / 16px */
-  }
-  .si-btn {
-    &.listening {
-      border-radius: 50%;
-      -webkit-animation-name: blink; /* Chrome, Safari, Opera */
-      animation-name: blink;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both;
-      -webkit-animation-iteration-count: infinite;
-      animation-iteration-count: infinite;
-      -webkit-animation-duration: 3s;
-      animation-duration: 3s;
-      outline: 0;
+    &:hover {
+      background-color: #0097cf;
+      color: #fff;
+      cursor: pointer;
     }
-  }
-
-  form {
-    display: none;
-    margin-top: 20px;
   }
 }
 
 /* Chrome, Safari, Opera */
 @-webkit-keyframes blink {
   0%, 50%, 100% {
-    box-shadow: 0px 0px 10px 4px rgb(220, 21, 4);
+    box-shadow: 0px 0px 10px 4px rgb(216, 17, 89);
   }
   25%, 75% {
     box-shadow: 0px 0px 10px 0px rgb(220, 145, 129);
@@ -184,9 +144,22 @@
 /* Standard syntax */
 @keyframes blink {
   0%, 50%, 100% {
-    box-shadow: 0px 0px 10px 4px rgb(220, 21, 4);
+    box-shadow: 0px 0px 10px 4px rgb(216, 17, 89);
   }
   25%, 75% {
     box-shadow: 0px 0px 10px 0px rgb(220, 145, 129);
+  }
+}
+
+@media all and (min-width: 480px) {
+  .navbar-header {
+    .back-history {
+      padding: 5px 10px;
+    }
+    .flight-type-item {
+      &.voice-search-button {
+        top: 5px;
+      }
+    }
   }
 }

@@ -27,27 +27,37 @@ module.exports = {
 
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
-        var profileFields = {
-          FirstName: "firstName",
-          LastName: "lastName",
-          Gender : "gender",
+        var userData = {
+          FirstName: "first_name",
+          LastName: "last_name",
+          Gender: "gender",
           DateOfBirth: "birthday",
-          PaxType: "pax_type",
-          Address1: "address",
+          PaxType: "pax_type"
+        };
+
+        var userAddress = {
+          Address1: "street",
           City: "city",
           State: "state",
           Country: "country_code",
           ZipCode: "zip_code"
         };
 
-        // Apply DB values if form fields is not defined yet
-        for(var prop in profileFields) {
-          if(typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim()==""))
-            reqParams[prop] = found[profileFields[prop]];
+        if (found && found.personal_info) {
+          // Apply DB values if form fields is not defined yet
+          for (var prop in userData) {
+            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == ""))
+              reqParams[prop] = found.personal_info[userData[prop]];
+          }
+          for (var prop in userAddress) {
+            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == ""))
+              reqParams[prop] = found.personal_info.address[userAddress[prop]];
+          }
         }
+
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
         if(typeof reqParams.DateOfBirth == 'object')
-          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('MM/DD/YYYY');
+          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
       }
 
       var id = req.param('id');
@@ -75,7 +85,7 @@ module.exports = {
             {
               user: req.user,
               reqParams: reqParams,
-              head_content: Search.getHeadContent(),
+              head_content: Search.getHeadContent(req.param('searchId')),
               order:[logData.itinerary]
             },
             'order'

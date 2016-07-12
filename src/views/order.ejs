@@ -2,7 +2,7 @@
 /* global reqParams */
   var orderPrice;
 %>
-<form action="/booking" method="post" id="form_booking">
+<form action="/booking?searchId=<%= reqParams.searchId %>" method="post" id="form_booking">
 
   <div id="searchResultData" class="row">
     <% iterator = 0; %>
@@ -100,6 +100,9 @@
     <% }); %>
     <% } %>
   </div>
+  <div class="row hidden" id="user-time-limit-target-div">
+    <div class="col-xs-12">* Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
+  </div>
 
   <div class="panel panel-default">
 
@@ -132,7 +135,7 @@
 
       <div>
         <label class="control-label">Birthday</label>
-        <input type="date" name="DateOfBirth" class="form-control input-sm" placeholder="MM/DD/YYYY" maxlength="10" value="<%= reqParams.DateOfBirth ? reqParams.DateOfBirth : '' %>">
+        <input type="date" name="DateOfBirth" class="form-control input-sm" placeholder="YYYY-MM-DD" maxlength="10" value="<%= reqParams.DateOfBirth ? reqParams.DateOfBirth : '' %>">
       </div>
 
       <div>
@@ -177,7 +180,7 @@
 
       <div>
         <label class="control-label">Card Number</label>
-        <input type="text" name="CardNumber" class="form-control input-sm" value="<%= reqParams.CardNumber ? reqParams.CardNumber : '' %>">
+        <input type="number" name="CardNumber" class="form-control input-sm" value="<%= reqParams.CardNumber ? reqParams.CardNumber : '' %>">
       </div>
 
       <div>
@@ -196,12 +199,50 @@
   <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
     <div class="container-fluid">
       <div class="buy-button"><button id="booking_button" class="btn btn-sm btn-primary btn-block center-block" style="max-width: 100%">
+          <% if (!reqParams.special) { %>
         BOOK FOR <%= orderPrice %>
+          <%} else {%>
+          SUBMIT
+          <% } %>
       </button></div>
     </div>
   </nav>
 
 </form>
+
+<% if (reqParams.special) { %>
+
+<div class="modal fade" id="user-price-modal" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 style="color:red;">Choose your price</h4>
+      </div>
+      <div class="modal-body">
+        <p>Continuous search for better price.</p>
+        <form role="form" id="form_user_price">
+          <div class="form-group">
+            <label for="user_price">Price you commit for this itinerary:</label>
+            <input type="text" class="form-control" id="user_price" name="user_price" placeholder="Enter your price">
+          </div>
+          <div class="form-group">
+            <label for="user_timelimit">Time limit for getting the fare:</label>
+            <input type="text" class="form-control" id="user_timelimit" name="user_timelimit" placeholder="Enter days">
+          </div>
+          <button type="submit" class="btn btn-default btn-primary btn-block" id="user-price-submit">Submit</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal" onclick="window.history.back();return false;"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
 
 <style>
     body {

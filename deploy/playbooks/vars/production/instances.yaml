@@ -1,0 +1,5 @@
+instances:
+  - name: avaea1
+    group: "avaeaprod"
+    security_group: ["default", "avaeaprod"]
+    instance_type: "t2.small"

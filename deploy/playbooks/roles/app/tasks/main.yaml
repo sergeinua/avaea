@@ -1,0 +1,68 @@
+- name: Check if upstart config file exists or not
+  stat: path=/etc/init/{{ upstart.config_name }}
+  register: upstart_path
+
+- name: Stopping "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=stopped
+  when: upstart_path.stat.exists == True
+  
+- name: Reset cached folders
+  file:
+    path={{ dir }}/{{ cache_dir }}/
+    state=absent
+
+- name: Get a codebase for service
+  git: repo=git@bitbucket.org:avaea_eng/avaea.git
+    dest="{{ dir }}"
+    version="{{ GIT_BRANCH }}"
+    update=yes
+    accept_hostkey=yes
+    force=yes
+    ssh_opts="-o StrictHostKeyChecking=no"
+    key_file=/root/.ssh/bitbucket_rsa
+
+# This breaks with the following message: http://prntscr.com/breckn
+# TODO: Valentin, please fix in DEMO-469
+#- name: Publish branch name
+#  shell: git branch > {{ dir }}/{{ commit_file }}
+#
+#- name: Publish commit id
+#  shell: git rev-parse HEAD >> {{ dir }}/{{ commit_file }}
+#
+- name: Install dependencies for migrations
+  shell: npm i
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
+- name: Run migrations
+  shell: node_modules/db-migrate/bin/db-migrate up --config database.json -e production
+  args:
+    chdir: "{{ dir }}/db-migration/"
+  when: APP == "demo"
+
+- name: Delete if exists nginx defualt config
+  file:
+   path=/etc/nginx/sites-enabled/default
+   state=absent
+
+- name: Deploy nginx configs
+  template: src=configs/nginx/sites-enabled/{{ nginx.source_name }}
+    dest=/etc/nginx/sites-enabled/{{ nginx.config_name }}
+    owner=root
+    group=root
+    mode=0644
+
+- name: Copy upstart configs
+  template:
+    src=configs/upstart/{{ APP }}.conf
+    dest=/etc/init/{{ upstart.config_name }}
+    owner=root
+    group=root
+    mode=0644
+
+- name: Restart "{{ upstart.service_name }}" service
+  service: name="{{ upstart.service_name }}" state=started
+
+- name: Restart nginx service
+  service: name=nginx state=restarted

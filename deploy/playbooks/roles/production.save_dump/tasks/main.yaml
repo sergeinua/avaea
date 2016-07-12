@@ -1,0 +1,28 @@
+- name: Delete archive if exists
+  shell: rm -rf /tmp/avaea.sql
+
+- name: Save avaea dump
+  shell: pg_dumpall -f /tmp/avaea.sql
+
+- name: Patch dump
+  shell: sed -i -- 's/CREATE ROLE postgres;//g' /tmp/avaea.sql
+
+- name: Delete archive if exists
+  shell: rm -rf /tmp/avaea.sql.gz
+
+- name: Pack db dump
+  shell: cat /tmp/avaea.sql | gzip > /tmp/avaea.sql.gz
+
+- name: Upload artifact to S3 storage
+  s3:
+    bucket: avaeadbpostgres
+    object: "/avaea.sql.gz"
+    src: /tmp/avaea.sql.gz
+    aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY') }}"
+    aws_secret_key: "{{ lookup('env','AWS_SECRET_KEY') }}"
+    region: "{{ lookup('env','AWS_DEFAULT_REGION') }}"
+    mode: put
+
+  register: s3_info
+
+- debug: msg="{{ s3_info }}"

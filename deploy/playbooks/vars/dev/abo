@@ -1,0 +1,19 @@
+dir: /home/deerploy/dev_abo
+
+nginx:
+  listen_host: avaea
+  listen_port: 80
+  server_name: dev.abo.avaea.com
+  proxy_pass_host: localhost
+  proxy_pass_port: 9090
+  config_name: dev_abo.conf
+  source_name: staging_abo
+
+upstart:
+ config_name: dev_abo.conf
+ service_name: dev_abo
+ log_name: dev_abo.log
+
+cache_dir: abo/.tmp/public
+
+node_env: stagingdev

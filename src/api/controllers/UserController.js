@@ -42,6 +42,8 @@ module.exports = {
           else
             profile_fields[prop] = found[prop];
         }
+        if(typeof profile_fields.birthday == 'object')
+          profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
 
         return res.ok(
           {
@@ -59,20 +61,22 @@ module.exports = {
    * `UserController.profile()`
    */
   update: function (req, res) {
-    var profileFields = Profile.make(req.body, req.user);
+    Profile.make(req.body, req.user, function(profileFields) {
 
-    Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
-      if (err || _.isEmpty(record)) {
-        Profile.create(profileFields).exec(function(err, record) {
-          if (err) {
-            sails.log.error(err);
-          }
+      Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
+        if (err || _.isEmpty(record)) {
+          Profile.create(profileFields).exec(function(err, record) {
+            if (err) {
+              sails.log.error(err);
+            }
+            res.redirect('/profile');
+
+          });
+        } else {
           res.redirect('/profile');
+        }
+      });
 
-        });
-      } else {
-        res.redirect('/profile');
-      }
     });
 
   },

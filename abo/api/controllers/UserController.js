@@ -42,7 +42,7 @@ module.exports = {
         if (!found.employer) {
 
           found.employer = {
-            companyName: '',
+            company_name: '',
             address:     '',
             phone:       '',
             position:    '',
@@ -52,12 +52,12 @@ module.exports = {
 
         }
 
-        if (!found.travelWith) {
-          found.travelWith = [{
-            firstName: '',
-            lastName: '',
+        if (!found.travel_with) {
+          found.travel_with = [{
+            first_name: '',
+            last_name: '',
             gender: '',
-            DateOfBirth: ''
+            date_of_birth: ''
           }];
         }
 
@@ -71,6 +71,8 @@ module.exports = {
           else
             profile_fields[prop] = found[prop];
         }
+        if(typeof profile_fields.birthday == 'object')
+          profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
 
         return res.view('user/profile', {
           selectedAirline: selectedAirline,
@@ -89,8 +91,8 @@ module.exports = {
   update: function (req, res) {
     var profileFields = Profile.make(req.body, {id: +req.params.user_id});
 
-    if (!profileFields.showTiles) {
-      profileFields.showTiles = false;
+    if (!profileFields.personal_info.show_tiles) {
+      profileFields.personal_info.show_tiles = false;
     }
 
     var selectedAirline = this._setAirlineCode(req);

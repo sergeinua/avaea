@@ -1,0 +1,2 @@
+[avaea]
+web.avaea ansible_ssh_port=54976 ansible_ssh_host=52.24.104.220 ansible_ssh_user=root

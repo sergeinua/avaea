@@ -24,6 +24,9 @@ services:
       PROXY_PORT: "81"
     ports:
       - "8001:8000"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   abo:
     extends:
@@ -41,6 +44,9 @@ services:
       PROXY_PORT: "81"
     ports:
       - "8081:8080"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
 
   nginx:
     build:
@@ -57,7 +63,6 @@ services:
     ports:
       - "81:80"
       - "23457:23457"
-      - "8022:22"
     command: bash -c "/usr/local/bin/setup_and_run.sh"
 
   cache:
@@ -67,15 +72,30 @@ services:
     ports:
       - "11212:11211"
 
-
   postgres:
     build:
       context: .
       dockerfile: images/postgres/postgres.Dockerfile
+    volumes:
+      - ./images/postgres/data/:/docker-entrypoint-initdb.d/
+    volumes_from:
+      - sources
+    command: bash -c "/usr/local/bin/run_postgres.sh"
     networks:
       - avaea_network
     ports:
       - "5433:5432"
+
+  migrations:
+    extends:
+      file: images/node/node_base.yml
+      service: nodebase
+    volumes_from:
+      - sources
+    networks:
+      - avaea_network
+    working_dir: /usr/var/avaea/db-migration
+    command: bash -c "/usr/local/bin/run_migrations.sh"
 
 networks:
   avaea_network:

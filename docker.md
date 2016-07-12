@@ -14,8 +14,8 @@ Install docker on your operation system and be sure that docker version is not u
 If you have Mac OS you need to create docker machine
 
     docker-machine create -d virtualbox --virtualbox-memory 4096 --virtualbox-disk-size 150000 avaea
-    eval "$(docker-machine env dev)"
-    
+    eval "$(docker-machine env avaea)"
+
 ## Running
 
     docker-compose build

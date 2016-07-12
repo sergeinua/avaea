@@ -5,3 +5,6 @@ nginx:
   proxy_pass_host: abo
   proxy_pass_port: 8080
   config_name: abo.conf
+  source_name: staging_abo
+
+node_env: production

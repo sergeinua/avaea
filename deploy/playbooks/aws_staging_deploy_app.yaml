@@ -1,0 +1,11 @@
+- name: Deploy avaea application to stage server
+  hosts: web.avaea
+  gather_facts: false
+  connection: ssh
+  become: yes
+  vars_files:
+    - vars/{{ ENV }}/{{ APP }}
+    - vars/{{ ENV }}/environment.yaml
+
+  roles:
+  - app

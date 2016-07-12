@@ -1,0 +1,27 @@
+- name: Wait for become yes
+  hosts:
+    - tag_Name_avaea1
+  connection: ssh
+  gather_facts: no
+  remote_user: ubuntu
+  tasks:
+    - command: sleep "{{ item }}"
+      become: yes
+      with_items:
+        - 1
+        - 15
+
+- name: Save and upload production db to s3
+  hosts:
+    - tag_Name_avaea1
+  gather_facts: true
+  connection: ssh
+  remote_user: ubuntu
+  become: yes
+  become_user: postgres
+
+  vars_files:
+    - vars/production/general.yaml
+
+  roles:
+    - production.save_dump
