@@ -1464,30 +1464,17 @@ function setCookie(name, value, options) {
 }
 
 function _displayDimmer(flag) {
-
   if (flag) {
     $('.dimmer').show();
     $('.dimmer').off('click').on('click', function(){
       setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
     });
-
-    //$(document)
-    //  .off('mousewheel').on('mousewheel', function(event){
-    //    console.log('mousewheel', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  })
-    //  .off('swipe').on('swipe', function(event){
-    //    console.log('swipe', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  });
-
+    $('body').css('overflow', 'hidden');
   } else {
     $('.dimmer').hide();
+    $('body').css('overflow', 'auto');
   }
-
 }
 
 
