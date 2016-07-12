@@ -571,6 +571,8 @@ $(document).ready(function() {
     if (isLandscapeMode()) {
       $('body').addClass('landscape-mode');
       if (isMobile.any() && $('#landscapeMode').length) {
+        $('#searchBanner').addClass('hidden');
+        $('#planePath').addClass('hidden');
         $('#landscapeMode').modal('show');
         $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
         $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
@@ -578,6 +580,8 @@ $(document).ready(function() {
     } else {
       if(isMobile.any()) {
         $('#landscapeMode').modal('hide');
+        $('#searchBanner').removeClass('hidden');
+        $('#planePath').removeClass('hidden');
       }
     }
 
