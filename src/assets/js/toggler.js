@@ -70,8 +70,8 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
-
-  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
+  var showDimmer = getCookie('dimmer_was_showed');
+  if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
     _displayDimmer(true);
 
     if (GlobalSearchResultCount < 5) {
@@ -79,8 +79,10 @@ $(document).ready(function() {
         $('.dimmer').fadeOut(function(){
           _displayDimmer(false);
         });
-      }, 1000)
+      }, 1000);
     }
+  } else {
+    _displayDimmer(false);
   }
 
   $("#user-price-modal").modal();
@@ -698,6 +700,7 @@ $(document).ready(function() {
     $("body").addClass("loading");
     $('#planePath').removeClass('hidden');
     setInterval('fly("#plane")', 40);
+    setCookie('dimmer_was_showed', 0);
     return true;
   });
 
@@ -1462,7 +1465,9 @@ function setCookie(name, value, options) {
 
 function _displayDimmer(flag) {
   if (flag) {
+    $('.dimmer').show();
     $('.dimmer').off('click').on('click', function(){
+      setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
     });
     $('body').css('overflow', 'hidden');
