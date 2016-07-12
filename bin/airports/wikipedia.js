@@ -11,20 +11,23 @@ const _PROPS_PATTERN      = "(?:[^<>]*passengers[^<>]*)"+
       "|(?:aircraft\\s+operations)"+
       "|(?:total\\s+cargo)"+
       "|(?:cargo\\s+tonnage)"+
+      "|(?:cargo\\s+\\(t\\))"+
       "|(?:metric\\s+tonnes\\s+of\\s+cargo)"+
       "|(?:based\\s+aircraft)"+
       "|(?:aircraft\\s+movements)";
 const _SUPTAG_PATTERN     = "<sup[^>]*><a[^>]*>[^<]+</a></sup>";
-const _REDIRECT_RE        = new RegExp("<ul\\s+class=['\"]redirectText['\"]><li><a\\s+href=['\"]/wiki/([^'\"]+)['\"][^<]*</a></li></ul>",
-				       "i");
+const _SPANTAG_PATTERN    = "<span[^>]*>(?:<img\\s+[^>]*>)?</span>";
+const _PROP_TR_PATTERN    = "<tr>\\s*<t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)>\\s*<t(?:d|h)[^>]*>(?:"+_SPANTAG_PATTERN+")?\\s*([^<]+)</t(?:d|h)>\\s*</tr>";
 const _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|h)></tr>"+
 				       "<tr><td[^>]*><table[^>]*>"+
 				       // Depending on the airport the number of properties on the statistics section varies from 1 to 4
 				       // However adding {1,4} after the regular expression does not work
-				       "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)"+
-				       "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
-				       "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?"+
-				       "(?:<tr><t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)><t(?:d|h)[^>]*>([^<]+)</t(?:d|h)></tr>)?",
+				       "(?:"+_PROP_TR_PATTERN+")"+
+				       "(?:"+_PROP_TR_PATTERN+")?"+
+				       "(?:"+_PROP_TR_PATTERN+")?"+
+				       "(?:"+_PROP_TR_PATTERN+")?",
+				       "i");
+const _REDIRECT_RE        = new RegExp("<ul\\s+class=['\"]redirectText['\"]><li><a\\s+href=['\"]/wiki/([^'\"]+)['\"][^<]*</a></li></ul>",
 				       "i");
 const _IATA_3CODE_RE      = new RegExp("<a\\s+href=\"/wiki/International_Air_Transport_Association_airport_code\"[^>]*>IATA</a>:?\\s*<(?:span|b)[^>]*>([A-Z]{3})(?:"+_SUPTAG_PATTERN+"){0,2}</(?:span|b)>",
 				       "i");
@@ -113,10 +116,10 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
 		}
 	    }
 	    airports[iata_3code].wikipedia = JSON.stringify(properties);
-	    // console.log("Set properties for %s: %j",iata_3code,properties);
+	    console.log("Set properties for %s: %j",iata_3code,properties);
 	}
 	else {
-	    if( this.argv.loglevel>1 ) {
+	    if( this.argv.loglevel>0 ) {
 		console.log("Cannot find statistical properties for airport %s (%s) ",iata_3code,complete_url);
 	    }
 	}
@@ -129,6 +132,7 @@ WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_co
 	}
     }
     else {
+	// complete_url = 'https://en.wikipedia.org/w/api.php?action=parse&page=Julius_Nyerere_International_Airport&format=json&prop=text';
 	this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
 	    if( this.argv.loglevel>1 ) {
 		console.log("Parsing "+complete_url);
@@ -162,6 +166,7 @@ WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_co
 		    console.log("ERROR: cannot parse JSON of "+complete_url);
 		}
 	    }
+	    // process.exit(0);
 	}.bind(this));
     }
 };
