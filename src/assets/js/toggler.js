@@ -119,6 +119,7 @@ $(document).ready(function() {
   });
 
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
+  var filterItemHeight = 31.25; // pixels
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
   var heightNav = 0;
@@ -1405,8 +1406,13 @@ $(document).ready(function() {
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
       recalculateBodyPadding();
     }
+
+    var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+    if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
+      max_filter_items = maxBucketVisibleFilters;
+    }
     $('.list-group').slimScroll({
-      height: '125px',
+      height: parseInt(max_filter_items * filterItemHeight) +'px',
       touchScrollStep: 30
     });
   }
