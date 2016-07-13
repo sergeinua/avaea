@@ -799,6 +799,12 @@ $(document).ready(function() {
   /**
    * Client validation during booking of itinerary
    */
+  // DEMO-512 disable bookings
+  $("#form_booking").submit(function() {
+    $('#buy-message').modal();
+    return false;
+  });
+
   $("#form_booking").validate({
     rules: {
       PaxType: {
