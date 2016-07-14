@@ -583,7 +583,7 @@ module.exports = {
         {
             iter++;
 
-            if (iter > 700) break;
+            //if (iter > 1000) break;
 
             // TO DO: do not sort, just find the longest interval
             queue.sort(function(a, b){return (b.interval_end - b.interval_begin) - (a.interval_end - a.interval_begin) }); // sort the queue in decreasing order of interval sizes
