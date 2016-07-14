@@ -30,7 +30,7 @@
 }
 
 body {
-  background-color: #F2F5F8;
+  background-color: #f8f8f8;
   color: #333333;
   padding-top: 50px;
 }
@@ -49,7 +49,7 @@ nav {
 }
 
 .navbar,.navbar-header{
-  min-height: 30px;
+  min-height: 20px;
 }
 
 .navbar-default {
@@ -271,6 +271,10 @@ nav {
   /*background-color: rgba(255, 123, 123, 0.1) !important;*/
   border-color: #EFD4D4;
   color: #BFB6C1 !important;
+}
+.disabled.dis-selected {
+  background-color: #004a99 !important;
+  opacity: 0.4;
 }
 
 .total-count {
@@ -941,16 +945,27 @@ body.loading .modalLoader {
   background-color: #ffffff !important;
 }
 
-.datepicker span.range:not(.new):not(.old):not(.disabled),
-.datepicker table td.day.range:not(.new):not(.old):not(.disabled) {
+.datepicker span.range:not(.disabled),
+.datepicker table td.day.range:not(.disabled) {
   background-color: #FFFBEB !important;
 }
 
+.datepicker span.range.new, .datepicker span.range.old,
+.datepicker table td.day.range.new, .datepicker table td.day.range.old {
+  background-image: url("/images/ydiag_dark.png");
+}
+
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old,
 .datepicker span.active, .bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
   background-color: #ffe03f !important;
   border-radius: 0;
   color: #101742 !important;
+}
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old {
+  background-image: url("/images/ydiag_light.png");
 }
 
 .datepicker table td.today:before {
@@ -1019,21 +1034,14 @@ button.buy-button-arrow[aria-expanded=true] {
   }
 }
 
-.datepicker table td.day.old,
-.datepicker table td.day.new {
-  /*background-color: #FFFBEB !important;*/
-  background: none !important;
-}
-
-.datepicker table td.day.disabled.old,
-.datepicker table td.day.disabled.new {
+.datepicker span.old, .datepicker span.new,
+.datepicker table td.day.old, .datepicker table td.day.new {
   background-color: inherit !important;
 }
 
-.datepicker table th.disabled,
-.datepicker table th.disabled:hover,
-.datepicker table td.disabled,
-.datepicker table td.disabled:hover {
+.datepicker span.disabled, .datepicker span.disabled:hover,
+.datepicker table th.disabled, .datepicker table th.disabled:hover,
+.datepicker table td.disabled, .datepicker table td.disabled:hover {
   background: none !important;
   text-decoration: line-through;
 }
@@ -1092,46 +1100,13 @@ button.buy-button-arrow[aria-expanded=true] {
 }
 
 .show-tiles-arrow #tiles_ui .row:after {
-  background-image: url(/images/arrow-right-black.png);
+  background: url('/images/avaea-sprite.png') -52px 48px;
   position: absolute;
-  width: 48px;
-  height: 175px;
+  width: 16px;
+  height: 36px;
   z-index: 1000;
-  top: 0;
-  right: 0;
-  background-repeat: no-repeat;
-  background-size: 48px 115px;
-  opacity: 0.3;
-  background-position-y: 28px;
-}
-
-
-@keyframes tileArrowAnimation {
-  0%   { opacity:0.3; }
-  50%  { opacity:0; }
-  100% { opacity:0.3; }
-}
-@-o-keyframes tileArrowAnimation {
-  0%   { opacity:0.3; }
-  50%  { opacity:0; }
-  100% { opacity:0.3; }
-}
-@-moz-keyframes tileArrowAnimation {
-  0%   { opacity:0.3; }
-  50%  { opacity:0; }
-  100% { opacity:0.3; }
-}
-@-webkit-keyframes tileArrowAnimation {
-  0%   { opacity:0.3; }
-  50%  { opacity:0; }
-  100% {
-    opacity: 0.3;; }
-}
-.show-tiles-arrow #tiles_ui .row:after {
-  -webkit-animation: tileArrowAnimation 2s infinite;
-  -moz-animation: tileArrowAnimation 2s infinite;
-  -o-animation: tileArrowAnimation 2s infinite;
-  animation: tileArrowAnimation 2s infinite;
+  top: 63px;
+  right: 3px;
 }
 
 .clickable {
@@ -1185,6 +1160,105 @@ button.buy-button-arrow[aria-expanded=true] {
 
 .stops-letter-spacing {
   letter-spacing: 2px;
+}
+
+#landscapeMode {
+  margin-top: -100px;
+  top: 50%;
+  background-color: white;
+}
+
+.landscape-popup {
+  height: 200px;
+  border: 0;
+  box-shadow: none;
+  background-color: white !important;
+}
+
+.landscape-popup div:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -70px;
+  width: 140px;
+  height: 140px;
+  background: url(/images/avaea-sprite@2x.png) no-repeat 0 -1000px;
+}
+
+#landscapeMode .modal-body {
+  border: 0;
+  opacity:0.5;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size:32px;
+  color:#101742;
+  padding-top: 140px;
+}
+
+.nothing-found {
+  opacity:0.3;
+  font-family: WhitneyHTF-SemiBoldCondensed;
+  font-size:24px;
+  color:#101742;
+  text-align:center;
+  position:absolute;
+  width:200px;
+  top:50%;
+  height: 200px;
+  left:50%;
+  margin-left: -100px;
+  margin-top: -100px;
+  padding-top: 170px;
+}
+
+div.nothing-found:before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -70px;
+  width: 140px;
+  height: 170px;
+  background: url(/images/avaea-sprite@2x.png) no-repeat 0 -800px;
+}
+
+
+.new-search-button {
+  position: fixed;
+  bottom: 10px;
+  width: 200px;
+  left: 50%;
+  margin-left: -100px;
+  padding-top: 10px;
+  height: 44px;
+  background-color: #7c1d00;
+  border-radius: 22px;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 22px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  color: #ffffff;
+  text-transform: uppercase;
+  border: 0;
+  box-shadow: 6px 6px 7px #888888;
+}
+
+.clickable-tiles-area {
+  position: absolute;
+  width: 100%;
+  height: 21px;
+  top: 0;
+  border-bottom: 4px solid  #fee148;
+  z-index: 9999;
+}
+
+.clickable-tiles-area-yellow {
+  position: absolute;
+  width: 100%;
+  height: 4px;
+  top: 0;
+  border: 0;
+  z-index: 9998;
 }
 
 @media all and (min-width: 480px) {
@@ -1249,4 +1323,72 @@ button.buy-button-arrow[aria-expanded=true] {
   .sort-button .dropdown-menu {
     margin-top: 0;
   }
+}
+
+
+
+.dimmer {
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.9);
+  position: fixed;
+  z-index: 1000;
+  display: none; /* default value */
+}
+
+.dimmer-close {
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  width: 24px;
+  height: 24px;
+  background: url('/images/avaea-sprite.png') -50px 100px;
+  cursor: pointer;
+}
+
+.dimmer-arrow {
+  background: url('/images/avaea-sprite.png') -100px -400px;
+  cursor: pointer;
+  width: 43px;
+  height: 75px;
+  margin: 67px auto 0;
+  display: block;
+}
+
+@media (max-height: 510px) {
+  .dimmer-arrow {
+    display: none;
+  }
+}
+
+.dimmer-text-light {
+  text-align: center;
+  color: #b9bbc7;
+  margin-top: 21px;
+  height: 30px;
+
+  opacity:0.5;
+  font-family:WhitneyHTF-MediumCondensed;
+  font-size:16px;
+  color:#101742;
+  text-align:center;
+}
+
+.dimmer-text-dark {
+  text-align: center;
+  color: #101742;
+  margin-top: 15px;
+  height: 54px;
+
+  font-family:WhitneyHTF-SemiBoldCondensed;
+  font-size:24px;
+  color:#101742;
+  text-align:center;
+}
+
+/* iPhone 6+ */
+@media (min-width: 414px) {
+}
+/* iPad */
+@media (min-width: 768px) {
 }

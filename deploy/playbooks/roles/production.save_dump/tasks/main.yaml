@@ -1,5 +1,5 @@
 - name: Delete archive if exists
-  shell: unlink /tmp/avaea.sql
+  shell: rm -rf /tmp/avaea.sql
 
 - name: Save avaea dump
   shell: pg_dumpall -f /tmp/avaea.sql
@@ -8,7 +8,7 @@
   shell: sed -i -- 's/CREATE ROLE postgres;//g' /tmp/avaea.sql
 
 - name: Delete archive if exists
-  shell: unlink /tmp/avaea.sql.gz
+  shell: rm -rf /tmp/avaea.sql.gz
 
 - name: Pack db dump
   shell: cat /tmp/avaea.sql | gzip > /tmp/avaea.sql.gz
