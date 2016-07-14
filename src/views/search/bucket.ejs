@@ -1,5 +1,5 @@
 <div class="swiper-container">
-  <div id="tiles" class="swiper-wrapper" data-max_filter_items="<%= max_filter_items %>">
+  <div id="tiles" class="swiper-wrapper" data-max_filter_items="<%= (typeof max_filter_items == 'undefined') ? 0 : max_filter_items %>">
     <% for(var name in tiles) { %>
       <% var tile = tiles[name];
       if (tile.name == 'Duration' && searchParams.returnDate) {
