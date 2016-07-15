@@ -21,14 +21,16 @@
     ssh_opts="-o StrictHostKeyChecking=no"
     key_file=/root/.ssh/bitbucket_rsa
 
-# This breaks with the following message: http://prntscr.com/breckn
-# TODO: Valentin, please fix in DEMO-469
-#- name: Publish branch name
-#  shell: git branch > {{ dir }}/{{ commit_file }}
-#
-#- name: Publish commit id
-#  shell: git rev-parse HEAD >> {{ dir }}/{{ commit_file }}
-#
+- name: Publish branch name
+  shell: git branch > {{ dir }}/{{ commit_file }}
+  args:
+    chdir: {{ dir }}
+
+- name: Publish commit id
+  shell: git rev-parse HEAD >> {{ dir }}/{{ commit_file }}
+  args:
+    chdir: {{ dir }}
+
 - name: Install dependencies for migrations
   shell: npm i
   args:
