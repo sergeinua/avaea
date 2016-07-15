@@ -24,12 +24,12 @@
 - name: Publish branch name
   shell: git branch > {{ dir }}/{{ commit_file }}
   args:
-    chdir: {{ dir }}
+    chdir: "{{ dir }}"
 
 - name: Publish commit id
   shell: git rev-parse HEAD >> {{ dir }}/{{ commit_file }}
   args:
-    chdir: {{ dir }}
+    chdir: "{{ dir }}"
 
 - name: Install dependencies for migrations
   shell: npm i
