@@ -7,5 +7,14 @@
     - vars/{{ ENV }}/{{ APP }}
     - vars/{{ ENV }}/environment.yaml
 
+  pre_tasks:
+    - name: Update apt
+      become: yes
+      apt:
+        cache_valid_time: 1800
+        update_cache: yes
+      tags:
+        - build
+
   roles:
   - app
