@@ -139,7 +139,12 @@ module.exports = {
                   return callback(null, result);
                 }
               } else {
-                sails.log.error(err);
+                if (!done) {
+                  done = true;
+                  return callback(err, []);
+                } else {
+                  sails.log.error(err);
+                }
               }
             });
           } else {
