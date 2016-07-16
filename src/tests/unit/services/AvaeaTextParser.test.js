@@ -27,7 +27,6 @@ function Test_and_Result( query, origin_airport, return_airport, origin_date, re
 /////////////////////////////////////////////////////////////////
 // Module globals
 /////////////////////////////////////////////////////////////////
-const _ASSERT = require('chai').assert;
 const _PARSER = require('../../..//api/services/AvaeaTextParser');
 const _TESTS  = [
     new Test_and_Result("Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
@@ -262,10 +261,10 @@ describe('AvaeaTextParser', function() {
 	    var not_parsed = parser.run(t.query);
 	    parser.keys.forEach(function( key ) {
 		var value = undefined;
-		if( parser[key] ) {
+		if( parser[key] )
 		    value = (typeof(parser[key].value.toDateString)=="function") ? parser[key].value.toDateString() : parser[key].value;
-		}
-		_ASSERT(t[key]==value);
+		if( t[key]!=value )
+                    throw Error("Values for '"+key+"' do not match, '"+t[key]+"' vs. '"+value+"'"); 
 	    });
 	});
     });
