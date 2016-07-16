@@ -94,27 +94,29 @@ module.exports = {
               }
             }, 10000);
 
+            var errorResult = (error) => {
+              sails.log.error(error);
+              // store empty search data in DB
+              var result = [];
+              row.result = {
+                priceRange:    { minPrice: 0, maxPrice: 0 },
+                durationRange: { minPrice: 0, maxPrice: 0 },
+                result:        result
+              };
+              row.save();
+
+              this.cache(guid, row);
+
+              result.guid = guid;
+              result.priceRange = row.result.priceRange;
+              result.durationRange = row.result.durationRange;
+              return callback(error, result);
+            };
             // if no data in DB and API doesn't respond over 30 sec then stop searching
             setTimeout(() => {
               if (!done) {
                 done = true;
-                // store empty search data in DB
-                var result = [];
-                row.result = {
-                  priceRange:    { minPrice: 0, maxPrice: 0 },
-                  durationRange: { minPrice: 0, maxPrice: 0 },
-                  result:        result
-                };
-                row.save();
-                var error = provider + ' API does not respond over 30s';
-                sails.log.error(error);
-
-                this.cache(guid, row);
-
-                result.guid = guid;
-                result.priceRange = row.result.priceRange;
-                result.durationRange = row.result.durationRange;
-                return callback(error, result);
+                return errorResult(provider + ' API does not respond over 30s');
               }
             }, 30000);
 
@@ -139,9 +141,15 @@ module.exports = {
                   return callback(null, result);
                 }
               } else {
-                sails.log.error(err);
+                if (!done) {
+                  done = true;
+                  return errorResult(err);
+                } else {
+                  sails.log.error(err);
+                }
               }
             });
+
           } else {
             sails.log.error(err);
           }

@@ -1,6 +1,6 @@
 /* global sails */
 module.exports.flightapis = {
-  searchProvider: 'mondee', // 'mystifly' TODO: temporary config
+  searchProvider: ['mondee'], // 'mystifly' TODO: temporary config
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
     baseEndPoint: 'http://api.trippro.com/api/v2',
