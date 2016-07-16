@@ -28,7 +28,7 @@ function Test_and_Result( query, origin_airport, return_airport, origin_date, re
 // Module globals
 /////////////////////////////////////////////////////////////////
 const _ASSERT = require('chai').assert;
-const _PARSER = require('../src/api/services/AvaeaTextParser');
+const _PARSER = require('../../..//api/services/AvaeaTextParser');
 const _TESTS  = [
     new Test_and_Result("Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
                         "Amsterdam",
