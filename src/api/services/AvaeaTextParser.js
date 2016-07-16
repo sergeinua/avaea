@@ -257,7 +257,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ), // same as old NUM #11
     // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
     new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`']m\\b)",function() { return 1; } ),
-	// NEW: added to handle "Cat and dog are flying from SFO to JFK"
+    // NEW: added to handle "Cat and dog are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),
     new Regexp_and_Conversion('\\bare\\b\\s+',function() { return 'multiple'; } )
   ];
