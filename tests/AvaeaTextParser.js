@@ -29,7 +29,7 @@ function Test_and_Result( query, origin_airport, return_airport, origin_date, re
 /////////////////////////////////////////////////////////////////
 const _ASSERT = require('chai').assert;
 const _PARSER = require('../src/api/services/AvaeaTextParser');
-const _TEST   = [
+const _TESTS  = [
     new Test_and_Result("Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
                         "Amsterdam",
                         "Petit St. Vincent",
@@ -257,7 +257,7 @@ const _TEST   = [
 /////////////////////////////////////////////////////////////////
 describe('AvaeaTextParser', function() {
     var parser = _PARSER.parser;
-    _TEST.forEach(function( t ) {
+    _TESTS.forEach(function( t ) {
 	it(t.query,function() {
 	    var not_parsed = parser.run(t.query);
 	    parser.keys.forEach(function( key ) {
