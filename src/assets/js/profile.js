@@ -1,7 +1,7 @@
 /* global $ */
 $(document).ready(function() {
 
-  $('.mymoreprofilebutton').click(function (el) {
+  $('.mymoreprofilebutton').click(function(el) {
     var cloneTarget = $(this).attr('for');
     var clone = $('#' + cloneTarget).clone().find("input").val("").end();
 
@@ -9,7 +9,6 @@ $(document).ready(function() {
     clone.appendTo($('#' + cloneTarget).parent());
     return false;
   });
-
 
   //remove fieldset
   $('.remove-fieldset').click(function(event){

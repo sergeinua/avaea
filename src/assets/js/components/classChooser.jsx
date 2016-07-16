@@ -10,7 +10,7 @@ class ClassChooser extends React.Component {
 }
 
 function renderClassChooser(classVal) {
-  if ($('#ClassChooser')) {
+  if ($('#ClassChooser').length) {
     ReactContentRenderer.render(<ClassChooser classVal={classVal}/>, $('#ClassChooser'));
   }
 }

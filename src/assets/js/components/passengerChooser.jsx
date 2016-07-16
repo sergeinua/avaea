@@ -12,7 +12,7 @@ class PassengerChooser extends React.Component {
 }
 
 function renderPassengerChooser(passengerVal) {
-  if ($('#PassengerChooser')) {
+  if ($('#PassengerChooser').length) {
     ReactContentRenderer.render(<PassengerChooser passengerVal={passengerVal}/>, $('#PassengerChooser'));
   }
 }
