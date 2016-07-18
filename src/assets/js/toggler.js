@@ -804,7 +804,8 @@ $(document).ready(function() {
     $('#buy-message').modal();
     return false;
   });
-
+/*
+  FIXME: DEMO-512 Please turn off all input validation on the booking page.
   $("#form_booking").validate({
     rules: {
       PaxType: {
@@ -870,6 +871,7 @@ $(document).ready(function() {
     }
     //onkeyup: false
   });
+*/
 
   //remove fieldset
   $('.remove-fieldset').click(function(event){
