@@ -480,9 +480,9 @@ module.exports = {
     // FIXME: DEMO-515 throwing out all the results we got from Mondee after the first 300
     if ( itineraries.length > 300 ) {
       var tmp;
-      tmp = _.dropRight(itineraries, (itineraries.length - 300));
+      tmp = itineraries.slice(0, 300);
+      sails.log.error('DEMO-515 throwing out all the results we got from Mondee after the first 300. Dropped: ', (itineraries.length - tmp.length));
       itineraries = tmp;
-      sails.log.error('DEMO-515 throwing out all the results we got from Mondee after the first 300. Dropped: ', (itineraries.length - 300));
       delete tmp;
     }
 
