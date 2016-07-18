@@ -482,7 +482,7 @@ module.exports = {
       var tmp;
       tmp = _.dropRight(itineraries, (itineraries.length - 300));
       itineraries = tmp;
-      sails.log.error('DEMO-515 throwing out all the results we got from Mondee after the first 300');
+      sails.log.error('DEMO-515 throwing out all the results we got from Mondee after the first 300. Dropped: ', (itineraries.length - 300));
       delete tmp;
     }
 
