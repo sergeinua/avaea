@@ -477,6 +477,14 @@ module.exports = {
     if (!itineraries) {
       return callback(itineraries, [], params);
     }
+    // FIXME: DEMO-515 throwing out all the results we got from Mondee after the first 300
+    if ( itineraries.length > 300 ) {
+      var tmp;
+      tmp = _.dropRight(itineraries, (itineraries.length - 300));
+      itineraries = tmp;
+      sails.log.error('DEMO-515 throwing out all the results we got from Mondee after the first 300');
+      delete tmp;
+    }
 
     var tileArr = null;
     if (!_.isEmpty(this.tiles)) { // quick fix in case db response is too long @todo refactor this with promises?
