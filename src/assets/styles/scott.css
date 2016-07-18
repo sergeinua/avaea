@@ -1333,6 +1333,7 @@ div.nothing-found:before{
   background: rgba(255,255,255,0.9);
   position: fixed;
   z-index: 1000;
+  display: none; /* default value */
 }
 
 .dimmer-close {

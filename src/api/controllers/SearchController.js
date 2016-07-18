@@ -228,10 +228,23 @@ module.exports = {
             iconSpriteMap = {};
           }
 
+          // Define max filter items
+          var max_filter_items = 0;
+          for(var key in tiles) {
+            var cur_tile_items=0;
+            tiles[key].filters.forEach( function (filter) {
+              if (parseInt(filter.count) > 0) {
+                cur_tile_items++;
+              }
+            });
+            max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
+          }
+
           return  res.view('search/result', {
             user: req.user,
             title: title,
             tiles: tiles,
+            max_filter_items: max_filter_items,
             searchParams: {
               DepartureLocationCode: params.DepartureLocationCode,
               ArrivalLocationCode: params.ArrivalLocationCode,
