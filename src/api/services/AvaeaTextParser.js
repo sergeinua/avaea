@@ -49,7 +49,6 @@ function Regexp_and_Conversion(pattern, conversion_proc) {
   this.re = (typeof(pattern) == 'string') ? new RegExp(pattern, 'i') : pattern;
   this.conversion_proc = conversion_proc;
 }
-// AvaeaTextParser
 function AvaeaTextParser() {
   // Properties
   this.keys = [
@@ -105,11 +104,11 @@ function AvaeaTextParser() {
     "friday|" +
     "saturday|" +
     "sunday";
-  // Handle "St. " and "Fd. " leading in the city names or handle three letter airport codes
+  // Handle "St. " and "Ft. " leading in the city names or handle three letter airport codes
   this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFf]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|" +
     "(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|" +
     "(?:[A-Z]{3})";
-  // regexps matchign different elements
+  // regexps matching different elements
   this.origin_date_regexps = [
     new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
@@ -230,20 +229,29 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('first',function() { return "F"; })
   ];
   this.number_of_tickets_regexps = [
+    new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
+    
     new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
+    new Regexp_and_Conversion('s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
     new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
     new Regexp_and_Conversion('(\\d+)(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return Number(s); }),
     new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
-    new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ),
+    new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
-    new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ),
-    new Regexp_and_Conversion('\\b([Ww]e|are)\\s+',function() { return 'multiple'; } ),
+    new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ), // same as old NUM #06
+    
+    new Regexp_and_Conversion('\\b[Ww]e\\b\\s+',function() { return 'multiple'; } ),
     new Regexp_and_Conversion('\\b[Oo]ur\\s+',function() { return 'multiple'; } ),
-    new Regexp_and_Conversion('\\b(children|students|a group)\\s+',function() { return 'multiple'; } ),
-    new Regexp_and_Conversion('tickets',function() { return 'multiple'; } ),
-    new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ),
+    new Regexp_and_Conversion('\\b(children|students|a group)\\s+',function() { return 'multiple'; } ), // same as old NUM #09
+    new Regexp_and_Conversion('tickets',function() { return 'multiple'; } ), // same as old NUM #10
+    new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ), // same as old NUM #11
+    
     // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
-    new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`']m\\b)",function() { return 1; } )
+    new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`']m\\b)",function() { return 1; } ),
+    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),          // NEW: added to handle "Cat and dog are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\bare\\b\\s+',function() { return 'multiple'; } )
   ];
 
   // Methods
@@ -265,7 +273,6 @@ function AvaeaTextParser() {
         this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re, '');
         return result;
       } catch (e) {
-        sails.log.error(e.message);
         return undefined;
       }
     };
@@ -286,28 +293,36 @@ function AvaeaTextParser() {
     return this.not_parsed;
   }
 }
-
-module.exports = {
-  run: function(text, callback) {
-    var err, result;
-    try {
-      var parser = new AvaeaTextParser();
-      var not_parsed = parser.run(text);
-      result = {
-        query               : text,
-        action              : 'form', // 'top', 'all' // TODO: doesn't recognized yet
-        airline             : undefined,              // TODO: doesn't recognized yet
-        origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
-        destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
-        origin_date         : parser.origin_date        ? parser.origin_date.value        : false,
-        return_date         : parser.return_date        ? parser.return_date.value        : false,
-        type                : parser.type               ? parser.type                     : undefined,
-        number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
-        class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
-      };
-    } catch (e) {
-      err = e;
+(function() {
+  if( typeof module != 'undefined' && module.exports ) {
+    var parser = new AvaeaTextParser();
+    module.exports = {
+      parser : parser,
+      run: function(text, callback) {
+	var err, result;
+	try {
+	  var not_parsed = parser.run(text);
+	  result = {
+            query               : text,
+            not_parsed          : not_parsed,
+            action              : 'form', // 'top', 'all' // TODO: is not recognized yet
+            airline             : undefined,              // TODO: is not recognized yet
+            origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
+            destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
+            origin_date         : parser.origin_date        ? parser.origin_date.value        : false,
+            return_date         : parser.return_date        ? parser.return_date.value        : false,
+            type                : parser.type               ? parser.type                     : undefined,
+            number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
+            class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
+	  };
+	} catch (e) {
+	  err = e;
+	}
+	return callback(err, result);
+      }
     }
-    return callback(err, result);
   }
-};
+  else {
+    // Are we running in a browser?
+  };
+})();
