@@ -33,6 +33,8 @@ Openflights.prototype.run = function( argv, asyncsCounter, airports ) {
 		    // Make sure these are numeric
 		    row.latitude   = Number(row.latitude);
 		    row.longitude  = Number(row.longitude);
+		    // see https://avaeaeng.atlassian.net/browse/DEMO-501
+		    row.name       = row.name.replace(/\\+'/g,"'");
 		    airports[row.iata_3code] = row;
                     break;
 		}

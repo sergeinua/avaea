@@ -381,8 +381,10 @@ nav {
 }
 
 .itinerary-airline span.glyphicon {
-  position: static;
-  top: 0;
+  font-size: 14px;
+  line-height: 1.1;
+  display: inline;
+  vertical-align: middle;
   padding: 5px 12px 5px 2px;
 }
 
@@ -1333,6 +1335,7 @@ div.nothing-found:before{
   background: rgba(255,255,255,0.9);
   position: fixed;
   z-index: 1000;
+  display: none; /* default value */
 }
 
 .dimmer-close {
