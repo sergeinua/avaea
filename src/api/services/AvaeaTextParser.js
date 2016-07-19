@@ -305,33 +305,36 @@ function AvaeaTextParser() {
     return this.not_parsed;
   }
 }
-/////////////////////////////////////////////////////////////////
-// module globals
-/////////////////////////////////////////////////////////////////
-var parser = new AvaeaTextParser();
-
-module.exports = {
-  parser: parser,
-  run: function(text, callback) {
-    var err, result;
-    try {
-      var not_parsed = parser.run(text);
-      result = {
-        query               : text,
-        not_parsed          : not_parsed,
-        action              : 'form', // 'top', 'all' // TODO: is not recognized yet
-        airline             : undefined,              // TODO: is not recognized yet
-        origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
-        destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
-        origin_date         : parser.origin_date        ? parser.origin_date.value        : false,
-        return_date         : parser.return_date        ? parser.return_date.value        : false,
-        type                : parser.type               ? parser.type                     : undefined,
-        number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
-        class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
-      };
-    } catch (e) {
-      err = e;
+(function() {
+  if( typeof module != 'undefined' && module.exports ) {
+    var parser = new AvaeaTextParser();
+    module.exports = {
+      parser : parser,
+      run: function(text, callback) {
+	var err, result;
+	try {
+	  var not_parsed = parser.run(text);
+	  result = {
+            query               : text,
+            not_parsed          : not_parsed,
+            action              : 'form', // 'top', 'all' // TODO: is not recognized yet
+            airline             : undefined,              // TODO: is not recognized yet
+            origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
+            destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
+            origin_date         : parser.origin_date        ? parser.origin_date.value        : false,
+            return_date         : parser.return_date        ? parser.return_date.value        : false,
+            type                : parser.type               ? parser.type                     : undefined,
+            number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
+            class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
+	  };
+	} catch (e) {
+	  err = e;
+	}
+	return callback(err, result);
+      }
     }
-    return callback(err, result);
   }
-};
+  else {
+    // Are we running in a browser?
+  };
+})();
