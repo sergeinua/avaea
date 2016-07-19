@@ -17,7 +17,7 @@ function ordinal_to_number(s) {
   var matches = /(\d+)(?:st|nd|rd|th)/.exec(s);
   return matches ? Number(matches[1]) : Number(s);
 }
-function get_weekday(d) {
+function get_weekday( d ) {
   return d.toDateString().replace(/^([a-z]+)\s.*/i, '$1');
 }
 function get_date_of_next_weekday(start, weekday) {
