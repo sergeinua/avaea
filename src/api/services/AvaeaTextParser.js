@@ -17,7 +17,7 @@ function ordinal_to_number(s) {
   var matches = /(\d+)(?:st|nd|rd|th)/.exec(s);
   return matches ? Number(matches[1]) : Number(s);
 }
-function get_weekday(d) {
+function get_weekday( d ) {
   return d.toDateString().replace(/^([a-z]+)\s.*/i, '$1');
 }
 function get_date_of_next_weekday(start, weekday) {
@@ -117,7 +117,7 @@ function AvaeaTextParser() {
   this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFf]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|" +
     "(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|" +
     "(?:[A-Z]{3})";
-
+  
   // regexps matching different elements
   this.origin_date_regexps = [
     new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
@@ -242,6 +242,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
+    
     new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
     new Regexp_and_Conversion('s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
     new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
@@ -250,15 +251,16 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
     new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ), // same as old NUM #06
+    
     new Regexp_and_Conversion('\\b[Ww]e\\b\\s+',function() { return 'multiple'; } ),
     new Regexp_and_Conversion('\\b[Oo]ur\\s+',function() { return 'multiple'; } ),
     new Regexp_and_Conversion('\\b(children|students|a group)\\s+',function() { return 'multiple'; } ), // same as old NUM #09
     new Regexp_and_Conversion('tickets',function() { return 'multiple'; } ), // same as old NUM #10
     new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ), // same as old NUM #11
+    
     // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
     new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`']m\\b)",function() { return 1; } ),
-    // NEW: added to handle "Cat and dog are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),
+    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),          // NEW: added to handle "Cat and dog are flying from SFO to JFK"
     new Regexp_and_Conversion('\\bare\\b\\s+',function() { return 'multiple'; } )
   ];
 
