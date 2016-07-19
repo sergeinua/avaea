@@ -137,7 +137,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('next\\s+((?:week)|(?:month))', function (matches, result) {
       return (new Date((new Date()).getTime() + (matches[1] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
     }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:week)|(?:month))', function (matches, result) {
+    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:week)|(?:month))s?', function (matches, result) {
       return (new Date((new Date()).getTime() + ordinal_to_number(matches[1]) * (matches[2] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
     }),
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
