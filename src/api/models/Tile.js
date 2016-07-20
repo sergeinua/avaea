@@ -553,9 +553,8 @@ module.exports = {
 
       // prepare destinationDeparture tile
       var destinationDepartureNameArr = [];
-      tmp.itinerariesDestinationDeparture = _.clone(itineraries, true);
       // Sort by departure time
-      tmp.itinerariesDestinationDeparture = _.sortBy(tmp.itinerariesDestinationDeparture, function (item) {
+      tmp.itinerariesDestinationDeparture = _.sortBy(itineraries, function (item) {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].from.minutes;
       });
@@ -625,8 +624,7 @@ module.exports = {
 
       // prepare sourceArrival tile
       var sourceArrivalNameArr = [];
-      tmp.itinerariesSourceArrival = _.clone(itineraries, true);
-      tmp.itinerariesSourceArrival = _.sortBy(tmp.itinerariesSourceArrival, function (item) {
+      tmp.itinerariesSourceArrival = _.sortBy(itineraries, function (item) {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].to.minutes;
       });
@@ -745,8 +743,7 @@ module.exports = {
       // prepare Price tile
       var priceNameArr = [];
 
-      tmp.itinerariesPrice = _.clone(itineraries, true);
-      tmp.itinerariesPrice = _.sortBy(tmp.itinerariesPrice, function(item) {
+      tmp.itinerariesPrice = _.sortBy(itineraries, function(item) {
         return Math.floor(item.price);
       });
 
@@ -808,8 +805,7 @@ module.exports = {
       delete tmp.priceNameArrTmp;
 
       // prepare Duration tile
-      tmp.itinerariesDuration = _.clone(itineraries, true);
-      tmp.itinerariesDuration = _.sortBy(tmp.itinerariesDuration, 'durationMinutes');
+      tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
 
       var durationNameArr = [];
 
@@ -872,8 +868,7 @@ module.exports = {
 
       // prepare Departure tile
       var departureNameArr = [];
-      tmp.itinerariesDeparture = _.clone(itineraries, true);
-      tmp.itinerariesDeparture = _.sortBy(tmp.itinerariesDeparture,  function (item) {
+      tmp.itinerariesDeparture = _.sortBy(itineraries,  function (item) {
         return item.citypairs[0].from.minutes;
       });
 
@@ -936,8 +931,7 @@ module.exports = {
 
       // prepare Arrival tile
       var arrivalNameArr = [];
-      tmp.itinerariesArrival = _.clone(itineraries, true);
-      tmp.itinerariesArrival = _.sortBy(tmp.itinerariesArrival, function (item) {
+      tmp.itinerariesArrival = _.sortBy(itineraries, function (item) {
         return item.citypairs[0].to.minutes;
       });
 
