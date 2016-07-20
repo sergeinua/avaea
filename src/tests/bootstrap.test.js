@@ -1,5 +1,6 @@
 var Sails = require('sails'),
   sails;
+  require('should');
 
 before(function(done) {
 
@@ -8,6 +9,9 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
+    log: {
+      level: 'error'
+    }
   }, function(err, server) {
     sails = server;
     if (err) return done(err);

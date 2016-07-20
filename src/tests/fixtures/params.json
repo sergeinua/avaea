@@ -1,0 +1,11 @@
+{
+    "DepartureLocationCode":"SFO",
+    "ArrivalLocationCode":"LHR",
+    "CabinClass":"E",
+    "passengers":"1",
+    "topSearchOnly":"0",
+    "flightType":"ROUND_TRIP",
+    "returnDate":"17/08/2016",
+    "voiceSearchQuery":"",
+    "departureDate":"01/08/2016"
+}

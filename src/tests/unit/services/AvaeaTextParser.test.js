@@ -260,10 +260,10 @@ describe('AvaeaTextParser', function() {
     it(t.query,function() {
       var not_parsed = parser.run(t.query);
       parser.keys.forEach(function( key ) {
-	var value = undefined;
-	if( parser[key] )
-	  value = (typeof(parser[key].value.toDateString)=="function") ? parser[key].value.toDateString() : parser[key].value;
-	if( t[key]!=value )
+      var value = undefined;
+      if( parser[key] )
+        value = (typeof(parser[key].value.toDateString)=="function") ? parser[key].value.toDateString() : parser[key].value;
+      if( t[key]!=value )
           throw Error("Values for '"+key+"' do not match, '"+t[key]+"' vs. '"+value+"'"); 
       });
     });
