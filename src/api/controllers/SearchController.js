@@ -222,6 +222,7 @@ module.exports = {
         //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
         User.publishCreate(req.user);
 
+        utils.timeLog('sprite_map');
         Airlines.makeIconSpriteMap(function (err, iconSpriteMap) {
           if (err) {
             sails.log.error(err);
@@ -239,6 +240,7 @@ module.exports = {
             });
             max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
           }
+          sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('smart_ranking'));
 
           return  res.view('search/result', {
             user: req.user,

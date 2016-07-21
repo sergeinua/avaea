@@ -81,6 +81,6 @@ module.exports = {
     }
   },
   timeLogGetHr: function(label) {
-    return utils.durationHr(utils.timeLogGet(label));
+    return utils.durationHr(utils.timeLogGet(label)) || '0s';
   }
 }

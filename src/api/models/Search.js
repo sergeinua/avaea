@@ -67,7 +67,9 @@ module.exports = {
       var guid = this.getCurrentSearchGuid() + '-' + provider;
       var hash = require('crypto').createHash('md5').update( JSON.stringify(params.searchParams) ).digest("hex");
       // remove all searches updated more than 24 hrs ago
+      utils.timeLog('db_clean');
       this.destroy({ updatedAt: { '<': sails.moment().startOf('day').subtract(1, 'days').toDate() } }, (err) => {
+        sails.log.info('remove all searches updated more than 24 hrs ago time: %s', utils.timeLogGetHr('db_clean'));
         if (err) {
           sails.log.error(err);
         }
@@ -123,6 +125,7 @@ module.exports = {
             // run async API search
             global[provider].flightSearch(guid, params, (err, result) => {
               sails.log.info(provider + ' search finished!');
+              utils.timeLog('db_save');
               if (!err) {
                 // store API search data in DB even if it's empty
                 row.result = {
@@ -131,6 +134,7 @@ module.exports = {
                   result: result
                 };
                 row.save();
+                sails.log.info('store API search data in DB time: %s', utils.timeLogGetHr('db_save'));
                 if (!done) {
                   done = true;
                   sails.log.info('Get search data from API');
