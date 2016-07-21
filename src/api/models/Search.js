@@ -133,8 +133,7 @@ module.exports = {
                   durationRange: result.durationRange,
                   result: result
                 };
-                row.save();
-                sails.log.info('store API search data in DB time: %s', utils.timeLogGetHr('db_save'));
+                this.saveResult(row);
                 if (!done) {
                   done = true;
                   sails.log.info('Get search data from API');
@@ -163,7 +162,20 @@ module.exports = {
     });
     return;
   },
-
+  saveResult: function (data) {
+    utils.timeLog('raw_db_save');
+    this.query(
+      'UPDATE ' + this.tableName + ' SET params = $1, result = $2 WHERE id = $3',
+      [data.params, data.result, data.id],
+      function(err) {
+        if (err) {
+          sails.log.error(err);
+        } else {
+          sails.log.info('store API search data in DB (raw query) time: %s', utils.timeLogGetHr('raw_db_save'));
+        }
+      }
+    );
+  },
   /**
    * Used in the booking as temporary link for last result of the flights search
    * @returns {string}
