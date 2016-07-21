@@ -52,7 +52,7 @@ module.exports = {
   flightapis: {
     mondee: {
       baseEndPoint: 'http://nginx:23457/api/v2', // 'http://sandbox.trippro.com/api/v2',
-      clientId: 'CFS1017'
+      clientId: 'CFP1017'
     },
     searchProvider: /*'mystifly'*/  'mondee'
   },
