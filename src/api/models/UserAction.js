@@ -12,7 +12,7 @@ var User = {
     logInfo    : { type: 'json' }
   },
 
-  saveAction: function (user, actionType, data) {
+  saveAction: function (user, actionType, data, callback) {
     var uaFields = {
       user       : user,
       actionType : actionType,
@@ -22,6 +22,7 @@ var User = {
       if (err) {
         sails.log.error(err);
       }
+      callback && callback();
     });
   }
 
