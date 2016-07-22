@@ -70,7 +70,7 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
-  var showDimmer = getCookie('dimmer_was_showed');
+  var showDimmer = getCookie('dimmer_was_showed') || 0;
   if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
     _displayDimmer(true);
 
