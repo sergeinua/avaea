@@ -70,8 +70,8 @@ var setupVoiceSearch = function () {
 };
 
 $(document).ready(function() {
-
-  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
+  var showDimmer = getCookie('dimmer_was_showed') || 0;
+  if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount ) {
     _displayDimmer(true);
 
     if (GlobalSearchResultCount < 5) {
@@ -79,8 +79,10 @@ $(document).ready(function() {
         $('.dimmer').fadeOut(function(){
           _displayDimmer(false);
         });
-      }, 1000)
+      }, 1000);
     }
+  } else {
+    _displayDimmer(false);
   }
 
   $("#user-price-modal").modal();
@@ -117,6 +119,7 @@ $(document).ready(function() {
   });
 
   var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
+  var filterItemHeight = 31.25; // pixels
   var bucketFilterItemHeigh = 34; // pixes
   var bucketAirlineScrollPos = 0;
   var heightNav = 0;
@@ -566,15 +569,25 @@ $(document).ready(function() {
   });
   $( window ).resize(function() {
     $('body').removeClass('landscape-mode');
+    var modalIsOpen = $('#landscapeMode').length && ($("#searchBanner").data('bs.modal') || {}).isShown;
+
     if (isLandscapeMode()) {
       $('body').addClass('landscape-mode');
       if (isMobile.any() && $('#landscapeMode').length) {
+        if ( modalIsOpen ) {
+          $('#searchBanner').hide();
+          $('#planePath').hide();
+        }
         $('#landscapeMode').modal('show');
         $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
         $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
       }
     } else {
       if(isMobile.any()) {
+        if ( modalIsOpen ) {
+          $('#searchBanner').show();
+          $('#planePath').show();
+        }
         $('#landscapeMode').modal('hide');
       }
     }
@@ -698,6 +711,7 @@ $(document).ready(function() {
     $("body").addClass("loading");
     $('#planePath').removeClass('hidden');
     setInterval('fly("#plane")', 40);
+    setCookie('dimmer_was_showed', 0);
     return true;
   });
 
@@ -799,6 +813,13 @@ $(document).ready(function() {
   /**
    * Client validation during booking of itinerary
    */
+  // DEMO-512 disable bookings
+  $("#form_booking").submit(function() {
+    $('#buy-message').modal();
+    return false;
+  });
+/*
+  FIXME: DEMO-512 Please turn off all input validation on the booking page.
   $("#form_booking").validate({
     rules: {
       PaxType: {
@@ -864,6 +885,7 @@ $(document).ready(function() {
     }
     //onkeyup: false
   });
+*/
 
   //remove fieldset
   $('.remove-fieldset').click(function(event){
@@ -1398,8 +1420,13 @@ $(document).ready(function() {
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
       recalculateBodyPadding();
     }
+
+    var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+    if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
+      max_filter_items = maxBucketVisibleFilters;
+    }
     $('.list-group').slimScroll({
-      height: '125px',
+      height: parseInt(max_filter_items * filterItemHeight) +'px',
       touchScrollStep: 30
     });
   }
@@ -1461,29 +1488,17 @@ function setCookie(name, value, options) {
 }
 
 function _displayDimmer(flag) {
-
   if (flag) {
-
+    $('.dimmer').show();
     $('.dimmer').off('click').on('click', function(){
+      setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
     });
-
-    //$(document)
-    //  .off('mousewheel').on('mousewheel', function(event){
-    //    console.log('mousewheel', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  })
-    //  .off('swipe').on('swipe', function(event){
-    //    console.log('swipe', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  });
-
+    $('body').css('overflow', 'hidden');
   } else {
     $('.dimmer').hide();
+    $('body').css('overflow', 'auto');
   }
-
 }
 
 

@@ -494,6 +494,8 @@ module.exports = {
             return callback( err, [] );
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {
+              utils.timeLog('mondee_prepare_result');
+
               var minDuration, maxDuration, minPrice, maxPrice;
 
               // Merchandising Fake keys Issue #39
@@ -534,6 +536,7 @@ module.exports = {
                   minDuration: minDuration || 0,
                   maxDuration: maxDuration || 0
                 };
+                sails.log.info('Map result data to our structure time: %s', utils.timeLogGetHr('mondee_prepare_result'));
                 return callback( null, resArr );
               });
             }
