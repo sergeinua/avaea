@@ -106,6 +106,7 @@ module.exports = {
     sails.log.info('Using default bucketization algorithm');
 
     if (!itineraries) {
+      sails.log.info('Itineraries not found');
       return callback(itineraries, [], params);
     }
     var tileArr = _.clone(this.tiles, true);
@@ -169,6 +170,7 @@ module.exports = {
     sails.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
       /* Smart Ranking {{{ */
+      utils.timeLog('smart_ranking');
       sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
@@ -197,8 +199,9 @@ module.exports = {
         }
       }
       cicstanford.print_many_itineraries(itineraries);
+      sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
       /* }}} Smart Ranking */
-
+      utils.timeLog('tile_generation');
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
       var priceStep = (itineraries.priceRange.maxPrice - itineraries.priceRange.minPrice) / 4;
@@ -273,6 +276,7 @@ module.exports = {
         id: 'duration_tile_' + i,
         count : 0
       });
+      sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
 
       var orderBy = _.min(tileArr, 'order').id;
       orderBy = 'smart';
@@ -475,6 +479,7 @@ module.exports = {
   getTilesDataAlternative: function (itineraries, params, callback) {
     sails.log.info('Using alternative bucketization algorithm');
     if (!itineraries) {
+      sails.log.info('Itineraries not found');
       return callback(itineraries, [], params);
     }
 
@@ -486,6 +491,7 @@ module.exports = {
     }
 
     /* Smart Ranking {{{ */
+    utils.timeLog('smart_ranking');
     sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
     cicstanford.compute_departure_times_in_minutes(itineraries);
     cicstanford.determine_airline(itineraries);
@@ -525,7 +531,9 @@ module.exports = {
       sails.log.info('after DEMO-285', itineraries.length);
     }
     // cicstanford.print_many_itineraries(itineraries);
+    sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
+    utils.timeLog('tile_generation');
 
     // Max first displayed items in the tile filter
     var N = Math.floor(itineraries.length / 4);
@@ -545,9 +553,8 @@ module.exports = {
 
       // prepare destinationDeparture tile
       var destinationDepartureNameArr = [];
-      tmp.itinerariesDestinationDeparture = _.clone(itineraries, true);
       // Sort by departure time
-      tmp.itinerariesDestinationDeparture = _.sortBy(tmp.itinerariesDestinationDeparture, function (item) {
+      tmp.itinerariesDestinationDeparture = _.sortBy(itineraries, function (item) {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].from.minutes;
       });
@@ -617,8 +624,7 @@ module.exports = {
 
       // prepare sourceArrival tile
       var sourceArrivalNameArr = [];
-      tmp.itinerariesSourceArrival = _.clone(itineraries, true);
-      tmp.itinerariesSourceArrival = _.sortBy(tmp.itinerariesSourceArrival, function (item) {
+      tmp.itinerariesSourceArrival = _.sortBy(itineraries, function (item) {
         var lastElement = item.citypairs.length - 1;
         return item.citypairs[lastElement].to.minutes;
       });
@@ -731,14 +737,12 @@ module.exports = {
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
       Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
-      sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):');
-      sails.log.info(Tile.itineraryPredictedRank);
+      sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):', Tile.itineraryPredictedRank);
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
       var priceNameArr = [];
 
-      tmp.itinerariesPrice = _.clone(itineraries, true);
-      tmp.itinerariesPrice = _.sortBy(tmp.itinerariesPrice, function(item) {
+      tmp.itinerariesPrice = _.sortBy(itineraries, function(item) {
         return Math.floor(item.price);
       });
 
@@ -800,8 +804,7 @@ module.exports = {
       delete tmp.priceNameArrTmp;
 
       // prepare Duration tile
-      tmp.itinerariesDuration = _.clone(itineraries, true);
-      tmp.itinerariesDuration = _.sortBy(tmp.itinerariesDuration, 'durationMinutes');
+      tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
 
       var durationNameArr = [];
 
@@ -864,8 +867,7 @@ module.exports = {
 
       // prepare Departure tile
       var departureNameArr = [];
-      tmp.itinerariesDeparture = _.clone(itineraries, true);
-      tmp.itinerariesDeparture = _.sortBy(tmp.itinerariesDeparture,  function (item) {
+      tmp.itinerariesDeparture = _.sortBy(itineraries,  function (item) {
         return item.citypairs[0].from.minutes;
       });
 
@@ -928,8 +930,7 @@ module.exports = {
 
       // prepare Arrival tile
       var arrivalNameArr = [];
-      tmp.itinerariesArrival = _.clone(itineraries, true);
-      tmp.itinerariesArrival = _.sortBy(tmp.itinerariesArrival, function (item) {
+      tmp.itinerariesArrival = _.sortBy(itineraries, function (item) {
         return item.citypairs[0].to.minutes;
       });
 
@@ -990,6 +991,7 @@ module.exports = {
       delete tmp.lastArrival;
       delete tmp.uniqArrival;
 
+      sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
       orderBy = 'price_tile';
       switch (orderBy) {
