@@ -688,6 +688,14 @@ $(document).ready(function() {
       setErrorElement('#to-area');
       _isError = true;
     }
+    if ($('#originAirport').val() == $('#destinationAirport').val()) {
+      setErrorElement('#from-area');
+      setErrorElement('#from-area-selected');
+      setErrorElement('#to-area');
+      setErrorElement('#to-area-selected');
+      _isError = true;
+    }
+
 
     // Check existence of the return date for the round trip
     if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
