@@ -57,7 +57,7 @@ module.exports = function forbidden (data, options) {
     // @link https://avaeaeng.atlassian.net/browse/DEMO-489
     return res.redirect('/login');
 
-    return res.view('403', {data: data}, function (err, html) {
+    /*return res.view('403', {data: data}, function (err, html) {
 
       // If a view error occured, fall back to JSON(P).
       if (err) {
@@ -75,7 +75,7 @@ module.exports = function forbidden (data, options) {
       }
 
       return res.send(html);
-    });
+    });*/
   }
 };
 
