@@ -217,10 +217,11 @@ module.exports = {
           searchParams  : params,
           countAll      : itineraries.length
         }, Search.getStatistics(itineraries));
-        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
+        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData, function () {
+          User.publishCreate(req.user);
+        });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
         //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
-        User.publishCreate(req.user);
 
         utils.timeLog('sprite_map');
         Airlines.makeIconSpriteMap(function (err, iconSpriteMap) {
@@ -268,22 +269,5 @@ module.exports = {
         });
       });
     });
-  },
-
-  voiceLog: function (req, res) {
-    utils.timeLog('search voice');
-    if (req.param('q')) {
-      var params = {
-        searchParams: {
-          queryString: req.param('q')
-        }
-      },
-      queryResult = req.param('result') || 'failed';
-      sails.log.info('Search Voice Params:', params);
-      UserAction.saveAction(req.user, 'voice_search_' + queryResult, params);
-      User.publishCreate(req.user);
-      return res.json({'success': true});
-    }
-    return res.json([]);
   }
 };

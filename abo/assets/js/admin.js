@@ -56,6 +56,7 @@ $(document).ready(function() {
   var currentChartType;
   var user_id = 0, prevLog, prevSnowflake, prevSpider,
     lastUpdated = 0;
+  var showGrid = false, dataGrid = [];
 
   currentChartType = $('#chartSelection').val();
 
@@ -116,8 +117,9 @@ $(document).ready(function() {
     on_itinerary_purchase : {title: 'itinerary',            colorClass: 'danger'},
     tile_prediction       : {title: 'tile prediction',      colorClass: 'default'},
     itinerary_prediction  : {title: 'itinerary prediction', colorClass: 'active'},
-    voice_search_success  : {title: 'voice_search_success', colorClass: 'success'},
-    voice_search_failed   : {title: 'voice_search_failed',  colorClass: 'danger'},
+    voice_search_success  : {title: 'voice_search_success', colorClass: 'success'},// @todo This is old behavior. Remove it.
+    voice_search_failed   : {title: 'voice_search_failed',  colorClass: 'danger'},// @todo This is old behavior. Remove it.
+    voice_search          : {title: 'voice_search',         colorClass: 'success'},
     empty                 : {title: 'empty log',            colorClass: 'danger'}
   };
   var autoscrollme = function () {
@@ -140,6 +142,8 @@ $(document).ready(function() {
           if (lastUpdated < data.id) {
             lastUpdated = data.id;
           }
+          if (!actionMap[data.actionType]) return;
+
           var action = actionMap[data.actionType].title;
           var colorClass = actionMap[data.actionType].colorClass;
           if (data.actionType == 'on_tile_choice') {
@@ -162,21 +166,23 @@ $(document).ready(function() {
               action = 'itinerary expanded';
             }
           }
+          if (data.actionType == 'voice_search_success' || data.actionType == 'voice_search_failed') {
+            action = data.actionType = 'voice_search';
+          } else if (data.actionType == 'voice_search') {
+            if (data.logInfo.queryResult) {
+              colorClass = (data.logInfo.queryResult == 'failed' ? 'danger' : 'success');
+            }
+          }
           var date = new Date(data.createdAt).toLocaleString();
-
+          dataGrid.push(data);
+          if (data.actionType == "order_itineraries" && showGrid) {
+            insertRowToGridSearch(data);
+          }
           $('#log_actions').append($('<tr class="'+data.actionType+' alert '+colorClass+' user_id_'
           +data.user+'"><td>'+date+'</td><td>'+data.id+'</td><td>'+action+'</td><td>'+JSON.stringify(data.logInfo)+'</td></tr>'));
         });
 
-        $('.filters_checkbox').each(function() {
-          filter = $(this).attr('for');
-          if (filter && $(this).is(':checked')) {
-            $('.alert').filter('.' + filter).show();
-          } else if (filter) {
-            $('.alert').filter('.' + filter).hide();
-          }
-        });
-
+        checkedFilters();
         autoscrollme();
       }
     });
@@ -335,16 +341,118 @@ $(document).ready(function() {
 
   };
 
-  $('.filters_checkbox').click(function() {
-    $('.alert').show();
+  var checkedFilters = function () {
+    $('.alert').hide();
+    var cntFilters = 0, nameFilter, filtersActive = [];
     $('.filters_checkbox').each(function() {
-      filter = $(this).attr('for');
+      var filter = $(this).attr('for');
       if (filter && $(this).is(':checked')) {
-        $('.alert').filter('.' + filter).show();
-      } else if (filter) {
-        $('.alert').filter('.' + filter).hide();
+        cntFilters++;
+        nameFilter = filter;
+        if (filtersActive.indexOf(filter) == -1) {
+          filtersActive.push(filter);
+        }
       }
     });
+
+    if (cntFilters == 1 && nameFilter == 'order_itineraries') {
+      generateGrid(nameFilter);
+    } else {
+      showGrid = false;
+      $('#jsGrid').jsGrid('destroy');
+      filtersActive.forEach(function (item) {
+        $('.alert').filter('.' + item).show();
+      });
+    }
+  };
+
+  var generateGrid = function (nameFilter) {
+    if (!dataGrid.length) return;
+
+    if (nameFilter == 'order_itineraries') {
+      if (!showGrid) {
+        generateGridSearch(nameFilter);
+      }
+    }
+  };
+
+  var generateGridSearch = function (nameFilter) {
+    if (!dataGrid.length) return;
+    var dataFilterGrid = [];
+    dataGrid.forEach(function (item) {
+      if (item.actionType == nameFilter) {
+        dataFilterGrid.push(getRowGridSearch(item));
+      }
+    });
+    showGrid = true;
+    $('#jsGrid').jsGrid('destroy');
+    $('#jsGrid').jsGrid({
+      height: '470px',
+      width: '100%',
+      inserting: false,
+      editing: false,
+      sorting: true,
+      paging: false,
+      filtering: false,
+      autoload: true,
+      controller: {
+        loadData: function () {
+          return dataFilterGrid;
+        }
+      },
+      fields: [
+        {name: 'createdAt', title: 'Date', type: 'date'},
+        {name: 'id', title: 'Id', type: 'number'},
+        {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
+        {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
+        {name: 'departureDate', title: 'Departure Date', type: 'date'},
+        {name: 'returnDate', title: 'Return Date', type: 'date'},
+        {name: 'serviceProvider', title: 'Name API', type: 'text'},
+        {name: 'serviceCount', title: 'Count', type: 'number'},
+        {name: 'serviceTimeWork', title: 'Time', type: 'date'},
+        //{name: 'airportsCode', title: 'Airports'},
+        //{type: 'control', modeSwitchButton: false, editButton: false, deleteButton: false}
+      ]
+    });
+  };
+
+  var getRowGridSearch = function (row) {
+    return {
+      createdAt: row.createdAt,
+      id: row.id,
+      DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
+      ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
+      departureDate: row.logInfo.searchParams.departureDate || '-- na --',
+      returnDate: row.logInfo.searchParams.returnDate || '-- na --',
+      serviceProvider: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
+        row.logInfo.searchInfoByProviders.map(function (it) {
+          return it.name + '<br/>';
+        }) : '--na--',
+      serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
+        row.logInfo.searchInfoByProviders.map(function (it) {
+          return it.count + '<br/>';
+        }) : '--na--',
+      serviceTimeWork: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
+        row.logInfo.searchInfoByProviders.map(function (it) {
+          return it.time + '<br/>';
+        }) : '--na--',
+      //airportsCode: (row.logInfo.searchInfoAirports && row.logInfo.searchInfoAirports.length) ?
+      //  row.logInfo.searchInfoAirports.map(function (it) {
+      //    return it.code + '=' + it.count + '; ';
+      //  }) : '--na--'
+    };
+  };
+
+  var insertRowToGridSearch = function (row) {
+    $('#jsGrid').jsGrid('insertItem', getRowGridSearch(row)).done(function () {
+      var sorting = $('#jsGrid').jsGrid('getSorting');
+      if (sorting)
+        $('#jsGrid').jsGrid('sort', sorting);
+    });
+  };
+
+  $('.filters_checkbox').click(function() {
+    checkedFilters();
     return true;
   });
 

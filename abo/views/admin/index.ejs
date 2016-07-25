@@ -7,13 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/bootstrap-theme.css">
-    <link rel="stylesheet" href="/styles/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/styles/bootstrap.css">
-    <link rel="stylesheet" href="/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/slick-theme.css">
-    <link rel="stylesheet" href="/styles/slick.css">
+
     <!--STYLES END-->
     <style  type="text/css">
       body { padding-top: 70px; }
@@ -165,9 +159,14 @@
             </li>
             <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
               <label>
-                <input class="filters_checkbox" type="checkbox" for="order_itineraries" checked> Order itineraries
+                <input class="filters_checkbox" type="checkbox" for="order_itineraries" checked> Search
               </label>
             </li>
+          <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
+            <label>
+              <input class="filters_checkbox" type="checkbox" for="voice_search" checked> Voice Search
+            </label>
+          </li>
             <li class=" list-group-item-danger" style="padding: 5px 5px 5px 5px">
               <label>
                 <input class="filters_checkbox" type="checkbox" for="on_itinerary_purchase" checked> Itinerary choice
@@ -199,22 +198,19 @@
 
               </div>
           </div>
-          <div class="col-md-8" style="max-height: 500px; overflow: scroll;" id="log_table_div">
-              <table class="table table-condensed" id="log_actions" style="width:100%;"></table>
+          <div class="col-md-8" style="max-height: 500px; overflow: auto; height: 100%;" id="log_table_div">
+            <table class="table table-condensed" id="log_actions" style="width:100%;"></table>
+            <div id="jsGrid"></div>
           </div>
       </div>
 
 
     </div>
 </div>
+    <!--SCRIPTS-->
 
-    <script src="/js/dependencies/jquery.js"></script>
-    <script src="/js/dependencies/Chart.js"></script>
-    <script src="/js/dependencies/bootstrap.js"></script>
-    <script src="/js/dependencies/sails.io.js" autoConnect="false"></script>
-    <script src="/js/dependencies/snowflake.js"></script>
-    <script src="/js/dependencies/typeahead.bundle.min.js"></script>
-    <script src="/js/admin.js"></script>
+    <!--SCRIPTS END-->
+
     <script type="text/javascript">
       <% if (selectedAirline) { %>
           var GlobalSelectedAirline = '<%=selectedAirline %>';
