@@ -1,0 +1,5425 @@
+{
+  "user": {
+    "id": 1
+  },
+  "title": "TEST &rarr; TEST",
+  "tiles": [],
+  "max_filter_items": 0,
+  "searchParams": {
+    "DepartureLocationCode": "TEST",
+    "ArrivalLocationCode": "TEST",
+    "departureDate": "25 Jul",
+    "returnDate": "",
+    "CabinClass": "undefined",
+    "passengers": "test",
+    "flightType": "test"
+  },
+  "searchResult": [
+    {
+      "id": "621fa435-7e7d-4662-97a5-d64f59fbbb56",
+      "service": "mondee",
+      "price": 980.55,
+      "currency": "USD",
+      "duration": "1d 1h",
+      "durationMinutes": 1510,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "14h 20m",
+          "durationMinutes": 860,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 150,
+          "stopsDuration": "2h 30m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "2h 30m",
+              "durationMinutes": 150
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "06477c58-74fb-49df-bfde-02987112e15c",
+      "service": "mondee",
+      "price": 980.55,
+      "currency": "USD",
+      "duration": "1d 8h",
+      "durationMinutes": 1915,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "03:55p",
+            "quarter": 3,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 955
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "21h 5m",
+          "durationMinutes": 1265,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 550,
+          "stopsDuration": "9h 10m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "9h 10m",
+              "durationMinutes": 550
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 784,
+              "abbrNumber": "AC784",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "duration": "5h",
+              "durationMinutes": 300,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free",
+                "Priority seat"
+              ]
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "Lounge"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "5ceb36a7-6b5c-44ff-a48d-98234698bbbb",
+      "service": "mondee",
+      "price": 980.87,
+      "currency": "USD",
+      "duration": "1d 10&#189;h",
+      "durationMinutes": 2080,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:30a",
+            "quarter": 2,
+            "minutes": 390
+          },
+          "duration": "23h 50m",
+          "durationMinutes": 1430,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 720,
+          "stopsDuration": "12h",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "duration": "12h",
+              "durationMinutes": 720
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 856,
+              "abbrNumber": "AC856",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:30a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Priority seat"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "e86de146-0281-434a-b39d-9a05537645d3",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 2h",
+      "durationMinutes": 1570,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "09:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1310
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "15h 20m",
+          "durationMinutes": 920,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 169,
+          "stopsDuration": "2h 49m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:01a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "2h 49m",
+              "durationMinutes": 169
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 418,
+              "abbrNumber": "UA418",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "09:50p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "06:01a"
+              },
+              "duration": "5h 11m",
+              "durationMinutes": 311,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "bdb01799-5a6a-4770-82ed-e6fe1ab34bc1",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 1h",
+      "durationMinutes": 1510,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1370
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "14h 20m",
+          "durationMinutes": 860,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 107,
+          "stopsDuration": "1h 47m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "07:03a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "1h 47m",
+              "durationMinutes": 107
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 355,
+              "abbrNumber": "UA355",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:50p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "07:03a"
+              },
+              "duration": "5h 13m",
+              "durationMinutes": 313,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "35f9a627-ff41-4bbc-9c19-07c0090838e3",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 35m",
+      "durationMinutes": 1475,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:25p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1405
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "13h 45m",
+          "durationMinutes": 825,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 75,
+          "stopsDuration": "1h 15m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "07:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "1h 15m",
+              "durationMinutes": 75
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1592,
+              "abbrNumber": "UA1592",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:25p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "07:35a"
+              },
+              "duration": "5h 10m",
+              "durationMinutes": 310,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "de9a5b23-575d-4f52-a492-b8baa4045513",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 2h",
+      "durationMinutes": 1560,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "09:40p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1300
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "15h 10m",
+          "durationMinutes": 910,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 160,
+          "stopsDuration": "2h 40m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:05a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "2h 40m",
+              "durationMinutes": 160
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1536,
+              "abbrNumber": "UA1536",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "09:40p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "06:05a"
+              },
+              "duration": "5h 25m",
+              "durationMinutes": 325,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "8f3ec19e-0c5e-4d84-999d-c5e1dd79167d",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 8h",
+      "durationMinutes": 1910,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "03:50p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 950
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "21h",
+          "durationMinutes": 1260,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 515,
+          "stopsDuration": "8h 35m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "12:10a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "8h 35m",
+              "durationMinutes": 515
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 213,
+              "abbrNumber": "UA213",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "03:50p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "12:10a"
+              },
+              "duration": "5h 20m",
+              "durationMinutes": 320,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "c47a6a8d-3dd2-4688-98a7-e4b99c0e1dd9",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 7h",
+      "durationMinutes": 1850,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "04:50p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1010
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "20h",
+          "durationMinutes": 1200,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 455,
+          "stopsDuration": "7h 35m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "01:10a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "7h 35m",
+              "durationMinutes": 455
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 441,
+              "abbrNumber": "UA441",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "04:50p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "01:10a"
+              },
+              "duration": "5h 20m",
+              "durationMinutes": 320,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "7f9de8d2-8e22-4ade-8b1c-47eee572290f",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9&#189;h",
+      "durationMinutes": 2025,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1430
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:45a",
+            "quarter": 2,
+            "minutes": 405
+          },
+          "duration": "22h 55m",
+          "durationMinutes": 1375,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 607,
+          "stopsDuration": "10h 7m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "08:18a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:25p"
+              },
+              "duration": "10h 7m",
+              "durationMinutes": 607
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1796,
+              "abbrNumber": "UA1796",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:50p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:18a"
+              },
+              "duration": "5h 28m",
+              "durationMinutes": 328,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 110,
+              "abbrNumber": "UA110",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "06:25p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:45a"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "d37b03ea-8d6b-40a2-9b3c-504f5450151f",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9&#189;h",
+      "durationMinutes": 2010,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:15p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1395
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "05:55a",
+            "quarter": 1,
+            "minutes": 355
+          },
+          "duration": "22h 40m",
+          "durationMinutes": 1360,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 640,
+          "stopsDuration": "10h 40m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "05:15a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "03:55p"
+              },
+              "duration": "10h 40m",
+              "durationMinutes": 640
+            }
+          ],
+          "path": [
+            "SFO",
+            "ORD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 995,
+              "abbrNumber": "UA995",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:15p"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-02",
+                "time": "05:15a"
+              },
+              "duration": "4h",
+              "durationMinutes": 240,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 958,
+              "abbrNumber": "UA958",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-02",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "05:55a"
+              },
+              "duration": "8h",
+              "durationMinutes": 480,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "c282f984-0271-4a15-b9b3-00d07837d36f",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 11&#189;h",
+      "durationMinutes": 2120,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "09:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1310
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:20a",
+            "quarter": 2,
+            "minutes": 380
+          },
+          "duration": "1d 30m",
+          "durationMinutes": 1470,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 719,
+          "stopsDuration": "11h 59m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:01a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "duration": "11h 59m",
+              "durationMinutes": 719
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 418,
+              "abbrNumber": "UA418",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "09:50p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "06:01a"
+              },
+              "duration": "5h 11m",
+              "durationMinutes": 311,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "Lounge"
+              ]
+            },
+            {
+              "number": 918,
+              "abbrNumber": "UA918",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:20a"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Priority seat"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "9e60ad86-9d4f-4c34-86f6-b49dfea27689",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9&#189;h",
+      "durationMinutes": 2015,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "02:25p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 865
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "22h 45m",
+          "durationMinutes": 1365,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 610,
+          "stopsDuration": "10h 10m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "10h 10m",
+              "durationMinutes": 610
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 2046,
+              "abbrNumber": "UA2046",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "02:25p"
+              },
+              "to": {
+                "code": "DCA",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "duration": "5h 15m",
+              "durationMinutes": 315,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "f9be787b-9ac1-4b83-839d-c173b1ee881f",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 10&#189;h",
+      "durationMinutes": 2080,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1430
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "07:40a",
+            "quarter": 2,
+            "minutes": 460
+          },
+          "duration": "23h 50m",
+          "durationMinutes": 1430,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 672,
+          "stopsDuration": "11h 12m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "08:18a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "07:30p"
+              },
+              "duration": "11h 12m",
+              "durationMinutes": 672
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1796,
+              "abbrNumber": "UA1796",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:50p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:18a"
+              },
+              "duration": "5h 28m",
+              "durationMinutes": 328,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 29,
+              "abbrNumber": "UA29",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "07:30p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "07:40a"
+              },
+              "duration": "7h 10m",
+              "durationMinutes": 430,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "36790578-d5f6-42d8-8a52-1ac13908edf4",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 10h",
+      "durationMinutes": 2035,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "01:45p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 825
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "23h 5m",
+          "durationMinutes": 1385,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 631,
+          "stopsDuration": "10h 31m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "10:14p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "10h 31m",
+              "durationMinutes": 631
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1674,
+              "abbrNumber": "UA1674",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "01:45p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-01",
+                "time": "10:14p"
+              },
+              "duration": "5h 29m",
+              "durationMinutes": 329,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Priority seat"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "6a64e956-776c-46fc-94fc-e31a74de820d",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 10&#189;h",
+      "durationMinutes": 2060,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:50p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1370
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:20a",
+            "quarter": 2,
+            "minutes": 380
+          },
+          "duration": "23h 30m",
+          "durationMinutes": 1410,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 657,
+          "stopsDuration": "10h 57m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "07:03a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "duration": "10h 57m",
+              "durationMinutes": 657
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 355,
+              "abbrNumber": "UA355",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:50p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "07:03a"
+              },
+              "duration": "5h 13m",
+              "durationMinutes": 313,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 918,
+              "abbrNumber": "UA918",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:20a"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "7b1b5ba7-69aa-4d0a-94b9-fcf494311612",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9h",
+      "durationMinutes": 1975,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "02:45p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 885
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "22h 5m",
+          "durationMinutes": 1325,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 572,
+          "stopsDuration": "9h 32m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "11:13p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "9h 32m",
+              "durationMinutes": 572
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1456,
+              "abbrNumber": "UA1456",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "02:45p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-01",
+                "time": "11:13p"
+              },
+              "duration": "5h 28m",
+              "durationMinutes": 328,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "6bdb57a9-1304-4c76-91e3-753eac79986f",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 3h",
+      "durationMinutes": 1615,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "08:45p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1245
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "08:50p",
+            "quarter": 4,
+            "minutes": 1250
+          },
+          "duration": "16h 5m",
+          "durationMinutes": 965,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 215,
+          "stopsDuration": "3h 35m",
+          "stopsCodes": [
+            "EWR"
+          ],
+          "stops": [
+            {
+              "code": "EWR",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "05:10a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "duration": "3h 35m",
+              "durationMinutes": 215
+            }
+          ],
+          "path": [
+            "SFO",
+            "EWR",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1799,
+              "abbrNumber": "UA1799",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "08:45p"
+              },
+              "to": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "05:10a"
+              },
+              "duration": "5h 25m",
+              "durationMinutes": 325,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 934,
+              "abbrNumber": "UA934",
+              "from": {
+                "code": "EWR",
+                "date": "2016-08-02",
+                "time": "08:45a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "08:50p"
+              },
+              "duration": "7h 5m",
+              "durationMinutes": 425,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "57f668ec-029e-4df5-bc30-073ce864ef7e",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 6h",
+      "durationMinutes": 1808,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "05:52p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1072
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "19h 18m",
+          "durationMinutes": 1158,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 415,
+          "stopsDuration": "6h 55m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "01:55a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1196,
+              "abbrNumber": "UA1196",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "05:52p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "01:55a"
+              },
+              "duration": "5h 3m",
+              "durationMinutes": 303,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "1e419b99-e832-45df-8257-5751e383eb18",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 7&#189;h",
+      "durationMinutes": 1895,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "04:25p",
+            "quarter": 3,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 985
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:10p",
+            "quarter": 4,
+            "minutes": 1270
+          },
+          "duration": "20h 45m",
+          "durationMinutes": 1245,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 492,
+          "stopsDuration": "8h 12m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "12:38a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "duration": "8h 12m",
+              "durationMinutes": 492
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 517,
+              "abbrNumber": "UA517",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "04:25p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "12:38a"
+              },
+              "duration": "5h 13m",
+              "durationMinutes": 313,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "Priority seat"
+              ]
+            },
+            {
+              "number": 122,
+              "abbrNumber": "UA122",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "08:50a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:10p"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free",
+                "Lounge"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "d2077fdc-8cf4-43d4-a17d-7a579ebc0616",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9h",
+      "durationMinutes": 1985,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:40p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1420
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "05:55a",
+            "quarter": 1,
+            "minutes": 355
+          },
+          "duration": "22h 15m",
+          "durationMinutes": 1335,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 612,
+          "stopsDuration": "10h 12m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "05:43a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "03:55p"
+              },
+              "duration": "10h 12m",
+              "durationMinutes": 612
+            }
+          ],
+          "path": [
+            "SFO",
+            "ORD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 214,
+              "abbrNumber": "UA214",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:40p"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-02",
+                "time": "05:43a"
+              },
+              "duration": "4h 3m",
+              "durationMinutes": 243,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 958,
+              "abbrNumber": "UA958",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-02",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "05:55a"
+              },
+              "duration": "8h",
+              "durationMinutes": 480,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "9284066d-c723-4519-bf45-fdddeeed8183",
+      "service": "mondee",
+      "price": 981.56,
+      "currency": "USD",
+      "duration": "1d 9&#189;h",
+      "durationMinutes": 2025,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "11:25p",
+            "quarter": 4,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 1405
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:20a",
+            "quarter": 2,
+            "minutes": 380
+          },
+          "duration": "22h 55m",
+          "durationMinutes": 1375,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 625,
+          "stopsDuration": "10h 25m",
+          "stopsCodes": [
+            "IAD"
+          ],
+          "stops": [
+            {
+              "code": "IAD",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "07:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "duration": "10h 25m",
+              "durationMinutes": 625
+            }
+          ],
+          "path": [
+            "SFO",
+            "IAD",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 1592,
+              "abbrNumber": "UA1592",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "11:25p"
+              },
+              "to": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "07:35a"
+              },
+              "duration": "5h 10m",
+              "durationMinutes": 310,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free",
+                "Priority seat"
+              ]
+            },
+            {
+              "number": 918,
+              "abbrNumber": "UA918",
+              "from": {
+                "code": "IAD",
+                "date": "2016-08-02",
+                "time": "06:00p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:20a"
+              },
+              "duration": "7h 20m",
+              "durationMinutes": 440,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "329a7b5a-44de-4c40-b9c4-b1de5b7c6efc",
+      "service": "mondee",
+      "price": 984.87,
+      "currency": "USD",
+      "duration": "1d 12&#189;h",
+      "durationMinutes": 2205,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "08:35a",
+            "quarter": 2,
+            "minutes": 515
+          },
+          "duration": "1d 2h",
+          "durationMinutes": 1555,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 845,
+          "stopsDuration": "14h 5m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "08:40p"
+              },
+              "duration": "14h 5m",
+              "durationMinutes": 845
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 848,
+              "abbrNumber": "AC848",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "08:40p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "08:35a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "10:25a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 625
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "01:15p",
+            "quarter": 3,
+            "minutes": 795
+          },
+          "duration": "10h 50m",
+          "durationMinutes": 650,
+          "noOfStops": 0,
+          "stopsDurationMinutes": 0,
+          "stopsDuration": "",
+          "stopsCodes": [],
+          "stops": [],
+          "path": [
+            "LHR",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 900,
+              "abbrNumber": "UA900",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "10:25a"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "01:15p"
+              },
+              "duration": "10h 50m",
+              "durationMinutes": 650,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "f06b8cca-ee01-4a95-a6af-358389b31e76",
+      "service": "mondee",
+      "price": 990.97,
+      "currency": "USD",
+      "duration": "1d 18&#189;h",
+      "durationMinutes": 2543,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:30a",
+            "quarter": 2,
+            "minutes": 390
+          },
+          "duration": "23h 50m",
+          "durationMinutes": 1430,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 720,
+          "stopsDuration": "12h",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "duration": "12h",
+              "durationMinutes": 720
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 856,
+              "abbrNumber": "AC856",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:30a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "06:23p",
+            "quarter": 4,
+            "minutes": 1103
+          },
+          "duration": "18h 33m",
+          "durationMinutes": 1113,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 325,
+          "stopsDuration": "5h 25m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "03:55p"
+              },
+              "duration": "5h 25m",
+              "durationMinutes": 325
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 1213,
+              "abbrNumber": "UA1213",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "06:23p"
+              },
+              "duration": "4h 28m",
+              "durationMinutes": 268,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "cea8ff9c-0fa9-4261-95f9-82e5525085b0",
+      "service": "mondee",
+      "price": 990.65,
+      "currency": "USD",
+      "duration": "1d 13h",
+      "durationMinutes": 2231,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "03:55p",
+            "quarter": 3,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 955
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "21h 5m",
+          "durationMinutes": 1265,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 550,
+          "stopsDuration": "9h 10m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "9h 10m",
+              "durationMinutes": 550
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 784,
+              "abbrNumber": "AC784",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "duration": "5h",
+              "durationMinutes": 300,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi",
+                "1st bag free"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "03:56p",
+            "quarter": 3,
+            "minutes": 956
+          },
+          "duration": "16h 6m",
+          "durationMinutes": 966,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 175,
+          "stopsDuration": "2h 55m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "01:25p"
+              },
+              "duration": "2h 55m",
+              "durationMinutes": 175
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 810,
+              "abbrNumber": "UA810",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "01:25p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "03:56p"
+              },
+              "duration": "4h 31m",
+              "durationMinutes": 271,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "e4bb88cd-8442-4538-8b9b-f3098aebb231",
+      "service": "mondee",
+      "price": 990.65,
+      "currency": "USD",
+      "duration": "1d 14&#189;h",
+      "durationMinutes": 2307,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "03:55p",
+            "quarter": 3,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 955
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "21h 5m",
+          "durationMinutes": 1265,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 550,
+          "stopsDuration": "9h 10m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "9h 10m",
+              "durationMinutes": 550
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 784,
+              "abbrNumber": "AC784",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-01",
+                "time": "11:55p"
+              },
+              "duration": "5h",
+              "durationMinutes": 300,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Lounge"
+              ]
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "05:12p",
+            "quarter": 3,
+            "minutes": 1032
+          },
+          "duration": "17h 22m",
+          "durationMinutes": 1042,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 240,
+          "stopsDuration": "4h",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "duration": "4h",
+              "durationMinutes": 240
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free",
+                "Priority seat"
+              ]
+            },
+            {
+              "number": 222,
+              "abbrNumber": "UA222",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "05:12p"
+              },
+              "duration": "4h 42m",
+              "durationMinutes": 282,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "02beef6d-b438-4d26-b036-2c851fd272ba",
+      "service": "mondee",
+      "price": 990.65,
+      "currency": "USD",
+      "duration": "1d 9h",
+      "durationMinutes": 1973,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "14h 20m",
+          "durationMinutes": 860,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 150,
+          "stopsDuration": "2h 30m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "2h 30m",
+              "durationMinutes": 150
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "06:23p",
+            "quarter": 4,
+            "minutes": 1103
+          },
+          "duration": "18h 33m",
+          "durationMinutes": 1113,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 325,
+          "stopsDuration": "5h 25m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "03:55p"
+              },
+              "duration": "5h 25m",
+              "durationMinutes": 325
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            },
+            {
+              "number": 1213,
+              "abbrNumber": "UA1213",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "03:55p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "06:23p"
+              },
+              "duration": "4h 28m",
+              "durationMinutes": 268,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "c6205c31-2729-412f-aabf-f387e5e4d5c3",
+      "service": "mondee",
+      "price": 990.65,
+      "currency": "USD",
+      "duration": "1d 7&#189;h",
+      "durationMinutes": 1902,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-02",
+            "time": "09:00p",
+            "quarter": 4,
+            "minutes": 1260
+          },
+          "duration": "14h 20m",
+          "durationMinutes": 860,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 150,
+          "stopsDuration": "2h 30m",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "duration": "2h 30m",
+              "durationMinutes": 150
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 868,
+              "abbrNumber": "AC868",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "09:05a"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-02",
+                "time": "09:00p"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "05:12p",
+            "quarter": 3,
+            "minutes": 1032
+          },
+          "duration": "17h 22m",
+          "durationMinutes": 1042,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 240,
+          "stopsDuration": "4h",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "duration": "4h",
+              "durationMinutes": 240
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "WiFi"
+              ]
+            },
+            {
+              "number": 222,
+              "abbrNumber": "UA222",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "05:12p"
+              },
+              "duration": "4h 42m",
+              "durationMinutes": 282,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "653583a9-8999-49a8-8f1e-bba105f3592c",
+      "service": "mondee",
+      "price": 990.97,
+      "currency": "USD",
+      "duration": "1d 17h",
+      "durationMinutes": 2472,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:30a",
+            "quarter": 2,
+            "minutes": 390
+          },
+          "duration": "23h 50m",
+          "durationMinutes": 1430,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 720,
+          "stopsDuration": "12h",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "duration": "12h",
+              "durationMinutes": 720
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            },
+            {
+              "number": 856,
+              "abbrNumber": "AC856",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:30a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "05:12p",
+            "quarter": 3,
+            "minutes": 1032
+          },
+          "duration": "17h 22m",
+          "durationMinutes": 1042,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 240,
+          "stopsDuration": "4h",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "duration": "4h",
+              "durationMinutes": 240
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free"
+              ]
+            },
+            {
+              "number": 222,
+              "abbrNumber": "UA222",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "02:30p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "05:12p"
+              },
+              "duration": "4h 42m",
+              "durationMinutes": 282,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    },
+    {
+      "id": "8237a58c-2c70-42a7-a658-3fde273d4789",
+      "service": "mondee",
+      "price": 990.97,
+      "currency": "USD",
+      "duration": "1d 16h",
+      "durationMinutes": 2396,
+      "citypairs": [
+        {
+          "direction": "Depart",
+          "from": {
+            "code": "SFO",
+            "date": "2016-08-01",
+            "time": "10:40p",
+            "quarter": 4,
+            "airlineCode": "AC",
+            "airline": "Air Canada",
+            "minutes": 1360
+          },
+          "to": {
+            "code": "LHR",
+            "date": "2016-08-03",
+            "time": "06:30a",
+            "quarter": 2,
+            "minutes": 390
+          },
+          "duration": "23h 50m",
+          "durationMinutes": 1430,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 720,
+          "stopsDuration": "12h",
+          "stopsCodes": [
+            "YYZ"
+          ],
+          "stops": [
+            {
+              "code": "YYZ",
+              "begin": {
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "end": {
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "duration": "12h",
+              "durationMinutes": 720
+            }
+          ],
+          "path": [
+            "SFO",
+            "YYZ",
+            "LHR"
+          ],
+          "flights": [
+            {
+              "number": 754,
+              "abbrNumber": "AC754",
+              "from": {
+                "code": "SFO",
+                "date": "2016-08-01",
+                "time": "10:40p"
+              },
+              "to": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35a"
+              },
+              "duration": "4h 55m",
+              "durationMinutes": 295,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "1st bag free",
+                "Lounge"
+              ]
+            },
+            {
+              "number": 856,
+              "abbrNumber": "AC856",
+              "from": {
+                "code": "YYZ",
+                "date": "2016-08-02",
+                "time": "06:35p"
+              },
+              "to": {
+                "code": "LHR",
+                "date": "2016-08-03",
+                "time": "06:30a"
+              },
+              "duration": "6h 55m",
+              "durationMinutes": 415,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "Air Canada",
+              "airlineCode": "AC",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        },
+        {
+          "direction": "Return",
+          "from": {
+            "code": "LHR",
+            "date": "2016-08-17",
+            "time": "07:50a",
+            "quarter": 2,
+            "airlineCode": "UA",
+            "airline": "United Airlines",
+            "minutes": 470
+          },
+          "to": {
+            "code": "SFO",
+            "date": "2016-08-17",
+            "time": "03:56p",
+            "quarter": 3,
+            "minutes": 956
+          },
+          "duration": "16h 6m",
+          "durationMinutes": 966,
+          "noOfStops": 1,
+          "stopsDurationMinutes": 175,
+          "stopsDuration": "2h 55m",
+          "stopsCodes": [
+            "ORD"
+          ],
+          "stops": [
+            {
+              "code": "ORD",
+              "begin": {
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "end": {
+                "date": "2016-08-17",
+                "time": "01:25p"
+              },
+              "duration": "2h 55m",
+              "durationMinutes": 175
+            }
+          ],
+          "path": [
+            "LHR",
+            "ORD",
+            "SFO"
+          ],
+          "flights": [
+            {
+              "number": 929,
+              "abbrNumber": "UA929",
+              "from": {
+                "code": "LHR",
+                "date": "2016-08-17",
+                "time": "07:50a"
+              },
+              "to": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "10:30a"
+              },
+              "duration": "8h 40m",
+              "durationMinutes": 520,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": [
+                "Priority seat"
+              ]
+            },
+            {
+              "number": 810,
+              "abbrNumber": "UA810",
+              "from": {
+                "code": "ORD",
+                "date": "2016-08-17",
+                "time": "01:25p"
+              },
+              "to": {
+                "code": "SFO",
+                "date": "2016-08-17",
+                "time": "03:56p"
+              },
+              "duration": "4h 31m",
+              "durationMinutes": 271,
+              "bookingClass": "K",
+              "cabinClass": "E",
+              "airline": "United Airlines",
+              "airlineCode": "UA",
+              "noOfStops": 0,
+              "stopsDuration": "",
+              "stopsDurationMinutes": 0,
+              "stops": [],
+              "merchandising": []
+            }
+          ]
+        }
+      ],
+      "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
+    }
+  ],
+  "timelog": "",
+  "head_title": "Flights from TEST to TEST on 25 Jul '16",
+  "iconSpriteMap": {}
+}
