@@ -21,7 +21,7 @@ function Test_and_Result( query, origin_airport, return_airport, origin_date, re
   this.number_of_tickets = number_of_tickets;
   this.class_of_service  = class_of_service;
 }
-var _AVAES_PARSER_TESTS = [
+var _AVAEA_PARSER_TESTS = [
   new Test_and_Result("Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
 		      "Amsterdam",
 		      "Petit St. Vincent",
@@ -246,9 +246,9 @@ var _AVAES_PARSER_TESTS = [
 ];
 (function() {
   if( typeof module != 'undefined' && module.exports ) {
-    module.exports = _AVAES_PARSER_TESTS;
+    module.exports = _AVAEA_PARSER_TESTS;
   }
   else {
-    // Are we running in a browser? If so, just use variable _AVAES_PARSER_TESTS
+    // Are we running in a browser? If so, just use variable _AVAEA_PARSER_TESTS
   };
 })();
