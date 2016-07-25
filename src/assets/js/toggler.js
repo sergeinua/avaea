@@ -561,10 +561,8 @@ $(document).ready(function() {
   var swiper = new Swiper ('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
-    onSlideNextStart: function(swiper) {
+    onTouchMove: function(swiper) {
       $('body').removeClass('show-tiles-arrow');
-      // set cookie that user has already scrolled - set cookie for 1 year
-      setCookie('tiles-scrolled', 1, {expires: (86400 * 30 * 12), domain: document.location.hostname});
     }
   });
   $( window ).resize(function() {
@@ -690,6 +688,14 @@ $(document).ready(function() {
       setErrorElement('#to-area');
       _isError = true;
     }
+    if ($('#originAirport').val() == $('#destinationAirport').val()) {
+      setErrorElement('#from-area');
+      setErrorElement('#from-area-selected');
+      setErrorElement('#to-area');
+      setErrorElement('#to-area-selected');
+      _isError = true;
+    }
+
 
     // Check existence of the return date for the round trip
     if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
@@ -1436,12 +1442,9 @@ $(document).ready(function() {
     placement: 'left'
   });
 
-  var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
-    // hide arrow in 5 sec
-    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 5000);
   } else {
     $('body').removeClass('show-tiles-arrow');
   }

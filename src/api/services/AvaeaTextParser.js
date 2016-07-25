@@ -321,8 +321,12 @@ function AvaeaTextParser() {
             airline             : undefined,              // TODO: is not recognized yet
             origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
             destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
-            origin_date         : parser.origin_date        ? parser.origin_date.value        : false,
-            return_date         : parser.return_date        ? parser.return_date.value        : false,
+	    // The user of the voice search does not care for the timzeone of the server where the speech
+	    // is parsed. If we do not strip the server timezone information from the parsed dates then the
+	    // clients will re-calculate server timezone into its own timezone, potentially even resulting
+	    // in a different date
+            origin_date         : parser.origin_date        ? parser.origin_date.value.toDateString() : false,
+	    return_date         : parser.return_date        ? parser.return_date.value.toDateString() : false,
             type                : parser.type               ? parser.type                     : undefined,
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined

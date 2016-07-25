@@ -89,7 +89,7 @@
             }
         ],
         "id": "departure_tile",
-        "name": "SFO Departure",
+        "name": "Departure",
         "order": 98
     },
     {
@@ -116,52 +116,8 @@
             }
         ],
         "id": "arrival_tile",
-        "name": "LHR Arrival",
+        "name": "Arrival",
         "order": 99
-    },
-    {
-        "filters": [
-            {
-                "count": 7,
-                "id": "destination_departure_tile_0",
-                "title": "8am"
-            },
-            {
-                "count": 23,
-                "id": "destination_departure_tile_1",
-                "title": "10:30am"
-            }
-        ],
-        "id": "destination_departure_tile",
-        "name": "LHR Departure",
-        "order": 100
-    },
-    {
-        "filters": [
-            {
-                "count": 23,
-                "id": "source_arrival_tile_0",
-                "title": "1pm"
-            },
-            {
-                "count": 2,
-                "id": "source_arrival_tile_1",
-                "title": "4pm"
-            },
-            {
-                "count": 3,
-                "id": "source_arrival_tile_2",
-                "title": "5pm"
-            },
-            {
-                "count": 2,
-                "id": "source_arrival_tile_3",
-                "title": "6:30pm"
-            }
-        ],
-        "id": "source_arrival_tile",
-        "name": "SFO Arrival",
-        "order": 101
     },
     {
         "filters": [

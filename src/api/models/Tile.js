@@ -807,6 +807,7 @@ module.exports = {
       tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
 
       var durationNameArr = [];
+      var fix_duration = params.flightType == "ROUND_TRIP" ? 2 : 1;
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
         return tileFormatVal.roundTo30mins( item.durationMinutes );
@@ -819,7 +820,7 @@ module.exports = {
 
         for (var i = 0; i < durationNameArr.length; i++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], null, 1),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, null, 1),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -835,7 +836,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i], tmp.durationNameArrTmp[i+1], 2),
+            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i] / fix_duration, tmp.durationNameArrTmp[i+1] / fix_duration, 2),
             id: 'duration_tile_' + counter,
             count : 0
           });
@@ -848,7 +849,7 @@ module.exports = {
         durationNameArr = _.uniq(durationNameArr);
         for (var i = 0; i < durationNameArr.length - 1; i++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], durationNameArr[i+1], null),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, durationNameArr[i+1] / fix_duration, null),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -856,7 +857,7 @@ module.exports = {
 
         tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1], tmp.lastDuration, null),
+          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1] / fix_duration, tmp.lastDuration / fix_duration, null),
           id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });

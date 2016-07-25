@@ -225,7 +225,7 @@
 
   function loggerQuery(q, result) {
     $.ajax({
-      url: '/search/voiceLog',
+      url: '/voice/logger',
       type: 'post',
       data: {
         q: $.trim(q),
@@ -371,6 +371,9 @@
       }
 
       return callback(true);
-    });
+    })
+      .fail(function (err) {
+        return callback(false);
+      });
   }
 })();

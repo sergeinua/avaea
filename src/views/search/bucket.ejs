@@ -1,10 +1,7 @@
 <div class="swiper-container">
   <div id="tiles" class="swiper-wrapper" data-max_filter_items="<%= (typeof max_filter_items == 'undefined') ? 0 : max_filter_items %>">
     <% for(var name in tiles) { %>
-      <% var tile = tiles[name];
-      if (tile.name == 'Duration' && searchParams.returnDate) {
-        tile.name += '&#8644;'
-      } %>
+      <% var tile = tiles[name]; %>
     <div class="swiper-slide">
       <div class="mybucket" id="<%= tile.id %>">
         <div class="mycustomtab"><%= __(tile.name) %></div>

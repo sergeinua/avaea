@@ -32,7 +32,7 @@ describe('SearchController', function() {
     });
   });
 
-  describe('#voiceLog()', function() {
+  describe.skip('#voiceLog()', function() {
     it('should return empty message', function (done) {
       request(sails.hooks.http.app)
         .post('/search/voiceLog')
