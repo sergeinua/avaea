@@ -21,6 +21,9 @@ module.exports = {
    */
   index: function (req, res) {
 
+    if (_.isEmpty(req.session)) {
+      req.session = {};
+    }
     var tmpDefaultDepDate = sails.moment().add(2, 'w');
     var tmpDefaultRetDate = sails.moment().add(4, 'w');
     var nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
@@ -120,7 +123,7 @@ module.exports = {
           savedParams[param.name] = param.value.trim().toUpperCase();
         });
       } catch (e) {
-        sails.log.error('Unable restore search parameters from encoded string');
+        sails.log.info('Unable restore search parameters from encoded string');
       }
     }
     var
