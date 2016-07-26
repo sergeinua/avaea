@@ -118,7 +118,6 @@ module.exports = {
       var atob = require('atob');
       try {
         var savedParamsTmp = JSON.parse(atob(req.param('s')));
-        var savedParams = {};
         _.forEach(savedParamsTmp, function (param) {
           savedParams[param.name] = param.value.trim().toUpperCase();
         });
