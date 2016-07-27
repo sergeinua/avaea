@@ -16,10 +16,10 @@ rundev:
 	@NODE_ENV=development sails lift --dev --verbose
 
 test-integration:
-	@NODE_ENV=test ./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js \
+	@NODE_ENV=test ./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
 
 test:
-	@NODE_ENV=test ./node_modules/.bin/mocha ./tests/bootstrap.test.js ./tests/unit/**/*.test.js \
+	@NODE_ENV=test ./node_modules/.bin/mocha ./tests/bootstrap.test.js ./tests/unit/**/*.test.js
 
 showprocess:
 	sudo lsof | grep IPv | grep -F LISTEN
