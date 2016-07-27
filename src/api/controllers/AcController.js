@@ -14,7 +14,7 @@ module.exports = {
     //res.header('Pragma', 'no-cache');
 
     // Trim left whitespaces
-    var _query = req.param('q').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
+    var _query = req.param('q', '').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
     var _limit = parseInt(req.param('l'));
     var result = [];
 
