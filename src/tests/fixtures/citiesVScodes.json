@@ -1,0 +1,476 @@
+[
+  {
+    "name": "Santa Barbara, California",
+    "code": "SBA"
+  },
+  {
+    "name": "Fort Yukon",
+    "code": "FYU"
+  },
+  {
+    "name": "Port Moller",
+    "code": "PTU"
+  },
+  {
+    "name": "Ponca City",
+    "code": "PNC"
+  },
+  {
+    "name": "Rome, New York",
+    "code": "RME"
+  },
+  {
+    "name": "Dillingham",
+    "code": "DLG"
+  },
+  {
+    "name": "Cutbank",
+    "code": "CTB"
+  },
+  {
+    "name": "Redstone",
+    "code": "HUA"
+  },
+  {
+    "name": "Huron",
+    "code": "HON"
+  },
+  {
+    "name": "Robinson",
+    "code": "RBM"
+  },
+  {
+    "name": "Robinson",
+    "code": "RBM"
+  },
+  {
+    "name": "Point Mugu",
+    "code": "NTD"
+  },
+  {
+    "name": "Patuxent River",
+    "code": "NHK"
+  },
+  {
+    "name": "Kodiak",
+    "code": "ADQ"
+  },
+  {
+    "name": "Fort Riley",
+    "code": "FRI"
+  },
+  {
+    "name": "Millinocket",
+    "code": "MLT"
+  },
+  {
+    "name": "Columbia",
+    "code": "CAE"
+  },
+  {
+    "name": "Barrow",
+    "code": "BRW"
+  },
+  {
+    "name": "Galveston",
+    "code": "GLS"
+  },
+  {
+    "name": "Jonesboro",
+    "code": "JBR"
+  },
+  {
+    "name": "Fort Huachuca",
+    "code": "FHU"
+  },
+  {
+    "name": "Beaumont",
+    "code": "BPT"
+  },
+  {
+    "name": "Rochester, New York",
+    "code": "ROC"
+  },
+  {
+    "name": "Newport News",
+    "code": "PHF"
+  },
+  {
+    "name": "Rancho Murieta",
+    "code": "RIU"
+  },
+  {
+    "name": "Green Bay",
+    "code": "GRB"
+  },
+  {
+    "name": "Austin",
+    "code": "AUS"
+  },
+  {
+    "name": "Altoona",
+    "code": "AOO"
+  },
+  {
+    "name": "Jackson, Tennessee",
+    "code": "MKL"
+  },
+  {
+    "name": "College Station",
+    "code": "CLL"
+  },
+  {
+    "name": "Falmouth",
+    "code": "FMH"
+  },
+  {
+    "name": "Greenvile",
+    "code": "GVT"
+  },
+  {
+    "name": "Syracuse",
+    "code": "SYR"
+  },
+  {
+    "name": "Truth Or Consequences",
+    "code": "TCS"
+  },
+  {
+    "name": "Mineral Wells",
+    "code": "MWL"
+  },
+  {
+    "name": "Bellingham",
+    "code": "BLI"
+  },
+  {
+    "name": "Bradshaw Field",
+    "code": "BSF"
+  },
+  {
+    "name": "New York",
+    "code": "NYC"
+  },
+  {
+    "name": "Reno",
+    "code": "RNO"
+  },
+  {
+    "name": "Sacramento",
+    "code": "SMF"
+  },
+  {
+    "name": "Norfolk, Virginia",
+    "code": "ORF"
+  },
+  {
+    "name": "Gulkana",
+    "code": "GKN"
+  },
+  {
+    "name": "Meridian",
+    "code": "NMM"
+  },
+  {
+    "name": "Islip",
+    "code": "ISP"
+  },
+  {
+    "name": "Santa Ana, California",
+    "code": "SNA"
+  },
+  {
+    "name": "Las Vegas",
+    "code": "LAS"
+  },
+  {
+    "name": "Elmira",
+    "code": "ELM"
+  },
+  {
+    "name": "Sioux Falls",
+    "code": "FSD"
+  },
+  {
+    "name": "Billings",
+    "code": "BIL"
+  },
+  {
+    "name": "Gulfport",
+    "code": "GPT"
+  },
+  {
+    "name": "Rochester, Minnesota",
+    "code": "RST"
+  },
+  {
+    "name": "Moline",
+    "code": "MLI"
+  },
+  {
+    "name": "Medford",
+    "code": "MFR"
+  },
+  {
+    "name": "Saginaw",
+    "code": "MBS"
+  },
+  {
+    "name": "Clovis",
+    "code": "CVS"
+  },
+  {
+    "name": "Richmond Heights",
+    "code": "CGF"
+  },
+  {
+    "name": "Saint Cloud",
+    "code": "STC"
+  },
+  {
+    "name": "Kansas City",
+    "code": "MCI"
+  },
+  {
+    "name": "Lamar",
+    "code": "LAA"
+  },
+  {
+    "name": "Austin TX",
+    "code": "AUS"
+  },
+  {
+    "name": "Alpena",
+    "code": "APN"
+  },
+  {
+    "name": "Clarksburg",
+    "code": "CKB"
+  },
+  {
+    "name": "Grand Island",
+    "code": "GRI"
+  },
+  {
+    "name": "Lancaster",
+    "code": "LNS"
+  },
+  {
+    "name": "Pierre",
+    "code": "YUL"
+  },
+  {
+    "name": "Salina",
+    "code": "SLN"
+  },
+  {
+    "name": "Skagway",
+    "code": "SGY"
+  },
+  {
+    "name": "Aleknagik",
+    "code": "WKK"
+  },
+  {
+    "name": "Lopez",
+    "code": "LPS"
+  },
+  {
+    "name": "Hailey",
+    "code": "SUN"
+  },
+  {
+    "name": "Kivalina",
+    "code": "KVL"
+  },
+  {
+    "name": "Sand Point",
+    "code": "SDP"
+  },
+  {
+    "name": "Marquette",
+    "code": "MQT"
+  },
+  {
+    "name": "Gary",
+    "code": "GYY"
+  },
+  {
+    "name": "Kissimmee",
+    "code": "ISM"
+  },
+  {
+    "name": "Hays",
+    "code": "HYS"
+  },
+  {
+    "name": "Mojave",
+    "code": "MHV"
+  },
+  {
+    "name": "Jamestown, New York",
+    "code": "JHW"
+  },
+  {
+    "name": "Glendive",
+    "code": "GDV"
+  },
+  {
+    "name": "Salmon",
+    "code": "SMN"
+  },
+  {
+    "name": "Chuathbaluk",
+    "code": "CHU"
+  },
+  {
+    "name": "Chalkyitsik",
+    "code": "CIK"
+  },
+  {
+    "name": "Visalia",
+    "code": "VIS"
+  },
+  {
+    "name": "Perryville",
+    "code": "KPV"
+  },
+  {
+    "name": "Noorvik",
+    "code": "ORV"
+  },
+  {
+    "name": "Shaktoolik",
+    "code": "SKK"
+  },
+  {
+    "name": "Klawock",
+    "code": "KLW"
+  },
+  {
+    "name": "Chenega",
+    "code": "NCN"
+  },
+  {
+    "name": "Pittsburgh",
+    "code": "PIT"
+  },
+  {
+    "name": "Delta",
+    "code": "DTA"
+  },
+  {
+    "name": "Mariposa",
+    "code": "MPI"
+  },
+  {
+    "name": "Bloomington, Indiana",
+    "code": "BMG"
+  },
+  {
+    "name": "Truckee",
+    "code": "TKF"
+  },
+  {
+    "name": "Port Clinton",
+    "code": "PCW"
+  },
+  {
+    "name": "Janesville",
+    "code": "JVL"
+  },
+  {
+    "name": "Duncan",
+    "code": "DUC"
+  },
+  {
+    "name": "Wilmington, Ohio",
+    "code": "ILN"
+  },
+  {
+    "name": "Thomasville",
+    "code": "TVI"
+  },
+  {
+    "name": "Cordele",
+    "code": "CKF"
+  },
+  {
+    "name": "Block Island",
+    "code": "BID"
+  },
+  {
+    "name": "Alexandria, Virginia",
+    "code": "ALX"
+  },
+  {
+    "name": "Danbury",
+    "code": "DXR"
+  },
+  {
+    "name": "Winder",
+    "code": "WDR"
+  },
+  {
+    "name": "Darlington",
+    "code": "UDG"
+  },
+  {
+    "name": "Wellington, Kansas",
+    "code": "EGT"
+  },
+  {
+    "name": "Hazleton",
+    "code": "HZL"
+  },
+  {
+    "name": "Winter Haven",
+    "code": "GIF"
+  },
+  {
+    "name": "Pinehurst-Southern Pines",
+    "code": "SOP"
+  },
+  {
+    "name": "Linden",
+    "code": "LDJ"
+  },
+  {
+    "name": "Coldwater",
+    "code": "OEB"
+  },
+  {
+    "name": "Marshfield, Wisconsin",
+    "code": "MFI"
+  },
+  {
+    "name": "Newberry",
+    "code": "ERY"
+  },
+  {
+    "name": "Cleveland, Tennessee",
+    "code": "HDI"
+  },
+  {
+    "name": "Leesburg",
+    "code": "JYO"
+  },
+  {
+    "name": "Iowa City",
+    "code": "IOW"
+  },
+  {
+    "name": "Alameda",
+    "code": "NGZ"
+  },
+  {
+    "name": "Ballston Spa",
+    "code": "5B2"
+  },
+  {
+    "name": "Effingham",
+    "code": "1H2"
+  }
+]
+
+
