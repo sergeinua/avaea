@@ -104,6 +104,24 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
+      view.args[0].should.be.eql([
+        'search/result', {
+          user: {id: 1},
+          title: 'LHR &#8644; SFO',
+          tiles: {},
+          searchParams: {
+            DepartureLocationCode: 'LHR',
+            ArrivalLocationCode: 'SFO',
+            departureDate: '01 Aug',
+            returnDate: '22 Aug',
+            CabinClass: 'Economy',
+            passengers: '1',
+            topSearchOnly: '0',
+            flightType: 'ROUND_TRIP'
+          },
+          searchResult: []
+        }
+      ]);
       assert(view.calledWith('search/result', {
           user: {id: 1},
           title: 'LHR &#8644; SFO',
@@ -121,6 +139,7 @@ describe('SearchController', function() {
           searchResult: []
         }
       ));
+      view.reset();
       done();
     });
 
@@ -142,15 +161,37 @@ describe('SearchController', function() {
           if (name == 's') {
             return '';
           }
+          if (name == 'departureDate') {
+            return '2016-07-25';
+          }
           return 'test'
         },
         user: {
           id: 1
         },
+        locals: {},
         session: {}
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
+      view.args[0].should.be.eql([
+        'search/result', {
+          "user": {"id": 1},
+          "title": "TEST &rarr; TEST",
+          "tiles": {},
+          "searchParams": {
+            "DepartureLocationCode": "TEST",
+            "ArrivalLocationCode": "TEST",
+            "departureDate": "25 Jul",
+            "returnDate": "",
+            "CabinClass": "undefined",
+            "passengers": "test",
+            "topSearchOnly": "test",
+            "flightType": "test"
+          },
+          "searchResult": []
+        }
+      ]);
       assert(view.calledWith('search/result', {
         "user": {"id": 1},
         "title": "TEST &rarr; TEST",
@@ -167,6 +208,7 @@ describe('SearchController', function() {
         },
         "searchResult": []
       }));
+      view.reset();
       done();
     });
 
@@ -190,6 +232,9 @@ describe('SearchController', function() {
           if (name == 's') {
             return '';
           }
+          if (name == 'departureDate') {
+            return '2016-07-25';
+          }
           return 'test'
         },
         user: {
@@ -202,7 +247,9 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       var result = require('../../fixtures/searchResult.json');
+      view.args[0].should.be.eql(['search/result', result]);
       assert(view.calledWith('search/result', result));
+      view.reset();
       done();
     });
   });
