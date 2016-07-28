@@ -313,10 +313,10 @@ function AvaeaTextParser() {
       run: function(text, callback) {
         var err, result;
         try {
-          var not_parsed = parser.run(text);
+          parser.run(text);
           result = {
             query               : text,
-            not_parsed          : not_parsed,
+            not_parsed          : parser.not_parsed,
             action              : 'form', // 'top', 'all' // TODO: is not recognized yet
             airline             : undefined,              // TODO: is not recognized yet
             origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
