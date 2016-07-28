@@ -39,9 +39,5 @@ module.exports = {
   policies: {
     '*' : true
   },
-  hooks: {
-    session: false
-  },
-
   hookTimeout: 40000
 };

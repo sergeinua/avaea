@@ -9,14 +9,9 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
-    log: {
-      level: 'error'
-    },
-    policies: {
-      '*' : true
-    },
     hooks: {
-      session: false
+      session: false,
+      grunt:false
     },
     models: {
       connection: 'etPostgresqlServer'

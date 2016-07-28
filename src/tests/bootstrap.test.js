@@ -9,18 +9,10 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
-    // log: {
-    //   level: 'error'
-    // },
-    // policies: {
-    //   '*' : true
-    // },
-    // hooks: {
-    //   session: false
-    // },
-    // models: {
-    //   connection: 'testMemoryDb'
-    // },
+    hooks: {
+      session: false,
+      grunt: false
+    },
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
