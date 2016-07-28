@@ -1413,7 +1413,9 @@ $(document).ready(function() {
     var flightType = $('.flight-type-item.active-choice').attr('id');
     var _ft = getCookie('flightType');
     if (_ft) {
+      // remove flightType cookie
       setCookie('flightType', '', {expires: 'Thu, 01 Jan 1970 00:00:01 GMT'});
+      $('#' + _ft).addClass('active-choice');
       changeFlightTab(_ft, flightType);
     } else {
       changeFlightTab(flightType);
