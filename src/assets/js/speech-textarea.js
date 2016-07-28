@@ -1,4 +1,4 @@
-(function () {
+(function ($) {
   'use strict';
   var final_transcript = '';
   var recognizing = false;
@@ -249,6 +249,7 @@
       data: {q: $.trim(final_textarea.val())},
       dataType: 'json'
     }).done(function( result ) {
+      var _complete = true;
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;
@@ -261,6 +262,7 @@
         out_field = "Meri says: Fill my heart with song and \n"
           + "Let me sing for ever more You are all I long for \n"
           + "All I worship and adore";
+        log(out_field);
         return callback(false);
       }
       out_field += "Meri says: ";
@@ -278,7 +280,10 @@
               drawAirportData('originAirport');
             }
           });
-        } else result.origin_airport = "an unknown airport";
+        } else {
+          _complete = false;
+          result.origin_airport = "an unknown airport";
+        }
         if (result.destination_airport) {
           $.ajax({
             url: '/ac/airports',
@@ -291,11 +296,15 @@
               drawAirportData('destinationAirport');
             }
           });
-        } else result.destination_airport = "an unknown airport";
+        } else {
+          _complete = false;
+          result.destination_airport = "an unknown airport";
+        }
         out_field += " here is what I understood -"
           + " The trip is from " + result.origin_airport + " to " + result.destination_airport;
       } else {
         out_field += " I did not understand where you are flying to.";
+        log(out_field);
         return callback(false);
       }
 
@@ -307,34 +316,42 @@
       }
 
       if (result.origin_date || result.return_date) {
-        var leaving = "an unknown date", returning;
-        if (result.origin_date) {
+        var leaving, returning;
+        var picker = $('#dr_picker').data('DateTimePicker');
+        picker.clear();
+        if (result.origin_date && picker.maxDate().isSameOrAfter(result.origin_date)) {
           var _month = result.origin_date.getMonth() + 1,
             _day = result.origin_date.getDate();
           if (_month < 10) _month = '0' + _month;
           if (_day < 10) _day = '0' + _day;
           $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
-          var picker = $('#dr_picker').data('DateTimePicker');
-          picker.clear();
           picker.date(result.origin_date);
           leaving = result.origin_date.toDateString();
-        }
-        if (result.return_date) {
-          var _month = result.return_date.getMonth() + 1,
-            _day = result.return_date.getDate();
-          if (_month < 10) _month = '0' + _month;
-          if (_day < 10) _day = '0' + _day;
-          $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
-          var picker = $('#dr_picker').data('DateTimePicker');
-          picker.date(result.return_date);
-          returning = result.return_date.toDateString();
+          out_field += ", leaving on " + leaving;
+          // we can't set return date on search form without origin date
+          if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
+            var _month = result.return_date.getMonth() + 1,
+              _day = result.return_date.getDate();
+            if (_month < 10) _month = '0' + _month;
+            if (_day < 10) _day = '0' + _day;
+            $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+            picker.date(result.return_date);
+            returning = result.return_date.toDateString();
+            out_field += (returning ? ", returning on " + returning + " " : ".");
+          } else if (result.type == 'round_trip') {
+            _complete = false;
+          }
+        } else {
+          _complete = false;
         }
 
-        $('#date_select_top').trigger('click');
+        if (leaving) {
+          $('#date_select_top').trigger('click');
+        }
 
-        out_field += ", leaving on " + leaving + " " + (returning ? " returning on " + returning + " " : ".");
       } else {
         out_field += " I did not find dates in your request. ";
+        log(out_field);
         return callback(false);
       }
 
@@ -346,6 +363,8 @@
             $(o).parents('label').trigger('click');
           }
         });
+      } else {
+        _complete = false;
       }
 
       if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
@@ -360,6 +379,8 @@
           $('#passengers').val(result.number_of_tickets);
           $('.passengers_count').text(digits[result.number_of_tickets]);
         }
+      } else {
+        _complete = false;
       }
 
       if (result.class_of_service) {
@@ -367,13 +388,27 @@
         if (serviceClass && serviceClass[result.class_of_service]) {
           $('#preferedClass').val(result.class_of_service);
           $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
+        } else {
+          _complete = false;
+        }
+      } else {
+        _complete = false;
+      }
+      log(out_field);
+
+      if (_complete) {
+        switch (result.action) {
+          case 'top':
+            $('#topSearchOnly').val(1);
+          case 'all':
+            $('#search_form').submit();
+            break;
         }
       }
 
       return callback(true);
-    })
-      .fail(function (err) {
-        return callback(false);
-      });
+    }).fail(function (err) {
+      return callback(false);
+    });
   }
-})();
+})(jQuery);
