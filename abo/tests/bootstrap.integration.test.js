@@ -1,17 +1,20 @@
 var Sails = require('sails'),
   sails;
-require('should');
+  require('should');
 
 before(function(done) {
 
   // Increase the Mocha timeout so that Sails has enough time to lift.
-  this.timeout(5000);
+  this.timeout(50000);
 
   Sails.lift({
     // configuration for testing purposes
     hooks: {
       session: false,
-      grunt: false
+      grunt:false
+    },
+    models: {
+      connection: 'etPostgresqlServer'
     },
   }, function(err, server) {
     sails = server;
