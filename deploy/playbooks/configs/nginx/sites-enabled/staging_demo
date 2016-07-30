@@ -15,8 +15,8 @@ server {
 
 	}
 
-	location /mbstest/ {
-        root /home/cf/mbstest;
+	location /test/ {
+        root /home/cf/test/;
     }
 
 }
