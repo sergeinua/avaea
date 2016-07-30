@@ -749,6 +749,14 @@ $(document).ready(function() {
     }
   };
 
+  $(".swiper-container").hammer();
+  $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+  $(".swiper-container").bind("swipeup", function (e) {
+    shrinkTiles(false);
+  }).bind("swipedown", function (e) {
+    shrinkTiles(true);
+  });
+
   var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
@@ -797,14 +805,14 @@ $(document).ready(function() {
     if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
       shrinkTiles(true);
     }
-    if (!scrollStarted && expandedItitns) {
+    if (!scrollStarted/* && expandedItitns*/) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden')/* && expandedItitns*/) {
       shrinkTiles(false);
       scrollStarted = false;
     }
