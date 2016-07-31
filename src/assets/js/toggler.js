@@ -750,14 +750,15 @@ $(document).ready(function() {
     }
   };
 
-  $(".swiper-container").hammer();
-  $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-  $(".swiper-container").bind("swipeup", function (e) {
-    shrinkTiles(false);
-  }).bind("swipedown", function (e) {
-    shrinkTiles(true);
-  });
-
+  if ($(".swiper-container").length) {
+    $(".swiper-container").hammer();
+    $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+    $(".swiper-container").bind("swipeup", function (e) {
+      shrinkTiles(false);
+    }).bind("swipedown", function (e) {
+      shrinkTiles(true);
+    });
+  }
   var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
