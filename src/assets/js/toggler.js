@@ -740,6 +740,7 @@ $(document).ready(function() {
         $('#tiles').outerHeight(20);
         recalculateBodyPadding();
         $('.clickable-tiles-area').removeClass('hidden');
+        $('body').removeClass('show-tiles-arrow');
       }
     } else {
         $('.clickable-tiles-area').addClass('hidden');
