@@ -204,7 +204,8 @@ module.exports = {
               passengers: params.searchParams.passengers,
               topSearchOnly: params.searchParams.topSearchOnly,
               flightType: params.searchParams.flightType
-            }
+            },
+            searchResult: []
           },
           'search/result'
         );
@@ -265,7 +266,15 @@ module.exports = {
                 CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
                 passengers: params.passengers,
                 flightType: params.flightType
-              }
+              },
+              searchResult: itineraries,
+              timelog: req.session.time_log.join('<br/>'),
+              head_title: 'Flights from '
+              + params.DepartureLocationCode
+              + ' to '+params.ArrivalLocationCode
+              + sails.moment(depDate).format(" on DD MMM 'YY")
+              + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):''),
+              iconSpriteMap: iconSpriteMap
             },
             'search/result'
           );
