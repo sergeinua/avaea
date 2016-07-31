@@ -9,6 +9,22 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
+    port: 4000,
+    proxyHost: 'http://localhost/',
+    proxyPort: 4000,
+    explicitHost: false,
+    models: {
+      connection: 'testMemoryDb'
+    },
+    log: {
+      level: 'error',
+      timestamp: false
+    },
+    session: false,
+    policies: {
+      '*' : true
+    },
+    hookTimeout: 40000,
     hooks: {
       session: false,
       grunt: false
