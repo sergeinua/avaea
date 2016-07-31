@@ -67,7 +67,9 @@ module.exports = {
       var guid = this.getCurrentSearchGuid() + '-' + provider;
       var hash = require('crypto').createHash('md5').update( JSON.stringify(params.searchParams) ).digest("hex");
       // remove all searches updated more than 24 hrs ago
+      utils.timeLog('db_clean');
       this.destroy({ updatedAt: { '<': sails.moment().startOf('day').subtract(1, 'days').toDate() } }, (err) => {
+        sails.log.info('remove all searches updated more than 24 hrs ago time: %s', utils.timeLogGetHr('db_clean'));
         if (err) {
           sails.log.error(err);
         }
@@ -94,33 +96,36 @@ module.exports = {
               }
             }, 10000);
 
+            var errorResult = (error) => {
+              sails.log.error(error);
+              // store empty search data in DB
+              var result = [];
+              row.result = {
+                priceRange:    { minPrice: 0, maxPrice: 0 },
+                durationRange: { minPrice: 0, maxPrice: 0 },
+                result:        result
+              };
+              row.save();
+
+              this.cache(guid, row);
+
+              result.guid = guid;
+              result.priceRange = row.result.priceRange;
+              result.durationRange = row.result.durationRange;
+              return callback(error, result);
+            };
             // if no data in DB and API doesn't respond over 30 sec then stop searching
             setTimeout(() => {
               if (!done) {
                 done = true;
-                // store empty search data in DB
-                var result = [];
-                row.result = {
-                  priceRange:    { minPrice: 0, maxPrice: 0 },
-                  durationRange: { minPrice: 0, maxPrice: 0 },
-                  result:        result
-                };
-                row.save();
-                var error = provider + ' API does not respond over 30s';
-                sails.log.error(error);
-
-                this.cache(guid, row);
-
-                result.guid = guid;
-                result.priceRange = row.result.priceRange;
-                result.durationRange = row.result.durationRange;
-                return callback(error, result);
+                return errorResult(provider + ' API does not respond over 30s');
               }
             }, 30000);
 
             // run async API search
             global[provider].flightSearch(guid, params, (err, result) => {
               sails.log.info(provider + ' search finished!');
+              utils.timeLog('db_save');
               if (!err) {
                 // store API search data in DB even if it's empty
                 row.result = {
@@ -128,7 +133,7 @@ module.exports = {
                   durationRange: result.durationRange,
                   result: result
                 };
-                row.save();
+                this.saveResult(row);
                 if (!done) {
                   done = true;
                   sails.log.info('Get search data from API');
@@ -139,9 +144,15 @@ module.exports = {
                   return callback(null, result);
                 }
               } else {
-                sails.log.error(err);
+                if (!done) {
+                  done = true;
+                  return errorResult(err);
+                } else {
+                  sails.log.error(err);
+                }
               }
             });
+
           } else {
             sails.log.error(err);
           }
@@ -151,7 +162,20 @@ module.exports = {
     });
     return;
   },
-
+  saveResult: function (data) {
+    utils.timeLog('raw_db_save');
+    this.query(
+      'UPDATE ' + this.tableName + ' SET params = $1, result = $2 WHERE id = $3',
+      [data.params, data.result, data.id],
+      function(err) {
+        if (err) {
+          sails.log.error(err);
+        } else {
+          sails.log.info('store API search data in DB (raw query) time: %s', utils.timeLogGetHr('raw_db_save'));
+        }
+      }
+    );
+  },
   /**
    * Used in the booking as temporary link for last result of the flights search
    * @returns {string}

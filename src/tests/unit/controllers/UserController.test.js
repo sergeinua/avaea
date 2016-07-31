@@ -1,6 +1,6 @@
 var request = require('supertest');
 
-describe('AuthController', function() {
+describe.skip('UserController', function() {
 
   describe('#login()', function() {
     it('should redirect to /search', function (done) {

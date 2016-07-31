@@ -17,7 +17,7 @@ module.exports = {
       if (!err && !_.isEmpty(row)) {
         predicted_rank = _.clone(row.prediction);
       } else {
-        sails.log.error('didnt find itineraries '+type+' rank prediction for uuid: [' + uuid + '] userId #'+user);
+        sails.log.info('didnt find itineraries '+type+' rank prediction for uuid: [' + uuid + '] userId #'+user);
       }
       return cb(predicted_rank);
     });
@@ -27,7 +27,7 @@ module.exports = {
       if (!err && !_.isEmpty(row)) {
         Tile.itineraryPredictedRank = _.clone(row.prediction);
       } else {
-        sails.log.error('didn\'t find local rank ['+user+']['+params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode+']');
+        sails.log.info('didn\'t find local rank ['+user+']['+params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode+']');
         iPrediction.findOne({
           user: user,
           uuid: params.CabinClass,
@@ -36,8 +36,8 @@ module.exports = {
           if (!err && !_.isEmpty(row)) {
             Tile.itineraryPredictedRank = _.clone(row.prediction);
           } else {
-            sails.log.error('didn\'t find global rank ['+user+']['+params.CabinClass + ']');
-            sails.log(itineraryPrediction.default_predicted_rank);
+            sails.log.info('didn\'t find global rank ['+user+']['+params.CabinClass + ']');
+            sails.log.info(itineraryPrediction.default_predicted_rank);
             Tile.itineraryPredictedRank = _.clone(itineraryPrediction.default_predicted_rank);
           }
         });

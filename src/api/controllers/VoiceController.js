@@ -21,6 +21,25 @@ module.exports = {
         return res.notFound(); //404
       }
     });
+  },
+
+  logger: function (req, res) {
+    utils.timeLog('search voice');
+    if (req.param('q')) {
+      var queryResult = req.param('result') || 'failed',
+        params = {
+        searchParams: {
+          queryString: req.param('q')
+        },
+        queryResult: queryResult
+      };
+      sails.log.info('Search Voice Params:', params);
+      UserAction.saveAction(req.user, 'voice_search', params, function () {
+        User.publishCreate(req.user);
+      });
+      return res.json({'success': true});
+    }
+    return res.json([]);
   }
 };
 

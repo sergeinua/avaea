@@ -14,10 +14,11 @@ const _PROPS_PATTERN      = "(?:[^<>]*passengers[^<>]*)"+
       "|(?:cargo\\s+\\(t\\))"+
       "|(?:metric\\s+tonnes\\s+of\\s+cargo)"+
       "|(?:based\\s+aircraft)"+
-      "|(?:aircraft\\s+movements)";
+      "|(?:aircraft\\s+movements?)";
 const _SUPTAG_PATTERN     = "<sup[^>]*><a[^>]*>[^<]+</a></sup>";
-const _SPANTAG_PATTERN    = "<span[^>]*>(?:<img\\s+[^>]*>)?</span>";
-const _PROP_TR_PATTERN    = "<tr>\\s*<t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)>\\s*<t(?:d|h)[^>]*>(?:"+_SPANTAG_PATTERN+")?\\s*([^<]+)</t(?:d|h)>\\s*</tr>";
+const _IMAGE_PATTERN      = "<img\\s+[^>]+>"
+const _SPANTAG_PATTERN    = "<span[^>]*>(?:"+_IMAGE_PATTERN+")?</span>";
+const _PROP_TR_PATTERN    = "<tr>\\s*<t(?:d|h)[^>]*>("+_PROPS_PATTERN+")[^<]*(?:"+_SUPTAG_PATTERN+")?</t(?:d|h)>\\s*<t(?:d|h)[^>]*>(?:(?:"+_SPANTAG_PATTERN+")|(?:"+_IMAGE_PATTERN+"))?\\s*([^<]+)</t(?:d|h)>\\s*</tr>";
 const _PROPS_RE           = new RegExp("<tr><t(?:d|h)[^>]*>Statistics[^<]*</t(?:d|h)></tr>"+
 				       "<tr><td[^>]*><table[^>]*>"+
 				       // Depending on the airport the number of properties on the statistics section varies from 1 to 4
@@ -132,7 +133,7 @@ WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_co
 	}
     }
     else {
-	// complete_url = 'https://en.wikipedia.org/w/api.php?action=parse&page=Julius_Nyerere_International_Airport&format=json&prop=text';
+	// complete_url = 'https://en.wikipedia.org/w/api.php?action=parse&pageid=266327&format=json&prop=text';
 	this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
 	    if( this.argv.loglevel>1 ) {
 		console.log("Parsing "+complete_url);

@@ -1,0 +1,144 @@
+[
+    {
+        "filters": [
+            {
+                "count": 3,
+                "id": "price_tile_0",
+                "title": "$980"
+            },
+            {
+                "count": 19,
+                "id": "price_tile_1",
+                "title": "$981"
+            },
+            {
+                "count": 1,
+                "id": "price_tile_2",
+                "title": "$984"
+            },
+            {
+                "count": 7,
+                "id": "price_tile_3",
+                "title": "$990"
+            }
+        ],
+        "id": "price_tile",
+        "name": "Price",
+        "order": 95
+    },
+    {
+        "filters": [
+            {
+                "count": 7,
+                "id": "duration_tile_0",
+                "title": "24&#189;h &ndash; 31h"
+            },
+            {
+                "count": 7,
+                "id": "duration_tile_1",
+                "title": "31h &ndash; 33h"
+            },
+            {
+                "count": 7,
+                "id": "duration_tile_2",
+                "title": "33h &ndash; 34&#189;h"
+            },
+            {
+                "count": 9,
+                "id": "duration_tile_3",
+                "title": "34&#189;h &ndash; 42&#189;h"
+            }
+        ],
+        "id": "duration_tile",
+        "name": "Duration",
+        "order": 96
+    },
+    {
+        "filters": [
+            {
+                "count": 19,
+                "id": "airline_tile_United_Airlines",
+                "title": "United Airlines"
+            },
+            {
+                "count": 11,
+                "id": "airline_tile_Air_Canada",
+                "title": "Air Canada"
+            }
+        ],
+        "id": "airline_tile",
+        "name": "Airline",
+        "order": 97
+    },
+    {
+        "filters": [
+            {
+                "count": 7,
+                "id": "departure_tile_0",
+                "title": "1:30pm &ndash; 4:30pm"
+            },
+            {
+                "count": 7,
+                "id": "departure_tile_1",
+                "title": "4:30pm &ndash; 10:30pm"
+            },
+            {
+                "count": 16,
+                "id": "departure_tile_2",
+                "title": "10:30pm &ndash; 12m"
+            }
+        ],
+        "id": "departure_tile",
+        "name": "Departure",
+        "order": 98
+    },
+    {
+        "filters": [
+            {
+                "count": 5,
+                "id": "arrival_tile_0",
+                "title": "6am &ndash; 6:30am"
+            },
+            {
+                "count": 7,
+                "id": "arrival_tile_1",
+                "title": "6:30am &ndash; 9pm"
+            },
+            {
+                "count": 6,
+                "id": "arrival_tile_2",
+                "title": "9pm"
+            },
+            {
+                "count": 12,
+                "id": "arrival_tile_3",
+                "title": "9pm"
+            }
+        ],
+        "id": "arrival_tile",
+        "name": "Arrival",
+        "order": 99
+    },
+    {
+        "filters": [
+            {
+                "count": 16,
+                "id": "merchandising_tile_wifi",
+                "title": "WiFi"
+            },
+            {
+                "count": 23,
+                "id": "merchandising_tile_1st_bag_free",
+                "title": "1st bag free"
+            },
+            {
+                "count": 8,
+                "id": "merchandising_tile_priority_seat",
+                "title": "Priority seat"
+            }
+        ],
+        "id": "merchandising_tile",
+        "name": "Merchandising",
+        "order": 1000
+    }
+]

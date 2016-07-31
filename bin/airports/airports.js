@@ -100,6 +100,7 @@ if( argv.hasOwnProperty("table") ) {
 	}
     }
     // Those "All Airports" need to be updated with sum of the PAXes of all the airports in the same city
+    // Make sure to handle Virginia vs. District of Columbia specially
     asyncsCounter.sql_query(pgclient,
 			    "UPDATE\n" +
 			    "  "+argv.table+"\n" +
@@ -112,7 +113,8 @@ if( argv.hasOwnProperty("table") ) {
 			    "  AND ("+argv.table+".city=s.city)\n" +
 			    "  AND (\n" +
 			    "    CASE WHEN COALESCE("+argv.table+".state,'')!='' THEN\n" +
-			    "      ("+argv.table+".state=COALESCE(s.state,'') AND "+argv.table+".country=COALESCE(s.country,''))\n" +
+			    "      ((CASE WHEN "+argv.table+".state='District of Columbia' THEN 'Virginia' ELSE "+argv.table+".state END)=COALESCE(s.state,'') "+
+			    "       AND "+argv.table+".country=COALESCE(s.country,''))\n" +
 			    "    ELSE\n"+
 			    "      "+argv.table+".country=COALESCE(s.country,'')\n" +
 			    "    END);\n"+

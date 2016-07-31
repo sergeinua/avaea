@@ -583,7 +583,7 @@ module.exports = {
         {
             iter++;
 
-            if (iter > 700) break;
+            //if (iter > 1000) break;
 
             // TO DO: do not sort, just find the longest interval
             queue.sort(function(a, b){return (b.interval_end - b.interval_begin) - (a.interval_end - a.interval_begin) }); // sort the queue in decreasing order of interval sizes
@@ -973,7 +973,7 @@ module.exports = {
         if ( departure_preference === undefined ) { departure_preference = 1.0; } // default value is 1
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
-        console.log("Ranking based on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
+        sails.log.info("Ranking based on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
         //if ( price_preference     == 0 ) return itins;
         //if ( duration_preference  == 0 ) return itins;
         //if ( departure_preference == 0 ) return itins;
