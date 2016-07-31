@@ -76,7 +76,7 @@ $(document).ready(function() {
   };
 
   function setDisplayedDate(context_sel, dest_date) {
-    var _moment = moment.isMoment(dest_date) ? dest_date : moment(dest_date || '');
+    var _moment = moment.isMoment(dest_date) ? dest_date : moment(dest_date || undefined);
     $('.weekday', context_sel).text(_moment.format('dddd'));
     $('.tap-date', context_sel).text(_moment.format('DD'));
     $('.tap-month', context_sel).text(_moment.format('MMM'));
@@ -84,29 +84,31 @@ $(document).ready(function() {
   }
 
   $("#dr_picker").on("dp.change", function (e) {
-    var flightType = $('#search_form').data('flight-type');
-    // enable range functionality for round trip flight type
-    if (e.date && flightType == 'round_trip') {
-      // range manipulation {{{
-      var range = $(this).data("DateTimePicker").range;
-      if (range.start && !range.end && e.date.isAfter(range.start)) {
-        range.end = e.date.clone().startOf('day');
+    if (e.date) {
+      var flightType = $('#search_form').data('flight-type');
+      // enable range functionality for round trip flight type
+      if (flightType == 'round_trip') {
+        // range manipulation {{{
+        var range = $(this).data("DateTimePicker").range;
+        if (range.start && !range.end && e.date.isAfter(range.start)) {
+          range.end = e.date.clone().startOf('day');
+        } else {
+          range.start = e.date.clone().startOf('day');
+          range.end = null;
+        }
+        // }}} range manipulation
+        // draw new date range
+        drawDateRange(this, range);
+        // draw info bar dates
+        $('#date_select p.info span.dep').text(range.start.format('ddd DD MMM'));
+        $('#date_select p.info span.ret').text(range.end ? ' - ' + moment(e.date).format('ddd DD MMM') : '');
+        setDisplayedDate($('.flight-date-info-item.sel.dep'), range.start);
+        if (range.end) {
+          setDisplayedDate($('.flight-date-info-item.sel.ret'), range.end);
+        }
       } else {
-        range.start = e.date.clone().startOf('day');
-        range.end = null;
+        setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
       }
-      // }}} range manipulation
-      // draw new date range
-      drawDateRange(this, range);
-      // draw info bar dates
-      $('#date_select p.info span.dep').text(range.start.format('ddd DD MMM'));
-      $('#date_select p.info span.ret').text(range.end ? ' - ' + moment(e.date).format('ddd DD MMM') : '');
-      setDisplayedDate($('.flight-date-info-item.sel.dep'), range.start);
-      if (range.end) {
-        setDisplayedDate($('.flight-date-info-item.sel.ret'), range.end);
-      }
-    } else {
-      setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
     }
   });
   $("#dr_picker").on("dp.update", function (e) {

@@ -1,6 +1,7 @@
 /* global $ */
 
 var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
+var filterItemHeight = 31.25; // pixels
 var bucketFilterItemHeigh = 34; // pixes
 var bucketAirlineScrollPos = 0;
 var heightNav = 0;
@@ -41,29 +42,17 @@ var recalculateBodyPadding = function () {
 };
 
 function _displayDimmer(flag) {
-
   if (flag) {
-
+    $('.dimmer').show();
     $('.dimmer').off('click').on('click', function(){
+      setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
     });
-
-    //$(document)
-    //  .off('mousewheel').on('mousewheel', function(event){
-    //    console.log('mousewheel', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  })
-    //  .off('swipe').on('swipe', function(event){
-    //    console.log('swipe', event);
-    //    event.stopPropagation();
-    //    return false;
-    //  });
-
+    $('body').css('overflow', 'hidden');
   } else {
     $('.dimmer').hide();
+    $('body').css('overflow', 'auto');
   }
-
 }
 
 $(document).ready(function() {
@@ -77,18 +66,20 @@ $(document).ready(function() {
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
       recalculateBodyPadding();
     }
+
+    var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+    if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
+      max_filter_items = maxBucketVisibleFilters;
+    }
     $('.list-group').slimScroll({
-      height: '125px',
+      height: parseInt(max_filter_items * filterItemHeight) +'px',
       touchScrollStep: 30
     });
   }
 
-  var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
-    // hide arrow in 5 sec
-    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 5000);
   } else {
     $('body').removeClass('show-tiles-arrow');
   }
@@ -97,10 +88,11 @@ $(document).ready(function() {
 
   // Set sprite number for the every airlines icon
   $('.itinerary-airline-icon').each(function () {
-    $(this).css('background-position', '0 -'+ $(this).data('sprite_num')*15 +'px');
+    $(this).css('background-position', '0 -' + $(this).data('sprite_num') * 15 + 'px');
   });
 
-  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
+  var showDimmer = getCookie('dimmer_was_showed') || 0;
+  if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     _displayDimmer(true);
 
     if (GlobalSearchResultCount < 5) {
@@ -108,8 +100,10 @@ $(document).ready(function() {
         $('.dimmer').fadeOut(function () {
           _displayDimmer(false);
         });
-      }, 1000)
+      }, 1000);
     }
+  } else {
+    _displayDimmer(false);
   }
 
   $('#timeAlert').fadeOut(5000, function () {
@@ -138,7 +132,7 @@ $(document).ready(function() {
     var filters = $.merge([], getFilters(), getDisFilters());
     var groups = {};
     if (filters.length) {
-      filters.forEach(function(filter) {
+      filters.forEach(function (filter) {
         if (filter && filter != '') {
           var tileGroup = filter.replace(/(tile).+/, '$1');
           if (typeof groups[tileGroup] == 'undefined') {
@@ -148,7 +142,7 @@ $(document).ready(function() {
         }
       });
     }
-    $('#tiles').find('li').each(function(item) {
+    $('#tiles').find('li').each(function (item) {
       var tile = $(this);
       var sCount = 0;
       if (tile.hasClass('selected')) {
@@ -175,8 +169,8 @@ $(document).ready(function() {
         filtIndx = _filter.indexOf(tile.attr('for')),
         disFiltIndx = _disFilter.indexOf(tile.attr('for'));
 
-      if ( sCount > 0 ) {
-        $('[for='+tile.attr('for')+'] > span.badge').text(sCount);
+      if (sCount > 0) {
+        $('[for=' + tile.attr('for') + '] > span.badge').text(sCount);
         tile.removeClass('disabled');
         tile.removeClass('dis-selected');
         if (disFiltIndx != -1) {
@@ -189,8 +183,8 @@ $(document).ready(function() {
             filterItineraries();
           }
         }
-      } else if ( sCount <= 0 ) {
-        $('[for='+tile.attr('for')+'] > span.badge').text('');
+      } else if (sCount <= 0) {
+        $('[for=' + tile.attr('for') + '] > span.badge').text('');
         tile.removeClass('selected');
         if (_filter.length) {
           var _indx = _filter.indexOf(tile.attr('for'));
@@ -219,11 +213,11 @@ $(document).ready(function() {
       $('#clear, #undo').addClass('disabled');
     }
     $('.itinerary').show();
-    $('.mybucket').each(function() {
+    $('.mybucket').each(function () {
 
       var selectedTileFilers = [];
       var tileName = $(this).attr('id');
-      $(this).find('li').each(function() {
+      $(this).find('li').each(function () {
         var tileId = $(this).attr('for');
         if ($.inArray(tileId, filters) != -1) {
           selectedTileFilers.push(tileId);
@@ -246,7 +240,7 @@ $(document).ready(function() {
 
   filterItineraries();
 
-  $('#clear').click(function() {
+  $('#clear').click(function () {
     $('.selectedfilters').attr('filters', '');
     $('.selectedfilters').attr('filters-dis', '');
     $('#tiles').find('li.selected').removeClass('selected');
@@ -255,7 +249,7 @@ $(document).ready(function() {
     filterItineraries();
   });
 
-  $('#undo').click(function() {
+  $('#undo').click(function () {
     if ($(this).hasClass('disabled')) {
       return;
     }
@@ -265,14 +259,14 @@ $(document).ready(function() {
       filters.pop();
       $('.selectedfilters').attr('filters', filters.join(' '));
       if (lastElement) {
-        swiper.slideTo($('[for='+lastElement+']').parents('.swiper-slide').index());
-        $('[for='+lastElement+']').removeClass('selected');
+        swiper.slideTo($('[for=' + lastElement + ']').parents('.swiper-slide').index());
+        $('[for=' + lastElement + ']').removeClass('selected');
       }
       filterItineraries();
     }
   });
 
-  $('.sort-button .dropdown-menu li').not('.divider').click(function() {
+  $('.sort-button .dropdown-menu li').not('.divider').click(function () {
     if (!$(this).hasClass('selected')) {
       $('span.caret', '.sort-button .dropdown-menu li.selected').addClass('hide');
       $('.sort-button .dropdown-menu li.selected').removeAttr('order').removeClass('selected');
@@ -308,11 +302,11 @@ $(document).ready(function() {
   });
 
   // more/less button for merchandising
-  $('.mymorebutton').click(function() {
+  $('.mymorebutton').click(function () {
     var _it = $(this).attr('for');
     var _mmcnt = '.mymorecontent' + _it;
-    $(_mmcnt).toggleClass(function() {
-      if($(_mmcnt).is( ".hidden" )) {
+    $(_mmcnt).toggleClass(function () {
+      if ($(_mmcnt).is(".hidden")) {
         $('#mymorebtn' + _it).text("less")
       } else {
         $('#mymorebtn' + _it).text("more")
@@ -334,7 +328,7 @@ $(document).ready(function() {
   var globalSelectionCount = 0;
   var numberOfTiles = $('.mybucket').length;
 
-  $('.list-group-item').click(function(event) {
+  $('.list-group-item').click(function (event) {
 
     _displayDimmer(false);
 
@@ -343,7 +337,7 @@ $(document).ready(function() {
     }
 
     var tileId = $(this).closest('.mybucket').attr('id');
-    if(tileId == 'airline_tile') {
+    if (tileId == 'airline_tile') {
       $('#' + tileId).data("_is_touched", 1);
     }
 
@@ -355,17 +349,17 @@ $(document).ready(function() {
       var needRecalculate = !$(this).siblings('.selected').length;
       // log to abo
       logAction('on_tile_choice', {
-        action      : 'filter_remove',
-        tileName    : tileId,
-        tileValue   : $(this).html(),
-        tileId      : $(this).attr('for'),
-        sample      : (-1.0*firstSelectionCount[ tileId ])/numberOfTiles,
-        recalculate : needRecalculate
+        action: 'filter_remove',
+        tileName: tileId,
+        tileValue: $(this).html(),
+        tileId: $(this).attr('for'),
+        sample: (-1.0 * firstSelectionCount[tileId]) / numberOfTiles,
+        recalculate: needRecalculate
       });
       var result = [];
       var current = $(this).attr('for');
       if (filters.length) {
-        filters.forEach(function(filter) {
+        filters.forEach(function (filter) {
           if (filter && filter != current && filter != '') {
             result.push(filter);
           }
@@ -382,16 +376,16 @@ $(document).ready(function() {
       var needRecalculate = !$(this).siblings('.selected').length;
       globalSelectionCount++;
       if (needRecalculate) {
-        firstSelectionCount[ tileId ] = globalSelectionCount;
+        firstSelectionCount[tileId] = globalSelectionCount;
       }
       // log to abo
       logAction('on_tile_choice', {
-        action      : 'filter_add',
-        tileName    : tileId,
-        tileValue   : $(this).html(),
-        tileId      : $(this).attr('for'),
-        sample      : (1.0*firstSelectionCount[ tileId ])/numberOfTiles,
-        recalculate : needRecalculate
+        action: 'filter_add',
+        tileName: tileId,
+        tileValue: $(this).html(),
+        tileId: $(this).attr('for'),
+        sample: (1.0 * firstSelectionCount[tileId]) / numberOfTiles,
+        recalculate: needRecalculate
       });
     }
     // recalculate search result
@@ -401,9 +395,9 @@ $(document).ready(function() {
     swiper.slideTo($(this).parents('.swiper-slide').index());
   });
 
-  var scrollAirlines = function() {
+  var scrollAirlines = function () {
     // Bucket was touched. Not need scrolling
-    if($('#airline_tile').data('_is_touched')) {
+    if ($('#airline_tile').data('_is_touched')) {
       return;
     }
 
@@ -414,7 +408,7 @@ $(document).ready(function() {
     var start_elem = Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh);
     var am_elems = $(_parentElem).children().length;
     // Iteration will overflow visible window
-    if(start_elem + maxBucketVisibleFilters > am_elems) {
+    if (start_elem + maxBucketVisibleFilters > am_elems) {
       start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
     }
 
@@ -423,12 +417,12 @@ $(document).ready(function() {
     for (var ii = start_elem; ii < (start_elem + maxBucketVisibleFilters); ii++) {
       _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
     }
-    if(_am_disabled < maxBucketVisibleFilters) // not need scrolling
+    if (_am_disabled < maxBucketVisibleFilters) // not need scrolling
       return;
 
     // Scroll to the first enabled filter
     var _scrollItem = $(_parentElem).children().not('.disabled').first();
-    if(typeof _scrollItem == 'object') {
+    if (typeof _scrollItem == 'object') {
       $(_parentElem).scrollTo(_scrollItem);
     }
   };
@@ -438,13 +432,11 @@ $(document).ready(function() {
   });
 
   // Horizontal scroll for tiles
-  var swiper = new Swiper ('.swiper-container', {
+  var swiper = new Swiper('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
-    onSlideNextStart: function(swiper) {
+    onTouchMove: function (swiper) {
       $('body').removeClass('show-tiles-arrow');
-      // set cookie that user has already scrolled - set cookie for 1 year
-      setCookie('tiles-scrolled', 1, {expires: (86400 * 30 * 12), domain: document.location.hostname});
     }
   });
 
@@ -458,13 +450,13 @@ $(document).ready(function() {
   }
 
   // DEMO-429 Collapse tiles
-  $('.clickable-tiles-area-yellow').click(function() {
+  $('.clickable-tiles-area-yellow').click(function () {
     if ($('.clickable-tiles-area').hasClass('hidden')) {
       shrinkTiles(false);
     }
     return false;
   });
-  $('.clickable-tiles-area').click(function() {
+  $('.clickable-tiles-area').click(function () {
     shrinkTiles(true);
     return false;
   });
@@ -484,6 +476,15 @@ $(document).ready(function() {
       initScroll = $(window).scrollTop();
     }
   };
+  if ($(".swiper-container").length) {
+    $(".swiper-container").hammer();
+    $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+    $(".swiper-container").bind("swipeup", function (e) {
+      shrinkTiles(false);
+    }).bind("swipedown", function (e) {
+      shrinkTiles(true);
+    });
+  }
 
   var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
@@ -533,14 +534,14 @@ $(document).ready(function() {
     if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
       shrinkTiles(true);
     }
-    if (!scrollStarted && expandedItitns) {
+    if (!scrollStarted /*&& expandedItitns*/) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') /*&& expandedItitns*/) {
       shrinkTiles(false);
       scrollStarted = false;
     }

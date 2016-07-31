@@ -91,15 +91,25 @@ $(document).ready(function() {
 
   $( window ).resize(function() {
     $('body').removeClass('landscape-mode');
+    var modalIsOpen = $('#landscapeMode').length && ($("#searchBanner").data('bs.modal') || {}).isShown;
+
     if (isLandscapeMode()) {
       $('body').addClass('landscape-mode');
       if (isMobile.any() && $('#landscapeMode').length) {
+        if ( modalIsOpen ) {
+          $('#searchBanner').hide();
+          $('#planePath').hide();
+        }
         $('#landscapeMode').modal('show');
         $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
         $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
       }
     } else {
       if(isMobile.any()) {
+        if ( modalIsOpen ) {
+          $('#searchBanner').show();
+          $('#planePath').show();
+        }
         $('#landscapeMode').modal('hide');
       }
     }
