@@ -8,7 +8,12 @@ before(function(done) {
   this.timeout(50000);
 
   var useDB = 'etPostgresqlServer'; // default dev
-  if (process.env.NODE_ENV == 'stage' || process.env.NODE_ENV == 'prod') {
+  if (
+    process.env.NODE_ENV == 'stage' ||
+    process.env.NODE_ENV == 'prod' ||
+    process.env.NODE_ENV == 'staging' ||
+    process.env.NODE_ENV == 'production'
+  ) {
     useDB = 'productionPostgresqlServer';
   }
   if (process.env.NODE_ENV == 'docker') {
