@@ -114,13 +114,13 @@ function AvaeaTextParser() {
     "sunday";
 
   // Handle "St. " and "Ft. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFf]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|" +
-    "(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|" +
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFfPp]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|" +
+    "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|" +
     "(?:[A-Z]{3})";
 
   // regexps matching different elements
   this.origin_date_regexps = [
-    new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
+    new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
     new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(' + this.month_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) {
       var date = ordinal_to_number(matches[2]);
@@ -145,7 +145,7 @@ function AvaeaTextParser() {
     })
   ];
   this.return_date_regexps = [
-    new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
+    new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
     new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {
       var date = ordinal_to_number(matches[2]);
