@@ -250,5 +250,5 @@ var _AVAEA_PARSER_TESTS = [
   }
   else {
     // Are we running in a browser? If so, just use variable _AVAEA_PARSER_TESTS
-  };
+  }
 })();

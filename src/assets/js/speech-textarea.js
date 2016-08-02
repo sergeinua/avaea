@@ -350,9 +350,8 @@
         }
 
       } else {
-        out_field += " I did not find dates in your request. ";
+        out_field += " I did not find dates in your request but will do what I can. ";
         log(out_field);
-        return callback(false);
       }
 
       if (result.class_of_service) {

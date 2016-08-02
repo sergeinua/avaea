@@ -1,6 +1,6 @@
 var Sails = require('sails'),
   sails;
-  require('should');
+require('should');
 
 before(function(done) {
 
@@ -22,9 +22,9 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
-    port: 4000,
+    port: 4001,
     proxyHost: 'http://localhost/',
-    proxyPort: 4000,
+    proxyPort: 4001,
     explicitHost: false,
     log: {
       level: 'error',

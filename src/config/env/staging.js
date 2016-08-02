@@ -54,6 +54,6 @@ module.exports = {
     }
   },
 
-  hookTimeout: 60000
+  hookTimeout: 90000
 
   };
