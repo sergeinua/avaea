@@ -186,6 +186,17 @@ module.exports = {
       var serviceClass = Search.serviceClass;
 
       if (!itineraries.length) {
+        var dataStatistics = {
+          searchUuid    : itineraries.guid,
+          searchParams  : params.searchParams,
+          countAll      : 0,
+          timeWorkStr   : utils.timeLogGetHr('search result'),
+          timeWork      : utils.timeLogGet('search result'),
+          error         : err
+        };
+        UserAction.saveAction(req.user, 'search', dataStatistics, function () {
+          User.publishCreate(req.user);
+        });
         return  res.view('search/result', {
           user: req.user,
           title: title,
@@ -217,9 +228,11 @@ module.exports = {
         var itinerariesData = _.merge({
           searchUuid    : itineraries.guid,
           searchParams  : params,
-          countAll      : itineraries.length
+          countAll      : itineraries.length,
+          timeWorkStr   : utils.timeLogGetHr('search result'),
+          timeWork      : utils.timeLogGet('search result')
         }, Search.getStatistics(itineraries));
-        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData, function () {
+        UserAction.saveAction(req.user, 'search', itinerariesData, function () {
           User.publishCreate(req.user);
         });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
