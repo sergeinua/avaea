@@ -76,6 +76,15 @@ describe('SearchController', function() {
     it('should decode params from string', function (done) {
       UserAction.saveAction = function () {return true;};
       iPrediction.getUserRank = function () {return true;};
+      Airports = {
+        findOne: function () {
+          return {
+            exec: function(cb) {
+              return cb(null, {});
+            }
+          };
+        }
+      };
       Search.getResult = function (params, cb) {
         cb(false, []);
       };
@@ -106,42 +115,50 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([
-        {
-          user: {id: 1},
-          title: 'LHR &#8644; SFO',
-          tiles: {},
-          searchParams: {
-            DepartureLocationCode: 'LHR',
-            ArrivalLocationCode: 'SFO',
-            departureDate: '01 Aug',
-            returnDate: '22 Aug',
-            CabinClass: 'Economy',
-            passengers: '1',
-            topSearchOnly: '0',
-            flightType: 'ROUND_TRIP'
-          },
-          searchResult: []
-        }, 'search/result'
-      ]);
-      assert(view.calledWith(
-        {
-          user: {id: 1},
-          title: 'LHR &#8644; SFO',
-          tiles: {},
-          searchParams: {
-            DepartureLocationCode: 'LHR',
-            ArrivalLocationCode: 'SFO',
-            departureDate: '01 Aug',
-            returnDate: '22 Aug',
-            CabinClass: 'Economy',
-            passengers: '1',
-            topSearchOnly: '0',
-            flightType: 'ROUND_TRIP'
-          },
-          searchResult: []
-        }, 'search/result'
-      ));
+      view.args[0].should.be.eql([{
+        user: {id: 1},
+        title: 'LHR &#8644; SFO',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'LHR',
+          ArrivalLocationCode: 'SFO',
+          departureDate: '01 Aug',
+          returnDate: '22 Aug',
+          CabinClass: 'Economy',
+          passengers: '1',
+          topSearchOnly: '0',
+          flightType: 'ROUND_TRIP'
+        },
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
+      }, 'search/result']);
+      assert(view.calledWith({
+        user: {id: 1},
+        title: 'LHR &#8644; SFO',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'LHR',
+          ArrivalLocationCode: 'SFO',
+          departureDate: '01 Aug',
+          returnDate: '22 Aug',
+          CabinClass: 'Economy',
+          passengers: '1',
+          topSearchOnly: '0',
+          flightType: 'ROUND_TRIP'
+        },
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
+      }, 'search/result'));
       view.reset();
       done();
     });
@@ -149,6 +166,15 @@ describe('SearchController', function() {
     it('should return empty result', function (done) {
       UserAction.saveAction = function () {return true;};
       iPrediction.getUserRank = function () {return true;};
+      Airports = {
+        findOne: function () {
+          return {
+            exec: function(cb) {
+              return cb(null, {});
+            }
+          };
+        }
+      };
       Search.getResult = function (params, cb) {
         cb(false, []);
       };
@@ -177,39 +203,49 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([
-        {
-          "user": {"id": 1},
-          "title": "TEST &rarr; TEST",
-          "tiles": {},
-          "searchParams": {
-            "DepartureLocationCode": "TEST",
-            "ArrivalLocationCode": "TEST",
-            "departureDate": "25 Jul",
-            "returnDate": "",
-            "CabinClass": "undefined",
-            "passengers": "test",
-            "topSearchOnly": "test",
-            "flightType": "test"
-          },
-          "searchResult": []
-        }, 'search/result'
-      ]);
-      assert(view.calledWith({
-        "user": {"id": 1},
-        "title": "TEST &rarr; TEST",
-        "tiles": {},
-        "searchParams": {
-          "DepartureLocationCode": "TEST",
-          "ArrivalLocationCode": "TEST",
-          "departureDate": "25 Jul",
-          "returnDate": "",
-          "CabinClass": "undefined",
-          "passengers": "test",
-          "topSearchOnly": "test",
-          "flightType": "test"
+      view.args[0].should.be.eql([{
+        user: {id: 1},
+        title: 'TEST &rarr; TEST',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'TEST',
+          ArrivalLocationCode: 'TEST',
+          departureDate: '25 Jul',
+          returnDate: '',
+          CabinClass: 'undefined',
+          passengers: 'test',
+          topSearchOnly: 'test',
+          flightType: 'test'
         },
-        "searchResult": []
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from TEST to TEST on 25 Jul \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
+      }, 'search/result']);
+      assert(view.calledWith({
+        user: {id: 1},
+        title: 'TEST &rarr; TEST',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'TEST',
+          ArrivalLocationCode: 'TEST',
+          departureDate: '25 Jul',
+          returnDate: '',
+          CabinClass: 'undefined',
+          passengers: 'test',
+          topSearchOnly: 'test',
+          flightType: 'test'
+        },
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from TEST to TEST on 25 Jul \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
       }, 'search/result'));
       view.reset();
       done();
@@ -218,6 +254,15 @@ describe('SearchController', function() {
     it('should return formatted result', function (done) {
       UserAction.saveAction = function () {return true;};
       iPrediction.getUserRank = function () {return true;};
+      Airports = {
+        findOne: function () {
+          return {
+            exec: function(cb) {
+              return cb(null, {});
+            }
+          };
+        }
+      };
       Airlines.makeIconSpriteMap = function (cb) {return cb(false, {});};
       Search.getResult = function (params, cb) {
         var ititns = require('../../fixtures/itineraries.json');
@@ -244,7 +289,8 @@ describe('SearchController', function() {
           id: 1
         },
         session: {
-          time_log: ['']
+          time_log: [''],
+          showTiles: false
         }
       };
       sails.controllers.search.result(req, res);

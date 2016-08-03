@@ -539,6 +539,8 @@ module.exports = {
                 sails.log.info('Map result data to our structure time: %s', utils.timeLogGetHr('mondee_prepare_result'));
                 return callback( null, resArr );
               });
+            } else {
+              return callback( 'No Results Found', [] );
             }
           }
         });

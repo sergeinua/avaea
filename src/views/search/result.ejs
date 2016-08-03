@@ -273,7 +273,7 @@
 </style>
 
 <% } else { %>
-    <div class="nothing-found">No matching flights</div>
+    <div class="nothing-found">No results were found from <%= departure.iata_3code %>, <%= departure.city %> to <%= arrival.iata_3code %>, <%= arrival.city %>.</div>
     <a href="/search"  class="btn btn-sm btn-primary btn-block center-block new-search-button" role="button"><%= __('Start new search') %></a>
 <% } %>
 
