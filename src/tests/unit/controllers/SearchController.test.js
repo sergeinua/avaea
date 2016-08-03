@@ -9,7 +9,9 @@ describe('SearchController', function() {
     it('should return search form', function (done) {
       request(sails.hooks.http.app)
         .post('/search')
-        // .send({ name: 'test', password: 'test' })
+        .set('Accept', 'text/html')
+        .set('Content-Type', 'text/html')
+        .set('Accept', 'text/html')
         .expect(200)
         .expect('Content-Type', /html/)
         .end(function(err, res) {
@@ -85,7 +87,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -105,7 +107,7 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       view.args[0].should.be.eql([
-        'search/result', {
+        {
           user: {id: 1},
           title: 'LHR &#8644; SFO',
           tiles: {},
@@ -120,9 +122,10 @@ describe('SearchController', function() {
             flightType: 'ROUND_TRIP'
           },
           searchResult: []
-        }
+        }, 'search/result'
       ]);
-      assert(view.calledWith('search/result', {
+      assert(view.calledWith(
+        {
           user: {id: 1},
           title: 'LHR &#8644; SFO',
           tiles: {},
@@ -137,7 +140,7 @@ describe('SearchController', function() {
             flightType: 'ROUND_TRIP'
           },
           searchResult: []
-        }
+        }, 'search/result'
       ));
       view.reset();
       done();
@@ -151,7 +154,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -175,7 +178,7 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       view.args[0].should.be.eql([
-        'search/result', {
+        {
           "user": {"id": 1},
           "title": "TEST &rarr; TEST",
           "tiles": {},
@@ -190,9 +193,9 @@ describe('SearchController', function() {
             "flightType": "test"
           },
           "searchResult": []
-        }
+        }, 'search/result'
       ]);
-      assert(view.calledWith('search/result', {
+      assert(view.calledWith({
         "user": {"id": 1},
         "title": "TEST &rarr; TEST",
         "tiles": {},
@@ -207,7 +210,7 @@ describe('SearchController', function() {
           "flightType": "test"
         },
         "searchResult": []
-      }));
+      }, 'search/result'));
       view.reset();
       done();
     });
@@ -222,7 +225,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -247,8 +250,8 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       var result = require('../../fixtures/searchResult.json');
-      view.args[0].should.be.eql(['search/result', result]);
-      assert(view.calledWith('search/result', result));
+      view.args[0].should.be.eql([result, 'search/result']);
+      assert(view.calledWith(result, 'search/result'));
       view.reset();
       done();
     });
