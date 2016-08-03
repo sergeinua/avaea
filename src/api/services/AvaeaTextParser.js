@@ -41,7 +41,7 @@ function get_tomorrow() {
 }
 function validate_city_name(city_name) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
-  if (/flying|leaving|departing|students/i.exec(city_name))
+  if (/from|flying|leaving|departing|students/i.exec(city_name))
     throw new Exception("Wrong city name" + city_name);
   return city_name;
 }
@@ -268,7 +268,7 @@ function AvaeaTextParser() {
   /////////////////////////////////////////////////////////////////
   this.run = function (text) {
     // Takes a text, parses it, returns whatever is left unrecognized
-    this.not_parsed = text.replace(/^From\s/,"from ");
+    this.not_parsed = text;
     if ( this.not_parsed.match(/all flights/i) ) {
       this.not_parsed = this.not_parsed.replace(/all flights/i,"");
       this.action = 'all';
