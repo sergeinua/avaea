@@ -12,6 +12,7 @@
     "returnDate": "",
     "CabinClass": "undefined",
     "passengers": "test",
+    "topSearchOnly": "test",
     "flightType": "test"
   },
   "searchResult": [
@@ -5421,5 +5422,7 @@
   ],
   "timelog": "",
   "head_title": "Flights from TEST to TEST on 25 Jul '16",
-  "iconSpriteMap": {}
+  "iconSpriteMap": {},
+  "departure": {},
+  "arrival": {}
 }
