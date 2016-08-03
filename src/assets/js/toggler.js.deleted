@@ -290,6 +290,7 @@ $(document).ready(function() {
   };
   var filtersCount = {};
   var filterItineraries = function () {
+
     var filters = getFilters();
     if (filters.length) {
       $('#clear, #undo').removeClass('disabled');
@@ -325,9 +326,6 @@ $(document).ready(function() {
   filterItineraries();
 
   $('#clear').click(function() {
-    if ($(this).hasClass('disabled')) {
-      return;
-    }
     $('.selectedfilters').attr('filters', '');
     $('.selectedfilters').attr('filters-dis', '');
     $('#tiles').find('li.selected').removeClass('selected');
