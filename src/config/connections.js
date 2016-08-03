@@ -68,7 +68,7 @@ module.exports.connections = {
     exptime: 60*30 // 30 minutes
   },
   testMemoryDb: {
-    module   : 'sails-memory'
+    adapter   : 'sails-memory'
   },
   /***************************************************************************
   *                                                                          *

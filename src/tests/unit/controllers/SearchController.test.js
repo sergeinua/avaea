@@ -9,7 +9,9 @@ describe('SearchController', function() {
     it('should return search form', function (done) {
       request(sails.hooks.http.app)
         .post('/search')
-        // .send({ name: 'test', password: 'test' })
+        .set('Accept', 'text/html')
+        .set('Content-Type', 'text/html')
+        .set('Accept', 'text/html')
         .expect(200)
         .expect('Content-Type', /html/)
         .end(function(err, res) {
@@ -94,7 +96,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -113,31 +115,7 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([
-        'search/result', {
-          user: {id: 1},
-          title: 'LHR &#8644; SFO',
-          tiles: [],
-          max_filter_items: 0,
-          searchParams: {
-            DepartureLocationCode: 'LHR',
-            ArrivalLocationCode: 'SFO',
-            departureDate: '01 Aug',
-            returnDate: '22 Aug',
-            CabinClass: 'Economy',
-            passengers: '1',
-            topSearchOnly: '0',
-            flightType: 'ROUND_TRIP'
-          },
-          searchResult: [],
-          timelog: '',
-          head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
-          iconSpriteMap: {},
-          departure: {},
-          arrival: {}
-        }
-      ]);
-      assert(view.calledWith('search/result', {
+      view.args[0].should.be.eql([{
         user: {id: 1},
         title: 'LHR &#8644; SFO',
         tiles: [],
@@ -158,7 +136,29 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }));
+      }, 'search/result']);
+      assert(view.calledWith({
+        user: {id: 1},
+        title: 'LHR &#8644; SFO',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'LHR',
+          ArrivalLocationCode: 'SFO',
+          departureDate: '01 Aug',
+          returnDate: '22 Aug',
+          CabinClass: 'Economy',
+          passengers: '1',
+          topSearchOnly: '0',
+          flightType: 'ROUND_TRIP'
+        },
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
+      }, 'search/result'));
       view.reset();
       done();
     });
@@ -180,7 +180,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -203,31 +203,7 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([
-        'search/result', {
-          user: {id: 1},
-          title: 'TEST &rarr; TEST',
-          tiles: [],
-          max_filter_items: 0,
-          searchParams: {
-            DepartureLocationCode: 'TEST',
-            ArrivalLocationCode: 'TEST',
-            departureDate: '25 Jul',
-            returnDate: '',
-            CabinClass: 'undefined',
-            passengers: 'test',
-            topSearchOnly: 'test',
-            flightType: 'test'
-          },
-          searchResult: [],
-          timelog: '',
-          head_title: 'Flights from TEST to TEST on 25 Jul \'16',
-          iconSpriteMap: {},
-          departure: {},
-          arrival: {}
-        }
-      ]);
-      assert(view.calledWith('search/result', {
+      view.args[0].should.be.eql([{
         user: {id: 1},
         title: 'TEST &rarr; TEST',
         tiles: [],
@@ -248,7 +224,29 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }));
+      }, 'search/result']);
+      assert(view.calledWith({
+        user: {id: 1},
+        title: 'TEST &rarr; TEST',
+        tiles: [],
+        max_filter_items: 0,
+        searchParams: {
+          DepartureLocationCode: 'TEST',
+          ArrivalLocationCode: 'TEST',
+          departureDate: '25 Jul',
+          returnDate: '',
+          CabinClass: 'undefined',
+          passengers: 'test',
+          topSearchOnly: 'test',
+          flightType: 'test'
+        },
+        searchResult: [],
+        timelog: '',
+        head_title: 'Flights from TEST to TEST on 25 Jul \'16',
+        iconSpriteMap: {},
+        departure: {},
+        arrival: {}
+      }, 'search/result'));
       view.reset();
       done();
     });
@@ -272,7 +270,7 @@ describe('SearchController', function() {
       };
       var view = sinon.spy();
       var res = {
-        view: view,
+        ok: view,
         locals: {
           searchId: null
         }
@@ -298,8 +296,8 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       var result = require('../../fixtures/searchResult.json');
-      view.args[0].should.be.eql(['search/result', result]);
-      assert(view.calledWith('search/result', result));
+      view.args[0].should.be.eql([result, 'search/result']);
+      assert(view.calledWith(result, 'search/result'));
       view.reset();
       done();
     });
