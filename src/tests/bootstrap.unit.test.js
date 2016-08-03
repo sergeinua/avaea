@@ -1,14 +1,31 @@
 var Sails = require('sails'),
   sails;
-require('should');
+  require('should');
 
 before(function(done) {
 
   // Increase the Mocha timeout so that Sails has enough time to lift.
-  this.timeout(5000);
+  this.timeout(10000);
 
   Sails.lift({
     // configuration for testing purposes
+    environment: 'test',
+    port: 4000,
+    proxyHost: 'http://localhost/',
+    proxyPort: 4000,
+    explicitHost: false,
+    models: {
+      connection: 'testMemoryDb'
+    },
+    log: {
+      level: 'error',
+      timestamp: false
+    },
+    session: false,
+    policies: {
+      '*' : true
+    },
+    hookTimeout: 40000,
     hooks: {
       session: false,
       grunt: false

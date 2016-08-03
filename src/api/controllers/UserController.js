@@ -14,10 +14,13 @@ module.exports = {
    * `UserController.login()`
    */
   create: function (req, res) {
-    return res.view('user/create', {
-      title:'Create profile',
-      user: req.user
-    });
+    return res.ok(
+      {
+        title:'Create profile',
+        user: req.user
+      },
+      'user/create'
+    );
   },
 
   /**
@@ -42,11 +45,14 @@ module.exports = {
         if(typeof profile_fields.birthday == 'object')
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
 
-        return res.view('user/profile', {
-          title:'Update profile',
-          user: req.user,
-          profile_fields: profile_fields
-        });
+        return res.ok(
+          {
+            title:'Update profile',
+            user: req.user,
+            profile_fields: profile_fields
+          },
+          'user/profile'
+        );
       }
     });
   },

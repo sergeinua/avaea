@@ -60,8 +60,9 @@ module.exports = {
     // Fetch City names by location codes and put to the template
     async.parallel({
         depart_city: function(callback) {
-          if(_.isEmpty(params.DepartureLocationCode))
+          if (_.isEmpty(params.DepartureLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.DepartureLocationCode})
             .exec(function (err, result) {
@@ -73,8 +74,9 @@ module.exports = {
             });
         },
         arriv_city: function(callback) {
-          if(_.isEmpty(params.ArrivalLocationCode))
+          if (_.isEmpty(params.ArrivalLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.ArrivalLocationCode})
             .exec(function (err, result) {
@@ -88,20 +90,22 @@ module.exports = {
       },
       // Final callback
       function(err, results) {
-        if(!err)
-        {
+        if (!err) {
           params.departCity = results.depart_city.city;
           params.arrivCity = results.arriv_city.city;
         }
 
-        return res.view('search/index', {
-          title         : 'Search for flights',
-          user          : req.user,
-          defaultParams : params,
-          serviceClass  : Search.serviceClass,
-          errors        : error,
-          head_title    : 'Search for flights with Avaea Agent'
-        });
+        return res.ok(
+          {
+            title         : 'Search for flights',
+            user          : req.user,
+            defaultParams : params,
+            serviceClass  : Search.serviceClass,
+            errors        : error,
+            head_title    : 'Search for flights with Avaea Agent'
+          },
+          'search/index'
+        );
       }
     );
   },
@@ -197,22 +201,25 @@ module.exports = {
         UserAction.saveAction(req.user, 'search', dataStatistics, function () {
           User.publishCreate(req.user);
         });
-        return  res.view('search/result', {
-          user: req.user,
-          title: title,
-          tiles: {},
-          searchParams: {
-            DepartureLocationCode: params.searchParams.DepartureLocationCode,
-            ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
-            departureDate: sails.moment(depDate).format('DD MMM'),
-            returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-            CabinClass: serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F')?' class':''),
-            passengers: params.searchParams.passengers,
-            topSearchOnly: params.searchParams.topSearchOnly,
-            flightType: params.searchParams.flightType
+        return  res.ok(
+          {
+            user: req.user,
+            title: title,
+            tiles: {},
+            searchParams: {
+              DepartureLocationCode: params.searchParams.DepartureLocationCode,
+              ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
+              departureDate: sails.moment(depDate).format('DD MMM'),
+              returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
+              CabinClass: serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
+              passengers: params.searchParams.passengers,
+              topSearchOnly: params.searchParams.topSearchOnly,
+              flightType: params.searchParams.flightType
+            },
+            searchResult: []
           },
-          searchResult: []
-        });
+          'search/result'
+        );
       }
       var algorithm = sails.config.globals.bucketizationFunction;
 
@@ -258,29 +265,32 @@ module.exports = {
           }
           sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('smart_ranking'));
 
-          return  res.view('search/result', {
-            user: req.user,
-            title: title,
-            tiles: tiles,
-            max_filter_items: max_filter_items,
-            searchParams: {
-              DepartureLocationCode: params.DepartureLocationCode,
-              ArrivalLocationCode: params.ArrivalLocationCode,
-              departureDate: sails.moment(depDate).format('DD MMM'),
-              returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-              CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
-              passengers: params.passengers,
-              flightType: params.flightType
+          return  res.ok(
+            {
+              user: req.user,
+              title: title,
+              tiles: tiles,
+              max_filter_items: max_filter_items,
+              searchParams: {
+                DepartureLocationCode: params.DepartureLocationCode,
+                ArrivalLocationCode: params.ArrivalLocationCode,
+                departureDate: sails.moment(depDate).format('DD MMM'),
+                returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
+                CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
+                passengers: params.passengers,
+                flightType: params.flightType
+              },
+              searchResult: itineraries,
+              timelog: req.session.time_log.join('<br/>'),
+              head_title: 'Flights from '
+              + params.DepartureLocationCode
+              + ' to '+params.ArrivalLocationCode
+              + sails.moment(depDate).format(" on DD MMM 'YY")
+              + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):''),
+              iconSpriteMap: iconSpriteMap
             },
-            searchResult: itineraries,
-            timelog: req.session.time_log.join('<br/>'),
-            head_title: 'Flights from '
-            + params.DepartureLocationCode
-            + ' to '+params.ArrivalLocationCode
-            + sails.moment(depDate).format(" on DD MMM 'YY")
-            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):''),
-            iconSpriteMap: iconSpriteMap
-          });
+            'search/result'
+          );
         });
       });
     });
