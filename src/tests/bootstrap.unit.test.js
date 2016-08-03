@@ -9,6 +9,7 @@ before(function(done) {
 
   Sails.lift({
     // configuration for testing purposes
+    environment: 'test',
     port: 4000,
     proxyHost: 'http://localhost/',
     proxyPort: 4000,
