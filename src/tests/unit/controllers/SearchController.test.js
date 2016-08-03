@@ -115,7 +115,7 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([{
+      view.args[0].should.be.eql(['search/result', {
         user: {id: 1},
         title: 'LHR &#8644; SFO',
         tiles: [],
@@ -136,8 +136,8 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }, 'search/result']);
-      assert(view.calledWith({
+      }]);
+      assert(view.calledWith('search/result', {
         user: {id: 1},
         title: 'LHR &#8644; SFO',
         tiles: [],
@@ -158,7 +158,7 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }, 'search/result'));
+      }));
       view.reset();
       done();
     });
@@ -203,7 +203,7 @@ describe('SearchController', function() {
       };
       sails.controllers.search.result(req, res);
       assert(view.called);
-      view.args[0].should.be.eql([{
+      view.args[0].should.be.eql(['search/result', {
         user: {id: 1},
         title: 'TEST &rarr; TEST',
         tiles: [],
@@ -224,8 +224,8 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }, 'search/result']);
-      assert(view.calledWith({
+      }]);
+      assert(view.calledWith('search/result', {
         user: {id: 1},
         title: 'TEST &rarr; TEST',
         tiles: [],
@@ -246,7 +246,7 @@ describe('SearchController', function() {
         iconSpriteMap: {},
         departure: {},
         arrival: {}
-      }, 'search/result'));
+      }));
       view.reset();
       done();
     });
@@ -296,8 +296,8 @@ describe('SearchController', function() {
       sails.controllers.search.result(req, res);
       assert(view.called);
       var result = require('../../fixtures/searchResult.json');
-      view.args[0].should.be.eql([result, 'search/result']);
-      assert(view.calledWith(result, 'search/result'));
+      view.args[0].should.be.eql(['search/result', result]);
+      assert(view.calledWith('search/result', result));
       view.reset();
       done();
     });
