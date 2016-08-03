@@ -288,7 +288,7 @@ module.exports = {
         }
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
 
-        return res.ok('search/result', {
+        return res.ok({
           user: req.user,
           title: title,
           tiles: result.tiles,
@@ -313,7 +313,7 @@ module.exports = {
           iconSpriteMap: result.iconSpriteMap,
           departure: result.departure,
           arrival: result.arrival
-        });
+        }, 'search/result');
       });
     });
   }
