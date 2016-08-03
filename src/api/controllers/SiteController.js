@@ -15,8 +15,11 @@ module.exports = {
     if(site_pages.indexOf(page_name) == -1)
       return res.notFound();
 
-    return res.view('site/'+page_name, {
-      site_info: sails.config.globals.site_info
-    });
+    return res.ok(
+      {
+        site_info: sails.config.globals.site_info
+      },
+      'site/'+page_name
+    );
   }
 };
