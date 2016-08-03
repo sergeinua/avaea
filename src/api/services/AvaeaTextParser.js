@@ -324,7 +324,7 @@ function AvaeaTextParser() {
           result = {
             query               : text,
             not_parsed          : parser.not_parsed,
-            action              : parser.action             ? parser.action                   : 'form', // 'top', 'all'
+            action              : parser.action             ? parser.action                   : undefined, // 'top', 'all', 'form'
             airline             : undefined,              // TODO: is not recognized yet
             origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
             destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
