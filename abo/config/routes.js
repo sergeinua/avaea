@@ -59,7 +59,7 @@ module.exports.routes = {
 
   // 'post /ac/airports': 'AcController.airports',
 
-
+  'post /getActionByType': 'AboController.getActionByType',
   'post /getaction': 'AboController.getaction',
   'post /getbyuser/:user_id': 'AboController.getByUser',
   'post /gettilesbyuser/:user_id': 'AboController.getTilesByUser',

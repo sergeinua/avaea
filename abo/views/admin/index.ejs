@@ -95,7 +95,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/<%= selectedAirline %>">User search</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="user_search">User search</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Per user data statistics</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Overall reports/statistics</a></li>
           <% if (typeof user != 'undefined') { %>
           <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
           <% } else { %>
@@ -109,12 +111,9 @@
 </div>
 
 <div class="main container clearfix">
-    <!--<div id="statistic" class="hidden">-->
-        <!--<div class="jumbotron">-->
-          <!--<h1>Not implemented yet</h1>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div id="user_search" class="row">
+  <div id="gridUsersStat" class="hidden dataContainer"></div>
+  <div id="gridOverallStat" class="hidden dataContainer"></div>
+    <div id="user_search" class="row dataContainer">
         <form class="filter_user">
       <div class="input-group">
         <input id="user_search_form" type="text" name="user_id" class="form-control" placeholder="Search for user">
@@ -159,7 +158,7 @@
             </li>
             <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
               <label>
-                <input class="filters_checkbox" type="checkbox" for="order_itineraries" checked> Search
+                <input class="filters_checkbox" type="checkbox" for="search" checked> Search
               </label>
             </li>
           <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
