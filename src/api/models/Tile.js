@@ -107,7 +107,7 @@ module.exports = {
 
     if (!itineraries) {
       sails.log.info('Itineraries not found');
-      return callback(itineraries, [], params);
+      return callback(null, itineraries, []);
     }
     var tileArr = _.clone(this.tiles, true);
 
@@ -460,11 +460,13 @@ module.exports = {
       }, function (err) {
         if ( err ) {
           sails.log.error( err );
+          tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
           tileArr['Merchandising'].order = -1;
-          return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
+          tileArr = _.sortBy(tileArr, 'order').reverse();
         }
+        return callback(err, itineraries, tileArr);
       });
     }
   },
@@ -480,7 +482,7 @@ module.exports = {
     sails.log.info('Using alternative bucketization algorithm');
     if (!itineraries) {
       sails.log.info('Itineraries not found');
-      return callback(itineraries, [], params);
+      return callback(null, itineraries, []);
     }
 
     var tileArr = null;
@@ -1102,7 +1104,7 @@ module.exports = {
         }
         //for (var i=0; i < itinerary.citypairs.length; i++) {
         //  for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
-        for (var i=0; i < 1; i++) {
+        for (var i = 0; i < 1; i++) {
           for (var k = 0; k < 1; k++) {
             var flight = itinerary.citypairs[i].flights[k];
             if (flight.airline) {
@@ -1184,18 +1186,20 @@ module.exports = {
       }, function (err) {
         if ( err ) {
           sails.log.error( err );
+          tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
           tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
-          return callback(itineraries, _.sortBy(tileArr, 'order'), params);
+          tileArr = _.sortBy(tileArr, 'order');
         }
+        return callback(err, itineraries, tileArr);
       });
     }
   },
 
   getTilesDataEmpty: function (itineraries, params, callback) {
-    return callback(itineraries, [], params);
+    return callback(null, itineraries, []);
   }
 
 };
