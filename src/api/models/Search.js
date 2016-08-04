@@ -213,7 +213,8 @@ module.exports = {
         return {
           name: item,
           count: _tmpFilter.length,
-          time: utils.timeLogGetHr(item)
+          time: utils.timeLogGet(item),
+          timeStr: utils.timeLogGetHr(item)
         };
       });
     }

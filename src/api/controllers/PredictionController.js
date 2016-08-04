@@ -18,7 +18,7 @@ module.exports = {
 
   order_itineraries: function (req, res) {
     //( array_of_itineraries )
-    UserAction.saveAction(req.user, 'order_itineraries', req.allParams(), function () {
+    UserAction.saveAction(req.user, 'search', req.allParams(), function () {
       User.publishCreate(req.user);
     });
     return res.json(req.allParams());

@@ -31,7 +31,21 @@ module.exports = {
       }
     });
   },
-
+  getActionByType: function (req, res) {
+    UserAction.find({
+      where: {
+        id: {'>':req.param('lastUpdated', 0)},
+        actionType: req.param('actionType', 'search')
+      },
+      sort : 'id ASC'
+    }).populate('user').exec(function (err, found) {
+      if (!err && found.length) {
+        return res.json(found);
+      } else {
+        return res.json([]);
+      }
+    });
+  },
   getaction: function (req, res) {
     UserAction.find({
       where: {id: {'>':req.param('lastUpdated', 0)}},
