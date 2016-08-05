@@ -253,14 +253,6 @@ module.exports = {
             } else {
               itineraries = _itineraries;
               UserAction.saveAction(req.user, 'order_tiles', _tiles);
-              var itinerariesData = _.merge({
-                searchUuid: itineraries.guid,
-                searchParams: params.searchParams,
-                countAll: itineraries.length
-              }, Search.getStatistics(itineraries));
-              UserAction.saveAction(req.user, 'order_itineraries', itinerariesData, function () {
-                User.publishCreate(req.user);
-              });
             }
             sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
             return doneCb(_err, _tiles);
@@ -286,6 +278,18 @@ module.exports = {
           });
           max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
         }
+
+        var itinerariesData = _.merge({
+          searchUuid    : itineraries.guid,
+          searchParams  : params.searchParams,
+          countAll      : itineraries.length,
+          timeWorkStr   : utils.timeLogGetHr('search_result'),
+          timeWork      : utils.timeLogGet('search_result'),
+          error         : err
+        }, Search.getStatistics(itineraries));
+        UserAction.saveAction(req.user, 'search', itinerariesData, function () {
+          User.publishCreate(req.user);
+        });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
 
         return res.ok({
