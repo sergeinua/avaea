@@ -376,7 +376,7 @@
 
         if (digits[result.number_of_tickets]) {
           $('#passengers').val(result.number_of_tickets);
-          $('.passengers_count').text(digits[result.number_of_tickets]);
+          renderPassengerChooser(result.number_of_tickets);
         }
       } else {
         _complete = false;
