@@ -4,3 +4,30 @@
     overflow: hidden;
   }
 }
+
+.list-group-item-voice-search {
+  color: #000;
+  background-color: #d1d68f;
+}
+
+.alert.voice-search {
+  background-image: -webkit-linear-gradient(top, #d1d68f 0%, #909360 100%);
+  background-image:      -o-linear-gradient(top, #d1d68f 0%, #909360 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#d1d68f), to(#909360));
+  background-image:         linear-gradient(to bottom, #d1d68f 0%, #909360 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#d1d68f', endColorstr='#909360', GradientType=0);
+  background-repeat: repeat-x;
+  border-color: #868e0c;
+}
+
+@media (min-width: 768px) {
+  .navbar-brand {
+    display: none;
+  }
+  .navbar-nav {
+    width: 100%;
+  }
+  .navbar-nav>li:last-child {
+    float: right;
+  }
+}
