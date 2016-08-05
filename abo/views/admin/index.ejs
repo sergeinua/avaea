@@ -64,6 +64,12 @@
       margin-top: 17px;
       margin-right: 5px;
     }
+    .menu-tab.active {
+      font-weight: bold;
+      font-size: 18px;
+      color: #000000;
+    }
+
     </style>
   </head>
 
@@ -95,9 +101,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="javascript:;" class="menu-tab" for="user_search">User search</a></li>
-          <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Per user data statistics</a></li>
-          <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Overall reports/statistics</a></li>
+          <li><a href="javascript:;" class="menu-tab active" for="user_search">User info</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Searches Log</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Searches Performance</a></li>
           <% if (typeof user != 'undefined') { %>
           <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
           <% } else { %>
@@ -161,7 +167,7 @@
                 <input class="filters_checkbox" type="checkbox" for="search" checked> Search
               </label>
             </li>
-          <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
+          <li class="list-group-item-voice-search" style="padding: 5px 5px 5px 5px">
             <label>
               <input class="filters_checkbox" type="checkbox" for="voice_search" checked> Voice Search
             </label>
