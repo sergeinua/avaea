@@ -1,5 +1,5 @@
 /* global $ */
-
+var SearchForm = {}; //global object for communication with react components
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);
