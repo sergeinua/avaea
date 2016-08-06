@@ -119,6 +119,10 @@ function AvaeaTextParser() {
     "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,3})";
 
   // regexps matching different elements
+  this.action_regexps = [
+    new Regexp_and_Conversion('top\\s+flights',function() { return "top"; }),
+    new Regexp_and_Conversion('all\\s+flights',function() { return "all"; }),
+  ];
   this.origin_date_regexps = [
     new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
@@ -238,10 +242,6 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('business',function() { return "B"; }),
     new Regexp_and_Conversion('first',function() { return "F"; })
   ];
-  this.action_regexps = [
-    new Regexp_and_Conversion('top flights',function() { return "top"; }),
-    new Regexp_and_Conversion('all flights',function() { return "all"; }),
-  ];
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
@@ -274,14 +274,6 @@ function AvaeaTextParser() {
   this.run = function (text) {
     // Takes a text, parses it, returns whatever is left unrecognized
     this.not_parsed = text;
-//     if ( this.not_parsed.match(/all flights/i) ) {
-//       this.not_parsed = this.not_parsed.replace(/all flights/i,"");
-//       this.action = 'all';
-//     }
-//     if ( this.not_parsed.match(/top flights/i) ) {
-//       this.not_parsed = this.not_parsed.replace(/top flights/i,"");
-//       this.action = 'top';
-//     }
     var match_and_convert = (regexp_and_conversion) => {
       try {
         var matches = regexp_and_conversion.re.exec(this.not_parsed);
@@ -330,7 +322,7 @@ function AvaeaTextParser() {
             query               : text,
             not_parsed          : parser.not_parsed,
             action              : parser.action             ? parser.action                   : undefined, // 'top', 'all', 'form'
-            airline             : undefined,              // TODO: is not recognized yet
+            airline             : undefined,                // TODO: is not recognized yet
             origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
             destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
             // The user of the voice search does not care for the timezone of the server where the speech
