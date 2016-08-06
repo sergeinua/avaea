@@ -41,7 +41,7 @@ function get_tomorrow() {
 }
 function validate_city_name(city_name) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
-  if (/flying|leaving|departing|students/i.exec(city_name))
+  if (/from|flying|leaving|departing|students/i.exec(city_name))
     throw new Exception("Wrong city name" + city_name);
   return city_name;
 }
@@ -56,6 +56,7 @@ function Regexp_and_Conversion(pattern, conversion_proc) {
 function AvaeaTextParser() {
   // Properties
   this.keys = [
+    'action',
     'origin_date',
     'return_date',
     'origin_airport',
@@ -113,16 +114,19 @@ function AvaeaTextParser() {
     "saturday|" +
     "sunday";
 
-  // Handle "St. " and "Ft. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+[SsFf]t\\.?(?:\\s+[A-Z][A-z\\-]*,?))|" +
-    "(?:(?:[SsFf]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,2})|" +
-    "(?:[A-Z]{3})";
+  // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+(?:[SsFfPp]t\\.?|de)(?:\\s+[A-Z][A-z\\-]*,?))|" +
+    "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,3})";
 
   // regexps matching different elements
+  this.action_regexps = [
+    new Regexp_and_Conversion('top\\s+flights',function() { return "top"; }),
+    new Regexp_and_Conversion('all\\s+flights',function() { return "all"; }),
+  ];
   this.origin_date_regexps = [
-    new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
+    new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(' + this.month_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) {
+    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) { // 20 Dec, 20th of Dec
       var date = ordinal_to_number(matches[2]);
       var month = matches[3];
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
@@ -145,9 +149,9 @@ function AvaeaTextParser() {
     })
   ];
   this.return_date_regexps = [
-    new Regexp_and_Conversion('today|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
+    new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {
+    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {  // 20 Dec, 20th of Dec
       var date = ordinal_to_number(matches[2]);
       var month = matches[3];
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
@@ -182,7 +186,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
       return get_date_of_next_weekday(result.origin_date.value, matches[1]);
     }),
-    new Regexp_and_Conversion('(' + this.date_pattern + ')', function (matches, result) {
+    new Regexp_and_Conversion('(' + this.date_pattern + ')(?!\\s+ticket)', function (matches, result) {
       var r = new Date(result.origin_date.value.getTime());
       var date_of_month = ordinal_to_number(matches[matches.length - 1]);
       if (date_of_month > 31)
@@ -215,7 +219,7 @@ function AvaeaTextParser() {
       };
       return validate_city_name(matches[2]);
     }),
-    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:am|is|are)\\s+(?:\\w+\\s+)?in))\\s+(" + this.city_pattern + ")"), function (matches, result) {
+    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:I'm|am|is|are)\\s+(?:\\w+\\s+)?in))\\s+(" + this.city_pattern + ")"), function (matches, result) {
       return validate_city_name(matches[1]);
     })
   ];
@@ -259,7 +263,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ), // same as old NUM #11
 
     // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
-    new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`']m\\b)",function() { return 1; } ),
+    new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`'](m|d)\\b)",function() { return 1; } ),
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),          // NEW: added to handle "Cat and dog are flying from SFO to JFK"
     new Regexp_and_Conversion('\\bare\\b\\s+',function() { return 'multiple'; } )
   ];
@@ -317,8 +321,8 @@ function AvaeaTextParser() {
           result = {
             query               : text,
             not_parsed          : parser.not_parsed,
-            action              : 'form', // 'top', 'all' // TODO: is not recognized yet
-            airline             : undefined,              // TODO: is not recognized yet
+            action              : parser.action             ? parser.action                   : undefined, // 'top', 'all', 'form'
+            airline             : undefined,                // TODO: is not recognized yet
             origin_airport      : parser.origin_airport     ? parser.origin_airport.value     : undefined,
             destination_airport : parser.return_airport     ? parser.return_airport.value     : undefined,
             // The user of the voice search does not care for the timezone of the server where the speech
@@ -327,7 +331,7 @@ function AvaeaTextParser() {
             // in a different date
             origin_date         : parser.origin_date        ? parser.origin_date.value.toDateString() : false,
             return_date         : parser.return_date        ? parser.return_date.value.toDateString() : false,
-            type                : parser.type               ? parser.type                     : undefined,
+            type                : parser.type               ? parser.type                     : undefined, // 'one_way' or 'round_trip'
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
