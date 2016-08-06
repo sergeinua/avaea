@@ -152,8 +152,7 @@
 
     $('#returnDate').data('date', '').val('');
 
-    $('#passengers').val(1);
-    $('.passengers_count').text(digits[1]);
+    SearchForm.updatePassengers(1);
 
     $('#preferedClass').val('E');
     $('.flight-class-info-item .text-picker').text(serviceClass['E']);
@@ -374,10 +373,7 @@
           result.number_of_tickets = 4;
         }
 
-        if (digits[result.number_of_tickets]) {
-          $('#passengers').val(result.number_of_tickets);
-          renderPassengerChooser(result.number_of_tickets);
-        }
+        SearchForm.updatePassengers(result.number_of_tickets);
       } else {
         _complete = false;
       }
