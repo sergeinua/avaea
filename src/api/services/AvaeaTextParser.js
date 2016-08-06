@@ -56,6 +56,7 @@ function Regexp_and_Conversion(pattern, conversion_proc) {
 function AvaeaTextParser() {
   // Properties
   this.keys = [
+    'action',
     'origin_date',
     'return_date',
     'origin_airport',
@@ -237,6 +238,10 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('business',function() { return "B"; }),
     new Regexp_and_Conversion('first',function() { return "F"; })
   ];
+  this.action_regexps = [
+    new Regexp_and_Conversion('top flights',function() { return "top"; }),
+    new Regexp_and_Conversion('all flights',function() { return "all"; }),
+  ];
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
@@ -269,14 +274,14 @@ function AvaeaTextParser() {
   this.run = function (text) {
     // Takes a text, parses it, returns whatever is left unrecognized
     this.not_parsed = text;
-    if ( this.not_parsed.match(/all flights/i) ) {
-      this.not_parsed = this.not_parsed.replace(/all flights/i,"");
-      this.action = 'all';
-    }
-    if ( this.not_parsed.match(/top flights/i) ) {
-      this.not_parsed = this.not_parsed.replace(/top flights/i,"");
-      this.action = 'top';
-    }
+//     if ( this.not_parsed.match(/all flights/i) ) {
+//       this.not_parsed = this.not_parsed.replace(/all flights/i,"");
+//       this.action = 'all';
+//     }
+//     if ( this.not_parsed.match(/top flights/i) ) {
+//       this.not_parsed = this.not_parsed.replace(/top flights/i,"");
+//       this.action = 'top';
+//     }
     var match_and_convert = (regexp_and_conversion) => {
       try {
         var matches = regexp_and_conversion.re.exec(this.not_parsed);
