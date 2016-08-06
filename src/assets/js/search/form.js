@@ -262,19 +262,6 @@ function changeFlightTab(type, prevTab) {
 
 }
 
-var setPassengersCount = function() {
-  var currentValue = +$('#passengers').val();
-  var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
-
-  $('#passengers_count').text(digits[currentValue]);
-  if ( currentValue > 1 ) {
-    $('.passengers_text').text('Adults');
-  } else {
-    $('.passengers_text').text('Adult');
-  }
-
-};
-
 var setCabinClass = function() {
   if (typeof serviceClass != 'undefined') {
     $('.flight-class-info-item .text-picker').text(serviceClass[$('#preferedClass').val()]);
@@ -300,7 +287,7 @@ $(document).ready(function() {
     }
     drawAirportData('originAirport');
     drawAirportData('destinationAirport');
-    setPassengersCount();
+    renderPassengerChooser($('#passengers').val());
     setCabinClass();
   }
 
@@ -366,17 +353,6 @@ $(document).ready(function() {
     $(this).addClass('active-choice');
     var id = $(this).attr('id');
     changeFlightTab(id, prevTab);
-  });
-
-  $('.flight-passengers-info-item .text-picker').on('click', function () {
-    var currentValue = +$('#passengers').val();
-    if ( currentValue < 4 ) {
-      $('#passengers').val(currentValue + 1);
-    } else {
-      $('#passengers').val(1);
-    }
-
-    setPassengersCount();
   });
 
   $('.flight-class-info-item .text-picker').on('click', function () {

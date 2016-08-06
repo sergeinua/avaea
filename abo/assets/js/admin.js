@@ -118,14 +118,14 @@ $(document).ready(function () {
   };
 
   var actionMap = {
-    on_tile_choice: {title: 'tile', colorClass: 'info'},
-    order_tiles: {title: 'tiles order', colorClass: 'success'},
-    search: {title: 'search', colorClass: 'warning'},
-    on_itinerary_purchase: {title: 'itinerary', colorClass: 'danger'},
-    tile_prediction: {title: 'tile prediction', colorClass: 'default'},
-    itinerary_prediction: {title: 'itinerary prediction', colorClass: 'active'},
-    voice_search: {title: 'voice_search', colorClass: 'success'},
-    empty: {title: 'empty log', colorClass: 'danger'}
+    on_tile_choice:         {title: 'tile', colorClass: 'info'},
+    order_tiles:            {title: 'tiles order', colorClass: 'success'},
+    search:                 {title: 'search', colorClass: 'warning'},
+    on_itinerary_purchase:  {title: 'itinerary', colorClass: 'danger'},
+    tile_prediction:        {title: 'tile prediction', colorClass: 'default'},
+    itinerary_prediction:   {title: 'itinerary prediction', colorClass: 'active'},
+    voice_search:           {title: 'voice_search', colorClass: 'voice-search'},
+    empty:                  {title: 'empty log', colorClass: 'danger'}
   };
 
   $('#chartSelection').on('change', function () {
@@ -172,6 +172,7 @@ $(document).ready(function () {
     $('.menu-tab[for=' + tab + ']').addClass('active');
     $('.dataContainer').removeClass('active').addClass('hidden');
     $('#' + tab).removeClass('hidden').addClass('active');
+    $('.navbar-brand').text($('.menu-tab[for=' + tab + ']').text());
     switch (tab) {
       case 'user_search':
 
@@ -230,11 +231,7 @@ $(document).ready(function () {
               action = 'itinerary expanded';
             }
           }
-          if (data.actionType == 'voice_search') {
-            if (data.logInfo.queryResult) {
-              colorClass = (data.logInfo.queryResult == 'failed' ? 'danger' : 'success');
-            }
-          }
+
           var date = new Date(data.createdAt).toLocaleString();
           dataGrid.push(data);
           if (data.actionType == "search" && showGrid) {
@@ -407,93 +404,10 @@ $(document).ready(function () {
     }
   };
 
-  var generateGridSearch = function (nameFilter) {
-    if (!dataGrid.length) return;
-    var dataFilterGrid = [];
-    dataGrid.forEach(function (item) {
-      if (item.actionType == nameFilter) {
-        dataFilterGrid.push(getRowGridSearch(item));
-      }
-    });
-    showGrid = true;
-    $('#jsGrid').jsGrid('destroy');
-    $('#jsGrid').jsGrid({
-      height: '470px',
-      width: '100%',
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: false,
-      filtering: false,
-      autoload: true,
-      controller: {
-        loadData: function () {
-          return dataFilterGrid;
-        }
-      },
-      fields: [
-        {name: 'createdAt', title: 'Date', type: 'date'},
-        {name: 'id', title: 'Id', type: 'number'},
-        {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
-        {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
-        {name: 'departureDate', title: 'Departure Date', type: 'date'},
-        {name: 'returnDate', title: 'Return Date', type: 'date'},
-        {name: 'serviceProvider', title: 'Name API', type: 'text'},
-        {name: 'serviceCount', title: 'Count', type: 'number'},
-        {name: 'serviceTimeWork', title: 'Time', type: 'date'},
-        //{name: 'airportsCode', title: 'Airports'},
-        //{type: 'control', modeSwitchButton: false, editButton: false, deleteButton: false}
-      ]
-    });
-  };
-
-  var getRowGridSearch = function (row) {
-    return {
-      email: (row.user && row.user.email) ? row.user.email : '--na--',
-      createdAt: new Date(row.createdAt).toLocaleString(),
-      createdDt: new Date(row.createdAt).toLocaleString("en-US", {month: '2-digit', day: '2-digit', year: 'numeric'}),
-      createdTime: new Date(row.createdAt).toLocaleString("en-US", {hour: '2-digit', minute: '2-digit', second: '2-digit'}),
-      id: row.id,
-      DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
-      ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
-      departureDate: row.logInfo.searchParams.departureDate || '-- na --',
-      returnDate: row.logInfo.searchParams.returnDate || '-- na --',
-      flightType: row.logInfo.searchParams.flightType || '-- na --',
-      topSearchOnly: row.logInfo.searchParams.topSearchOnly || 0,
-      passengers: row.logInfo.searchParams.passengers || 0,
-      serviceProvider: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
-        row.logInfo.searchInfoByProviders.map(function (it) {
-          return it.name + '<br/>';
-        }) : '--na--',
-      result: (row.logInfo.countAll > 0) ? 'success' : 'failed',
-      serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
-        row.logInfo.searchInfoByProviders.map(function (it) {
-          return it.count + '<br/>';
-        }) : '--na--',
-      serviceTimeWork: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
-        row.logInfo.searchInfoByProviders.map(function (it) {
-          return it.timeStr + '<br/>';
-        }) : '--na--',
-      voiceQuery: (row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--',
-      timeWork: row.logInfo.timeWorkStr || '--na--',
-      //airportsCode: (row.logInfo.searchInfoAirports && row.logInfo.searchInfoAirports.length) ?
-      //  row.logInfo.searchInfoAirports.map(function (it) {
-      //    return it.code + '=' + it.count + '; ';
-      //  }) : '--na--'
-    };
-  };
-
-  var insertRowToGrid = function (el, row) {
-    $(el).jsGrid('insertItem', getRowGridSearch(row)).done(function () {
-      var sorting = $(el).jsGrid('getSorting');
-      if (sorting)
-        $(el).jsGrid('sort', sorting);
-    });
-  };
 
   var lastIdUsersStat = 0, dataUsersStats = [], dataUsersStatsFormat = [],
-      showGridUsersStat = false, showGridOverallStat = false;
-  var getUsersStatistics = function () {
+    showGridUsersStat = false, showGridOverallStat = false;
+  var getUsersStatistics = function (formated) {
     socketAbo.post('/getActionByType', {lastUpdated: lastIdUsersStat, actionType: 'search'}, function (result, jwres) {
       if (result.length) {
         result.forEach(function (item) {
@@ -510,121 +424,18 @@ $(document).ready(function () {
 
       if (dataUsersStats.length) {
         if (!showGridUsersStat && activeTab == 'gridUsersStat') {
-          generateGridUsersStat();
+          $('#gridUsersStat').jsGrid('loadData', dataUsersStatsFormat);
         }
 
-        generateGridOverallStat();
+        $('#gridOverallStat').jsGrid('loadData', dataUsersStats);
       }
 
+      return dataUsersStats;
     });
   };
 
-  var generateGridUsersStat = function () {
-    if (!dataUsersStats.length) return;
-    showGridUsersStat = true;
-    $('#gridUsersStat').jsGrid('destroy');
-    $('#gridUsersStat').jsGrid({
-      height: '550px',
-      width: '100%',
-      css: "cell-ellipsis",
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: false,
-      filtering: false,
-      autoload: true,
-      controller: {
-        loadData: function () {
-          return dataUsersStatsFormat;
-        }
-      },
-      fields: [
-        {name: 'email', title: 'Email', type: 'text'},
-        {name: 'createdDt', title: 'Date', type: 'date'},
-        {name: 'createdTime', title: 'Time', type: 'date'},
-        //{name: 'id', title: 'Id', type: 'number'},
-        {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
-        {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
-        {name: 'departureDate', title: 'Departure Date', type: 'date'},
-        {name: 'returnDate', title: 'Return Date', type: 'date'},
-        {name: 'flightType', title: 'Flight Type', type: 'text'},
-        {name: 'topSearchOnly', title: 'Top', type: 'number'},
-        {name: 'passengers', title: 'Passengers', type: 'number'},
-        {name: 'serviceProvider', title: 'Provider', type: 'text'},
-        {name: 'result', title: 'Result', type: 'text'},
-        {name: 'serviceTimeWork', title: 'Latency', type: 'date'},
-        {name: 'serviceCount', title: 'Itins', type: 'number'},
-        {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
-        {name: 'timeWork', title: 'Processing time', type: 'date'}
-      ]
-    });
-  };
-
-  var generateGridOverallStat = function (isRefresh) {
-    if (!dataUsersStats.length) return;
-    var dataOverallStat = {
-      totalReq: 0,
-      totalSuccesses: 0,
-      totalFailures: 0,
-      avgMondee: 0,
-      avgTime: 0
-    };
-    var timeWorkCnt = 0, timeWorkVal = 0,
-        timeWorkProvCnt = 0, timeWorkProvVal = 0;
-    dataUsersStats.forEach(function (item) {
-      dataOverallStat.totalReq++;
-      if (typeof item.logInfo.countAll != 'undefined') {
-        if (item.logInfo.countAll > 0) {
-          dataOverallStat.totalSuccesses++;
-        } else {
-          dataOverallStat.totalFailures++;
-        }
-      }
-      if (item.logInfo.searchInfoByProviders && item.logInfo.searchInfoByProviders.length) {
-        item.logInfo.searchInfoByProviders.map(function (it) {
-          if (it.name == 'mondee' && it.time) {
-            timeWorkProvCnt++;
-            timeWorkProvVal += parseInt(it.time);
-          }
-        });
-      }
-      if (item.logInfo.timeWork) {
-        timeWorkCnt++;
-        timeWorkVal += parseInt(item.logInfo.timeWork);
-      }
-    });
-    if (timeWorkProvCnt && timeWorkProvVal) {
-      dataOverallStat.avgMondee = durationHr(parseInt(timeWorkProvVal / timeWorkProvCnt));
-    }
-    if (timeWorkCnt && timeWorkVal) {
-      dataOverallStat.avgTime = durationHr(parseInt(timeWorkVal / timeWorkCnt));
-    }
-
-    showGridOverallStat = true;
-    $('#gridOverallStat').jsGrid('destroy');
-    $('#gridOverallStat').jsGrid({
-      height: '150px',
-      width: '100%',
-      inserting: false,
-      editing: false,
-      sorting: true,
-      paging: false,
-      filtering: false,
-      autoload: true,
-      controller: {
-        loadData: function () {
-          return [dataOverallStat];
-        }
-      },
-      fields: [
-        {name: 'totalReq', title: 'Total Requests', type: 'number'},
-        {name: 'totalSuccesses', title: 'Successes', type: 'number'},
-        {name: 'totalFailures', title: 'Failures', type: 'number'},
-        {name: 'avgMondee', title: 'Mondee avg. latency', type: 'number'},
-        {name: 'avgTime', title: 'Avg. processing time', type: 'number'}
-      ]
-    });
-  };
+  generateGridUsersStat();
+  generateGridOverallStat();
 
   // Simple log function to keep the example simple
   function log() {
