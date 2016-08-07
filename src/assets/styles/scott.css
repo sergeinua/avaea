@@ -175,7 +175,7 @@ nav {
 }
 
 .mycustomtab {
-  height: 30px;
+  height: 23px;
   font-family: WhitneyHTF-SemiBoldCondensed;
   font-size: 14px;
   line-height: 1.0;
@@ -184,10 +184,6 @@ nav {
   text-transform: uppercase;
   padding: 5px;
   background-color: white;
-}
-
-.landscape-mode .mycustomtab {
-  height: 23px;
 }
 
 .good-bad-flights {
@@ -1277,8 +1273,11 @@ div.nothing-found-icon {
   .navbar-brand {
     padding: 4px;
   }
-  .navbar,.navbar-header{
+  .navbar,.navbar-header {
     height: 30px;
+  }
+  .navbar#tiles_ui {
+    height: 20px;
   }
   .searchform-top {
     border: 0;
