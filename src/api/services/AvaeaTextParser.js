@@ -250,7 +250,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
     new Regexp_and_Conversion('s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
     new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
-    new Regexp_and_Conversion('(\\d+)(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return Number(s); }),
+    new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return ordinal_to_number(s[1]); }),
     new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
     new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
