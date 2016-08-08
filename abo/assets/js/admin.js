@@ -121,7 +121,7 @@ $(document).ready(function () {
     on_tile_choice:         {title: 'tile', colorClass: 'info'},
     order_tiles:            {title: 'tiles order', colorClass: 'success'},
     search:                 {title: 'search', colorClass: 'warning'},
-    on_itinerary_purchase:  {title: 'itinerary', colorClass: 'danger'},
+    on_itinerary_purchase:  {title: 'itinerary choice', colorClass: 'danger'},
     tile_prediction:        {title: 'tile prediction', colorClass: 'default'},
     itinerary_prediction:   {title: 'itinerary prediction', colorClass: 'active'},
     voice_search:           {title: 'voice_search', colorClass: 'voice-search'},
@@ -178,6 +178,7 @@ $(document).ready(function () {
 
       break;
       case 'gridUsersStat':
+        $('#gridUsersStat').jsGrid('refresh');
       case 'gridOverallStat':
         getUsersStatistics();
       break;
@@ -225,11 +226,11 @@ $(document).ready(function () {
             for (var tile in data.logInfo) {
               data.logInfo[tile].filters = ['...'];
             }
-            if (data.logInfo.action == 'order') {
-              action = 'itinerary ordered';
-            } else {
-              action = 'itinerary expanded';
-            }
+            //if (data.logInfo.action == 'order') {
+            //  action = 'itinerary ordered';
+            //} else {
+            //  action = 'itinerary expanded';
+            //}
           }
 
           var date = new Date(data.createdAt).toLocaleString();
@@ -416,18 +417,26 @@ $(document).ready(function () {
           }
           dataUsersStats.push(item);
           dataUsersStatsFormat.push(getRowGridSearch(item));
+
           if (showGridUsersStat) {
-            insertRowToGrid('#gridUsersStat', item);
+            //insertRowToGrid('#gridUsersStat', item);
+            $('#gridUsersStat').jsGrid('loadData', dataUsersStatsFormat).done(function() {
+              $('#gridUsersStat').jsGrid('sort', {field: 'id', order: 'desc'});
+            });
           }
         });
       }
 
       if (dataUsersStats.length) {
         if (!showGridUsersStat && activeTab == 'gridUsersStat') {
-          $('#gridUsersStat').jsGrid('loadData', dataUsersStatsFormat);
+          $('#gridUsersStat').jsGrid('loadData', dataUsersStatsFormat).done(function() {
+            showGridUsersStat = true;
+          });
         }
 
-        $('#gridOverallStat').jsGrid('loadData', dataUsersStats);
+        $('#gridOverallStat').jsGrid('loadData', dataUsersStats).done(function() {
+          showGridOverallStat = true;
+        });
       }
 
       return dataUsersStats;

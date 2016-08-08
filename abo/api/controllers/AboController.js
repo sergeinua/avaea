@@ -35,9 +35,10 @@ module.exports = {
     UserAction.find({
       where: {
         id: {'>':req.param('lastUpdated', 0)},
-        actionType: req.param('actionType', 'search')
+        actionType: req.param('actionType', 'search'),
+        createdAt: {'>=' : new Date(_.now() - 1000 * 60 * 60 * 24 * 31).toISOString()}
       },
-      sort : 'id ASC'
+      sort : 'id DESC'
     }).populate('user').exec(function (err, found) {
       if (!err && found.length) {
         return res.json(found);

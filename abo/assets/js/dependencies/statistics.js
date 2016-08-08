@@ -57,11 +57,11 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.name + '<br/>';
       }) : '--na--',
-    result: (row.logInfo.countAll > 0) ? 'success' : 'failed',
+    result: (!row.logInfo.error) ? 'success' : 'failed',
     serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.count + '<br/>';
-      }) : '--na--',
+      }) : 0,
     serviceTimeWork: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.timeStr + '<br/>';
@@ -92,15 +92,12 @@ var generateGridUsersStat = function () {
     css: "cell-ellipsis",
     inserting: false,
     editing: false,
-    sorting: true,
+    sorting: false,
     paging: false,
     filtering: false,
     autoload: true,
     controller: {
       loadData: function (data) {
-        if (data.length) {
-          showGridUsersStat = true;
-        }
         return data;
       }
     },
@@ -108,7 +105,6 @@ var generateGridUsersStat = function () {
       {name: 'email', title: 'Email', type: 'text'},
       {name: 'createdDt', title: 'Date', type: 'date'},
       {name: 'createdTime', title: 'Time', type: 'date'},
-      //{name: 'id', title: 'Id', type: 'number'},
       {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
       {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
       {name: 'departureDate', title: 'Departure Date', type: 'date'},
@@ -121,7 +117,8 @@ var generateGridUsersStat = function () {
       {name: 'serviceTimeWork', title: 'Latency', type: 'date'},
       {name: 'serviceCount', title: 'Itins', type: 'number'},
       {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
-      {name: 'timeWork', title: 'Processing time', type: 'date'}
+      {name: 'timeWork', title: 'Processing time', type: 'date'},
+      {name: 'id', title: 'Id', type: 'number', sorter: "number"}
     ]
   });
 };
@@ -133,16 +130,12 @@ var generateGridOverallStat = function () {
     width: '100%',
     inserting: false,
     editing: false,
-    sorting: true,
+    sorting: false,
     paging: false,
     filtering: false,
     autoload: true,
     controller: {
       loadData: function (data) {
-        if (data.length) {
-          showGridOverallStat = true;
-        }
-
         return getRowGridOverallStat(data);
       }
     },
@@ -195,7 +188,7 @@ var getRowGridOverallStat = function (data) {
       monthly.totalReq++;
     }
     if (typeof item.logInfo.countAll != 'undefined') {
-      if (item.logInfo.countAll > 0) {
+      if (!item.logInfo.error) {
         all.totalSuccesses++;
         if (currDT >= dailyDT) {
           daily.totalSuccesses++;
@@ -283,7 +276,7 @@ var getRowGridOverallStat = function (data) {
     monthly.avgTime = durationHr(parseInt(tmWorkVal_m / tmWorkCnt_m));
   }
 
-  result.push(daily, weekly, monthly, all);
+  result.push(daily, weekly, monthly/*, all*/);
 
   return result;
 };

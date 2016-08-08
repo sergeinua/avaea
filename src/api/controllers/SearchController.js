@@ -115,7 +115,7 @@ module.exports = {
    */
   result: function (req, res) {
     utils.timeLog('search_result');
-    var savedParams = {};
+    var savedParams = {}, errStat = null;
     res.locals.searchId = null;
     if (req.param('s')) {
       try {
@@ -186,7 +186,9 @@ module.exports = {
 
     Search.getResult(params, function ( err, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
-
+      if (err) {
+        errStat = err;
+      }
       utils.timeLog('sprite_map'); // start sprite_map timer
       utils.timeLog('tiles_data'); // start tiles_data timer
       async.parallel({
@@ -194,6 +196,7 @@ module.exports = {
           Airports.findOne({iata_3code: params.searchParams.DepartureLocationCode}).exec((_err, _row) => {
             if (_err) {
               sails.log.error(_err);
+              errStat = _err;
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -205,6 +208,7 @@ module.exports = {
           Airports.findOne({iata_3code: params.searchParams.ArrivalLocationCode}).exec((_err, _row) => {
             if (_err) {
               sails.log.error(_err);
+              errStat = _err;
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -220,6 +224,7 @@ module.exports = {
           Airlines.makeIconSpriteMap(function (_err, _iconSpriteMap) {
             if (_err) {
               sails.log.error(_err);
+              errStat = _err;
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -246,6 +251,7 @@ module.exports = {
           Tile[algorithm](itineraries, params.searchParams, function (_err, _itineraries, _tiles) {
             if (_err) {
               sails.log.error(_err);
+              errStat = _err;
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -285,7 +291,7 @@ module.exports = {
           countAll      : itineraries.length,
           timeWorkStr   : utils.timeLogGetHr('search_result'),
           timeWork      : utils.timeLogGet('search_result'),
-          error         : err
+          error         : err || errStat
         }, Search.getStatistics(itineraries));
         UserAction.saveAction(req.user, 'search', itinerariesData, function () {
           User.publishCreate(req.user);
