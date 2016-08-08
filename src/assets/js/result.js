@@ -5,7 +5,6 @@ var filterItemHeight = 31.25; // pixels
 var bucketFilterItemHeigh = 34; // pixes
 var bucketAirlineScrollPos = 0;
 var heightNav = 0;
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 /**
  * Scroll to the destination element
  *
