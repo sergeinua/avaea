@@ -1,4 +1,6 @@
 /* global $ */
+var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+
 $(document).ready(function() {
 
   /* Depart/Return Date selection {{{ */
