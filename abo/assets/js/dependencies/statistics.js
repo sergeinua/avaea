@@ -1,13 +1,13 @@
 
-var generateGridSearch = function (nameFilter) {
-  if (!dataGrid.length) return;
+var generateGridSearch = function (nameFilter, data) {
+  if (!data.length) return;
   var dataFilterGrid = [];
-  dataGrid.forEach(function (item) {
+  data.forEach(function (item) {
     if (item.actionType == nameFilter) {
       dataFilterGrid.push(getRowGridSearch(item));
     }
   });
-  showGrid = true;
+
   $('#jsGrid').jsGrid('destroy');
   $('#jsGrid').jsGrid({
     height: '470px',
@@ -48,8 +48,8 @@ var getRowGridSearch = function (row) {
     id: row.id,
     DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
     ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
-    departureDate: row.logInfo.searchParams.departureDate || '-- na --',
-    returnDate: row.logInfo.searchParams.returnDate || '-- na --',
+    departureDate: moment(row.logInfo.searchParams.departureDate, 'DD/MM/YYYY').format('MM/DD/YYYY') || '-- na --',
+    returnDate: moment(row.logInfo.searchParams.returnDate, 'DD/MM/YYYY').format('MM/DD/YYYY') || '-- na --',
     flightType: row.logInfo.searchParams.flightType || '-- na --',
     topSearchOnly: row.logInfo.searchParams.topSearchOnly || 0,
     passengers: row.logInfo.searchParams.passengers || 0,
