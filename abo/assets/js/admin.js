@@ -400,7 +400,8 @@ $(document).ready(function () {
 
     if (nameFilter == 'search') {
       if (!showGrid) {
-        generateGridSearch(nameFilter);
+        generateGridSearch(nameFilter, dataGrid);
+        showGrid = true;
       }
     }
   };
