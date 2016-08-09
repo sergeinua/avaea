@@ -66,8 +66,10 @@ module.exports.connections = {
     host: 'localhost',
     port: '11211',
     exptime: 60*30 // 30 minutes
-  }
-
+  },
+  testMemoryDb: {
+    module   : 'sails-memory'
+  },
 
   /***************************************************************************
   *                                                                          *

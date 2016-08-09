@@ -21,6 +21,9 @@ module.exports = {
    */
   index: function (req, res) {
 
+    if (_.isEmpty(req.session)) {
+      req.session = {};
+    }
     var tmpDefaultDepDate = sails.moment().add(2, 'w');
     var tmpDefaultRetDate = sails.moment().add(4, 'w');
     var nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
@@ -57,8 +60,9 @@ module.exports = {
     // Fetch City names by location codes and put to the template
     async.parallel({
         depart_city: function(callback) {
-          if(_.isEmpty(params.DepartureLocationCode))
+          if (_.isEmpty(params.DepartureLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.DepartureLocationCode})
             .exec(function (err, result) {
@@ -70,8 +74,9 @@ module.exports = {
             });
         },
         arriv_city: function(callback) {
-          if(_.isEmpty(params.ArrivalLocationCode))
+          if (_.isEmpty(params.ArrivalLocationCode)) {
             return callback(null, '');
+          }
 
           Airports.findOne({iata_3code: params.ArrivalLocationCode})
             .exec(function (err, result) {
@@ -85,20 +90,22 @@ module.exports = {
       },
       // Final callback
       function(err, results) {
-        if(!err)
-        {
+        if (!err) {
           params.departCity = results.depart_city.city;
           params.arrivCity = results.arriv_city.city;
         }
 
-        return res.view('search/index', {
-          title         : 'Search for flights',
-          user          : req.user,
-          defaultParams : params,
-          serviceClass  : Search.serviceClass,
-          errors        : error,
-          head_title    : 'Search for flights with Avaea Agent'
-        });
+        return res.ok(
+          {
+            title         : 'Search for flights',
+            user          : req.user,
+            defaultParams : params,
+            serviceClass  : Search.serviceClass,
+            errors        : error,
+            head_title    : 'Search for flights with Avaea Agent'
+          },
+          'search/index'
+        );
       }
     );
   },
@@ -107,20 +114,19 @@ module.exports = {
    * `SearchController.result()`
    */
   result: function (req, res) {
-    utils.timeLog('search result');
-    var savedParams = {};
+    utils.timeLog('search_result');
+    var savedParams = {}, errStat = null;
     res.locals.searchId = null;
     if (req.param('s')) {
-      res.locals.searchId = req.param('s');
-      var atob = require('atob');
       try {
+        res.locals.searchId = req.param('s');
+        var atob = require('atob');
         var savedParamsTmp = JSON.parse(atob(req.param('s')));
-        var savedParams = {};
         _.forEach(savedParamsTmp, function (param) {
           savedParams[param.name] = param.value.trim().toUpperCase();
         });
       } catch (e) {
-        sails.log.error('Unable restore search parameters from encoded string');
+        sails.log.info('Unable restore search parameters from encoded string');
       }
     }
     var
@@ -141,21 +147,21 @@ module.exports = {
       depDate = new Date();
 
     if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
-      depDate = new Date(savedParams.departureDate);
+      depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
     } else {
       if (!isNaN(Date.parse(req.param('departureDate')))) {
-        depDate = new Date(req.param('departureDate'));
+        depDate = sails.moment(req.param('departureDate'), 'YYYY-MM-DD').toDate();
       }
     }
     params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
     req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
     if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
-      var retDate = new Date(savedParams.returnDate);
+      var retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
       req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
     } else {
       if (!isNaN(Date.parse(req.param('returnDate')))) {
-        var retDate = new Date(req.param('returnDate'));
+        var retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
         params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
@@ -180,110 +186,145 @@ module.exports = {
 
     Search.getResult(params, function ( err, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
+      if (err) {
+        errStat = err;
+      }
+      utils.timeLog('sprite_map'); // start sprite_map timer
+      utils.timeLog('tiles_data'); // start tiles_data timer
+      async.parallel({
+        departure: (doneCb) => {
+          Airports.findOne({iata_3code: params.searchParams.DepartureLocationCode}).exec((_err, _row) => {
+            if (_err) {
+              sails.log.error(_err);
+              errStat = _err;
+              // non-empty error will cause that the main callback is immediately called with the value of the error
+              // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
+              _err = null;
+            }
+            return doneCb(_err, _row);
+          });
+        },
+        arrival: (doneCb) => {
+          Airports.findOne({iata_3code: params.searchParams.ArrivalLocationCode}).exec((_err, _row) => {
+            if (_err) {
+              sails.log.error(_err);
+              errStat = _err;
+              // non-empty error will cause that the main callback is immediately called with the value of the error
+              // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
+              _err = null;
+            }
+            return doneCb(_err, _row);
+          });
+        },
+        iconSpriteMap: (doneCb) => {
+          if (!itineraries.length) {
+            sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
+            return doneCb(null, {});
+          }
+          Airlines.makeIconSpriteMap(function (_err, _iconSpriteMap) {
+            if (_err) {
+              sails.log.error(_err);
+              errStat = _err;
+              // non-empty error will cause that the main callback is immediately called with the value of the error
+              // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
+              _err = null;
+              _iconSpriteMap = {};
+            }
+            sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
+            return doneCb(_err, _iconSpriteMap);
+          });
+        },
+        tiles: (doneCb) => {
+          if (!itineraries.length) {
+            sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
+            return doneCb(null, []);
+          }
+          var algorithm = sails.config.globals.bucketizationFunction;
 
-      var serviceClass = Search.serviceClass;
+          if (_.isEmpty(algorithm) || typeof Tile[algorithm] != 'function') {
+            algorithm = 'getTilesData';
+          }
 
-      if (!itineraries.length) {
-        return  res.view('search/result', {
+          if (!req.session.showTiles) {
+            algorithm = 'getTilesDataEmpty';
+          }
+          Tile[algorithm](itineraries, params.searchParams, function (_err, _itineraries, _tiles) {
+            if (_err) {
+              sails.log.error(_err);
+              errStat = _err;
+              // non-empty error will cause that the main callback is immediately called with the value of the error
+              // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
+              _err = null;
+              _tiles = [];
+            } else {
+              itineraries = _itineraries;
+              UserAction.saveAction(req.user, 'order_tiles', _tiles);
+            }
+            sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
+            return doneCb(_err, _tiles);
+          });
+        }
+      }, (err, result) => {
+        if (err) {
+          // something went wrong in our parallel tasks therefore log this error and set default values of result
+          sails.log.error(err);
+          result.departure = result.departure || {};
+          result.arrival = result.arrival || {};
+          result.iconSpriteMap = result.iconSpriteMap || {};
+          result.tiles = result.tiles || [];
+        }
+        // Define max filter items
+        var max_filter_items = 0;
+        for (var key in result.tiles) {
+          var cur_tile_items = 0;
+          result.tiles[key].filters.forEach(function (filter) {
+            if (parseInt(filter.count) > 0) {
+              cur_tile_items++;
+            }
+          });
+          max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
+        }
+
+        var itinerariesData = _.merge({
+          searchUuid    : itineraries.guid,
+          searchParams  : params.searchParams,
+          countAll      : itineraries.length,
+          timeWorkStr   : utils.timeLogGetHr('search_result'),
+          timeWork      : utils.timeLogGet('search_result'),
+          error         : err || errStat
+        }, Search.getStatistics(itineraries));
+        UserAction.saveAction(req.user, 'search', itinerariesData, function () {
+          User.publishCreate(req.user);
+        });
+        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
+
+        return res.ok({
           user: req.user,
           title: title,
-          tiles: {},
+          tiles: result.tiles,
+          max_filter_items: max_filter_items,
           searchParams: {
             DepartureLocationCode: params.searchParams.DepartureLocationCode,
             ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
             departureDate: sails.moment(depDate).format('DD MMM'),
-            returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-            CabinClass: serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F')?' class':''),
+            returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
+            CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
             passengers: params.searchParams.passengers,
             topSearchOnly: params.searchParams.topSearchOnly,
             flightType: params.searchParams.flightType
           },
-          searchResult: []
-        });
-      }
-      var algorithm = sails.config.globals.bucketizationFunction;
-
-      if (_.isEmpty(algorithm) || typeof Tile[algorithm] != 'function') {
-        algorithm = 'getTilesData';
-      }
-
-      if (!req.session.showTiles) {
-        algorithm = 'getTilesDataEmpty';
-      }
-      Tile[algorithm](itineraries, params.searchParams, function (itineraries, tiles, params) {
-        UserAction.saveAction(req.user, 'order_tiles', tiles);
-        var itinerariesData = _.merge({
-          searchUuid    : itineraries.guid,
-          searchParams  : params,
-          countAll      : itineraries.length
-        }, Search.getStatistics(itineraries));
-        UserAction.saveAction(req.user, 'order_itineraries', itinerariesData);
-        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search result'));
-        //sails.log.info('_debug_tiles:', util.inspect(tiles, {showHidden: true, depth: null}));
-        User.publishCreate(req.user);
-
-        utils.timeLog('sprite_map');
-        Airlines.makeIconSpriteMap(function (err, iconSpriteMap) {
-          if (err) {
-            sails.log.error(err);
-            iconSpriteMap = {};
-          }
-
-          // Define max filter items
-          var max_filter_items = 0;
-          for(var key in tiles) {
-            var cur_tile_items=0;
-            tiles[key].filters.forEach( function (filter) {
-              if (parseInt(filter.count) > 0) {
-                cur_tile_items++;
-              }
-            });
-            max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
-          }
-          sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('smart_ranking'));
-
-          return  res.view('search/result', {
-            user: req.user,
-            title: title,
-            tiles: tiles,
-            max_filter_items: max_filter_items,
-            searchParams: {
-              DepartureLocationCode: params.DepartureLocationCode,
-              ArrivalLocationCode: params.ArrivalLocationCode,
-              departureDate: sails.moment(depDate).format('DD MMM'),
-              returnDate: (retDate)?sails.moment(retDate).format('DD MMM'):'',
-              CabinClass: serviceClass[params.CabinClass]+ ((params.CabinClass == 'F')?' class':''),
-              passengers: params.passengers,
-              flightType: params.flightType
-            },
-            searchResult: itineraries,
-            timelog: req.session.time_log.join('<br/>'),
-            head_title: 'Flights from '
-            + params.DepartureLocationCode
-            + ' to '+params.ArrivalLocationCode
-            + sails.moment(depDate).format(" on DD MMM 'YY")
-            + (retDate?' and back on '+sails.moment(retDate).format("DD MMM 'YY"):''),
-            iconSpriteMap: iconSpriteMap
-          });
-        });
+          searchResult: itineraries,
+          timelog: req.session.time_log.join('<br/>'),
+          head_title: 'Flights from '
+          + params.searchParams.DepartureLocationCode
+          + ' to ' + params.searchParams.ArrivalLocationCode
+          + sails.moment(depDate).format(" on DD MMM 'YY")
+          + (retDate ? ' and back on ' + sails.moment(retDate).format("DD MMM 'YY") : ''),
+          iconSpriteMap: result.iconSpriteMap,
+          departure: result.departure,
+          arrival: result.arrival
+        }, 'search/result');
       });
     });
-  },
-
-  voiceLog: function (req, res) {
-    utils.timeLog('search voice');
-    if (req.param('q')) {
-      var params = {
-        searchParams: {
-          queryString: req.param('q')
-        }
-      },
-      queryResult = req.param('result') || 'failed';
-      sails.log.info('Search Voice Params:', params);
-      UserAction.saveAction(req.user, 'voice_search_' + queryResult, params);
-      User.publishCreate(req.user);
-      return res.json({'success': true});
-    }
-    return res.json([]);
   }
 };

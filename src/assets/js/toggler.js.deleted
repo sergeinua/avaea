@@ -290,6 +290,7 @@ $(document).ready(function() {
   };
   var filtersCount = {};
   var filterItineraries = function () {
+
     var filters = getFilters();
     if (filters.length) {
       $('#clear, #undo').removeClass('disabled');
@@ -325,9 +326,6 @@ $(document).ready(function() {
   filterItineraries();
 
   $('#clear').click(function() {
-    if ($(this).hasClass('disabled')) {
-      return;
-    }
     $('.selectedfilters').attr('filters', '');
     $('.selectedfilters').attr('filters-dis', '');
     $('#tiles').find('li.selected').removeClass('selected');
@@ -561,10 +559,8 @@ $(document).ready(function() {
   var swiper = new Swiper ('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
-    onSlideNextStart: function(swiper) {
+    onTouchMove: function(swiper) {
       $('body').removeClass('show-tiles-arrow');
-      // set cookie that user has already scrolled - set cookie for 1 year
-      setCookie('tiles-scrolled', 1, {expires: (86400 * 30 * 12), domain: document.location.hostname});
     }
   });
   $( window ).resize(function() {
@@ -690,6 +686,14 @@ $(document).ready(function() {
       setErrorElement('#to-area');
       _isError = true;
     }
+    if ($('#originAirport').val() == $('#destinationAirport').val()) {
+      setErrorElement('#from-area');
+      setErrorElement('#from-area-selected');
+      setErrorElement('#to-area');
+      setErrorElement('#to-area-selected');
+      _isError = true;
+    }
+
 
     // Check existence of the return date for the round trip
     if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
@@ -734,6 +738,7 @@ $(document).ready(function() {
         $('#tiles').outerHeight(20);
         recalculateBodyPadding();
         $('.clickable-tiles-area').removeClass('hidden');
+        $('body').removeClass('show-tiles-arrow');
       }
     } else {
         $('.clickable-tiles-area').addClass('hidden');
@@ -743,6 +748,15 @@ $(document).ready(function() {
     }
   };
 
+  if ($(".swiper-container").length) {
+    $(".swiper-container").hammer();
+    $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+    $(".swiper-container").bind("swipeup", function (e) {
+      shrinkTiles(false);
+    }).bind("swipedown", function (e) {
+      shrinkTiles(true);
+    });
+  }
   var expandedItitns = 0;
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
@@ -791,14 +805,14 @@ $(document).ready(function() {
     if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
       shrinkTiles(true);
     }
-    if (!scrollStarted && expandedItitns) {
+    if (!scrollStarted/* && expandedItitns*/) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') && expandedItitns) {
+    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden')/* && expandedItitns*/) {
       shrinkTiles(false);
       scrollStarted = false;
     }
@@ -1010,7 +1024,7 @@ $(document).ready(function() {
   };
 
   function setDisplayedDate(context_sel, dest_date) {
-    var _moment = moment.isMoment(dest_date) ? dest_date : moment(dest_date || '');
+    var _moment = moment.isMoment(dest_date) ? dest_date : moment(dest_date || undefined);
     $('.weekday', context_sel).text(_moment.format('dddd'));
     $('.tap-date', context_sel).text(_moment.format('DD'));
     $('.tap-month', context_sel).text(_moment.format('MMM'));
@@ -1018,29 +1032,31 @@ $(document).ready(function() {
   }
 
   $("#dr_picker").on("dp.change", function (e) {
-    var flightType = $('#search_form').data('flight-type');
-    // enable range functionality for round trip flight type
-    if (e.date && flightType == 'round_trip') {
-      // range manipulation {{{
-      var range = $(this).data("DateTimePicker").range;
-      if (range.start && !range.end && e.date.isAfter(range.start)) {
-        range.end = e.date.clone().startOf('day');
+    if (e.date) {
+      var flightType = $('#search_form').data('flight-type');
+      // enable range functionality for round trip flight type
+      if (flightType == 'round_trip') {
+        // range manipulation {{{
+        var range = $(this).data("DateTimePicker").range;
+        if (range.start && !range.end && e.date.isAfter(range.start)) {
+          range.end = e.date.clone().startOf('day');
+        } else {
+          range.start = e.date.clone().startOf('day');
+          range.end = null;
+        }
+        // }}} range manipulation
+        // draw new date range
+        drawDateRange(this, range);
+        // draw info bar dates
+        $('#date_select p.info span.dep').text(range.start.format('ddd DD MMM'));
+        $('#date_select p.info span.ret').text(range.end ? ' - ' + moment(e.date).format('ddd DD MMM') : '');
+        setDisplayedDate($('.flight-date-info-item.sel.dep'), range.start);
+        if (range.end) {
+          setDisplayedDate($('.flight-date-info-item.sel.ret'), range.end);
+        }
       } else {
-        range.start = e.date.clone().startOf('day');
-        range.end = null;
+        setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
       }
-      // }}} range manipulation
-      // draw new date range
-      drawDateRange(this, range);
-      // draw info bar dates
-      $('#date_select p.info span.dep').text(range.start.format('ddd DD MMM'));
-      $('#date_select p.info span.ret').text(range.end ? ' - ' + moment(e.date).format('ddd DD MMM') : '');
-      setDisplayedDate($('.flight-date-info-item.sel.dep'), range.start);
-      if (range.end) {
-        setDisplayedDate($('.flight-date-info-item.sel.ret'), range.end);
-      }
-    } else {
-      setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
     }
   });
   $("#dr_picker").on("dp.update", function (e) {
@@ -1132,6 +1148,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.flight-direction-form').removeClass('hidden');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -1190,6 +1207,7 @@ $(document).ready(function() {
         $('.flight-direction-item-voice-search').addClass('hidden');
         $('.flight-direction-item').addClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.flight-direction-form').removeClass('hidden');
         $('#from-area-selected').addClass('hidden');
         $('#to-area-selected').addClass('hidden');
         $('#from-area-selected').addClass('hidden');
@@ -1217,16 +1235,12 @@ $(document).ready(function() {
       case 'voice_search':
         $('.flight-direction-item-voice-search').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
-        $('.back-history').click(function () {
-          if (prevTab) $('#' + prevTab).trigger('click');
+        $('.back-history').off('click').click(function () {
+          $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
         }).removeClass('hidden');
 
         $('.flight-direction-item-coming-soon').addClass('hidden');
-        $('.flight-direction-item').addClass('hidden');
-        $('#from-area-selected').addClass('hidden');
-        $('#to-area-selected').addClass('hidden');
-        $('#from-area-selected').addClass('hidden');
-        $('#to-area-selected').addClass('hidden');
+        $('.flight-direction-form').addClass('hidden');
         $('.flight-date-info').addClass('hidden');
         $('.flight-additional-info').addClass('hidden');
         $('.searchform-top').addClass('hidden');
@@ -1249,6 +1263,7 @@ $(document).ready(function() {
         $('.flight-direction-item-coming-soon').addClass('hidden');
         $('.flight-direction-item').removeClass('hidden');
         $('.flight-direction-item-arrow').removeClass('hidden');
+        $('.flight-direction-form').removeClass('hidden');
         if (hasFrom) {
           $('#from-area').addClass('hidden');
           $('#from-area-selected').removeClass('hidden');
@@ -1404,7 +1419,15 @@ $(document).ready(function() {
     $('#' + $('#flightType').val()).addClass('active-choice');
 
     var flightType = $('.flight-type-item.active-choice').attr('id');
-    changeFlightTab(flightType);
+    var _ft = getCookie('flightType');
+    if (_ft) {
+      // remove flightType cookie
+      setCookie('flightType', '', {expires: 'Thu, 01 Jan 1970 00:00:01 GMT'});
+      $('#' + _ft).addClass('active-choice');
+      changeFlightTab(_ft, flightType);
+    } else {
+      changeFlightTab(flightType);
+    }
     drawAirportData('originAirport');
     drawAirportData('destinationAirport');
     setPassengersCount();
@@ -1436,12 +1459,9 @@ $(document).ready(function() {
     placement: 'left'
   });
 
-  var showMoreTiles = getCookie('tiles-scrolled');
-  if (+showMoreTiles !== 1 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
+  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
     // start arrow blinking
     $('body').addClass('show-tiles-arrow');
-    // hide arrow in 5 sec
-    setTimeout(function(){$('body').removeClass('show-tiles-arrow');}, 5000);
   } else {
     $('body').removeClass('show-tiles-arrow');
   }

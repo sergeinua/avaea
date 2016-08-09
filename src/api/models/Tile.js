@@ -107,7 +107,7 @@ module.exports = {
 
     if (!itineraries) {
       sails.log.info('Itineraries not found');
-      return callback(itineraries, [], params);
+      return callback(null, itineraries, []);
     }
     var tileArr = _.clone(this.tiles, true);
 
@@ -460,11 +460,13 @@ module.exports = {
       }, function (err) {
         if ( err ) {
           sails.log.error( err );
+          tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
           tileArr['Merchandising'].order = -1;
-          return callback(itineraries, _.sortBy(tileArr, 'order').reverse(), params);
+          tileArr = _.sortBy(tileArr, 'order').reverse();
         }
+        return callback(err, itineraries, tileArr);
       });
     }
   },
@@ -480,7 +482,7 @@ module.exports = {
     sails.log.info('Using alternative bucketization algorithm');
     if (!itineraries) {
       sails.log.info('Itineraries not found');
-      return callback(itineraries, [], params);
+      return callback(null, itineraries, []);
     }
 
     var tileArr = null;
@@ -807,6 +809,7 @@ module.exports = {
       tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
 
       var durationNameArr = [];
+      var fix_duration = params.flightType == "ROUND_TRIP" ? 2 : 1;
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
         return tileFormatVal.roundTo30mins( item.durationMinutes );
@@ -819,7 +822,7 @@ module.exports = {
 
         for (var i = 0; i < durationNameArr.length; i++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], null, 1),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, null, 1),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -835,7 +838,7 @@ module.exports = {
 
         for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i], tmp.durationNameArrTmp[i+1], 2),
+            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i] / fix_duration, tmp.durationNameArrTmp[i+1] / fix_duration, 2),
             id: 'duration_tile_' + counter,
             count : 0
           });
@@ -848,7 +851,7 @@ module.exports = {
         durationNameArr = _.uniq(durationNameArr);
         for (var i = 0; i < durationNameArr.length - 1; i++) {
           tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i], durationNameArr[i+1], null),
+            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, durationNameArr[i+1] / fix_duration, null),
             id: 'duration_tile_' + i,
             count : 0
           });
@@ -856,7 +859,7 @@ module.exports = {
 
         tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
         tileArr['Duration'].filters.push({
-          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1], tmp.lastDuration, null),
+          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1] / fix_duration, tmp.lastDuration / fix_duration, null),
           id: 'duration_tile_' + (durationNameArr.length - 1),
           count : 0
         });
@@ -1101,7 +1104,7 @@ module.exports = {
         }
         //for (var i=0; i < itinerary.citypairs.length; i++) {
         //  for (var k = 0; k < itinerary.citypairs[i].flights.length; k++) {
-        for (var i=0; i < 1; i++) {
+        for (var i = 0; i < 1; i++) {
           for (var k = 0; k < 1; k++) {
             var flight = itinerary.citypairs[i].flights[k];
             if (flight.airline) {
@@ -1183,18 +1186,20 @@ module.exports = {
       }, function (err) {
         if ( err ) {
           sails.log.error( err );
+          tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
           tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
-          return callback(itineraries, _.sortBy(tileArr, 'order'), params);
+          tileArr = _.sortBy(tileArr, 'order');
         }
+        return callback(err, itineraries, tileArr);
       });
     }
   },
 
   getTilesDataEmpty: function (itineraries, params, callback) {
-    return callback(itineraries, [], params);
+    return callback(null, itineraries, []);
   }
 
 };

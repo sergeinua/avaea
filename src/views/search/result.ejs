@@ -1,4 +1,4 @@
-<nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top container-fluid">
+<nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top container-fluid<% if (typeof searchResult == 'undefined' || !searchResult.length) { %> hidden<% } %>">
   <div class="flight-info row hide">
     <div class="col-xs-8">
       <div style="float: left; width: auto;">
@@ -273,8 +273,14 @@
 </style>
 
 <% } else { %>
-    <div class="nothing-found">No matching flights</div>
-    <a href="/search"  class="btn btn-sm btn-primary btn-block center-block new-search-button" role="button"><%= __('Start new search') %></a>
+<div class="row">
+  <div class="col-xs-12 nothing-found">
+      <div class="nothing-found-icon"></div>
+      <div class="nothing-found-text">No results were found from <%= departure.iata_3code %>, <%= departure.city %> to <%= arrival.iata_3code %>, <%= arrival.city %>.</div>
+  </div>
+</div>
+
+  <a href="/search"  class="btn btn-sm btn-primary btn-block center-block new-search-button" role="button"><%= __('Start new search') %></a>
 <% } %>
 
 <form action="/buy" method="post" id="booking_form" >

@@ -72,8 +72,9 @@ module.exports = {
 
           itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
-          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData);
-          User.publishCreate(req.user);
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(req.user);
+          });
 
           // Save for booking action
           req.session.booking_itinerary = {
@@ -81,12 +82,15 @@ module.exports = {
             itinerary_data: logData.itinerary
           };
 
-          return res.view('order', {
-            user: req.user,
-            reqParams: reqParams,
-            head_content: Search.getHeadContent(req.param('searchId')),
-            order:[logData.itinerary]
-          });
+          return res.ok(
+            {
+              user: req.user,
+              reqParams: reqParams,
+              head_content: Search.getHeadContent(req.param('searchId')),
+              order:[logData.itinerary]
+            },
+            'order'
+          );
         }
         else {
           delete req.session.booking_itinerary;
@@ -137,11 +141,14 @@ module.exports = {
       delete req.session.booking_itinerary;
 
       // Render view
-      return res.view('booking', {
-        user: req.user,
-        reqParams: req.allParams(),
-        bookingRes: result
-      });
+      return res.ok(
+        {
+          user: req.user,
+          reqParams: req.allParams(),
+          bookingRes: result
+        },
+        'booking'
+      );
     };
 
     //parseFlightBooking("err", "res");
@@ -149,4 +156,3 @@ module.exports = {
   }
 
 };
-

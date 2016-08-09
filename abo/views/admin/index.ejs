@@ -7,13 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/bootstrap-theme.css">
-    <link rel="stylesheet" href="/styles/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="/styles/bootstrap.css">
-    <link rel="stylesheet" href="/styles/bootstrap.min.css">
-    <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/slick-theme.css">
-    <link rel="stylesheet" href="/styles/slick.css">
+
     <!--STYLES END-->
     <style  type="text/css">
       body { padding-top: 70px; }
@@ -70,6 +64,12 @@
       margin-top: 17px;
       margin-right: 5px;
     }
+    .menu-tab.active {
+      font-weight: bold;
+      font-size: 18px;
+      color: #000000;
+    }
+
     </style>
   </head>
 
@@ -101,7 +101,9 @@
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/<%= selectedAirline %>">User search</a></li>
+          <li><a href="javascript:;" class="menu-tab active" for="user_search">User info</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Searches Log</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Searches Performance</a></li>
           <% if (typeof user != 'undefined') { %>
           <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
           <% } else { %>
@@ -115,12 +117,9 @@
 </div>
 
 <div class="main container clearfix">
-    <!--<div id="statistic" class="hidden">-->
-        <!--<div class="jumbotron">-->
-          <!--<h1>Not implemented yet</h1>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div id="user_search" class="row">
+  <div id="gridUsersStat" class="hidden dataContainer"></div>
+  <div id="gridOverallStat" class="hidden dataContainer"></div>
+    <div id="user_search" class="row dataContainer">
         <form class="filter_user">
       <div class="input-group">
         <input id="user_search_form" type="text" name="user_id" class="form-control" placeholder="Search for user">
@@ -153,11 +152,6 @@
                 </select>
               </label>
             </li>
-            <li class=" list-group-item-info" style="padding: 5px 5px 5px 5px">
-              <label>
-                <input class="filters_checkbox" type="checkbox" for="on_tile_choice" checked> Tiles choice
-              </label>
-            </li>
             <li class=" list-group-item-success" style="padding: 5px 5px 5px 5px">
               <label>
                 <input class="filters_checkbox" type="checkbox" for="order_tiles" checked> Order tiles
@@ -165,9 +159,14 @@
             </li>
             <li class=" list-group-item-warning" style="padding: 5px 5px 5px 5px">
               <label>
-                <input class="filters_checkbox" type="checkbox" for="order_itineraries" checked> Order itineraries
+                <input class="filters_checkbox" type="checkbox" for="search" checked> Search
               </label>
             </li>
+          <li class="list-group-item-voice-search" style="padding: 5px 5px 5px 5px">
+            <label>
+              <input class="filters_checkbox" type="checkbox" for="voice_search" checked> Voice Search
+            </label>
+          </li>
             <li class=" list-group-item-danger" style="padding: 5px 5px 5px 5px">
               <label>
                 <input class="filters_checkbox" type="checkbox" for="on_itinerary_purchase" checked> Itinerary choice
@@ -175,7 +174,12 @@
             </li>
             <li class=" list-group-item-default" style="padding: 5px 5px 5px 5px">
               <label>
-                <input class="filters_checkbox" type="checkbox" for="prediction" checked> Prediction
+                <input class="filters_checkbox" type="checkbox" for="prediction" checked> Tile Prediction
+              </label>
+            </li>
+            <li class=" list-group-item-info" style="padding: 5px 5px 5px 5px">
+              <label>
+                <input class="filters_checkbox" type="checkbox" for="on_tile_choice" checked> Tiles choice
               </label>
             </li>
           </ul>
@@ -199,22 +203,21 @@
 
               </div>
           </div>
-          <div class="col-md-8" style="max-height: 500px; overflow: scroll;" id="log_table_div">
-              <table class="table table-condensed" id="log_actions" style="width:100%;"></table>
+          <div class="col-md-8" style="max-height: 500px; overflow: auto; height: 100%;" id="log_table_div">
+            <table class="table table-condensed" id="log_actions" style="width:100%;"></table>
+            <div id="jsGrid"></div>
           </div>
       </div>
 
 
     </div>
 </div>
+    <!--SCRIPTS-->
 
-    <script src="/js/dependencies/jquery.js"></script>
-    <script src="/js/dependencies/Chart.js"></script>
-    <script src="/js/dependencies/bootstrap.js"></script>
-    <script src="/js/dependencies/sails.io.js" autoConnect="false"></script>
-    <script src="/js/dependencies/snowflake.js"></script>
-    <script src="/js/dependencies/typeahead.bundle.min.js"></script>
-    <script src="/js/admin.js"></script>
+    <!--SCRIPTS END-->
+
+    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
     <script type="text/javascript">
       <% if (selectedAirline) { %>
           var GlobalSelectedAirline = '<%=selectedAirline %>';

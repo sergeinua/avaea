@@ -67,7 +67,9 @@ module.exports.connections = {
     port: '11211',
     exptime: 60*30 // 30 minutes
   },
-
+  testMemoryDb: {
+    adapter   : 'sails-memory'
+  },
   /***************************************************************************
   *                                                                          *
   * More adapters: https://github.com/balderdashy/sails                      *
