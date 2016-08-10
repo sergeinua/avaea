@@ -168,9 +168,9 @@ function AvaeaTextParser() {
       r.setDate(r.getDate() + 1);
       return r;
     }),
-    new Regexp_and_Conversion('(in (a|1)|next) week', function (matches, result) {
+    new Regexp_and_Conversion('(in\\s+(a|1)|next)\\s+((?:week)|(?:month))', function (matches, result) {
       var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 7);
+      r.setDate(r.getDate() + (matches[3] == 'week' ? 7 : 30));
       return r;
     }),
     new Regexp_and_Conversion('((' + this.number_pattern + ')(?=\\s+week))', function (matches, result) {
@@ -245,10 +245,10 @@ function AvaeaTextParser() {
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\w+[^s]s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
 
     new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
-    new Regexp_and_Conversion('s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
+    new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
     new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
     new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return ordinal_to_number(s[1]); }),
     new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
