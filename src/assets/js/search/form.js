@@ -333,8 +333,8 @@ $(document).ready(function() {
       return false;
     }
 
-    var voiceSearchQuery = $.trim($('#voiceSearchTextarea').val()) || '';
-    $('#voiceSearchQuery').val(voiceSearchQuery);
+    //var voiceSearchQuery = $.trim($('#voiceSearchTextarea').val()) || '';
+    //$('#voiceSearchQuery').val(voiceSearchQuery);
     $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 

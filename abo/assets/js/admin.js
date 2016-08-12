@@ -401,6 +401,7 @@ $(document).ready(function () {
     if (nameFilter == 'search') {
       if (!showGrid) {
         generateGridSearch(nameFilter, dataGrid);
+        $('#jsGrid').jsGrid('sort', {field: 'id', order: 'desc'});
         showGrid = true;
       }
     }

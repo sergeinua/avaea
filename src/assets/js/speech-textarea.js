@@ -164,8 +164,8 @@
       recognition.stop();
     }
     var heightNav = $('.navbar-header').outerHeight(true);
-    demo(function(res) {
-      loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
+    demo(function(res, data) {
+      loggerQuery(data, (res ? 'success' : 'failed'));
       $('.navbar-header').height(heightNav);
     });
 
@@ -227,7 +227,7 @@
       url: '/voice/logger',
       type: 'post',
       data: {
-        q: $.trim(q),
+        q: q,
         result: result
       },
       dataType: 'json'
@@ -260,7 +260,7 @@
           + "Let me sing for ever more You are all I long for \n"
           + "All I worship and adore";
         log(out_field);
-        return callback(false);
+        return callback(false, result);
       }
 
       var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
@@ -290,7 +290,7 @@
       } else {
         out_field += " I did not understand where you are flying to.";
         log(out_field);
-        return callback(false);
+        return callback(false, result);
       }
 
       $.when.apply($, _airportsPromises).done(function() {
@@ -375,7 +375,7 @@
         }
 
         log(out_field);
-
+        $('#voiceSearchQuery').val(JSON.stringify(result));
         switch (result.action) {
           case 'top':
             $('#topSearchOnly').val(1);
@@ -384,12 +384,12 @@
             break;
         }
 
-        return callback(true);
+        return callback(true, result);
       }).fail(function(){
-        return callback(false);
+        return callback(false, result);
       });
     }).fail(function (err) {
-      return callback(false);
+      return callback(false, result);
     });
   }
 })(jQuery);
