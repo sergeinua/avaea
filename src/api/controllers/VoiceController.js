@@ -28,9 +28,7 @@ module.exports = {
     if (req.param('q')) {
       var queryResult = req.param('result') || 'failed',
         params = {
-        searchParams: {
-          queryString: req.param('q')
-        },
+        searchParams: req.param('q'),
         queryResult: queryResult
       };
       sails.log.info('Search Voice Params:', params);

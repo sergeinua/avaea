@@ -23,6 +23,7 @@ var PassengerChooser = React.createClass({
         passengers_count: 1,
         passengers_text: "adult"
       });
+      passengerVal = 1;
     } else {
       this.setState({
         passengers_count: passengerVal,
