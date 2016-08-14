@@ -33,6 +33,8 @@ var generateGridSearch = function (nameFilter, data) {
       {name: 'serviceProvider', title: 'Name API', type: 'text'},
       {name: 'serviceCount', title: 'Count', type: 'number'},
       {name: 'serviceTimeWork', title: 'Time', type: 'date'},
+      {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
+      {name: 'voiceParsedQuery', title: 'Parsed Query', type: 'text'},
       //{name: 'airportsCode', title: 'Airports'},
       //{type: 'control', modeSwitchButton: false, editButton: false, deleteButton: false}
     ]
@@ -66,7 +68,15 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.timeStr + '<br/>';
       }) : '--na--',
-    voiceQuery: (row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--',
+    voiceQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
+      ? row.logInfo.searchParams.voiceSearchQuery.query :
+      ((row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--'),
+    voiceParsedQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
+      ? Object.keys(row.logInfo.searchParams.voiceSearchQuery).map(function (key) {
+        if (key != 'query') {
+          return '<b>' + key + '</b>: ' + row.logInfo.searchParams.voiceSearchQuery[key] + '<br/>';
+        }
+      }) : '--na--',
     timeWork: row.logInfo.timeWorkStr || '--na--',
     //airportsCode: (row.logInfo.searchInfoAirports && row.logInfo.searchInfoAirports.length) ?
     //  row.logInfo.searchInfoAirports.map(function (it) {
@@ -117,6 +127,7 @@ var generateGridUsersStat = function () {
       {name: 'serviceTimeWork', title: 'Latency', type: 'date'},
       {name: 'serviceCount', title: 'Itins', type: 'number'},
       {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
+      {name: 'voiceParsedQuery', title: 'Parsed Query', type: 'text'},
       {name: 'timeWork', title: 'Processing time', type: 'date'},
       {name: 'id', title: 'Id', type: 'number', sorter: "number"}
     ]
