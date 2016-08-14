@@ -138,23 +138,15 @@ function AvaeaTextParser() {
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('(in\\s+(a|1|one)|next)\\s+((?:day)|(?:week)|(?:fortnight)|(?:month))', function (matches, result) {
-      var r = new Date(); // departure date relative to today's date
-      switch (matches[3]) {
-        case 'day'       : r.setDate (r.getDate () +  1); break;
-        case 'week'      : r.setDate (r.getDate () +  7); break;
-        case 'fortnight' : r.setDate (r.getDate () + 14); break;
-        case 'month'     : r.setMonth(r.getMonth() +  1); break;
-      }
-      return r;
-    }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:day)|(?:week)|(?:fortnight)|(?:month))s?', function (matches, result) {
-      var r = new Date(); // departure date relative to today's date
-      switch (matches[2]) {
-        case 'day'       : r.setDate (r.getDate () +  1*ordinal_to_number(matches[1])); break;
-        case 'week'      : r.setDate (r.getDate () +  7*ordinal_to_number(matches[1])); break;
-        case 'fortnight' : r.setDate (r.getDate () + 14*ordinal_to_number(matches[1])); break;
-        case 'month'     : r.setMonth(r.getMonth() +  1*ordinal_to_number(matches[1])); break;
+    // TODO: this will easily catch "returning next week", i.e. will catch the return, not the origin date
+    new Regexp_and_Conversion('(a|next|'+this.number_pattern+')\\s+(day|week|fortnight|month)s?', function (matches, result) {
+      var r        = new Date(); // departure date relative to today's date
+      var quantity = ((matches[1]=='a') || (matches[1]=='next')) ? 1 : ordinal_to_number(matches[1]);
+      switch (matches[2].toLowerCase()) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
       }
       return r;
     }),
@@ -177,23 +169,14 @@ function AvaeaTextParser() {
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('(in\\s+(a|1|one)|next)\\s+((?:day)|(?:week)|(?:fortnight)|(?:month))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime()); // return date relative to the departure date
-      switch (matches[3]) {
-        case 'day'       : r.setDate (r.getDate () +  1); break;
-        case 'week'      : r.setDate (r.getDate () +  7); break;
-        case 'fortnight' : r.setDate (r.getDate () + 14); break;
-        case 'month'     : r.setMonth(r.getMonth() +  1); break;
-      }
-      return r;
-    }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:day)|(?:week)|(?:fortnight)|(?:month))s?', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime()); // return date relative to the departure date
-      switch (matches[2]) {
-        case 'day'       : r.setDate (r.getDate () +  1*ordinal_to_number(matches[1])); break;
-        case 'week'      : r.setDate (r.getDate () +  7*ordinal_to_number(matches[1])); break;
-        case 'fortnight' : r.setDate (r.getDate () + 14*ordinal_to_number(matches[1])); break;
-        case 'month'     : r.setMonth(r.getMonth() +  1*ordinal_to_number(matches[1])); break;
+    new Regexp_and_Conversion('(a|next|'+this.number_pattern+')\\s+(day|week|fortnight|month)s?', function (matches, result) {
+      var r        = new Date(result.origin_date.value.getTime());
+      var quantity = ((matches[1]=='a') || (matches[1]=='next')) ? 1 : ordinal_to_number(matches[1]);
+      switch( matches[2].toLowerCase() ) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
       }
       return r;
     }),
