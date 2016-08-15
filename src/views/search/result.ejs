@@ -1,110 +1,13 @@
-<nav id="tiles_ui" class="navbar navbar-default navbar-fixed-top container-fluid<% if (typeof searchResult == 'undefined' || !searchResult.length) { %> hidden<% } %>">
-  <div class="flight-info row hide">
-    <div class="col-xs-8 result-search-info-bar">
-      <div style="float: left; width: auto;">
-        <%if (title) {%><span class="requested-airports"><%= title %></span><% } %>
-        <% if (typeof searchResult != 'undefined') { %>
-        <span class="flight-type"><% if (searchParams.returnDate) { %><%= __('Round trip') %><%} else {%><%= __('One way') %><%}%></span>
-      </div>
-      <div style="float: left; width: auto;">
-        <span class="flight-date"><%= searchParams.departureDate %>
-          <% if (searchParams.returnDate) { %> - <%= searchParams.returnDate %><% } %>
-          <span class="text-spacer"></span>
-          <%= searchParams.CabinClass %>
-          <span class="text-spacer"></span>
-          <span class="passengers_count"><%= searchParams.passengers %></span>
-          <span id="user-icon-small" class="glyphicon glyphicon-user"></span>
-        </span>
-        <% }%>
-      </div>
-    </div>
-    <div class="col-xs-4 text-right">
-      <% if (typeof searchResult != 'undefined' && searchResult.length) { %>
-      <div style="float: right; width: auto;" class="text-right">
-        <div style="float: right; min-width: 30px; margin-top:-3px;" class="text-right">
-          <div class="sort-button">
-            <button class="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="fa fa-usd" aria-hidden="true"></i>  <span id="sort-menu-direction">&darr;</span>
-            </button>
-            <ul class="dropdown-menu">
-              <%
-                var sortOptions = {
-                  price: {
-                    icon: '<i class="fa fa-usd" aria-hidden="true"></i>',
-                    title: __('Price')
-                  },
-                  smart: {
-                    icon: '<i class="fa fa-lightbulb-o" aria-hidden="true"></i>',
-                    title: __('Smart Rank')
-                  },
-                  duration: {
-                    icon: '<i class="fa fa-clock-o" aria-hidden="true"></i>',
-                    title: __('Duration')
-                  },
-                  odepart: {
-                    icon: '<i class="fa fa-plane" aria-hidden="true"></i>',
-                    title: __('Departure')
-                  },
-                  oarrival: {
-                    icon: '<i class="fa fa-plane fa-flip-vertical" aria-hidden="true"></i>',
-                    title: __('Arrival')
-                  }
-                };
-                if (searchParams.returnDate) {
-                  sortOptions.duration.title += '&#8644;';
-                  sortOptions.idepart =  {
-                    icon: '<i class="fa fa-plane fa-flip-horizontal" aria-hidden="true"></i>',
-                    title: searchParams.ArrivalLocationCode + ' ' + sortOptions.odepart.title
-                  };
-                  sortOptions.iarrival = {
-                    icon: '<i class="fa fa-plane fa-rotate-180" aria-hidden="true"></i>',
-                    title: searchParams.DepartureLocationCode + ' ' + sortOptions.oarrival.title
-                  };
-                  sortOptions.odepart.title =  searchParams.DepartureLocationCode + ' ' + sortOptions.odepart.title;
-                  sortOptions.oarrival.title = searchParams.ArrivalLocationCode + ' ' + sortOptions.oarrival.title;
-                }
-                var i=0;
-                for (var name in sortOptions) { %>
-              <li sort="<%= name %>"<%if (!i) { %> class="selected" order="asc"<% } %>><a href="#"><span class="caret pull-right<%if (i) { %> hide<% } %>"></span><%- sortOptions[name].icon %> <%= sortOptions[name].title %></a></li>
-              <% i++; } %>
-            </ul>
-          </div>
-        </div>
-        <div class="itin-result-count text-right">
-          <span><span id='search_count'><%= searchResult.length %></span> / <%= searchResult.length %></span><br/>
-        </div>
-      </div>
+<script>
+  var InitResultData = {
+    searchParams: <%- JSON.stringify(searchParams) %>,
+    title: "<%= title %>",
+    tiles: <%- JSON.stringify(tiles) %>,
+    searchResultLength: <%- JSON.stringify(searchResult.length) %>
+  };
+</script>
 
-      <div class="clear-undo-buttons text-right">
-        <span id="clear" class="clear-all-filters disabled"><%= __('Clear') %></span> &middot;
-        <span id="undo" class="undo-button disabled"><%= __('Undo')%></span>
-      </div>
-      <% } %>
-    </div>
-  </div>
-  <% if (typeof timelog != 'undefined' && timelog) { %>
-<!--
-  <div class="alert alert-danger row">
-    <div class="col-xs-12" role="alert" id="timeAlert">
-      <p class="text-info" style="color: grey"><%= timelog %></p>
-    </div>
-  </div>
--->
-  <% } %>
-  <% if (tiles) { %>
-  <div class="row">
-    <%- partial('bucket')%>
-  </div>
-  <div class="selectedfilters row" filters=''></div>
-  <% } %>
-  <!--div class="total-count row">
-    <div class="col-xs-9" style="padding-top: 2px;">
-    </div>
-    <div class="col-xs-3">
-      <input type="checkbox" id="smart" data-toggle="toggle" data-style="lbSmart pull-right" data-size="mini" data-on="<i class='fa fa-lightbulb-o'></i>" data-off="<i class='fa fa-lightbulb-o'></i>">
-    </div>
-  </div-->
-</nav>
+<div id="navbar"></div>
 <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
 
 <div id="searchResultData" class="row">
