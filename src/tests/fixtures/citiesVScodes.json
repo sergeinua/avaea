@@ -470,7 +470,41 @@
   {
     "name": "Effingham",
     "code": "1H2"
+  },
+  {
+    "name": "Thirusirappalli",
+    "code": "TRZ"
+  },
+  {
+    "name": "Trichinopoly",
+    "code": "TRZ"
+  },
+  {
+    "name": "Cawnpore",
+    "code": "KNU"
+  },
+  {
+    "name": "Vadodra",
+    "code": "BDQ"
+  },
+  {
+    "name": "DC",
+    "code": "WAS"
+  },
+  {
+    "name": "Leningrad",
+    "code": "LED"
+  },
+  {
+    "name": "Vegas",
+    "code": "LAS"
+  },
+  {
+    "name": "Silicon Valley",
+    "code": "SJC"
   }
+
+
 ]
 
 
