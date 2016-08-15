@@ -332,7 +332,7 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
-          sails.log.debug("Parser success: "+JSON.stringify(result));
+          sails.log.verbose("Parser success: "+JSON.stringify(result));
         } catch (e) {
           err = e;
           sails.log.error("Parser error: "+JSON.stringify(err));
