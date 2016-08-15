@@ -332,17 +332,10 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
-
-          sails.log.info("Parsing query : '" + result.query + "'");
-          sails.log.info("Parsing result:       from '" + result.origin_airport + "' to '" + result.destination_airport + "'");
-          sails.log.info("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
-          sails.log.info("Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class");
-          sails.log.info("Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'");
-          sails.log.info("Parsing result:       not parsed: '" + result.not_parsed + "'");
-          //sails.log.info("Parsing result:       airline: '" + result.airline + "'");
-
+          sails.log.debug("Parser success: "+JSON.stringify(result));
         } catch (e) {
           err = e;
+          sails.log.error("Parser error: "+JSON.stringify(err));
         }
         return callback(err, result);
       }
