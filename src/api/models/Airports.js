@@ -31,7 +31,8 @@ module.exports = {
     state:      { type: 'string' },
     state_short: { type: 'string' },
     pax:        { type: 'float' },
-    neighbors:  { type: 'string' }
+    neighbors:  { type: 'string' },
+    alternative_name: { type: 'string' }
   },
   tableName: 'airports',
 
