@@ -47,10 +47,14 @@ function _displayDimmer(flag) {
       setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
     });
-    $('body').css('overflow', 'hidden');
+
+    $(document).on('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer', function(event){
+      event.stopPropagation();
+      return false;
+    });
   } else {
     $('.dimmer').hide();
-    $('body').css('overflow', 'auto');
+    $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer');
   }
 }
 
