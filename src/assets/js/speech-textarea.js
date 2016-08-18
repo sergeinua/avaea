@@ -165,8 +165,7 @@
     }
     var heightNav = $('.navbar-header').outerHeight(true);
     demo(function(res, data) {
-      log("Result of demo:");
-      log(data);
+      log("Result of demo: "+JSON.stringify(data));
       loggerQuery(data, (res ? 'success' : 'failed'));
       $('.navbar-header').height(heightNav);
     });
@@ -234,7 +233,7 @@
       },
       dataType: 'json'
     }).done(function( msg ) {
-      log("Result of logger query: "+msg);
+      log("Result of logger query: "+JSON.stringify(msg));
     });
   }
 
@@ -255,8 +254,7 @@
       var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
-      log("Result of parsing of '"+text+" is:");
-      log(result);
+      log("Result of parsing of '"+text+" is: "+JSON.stringify(result));
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;
