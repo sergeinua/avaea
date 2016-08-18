@@ -108,13 +108,16 @@
     final_textarea.focus();
   });
 
-  final_textarea.keyup(function () {
-    var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
-    } else {
-      showButtons(true);
-    }
+  final_textarea.bind('keyup change paste cut', function () {
+    var elem = $(this);
+    setTimeout(function () {
+      var _value = $.trim(elem.val());
+      if (_value != '' && _value.length > 0 && cntWords(_value)) {
+        showButtons(false);
+      } else {
+        showButtons(true);
+      }
+    }, 100);
   }).focus(function () {
     start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
