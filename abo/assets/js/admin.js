@@ -516,7 +516,7 @@ $(document).ready(function () {
         activeTab =  'gridUsersStatVoiceSearch';
         break;
     }
-    $('.menu-tab[for=' + activeTab + ']').trigger('click');
+    changeTabNav(activeTab);
   }
 
 });
