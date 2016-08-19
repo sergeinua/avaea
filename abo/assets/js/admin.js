@@ -19,6 +19,7 @@ $(document).ready(function () {
             drawCurrentChartType();
           } else {
             getUsersStatistics();
+            getUsersStatVoiceSearch();
           }
         break;
         default:
@@ -181,6 +182,9 @@ $(document).ready(function () {
         $('#gridUsersStat').jsGrid('refresh');
       case 'gridOverallStat':
         getUsersStatistics();
+      break;
+      case 'gridUsersStatVoiceSearch':
+        getUsersStatVoiceSearch();
       break;
     }
 
@@ -410,7 +414,7 @@ $(document).ready(function () {
 
   var lastIdUsersStat = 0, dataUsersStats = [], dataUsersStatsFormat = [],
     showGridUsersStat = false, showGridOverallStat = false;
-  var getUsersStatistics = function (formated) {
+  var getUsersStatistics = function () {
     socketAbo.post('/getActionByType', {lastUpdated: lastIdUsersStat, actionType: 'search'}, function (result, jwres) {
       if (result.length) {
         result.forEach(function (item) {
@@ -445,8 +449,41 @@ $(document).ready(function () {
     });
   };
 
+  var lastIdUsersStatVS = 0, dataUsersStatVoiceSearch = [], showGridUsersStatVS = false;
+  var getUsersStatVoiceSearch = function () {
+    socketAbo.post('/getActionByType', {lastUpdated: lastIdUsersStatVS, actionType: 'voice_search'}, function (result, jwres) {
+      if (result.length) {
+        result.forEach(function (item) {
+          if (lastIdUsersStatVS < item.id) {
+            lastIdUsersStatVS = item.id;
+          }
+
+          dataUsersStatVoiceSearch.push(getRowGridSearch(item));
+
+          if (showGridUsersStatVS) {
+            $('#gridUsersStatVoiceSearch').jsGrid('loadData', dataUsersStatVoiceSearch).done(function() {
+              $('#gridUsersStatVoiceSearch').jsGrid('sort', {field: 'id', order: 'desc'});
+            });
+          }
+        });
+      }
+
+      if (dataUsersStatVoiceSearch.length) {
+        if (!showGridUsersStatVS && activeTab == 'gridUsersStatVoiceSearch') {
+          $('#gridUsersStatVoiceSearch').jsGrid('loadData', dataUsersStatVoiceSearch).done(function() {
+            showGridUsersStatVS = true;
+            $('#gridUsersStatVoiceSearch').jsGrid('sort', {field: 'id', order: 'desc'});
+          });
+        }
+      }
+
+      return dataUsersStatVoiceSearch;
+    });
+  };
+
   generateGridUsersStat();
   generateGridOverallStat();
+  genGridUsersStatVoiceSearch();
 
   // Simple log function to keep the example simple
   function log() {
