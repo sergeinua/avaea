@@ -104,6 +104,7 @@
           <li><a href="javascript:;" class="menu-tab active" for="user_search">User info</a></li>
           <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Searches Log</a></li>
           <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Searches Performance</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridUsersStatVoiceSearch">Voice Parsing Log</a></li>
           <% if (typeof user != 'undefined') { %>
           <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
           <% } else { %>
@@ -119,6 +120,8 @@
 <div class="main container clearfix">
   <div id="gridUsersStat" class="hidden dataContainer"></div>
   <div id="gridOverallStat" class="hidden dataContainer"></div>
+  <div id="gridUsersStatVoiceSearch" class="hidden dataContainer"></div>
+
     <div id="user_search" class="row dataContainer">
         <form class="filter_user">
       <div class="input-group">
