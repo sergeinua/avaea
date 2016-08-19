@@ -558,7 +558,7 @@ $(document).ready(function() {
     }
   });
 
-  $('.result-search-info-bar').click(function (event) {
+  $('.result-search-info-bar > div').click(function (event) {
     location.href = '/search';
   });
 

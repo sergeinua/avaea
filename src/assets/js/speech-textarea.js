@@ -108,13 +108,16 @@
     final_textarea.focus();
   });
 
-  final_textarea.keyup(function () {
-    var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
-    } else {
-      showButtons(true);
-    }
+  final_textarea.bind('keyup change paste cut', function () {
+    var elem = $(this);
+    setTimeout(function () {
+      var _value = $.trim(elem.val());
+      if (_value != '' && _value.length > 0 && cntWords(_value)) {
+        showButtons(false);
+      } else {
+        showButtons(true);
+      }
+    }, 100);
   }).focus(function () {
     start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
@@ -165,8 +168,7 @@
     }
     var heightNav = $('.navbar-header').outerHeight(true);
     demo(function(res, data) {
-      log("Result of demo:");
-      log(data);
+      log("Result of demo: "+JSON.stringify(data));
       loggerQuery(data, (res ? 'success' : 'failed'));
       $('.navbar-header').height(heightNav);
     });
@@ -234,7 +236,9 @@
       },
       dataType: 'json'
     }).done(function( msg ) {
-      log("Result of logger query: "+msg);
+      if( !msg.success ) {
+	log("Result of logger query: "+JSON.stringify(msg));
+      }
     });
   }
 
@@ -254,9 +258,6 @@
       var text = $.trim(final_textarea.val());
       var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
-
-      log("Result of parsing of '"+text+" is:");
-      log(result);
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;

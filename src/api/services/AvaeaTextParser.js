@@ -41,7 +41,7 @@ function get_tomorrow() {
 }
 function validate_city_name(city_name) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
-  if (/from|flying|leaving|departing|students/i.exec(city_name))
+  if (/from|fly|flying|leaving|departing|students/i.exec(city_name)) // TODO: Get rid of this eventually. Do not even capture these words as possible airports.
     throw new Exception("Wrong city name" + city_name);
   return city_name;
 }
@@ -138,11 +138,17 @@ function AvaeaTextParser() {
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('next\\s+((?:week)|(?:month))', function (matches, result) {
-      return (new Date((new Date()).getTime() + (matches[1] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
-    }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:week)|(?:month))s?', function (matches, result) {
-      return (new Date((new Date()).getTime() + ordinal_to_number(matches[1]) * (matches[2] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
+    // TODO: this will easily catch "returning next week", i.e. will catch the return, not the origin date
+    new Regexp_and_Conversion('(a|next|'+this.number_pattern+')\\s+(day|week|fortnight|month)s?', function (matches, result) {
+      var r        = new Date(); // departure date relative to today's date
+      var quantity = ((matches[1]=='a') || (matches[1]=='next')) ? 1 : ordinal_to_number(matches[1]);
+      switch (matches[2].toLowerCase()) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
+      }
+      return r;
     }),
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
       return get_date_of_next_weekday(new Date(), matches[1]);
@@ -163,24 +169,15 @@ function AvaeaTextParser() {
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('the next day', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 1);
-      return r;
-    }),
-    new Regexp_and_Conversion('(in\\s+(a|1)|next)\\s+((?:week)|(?:month))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + (matches[3] == 'week' ? 7 : 30));
-      return r;
-    }),
-    new Regexp_and_Conversion('((' + this.number_pattern + ')(?=\\s+week))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 7 * ordinal_to_number(matches[1]));
-      return r;
-    }),
-    new Regexp_and_Conversion('((' + this.number_pattern + ')(?=\\s+day))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 1 * ordinal_to_number(matches[1]));
+    new Regexp_and_Conversion('(a|next|'+this.number_pattern+')\\s+(day|week|fortnight|month)s?', function (matches, result) {
+      var r        = new Date(result.origin_date.value.getTime());
+      var quantity = ((matches[1]=='a') || (matches[1]=='next')) ? 1 : ordinal_to_number(matches[1]);
+      switch( matches[2].toLowerCase() ) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
+      }
       return r;
     }),
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
@@ -245,13 +242,13 @@ function AvaeaTextParser() {
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+[^s]s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\w+[^s]s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ), // NEW: added to handle "Cats and dog are flying from SFO to JFK"
 
     new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
-    new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
-    new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
+    new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(me|myself|I)\\b',function() { return 3; } ), // same as old NUM #02
+    new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(me|myself|I))\\b',function() { return 2; }),
     new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return ordinal_to_number(s[1]); }),
-    new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
+    new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(me|myself|I)\\b',function() { return 3; }),
     new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
     new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ), // same as old NUM #06
@@ -335,8 +332,10 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
+          sails.log.verbose("Parser success: "+JSON.stringify(result));
         } catch (e) {
           err = e;
+          sails.log.error("Parser error: "+JSON.stringify(err));
         }
         return callback(err, result);
       }
