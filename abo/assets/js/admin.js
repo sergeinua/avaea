@@ -164,9 +164,13 @@ $(document).ready(function () {
     }
   });
 
-  var activeTab;
   $('.menu-tab').click(function (e) {
     var tab = $(e.target).attr('for');
+    changeTabNav(tab);
+    $('.menu-tab[for=' + tab + ']').parents('.container-fluid').find('.navbar-toggle[aria-expanded=true]').trigger('click');
+  });
+  var activeTab;
+  var changeTabNav = function (tab) {
     if (!tab || $('.menu-tab[for=' + tab + ']').hasClass('active')) return;
     activeTab = tab;
     $('.menu-tab').removeClass('active');
@@ -174,22 +178,26 @@ $(document).ready(function () {
     $('.dataContainer').removeClass('active').addClass('hidden');
     $('#' + tab).removeClass('hidden').addClass('active');
     $('.navbar-brand').text($('.menu-tab[for=' + tab + ']').text());
+
     switch (tab) {
       case 'user_search':
-
+        window.location.hash = 'UserInfo';
       break;
       case 'gridUsersStat':
+        window.location.hash = 'SearchesLog';
         $('#gridUsersStat').jsGrid('refresh');
+        getUsersStatistics();
+      break;
       case 'gridOverallStat':
+        window.location.hash = 'SearchesPerformance';
         getUsersStatistics();
       break;
       case 'gridUsersStatVoiceSearch':
+        window.location.hash = 'VoiceParsingLog';
         getUsersStatVoiceSearch();
       break;
     }
-
-    $('.menu-tab[for=' + tab + ']').parents('.container-fluid').find('.navbar-toggle[aria-expanded=true]').trigger('click');
-  });
+  };
 
 
   var autoscrollme = function () {
@@ -490,6 +498,25 @@ $(document).ready(function () {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
     }
+  }
+
+  var urlHash = window.location.hash;
+  if (urlHash) {
+    switch (urlHash) {
+      case '#UserInfo':
+        activeTab = 'user_search';
+        break;
+      case '#SearchesLog':
+        activeTab = 'gridUsersStat';
+        break;
+      case '#SearchesPerformance':
+        activeTab = 'gridOverallStat';
+        break;
+      case '#VoiceParsingLog':
+        activeTab =  'gridUsersStatVoiceSearch';
+        break;
+    }
+    changeTabNav(activeTab);
   }
 
 });
