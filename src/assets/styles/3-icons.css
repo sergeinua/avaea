@@ -1,0 +1,148 @@
+/* ---------------
+   icons.css
+	 --------------- */ 
+
+@font-face {
+    font-family: 'icomoon';
+    src: url('../fonts/icomoon.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+
+/* icons */
+
+.icon-account:before {
+  content: "\e900";
+}
+.icon-arr-dropdown:before {
+  content: "\e901";
+}
+.icon-arr-left-circle:before {
+  content: "\e902";
+}
+.icon-calendar:before {
+  content: "\e903";
+}
+.icon-camera:before {
+  content: "\e904";
+}
+.icon-checkmark-circle:before {
+  content: "\e905";
+}
+.icon-checkmark:before {
+  content: "\e906";
+}
+.icon-close:before {
+  content: "\e907";
+}
+.icon-heart-half .path1:before {
+  content: "\e908";
+  color: rgb(0, 0, 0);
+}
+.icon-heart-half .path2:before {
+  content: "\e909";
+  margin-left: -1em;
+  color: rgb(0, 0, 0);
+  opacity: 0.5;
+}
+.icon-heart:before {
+  content: "\e90a";
+}
+.icon-keyboard:before {
+  content: "\e90b";
+}
+.icon-map-pin:before {
+  content: "\e90c";
+}
+.icon-menu:before {
+  content: "\e90d";
+}
+.icon-mic:before {
+  content: "\e90e";
+}
+.icon-pencil:before {
+  content: "\e90f";
+}
+.icon-settings-outline:before {
+  content: "\e910";
+}
+.icon-spinner:before {
+  content: "\e911";
+}
+.icon-start-over:before {
+  content: "\e91d";
+}
+.icon-ticket:before {
+  content: "\e91e";
+}
+.icon-ticket-outline:before {
+  content: "\e912";
+}
+.icon-credit-card-outline:before {
+  content: "\e913";
+}
+.icon-credit-card:before {
+  content: "\e914";
+}
+.icon-expander-down:before {
+  content: "\e915";
+}
+.icon-expander-up:before {
+  content: "\e916";
+}
+.icon-phone-outline:before {
+  content: "\e917";
+}
+.icon-phone:before {
+  content: "\e918";
+}
+.icon-refresh:before {
+  content: "\e919";
+}
+.icon-search-plus:before {
+  content: "\e91a";
+}
+.icon-search-solid:before {
+  content: "\e91b";
+}
+.icon-search:before {
+  content: "\e91c";
+}
+.icon-seat-outline:before {
+  content: "\e91f";
+}
+.icon-seat:before {
+  content: "\e920";
+}
+.icon-settings:before {
+  content: "\e921";
+}
+.icon-watched-outline:before {
+  content: "\e922";
+}
+.icon-watched:before {
+  content: "\e923";
+}
+
+
+
+
+/* end icons.css */
+

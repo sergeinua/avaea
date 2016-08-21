@@ -122,7 +122,63 @@ $(document).ready(function() {
     }
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
+  
+  /**
+   * *********  Deborah script to manage desktop vs. touch        ********
+   * *********  but only for supported devices (iPhone, Android)  ********
+   */ 
+  
+	// detect if is touch
+	function isTouchDevice(){
+    return typeof window.ontouchstart !== 'undefined';
+	}
+
+	// if not touch
+	if (!isTouchDevice()) {
+		
+		// add 'desktop' class to body
+		$(function() {
+	    var body = $('body');
+	    body.addClass(' desktop');
+	    
+		});
+ 
+	// else if touch, add classes to body
+	} else {
+		
+	  // add 'touch' 
+		$(function() {
+			var body = $('body');
+			body.addClass(' touch');
+			
+			// now get which device, add 'ios' or 'android'
+			$(function() {
+			  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+			  if (userAgent.match((/iPad/i) || (/iPhone/i) || (/iPod/i))) {
+			  	body.addClass(' ios');
+			  	
+			  } else if (userAgent.match(/Android/i)) {
+			    body.addClass(' android');
+			  }
+			});
+		});
+	}
+	
+	//***** on scroll, add class to header ***** // 
+  var header = $('header');
+  $(window).scroll(function() {    
+      var scroll = $(window).scrollTop();
+      if (scroll >= 5) {
+          header.addClass(' scrolled');
+      } else {
+          header.removeClass(' scrolled');
+      }
+  });
+  // ***** end Deborah script *****
+  
 });
+// ends dom ready
 
 
 let nodes = [];
@@ -148,3 +204,7 @@ $(function () {
   $('#content')
     .on('content-will-change', ReactContentRenderer.unmountAll);
 });
+
+
+
+

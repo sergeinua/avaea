@@ -1,0 +1,299 @@
+/* ---------------
+   avaea.css
+	 --------------- */
+
+
+.hide,
+.device {
+	display: none;
+}
+
+
+/* ------- everywhere parts ------- */
+
+/* syntax
+   transition: all 0.1s ease-in-out;  
+*/
+
+body {
+	font-family: 'Open-Sans', Arial, sans-serif;
+	text-align: center;
+	background: #ffffff;
+}
+
+a {
+	display: inline-block;
+	transition: all 0.1s ease-in-out;
+	cursor: pointer;
+}
+
+a, 
+a:visited,
+a:hover, 
+a:focus {
+	text-decoration: none;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+header, 
+footer,
+.content {
+  display: flex;
+}
+
+.circle {
+	width: 110px;
+	height: 110px;
+	margin: 10px;
+	display: inline-block;
+	border-radius: 50%;
+	transition: all 0.1s ease-in-out;
+	background: #ffffff;
+}
+
+.big-button {
+	border-radius: 3px;
+}
+
+.big-button {
+	color: #ffffff;
+	font-size: 20px;
+	margin: 10px 5px;
+	padding: 10px 30px;
+	display: inline-block;
+}
+
+
+/* colors */
+
+.navbar-header,
+.navbar-header,
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form,
+.navmenu-default,
+.navbar-default .navbar-offcanvas,
+.flight-direction {
+	background: #262261;
+}
+
+.flight-type-form,
+.flight-direction-form {
+	background: #004c9c;
+}
+
+.big-button {
+	background: #0081c9;
+}
+
+
+/* header nav */
+
+.navbar-header,
+.navbar-default .navbar-nav > li > a,
+.navbar-header,
+.navbar-default .navbar-collapse, 
+.navbar-default .navbar-form,
+.flight-type-item {
+	color: #ffffff;
+}
+
+.navbar-default .navbar-brand, 
+.navbar-default .navbar-brand:focus, 
+.navbar-default .navbar-brand:hover {
+	font-family: 'montserrat-semibold';
+  font-size: 19px;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.navbar-default .navbar-nav {
+	text-align: left;
+}
+
+.navbar-brand {
+	padding: 15px 5px;
+}
+
+/* sliding main menu */
+
+.nav.navbar-nav > li {
+	font-family: 'Open-Sans-Semibold';
+  font-size: 16px;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.nav.navbar-nav > li > a > b {
+	font-family: 'Open-Sans';
+	font-size: 12px;
+  text-transform: lowercase;
+	font-weight: normal;
+	display: block;
+}
+
+.navbar-nav .divider {
+  border-bottom: 1px solid #ffffff;
+	opacity: .5;
+}
+
+.navmenu {
+	margin-top: 50px;
+}
+
+.navmenu:before {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 1px;
+	position: relative;
+		top: 0;
+	background: #ffffff;
+	opacity: .5;
+}
+
+.navbar-default .navbar-nav > li > a:hover, 
+.navbar-default .navbar-nav > li > a:focus {
+	color: #ffffff;
+	background-color: transparent;
+	text-shadow: none;
+}
+
+.navbar-nav {
+	margin: 7.5px 0;
+	width: 100%;
+}
+
+/* login */
+
+.form-signin-heading {
+	margin-top: 3em;
+}
+
+.login-holder .big-button {
+	width: 70%;
+}
+
+
+/* search form */
+
+.flight-type-form {
+	display: flex;
+	justify-content: center;
+}
+
+.flight-type-item {
+	font-family: 'Open-Sans-Semibold';
+  font-size: 17px;
+  opacity: .5;
+  text-transform: uppercase;
+  padding: 25px 12px;
+}
+
+.flight-type-item.active-choice,
+.flight-type-item.voice-search-button {
+	opacity: 1;
+}
+
+.flight-direction-item-coming-soon {
+  font-size: 18px;
+	color: #ffffff;
+	text-align: center;
+	position: relative;
+		top: 50px;
+}
+
+
+/* from to destination arrival */
+
+.flight-direction {
+  margin-top: 50px;
+  background-color: #004a99;
+  position: relative;
+}
+
+.flight-direction-form {
+  padding: 50px 0;
+}
+
+.flight-direction-form .col-xs-6 {
+	padding: 0;
+}
+
+.flight-direction-item {
+  width: 100px;
+  height: 100px;
+  background-color: #004a99;
+  border: dashed 1px rgba(255, 255, 255, 0.2);
+  /*color: white;*/
+  font-size: 50px;
+  padding-top: 10px;
+  color:rgba(255, 255, 255, 0.2);
+  margin: 0 auto;
+}
+
+.flight-direction-item-from-to {
+  font-size: 16px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+	opacity: .5;
+}
+
+.flight-direction-item-selected,
+.flight-direction-item-from-to-city {
+	color: #ffffff;
+  font-size: 16px;
+  text-transform: uppercase;
+	line-height: 1.0;
+}
+
+.flight-direction-item-from-to-city {
+	font-size: 13px;
+}
+
+#from-airport-selected, 
+#to-airport-selected {
+  font-size: 48px;
+	font-family: 'Open-Sans-Bold';
+	letter-spacing: -.02em;
+}
+
+
+/* heredeb */
+
+
+
+
+
+/* ------- browser fixes ------- */
+
+/* safari ignoring flex basis */
+nav {
+	-webkit-flex-shrink: 0;
+}
+
+/* firefox rendering font too thin */
+@-moz-document url-prefix() {
+	body {
+    -moz-osx-font-smoothing: auto;
+	}
+}
+
+/* ie11 */
+html[data-useragent*='Trident'] .div .mydiv .anotherdiv {
+	body: ;
+}
+
+
+
+/* end avaea.css */
+
+
+
+
+
+
+

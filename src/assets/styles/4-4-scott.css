@@ -1,36 +1,6 @@
-@font-face {
-  font-family: WhitneyHTF-Black;
-  src: url('../fonts/WhitneyHTF-Black.otf');
-}
 
-@font-face {
-  font-family: WhitneyHTF-MediumCondensed;
-  src: url('../fonts/WhitneyHTF-MediumCondensed.otf');
-}
-
-@font-face {
-  font-family: WhitneyHTF-Book;
-  src: url('../fonts/WhitneyHTF-Book.otf');
-}
-
-@font-face {
-  font-family: WhitneyHTF-BookCondensed;
-  font-style: normal;
-  font-weight: 300;
-  src: local('Oswald Light'), local('Oswald-Light'),
-    url(https://fonts.gstatic.com/s/oswald/v10/HqHm7BVC_nzzTui2lzQTDVtXRa8TVwTICgirnJhmVJw.woff2) format('woff2'),
-    url(https://fonts.gstatic.com/s/oswald/v10/HqHm7BVC_nzzTui2lzQTDaCWcynf_cDxXwCLxiixG1c.ttf) format('truetype');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
-  /*src: url('../fonts/WhitneyHTF-BookCondensed.otf');*/
-}
-
-@font-face {
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  src: url('../fonts/WhitneyHTF-SemiBoldCondensed.otf');
-}
 
 body {
-  background-color: #f8f8f8;
   color: #333333;
   padding-top: 50px;
 }
@@ -44,7 +14,8 @@ nav {
   min-width: 320px;
 }
 
-.navbar-header,.navbar-fixed-top {
+.navbar-header,
+.navbar-fixed-top {
   border-width: 0;
 }
 
@@ -58,18 +29,6 @@ nav {
   box-shadow: none;
 }
 
-.navbar-header,.navbar-default .navbar-collapse, .navbar-default .navbar-form {
-  background-color: #101742;
-  color: white;
-}
-.navbar-default .navbar-nav>li>a {
-  color: white;
-}
-.navbar-header {
-  background-color: #101742;
-  color: white;
-  font-family: WhitneyHTF-MediumCondensed;
-}
 .navbar-default .navbar-toggle {
   margin-right: 0;
 }
@@ -89,14 +48,7 @@ nav {
   top: -2px;
 }
 
-.navbar-default .navbar-brand, .navbar-default .navbar-brand:focus, .navbar-default .navbar-brand:hover {
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  font-family: WhitneyHTF-Black;
-  color: white;
-  text-transform: uppercase;
-}
+
 
 #tiles_ui {
   border: 0;
@@ -466,121 +418,10 @@ body.loading .modalLoader {
   display: block;
 }
 
-.flight-type-form>.row {
-  margin: 0;
-  padding: 0;
-}
 
-.flight-type-form {
-  height: 50px;
-  background-color: #004a99;
-  padding-left: 0;
-  box-shadow: none;
-  border-bottom: 1px solid #4077B2;
-  /*box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.3);;*/
-}
 
-.flight-type-item {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 18px;
-  line-height: 1.1;
-  letter-spacing: 0.1px;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  text-align: center;
-  padding: 15px 10px 14px;
-}
 
-.flight-type-item.active-choice {
-  color: #ffffff;
-  border-bottom: 1px solid #ffe03f;
-}
 
-.flight-direction {
-  margin-top: 50px;
-  height: 190px;
-  background-color: #004a99;
-  box-shadow: 0 2px 0 0 rgba(0, 74, 153, 0.2);
-  position: relative;
-  /*align-content: center;*/
-}
-
-.flight-direction-form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-.flight-direction-item {
-  width: 100px;
-  height: 100px;
-  background-color: #004a99;
-  border: dashed 1px rgba(255, 255, 255, 0.2);
-  /*color: white;*/
-  font-size: 50px;
-  padding-top: 10px;
-  color:rgba(255, 255, 255, 0.2);
-  margin: 0 auto;
-}
-
-.flight-direction-item-coming-soon {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 18px;
-  line-height: 1.1;
-  letter-spacing: 0.1px;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-     -moz-transform: translate(-50%, -50%);
-      -ms-transform: translate(-50%, -50%);
-       -o-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-}
-
-.flight-direction-item-from-to {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 16px;
-  line-height: 1.1;
-  letter-spacing: 0.1px;
-  color: rgba(255, 255, 255, 0.4);
-  text-transform: uppercase;
-  padding-bottom: 10px;
-}
-
-.flight-direction-item-selected {
-  width: 120px;
-  height: 100px;
-  background-color: #004a99;
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  font-size: 16px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  margin: 0 auto;
-}
-
-#from-airport-selected, #to-airport-selected {
-  font-size: 48px;
-}
-
-.flight-direction-item-from-to-city {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 16px;
-  line-height: 1.0;
-  letter-spacing: 0.3px;
-  color: #ffffff;
-  text-transform: uppercase;
-  /*white-space: nowrap;*/
-  padding-bottom: 10px;
-}
 
 .searchform-top {
   border:0;
@@ -759,18 +600,7 @@ body.loading .modalLoader {
   box-shadow: 6px 6px 7px  #888888;
 }
 
-.nav.navbar-nav > li {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 18px;
-  line-height: 1.0;
-  letter-spacing: 0.1px;
-  color: #ffffff;
-  text-transform: uppercase;
-}
 
-.nav.navbar-nav > li > a > b {
-  text-transform: lowercase;
-}
 
 /* Smart button styles */
 .toggle.lbSmart {
@@ -1062,10 +892,7 @@ button.buy-button-arrow[aria-expanded=true] {
   background-color:white !important;
 }
 
-.navbar-nav .divider {
-  /*background-color:white !important;*/
-  border: 1px dotted grey;
-}
+
 
 #form_booking div.panel {
   margin-top: 20px;

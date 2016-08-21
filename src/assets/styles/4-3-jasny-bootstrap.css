@@ -32,10 +32,7 @@
   border-radius: 0;
 }
 
-.navmenu-default,
-.navbar-default .navbar-offcanvas {
-  background-color: #101742;
-}
+
 
 .offcanvas {
   display: none;
