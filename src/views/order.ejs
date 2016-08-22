@@ -8,6 +8,7 @@
     <% iterator = 0; %>
     <% if (order.length) { %>
     <% order.forEach(function (sRes, i) {
+      sRes.price = parseFloat(sRes.price).toFixed(2);
       orderPrice = (sRes.currency == 'USD') ? "$"+sRes.price : sRes.price +' '+ sRes.currency;
     %>
     <div id="<%= sRes.id %>" for="cli<%= i %>" class="col-xs-12 itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
