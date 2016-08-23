@@ -4,7 +4,10 @@
 
 
 .hide,
-.device {
+.device,
+.multi-city-coming-soon,
+.form-fields.multi-city,
+.voice-form {
 	display: none;
 }
 
@@ -84,7 +87,7 @@ footer,
 
 .flight-type-form,
 .flight-direction-form,
-.flight-direction-item-coming-soon {
+.multi-city-coming-soon {
 	background: #004c9c;
 }
 
@@ -138,10 +141,15 @@ footer,
 
 /* form parts */
 
-input {
-	color: #000000;
+input,
+button:focus,
+button:active {
 	outline-color: #00b5ff;
 	-webkit-focus-ring-color: #00b5ff;
+}
+
+input {
+	color: #000000;
 }
 
 input.form-control {
@@ -278,12 +286,12 @@ input.form-control {
 	opacity: 1;
 }
 
-.flight-direction-item-coming-soon {
+.multi-city-coming-soon {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
 	padding-top: 20px;
-  padding-bottom: 67px;
+  padding-bottom: 135px;
 }
 
 
@@ -295,7 +303,7 @@ input.form-control {
 
 .flight-direction-form {
 	color: #ffffff;
-  padding: 45px 15px;
+  padding:15px 15px 45px 15px;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -310,11 +318,15 @@ input.form-control {
 	border: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
-.flight-direction-item span {
+.flight-direction-item.sel {
+	border: 0px dashed rgba(255, 255, 255, 0);
+}
+
+.flight-direction-item span.plus {
 	  font-size: 70px;
     line-height: 70px;
     position: relative;
-    top: -15px;
+    top: -12px;
 }
 
 .flight-direction-item-from-to {
@@ -344,6 +356,7 @@ input.form-control {
   font-size: 48px;
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
+	line-height: 50px;
 }
 
 .flight-direction-form .row {
@@ -437,15 +450,19 @@ strong.tt-highlight {
 	font-size: 14px;
 	text-align: center;  
   padding-top: 20px;
-  width: 50%;
   height: 95px;
   float: left;
 }
 
 .flight-date-info-item .col-xs-12,
-.flight-additional-info .col-xs-12 {
+.flight-additional-info .col-xs-12,
+.flight-date-info-item {
 	padding-left: 0;
 	padding-right: 0;
+}
+
+.flight-date-info.row {
+	margin: 0;
 }
 
 .flight-date-info-item:first-child, 
@@ -454,6 +471,7 @@ strong.tt-highlight {
 }
 
 .flight-date-info-item .row {
+	margin: 0;
 	padding: 0 10px;
   text-transform: capitalize;
 }
@@ -480,7 +498,7 @@ strong.tt-highlight {
 
 .tap-plus {
 	font-size: 36px;
-	margin-top: -10px;
+	line-height: 36px;
 }
 
 .flight-additional-info .chooser {

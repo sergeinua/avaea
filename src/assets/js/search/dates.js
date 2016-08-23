@@ -104,12 +104,12 @@ $(document).ready(function() {
         // draw info bar dates
         $('#date_select p.info span.dep').text(range.start.format('ddd DD MMM'));
         $('#date_select p.info span.ret').text(range.end ? ' - ' + moment(e.date).format('ddd DD MMM') : '');
-        setDisplayedDate($('.flight-date-info-item.sel.dep'), range.start);
+        setDisplayedDate($('.flight-date-info-item.dep'), range.start);
         if (range.end) {
-          setDisplayedDate($('.flight-date-info-item.sel.ret'), range.end);
+          setDisplayedDate($('.flight-date-info-item.ret'), range.end);
         }
       } else {
-        setDisplayedDate($('.flight-date-info-item.sel.dep'), e.date);
+        setDisplayedDate($('.flight-date-info-item.dep'), e.date);
       }
     }
   });

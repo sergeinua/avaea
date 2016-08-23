@@ -19,27 +19,31 @@ var drawAirportData = function (target) {
   var airportCode = $('#' + target).val();
   if (target == 'originAirport') {
     if (airportCode) {
-      $('#from-area').addClass('hidden');
-      $('#from-area-selected').removeClass('hidden');
+      $('.from .plus').hide();
+      $('.search-from').show();
+      $('.flight-direction-item.from').addClass('sel');
       $('#from-airport-selected').text(airportCode);
       $('#from-city-selected').text(cityName);
       unsetErrorElement('#from-area');
     } else {
-      $('#from-area-selected').addClass('hidden');
-      $('#from-area').removeClass('hidden');
+      $('.from .plus').show();
+      $('.search-from').hide();
+      $('.flight-direction-item.from').removeClass('sel');
       $('#from-airport-selected').text('');
       $('#from-city-selected').text('');
     }
   } else if (target == 'destinationAirport') {
     if (airportCode) {
-      $('#to-area').addClass('hidden');
-      $('#to-area-selected').removeClass('hidden');
+      $('.to .plus').hide();
+      $('.search-to').show();
+      $('.flight-direction-item.to').addClass('sel');
       $('#to-airport-selected').text(airportCode);
       $('#to-city-selected').text(cityName);
       unsetErrorElement('#to-area');
     } else {
-      $('#to-area-selected').addClass('hidden');
-      $('#to-area').removeClass('hidden');
+      $('.to .plus').show();
+      $('.search-to').hide();
+      $('.flight-direction-item.to').removeClass('sel');
       $('#to-airport-selected').text('');
       $('#to-city-selected').text('');
     }
@@ -77,164 +81,124 @@ function changeFlightTab(type, prevTab) {
   var hasFrom = !!$('#originAirport').val();
   var hasTo = !!$('#destinationAirport').val();
   switch (type) {
+  
     case 'round_trip':
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-item').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
+    	
+    	$('.form-fields').attr("class","form-fields round-trip");
+      $('.flight-direction-item-voice-search').hide();
       
-      // ------- if from-to are set --------
       
-      if (hasFrom) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-      }
-      if (hasTo) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-      }
-      $('.flight-date-info').removeClass('hidden');
+      // ------- depart date --------
+      
+      
       if ($('#departureDate').data('date')) {
         $('#departureDate').val($('#departureDate').data('date'));
       }
       
-      // ------- if dates are set --------
-      
+      // toggle date or "+"
       if (!!$('#departureDate').val()) {
-        $('#departureDate').data('date', $('#departureDate').val());
-        $('.flight-date-info-item.sel.dep').removeClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
-        
+      	$('#departureDate').data('date', $('#departureDate').val());
+        $('.flight-date-info-item.dep .the-date').show();
+        $('.flight-date-info-item.dep .tap-plus').hide();
       } else {
-      	
-        $('.flight-date-info-item.sel.dep').addClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.dep .the-date').hide();
+        $('.flight-date-info-item.dep .tap-plus').show();
       }
+      
+      // ------- return date -------
+      
       
       if ($('#returnDate').data('date')) {
         $('#returnDate').val($('#returnDate').data('date'));
       }
       
+      // toggle date or "+"
       if (!!$('#returnDate').val()) {
         $('#returnDate').data('date', $('#returnDate').val());
-        $('.flight-date-info-item.sel.ret').removeClass('hide');
-        $('.flight-date-info-item.ret').not('.sel').addClass('hide');
-        
+        $('.flight-date-info-item.ret .the-date').show();
+        $('.flight-date-info-item.ret .tap-plus').hide();
       } else {
-      	
-        $('.flight-date-info-item.sel.ret').addClass('hide');
-        $('.flight-date-info-item.ret').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.ret .the-date').hide();
+        $('.flight-date-info-item.ret .tap-plus').show();
       }
       
-      $('#date_select_main .row.return').removeClass('hidden');
-      $('#date_select p.header span.ret').removeClass('hidden');
-      $('#date_select p.info span.ret').removeClass('hidden');
-      $('.flight-additional-info').removeClass('hidden');
-      $('.search-button').show();
-      $('.search-top-button').show();
+      $('#date_select_main .row.return').show();
+      $('#date_select p.header span.ret').show();
+      $('#date_select p.info span.ret').show();
+      $('.flight-additional-info').show();
+      $('.search-buttons').show();
 
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').addClass('noValue');
-      $('.flight-direction').addClass('noValue');
+      $('.back-history').hide();
+      $('.searchform-top').show();
       $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
+      $('.navbar-toggle').show();
+      $('.voice-form').hide();
 
+      	
       break;
     case 'multi_city':
-      $('.flight-direction-item-coming-soon').removeClass('hidden');
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item').addClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
-      $('#from-area-selected').addClass('hidden');
-      $('#to-area-selected').addClass('hidden');
-      $('#from-area-selected').addClass('hidden');
-      $('#to-area-selected').addClass('hidden');
-      $('.flight-date-info').addClass('hidden');
-      $('.flight-additional-info').addClass('hidden');
-      $('.search-button').hide();
-      $('.search-top-button').hide();
+    	
+    	$('.form-fields').attr("class","form-fields multi-city");
+      $('.voice-form').hide();
+     
 
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').addClass('noValue');
-      $('.flight-direction').addClass('noValue');
+      $('.back-history').hide();
+      $('.searchform-top').show()
       $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
+      $('.navbar-toggle').show();
+      
 
       break;
     case 'voice_search':
-      $('.flight-direction-item-voice-search').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
+    	
+    	$('.form-fields').attr("class","form-fields voice-search");
+    	
+      $('.flight-direction-item-voice-search').show();
       $('.back-history').off('click').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
       }).removeClass('hidden');
 
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-form').addClass('hidden');
-      $('.flight-date-info').addClass('hidden');
-      $('.flight-additional-info').addClass('hidden');
-      $('.searchform-top').addClass('hidden');
+      $('.flight-direction-form').hide();
+      $('.flight-date-info').hide();
+      $('.flight-additional-info').hide();
+      $('.searchform-top').hide();
       $('.main.container-fluid').addClass('voice-search');
       $('.flight-direction').addClass('voice-search');
       $('.navbar-brand').text('Voice Search');
-      $('.navbar-toggle').addClass('hidden');
+      $('.navbar-toggle').hide();
 
-      $('.search-button').hide();
-      $('.search-top-button').hide();
+      $('.search-buttons').hide();
       $('#voiceSearchTextarea').focus();
       
       break;
     case 'one_way':
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-item').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
-      if (hasFrom) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-      }
-      if (hasTo) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-      }
-      $('.flight-date-info').removeClass('hidden');
+    	
+    	$('.form-fields').attr("class","form-fields one-way");
+    	
+      $('.flight-direction-item-voice-search').hide();
+      
+ 
+      // ------- if dates are set --------
+      
       if ($('#departureDate').data('date')) {
         $('#departureDate').val($('#departureDate').data('date'));
       }
+      
       if (!!$('#departureDate').val()) {
-        $('.flight-date-info-item.sel.dep').removeClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+        $('.flight-date-info-item.dep .the-date').show();
+        $('.flight-date-info-item.dep .tap-plus').hide();
       } else {
-        $('.flight-date-info-item.sel.dep').addClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.dep .the-date').hide();
+        $('.flight-date-info-item.dep .tap-plus').show();
       }
       
-      $('#returnDate').val('');
-      $('.flight-date-info-item.sel.ret').addClass('hide');
-      $('.flight-date-info-item').not('.sel').eq(1).addClass('hide');
-      $('#date_select_main .row.return').addClass('hidden');
-      $('#date_select p.header span.ret').addClass('hidden');
-      $('#date_select p.info span.ret').addClass('hidden');
-      $('.flight-additional-info').removeClass('hidden');
-      $('.search-button').show();
-      $('.search-top-button').show();
+      $('.search-buttons').show();
 
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').addClass('noValue');
-      $('.flight-direction').addClass('noValue');
+      $('.back-history').hide();
+      $('.searchform-top').show();
       $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
+      $('.navbar-toggle').show();
+      $('.voice-form').hide();
 
       break;
   }
@@ -331,22 +295,44 @@ $(document).ready(function() {
     $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 
-    $('.search-button').hide();
-    $('.search-top-button').hide();
+    $('.search-buttons').hide();
     $("body").addClass("loading");
-    $('#planePath').removeClass('hidden');
+    //$('#planePath').removeClass('hidden');
     setInterval('fly("#plane")', 40);
     setCookie('dimmer_was_showed', 0);
     return true;
   });
 
   $('.flight-type-item').on('click', function () {
-    var prevTab = $('.flight-type-item.active-choice').attr('id');
-    $('.flight-type-item').removeClass('active-choice');
-    $(this).addClass('active-choice');
-    var id = $(this).attr('id');
-    changeFlightTab(id, prevTab);
+  	
+  	// change the tabs
+  	
+	    var prevTab = $('.flight-type-item.active-choice').attr('id');
+	    $('.flight-type-item').removeClass('active-choice');
+	    $(this).addClass('active-choice');
+	    var id = $(this).attr('id');
+	    changeFlightTab(id, prevTab);
+    
+    // if "multi-city" is active, show "coming soon"
+    
+	    if ($(".flight-type-form .multi-city").hasClass("active-choice")) {
+  			$('.multi-city-coming-soon').show();
+		  } else {
+		  	$('.multi-city-coming-soon').hide();
+		  } 
+	    
+	  // if "one-way" is active, don't show or submit return date
+	    if ($(".flight-type-form .one-way").hasClass("active-choice")) {
+	    	$('.flight-date-info-item.ret').hide();
+	    	$('#returnDate').val('');
+		  } else {
+		  	$('.flight-date-info-item.ret').show();
+		  } 
+	    
+	    	
   });
+  
+  
 
   $('.flight-class-info-item .text-picker').on('click', function () {
 
