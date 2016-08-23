@@ -2,44 +2,56 @@
   "sentences": [
     {
       "text": {
-        "content": "I'm looking for the return ticket from Pittsburgh to Oakland flying out on the 24th of October and flying back on the 15th of November",
+        "content": "My wife needs to fly to Dubai right away.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "She is stuck in Paris right now.",
+        "beginOffset": 42
+      }
+    },
+    {
+      "text": {
+        "content": "Get her the earliest ticket there.",
+        "beginOffset": 75
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "I",
+        "content": "My",
         "beginOffset": 0
       },
       "partOfSpeech": {
         "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "NSUBJ"
+        "headTokenIndex": 1,
+        "label": "POSS"
       },
-      "lemma": "I"
+      "lemma": "My"
     },
     {
       "text": {
-        "content": "'m",
-        "beginOffset": 1
+        "content": "wife",
+        "beginOffset": 3
       },
       "partOfSpeech": {
-        "tag": "VERB"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
-        "label": "AUX"
+        "label": "NSUBJ"
       },
-      "lemma": "be"
+      "lemma": "wife"
     },
     {
       "text": {
-        "content": "looking",
-        "beginOffset": 4
+        "content": "needs",
+        "beginOffset": 8
       },
       "partOfSpeech": {
         "tag": "VERB"
@@ -48,180 +60,166 @@
         "headTokenIndex": 2,
         "label": "ROOT"
       },
-      "lemma": "look"
-    },
-    {
-      "text": {
-        "content": "for",
-        "beginOffset": 12
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "PREP"
-      },
-      "lemma": "for"
-    },
-    {
-      "text": {
-        "content": "the",
-        "beginOffset": 16
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "DET"
-      },
-      "lemma": "the"
-    },
-    {
-      "text": {
-        "content": "return",
-        "beginOffset": 20
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NN"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 27
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "POBJ"
-      },
-      "lemma": "ticket"
-    },
-    {
-      "text": {
-        "content": "from",
-        "beginOffset": 34
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "Pittsburgh",
-        "beginOffset": 39
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "POBJ"
-      },
-      "lemma": "Pittsburgh"
+      "lemma": "need"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 50
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 17
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 21
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Oakland",
-        "beginOffset": 53
+        "content": "Dubai",
+        "beginOffset": 24
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
+        "headTokenIndex": 5,
         "label": "POBJ"
       },
-      "lemma": "Oakland"
+      "lemma": "Dubai"
     },
     {
       "text": {
-        "content": "flying",
-        "beginOffset": 61
+        "content": "right",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ADVMOD"
+      },
+      "lemma": "right"
+    },
+    {
+      "text": {
+        "content": "away",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "ADVMOD"
+      },
+      "lemma": "away"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "She",
+        "beginOffset": 42
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "NSUBJPASS"
+      },
+      "lemma": "She"
+    },
+    {
+      "text": {
+        "content": "is",
+        "beginOffset": 46
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "VMOD"
+        "headTokenIndex": 12,
+        "label": "AUXPASS"
       },
-      "lemma": "fly"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "out",
-        "beginOffset": 68
+        "content": "stuck",
+        "beginOffset": 49
       },
       "partOfSpeech": {
-        "tag": "PRT"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "PRT"
+        "headTokenIndex": 12,
+        "label": "ROOT"
       },
-      "lemma": "out"
+      "lemma": "stick"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 72
+        "content": "in",
+        "beginOffset": 55
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 12,
         "label": "PREP"
       },
-      "lemma": "on"
+      "lemma": "in"
     },
     {
       "text": {
-        "content": "the",
-        "beginOffset": 75
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "DET"
-      },
-      "lemma": "the"
-    },
-    {
-      "text": {
-        "content": "24th",
-        "beginOffset": 79
+        "content": "Paris",
+        "beginOffset": 58
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -230,178 +228,178 @@
         "headTokenIndex": 13,
         "label": "POBJ"
       },
-      "lemma": "24th"
+      "lemma": "Paris"
     },
     {
       "text": {
-        "content": "of",
-        "beginOffset": 84
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "PREP"
-      },
-      "lemma": "of"
-    },
-    {
-      "text": {
-        "content": "October",
-        "beginOffset": 87
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "POBJ"
-      },
-      "lemma": "October"
-    },
-    {
-      "text": {
-        "content": "and",
-        "beginOffset": 95
-      },
-      "partOfSpeech": {
-        "tag": "CONJ"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "CC"
-      },
-      "lemma": "and"
-    },
-    {
-      "text": {
-        "content": "flying",
-        "beginOffset": 99
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "CONJ"
-      },
-      "lemma": "fly"
-    },
-    {
-      "text": {
-        "content": "back",
-        "beginOffset": 106
+        "content": "right",
+        "beginOffset": 64
       },
       "partOfSpeech": {
         "tag": "ADV"
       },
       "dependencyEdge": {
-        "headTokenIndex": 19,
+        "headTokenIndex": 16,
         "label": "ADVMOD"
       },
-      "lemma": "back"
+      "lemma": "right"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 111
+        "content": "now",
+        "beginOffset": 70
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "ADV"
       },
       "dependencyEdge": {
-        "headTokenIndex": 20,
-        "label": "PREP"
+        "headTokenIndex": 12,
+        "label": "ADVMOD"
       },
-      "lemma": "on"
+      "lemma": "now"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 73
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Get",
+        "beginOffset": 75
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "ROOT"
+      },
+      "lemma": "Get"
+    },
+    {
+      "text": {
+        "content": "her",
+        "beginOffset": 79
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "IOBJ"
+      },
+      "lemma": "her"
     },
     {
       "text": {
         "content": "the",
-        "beginOffset": 114
+        "beginOffset": 83
       },
       "partOfSpeech": {
         "tag": "DET"
       },
       "dependencyEdge": {
-        "headTokenIndex": 23,
+        "headTokenIndex": 22,
         "label": "DET"
       },
       "lemma": "the"
     },
     {
       "text": {
-        "content": "15th",
-        "beginOffset": 118
+        "content": "earliest",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 22,
+        "label": "AMOD"
+      },
+      "lemma": "early"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 96
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 21,
-        "label": "POBJ"
+        "headTokenIndex": 18,
+        "label": "DOBJ"
       },
-      "lemma": "15th"
+      "lemma": "ticket"
     },
     {
       "text": {
-        "content": "of",
-        "beginOffset": 123
+        "content": "there",
+        "beginOffset": 103
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "ADV"
       },
       "dependencyEdge": {
-        "headTokenIndex": 23,
-        "label": "PREP"
+        "headTokenIndex": 22,
+        "label": "ADVMOD"
       },
-      "lemma": "of"
+      "lemma": "there"
     },
     {
       "text": {
-        "content": "November",
-        "beginOffset": 126
+        "content": ".",
+        "beginOffset": 108
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 24,
-        "label": "POBJ"
+        "headTokenIndex": 18,
+        "label": "P"
       },
-      "lemma": "November"
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Pittsburgh",
+      "name": "Dubai",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Pittsburgh"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Dubai"
       },
-      "salience": 0.24502364,
+      "salience": 0.1041305,
       "mentions": [
         {
           "text": {
-            "content": "Pittsburgh",
-            "beginOffset": 39
+            "content": "Dubai",
+            "beginOffset": 24
           }
         }
       ]
     },
     {
-      "name": "Oakland",
+      "name": "Paris",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Oakland_(Pittsburgh)"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
       },
-      "salience": 0.23308203,
+      "salience": 0.030241471,
       "mentions": [
         {
           "text": {
-            "content": "Oakland",
-            "beginOffset": 53
+            "content": "Paris",
+            "beginOffset": 58
           }
         }
       ]

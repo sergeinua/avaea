@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from Rio de Janeiro to Santiago de Chile on October 13, returning on December 13",
+        "content": "I am in Paris need to fly to Madrid tomorrow",
         "beginOffset": 0
       }
     }
@@ -10,36 +10,36 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "I",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PRON"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NUM"
+        "label": "NSUBJ"
       },
-      "lemma": "1"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "ticket",
+        "content": "am",
         "beginOffset": 2
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
         "label": "ROOT"
       },
-      "lemma": "ticket"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 9
+        "content": "in",
+        "beginOffset": 5
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -48,40 +48,12 @@
         "headTokenIndex": 1,
         "label": "PREP"
       },
-      "lemma": "from"
+      "lemma": "in"
     },
     {
       "text": {
-        "content": "Rio",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "NN"
-      },
-      "lemma": "Rio"
-    },
-    {
-      "text": {
-        "content": "de",
-        "beginOffset": 18
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "NN"
-      },
-      "lemma": "de"
-    },
-    {
-      "text": {
-        "content": "Janeiro",
-        "beginOffset": 21
+        "content": "Paris",
+        "beginOffset": 8
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -90,206 +62,122 @@
         "headTokenIndex": 2,
         "label": "POBJ"
       },
-      "lemma": "Janeiro"
+      "lemma": "Paris"
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 29
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "Santiago",
-        "beginOffset": 32
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "NN"
-      },
-      "lemma": "Santiago"
-    },
-    {
-      "text": {
-        "content": "de",
-        "beginOffset": 41
-      },
-      "partOfSpeech": {
-        "tag": "X"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "NN"
-      },
-      "lemma": "de"
-    },
-    {
-      "text": {
-        "content": "Chile",
-        "beginOffset": 44
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "POBJ"
-      },
-      "lemma": "Chile"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 50
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "October",
-        "beginOffset": 53
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "POBJ"
-      },
-      "lemma": "October"
-    },
-    {
-      "text": {
-        "content": "13",
-        "beginOffset": 61
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "NUM"
-      },
-      "lemma": "13"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 63
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "returning",
-        "beginOffset": 65
+        "content": "need",
+        "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "VMOD"
+        "label": "DEP"
       },
-      "lemma": "return"
+      "lemma": "need"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 75
+        "content": "to",
+        "beginOffset": 19
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 26
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
+        "headTokenIndex": 6,
         "label": "PREP"
       },
-      "lemma": "on"
+      "lemma": "to"
     },
     {
       "text": {
-        "content": "December",
-        "beginOffset": 78
+        "content": "Madrid",
+        "beginOffset": 29
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 15,
+        "headTokenIndex": 7,
         "label": "POBJ"
       },
-      "lemma": "December"
+      "lemma": "Madrid"
     },
     {
       "text": {
-        "content": "13",
-        "beginOffset": 87
+        "content": "tomorrow",
+        "beginOffset": 36
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "NUM"
+        "headTokenIndex": 6,
+        "label": "TMOD"
       },
-      "lemma": "13"
+      "lemma": "tomorrow"
     }
   ],
   "entities": [
     {
-      "name": "Rio de Janeiro",
+      "name": "Paris",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Rio_de_Janeiro"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
       },
-      "salience": 0.15834641,
+      "salience": 0.5122422,
       "mentions": [
         {
           "text": {
-            "content": "Rio de Janeiro",
-            "beginOffset": 14
+            "content": "Paris",
+            "beginOffset": 8
           }
         }
       ]
     },
     {
-      "name": "Santiago de Chile",
+      "name": "Madrid",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Santiago"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Madrid"
       },
-      "salience": 0.1507777,
+      "salience": 0.4877578,
       "mentions": [
         {
           "text": {
-            "content": "Santiago de Chile",
-            "beginOffset": 32
+            "content": "Madrid",
+            "beginOffset": 29
           }
         }
       ]

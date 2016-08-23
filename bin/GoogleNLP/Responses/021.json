@@ -2,156 +2,22 @@
   "sentences": [
     {
       "text": {
-        "content": "How much is a Kiev-Moscow one-way ticket two weeks from now?",
+        "content": "Flight 77 departs Kona on May 7 lands at SFO.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Get tickets for me and my associate.",
+        "beginOffset": 46
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "How",
+        "content": "Flight",
         "beginOffset": 0
-      },
-      "partOfSpeech": {
-        "tag": "ADV"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "ADVMOD"
-      },
-      "lemma": "How"
-    },
-    {
-      "text": {
-        "content": "much",
-        "beginOffset": 4
-      },
-      "partOfSpeech": {
-        "tag": "ADJ"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "ATTR"
-      },
-      "lemma": "much"
-    },
-    {
-      "text": {
-        "content": "is",
-        "beginOffset": 9
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "ROOT"
-      },
-      "lemma": "be"
-    },
-    {
-      "text": {
-        "content": "a",
-        "beginOffset": 12
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "DET"
-      },
-      "lemma": "a"
-    },
-    {
-      "text": {
-        "content": "Kiev",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NN"
-      },
-      "lemma": "Kiev"
-    },
-    {
-      "text": {
-        "content": "-",
-        "beginOffset": 18
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "P"
-      },
-      "lemma": "-"
-    },
-    {
-      "text": {
-        "content": "Moscow",
-        "beginOffset": 19
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NN"
-      },
-      "lemma": "Moscow"
-    },
-    {
-      "text": {
-        "content": "one",
-        "beginOffset": 26
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "NUM"
-      },
-      "lemma": "one"
-    },
-    {
-      "text": {
-        "content": "-",
-        "beginOffset": 29
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "P"
-      },
-      "lemma": "-"
-    },
-    {
-      "text": {
-        "content": "way",
-        "beginOffset": 30
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NN"
-      },
-      "lemma": "way"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 34
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -160,68 +26,138 @@
         "headTokenIndex": 2,
         "label": "NSUBJ"
       },
-      "lemma": "ticket"
+      "lemma": "Flight"
     },
     {
       "text": {
-        "content": "two",
-        "beginOffset": 41
+        "content": "77",
+        "beginOffset": 7
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 12,
+        "headTokenIndex": 0,
         "label": "NUM"
       },
-      "lemma": "two"
+      "lemma": "77"
     },
     {
       "text": {
-        "content": "weeks",
-        "beginOffset": 45
+        "content": "departs",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "Kona",
+        "beginOffset": 18
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "TMOD"
+        "headTokenIndex": 2,
+        "label": "DOBJ"
       },
-      "lemma": "week"
+      "lemma": "Kona"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 51
+        "content": "on",
+        "beginOffset": 23
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
+        "headTokenIndex": 2,
         "label": "PREP"
       },
-      "lemma": "from"
+      "lemma": "on"
     },
     {
       "text": {
-        "content": "now",
-        "beginOffset": 56
+        "content": "May",
+        "beginOffset": 26
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "POBJ"
+        "headTokenIndex": 7,
+        "label": "NN"
       },
-      "lemma": "now"
+      "lemma": "May"
     },
     {
       "text": {
-        "content": "?",
-        "beginOffset": 59
+        "content": "7",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NUM"
+      },
+      "lemma": "7"
+    },
+    {
+      "text": {
+        "content": "lands",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "land"
+    },
+    {
+      "text": {
+        "content": "at",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "at"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 44
       },
       "partOfSpeech": {
         "tag": "PUNCT"
@@ -230,38 +166,164 @@
         "headTokenIndex": 2,
         "label": "P"
       },
-      "lemma": "?"
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Get",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ROOT"
+      },
+      "lemma": "Get"
+    },
+    {
+      "text": {
+        "content": "tickets",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "DOBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "me",
+        "beginOffset": 62
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "me"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 65
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "associate",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CONJ"
+      },
+      "lemma": "associate"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Kiev",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Kiev"
-      },
-      "salience": 0.33410391,
+      "name": "Flight 77",
+      "type": "CONSUMER_GOOD",
+      "metadata": {},
+      "salience": 0.42395496,
       "mentions": [
         {
           "text": {
-            "content": "Kiev",
-            "beginOffset": 14
+            "content": "Flight 77",
+            "beginOffset": 0
           }
         }
       ]
     },
     {
-      "name": "Moscow",
-      "type": "ORGANIZATION",
+      "name": "Kona",
+      "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Moscow"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Kona_International_Airport"
       },
-      "salience": 0.25335458,
+      "salience": 0.16479082,
       "mentions": [
         {
           "text": {
-            "content": "Moscow",
-            "beginOffset": 19
+            "content": "Kona",
+            "beginOffset": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.11648565,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 41
           }
         }
       ]

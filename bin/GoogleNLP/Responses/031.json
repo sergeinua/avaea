@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from SFO to JFK on 10/13/2016, returning on 1/13/2017",
+        "content": "I'm flying from Tokyo to st. Petersburg Russia next week",
         "beginOffset": 0
       }
     }
@@ -10,314 +10,186 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "I",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NUM"
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
       },
-      "lemma": "1"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "ticket",
-        "beginOffset": 2
+        "content": "'m",
+        "beginOffset": 1
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
         "label": "ROOT"
       },
-      "lemma": "ticket"
+      "lemma": "fly"
     },
     {
       "text": {
         "content": "from",
-        "beginOffset": 9
+        "beginOffset": 11
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 2,
         "label": "PREP"
       },
       "lemma": "from"
     },
     {
       "text": {
-        "content": "SFO",
-        "beginOffset": 14
+        "content": "Tokyo",
+        "beginOffset": 16
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 3,
         "label": "POBJ"
       },
-      "lemma": "SFO"
+      "lemma": "Tokyo"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 18
+        "beginOffset": 22
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 2,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "JFK",
-        "beginOffset": 21
+        "content": "st.",
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "POBJ"
+        "headTokenIndex": 8,
+        "label": "NN"
       },
-      "lemma": "JFK"
+      "lemma": "st."
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 25
+        "content": "Petersburg",
+        "beginOffset": 29
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
+        "headTokenIndex": 8,
+        "label": "NN"
       },
-      "lemma": "on"
+      "lemma": "Petersburg"
     },
     {
       "text": {
-        "content": "10",
-        "beginOffset": 28
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "POBJ"
-      },
-      "lemma": "10"
-    },
-    {
-      "text": {
-        "content": "/",
-        "beginOffset": 30
-      },
-      "partOfSpeech": {
-        "tag": "X"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "P"
-      },
-      "lemma": "/"
-    },
-    {
-      "text": {
-        "content": "13",
-        "beginOffset": 31
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "NUM"
-      },
-      "lemma": "13"
-    },
-    {
-      "text": {
-        "content": "/",
-        "beginOffset": 33
-      },
-      "partOfSpeech": {
-        "tag": "X"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "P"
-      },
-      "lemma": "/"
-    },
-    {
-      "text": {
-        "content": "2016",
-        "beginOffset": 34
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "PREP"
-      },
-      "lemma": "2016"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 38
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "returning",
+        "content": "Russia",
         "beginOffset": 40
       },
       "partOfSpeech": {
-        "tag": "VERB"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "VMOD"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 50
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "1",
-        "beginOffset": 53
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
+        "headTokenIndex": 5,
         "label": "POBJ"
       },
-      "lemma": "1"
+      "lemma": "Russia"
     },
     {
       "text": {
-        "content": "/",
-        "beginOffset": 54
+        "content": "next",
+        "beginOffset": 47
       },
       "partOfSpeech": {
-        "tag": "X"
+        "tag": "ADJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 19,
-        "label": "P"
+        "headTokenIndex": 10,
+        "label": "AMOD"
       },
-      "lemma": "/"
+      "lemma": "next"
     },
     {
       "text": {
-        "content": "13",
-        "beginOffset": 55
+        "content": "week",
+        "beginOffset": 52
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 19,
-        "label": "NUM"
+        "headTokenIndex": 2,
+        "label": "TMOD"
       },
-      "lemma": "13"
-    },
-    {
-      "text": {
-        "content": "/",
-        "beginOffset": 57
-      },
-      "partOfSpeech": {
-        "tag": "X"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 19,
-        "label": "P"
-      },
-      "lemma": "/"
-    },
-    {
-      "text": {
-        "content": "2017",
-        "beginOffset": 58
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "PREP"
-      },
-      "lemma": "2017"
+      "lemma": "week"
     }
   ],
   "entities": [
     {
-      "name": "SFO",
-      "type": "ORGANIZATION",
+      "name": "Tokyo",
+      "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Tokyo"
       },
-      "salience": 0.18837501,
+      "salience": 0.79242051,
       "mentions": [
         {
           "text": {
-            "content": "SFO",
-            "beginOffset": 14
+            "content": "Tokyo",
+            "beginOffset": 16
           }
         }
       ]
     },
     {
-      "name": "JFK",
+      "name": "st. Petersburg Russia",
       "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
-      },
-      "salience": 0.18837501,
+      "metadata": {},
+      "salience": 0.20757951,
       "mentions": [
         {
           "text": {
-            "content": "JFK",
-            "beginOffset": 21
+            "content": "st. Petersburg Russia",
+            "beginOffset": 25
           }
         }
       ]

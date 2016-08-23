@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from London to Madrid depart 30th of November arrive 10th of December",
+        "content": "Flying to Phoenix on Wednesday, back on Friday",
         "beginOffset": 0
       }
     }
@@ -10,230 +10,144 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "Flying",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NUM"
+        "headTokenIndex": 0,
+        "label": "ROOT"
       },
-      "lemma": "1"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 2
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NSUBJ"
-      },
-      "lemma": "ticket"
-    },
-    {
-      "text": {
-        "content": "from",
-        "beginOffset": 9
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "London",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "POBJ"
-      },
-      "lemma": "London"
+      "lemma": "fly"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 21
+        "beginOffset": 7
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 0,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Madrid",
-        "beginOffset": 24
+        "content": "Phoenix",
+        "beginOffset": 10
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
+        "headTokenIndex": 1,
         "label": "POBJ"
       },
-      "lemma": "Madrid"
+      "lemma": "Phoenix"
     },
     {
       "text": {
-        "content": "depart",
-        "beginOffset": 31
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "ROOT"
-      },
-      "lemma": "depart"
-    },
-    {
-      "text": {
-        "content": "30th",
-        "beginOffset": 38
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NSUBJ"
-      },
-      "lemma": "30th"
-    },
-    {
-      "text": {
-        "content": "of",
-        "beginOffset": 43
+        "content": "on",
+        "beginOffset": 18
       },
       "partOfSpeech": {
         "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "Wednesday",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Wednesday"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "back",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ADVMOD"
+      },
+      "lemma": "back"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "Friday",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 7,
-        "label": "PREP"
-      },
-      "lemma": "of"
-    },
-    {
-      "text": {
-        "content": "November",
-        "beginOffset": 46
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 8,
         "label": "POBJ"
       },
-      "lemma": "November"
-    },
-    {
-      "text": {
-        "content": "arrive",
-        "beginOffset": 55
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "CCOMP"
-      },
-      "lemma": "arrive"
-    },
-    {
-      "text": {
-        "content": "10th",
-        "beginOffset": 62
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "DOBJ"
-      },
-      "lemma": "10th"
-    },
-    {
-      "text": {
-        "content": "of",
-        "beginOffset": 67
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "PREP"
-      },
-      "lemma": "of"
-    },
-    {
-      "text": {
-        "content": "December",
-        "beginOffset": 70
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "POBJ"
-      },
-      "lemma": "December"
+      "lemma": "Friday"
     }
   ],
   "entities": [
     {
-      "name": "London",
+      "name": "Phoenix",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Phoenix,_Arizona"
       },
-      "salience": 0.19736049,
+      "salience": 1,
       "mentions": [
         {
           "text": {
-            "content": "London",
-            "beginOffset": 14
-          }
-        }
-      ]
-    },
-    {
-      "name": "Madrid",
-      "type": "PERSON",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Madrid"
-      },
-      "salience": 0.14966057,
-      "mentions": [
-        {
-          "text": {
-            "content": "Madrid",
-            "beginOffset": 24
+            "content": "Phoenix",
+            "beginOffset": 10
           }
         }
       ]

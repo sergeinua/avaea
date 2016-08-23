@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "I need to fly to Washington on business as soon as possible.",
+        "content": "I need a ticket departing Los Angeles on May 2 and reaching London the next day.",
         "beginOffset": 0
       }
     }
@@ -38,148 +38,204 @@
     },
     {
       "text": {
-        "content": "to",
+        "content": "a",
         "beginOffset": 7
       },
       "partOfSpeech": {
-        "tag": "PRT"
+        "tag": "DET"
       },
       "dependencyEdge": {
         "headTokenIndex": 3,
-        "label": "AUX"
+        "label": "DET"
       },
-      "lemma": "to"
+      "lemma": "a"
     },
     {
       "text": {
-        "content": "fly",
-        "beginOffset": 10
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "XCOMP"
-      },
-      "lemma": "fly"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "PREP"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "Washington",
-        "beginOffset": 17
+        "content": "ticket",
+        "beginOffset": 9
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "POBJ"
+        "headTokenIndex": 1,
+        "label": "DOBJ"
       },
-      "lemma": "Washington"
+      "lemma": "ticket"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 28
+        "content": "departing",
+        "beginOffset": 16
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 3,
-        "label": "PREP"
+        "label": "VMOD"
       },
-      "lemma": "on"
+      "lemma": "depart"
     },
     {
       "text": {
-        "content": "business",
-        "beginOffset": 31
+        "content": "Los",
+        "beginOffset": 26
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 6,
-        "label": "POBJ"
+        "label": "NN"
       },
-      "lemma": "business"
+      "lemma": "Los"
     },
     {
       "text": {
-        "content": "as",
-        "beginOffset": 40
+        "content": "Angeles",
+        "beginOffset": 30
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "ADVMOD"
+        "headTokenIndex": 4,
+        "label": "DOBJ"
       },
-      "lemma": "as"
+      "lemma": "Angeles"
     },
     {
       "text": {
-        "content": "soon",
-        "beginOffset": 43
-      },
-      "partOfSpeech": {
-        "tag": "ADV"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "ADVMOD"
-      },
-      "lemma": "soon"
-    },
-    {
-      "text": {
-        "content": "as",
-        "beginOffset": 48
+        "content": "on",
+        "beginOffset": 38
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
-      "lemma": "as"
+      "lemma": "on"
     },
     {
       "text": {
-        "content": "possible",
+        "content": "May",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "May"
+    },
+    {
+      "text": {
+        "content": "2",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NUM"
+      },
+      "lemma": "2"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "reaching",
         "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CONJ"
+      },
+      "lemma": "reach"
+    },
+    {
+      "text": {
+        "content": "London",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "DOBJ"
+      },
+      "lemma": "London"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "next",
+        "beginOffset": 71
       },
       "partOfSpeech": {
         "tag": "ADJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "POBJ"
+        "headTokenIndex": 15,
+        "label": "AMOD"
       },
-      "lemma": "possible"
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "day",
+        "beginOffset": 76
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "TMOD"
+      },
+      "lemma": "day"
     },
     {
       "text": {
         "content": ".",
-        "beginOffset": 59
+        "beginOffset": 79
       },
       "partOfSpeech": {
         "tag": "PUNCT"
@@ -193,17 +249,33 @@
   ],
   "entities": [
     {
-      "name": "Washington",
+      "name": "Los Angeles",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Washington,_D.C."
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Los_Angeles"
       },
-      "salience": 0.42186221,
+      "salience": 0.29515913,
       "mentions": [
         {
           "text": {
-            "content": "Washington",
-            "beginOffset": 17
+            "content": "Los Angeles",
+            "beginOffset": 26
+          }
+        }
+      ]
+    },
+    {
+      "name": "London",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
+      },
+      "salience": 0.076159149,
+      "mentions": [
+        {
+          "text": {
+            "content": "London",
+            "beginOffset": 60
           }
         }
       ]

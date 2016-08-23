@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "Skiing trip from Portland, Maine to Portland, Oregon on December 20, 2017 returning two weeks later",
+        "content": "How soon can my children reach Frankfurt-Hahn from Minneapolis St. Paul?",
         "beginOffset": 0
       }
     }
@@ -10,322 +10,244 @@
   "tokens": [
     {
       "text": {
-        "content": "Skiing",
+        "content": "How",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "ADV"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NN"
+        "label": "ADVMOD"
       },
-      "lemma": "Skiing"
+      "lemma": "How"
     },
     {
       "text": {
-        "content": "trip",
-        "beginOffset": 7
+        "content": "soon",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ADVMOD"
+      },
+      "lemma": "soon"
+    },
+    {
+      "text": {
+        "content": "can",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "AUX"
+      },
+      "lemma": "can"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "children",
+        "beginOffset": 16
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 15,
+        "headTokenIndex": 5,
         "label": "NSUBJ"
       },
-      "lemma": "trip"
+      "lemma": "child"
+    },
+    {
+      "text": {
+        "content": "reach",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ROOT"
+      },
+      "lemma": "reach"
+    },
+    {
+      "text": {
+        "content": "Frankfurt",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "Frankfurt"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Hahn",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "DOBJ"
+      },
+      "lemma": "Hahn"
     },
     {
       "text": {
         "content": "from",
-        "beginOffset": 12
+        "beginOffset": 46
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 5,
         "label": "PREP"
       },
       "lemma": "from"
     },
     {
       "text": {
-        "content": "Portland",
-        "beginOffset": 17
+        "content": "Minneapolis",
+        "beginOffset": 51
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "POBJ"
+        "headTokenIndex": 12,
+        "label": "NN"
       },
-      "lemma": "Portland"
+      "lemma": "Minneapolis"
     },
     {
       "text": {
-        "content": ",",
-        "beginOffset": 25
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "Maine",
-        "beginOffset": 27
+        "content": "St.",
+        "beginOffset": 63
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "APPOS"
+        "headTokenIndex": 12,
+        "label": "NN"
       },
-      "lemma": "Maine"
+      "lemma": "St."
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 33
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "Portland",
-        "beginOffset": 36
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "POBJ"
-      },
-      "lemma": "Portland"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 44
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "Oregon",
-        "beginOffset": 46
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "APPOS"
-      },
-      "lemma": "Oregon"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 53
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "December",
-        "beginOffset": 56
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "POBJ"
-      },
-      "lemma": "December"
-    },
-    {
-      "text": {
-        "content": "20",
-        "beginOffset": 65
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "NUM"
-      },
-      "lemma": "20"
-    },
-    {
-      "text": {
-        "content": ",",
+        "content": "Paul",
         "beginOffset": 67
       },
       "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "2017",
-        "beginOffset": 69
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "NUM"
-      },
-      "lemma": "2017"
-    },
-    {
-      "text": {
-        "content": "returning",
-        "beginOffset": 74
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "ROOT"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "two",
-        "beginOffset": 84
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 17,
-        "label": "NUM"
-      },
-      "lemma": "two"
-    },
-    {
-      "text": {
-        "content": "weeks",
-        "beginOffset": 88
-      },
-      "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "NPADVMOD"
+        "headTokenIndex": 9,
+        "label": "POBJ"
       },
-      "lemma": "week"
+      "lemma": "Paul"
     },
     {
       "text": {
-        "content": "later",
-        "beginOffset": 94
+        "content": "?",
+        "beginOffset": 71
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "ADVMOD"
+        "headTokenIndex": 5,
+        "label": "P"
       },
-      "lemma": "later"
+      "lemma": "?"
     }
   ],
   "entities": [
     {
-      "name": "Portland",
+      "name": "St. Paul",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Portland,_Maine"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Saint_Paul,_Minnesota"
       },
-      "salience": 0.23718897,
+      "salience": 0.26074958,
       "mentions": [
         {
           "text": {
-            "content": "Portland",
-            "beginOffset": 17
-          }
-        },
-        {
-          "text": {
-            "content": "Portland",
-            "beginOffset": 36
+            "content": "St. Paul",
+            "beginOffset": 63
           }
         }
       ]
     },
     {
-      "name": "Maine",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Maine"
-      },
-      "salience": 0.091420151,
+      "name": "Frankfurt-Hahn",
+      "type": "PERSON",
+      "metadata": {},
+      "salience": 0.21815455,
       "mentions": [
         {
           "text": {
-            "content": "Maine",
-            "beginOffset": 27
+            "content": "Frankfurt-Hahn",
+            "beginOffset": 31
           }
         }
       ]
     },
     {
-      "name": "Oregon",
+      "name": "Minneapolis",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Oregon"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Minneapolis"
       },
-      "salience": 0.086907133,
+      "salience": 0.070068389,
       "mentions": [
         {
           "text": {
-            "content": "Oregon",
-            "beginOffset": 46
+            "content": "Minneapolis",
+            "beginOffset": 51
           }
         }
       ]

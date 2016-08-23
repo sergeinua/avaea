@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "I need to fly from Phoenix to Boston in two weeks return on Sunday",
+        "content": "Cats and dogs are flying from SFO to JFK on Nov 15, returning on Dec 20",
         "beginOffset": 0
       }
     }
@@ -10,134 +10,162 @@
   "tokens": [
     {
       "text": {
-        "content": "I",
+        "content": "Cats",
         "beginOffset": 0
-      },
-      "partOfSpeech": {
-        "tag": "PRON"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NSUBJ"
-      },
-      "lemma": "I"
-    },
-    {
-      "text": {
-        "content": "need",
-        "beginOffset": 2
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "CCOMP"
-      },
-      "lemma": "need"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 7
-      },
-      "partOfSpeech": {
-        "tag": "PRT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "AUX"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "fly",
-        "beginOffset": 10
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "XCOMP"
-      },
-      "lemma": "fly"
-    },
-    {
-      "text": {
-        "content": "from",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "Phoenix",
-        "beginOffset": 19
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 4,
-        "label": "POBJ"
+        "label": "NSUBJ"
       },
-      "lemma": "Phoenix"
+      "lemma": "cat"
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 27
+        "content": "and",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "dogs",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "CONJ"
+      },
+      "lemma": "dog"
+    },
+    {
+      "text": {
+        "content": "are",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "ROOT"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
-      "lemma": "to"
+      "lemma": "from"
     },
     {
       "text": {
-        "content": "Boston",
+        "content": "SFO",
         "beginOffset": 30
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 5,
         "label": "POBJ"
       },
-      "lemma": "Boston"
+      "lemma": "SFO"
     },
     {
       "text": {
-        "content": "in",
-        "beginOffset": 37
+        "content": "to",
+        "beginOffset": 34
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
-      "lemma": "in"
+      "lemma": "to"
     },
     {
       "text": {
-        "content": "two",
-        "beginOffset": 40
+        "content": "JFK",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "JFK"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "Nov",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "Nov"
+    },
+    {
+      "text": {
+        "content": "15",
+        "beginOffset": 48
       },
       "partOfSpeech": {
         "tag": "NUM"
@@ -146,94 +174,108 @@
         "headTokenIndex": 10,
         "label": "NUM"
       },
-      "lemma": "two"
+      "lemma": "15"
     },
     {
       "text": {
-        "content": "weeks",
-        "beginOffset": 44
+        "content": ",",
+        "beginOffset": 50
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 8,
-        "label": "POBJ"
+        "headTokenIndex": 4,
+        "label": "P"
       },
-      "lemma": "week"
+      "lemma": ","
     },
     {
       "text": {
-        "content": "return",
-        "beginOffset": 50
+        "content": "returning",
+        "beginOffset": 52
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "ROOT"
+        "headTokenIndex": 4,
+        "label": "XCOMP"
       },
       "lemma": "return"
     },
     {
       "text": {
         "content": "on",
-        "beginOffset": 57
+        "beginOffset": 62
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 13,
         "label": "PREP"
       },
       "lemma": "on"
     },
     {
       "text": {
-        "content": "Sunday",
-        "beginOffset": 60
+        "content": "Dec",
+        "beginOffset": 65
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 12,
+        "headTokenIndex": 14,
         "label": "POBJ"
       },
-      "lemma": "Sunday"
+      "lemma": "Dec"
+    },
+    {
+      "text": {
+        "content": "20",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NUM"
+      },
+      "lemma": "20"
     }
   ],
   "entities": [
     {
-      "name": "Phoenix",
-      "type": "LOCATION",
+      "name": "SFO",
+      "type": "ORGANIZATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Phoenix_Sky_Harbor_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
       },
-      "salience": 0.5122422,
+      "salience": 0.088277,
       "mentions": [
         {
           "text": {
-            "content": "Phoenix",
-            "beginOffset": 19
+            "content": "SFO",
+            "beginOffset": 30
           }
         }
       ]
     },
     {
-      "name": "Boston",
+      "name": "JFK",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Boston"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
       },
-      "salience": 0.4877578,
+      "salience": 0.083974682,
       "mentions": [
         {
           "text": {
-            "content": "Boston",
-            "beginOffset": 30
+            "content": "JFK",
+            "beginOffset": 37
           }
         }
       ]

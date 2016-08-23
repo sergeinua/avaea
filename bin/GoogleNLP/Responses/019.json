@@ -2,20 +2,8 @@
   "sentences": [
     {
       "text": {
-        "content": "My wife needs to fly to Dubai right away.",
+        "content": "My parents and I are flying to Johannesburg on Jul 10, returning in September",
         "beginOffset": 0
-      }
-    },
-    {
-      "text": {
-        "content": "She is stuck in Paris right now.",
-        "beginOffset": 42
-      }
-    },
-    {
-      "text": {
-        "content": "Get her the earliest ticket there.",
-        "beginOffset": 75
       }
     }
   ],
@@ -36,176 +24,176 @@
     },
     {
       "text": {
-        "content": "wife",
+        "content": "parents",
         "beginOffset": 3
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 5,
         "label": "NSUBJ"
       },
-      "lemma": "wife"
+      "lemma": "parent"
     },
     {
       "text": {
-        "content": "needs",
-        "beginOffset": 8
+        "content": "and",
+        "beginOffset": 11
       },
       "partOfSpeech": {
-        "tag": "VERB"
+        "tag": "CONJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "ROOT"
+        "headTokenIndex": 1,
+        "label": "CC"
       },
-      "lemma": "need"
+      "lemma": "and"
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 14
+        "content": "I",
+        "beginOffset": 15
       },
       "partOfSpeech": {
-        "tag": "PRT"
+        "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "AUX"
+        "headTokenIndex": 1,
+        "label": "CONJ"
       },
-      "lemma": "to"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "fly",
+        "content": "are",
         "beginOffset": 17
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "XCOMP"
+        "headTokenIndex": 5,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ROOT"
       },
       "lemma": "fly"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 21
+        "beginOffset": 28
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
+        "headTokenIndex": 5,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Dubai",
-        "beginOffset": 24
+        "content": "Johannesburg",
+        "beginOffset": 31
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 5,
+        "headTokenIndex": 6,
         "label": "POBJ"
       },
-      "lemma": "Dubai"
+      "lemma": "Johannesburg"
     },
     {
       "text": {
-        "content": "right",
-        "beginOffset": 30
+        "content": "on",
+        "beginOffset": 44
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "Jul",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 8,
-        "label": "ADVMOD"
+        "label": "POBJ"
       },
-      "lemma": "right"
+      "lemma": "Jul"
     },
     {
       "text": {
-        "content": "away",
-        "beginOffset": 36
+        "content": "10",
+        "beginOffset": 51
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "ADVMOD"
+        "headTokenIndex": 9,
+        "label": "NUM"
       },
-      "lemma": "away"
+      "lemma": "10"
     },
     {
       "text": {
-        "content": ".",
-        "beginOffset": 40
+        "content": ",",
+        "beginOffset": 53
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 5,
         "label": "P"
       },
-      "lemma": "."
+      "lemma": ","
     },
     {
       "text": {
-        "content": "She",
-        "beginOffset": 42
-      },
-      "partOfSpeech": {
-        "tag": "PRON"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "NSUBJPASS"
-      },
-      "lemma": "She"
-    },
-    {
-      "text": {
-        "content": "is",
-        "beginOffset": 46
+        "content": "returning",
+        "beginOffset": 55
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "AUXPASS"
+        "headTokenIndex": 5,
+        "label": "VMOD"
       },
-      "lemma": "be"
-    },
-    {
-      "text": {
-        "content": "stuck",
-        "beginOffset": 49
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "ROOT"
-      },
-      "lemma": "stick"
+      "lemma": "return"
     },
     {
       "text": {
         "content": "in",
-        "beginOffset": 55
+        "beginOffset": 65
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -218,8 +206,8 @@
     },
     {
       "text": {
-        "content": "Paris",
-        "beginOffset": 58
+        "content": "September",
+        "beginOffset": 68
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -228,178 +216,22 @@
         "headTokenIndex": 13,
         "label": "POBJ"
       },
-      "lemma": "Paris"
-    },
-    {
-      "text": {
-        "content": "right",
-        "beginOffset": 64
-      },
-      "partOfSpeech": {
-        "tag": "ADV"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "ADVMOD"
-      },
-      "lemma": "right"
-    },
-    {
-      "text": {
-        "content": "now",
-        "beginOffset": 70
-      },
-      "partOfSpeech": {
-        "tag": "ADV"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "ADVMOD"
-      },
-      "lemma": "now"
-    },
-    {
-      "text": {
-        "content": ".",
-        "beginOffset": 73
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "P"
-      },
-      "lemma": "."
-    },
-    {
-      "text": {
-        "content": "Get",
-        "beginOffset": 75
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "ROOT"
-      },
-      "lemma": "Get"
-    },
-    {
-      "text": {
-        "content": "her",
-        "beginOffset": 79
-      },
-      "partOfSpeech": {
-        "tag": "PRON"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "IOBJ"
-      },
-      "lemma": "her"
-    },
-    {
-      "text": {
-        "content": "the",
-        "beginOffset": 83
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 22,
-        "label": "DET"
-      },
-      "lemma": "the"
-    },
-    {
-      "text": {
-        "content": "earliest",
-        "beginOffset": 87
-      },
-      "partOfSpeech": {
-        "tag": "ADJ"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 22,
-        "label": "AMOD"
-      },
-      "lemma": "early"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 96
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "DOBJ"
-      },
-      "lemma": "ticket"
-    },
-    {
-      "text": {
-        "content": "there",
-        "beginOffset": 103
-      },
-      "partOfSpeech": {
-        "tag": "ADV"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 22,
-        "label": "ADVMOD"
-      },
-      "lemma": "there"
-    },
-    {
-      "text": {
-        "content": ".",
-        "beginOffset": 108
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "P"
-      },
-      "lemma": "."
+      "lemma": "September"
     }
   ],
   "entities": [
     {
-      "name": "Dubai",
+      "name": "Johannesburg",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Dubai"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Johannesburg"
       },
-      "salience": 0.1041305,
+      "salience": 0.16867505,
       "mentions": [
         {
           "text": {
-            "content": "Dubai",
-            "beginOffset": 24
-          }
-        }
-      ]
-    },
-    {
-      "name": "Paris",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
-      },
-      "salience": 0.030241471,
-      "mentions": [
-        {
-          "text": {
-            "content": "Paris",
-            "beginOffset": 58
+            "content": "Johannesburg",
+            "beginOffset": 31
           }
         }
       ]

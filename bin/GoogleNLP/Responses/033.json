@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from San Jose, California to San Jose, Costa Rica, on October 13, returning on December 13",
+        "content": "I am in SFO, need to fly to JFK",
         "beginOffset": 0
       }
     }
@@ -10,36 +10,36 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "I",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PRON"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NUM"
+        "label": "NSUBJ"
       },
-      "lemma": "1"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "ticket",
+        "content": "am",
         "beginOffset": 2
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
         "label": "ROOT"
       },
-      "lemma": "ticket"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 9
+        "content": "in",
+        "beginOffset": 5
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -48,26 +48,12 @@
         "headTokenIndex": 1,
         "label": "PREP"
       },
-      "lemma": "from"
+      "lemma": "in"
     },
     {
       "text": {
-        "content": "San",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "NN"
-      },
-      "lemma": "San"
-    },
-    {
-      "text": {
-        "content": "Jose",
-        "beginOffset": 18
+        "content": "SFO",
+        "beginOffset": 8
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -76,180 +62,12 @@
         "headTokenIndex": 2,
         "label": "POBJ"
       },
-      "lemma": "Jose"
+      "lemma": "SFO"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 22
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "California",
-        "beginOffset": 24
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "APPOS"
-      },
-      "lemma": "California"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 35
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "San",
-        "beginOffset": 38
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "NN"
-      },
-      "lemma": "San"
-    },
-    {
-      "text": {
-        "content": "Jose",
-        "beginOffset": 42
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "POBJ"
-      },
-      "lemma": "Jose"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 46
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "Costa",
-        "beginOffset": 48
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "NN"
-      },
-      "lemma": "Costa"
-    },
-    {
-      "text": {
-        "content": "Rica",
-        "beginOffset": 54
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "APPOS"
-      },
-      "lemma": "Rica"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 58
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 60
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "October",
-        "beginOffset": 63
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "POBJ"
-      },
-      "lemma": "October"
-    },
-    {
-      "text": {
-        "content": "13",
-        "beginOffset": 71
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "NUM"
-      },
-      "lemma": "13"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 73
+        "beginOffset": 11
       },
       "partOfSpeech": {
         "tag": "PUNCT"
@@ -262,112 +80,104 @@
     },
     {
       "text": {
-        "content": "returning",
-        "beginOffset": 75
+        "content": "need",
+        "beginOffset": 13
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "VMOD"
+        "label": "DEP"
       },
-      "lemma": "return"
+      "lemma": "need"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 85
+        "content": "to",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 18,
+        "headTokenIndex": 7,
         "label": "PREP"
       },
-      "lemma": "on"
+      "lemma": "to"
     },
     {
       "text": {
-        "content": "December",
-        "beginOffset": 88
+        "content": "JFK",
+        "beginOffset": 28
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 19,
+        "headTokenIndex": 8,
         "label": "POBJ"
       },
-      "lemma": "December"
-    },
-    {
-      "text": {
-        "content": "13",
-        "beginOffset": 97
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 20,
-        "label": "NUM"
-      },
-      "lemma": "13"
+      "lemma": "JFK"
     }
   ],
   "entities": [
     {
-      "name": "San Jose",
+      "name": "SFO",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Jose,_California"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
       },
-      "salience": 0.20951559,
+      "salience": 0.62518775,
       "mentions": [
         {
           "text": {
-            "content": "San Jose",
-            "beginOffset": 14
-          }
-        },
-        {
-          "text": {
-            "content": "San Jose",
-            "beginOffset": 38
+            "content": "SFO",
+            "beginOffset": 8
           }
         }
       ]
     },
     {
-      "name": "California",
-      "type": "LOCATION",
+      "name": "JFK",
+      "type": "ORGANIZATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/California"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
       },
-      "salience": 0.11744107,
+      "salience": 0.37481222,
       "mentions": [
         {
           "text": {
-            "content": "California",
-            "beginOffset": 24
-          }
-        }
-      ]
-    },
-    {
-      "name": "Costa Rica",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Costa_Rica"
-      },
-      "salience": 0.093405865,
-      "mentions": [
-        {
-          "text": {
-            "content": "Costa Rica",
-            "beginOffset": 48
+            "content": "JFK",
+            "beginOffset": 28
           }
         }
       ]

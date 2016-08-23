@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "Round-trip from Istanbul to Hong Kong, Aug 20, 2017 through September 23",
+        "content": "I'm flying from Tokyo to St. Petersburg Russia next week",
         "beginOffset": 0
       }
     }
@@ -10,45 +10,45 @@
   "tokens": [
     {
       "text": {
-        "content": "Round",
+        "content": "I",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "PRON"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
-        "label": "NN"
+        "label": "NSUBJ"
       },
-      "lemma": "Round"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "-",
-        "beginOffset": 5
+        "content": "'m",
+        "beginOffset": 1
       },
       "partOfSpeech": {
-        "tag": "PUNCT"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
-        "label": "P"
+        "label": "AUX"
       },
-      "lemma": "-"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "trip",
-        "beginOffset": 6
+        "content": "flying",
+        "beginOffset": 4
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
         "label": "ROOT"
       },
-      "lemma": "trip"
+      "lemma": "fly"
     },
     {
       "text": {
@@ -66,7 +66,7 @@
     },
     {
       "text": {
-        "content": "Istanbul",
+        "content": "Tokyo",
         "beginOffset": 16
       },
       "partOfSpeech": {
@@ -76,12 +76,12 @@
         "headTokenIndex": 3,
         "label": "POBJ"
       },
-      "lemma": "Istanbul"
+      "lemma": "Tokyo"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 25
+        "beginOffset": 22
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -94,8 +94,8 @@
     },
     {
       "text": {
-        "content": "Hong",
-        "beginOffset": 28
+        "content": "St.",
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -104,12 +104,26 @@
         "headTokenIndex": 7,
         "label": "NN"
       },
-      "lemma": "Hong"
+      "lemma": "St."
     },
     {
       "text": {
-        "content": "Kong",
-        "beginOffset": 33
+        "content": "Petersburg",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "Petersburg"
+    },
+    {
+      "text": {
+        "content": "Russia",
+        "beginOffset": 40
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -118,150 +132,64 @@
         "headTokenIndex": 5,
         "label": "POBJ"
       },
-      "lemma": "Kong"
+      "lemma": "Russia"
     },
     {
       "text": {
-        "content": ",",
-        "beginOffset": 37
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "Aug",
-        "beginOffset": 39
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "APPOS"
-      },
-      "lemma": "Aug"
-    },
-    {
-      "text": {
-        "content": "20",
-        "beginOffset": 43
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "NUM"
-      },
-      "lemma": "20"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 45
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "2017",
+        "content": "next",
         "beginOffset": 47
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "ADJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "TMOD"
+        "headTokenIndex": 10,
+        "label": "AMOD"
       },
-      "lemma": "2017"
+      "lemma": "next"
     },
     {
       "text": {
-        "content": "through",
+        "content": "week",
         "beginOffset": 52
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "PREP"
-      },
-      "lemma": "through"
-    },
-    {
-      "text": {
-        "content": "September",
-        "beginOffset": 60
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "POBJ"
+        "headTokenIndex": 2,
+        "label": "TMOD"
       },
-      "lemma": "September"
-    },
-    {
-      "text": {
-        "content": "23",
-        "beginOffset": 70
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "NUM"
-      },
-      "lemma": "23"
+      "lemma": "week"
     }
   ],
   "entities": [
     {
-      "name": "Istanbul",
+      "name": "Tokyo",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Istanbul"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Tokyo"
       },
-      "salience": 0.19878249,
+      "salience": 0.79242051,
       "mentions": [
         {
           "text": {
-            "content": "Istanbul",
+            "content": "Tokyo",
             "beginOffset": 16
           }
         }
       ]
     },
     {
-      "name": "Hong Kong",
+      "name": "St. Petersburg Russia",
       "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Hong_Kong"
-      },
-      "salience": 0.1435338,
+      "metadata": {},
+      "salience": 0.20757951,
       "mentions": [
         {
           "text": {
-            "content": "Hong Kong",
-            "beginOffset": 28
+            "content": "St. Petersburg Russia",
+            "beginOffset": 25
           }
         }
       ]

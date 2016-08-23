@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "Flying to Phoenix on Wednesday, back on Friday",
+        "content": "Leaving from Buenos Aires to Vancouver today, returning two weeks later",
         "beginOffset": 0
       }
     }
@@ -10,22 +10,64 @@
   "tokens": [
     {
       "text": {
-        "content": "Flying",
+        "content": "Leaving",
         "beginOffset": 0
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "ROOT"
+        "headTokenIndex": 8,
+        "label": "VMOD"
       },
-      "lemma": "fly"
+      "lemma": "leave"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 8
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Buenos",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "NN"
+      },
+      "lemma": "Buenos"
+    },
+    {
+      "text": {
+        "content": "Aires",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "Aires"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 7
+        "beginOffset": 26
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -38,116 +80,132 @@
     },
     {
       "text": {
-        "content": "Phoenix",
-        "beginOffset": 10
+        "content": "Vancouver",
+        "beginOffset": 29
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 4,
         "label": "POBJ"
       },
-      "lemma": "Phoenix"
+      "lemma": "Vancouver"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 18
+        "content": "today",
+        "beginOffset": 39
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 0,
-        "label": "PREP"
+        "label": "TMOD"
       },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "Wednesday",
-        "beginOffset": 21
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "POBJ"
-      },
-      "lemma": "Wednesday"
+      "lemma": "today"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 30
+        "beginOffset": 44
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 8,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "back",
-        "beginOffset": 32
+        "content": "returning",
+        "beginOffset": 46
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "ADVMOD"
+        "headTokenIndex": 8,
+        "label": "ROOT"
       },
-      "lemma": "back"
+      "lemma": "return"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 37
+        "content": "two",
+        "beginOffset": 56
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "PREP"
+        "headTokenIndex": 10,
+        "label": "NUM"
       },
-      "lemma": "on"
+      "lemma": "two"
     },
     {
       "text": {
-        "content": "Friday",
-        "beginOffset": 40
+        "content": "weeks",
+        "beginOffset": 60
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "POBJ"
+        "headTokenIndex": 11,
+        "label": "NPADVMOD"
       },
-      "lemma": "Friday"
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 66
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
     }
   ],
   "entities": [
     {
-      "name": "Phoenix",
+      "name": "Buenos Aires",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Phoenix,_Arizona"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Buenos_Aires"
       },
-      "salience": 1,
+      "salience": 0.5777055,
       "mentions": [
         {
           "text": {
-            "content": "Phoenix",
-            "beginOffset": 10
+            "content": "Buenos Aires",
+            "beginOffset": 13
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vancouver",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Vancouver"
+      },
+      "salience": 0.4222945,
+      "mentions": [
+        {
+          "text": {
+            "content": "Vancouver",
+            "beginOffset": 29
           }
         }
       ]

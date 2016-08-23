@@ -2,44 +2,70 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from Santa Fe, New Mexico, to Ho Chi Minh City on October 13, returning on December 13",
+        "content": "I am currently in Bogota.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Need to get to Miami as soon as possible.",
+        "beginOffset": 26
+      }
+    },
+    {
+      "text": {
+        "content": "Back next week.",
+        "beginOffset": 68
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "I",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PRON"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NUM"
+        "label": "NSUBJ"
       },
-      "lemma": "1"
+      "lemma": "I"
     },
     {
       "text": {
-        "content": "ticket",
+        "content": "am",
         "beginOffset": 2
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
         "label": "ROOT"
       },
-      "lemma": "ticket"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 9
+        "content": "currently",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ADVMOD"
+      },
+      "lemma": "currently"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 15
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -48,152 +74,96 @@
         "headTokenIndex": 1,
         "label": "PREP"
       },
-      "lemma": "from"
+      "lemma": "in"
     },
     {
       "text": {
-        "content": "Santa",
-        "beginOffset": 14
+        "content": "Bogota",
+        "beginOffset": 18
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "NN"
-      },
-      "lemma": "Santa"
-    },
-    {
-      "text": {
-        "content": "Fe",
-        "beginOffset": 20
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 3,
         "label": "POBJ"
       },
-      "lemma": "Fe"
+      "lemma": "Bogota"
     },
     {
       "text": {
-        "content": ",",
-        "beginOffset": 22
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "P"
-      },
-      "lemma": ","
-    },
-    {
-      "text": {
-        "content": "New",
+        "content": ".",
         "beginOffset": 24
       },
       "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "NN"
-      },
-      "lemma": "New"
-    },
-    {
-      "text": {
-        "content": "Mexico",
-        "beginOffset": 28
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "APPOS"
-      },
-      "lemma": "Mexico"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 34
-      },
-      "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
+        "headTokenIndex": 1,
         "label": "P"
       },
-      "lemma": ","
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Need",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "ROOT"
+      },
+      "lemma": "Need"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 36
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "get",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "XCOMP"
+      },
+      "lemma": "get"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 38
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 8,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Ho",
-        "beginOffset": 39
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "NN"
-      },
-      "lemma": "Ho"
-    },
-    {
-      "text": {
-        "content": "Chi",
-        "beginOffset": 42
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "NN"
-      },
-      "lemma": "Chi"
-    },
-    {
-      "text": {
-        "content": "Minh",
-        "beginOffset": 46
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "NN"
-      },
-      "lemma": "Minh"
-    },
-    {
-      "text": {
-        "content": "City",
-        "beginOffset": 51
+        "content": "Miami",
+        "beginOffset": 41
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -202,166 +172,164 @@
         "headTokenIndex": 9,
         "label": "POBJ"
       },
-      "lemma": "City"
+      "lemma": "Miami"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 56
+        "content": "as",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "ADVMOD"
+      },
+      "lemma": "as"
+    },
+    {
+      "text": {
+        "content": "soon",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ADVMOD"
+      },
+      "lemma": "soon"
+    },
+    {
+      "text": {
+        "content": "as",
+        "beginOffset": 55
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 12,
         "label": "PREP"
       },
-      "lemma": "on"
+      "lemma": "as"
     },
     {
       "text": {
-        "content": "October",
-        "beginOffset": 59
+        "content": "possible",
+        "beginOffset": 58
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "ADJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
+        "headTokenIndex": 13,
         "label": "POBJ"
       },
-      "lemma": "October"
+      "lemma": "possible"
     },
     {
       "text": {
-        "content": "13",
-        "beginOffset": 67
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "NUM"
-      },
-      "lemma": "13"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 69
+        "content": ".",
+        "beginOffset": 66
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 6,
         "label": "P"
       },
-      "lemma": ","
+      "lemma": "."
     },
     {
       "text": {
-        "content": "returning",
-        "beginOffset": 71
+        "content": "Back",
+        "beginOffset": 68
       },
       "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "VMOD"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 81
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "ADV"
       },
       "dependencyEdge": {
         "headTokenIndex": 18,
-        "label": "PREP"
+        "label": "ADVMOD"
       },
-      "lemma": "on"
+      "lemma": "Back"
     },
     {
       "text": {
-        "content": "December",
-        "beginOffset": 84
+        "content": "next",
+        "beginOffset": 73
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 78
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 19,
-        "label": "POBJ"
+        "headTokenIndex": 18,
+        "label": "ROOT"
       },
-      "lemma": "December"
+      "lemma": "week"
     },
     {
       "text": {
-        "content": "13",
-        "beginOffset": 93
+        "content": ".",
+        "beginOffset": 82
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 20,
-        "label": "NUM"
+        "headTokenIndex": 18,
+        "label": "P"
       },
-      "lemma": "13"
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Santa Fe",
+      "name": "Bogota",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Santa_Fe,_New_Mexico"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Bogot%C3%A1"
       },
-      "salience": 0.16989532,
+      "salience": 0.73176748,
       "mentions": [
         {
           "text": {
-            "content": "Santa Fe",
-            "beginOffset": 14
+            "content": "Bogota",
+            "beginOffset": 18
           }
         }
       ]
     },
     {
-      "name": "New Mexico",
+      "name": "Miami",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/New_Mexico"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Miami"
       },
-      "salience": 0.1279863,
+      "salience": 0.26823252,
       "mentions": [
         {
           "text": {
-            "content": "New Mexico",
-            "beginOffset": 24
-          }
-        }
-      ]
-    },
-    {
-      "name": "Ho Chi Minh City",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Ho_Chi_Minh_City"
-      },
-      "salience": 0.10207281,
-      "mentions": [
-        {
-          "text": {
-            "content": "Ho Chi Minh City",
-            "beginOffset": 39
+            "content": "Miami",
+            "beginOffset": 41
           }
         }
       ]

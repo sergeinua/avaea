@@ -2,15 +2,21 @@
   "sentences": [
     {
       "text": {
-        "content": "Ticket from Juno, Alaska to Augusta, Georgia, September 20 through September 23",
+        "content": "Ft.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Lauderdale, Florida to St.Peterburg, Russia, leave now return two weeks later.",
+        "beginOffset": 4
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "Ticket",
+        "content": "Ft",
         "beginOffset": 0
       },
       "partOfSpeech": {
@@ -20,40 +26,40 @@
         "headTokenIndex": 0,
         "label": "ROOT"
       },
-      "lemma": "Ticket"
+      "lemma": "Ft"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 7
+        "content": ".",
+        "beginOffset": 2
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
         "headTokenIndex": 0,
-        "label": "PREP"
+        "label": "P"
       },
-      "lemma": "from"
+      "lemma": "."
     },
     {
       "text": {
-        "content": "Juno",
-        "beginOffset": 12
+        "content": "Lauderdale",
+        "beginOffset": 4
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "POBJ"
+        "headTokenIndex": 11,
+        "label": "NSUBJ"
       },
-      "lemma": "Juno"
+      "lemma": "Lauderdale"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 16
+        "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "PUNCT"
@@ -66,8 +72,8 @@
     },
     {
       "text": {
-        "content": "Alaska",
-        "beginOffset": 18
+        "content": "Florida",
+        "beginOffset": 16
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -76,26 +82,40 @@
         "headTokenIndex": 2,
         "label": "APPOS"
       },
-      "lemma": "Alaska"
+      "lemma": "Florida"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 25
+        "beginOffset": 24
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Augusta",
-        "beginOffset": 28
+        "content": "St.",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "St."
+    },
+    {
+      "text": {
+        "content": "Peterburg",
+        "beginOffset": 30
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -104,182 +124,208 @@
         "headTokenIndex": 5,
         "label": "POBJ"
       },
-      "lemma": "Augusta"
+      "lemma": "Peterburg"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 35
+        "beginOffset": 39
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 7,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "Georgia",
-        "beginOffset": 37
+        "content": "Russia",
+        "beginOffset": 41
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 7,
         "label": "APPOS"
       },
-      "lemma": "Georgia"
+      "lemma": "Russia"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 44
+        "beginOffset": 47
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 11,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "September",
-        "beginOffset": 46
+        "content": "leave",
+        "beginOffset": 49
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "APPOS"
+        "headTokenIndex": 11,
+        "label": "ROOT"
       },
-      "lemma": "September"
+      "lemma": "leave"
     },
     {
       "text": {
-        "content": "20",
-        "beginOffset": 56
+        "content": "now",
+        "beginOffset": 55
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "ADV"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NUM"
+        "headTokenIndex": 11,
+        "label": "ADVMOD"
       },
-      "lemma": "20"
+      "lemma": "now"
     },
     {
       "text": {
-        "content": "through",
+        "content": "return",
         "beginOffset": 59
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "PREP"
+        "headTokenIndex": 11,
+        "label": "DEP"
       },
-      "lemma": "through"
+      "lemma": "return"
     },
     {
       "text": {
-        "content": "September",
-        "beginOffset": 67
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "POBJ"
-      },
-      "lemma": "September"
-    },
-    {
-      "text": {
-        "content": "23",
-        "beginOffset": 77
+        "content": "two",
+        "beginOffset": 66
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 15,
         "label": "NUM"
       },
-      "lemma": "23"
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 76
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Juno",
+      "name": "Lauderdale",
       "type": "PERSON",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Juneau,_Alaska"
-      },
-      "salience": 0.14790802,
+      "metadata": {},
+      "salience": 0.59073162,
       "mentions": [
         {
           "text": {
-            "content": "Juno",
-            "beginOffset": 12
+            "content": "Lauderdale",
+            "beginOffset": 4
           }
         }
       ]
     },
     {
-      "name": "Alaska",
+      "name": "Florida",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Alaska"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Florida"
       },
-      "salience": 0.11092728,
+      "salience": 0.16964585,
       "mentions": [
         {
           "text": {
-            "content": "Alaska",
-            "beginOffset": 18
+            "content": "Florida",
+            "beginOffset": 16
           }
         }
       ]
     },
     {
-      "name": "Augusta",
+      "name": "St.Peterburg",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Augusta,_Georgia"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Saint_Petersburg"
       },
-      "salience": 0.10545127,
+      "salience": 0.11981126,
       "mentions": [
         {
           "text": {
-            "content": "Augusta",
-            "beginOffset": 28
+            "content": "St.Peterburg",
+            "beginOffset": 27
           }
         }
       ]
     },
     {
-      "name": "Georgia",
+      "name": "Russia",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Georgia_(U.S._state)"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Russia"
       },
-      "salience": 0.088225171,
+      "salience": 0.11981126,
       "mentions": [
         {
           "text": {
-            "content": "Georgia",
-            "beginOffset": 37
+            "content": "Russia",
+            "beginOffset": 41
           }
         }
       ]

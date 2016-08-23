@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from Phoenix Arisona to Portlend Main on November 14th returning two weeks later",
+        "content": "Skiing trip from Portland, Maine to Portland, Oregon on December 20, 2017 returning two weeks later",
         "beginOffset": 0
       }
     }
@@ -10,36 +10,36 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "Skiing",
         "beginOffset": 0
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NUM"
-      },
-      "lemma": "1"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 2
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 1,
+        "label": "NN"
+      },
+      "lemma": "Skiing"
+    },
+    {
+      "text": {
+        "content": "trip",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
         "label": "NSUBJ"
       },
-      "lemma": "ticket"
+      "lemma": "trip"
     },
     {
       "text": {
         "content": "from",
-        "beginOffset": 9
+        "beginOffset": 12
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -52,22 +52,8 @@
     },
     {
       "text": {
-        "content": "Phoenix",
-        "beginOffset": 14
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "NN"
-      },
-      "lemma": "Phoenix"
-    },
-    {
-      "text": {
-        "content": "Arisona",
-        "beginOffset": 22
+        "content": "Portland",
+        "beginOffset": 17
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -76,12 +62,40 @@
         "headTokenIndex": 2,
         "label": "POBJ"
       },
-      "lemma": "Arisona"
+      "lemma": "Portland"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Maine",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "APPOS"
+      },
+      "lemma": "Maine"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 30
+        "beginOffset": 33
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -94,36 +108,50 @@
     },
     {
       "text": {
-        "content": "Portlend",
-        "beginOffset": 33
+        "content": "Portland",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "Portland"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Oregon",
+        "beginOffset": 46
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 7,
-        "label": "NN"
+        "label": "APPOS"
       },
-      "lemma": "Portlend"
-    },
-    {
-      "text": {
-        "content": "Main",
-        "beginOffset": 42
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "POBJ"
-      },
-      "lemma": "Main"
+      "lemma": "Oregon"
     },
     {
       "text": {
         "content": "on",
-        "beginOffset": 47
+        "beginOffset": 53
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -136,42 +164,70 @@
     },
     {
       "text": {
-        "content": "November",
-        "beginOffset": 50
+        "content": "December",
+        "beginOffset": 56
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 10,
-        "label": "NN"
+        "label": "POBJ"
       },
-      "lemma": "November"
+      "lemma": "December"
     },
     {
       "text": {
-        "content": "14th",
-        "beginOffset": 59
+        "content": "20",
+        "beginOffset": 65
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 8,
-        "label": "POBJ"
+        "headTokenIndex": 11,
+        "label": "NUM"
       },
-      "lemma": "14th"
+      "lemma": "20"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "2017",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NUM"
+      },
+      "lemma": "2017"
     },
     {
       "text": {
         "content": "returning",
-        "beginOffset": 64
+        "beginOffset": 74
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 15,
         "label": "ROOT"
       },
       "lemma": "return"
@@ -179,13 +235,13 @@
     {
       "text": {
         "content": "two",
-        "beginOffset": 74
+        "beginOffset": 84
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 17,
         "label": "NUM"
       },
       "lemma": "two"
@@ -193,13 +249,13 @@
     {
       "text": {
         "content": "weeks",
-        "beginOffset": 78
+        "beginOffset": 88
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
+        "headTokenIndex": 18,
         "label": "NPADVMOD"
       },
       "lemma": "week"
@@ -207,13 +263,13 @@
     {
       "text": {
         "content": "later",
-        "beginOffset": 84
+        "beginOffset": 94
       },
       "partOfSpeech": {
         "tag": "ADV"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 15,
         "label": "ADVMOD"
       },
       "lemma": "later"
@@ -221,29 +277,55 @@
   ],
   "entities": [
     {
-      "name": "Phoenix Arisona",
+      "name": "Portland",
       "type": "LOCATION",
-      "metadata": {},
-      "salience": 0.13566396,
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Portland,_Maine"
+      },
+      "salience": 0.23718897,
       "mentions": [
         {
           "text": {
-            "content": "Phoenix Arisona",
-            "beginOffset": 14
+            "content": "Portland",
+            "beginOffset": 17
+          }
+        },
+        {
+          "text": {
+            "content": "Portland",
+            "beginOffset": 36
           }
         }
       ]
     },
     {
-      "name": "Portlend Main",
-      "type": "OTHER",
-      "metadata": {},
-      "salience": 0.12917942,
+      "name": "Maine",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Maine"
+      },
+      "salience": 0.091420151,
       "mentions": [
         {
           "text": {
-            "content": "Portlend Main",
-            "beginOffset": 33
+            "content": "Maine",
+            "beginOffset": 27
+          }
+        }
+      ]
+    },
+    {
+      "name": "Oregon",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Oregon"
+      },
+      "salience": 0.086907133,
+      "mentions": [
+        {
+          "text": {
+            "content": "Oregon",
+            "beginOffset": 46
           }
         }
       ]

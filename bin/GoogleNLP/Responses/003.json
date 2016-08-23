@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "One economy ticket from Yoshkar-Ola to Paris-Orly tomorrow, return in six days.",
+        "content": "My baby sitter and I need to fly from San Francisco to Boston, leaving on March 25 and returning on April 10th.",
         "beginOffset": 0
       }
     }
@@ -10,22 +10,22 @@
   "tokens": [
     {
       "text": {
-        "content": "One",
+        "content": "My",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NUM"
+        "headTokenIndex": 2,
+        "label": "POSS"
       },
-      "lemma": "One"
+      "lemma": "My"
     },
     {
       "text": {
-        "content": "economy",
-        "beginOffset": 4
+        "content": "baby",
+        "beginOffset": 3
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -34,194 +34,222 @@
         "headTokenIndex": 2,
         "label": "NN"
       },
-      "lemma": "economy"
+      "lemma": "baby"
     },
     {
       "text": {
-        "content": "ticket",
-        "beginOffset": 12
+        "content": "sitter",
+        "beginOffset": 8
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 5,
         "label": "NSUBJ"
       },
-      "lemma": "ticket"
+      "lemma": "sitter"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 15
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 19
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "CONJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "need",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ROOT"
+      },
+      "lemma": "need"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
     },
     {
       "text": {
         "content": "from",
-        "beginOffset": 19
+        "beginOffset": 33
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 7,
         "label": "PREP"
       },
       "lemma": "from"
     },
     {
       "text": {
-        "content": "Yoshkar",
-        "beginOffset": 24
+        "content": "San",
+        "beginOffset": 38
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 10,
         "label": "NN"
       },
-      "lemma": "Yoshkar"
+      "lemma": "San"
     },
     {
       "text": {
-        "content": "-",
-        "beginOffset": 31
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "P"
-      },
-      "lemma": "-"
-    },
-    {
-      "text": {
-        "content": "Ola",
-        "beginOffset": 32
+        "content": "Francisco",
+        "beginOffset": 42
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 8,
         "label": "POBJ"
       },
-      "lemma": "Ola"
+      "lemma": "Francisco"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 36
+        "beginOffset": 52
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 7,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Paris",
-        "beginOffset": 39
+        "content": "Boston",
+        "beginOffset": 55
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NN"
-      },
-      "lemma": "Paris"
-    },
-    {
-      "text": {
-        "content": "-",
-        "beginOffset": 44
-      },
-      "partOfSpeech": {
-        "tag": "PUNCT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "P"
-      },
-      "lemma": "-"
-    },
-    {
-      "text": {
-        "content": "Orly",
-        "beginOffset": 45
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
+        "headTokenIndex": 11,
         "label": "POBJ"
       },
-      "lemma": "Orly"
-    },
-    {
-      "text": {
-        "content": "tomorrow",
-        "beginOffset": 50
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "TMOD"
-      },
-      "lemma": "tomorrow"
+      "lemma": "Boston"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 58
+        "beginOffset": 61
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 5,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "return",
-        "beginOffset": 60
+        "content": "leaving",
+        "beginOffset": 63
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "ROOT"
+        "headTokenIndex": 5,
+        "label": "DEP"
       },
-      "lemma": "return"
+      "lemma": "leave"
     },
     {
       "text": {
-        "content": "in",
-        "beginOffset": 67
+        "content": "on",
+        "beginOffset": 71
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 14,
         "label": "PREP"
       },
-      "lemma": "in"
+      "lemma": "on"
     },
     {
       "text": {
-        "content": "six",
-        "beginOffset": 70
+        "content": "March",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "POBJ"
+      },
+      "lemma": "March"
+    },
+    {
+      "text": {
+        "content": "25",
+        "beginOffset": 80
       },
       "partOfSpeech": {
         "tag": "NUM"
@@ -230,32 +258,88 @@
         "headTokenIndex": 16,
         "label": "NUM"
       },
-      "lemma": "six"
+      "lemma": "25"
     },
     {
       "text": {
-        "content": "days",
-        "beginOffset": 74
+        "content": "and",
+        "beginOffset": 83
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CONJ"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 97
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "April",
+        "beginOffset": 100
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
+        "headTokenIndex": 22,
+        "label": "NN"
+      },
+      "lemma": "April"
+    },
+    {
+      "text": {
+        "content": "10th",
+        "beginOffset": 106
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
         "label": "POBJ"
       },
-      "lemma": "day"
+      "lemma": "10th"
     },
     {
       "text": {
         "content": ".",
-        "beginOffset": 78
+        "beginOffset": 110
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 5,
         "label": "P"
       },
       "lemma": "."
@@ -263,29 +347,33 @@
   ],
   "entities": [
     {
-      "name": "Yoshkar-Ola",
-      "type": "PERSON",
-      "metadata": {},
-      "salience": 0.13850875,
+      "name": "San Francisco",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco"
+      },
+      "salience": 0.15104268,
       "mentions": [
         {
           "text": {
-            "content": "Yoshkar-Ola",
-            "beginOffset": 24
+            "content": "San Francisco",
+            "beginOffset": 38
           }
         }
       ]
     },
     {
-      "name": "Paris-Orly",
+      "name": "Boston",
       "type": "LOCATION",
-      "metadata": {},
-      "salience": 0.11091873,
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Boston"
+      },
+      "salience": 0.15104268,
       "mentions": [
         {
           "text": {
-            "content": "Paris-Orly",
-            "beginOffset": 39
+            "content": "Boston",
+            "beginOffset": 55
           }
         }
       ]

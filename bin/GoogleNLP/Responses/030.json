@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "I would like to book two tickets from San Francisco to Honolulu June 26th return July 17th",
+        "content": "I would like to fly from San Francisco to New York on June 15th returning August 25th 2016 in business class",
         "beginOffset": 0
       }
     }
@@ -66,7 +66,7 @@
     },
     {
       "text": {
-        "content": "book",
+        "content": "fly",
         "beginOffset": 16
       },
       "partOfSpeech": {
@@ -76,46 +76,18 @@
         "headTokenIndex": 2,
         "label": "XCOMP"
       },
-      "lemma": "book"
-    },
-    {
-      "text": {
-        "content": "two",
-        "beginOffset": 21
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NUM"
-      },
-      "lemma": "two"
-    },
-    {
-      "text": {
-        "content": "tickets",
-        "beginOffset": 25
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "DOBJ"
-      },
-      "lemma": "ticket"
+      "lemma": "fly"
     },
     {
       "text": {
         "content": "from",
-        "beginOffset": 33
+        "beginOffset": 20
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 4,
         "label": "PREP"
       },
       "lemma": "from"
@@ -123,13 +95,13 @@
     {
       "text": {
         "content": "San",
-        "beginOffset": 38
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
+        "headTokenIndex": 7,
         "label": "NN"
       },
       "lemma": "San"
@@ -137,13 +109,13 @@
     {
       "text": {
         "content": "Francisco",
-        "beginOffset": 42
+        "beginOffset": 29
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
+        "headTokenIndex": 5,
         "label": "POBJ"
       },
       "lemma": "Francisco"
@@ -151,7 +123,7 @@
     {
       "text": {
         "content": "to",
-        "beginOffset": 52
+        "beginOffset": 39
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -164,22 +136,50 @@
     },
     {
       "text": {
-        "content": "Honolulu",
-        "beginOffset": 55
+        "content": "New",
+        "beginOffset": 42
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "New"
+    },
+    {
+      "text": {
+        "content": "York",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
         "label": "POBJ"
       },
-      "lemma": "Honolulu"
+      "lemma": "York"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "on"
     },
     {
       "text": {
         "content": "June",
-        "beginOffset": 64
+        "beginOffset": 54
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -192,21 +192,35 @@
     },
     {
       "text": {
-        "content": "26th",
-        "beginOffset": 69
+        "content": "15th",
+        "beginOffset": 59
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "NN"
+        "headTokenIndex": 11,
+        "label": "POBJ"
       },
-      "lemma": "26th"
+      "lemma": "15th"
     },
     {
       "text": {
-        "content": "return",
+        "content": "returning",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "XCOMP"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "August",
         "beginOffset": 74
       },
       "partOfSpeech": {
@@ -216,35 +230,77 @@
         "headTokenIndex": 16,
         "label": "NN"
       },
-      "lemma": "return"
+      "lemma": "August"
     },
     {
       "text": {
-        "content": "July",
+        "content": "25th",
         "beginOffset": 81
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "NN"
+        "headTokenIndex": 14,
+        "label": "DOBJ"
       },
-      "lemma": "July"
+      "lemma": "25th"
     },
     {
       "text": {
-        "content": "17th",
+        "content": "2016",
         "beginOffset": 86
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "2016"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 91
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "business",
+        "beginOffset": 94
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "TMOD"
+        "headTokenIndex": 20,
+        "label": "NN"
       },
-      "lemma": "17th"
+      "lemma": "business"
+    },
+    {
+      "text": {
+        "content": "class",
+        "beginOffset": 103
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "POBJ"
+      },
+      "lemma": "class"
     }
   ],
   "entities": [
@@ -252,30 +308,30 @@
       "name": "San Francisco",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
       },
-      "salience": 0.18663613,
+      "salience": 0.340107,
       "mentions": [
         {
           "text": {
             "content": "San Francisco",
-            "beginOffset": 38
+            "beginOffset": 25
           }
         }
       ]
     },
     {
-      "name": "Honolulu",
+      "name": "New York",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Honolulu"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/New_York_City"
       },
-      "salience": 0.059945084,
+      "salience": 0.32353136,
       "mentions": [
         {
           "text": {
-            "content": "Honolulu",
-            "beginOffset": 55
+            "content": "New York",
+            "beginOffset": 42
           }
         }
       ]

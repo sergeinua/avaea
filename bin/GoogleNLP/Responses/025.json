@@ -2,8 +2,14 @@
   "sentences": [
     {
       "text": {
-        "content": "I would like to fly from San Francisco to New York on June 15th returning August 25th 2016 in business class",
+        "content": "I am in Paris.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Need to fly to Nice.",
+        "beginOffset": 15
       }
     }
   ],
@@ -17,49 +23,91 @@
         "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 1,
         "label": "NSUBJ"
       },
       "lemma": "I"
     },
     {
       "text": {
-        "content": "would",
+        "content": "am",
         "beginOffset": 2
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "AUX"
+        "headTokenIndex": 1,
+        "label": "ROOT"
       },
-      "lemma": "would"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "like",
+        "content": "in",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "Paris",
         "beginOffset": 8
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Paris"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Need",
+        "beginOffset": 15
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 5,
         "label": "ROOT"
       },
-      "lemma": "like"
+      "lemma": "Need"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 13
+        "beginOffset": 20
       },
       "partOfSpeech": {
         "tag": "PRT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
+        "headTokenIndex": 7,
         "label": "AUX"
       },
       "lemma": "to"
@@ -67,91 +115,35 @@
     {
       "text": {
         "content": "fly",
-        "beginOffset": 16
+        "beginOffset": 23
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 5,
         "label": "XCOMP"
       },
       "lemma": "fly"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 20
+        "content": "to",
+        "beginOffset": 27
       },
       "partOfSpeech": {
         "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "San",
-        "beginOffset": 25
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 7,
-        "label": "NN"
-      },
-      "lemma": "San"
-    },
-    {
-      "text": {
-        "content": "Francisco",
-        "beginOffset": 29
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "POBJ"
-      },
-      "lemma": "Francisco"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 39
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "New",
-        "beginOffset": 42
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 10,
-        "label": "NN"
-      },
-      "lemma": "New"
-    },
-    {
-      "text": {
-        "content": "York",
-        "beginOffset": 46
+        "content": "Nice",
+        "beginOffset": 30
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -160,178 +152,52 @@
         "headTokenIndex": 8,
         "label": "POBJ"
       },
-      "lemma": "York"
+      "lemma": "Nice"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 51
+        "content": ".",
+        "beginOffset": 34
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "PREP"
+        "headTokenIndex": 5,
+        "label": "P"
       },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "June",
-        "beginOffset": 54
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 13,
-        "label": "NN"
-      },
-      "lemma": "June"
-    },
-    {
-      "text": {
-        "content": "15th",
-        "beginOffset": 59
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "POBJ"
-      },
-      "lemma": "15th"
-    },
-    {
-      "text": {
-        "content": "returning",
-        "beginOffset": 64
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "XCOMP"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "August",
-        "beginOffset": 74
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "NN"
-      },
-      "lemma": "August"
-    },
-    {
-      "text": {
-        "content": "25th",
-        "beginOffset": 81
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "DOBJ"
-      },
-      "lemma": "25th"
-    },
-    {
-      "text": {
-        "content": "2016",
-        "beginOffset": 86
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 16,
-        "label": "NUM"
-      },
-      "lemma": "2016"
-    },
-    {
-      "text": {
-        "content": "in",
-        "beginOffset": 91
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "PREP"
-      },
-      "lemma": "in"
-    },
-    {
-      "text": {
-        "content": "business",
-        "beginOffset": 94
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 20,
-        "label": "NN"
-      },
-      "lemma": "business"
-    },
-    {
-      "text": {
-        "content": "class",
-        "beginOffset": 103
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "POBJ"
-      },
-      "lemma": "class"
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "San Francisco",
+      "name": "Paris",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
       },
-      "salience": 0.340107,
+      "salience": 0.67413485,
       "mentions": [
         {
           "text": {
-            "content": "San Francisco",
-            "beginOffset": 25
+            "content": "Paris",
+            "beginOffset": 8
           }
         }
       ]
     },
     {
-      "name": "New York",
-      "type": "LOCATION",
+      "name": "Nice",
+      "type": "ORGANIZATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/New_York_City"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Nice"
       },
-      "salience": 0.32353136,
+      "salience": 0.32586515,
       "mentions": [
         {
           "text": {
-            "content": "New York",
-            "beginOffset": 42
+            "content": "Nice",
+            "beginOffset": 30
           }
         }
       ]

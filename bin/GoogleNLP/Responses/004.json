@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
+        "content": "I need to fly to Wichita with my parents next week.",
         "beginOffset": 0
       }
     }
@@ -10,112 +10,98 @@
   "tokens": [
     {
       "text": {
-        "content": "Fly",
+        "content": "I",
         "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "need",
+        "beginOffset": 2
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 1,
         "label": "ROOT"
       },
-      "lemma": "Fly"
-    },
-    {
-      "text": {
-        "content": "from",
-        "beginOffset": 4
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "Amsterdam",
-        "beginOffset": 9
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "POBJ"
-      },
-      "lemma": "Amsterdam"
+      "lemma": "need"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 19
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 3,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "Petit",
-        "beginOffset": 22
+        "content": "Wichita",
+        "beginOffset": 17
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NN"
-      },
-      "lemma": "Petit"
-    },
-    {
-      "text": {
-        "content": "St.",
-        "beginOffset": 28
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "NN"
-      },
-      "lemma": "St."
-    },
-    {
-      "text": {
-        "content": "Vincent",
-        "beginOffset": 32
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 4,
         "label": "POBJ"
       },
-      "lemma": "Vincent"
+      "lemma": "Wichita"
     },
     {
       "text": {
         "content": "with",
-        "beginOffset": 40
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 3,
         "label": "PREP"
       },
       "lemma": "with"
@@ -123,73 +109,87 @@
     {
       "text": {
         "content": "my",
-        "beginOffset": 45
+        "beginOffset": 30
       },
       "partOfSpeech": {
         "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
+        "headTokenIndex": 8,
         "label": "POSS"
       },
       "lemma": "my"
     },
     {
       "text": {
-        "content": "girlfriend",
-        "beginOffset": 48
+        "content": "parents",
+        "beginOffset": 33
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
+        "headTokenIndex": 6,
         "label": "POBJ"
       },
-      "lemma": "girlfriend"
+      "lemma": "parent"
     },
     {
       "text": {
-        "content": "today",
-        "beginOffset": 59
+        "content": "next",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 46
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 3,
         "label": "TMOD"
       },
-      "lemma": "today"
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Amsterdam",
+      "name": "Wichita",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Amsterdam"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Wichita,_Kansas"
       },
-      "salience": 0.36076865,
+      "salience": 0.6854642,
       "mentions": [
         {
           "text": {
-            "content": "Amsterdam",
-            "beginOffset": 9
-          }
-        }
-      ]
-    },
-    {
-      "name": "Petit St. Vincent",
-      "type": "LOCATION",
-      "metadata": {},
-      "salience": 0.21674916,
-      "mentions": [
-        {
-          "text": {
-            "content": "Petit St. Vincent",
-            "beginOffset": 22
+            "content": "Wichita",
+            "beginOffset": 17
           }
         }
       ]

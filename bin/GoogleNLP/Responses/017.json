@@ -2,186 +2,266 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from SFO to Pt.",
+        "content": "How much is a Kiev-Moscow one-way ticket two weeks from now?",
         "beginOffset": 0
-      }
-    },
-    {
-      "text": {
-        "content": "Hope tomorrow",
-        "beginOffset": 25
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "How",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "ADV"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NUM"
+        "label": "ADVMOD"
       },
-      "lemma": "1"
+      "lemma": "How"
     },
     {
       "text": {
-        "content": "ticket",
-        "beginOffset": 2
+        "content": "much",
+        "beginOffset": 4
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "ADJ"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "ROOT"
+        "headTokenIndex": 2,
+        "label": "ATTR"
       },
-      "lemma": "ticket"
+      "lemma": "much"
     },
     {
       "text": {
-        "content": "from",
+        "content": "is",
         "beginOffset": 9
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
+        "headTokenIndex": 2,
+        "label": "ROOT"
       },
-      "lemma": "from"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "SFO",
+        "content": "a",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "Kiev",
         "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "POBJ"
+        "headTokenIndex": 6,
+        "label": "NN"
       },
-      "lemma": "SFO"
+      "lemma": "Kiev"
     },
     {
       "text": {
-        "content": "to",
+        "content": "-",
         "beginOffset": 18
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "Pt",
-        "beginOffset": 21
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "POBJ"
-      },
-      "lemma": "Pt"
-    },
-    {
-      "text": {
-        "content": ".",
-        "beginOffset": 23
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 6,
         "label": "P"
       },
-      "lemma": "."
+      "lemma": "-"
     },
     {
       "text": {
-        "content": "Hope",
-        "beginOffset": 25
+        "content": "Moscow",
+        "beginOffset": 19
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "ROOT"
+        "headTokenIndex": 10,
+        "label": "NN"
       },
-      "lemma": "Hope"
+      "lemma": "Moscow"
     },
     {
       "text": {
-        "content": "tomorrow",
+        "content": "one",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NUM"
+      },
+      "lemma": "one"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "way",
         "beginOffset": 30
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "way"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
         "label": "TMOD"
       },
-      "lemma": "tomorrow"
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "now",
+        "beginOffset": 56
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "now"
+    },
+    {
+      "text": {
+        "content": "?",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": "?"
     }
   ],
   "entities": [
     {
-      "name": "SFO",
-      "type": "ORGANIZATION",
+      "name": "Kiev",
+      "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Kiev"
       },
-      "salience": 0.14359209,
+      "salience": 0.33410391,
       "mentions": [
         {
           "text": {
-            "content": "SFO",
+            "content": "Kiev",
             "beginOffset": 14
           }
         }
       ]
     },
     {
-      "name": "Pt",
-      "type": "OTHER",
-      "metadata": {},
-      "salience": 0.11451887,
+      "name": "Moscow",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Moscow"
+      },
+      "salience": 0.25335458,
       "mentions": [
         {
           "text": {
-            "content": "Pt",
-            "beginOffset": 21
-          }
-        }
-      ]
-    },
-    {
-      "name": "Hope",
-      "type": "OTHER",
-      "metadata": {},
-      "salience": 0.068677947,
-      "mentions": [
-        {
-          "text": {
-            "content": "Hope",
-            "beginOffset": 25
+            "content": "Moscow",
+            "beginOffset": 19
           }
         }
       ]

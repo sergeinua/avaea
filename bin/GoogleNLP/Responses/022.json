@@ -2,39 +2,31 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from Detroit Michigan to Tampa Florida on November 14th returning two weeks later",
+        "content": "Students from Kalamazoo, MI are flying on a school trip to Mexico City.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "April 3 to April 17.",
+        "beginOffset": 72
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "Students",
         "beginOffset": 0
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "NUM"
-      },
-      "lemma": "1"
-    },
-    {
-      "text": {
-        "content": "ticket",
-        "beginOffset": 2
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 6,
         "label": "NSUBJ"
       },
-      "lemma": "ticket"
+      "lemma": "student"
     },
     {
       "text": {
@@ -45,99 +37,113 @@
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 0,
         "label": "PREP"
       },
       "lemma": "from"
     },
     {
       "text": {
-        "content": "Detroit",
+        "content": "Kalamazoo",
         "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "NN"
+        "headTokenIndex": 1,
+        "label": "POBJ"
       },
-      "lemma": "Detroit"
+      "lemma": "Kalamazoo"
     },
     {
       "text": {
-        "content": "Michigan",
-        "beginOffset": 22
+        "content": ",",
+        "beginOffset": 23
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "MI",
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
-        "label": "POBJ"
+        "label": "APPOS"
       },
-      "lemma": "Michigan"
+      "lemma": "MI"
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 31
+        "content": "are",
+        "beginOffset": 28
       },
       "partOfSpeech": {
-        "tag": "ADP"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
+        "headTokenIndex": 6,
+        "label": "AUX"
       },
-      "lemma": "to"
+      "lemma": "be"
     },
     {
       "text": {
-        "content": "Tampa",
-        "beginOffset": 34
+        "content": "flying",
+        "beginOffset": 32
       },
       "partOfSpeech": {
-        "tag": "NOUN"
+        "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "NN"
+        "headTokenIndex": 6,
+        "label": "ROOT"
       },
-      "lemma": "Tampa"
-    },
-    {
-      "text": {
-        "content": "Florida",
-        "beginOffset": 40
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "POBJ"
-      },
-      "lemma": "Florida"
+      "lemma": "fly"
     },
     {
       "text": {
         "content": "on",
-        "beginOffset": 48
+        "beginOffset": 39
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 6,
         "label": "PREP"
       },
       "lemma": "on"
     },
     {
       "text": {
-        "content": "November",
-        "beginOffset": 51
+        "content": "a",
+        "beginOffset": 42
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "school",
+        "beginOffset": 44
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -146,108 +152,208 @@
         "headTokenIndex": 10,
         "label": "NN"
       },
-      "lemma": "November"
+      "lemma": "school"
     },
     {
       "text": {
-        "content": "14th",
-        "beginOffset": 60
+        "content": "trip",
+        "beginOffset": 51
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 8,
+        "headTokenIndex": 7,
         "label": "POBJ"
       },
-      "lemma": "14th"
+      "lemma": "trip"
     },
     {
       "text": {
-        "content": "returning",
-        "beginOffset": 65
+        "content": "to",
+        "beginOffset": 56
       },
       "partOfSpeech": {
-        "tag": "VERB"
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Mexico",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "Mexico"
+    },
+    {
+      "text": {
+        "content": "City",
+        "beginOffset": 66
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 11,
-        "label": "ROOT"
+        "label": "POBJ"
       },
-      "lemma": "return"
+      "lemma": "City"
     },
     {
       "text": {
-        "content": "two",
-        "beginOffset": 75
+        "content": ".",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "April",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "ROOT"
+      },
+      "lemma": "April"
+    },
+    {
+      "text": {
+        "content": "3",
+        "beginOffset": 78
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 13,
+        "headTokenIndex": 15,
         "label": "NUM"
       },
-      "lemma": "two"
+      "lemma": "3"
     },
     {
       "text": {
-        "content": "weeks",
-        "beginOffset": 79
+        "content": "to",
+        "beginOffset": 80
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "April",
+        "beginOffset": 83
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "NPADVMOD"
+        "headTokenIndex": 17,
+        "label": "POBJ"
       },
-      "lemma": "week"
+      "lemma": "April"
     },
     {
       "text": {
-        "content": "later",
-        "beginOffset": 85
+        "content": "17",
+        "beginOffset": 89
       },
       "partOfSpeech": {
-        "tag": "ADV"
+        "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "ADVMOD"
+        "headTokenIndex": 18,
+        "label": "NUM"
       },
-      "lemma": "later"
+      "lemma": "17"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 91
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "P"
+      },
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "Detroit Michigan",
+      "name": "Kalamazoo",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Detroit"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Kalamazoo,_Michigan"
       },
-      "salience": 0.13566396,
+      "salience": 0.27539906,
       "mentions": [
         {
           "text": {
-            "content": "Detroit Michigan",
+            "content": "Kalamazoo",
             "beginOffset": 14
           }
         }
       ]
     },
     {
-      "name": "Tampa Florida",
+      "name": "MI",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Tampa,_Florida"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Michigan"
       },
-      "salience": 0.12917942,
+      "salience": 0.11194669,
       "mentions": [
         {
           "text": {
-            "content": "Tampa Florida",
-            "beginOffset": 34
+            "content": "MI",
+            "beginOffset": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "Mexico City",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Mexico_City"
+      },
+      "salience": 0.066774711,
+      "mentions": [
+        {
+          "text": {
+            "content": "Mexico City",
+            "beginOffset": 59
           }
         }
       ]

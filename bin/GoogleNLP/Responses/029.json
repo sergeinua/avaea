@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "From SFO to JFK next week, returning October 10",
+        "content": "Ticket from Juno, Alaska to Augusta, Georgia, September 20 through September 23",
         "beginOffset": 0
       }
     }
@@ -10,36 +10,78 @@
   "tokens": [
     {
       "text": {
-        "content": "From",
+        "content": "Ticket",
         "beginOffset": 0
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "ROOT"
-      },
-      "lemma": "From"
-    },
-    {
-      "text": {
-        "content": "SFO",
-        "beginOffset": 5
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "Ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Juno",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
         "label": "POBJ"
       },
-      "lemma": "SFO"
+      "lemma": "Juno"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Alaska",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "APPOS"
+      },
+      "lemma": "Alaska"
     },
     {
       "text": {
         "content": "to",
-        "beginOffset": 9
+        "beginOffset": 25
       },
       "partOfSpeech": {
         "tag": "ADP"
@@ -52,132 +94,192 @@
     },
     {
       "text": {
-        "content": "JFK",
-        "beginOffset": 12
+        "content": "Augusta",
+        "beginOffset": 28
       },
       "partOfSpeech": {
         "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "POBJ"
-      },
-      "lemma": "JFK"
-    },
-    {
-      "text": {
-        "content": "next",
-        "beginOffset": 16
-      },
-      "partOfSpeech": {
-        "tag": "ADJ"
       },
       "dependencyEdge": {
         "headTokenIndex": 5,
-        "label": "AMOD"
+        "label": "POBJ"
       },
-      "lemma": "next"
-    },
-    {
-      "text": {
-        "content": "week",
-        "beginOffset": 21
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "TMOD"
-      },
-      "lemma": "week"
+      "lemma": "Augusta"
     },
     {
       "text": {
         "content": ",",
-        "beginOffset": 25
+        "beginOffset": 35
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 0,
+        "headTokenIndex": 6,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "returning",
-        "beginOffset": 27
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 0,
-        "label": "VMOD"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "October",
+        "content": "Georgia",
         "beginOffset": 37
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "TMOD"
+        "headTokenIndex": 6,
+        "label": "APPOS"
       },
-      "lemma": "October"
+      "lemma": "Georgia"
     },
     {
       "text": {
-        "content": "10",
-        "beginOffset": 45
+        "content": ",",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "September",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "APPOS"
+      },
+      "lemma": "September"
+    },
+    {
+      "text": {
+        "content": "20",
+        "beginOffset": 56
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 8,
+        "headTokenIndex": 10,
         "label": "NUM"
       },
-      "lemma": "10"
+      "lemma": "20"
+    },
+    {
+      "text": {
+        "content": "through",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "through"
+    },
+    {
+      "text": {
+        "content": "September",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "POBJ"
+      },
+      "lemma": "September"
+    },
+    {
+      "text": {
+        "content": "23",
+        "beginOffset": 77
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NUM"
+      },
+      "lemma": "23"
     }
   ],
   "entities": [
     {
-      "name": "SFO",
-      "type": "ORGANIZATION",
+      "name": "Juno",
+      "type": "PERSON",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Juneau,_Alaska"
       },
-      "salience": 0.74038529,
+      "salience": 0.14790802,
       "mentions": [
         {
           "text": {
-            "content": "SFO",
-            "beginOffset": 5
+            "content": "Juno",
+            "beginOffset": 12
           }
         }
       ]
     },
     {
-      "name": "JFK",
-      "type": "ORGANIZATION",
+      "name": "Alaska",
+      "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Alaska"
       },
-      "salience": 0.25961471,
+      "salience": 0.11092728,
       "mentions": [
         {
           "text": {
-            "content": "JFK",
-            "beginOffset": 12
+            "content": "Alaska",
+            "beginOffset": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "Augusta",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Augusta,_Georgia"
+      },
+      "salience": 0.10545127,
+      "mentions": [
+        {
+          "text": {
+            "content": "Augusta",
+            "beginOffset": 28
+          }
+        }
+      ]
+    },
+    {
+      "name": "Georgia",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Georgia_(U.S._state)"
+      },
+      "salience": 0.088225171,
+      "mentions": [
+        {
+          "text": {
+            "content": "Georgia",
+            "beginOffset": 37
           }
         }
       ]

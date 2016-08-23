@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "I'm flying from San Jose to New York on the 1st of August returning on the 10th of August",
+        "content": "I need to fly to London on Friday",
         "beginOffset": 0
       }
     }
@@ -17,113 +17,99 @@
         "tag": "PRON"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
+        "headTokenIndex": 1,
         "label": "NSUBJ"
       },
       "lemma": "I"
     },
     {
       "text": {
-        "content": "'m",
-        "beginOffset": 1
+        "content": "need",
+        "beginOffset": 2
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "AUX"
+        "headTokenIndex": 1,
+        "label": "ROOT"
       },
-      "lemma": "be"
+      "lemma": "need"
     },
     {
       "text": {
-        "content": "flying",
-        "beginOffset": 4
+        "content": "to",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 10
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "ROOT"
+        "headTokenIndex": 1,
+        "label": "XCOMP"
       },
       "lemma": "fly"
     },
     {
       "text": {
-        "content": "from",
-        "beginOffset": 11
+        "content": "to",
+        "beginOffset": 14
       },
       "partOfSpeech": {
         "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "San",
-        "beginOffset": 16
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 5,
-        "label": "NN"
-      },
-      "lemma": "San"
-    },
-    {
-      "text": {
-        "content": "Jose",
-        "beginOffset": 20
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 3,
-        "label": "POBJ"
-      },
-      "lemma": "Jose"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 25
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
         "label": "PREP"
       },
       "lemma": "to"
     },
     {
       "text": {
-        "content": "New",
-        "beginOffset": 28
+        "content": "London",
+        "beginOffset": 17
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 8,
-        "label": "NN"
+        "headTokenIndex": 4,
+        "label": "POBJ"
       },
-      "lemma": "New"
+      "lemma": "London"
     },
     {
       "text": {
-        "content": "York",
-        "beginOffset": 32
+        "content": "on",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "Friday",
+        "beginOffset": 27
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -132,192 +118,22 @@
         "headTokenIndex": 6,
         "label": "POBJ"
       },
-      "lemma": "York"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 37
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 2,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "the",
-        "beginOffset": 40
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "DET"
-      },
-      "lemma": "the"
-    },
-    {
-      "text": {
-        "content": "1st",
-        "beginOffset": 44
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 9,
-        "label": "POBJ"
-      },
-      "lemma": "1st"
-    },
-    {
-      "text": {
-        "content": "of",
-        "beginOffset": 48
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "PREP"
-      },
-      "lemma": "of"
-    },
-    {
-      "text": {
-        "content": "August",
-        "beginOffset": 51
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "POBJ"
-      },
-      "lemma": "August"
-    },
-    {
-      "text": {
-        "content": "returning",
-        "beginOffset": 58
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 11,
-        "label": "VMOD"
-      },
-      "lemma": "return"
-    },
-    {
-      "text": {
-        "content": "on",
-        "beginOffset": 68
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 14,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "the",
-        "beginOffset": 71
-      },
-      "partOfSpeech": {
-        "tag": "DET"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 17,
-        "label": "DET"
-      },
-      "lemma": "the"
-    },
-    {
-      "text": {
-        "content": "10th",
-        "beginOffset": 75
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 15,
-        "label": "POBJ"
-      },
-      "lemma": "10th"
-    },
-    {
-      "text": {
-        "content": "of",
-        "beginOffset": 80
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 17,
-        "label": "PREP"
-      },
-      "lemma": "of"
-    },
-    {
-      "text": {
-        "content": "August",
-        "beginOffset": 83
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 18,
-        "label": "POBJ"
-      },
-      "lemma": "August"
+      "lemma": "Friday"
     }
   ],
   "entities": [
     {
-      "name": "San Jose",
+      "name": "London",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Jose,_California"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
       },
-      "salience": 0.58069831,
+      "salience": 1,
       "mentions": [
         {
           "text": {
-            "content": "San Jose",
-            "beginOffset": 16
-          }
-        }
-      ]
-    },
-    {
-      "name": "New York",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/New_York_City"
-      },
-      "salience": 0.41930169,
-      "mentions": [
-        {
-          "text": {
-            "content": "New York",
-            "beginOffset": 28
+            "content": "London",
+            "beginOffset": 17
           }
         }
       ]

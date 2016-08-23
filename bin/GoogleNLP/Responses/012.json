@@ -2,67 +2,51 @@
   "sentences": [
     {
       "text": {
-        "content": "I want to fly from San Jose 2 Oregon on the 1st of August",
+        "content": "Vacation trip from Toronto to Cabo San Lucas on December 13.",
         "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Flying back on the 2nd.",
+        "beginOffset": 61
+      }
+    },
+    {
+      "text": {
+        "content": "I will travel with a body guard.",
+        "beginOffset": 85
       }
     }
   ],
   "tokens": [
     {
       "text": {
-        "content": "I",
+        "content": "Vacation",
         "beginOffset": 0
       },
       "partOfSpeech": {
-        "tag": "PRON"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
-        "label": "NSUBJ"
+        "label": "NN"
       },
-      "lemma": "I"
+      "lemma": "Vacation"
     },
     {
       "text": {
-        "content": "want",
-        "beginOffset": 2
+        "content": "trip",
+        "beginOffset": 9
       },
       "partOfSpeech": {
-        "tag": "VERB"
+        "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 1,
         "label": "ROOT"
       },
-      "lemma": "want"
-    },
-    {
-      "text": {
-        "content": "to",
-        "beginOffset": 7
-      },
-      "partOfSpeech": {
-        "tag": "PRT"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 3,
-        "label": "AUX"
-      },
-      "lemma": "to"
-    },
-    {
-      "text": {
-        "content": "fly",
-        "beginOffset": 10
-      },
-      "partOfSpeech": {
-        "tag": "VERB"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "XCOMP"
-      },
-      "lemma": "fly"
+      "lemma": "trip"
     },
     {
       "text": {
@@ -73,57 +57,71 @@
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 1,
         "label": "PREP"
       },
       "lemma": "from"
     },
     {
       "text": {
-        "content": "San",
+        "content": "Toronto",
         "beginOffset": 19
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 6,
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Toronto"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Cabo",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "Cabo"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 35
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
         "label": "NN"
       },
       "lemma": "San"
     },
     {
       "text": {
-        "content": "Jose",
-        "beginOffset": 23
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 8,
-        "label": "NN"
-      },
-      "lemma": "Jose"
-    },
-    {
-      "text": {
-        "content": "2",
-        "beginOffset": 28
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 8,
-        "label": "NUM"
-      },
-      "lemma": "2"
-    },
-    {
-      "text": {
-        "content": "Oregon",
-        "beginOffset": 30
+        "content": "Lucas",
+        "beginOffset": 39
       },
       "partOfSpeech": {
         "tag": "NOUN"
@@ -132,18 +130,102 @@
         "headTokenIndex": 4,
         "label": "POBJ"
       },
-      "lemma": "Oregon"
+      "lemma": "Lucas"
     },
     {
       "text": {
         "content": "on",
-        "beginOffset": 37
+        "beginOffset": 45
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 3,
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "December",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "December"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 57
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Flying",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "ROOT"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "back",
+        "beginOffset": 68
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "ADVMOD"
+      },
+      "lemma": "back"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 73
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
         "label": "PREP"
       },
       "lemma": "on"
@@ -151,88 +233,186 @@
     {
       "text": {
         "content": "the",
-        "beginOffset": 40
+        "beginOffset": 76
       },
       "partOfSpeech": {
         "tag": "DET"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 16,
         "label": "DET"
       },
       "lemma": "the"
     },
     {
       "text": {
-        "content": "1st",
-        "beginOffset": 44
+        "content": "2nd",
+        "beginOffset": 80
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 9,
+        "headTokenIndex": 14,
         "label": "POBJ"
       },
-      "lemma": "1st"
+      "lemma": "2nd"
     },
     {
       "text": {
-        "content": "of",
-        "beginOffset": 48
+        "content": ".",
+        "beginOffset": 83
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 85
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "will",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "AUX"
+      },
+      "lemma": "will"
+    },
+    {
+      "text": {
+        "content": "travel",
+        "beginOffset": 92
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "ROOT"
+      },
+      "lemma": "travel"
+    },
+    {
+      "text": {
+        "content": "with",
+        "beginOffset": 99
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 20,
         "label": "PREP"
       },
-      "lemma": "of"
+      "lemma": "with"
     },
     {
       "text": {
-        "content": "August",
-        "beginOffset": 51
+        "content": "a",
+        "beginOffset": 104
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 24,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "body",
+        "beginOffset": 106
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 12,
+        "headTokenIndex": 24,
+        "label": "NN"
+      },
+      "lemma": "body"
+    },
+    {
+      "text": {
+        "content": "guard",
+        "beginOffset": 111
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
         "label": "POBJ"
       },
-      "lemma": "August"
+      "lemma": "guard"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 116
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "P"
+      },
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "San Jose",
+      "name": "Toronto",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Jose,_California"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Toronto"
       },
-      "salience": 0.54318148,
+      "salience": 0.33843291,
       "mentions": [
         {
           "text": {
-            "content": "San Jose",
+            "content": "Toronto",
             "beginOffset": 19
           }
         }
       ]
     },
     {
-      "name": "Oregon",
+      "name": "Cabo San Lucas",
       "type": "LOCATION",
       "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Oregon"
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Cabo_San_Lucas"
       },
-      "salience": 0.45681855,
+      "salience": 0.10317347,
       "mentions": [
         {
           "text": {
-            "content": "Oregon",
+            "content": "Cabo San Lucas",
             "beginOffset": 30
           }
         }

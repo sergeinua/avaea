@@ -2,7 +2,7 @@
   "sentences": [
     {
       "text": {
-        "content": "1 ticket from London to Paris on 13.10.2016, returning on 13.01.2017",
+        "content": "One economy ticket from Yoshkar-Ola to Paris-Orly tomorrow, return in six days.",
         "beginOffset": 0
       }
     }
@@ -10,7 +10,7 @@
   "tokens": [
     {
       "text": {
-        "content": "1",
+        "content": "One",
         "beginOffset": 0
       },
       "partOfSpeech": {
@@ -20,60 +20,102 @@
         "headTokenIndex": 1,
         "label": "NUM"
       },
-      "lemma": "1"
+      "lemma": "One"
     },
     {
       "text": {
-        "content": "ticket",
-        "beginOffset": 2
-      },
-      "partOfSpeech": {
-        "tag": "NOUN"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "ROOT"
-      },
-      "lemma": "ticket"
-    },
-    {
-      "text": {
-        "content": "from",
-        "beginOffset": 9
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "from"
-    },
-    {
-      "text": {
-        "content": "London",
-        "beginOffset": 14
+        "content": "economy",
+        "beginOffset": 4
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
         "headTokenIndex": 2,
-        "label": "POBJ"
+        "label": "NN"
       },
-      "lemma": "London"
+      "lemma": "economy"
     },
     {
       "text": {
-        "content": "to",
-        "beginOffset": 21
+        "content": "ticket",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 19
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Yoshkar",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Yoshkar"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Ola",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Ola"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
         "label": "PREP"
       },
       "lemma": "to"
@@ -81,159 +123,169 @@
     {
       "text": {
         "content": "Paris",
-        "beginOffset": 24
+        "beginOffset": 39
       },
       "partOfSpeech": {
         "tag": "NOUN"
       },
       "dependencyEdge": {
-        "headTokenIndex": 4,
-        "label": "POBJ"
+        "headTokenIndex": 10,
+        "label": "NN"
       },
       "lemma": "Paris"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 30
-      },
-      "partOfSpeech": {
-        "tag": "ADP"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "PREP"
-      },
-      "lemma": "on"
-    },
-    {
-      "text": {
-        "content": "13.10.",
-        "beginOffset": 33
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 6,
-        "label": "POBJ"
-      },
-      "lemma": "13.10."
-    },
-    {
-      "text": {
-        "content": "2016",
-        "beginOffset": 39
-      },
-      "partOfSpeech": {
-        "tag": "NUM"
-      },
-      "dependencyEdge": {
-        "headTokenIndex": 7,
-        "label": "NUM"
-      },
-      "lemma": "2016"
-    },
-    {
-      "text": {
-        "content": ",",
-        "beginOffset": 43
+        "content": "-",
+        "beginOffset": 44
       },
       "partOfSpeech": {
         "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
+        "headTokenIndex": 10,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Orly",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Orly"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "TMOD"
+      },
+      "lemma": "tomorrow"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
         "label": "P"
       },
       "lemma": ","
     },
     {
       "text": {
-        "content": "returning",
-        "beginOffset": 45
+        "content": "return",
+        "beginOffset": 60
       },
       "partOfSpeech": {
         "tag": "VERB"
       },
       "dependencyEdge": {
-        "headTokenIndex": 1,
-        "label": "VMOD"
+        "headTokenIndex": 13,
+        "label": "ROOT"
       },
       "lemma": "return"
     },
     {
       "text": {
-        "content": "on",
-        "beginOffset": 55
+        "content": "in",
+        "beginOffset": 67
       },
       "partOfSpeech": {
         "tag": "ADP"
       },
       "dependencyEdge": {
-        "headTokenIndex": 10,
+        "headTokenIndex": 13,
         "label": "PREP"
       },
-      "lemma": "on"
+      "lemma": "in"
     },
     {
       "text": {
-        "content": "13.01.",
-        "beginOffset": 58
+        "content": "six",
+        "beginOffset": 70
       },
       "partOfSpeech": {
         "tag": "NUM"
       },
       "dependencyEdge": {
-        "headTokenIndex": 11,
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "six"
+    },
+    {
+      "text": {
+        "content": "days",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
         "label": "POBJ"
       },
-      "lemma": "13.01."
+      "lemma": "day"
     },
     {
       "text": {
-        "content": "2017",
-        "beginOffset": 64
+        "content": ".",
+        "beginOffset": 78
       },
       "partOfSpeech": {
-        "tag": "NUM"
+        "tag": "PUNCT"
       },
       "dependencyEdge": {
-        "headTokenIndex": 12,
-        "label": "TMOD"
+        "headTokenIndex": 13,
+        "label": "P"
       },
-      "lemma": "2017"
+      "lemma": "."
     }
   ],
   "entities": [
     {
-      "name": "London",
-      "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
-      },
-      "salience": 0.19736049,
+      "name": "Yoshkar-Ola",
+      "type": "PERSON",
+      "metadata": {},
+      "salience": 0.13850875,
       "mentions": [
         {
           "text": {
-            "content": "London",
-            "beginOffset": 14
+            "content": "Yoshkar-Ola",
+            "beginOffset": 24
           }
         }
       ]
     },
     {
-      "name": "Paris",
+      "name": "Paris-Orly",
       "type": "LOCATION",
-      "metadata": {
-        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
-      },
-      "salience": 0.14966057,
+      "metadata": {},
+      "salience": 0.11091873,
       "mentions": [
         {
           "text": {
-            "content": "Paris",
-            "beginOffset": 24
+            "content": "Paris-Orly",
+            "beginOffset": 39
           }
         }
       ]
