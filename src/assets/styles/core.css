@@ -291,7 +291,7 @@ input.form-control {
   font-size: 18px;
 	text-align: center;
 	padding-top: 20px;
-  padding-bottom: 135px;
+  padding-bottom: 132px;
 }
 
 
@@ -315,11 +315,11 @@ input.form-control {
 	margin: 0 5px;
 	padding: 10px 0 0 0;
 	position: relative;
-	border: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
-.flight-direction-item.sel {
-	border: 0px dashed rgba(255, 255, 255, 0);
+.flight-direction-item:not(.sel) {
+	margin-bottom: 4px;
+	border: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
 .flight-direction-item span.plus {
@@ -349,6 +349,7 @@ input.form-control {
 
 .flight-direction-item-from-to-city {
 	font-size: 13px;
+	height: 2em;
 }
 
 #from-airport-selected, 
