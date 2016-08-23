@@ -1,26 +1,22 @@
-var request     = require('request');
-var util        = require('util');
+#!/usr/bin/nodejs
 
-var apt         = require('../../src/tests/fixtures/AvaeaTextParser');
-var access_token= 'ya29.CjBHA-7cSeadGbelsLUaKSNLXVL9CyPF22k5nudon-XlPsxNtKnoS8dF90yPDaAG2As';
+////////////////////////////////////////////////////////////////////////////////////////////////////
+//
+////////////////////////////////////////////////////////////////////////////////////////////////////
+const _FS           = require('fs');
+const _REQUEST      = require('request');
+const _UTIL         = require('util');
+const _APT          = require('../../src/tests/fixtures/AvaeaTextParser');
+const _ACCESS_TOKEN = 'ya29.CjBIA8V62Vnql-Qh9Ox5RO9psAPQGHHRTzJ2NHpSJGL3M0pfKUZB0F1fgUBoD5_2s_8';
 
-var options     = {
-  url: 'https://language.googleapis.com/v1beta1/documents:annotateText',
-  headers: {
-    'Content-Type':'application/json',
-    'Authorization':'Bearer '+access_token
-  },
-  'json': true,
-  'body': undefined
-};
-
-for( var i=0; i<apt.length; i++ ) {
-  var t = apt[i];
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// functions
+////////////////////////////////////////////////////////////////////////////////////////////////////
+function call_nlp_api_and_store_result( options, query, test_ndx ) {
   options.body = {
     'document' : {
       'type'    : 'PLAIN_TEXT',
-      'content' : t.query
+      'content' : query
     },
     'features' : {
       'extractSyntax': true,
@@ -29,15 +25,35 @@ for( var i=0; i<apt.length; i++ ) {
     'encodingType' : 'UTF8',
   };
   console.log("Request:\n"+JSON.stringify(options.body));
-  
-  request.post(options,function(error, response, body ) {
+  _REQUEST.post(options,function(error, response, body ) {
       if (!error && response.statusCode == 200) {
-	console.log("Response:\n"+JSON.stringify(body,null,2));
+	var file_name = _UTIL.format('%d',test_ndx);
+	while( file_name.length<3 ) {
+	  file_name = "0"+file_name;
+	}
+	var wstream = _FS.createWriteStream("Responses/"+file_name+".json");
+	wstream.write(JSON.stringify(body,null,2));
+	wstream.end();
       }
       else {
-	console.log(util.format('error: %j, response: %j',error,response));
+	console.log(_UTIL.format('error: %j, response: %j',error,response));
       }
   });
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// top level
+////////////////////////////////////////////////////////////////////////////////////////////////////
+var options = {
+  url: 'https://language.googleapis.com/v1beta1/documents:annotateText',
+  headers: {
+    'Content-Type':'application/json',
+    'Authorization':'Bearer '+_ACCESS_TOKEN
+  },
+  'json': true,
+  'body': undefined
+};
+for( var test_ndx=0; test_ndx<_APT.length; test_ndx++ ) {
+  call_nlp_api_and_store_result(options,_APT[test_ndx].query,test_ndx);
   //break;
 };
 
