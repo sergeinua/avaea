@@ -1,0 +1,243 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from London to Paris on 13.10.2016, returning on 13.01.2017",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "London",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "London"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Paris",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Paris"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "13.10.",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "13.10."
+    },
+    {
+      "text": {
+        "content": "2016",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NUM"
+      },
+      "lemma": "2016"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 43
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "13.01.",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "POBJ"
+      },
+      "lemma": "13.01."
+    },
+    {
+      "text": {
+        "content": "2017",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "TMOD"
+      },
+      "lemma": "2017"
+    }
+  ],
+  "entities": [
+    {
+      "name": "London",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
+      },
+      "salience": 0.19736049,
+      "mentions": [
+        {
+          "text": {
+            "content": "London",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Paris",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Paris"
+      },
+      "salience": 0.14966057,
+      "mentions": [
+        {
+          "text": {
+            "content": "Paris",
+            "beginOffset": 24
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

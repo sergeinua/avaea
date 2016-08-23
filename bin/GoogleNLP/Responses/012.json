@@ -1,0 +1,243 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I want to fly from San Jose 2 Oregon on the 1st of August",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "want",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "want"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 19
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "San"
+    },
+    {
+      "text": {
+        "content": "Jose",
+        "beginOffset": 23
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "Jose"
+    },
+    {
+      "text": {
+        "content": "2",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NUM"
+      },
+      "lemma": "2"
+    },
+    {
+      "text": {
+        "content": "Oregon",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Oregon"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "1st",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "1st"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "August",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "POBJ"
+      },
+      "lemma": "August"
+    }
+  ],
+  "entities": [
+    {
+      "name": "San Jose",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Jose,_California"
+      },
+      "salience": 0.54318148,
+      "mentions": [
+        {
+          "text": {
+            "content": "San Jose",
+            "beginOffset": 19
+          }
+        }
+      ]
+    },
+    {
+      "name": "Oregon",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Oregon"
+      },
+      "salience": 0.45681855,
+      "mentions": [
+        {
+          "text": {
+            "content": "Oregon",
+            "beginOffset": 30
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

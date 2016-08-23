@@ -1,0 +1,157 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from SFO to Point Hope tomorrow",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Point",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Point"
+    },
+    {
+      "text": {
+        "content": "Hope",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Hope"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "TMOD"
+      },
+      "lemma": "tomorrow"
+    }
+  ],
+  "entities": [
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.17777707,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Point Hope",
+      "type": "OTHER",
+      "metadata": {},
+      "salience": 0.046569817,
+      "mentions": [
+        {
+          "text": {
+            "content": "Point Hope",
+            "beginOffset": 21
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

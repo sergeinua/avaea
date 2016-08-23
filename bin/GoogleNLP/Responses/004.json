@@ -1,0 +1,199 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Fly from Amsterdam to Petit St. Vincent with my girlfriend today",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Fly",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "Fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Amsterdam",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "Amsterdam"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 19
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Petit",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Petit"
+    },
+    {
+      "text": {
+        "content": "St.",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "St."
+    },
+    {
+      "text": {
+        "content": "Vincent",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Vincent"
+    },
+    {
+      "text": {
+        "content": "with",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "with"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "girlfriend",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "girlfriend"
+    },
+    {
+      "text": {
+        "content": "today",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "TMOD"
+      },
+      "lemma": "today"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Amsterdam",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Amsterdam"
+      },
+      "salience": 0.36076865,
+      "mentions": [
+        {
+          "text": {
+            "content": "Amsterdam",
+            "beginOffset": 9
+          }
+        }
+      ]
+    },
+    {
+      "name": "Petit St. Vincent",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.21674916,
+      "mentions": [
+        {
+          "text": {
+            "content": "Petit St. Vincent",
+            "beginOffset": 22
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

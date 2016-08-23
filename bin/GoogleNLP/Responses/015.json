@@ -1,0 +1,103 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "from TLL to Moscow",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "TLL",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "POBJ"
+      },
+      "lemma": "TLL"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Moscow",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Moscow"
+    }
+  ],
+  "entities": [
+    {
+      "name": "TLL",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Tallinn_Airport"
+      },
+      "salience": 0.82926369,
+      "mentions": [
+        {
+          "text": {
+            "content": "TLL",
+            "beginOffset": 5
+          }
+        }
+      ]
+    },
+    {
+      "name": "Moscow",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Moscow"
+      },
+      "salience": 0.17073634,
+      "mentions": [
+        {
+          "text": {
+            "content": "Moscow",
+            "beginOffset": 12
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

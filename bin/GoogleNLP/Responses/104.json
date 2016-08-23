@@ -1,0 +1,271 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I'd like to fly from the San Francisco International Airport to Boston Logan International Airport",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "'d",
+        "beginOffset": 1
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "'d"
+    },
+    {
+      "text": {
+        "content": "like",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "like"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "fly",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "XCOMP"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "San"
+    },
+    {
+      "text": {
+        "content": "Francisco",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "Francisco"
+    },
+    {
+      "text": {
+        "content": "International",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "International"
+    },
+    {
+      "text": {
+        "content": "Airport",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Airport"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Boston",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NN"
+      },
+      "lemma": "Boston"
+    },
+    {
+      "text": {
+        "content": "Logan",
+        "beginOffset": 71
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NN"
+      },
+      "lemma": "Logan"
+    },
+    {
+      "text": {
+        "content": "International",
+        "beginOffset": 77
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NN"
+      },
+      "lemma": "International"
+    },
+    {
+      "text": {
+        "content": "Airport",
+        "beginOffset": 91
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "POBJ"
+      },
+      "lemma": "Airport"
+    }
+  ],
+  "entities": [
+    {
+      "name": "San Francisco International Airport",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.57111382,
+      "mentions": [
+        {
+          "text": {
+            "content": "San Francisco International Airport",
+            "beginOffset": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "Boston Logan International Airport",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Logan_International_Airport"
+      },
+      "salience": 0.4288862,
+      "mentions": [
+        {
+          "text": {
+            "content": "Boston Logan International Airport",
+            "beginOffset": 64
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

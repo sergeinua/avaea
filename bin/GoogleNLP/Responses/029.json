@@ -1,0 +1,187 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "From SFO to JFK next week, returning October 10",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "From",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "From"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "JFK",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "JFK"
+    },
+    {
+      "text": {
+        "content": "next",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "TMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "October",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "TMOD"
+      },
+      "lemma": "October"
+    },
+    {
+      "text": {
+        "content": "10",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NUM"
+      },
+      "lemma": "10"
+    }
+  ],
+  "entities": [
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.74038529,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 5
+          }
+        }
+      ]
+    },
+    {
+      "name": "JFK",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
+      },
+      "salience": 0.25961471,
+      "mentions": [
+        {
+          "text": {
+            "content": "JFK",
+            "beginOffset": 12
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

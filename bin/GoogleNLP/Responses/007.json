@@ -1,0 +1,299 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "My parents and I are flying from Boston to Phoenix Arizona on November 14th returning two weeks later",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "My",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POSS"
+      },
+      "lemma": "My"
+    },
+    {
+      "text": {
+        "content": "parents",
+        "beginOffset": 3
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NSUBJ"
+      },
+      "lemma": "parent"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 11
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 15
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CONJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "are",
+        "beginOffset": 17
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ROOT"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Boston",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "Boston"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Phoenix",
+        "beginOffset": 43
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "Phoenix"
+    },
+    {
+      "text": {
+        "content": "Arizona",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "Arizona"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "November",
+        "beginOffset": 62
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "November"
+    },
+    {
+      "text": {
+        "content": "14th",
+        "beginOffset": 71
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "POBJ"
+      },
+      "lemma": "14th"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 76
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "XCOMP"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 86
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 90
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 96
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Boston",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Boston"
+      },
+      "salience": 0.14227779,
+      "mentions": [
+        {
+          "text": {
+            "content": "Boston",
+            "beginOffset": 33
+          }
+        }
+      ]
+    },
+    {
+      "name": "Phoenix Arizona",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Phoenix,_Arizona"
+      },
+      "salience": 0.11903585,
+      "mentions": [
+        {
+          "text": {
+            "content": "Phoenix Arizona",
+            "beginOffset": 43
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

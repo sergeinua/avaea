@@ -1,0 +1,411 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I'm looking for the return ticket from Pittsburgh to Oakland flying out on the 24th of October and flying back on the 15th of November",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "'m",
+        "beginOffset": 1
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "looking",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "look"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "return",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Pittsburgh",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Pittsburgh"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Oakland",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "Oakland"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "VMOD"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "out",
+        "beginOffset": 68
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "PRT"
+      },
+      "lemma": "out"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 75
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "24th",
+        "beginOffset": 79
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "24th"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 84
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "October",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "POBJ"
+      },
+      "lemma": "October"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 95
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 99
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "CONJ"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "back",
+        "beginOffset": 106
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "ADVMOD"
+      },
+      "lemma": "back"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 111
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 114
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 23,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "15th",
+        "beginOffset": 118
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "POBJ"
+      },
+      "lemma": "15th"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 123
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 23,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "November",
+        "beginOffset": 126
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 24,
+        "label": "POBJ"
+      },
+      "lemma": "November"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Pittsburgh",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Pittsburgh"
+      },
+      "salience": 0.24502364,
+      "mentions": [
+        {
+          "text": {
+            "content": "Pittsburgh",
+            "beginOffset": 39
+          }
+        }
+      ]
+    },
+    {
+      "name": "Oakland",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Oakland_(Pittsburgh)"
+      },
+      "salience": 0.23308203,
+      "mentions": [
+        {
+          "text": {
+            "content": "Oakland",
+            "beginOffset": 53
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

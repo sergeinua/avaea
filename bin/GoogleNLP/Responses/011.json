@@ -1,0 +1,213 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from Ho Chi Minh City to Washington Deep Sea tomorrow",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Ho",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Ho"
+    },
+    {
+      "text": {
+        "content": "Chi",
+        "beginOffset": 17
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Chi"
+    },
+    {
+      "text": {
+        "content": "Minh",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Minh"
+    },
+    {
+      "text": {
+        "content": "City",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "City"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Washington",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "Washington"
+    },
+    {
+      "text": {
+        "content": "Deep",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "Deep"
+    },
+    {
+      "text": {
+        "content": "Sea",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Sea"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 54
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "TMOD"
+      },
+      "lemma": "tomorrow"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Ho Chi Minh City",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Ho_Chi_Minh_City"
+      },
+      "salience": 0.15192759,
+      "mentions": [
+        {
+          "text": {
+            "content": "Ho Chi Minh City",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Washington Deep Sea",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.15192759,
+      "mentions": [
+        {
+          "text": {
+            "content": "Washington Deep Sea",
+            "beginOffset": 34
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

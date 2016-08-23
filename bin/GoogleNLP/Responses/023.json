@@ -1,0 +1,339 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I am currently in Bogota.",
+        "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Need to get to Miami as soon as possible.",
+        "beginOffset": 26
+      }
+    },
+    {
+      "text": {
+        "content": "Back next week.",
+        "beginOffset": 68
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "am",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "currently",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ADVMOD"
+      },
+      "lemma": "currently"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 15
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "Bogota",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Bogota"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Need",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "ROOT"
+      },
+      "lemma": "Need"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "get",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "XCOMP"
+      },
+      "lemma": "get"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Miami",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "Miami"
+    },
+    {
+      "text": {
+        "content": "as",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "ADVMOD"
+      },
+      "lemma": "as"
+    },
+    {
+      "text": {
+        "content": "soon",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ADVMOD"
+      },
+      "lemma": "soon"
+    },
+    {
+      "text": {
+        "content": "as",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "PREP"
+      },
+      "lemma": "as"
+    },
+    {
+      "text": {
+        "content": "possible",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "possible"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 66
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Back",
+        "beginOffset": 68
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "ADVMOD"
+      },
+      "lemma": "Back"
+    },
+    {
+      "text": {
+        "content": "next",
+        "beginOffset": 73
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 78
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "ROOT"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 82
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "Bogota",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Bogot%C3%A1"
+      },
+      "salience": 0.73176748,
+      "mentions": [
+        {
+          "text": {
+            "content": "Bogota",
+            "beginOffset": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "Miami",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Miami"
+      },
+      "salience": 0.26823252,
+      "mentions": [
+        {
+          "text": {
+            "content": "Miami",
+            "beginOffset": 41
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

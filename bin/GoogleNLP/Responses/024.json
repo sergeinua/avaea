@@ -1,0 +1,387 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Tickets for a group of athletes flying from San Diego, CA to Austin, TX in March returning in May.",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Tickets",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 8
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "a",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "group",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "group"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "athletes",
+        "beginOffset": 23
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "athlete"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "VMOD"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NN"
+      },
+      "lemma": "San"
+    },
+    {
+      "text": {
+        "content": "Diego",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Diego"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "CA",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "APPOS"
+      },
+      "lemma": "CA"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Austin",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "POBJ"
+      },
+      "lemma": "Austin"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "TX",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "APPOS"
+      },
+      "lemma": "TX"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "March",
+        "beginOffset": 75
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "POBJ"
+      },
+      "lemma": "March"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 91
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "May",
+        "beginOffset": 94
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "POBJ"
+      },
+      "lemma": "May"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 97
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "San Diego",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Diego"
+      },
+      "salience": 0.075140715,
+      "mentions": [
+        {
+          "text": {
+            "content": "San Diego",
+            "beginOffset": 44
+          }
+        }
+      ]
+    },
+    {
+      "name": "CA",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/California"
+      },
+      "salience": 0.075140715,
+      "mentions": [
+        {
+          "text": {
+            "content": "CA",
+            "beginOffset": 55
+          }
+        }
+      ]
+    },
+    {
+      "name": "Austin",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Austin,_Texas"
+      },
+      "salience": 0.062703013,
+      "mentions": [
+        {
+          "text": {
+            "content": "Austin",
+            "beginOffset": 61
+          }
+        }
+      ]
+    },
+    {
+      "name": "TX",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Texas"
+      },
+      "salience": 0.019959459,
+      "mentions": [
+        {
+          "text": {
+            "content": "TX",
+            "beginOffset": 69
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

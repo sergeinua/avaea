@@ -1,0 +1,199 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I'm flying from Tokyo to St. Petersburg Russia next week",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "'m",
+        "beginOffset": 1
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "be"
+    },
+    {
+      "text": {
+        "content": "flying",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "fly"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 11
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Tokyo",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Tokyo"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "St.",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "St."
+    },
+    {
+      "text": {
+        "content": "Petersburg",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "Petersburg"
+    },
+    {
+      "text": {
+        "content": "Russia",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Russia"
+    },
+    {
+      "text": {
+        "content": "next",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 52
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "TMOD"
+      },
+      "lemma": "week"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Tokyo",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Tokyo"
+      },
+      "salience": 0.79242051,
+      "mentions": [
+        {
+          "text": {
+            "content": "Tokyo",
+            "beginOffset": 16
+          }
+        }
+      ]
+    },
+    {
+      "name": "St. Petersburg Russia",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.20757951,
+      "mentions": [
+        {
+          "text": {
+            "content": "St. Petersburg Russia",
+            "beginOffset": 25
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

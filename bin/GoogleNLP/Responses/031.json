@@ -1,0 +1,327 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from SFO to JFK on 10/13/2016, returning on 1/13/2017",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "JFK",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "JFK"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "10",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "10"
+    },
+    {
+      "text": {
+        "content": "/",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "X"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": "/"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    },
+    {
+      "text": {
+        "content": "/",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "X"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": "/"
+    },
+    {
+      "text": {
+        "content": "2016",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "PREP"
+      },
+      "lemma": "2016"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "POBJ"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "/",
+        "beginOffset": 54
+      },
+      "partOfSpeech": {
+        "tag": "X"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "P"
+      },
+      "lemma": "/"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    },
+    {
+      "text": {
+        "content": "/",
+        "beginOffset": 57
+      },
+      "partOfSpeech": {
+        "tag": "X"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "P"
+      },
+      "lemma": "/"
+    },
+    {
+      "text": {
+        "content": "2017",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "PREP"
+      },
+      "lemma": "2017"
+    }
+  ],
+  "entities": [
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.18837501,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "JFK",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/John_F._Kennedy_International_Airport"
+      },
+      "salience": 0.18837501,
+      "mentions": [
+        {
+          "text": {
+            "content": "JFK",
+            "beginOffset": 21
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

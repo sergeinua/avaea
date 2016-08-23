@@ -1,0 +1,299 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from Rio de Janeiro to Santiago de Chile on October 13, returning on December 13",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Rio",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NN"
+      },
+      "lemma": "Rio"
+    },
+    {
+      "text": {
+        "content": "de",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NN"
+      },
+      "lemma": "de"
+    },
+    {
+      "text": {
+        "content": "Janeiro",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Janeiro"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Santiago",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NN"
+      },
+      "lemma": "Santiago"
+    },
+    {
+      "text": {
+        "content": "de",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "X"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NN"
+      },
+      "lemma": "de"
+    },
+    {
+      "text": {
+        "content": "Chile",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "Chile"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "October",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "POBJ"
+      },
+      "lemma": "October"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 63
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 65
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 75
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "December",
+        "beginOffset": 78
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "POBJ"
+      },
+      "lemma": "December"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Rio de Janeiro",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Rio_de_Janeiro"
+      },
+      "salience": 0.15834641,
+      "mentions": [
+        {
+          "text": {
+            "content": "Rio de Janeiro",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Santiago de Chile",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Santiago"
+      },
+      "salience": 0.1507777,
+      "mentions": [
+        {
+          "text": {
+            "content": "Santiago de Chile",
+            "beginOffset": 32
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

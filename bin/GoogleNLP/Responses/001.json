@@ -1,0 +1,253 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from Phoenix Arisona to Portlend Main on November 14th returning two weeks later",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Phoenix",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "NN"
+      },
+      "lemma": "Phoenix"
+    },
+    {
+      "text": {
+        "content": "Arisona",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Arisona"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Portlend",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "Portlend"
+    },
+    {
+      "text": {
+        "content": "Main",
+        "beginOffset": 42
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Main"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "November",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "November"
+    },
+    {
+      "text": {
+        "content": "14th",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "14th"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ROOT"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 78
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 84
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Phoenix Arisona",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.13566396,
+      "mentions": [
+        {
+          "text": {
+            "content": "Phoenix Arisona",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Portlend Main",
+      "type": "OTHER",
+      "metadata": {},
+      "salience": 0.12917942,
+      "mentions": [
+        {
+          "text": {
+            "content": "Portlend Main",
+            "beginOffset": 33
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

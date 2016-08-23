@@ -1,0 +1,129 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Singapore to Sidney tomorrow first class",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Singapore",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "Singapore"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Sidney",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "Sidney"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NN"
+      },
+      "lemma": "tomorrow"
+    },
+    {
+      "text": {
+        "content": "first",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "AMOD"
+      },
+      "lemma": "first"
+    },
+    {
+      "text": {
+        "content": "class",
+        "beginOffset": 35
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "DEP"
+      },
+      "lemma": "class"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Singapore",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Singapore"
+      },
+      "salience": 0.54575747,
+      "mentions": [
+        {
+          "text": {
+            "content": "Singapore",
+            "beginOffset": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sidney",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.17902644,
+      "mentions": [
+        {
+          "text": {
+            "content": "Sidney",
+            "beginOffset": 13
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

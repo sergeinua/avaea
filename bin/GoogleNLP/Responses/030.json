@@ -1,0 +1,285 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I would like to book two tickets from San Francisco to Honolulu June 26th return July 17th",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "would",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "would"
+    },
+    {
+      "text": {
+        "content": "like",
+        "beginOffset": 8
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "like"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "book",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "XCOMP"
+      },
+      "lemma": "book"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "tickets",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "DOBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NN"
+      },
+      "lemma": "San"
+    },
+    {
+      "text": {
+        "content": "Francisco",
+        "beginOffset": 42
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Francisco"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 52
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Honolulu",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "POBJ"
+      },
+      "lemma": "Honolulu"
+    },
+    {
+      "text": {
+        "content": "June",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "June"
+    },
+    {
+      "text": {
+        "content": "26th",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "NN"
+      },
+      "lemma": "26th"
+    },
+    {
+      "text": {
+        "content": "return",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NN"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "July",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NN"
+      },
+      "lemma": "July"
+    },
+    {
+      "text": {
+        "content": "17th",
+        "beginOffset": 86
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "TMOD"
+      },
+      "lemma": "17th"
+    }
+  ],
+  "entities": [
+    {
+      "name": "San Francisco",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco"
+      },
+      "salience": 0.18663613,
+      "mentions": [
+        {
+          "text": {
+            "content": "San Francisco",
+            "beginOffset": 38
+          }
+        }
+      ]
+    },
+    {
+      "name": "Honolulu",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Honolulu"
+      },
+      "salience": 0.059945084,
+      "mentions": [
+        {
+          "text": {
+            "content": "Honolulu",
+            "beginOffset": 55
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

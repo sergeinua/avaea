@@ -1,0 +1,215 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Leaving from Buenos Aires to Vancouver today, returning two weeks later",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Leaving",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "VMOD"
+      },
+      "lemma": "leave"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 8
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Buenos",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "NN"
+      },
+      "lemma": "Buenos"
+    },
+    {
+      "text": {
+        "content": "Aires",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "Aires"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Vancouver",
+        "beginOffset": 29
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Vancouver"
+    },
+    {
+      "text": {
+        "content": "today",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "TMOD"
+      },
+      "lemma": "today"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ROOT"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 56
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 66
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Buenos Aires",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Buenos_Aires"
+      },
+      "salience": 0.5777055,
+      "mentions": [
+        {
+          "text": {
+            "content": "Buenos Aires",
+            "beginOffset": 13
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vancouver",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Vancouver"
+      },
+      "salience": 0.4222945,
+      "mentions": [
+        {
+          "text": {
+            "content": "Vancouver",
+            "beginOffset": 29
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

@@ -1,0 +1,329 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "One first class ticket from LA to NYC departing one week before Thanksgiving and returning ten days after Christmas",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "One",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "NUM"
+      },
+      "lemma": "One"
+    },
+    {
+      "text": {
+        "content": "first",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "AMOD"
+      },
+      "lemma": "first"
+    },
+    {
+      "text": {
+        "content": "class",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "NN"
+      },
+      "lemma": "class"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 23
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "LA",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "LA"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "NYC",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "NYC"
+    },
+    {
+      "text": {
+        "content": "departing",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "DEP"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "one",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NUM"
+      },
+      "lemma": "one"
+    },
+    {
+      "text": {
+        "content": "week",
+        "beginOffset": 52
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "TMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "before",
+        "beginOffset": 57
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "PREP"
+      },
+      "lemma": "before"
+    },
+    {
+      "text": {
+        "content": "Thanksgiving",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "POBJ"
+      },
+      "lemma": "Thanksgiving"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 77
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "CONJ"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "ten",
+        "beginOffset": 91
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "ten"
+    },
+    {
+      "text": {
+        "content": "days",
+        "beginOffset": 95
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "NPADVMOD"
+      },
+      "lemma": "day"
+    },
+    {
+      "text": {
+        "content": "after",
+        "beginOffset": 100
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "PREP"
+      },
+      "lemma": "after"
+    },
+    {
+      "text": {
+        "content": "Christmas",
+        "beginOffset": 106
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "POBJ"
+      },
+      "lemma": "Christmas"
+    }
+  ],
+  "entities": [
+    {
+      "name": "LA",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Los_Angeles"
+      },
+      "salience": 0.21165892,
+      "mentions": [
+        {
+          "text": {
+            "content": "LA",
+            "beginOffset": 28
+          }
+        }
+      ]
+    },
+    {
+      "name": "NYC",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/New_York_City"
+      },
+      "salience": 0.21165892,
+      "mentions": [
+        {
+          "text": {
+            "content": "NYC",
+            "beginOffset": 34
+          }
+        }
+      ]
+    },
+    {
+      "name": "Christmas",
+      "type": "EVENT",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Christmas"
+      },
+      "salience": 0.12585381,
+      "mentions": [
+        {
+          "text": {
+            "content": "Christmas",
+            "beginOffset": 106
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

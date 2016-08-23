@@ -1,0 +1,257 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from Detroit Michigan to Tampa Florida on November 14th returning two weeks later",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Detroit",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "NN"
+      },
+      "lemma": "Detroit"
+    },
+    {
+      "text": {
+        "content": "Michigan",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Michigan"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Tampa",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "Tampa"
+    },
+    {
+      "text": {
+        "content": "Florida",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Florida"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "November",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "November"
+    },
+    {
+      "text": {
+        "content": "14th",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "14th"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 65
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ROOT"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 75
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 79
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 85
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Detroit Michigan",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Detroit"
+      },
+      "salience": 0.13566396,
+      "mentions": [
+        {
+          "text": {
+            "content": "Detroit Michigan",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tampa Florida",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Tampa,_Florida"
+      },
+      "salience": 0.12917942,
+      "mentions": [
+        {
+          "text": {
+            "content": "Tampa Florida",
+            "beginOffset": 34
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

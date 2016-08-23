@@ -1,0 +1,243 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from London to Madrid depart 30th of November arrive 10th of December",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "London",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "London"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 21
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Madrid",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Madrid"
+    },
+    {
+      "text": {
+        "content": "depart",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "ROOT"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "30th",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NSUBJ"
+      },
+      "lemma": "30th"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 43
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "November",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "November"
+    },
+    {
+      "text": {
+        "content": "arrive",
+        "beginOffset": 55
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "CCOMP"
+      },
+      "lemma": "arrive"
+    },
+    {
+      "text": {
+        "content": "10th",
+        "beginOffset": 62
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "DOBJ"
+      },
+      "lemma": "10th"
+    },
+    {
+      "text": {
+        "content": "of",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "PREP"
+      },
+      "lemma": "of"
+    },
+    {
+      "text": {
+        "content": "December",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "POBJ"
+      },
+      "lemma": "December"
+    }
+  ],
+  "entities": [
+    {
+      "name": "London",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
+      },
+      "salience": 0.19736049,
+      "mentions": [
+        {
+          "text": {
+            "content": "London",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "Madrid",
+      "type": "PERSON",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Madrid"
+      },
+      "salience": 0.14966057,
+      "mentions": [
+        {
+          "text": {
+            "content": "Madrid",
+            "beginOffset": 24
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

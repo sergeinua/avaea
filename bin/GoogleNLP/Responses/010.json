@@ -1,0 +1,371 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "1 ticket from Santa Fe, New Mexico, to Ho Chi Minh City on October 13, returning on December 13",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "1",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "1"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Santa",
+        "beginOffset": 14
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "NN"
+      },
+      "lemma": "Santa"
+    },
+    {
+      "text": {
+        "content": "Fe",
+        "beginOffset": 20
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Fe"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "New",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "New"
+    },
+    {
+      "text": {
+        "content": "Mexico",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "APPOS"
+      },
+      "lemma": "Mexico"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 34
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Ho",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "Ho"
+    },
+    {
+      "text": {
+        "content": "Chi",
+        "beginOffset": 42
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "Chi"
+    },
+    {
+      "text": {
+        "content": "Minh",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NN"
+      },
+      "lemma": "Minh"
+    },
+    {
+      "text": {
+        "content": "City",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "City"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 56
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "October",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "POBJ"
+      },
+      "lemma": "October"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 71
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "December",
+        "beginOffset": 84
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 19,
+        "label": "POBJ"
+      },
+      "lemma": "December"
+    },
+    {
+      "text": {
+        "content": "13",
+        "beginOffset": 93
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 20,
+        "label": "NUM"
+      },
+      "lemma": "13"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Santa Fe",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Santa_Fe,_New_Mexico"
+      },
+      "salience": 0.16989532,
+      "mentions": [
+        {
+          "text": {
+            "content": "Santa Fe",
+            "beginOffset": 14
+          }
+        }
+      ]
+    },
+    {
+      "name": "New Mexico",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/New_Mexico"
+      },
+      "salience": 0.1279863,
+      "mentions": [
+        {
+          "text": {
+            "content": "New Mexico",
+            "beginOffset": 24
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ho Chi Minh City",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Ho_Chi_Minh_City"
+      },
+      "salience": 0.10207281,
+      "mentions": [
+        {
+          "text": {
+            "content": "Ho Chi Minh City",
+            "beginOffset": 39
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

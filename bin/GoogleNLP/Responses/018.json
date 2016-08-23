@@ -1,0 +1,335 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Skiing trip from Portland, Maine to Portland, Oregon on December 20, 2017 returning two weeks later",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Skiing",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NN"
+      },
+      "lemma": "Skiing"
+    },
+    {
+      "text": {
+        "content": "trip",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "NSUBJ"
+      },
+      "lemma": "trip"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Portland",
+        "beginOffset": 17
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Portland"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Maine",
+        "beginOffset": 27
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "APPOS"
+      },
+      "lemma": "Maine"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Portland",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "POBJ"
+      },
+      "lemma": "Portland"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Oregon",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "APPOS"
+      },
+      "lemma": "Oregon"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "December",
+        "beginOffset": 56
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "POBJ"
+      },
+      "lemma": "December"
+    },
+    {
+      "text": {
+        "content": "20",
+        "beginOffset": 65
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NUM"
+      },
+      "lemma": "20"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "2017",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NUM"
+      },
+      "lemma": "2017"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "ROOT"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 84
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "weeks",
+        "beginOffset": 88
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 18,
+        "label": "NPADVMOD"
+      },
+      "lemma": "week"
+    },
+    {
+      "text": {
+        "content": "later",
+        "beginOffset": 94
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "ADVMOD"
+      },
+      "lemma": "later"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Portland",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Portland,_Maine"
+      },
+      "salience": 0.23718897,
+      "mentions": [
+        {
+          "text": {
+            "content": "Portland",
+            "beginOffset": 17
+          }
+        },
+        {
+          "text": {
+            "content": "Portland",
+            "beginOffset": 36
+          }
+        }
+      ]
+    },
+    {
+      "name": "Maine",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Maine"
+      },
+      "salience": 0.091420151,
+      "mentions": [
+        {
+          "text": {
+            "content": "Maine",
+            "beginOffset": 27
+          }
+        }
+      ]
+    },
+    {
+      "name": "Oregon",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Oregon"
+      },
+      "salience": 0.086907133,
+      "mentions": [
+        {
+          "text": {
+            "content": "Oregon",
+            "beginOffset": 46
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

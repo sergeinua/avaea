@@ -1,0 +1,289 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Ticket from Juno, Alaska to Augusta, Georgia, September 20 through September 23",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Ticket",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "ROOT"
+      },
+      "lemma": "Ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Juno",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "POBJ"
+      },
+      "lemma": "Juno"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Alaska",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "APPOS"
+      },
+      "lemma": "Alaska"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Augusta",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Augusta"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 35
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Georgia",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "APPOS"
+      },
+      "lemma": "Georgia"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "September",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "APPOS"
+      },
+      "lemma": "September"
+    },
+    {
+      "text": {
+        "content": "20",
+        "beginOffset": 56
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NUM"
+      },
+      "lemma": "20"
+    },
+    {
+      "text": {
+        "content": "through",
+        "beginOffset": 59
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "PREP"
+      },
+      "lemma": "through"
+    },
+    {
+      "text": {
+        "content": "September",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "POBJ"
+      },
+      "lemma": "September"
+    },
+    {
+      "text": {
+        "content": "23",
+        "beginOffset": 77
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NUM"
+      },
+      "lemma": "23"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Juno",
+      "type": "PERSON",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Juneau,_Alaska"
+      },
+      "salience": 0.14790802,
+      "mentions": [
+        {
+          "text": {
+            "content": "Juno",
+            "beginOffset": 12
+          }
+        }
+      ]
+    },
+    {
+      "name": "Alaska",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Alaska"
+      },
+      "salience": 0.11092728,
+      "mentions": [
+        {
+          "text": {
+            "content": "Alaska",
+            "beginOffset": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "Augusta",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Augusta,_Georgia"
+      },
+      "salience": 0.10545127,
+      "mentions": [
+        {
+          "text": {
+            "content": "Augusta",
+            "beginOffset": 28
+          }
+        }
+      ]
+    },
+    {
+      "name": "Georgia",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Georgia_(U.S._state)"
+      },
+      "salience": 0.088225171,
+      "mentions": [
+        {
+          "text": {
+            "content": "Georgia",
+            "beginOffset": 37
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

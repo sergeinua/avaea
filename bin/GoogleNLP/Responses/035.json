@@ -1,0 +1,143 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "two tickets to Dublin departing tonight returning tomorrow",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "two",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "two"
+    },
+    {
+      "text": {
+        "content": "tickets",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Dublin",
+        "beginOffset": 15
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "POBJ"
+      },
+      "lemma": "Dublin"
+    },
+    {
+      "text": {
+        "content": "departing",
+        "beginOffset": 22
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "tonight",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "TMOD"
+      },
+      "lemma": "tonight"
+    },
+    {
+      "text": {
+        "content": "returning",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "XCOMP"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "TMOD"
+      },
+      "lemma": "tomorrow"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Dublin",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Dublin"
+      },
+      "salience": 0.14996994,
+      "mentions": [
+        {
+          "text": {
+            "content": "Dublin",
+            "beginOffset": 15
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}
