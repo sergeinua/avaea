@@ -423,55 +423,9 @@ body.loading .modalLoader {
 
 
 
-.searchform-top {
-  border:0;
-  margin-top: 50px;
-  z-index: 10;
-}
-
-
-.flight-date-info-item.sel span.calendar {
-  width: 15%;
-  padding-left: 1.4em;
-  float: left;
-}
 
 
 
-
-
-.flight-additional-info {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 16px;
-  line-height: 1.0;
-  letter-spacing: 0.1px;
-  color: rgba(16, 23, 66, 0.4);
-  border-color: white;
-}
-
-.flight-passengers-info-item, .flight-class-info-item {
-  height: 50px;
-  padding-top: 15px;
-  text-transform: uppercase;
-  border-bottom: 1px solid #F2F2F2;
-}
-
-.flight-class-info-item>.text-picker, .flight-passengers-info-item>.text-picker {
-  text-transform: capitalize;
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #004a99;
-  text-align: left;
-  padding-left: 15px;
-}
-.flight-class-info-item>.text-label, .flight-passengers-info-item>.text-label {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
-  text-align: right;
-  padding-right: 15px;
-}
 
 .container-bottom {
   position: fixed;

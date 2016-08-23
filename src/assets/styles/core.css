@@ -90,7 +90,8 @@ footer,
 .tap-date,
 .tap-month,
 .tap-year,
-.tt-highlight {
+.tt-highlight,
+.flight-additional-info .text-picker {
 	color: #004c9c;
 }
 
@@ -241,6 +242,12 @@ input.form-control {
 
 /* search form */
 
+.searchform-top {
+  border: 0;
+  margin-top: 50px;
+  z-index: 10;
+}
+
 .flight-type-form {
 	display: flex;
 	justify-content: center;
@@ -277,7 +284,7 @@ input.form-control {
 .flight-direction-form,
 .flight-direction-item-coming-soon {
 	color: #ffffff;
-  padding: 50px 0;
+  padding: 45px 0;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -300,7 +307,7 @@ input.form-control {
 }
 
 .flight-direction-item-from-to {
-  font-size: 16px;
+  font-size: 15px;
   text-transform: uppercase;
   padding-bottom: 10px;
 	opacity: .5;
@@ -357,17 +364,16 @@ input.form-control {
   padding-top: 20px;
 }
 
-
-.tt-menu {
-	display: block !important;
-	width:100%;
-}
-
 .twitter-typeahead,
 .tt-menu {
   display: block !important;
 }
-.twitter-typeahead, .tt-hint, .tt-menu { width: 100%;}
+
+.twitter-typeahead, 
+.tt-hint, 
+.tt-menu { 
+	width: 100%;
+}
 
 .icon-bar {
   background-color:white !important;
@@ -394,8 +400,8 @@ input.form-control {
 	font-size: 16px;
 	text-align: left;
 	padding: 15px 10px;
-  border-right: 1px solid rgba(0, 0, 0, 0.3);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 strong.tt-highlight {
@@ -418,15 +424,15 @@ strong.tt-highlight {
 
 .flight-date-info-item {
 	font-size: 14px;
-  text-align: left;
-  padding-top: 10px;
-  text-align: center;
-  width:50%;
-  height: 100px;
+	text-align: center;  
+  padding-top: 20px;
+  width: 50%;
+  height: 95px;
   float: left;
 }
 
-.flight-date-info-item .col-xs-12 {
+.flight-date-info-item .col-xs-12,
+.flight-additional-info .col-xs-12 {
 	padding-left: 0;
 	padding-right: 0;
 }
@@ -451,16 +457,34 @@ strong.tt-highlight {
 }
 
 .flight-date-info-item .the-date {
-	font-size: 20px;
+	font-size: 22px;
+	letter-spacing: -1px;
 	text-align: center; 
-	padding-top: 10px;
+	padding-top: 3px;
 }
 
 .the-date .tap-year {
-	padding-left: 8px;
+	padding-left: 5px;
 }
 
+.flight-additional-info .chooser {
+  height: 50px;
+  padding-top: 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
 
+.flight-additional-info .text-picker {
+  text-transform: capitalize;
+  text-align: left;
+  padding-left: 15px;
+}
+
+.flight-additional-info .label-d {
+	font-family: 'Open-Sans-Semibold';
+  font-size: 14px;
+  text-align: right;
+  padding-right: 15px;
+}
 
 
 
