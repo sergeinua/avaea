@@ -69,6 +69,8 @@ footer,
 
 /* colors */
 
+/* dark blue */
+
 .navbar-header,
 .navbar-header,
 .navbar-default .navbar-collapse, 
@@ -80,12 +82,71 @@ footer,
 }
 
 .flight-type-form,
-.flight-direction-form {
+.flight-direction-form,
+.flight-direction-item-coming-soon {
 	background: #004c9c;
 }
 
+.tap-date,
+.tap-month,
+.tap-year,
+.tt-highlight {
+	color: #004c9c;
+}
+
+
+/* light blue */
+
 .big-button {
 	background: #0081c9;
+}
+
+.tt-suggestion.tt-selectable {
+	color: #0081c9;
+}
+
+/* partial blue */
+
+.flight-date-info-item {
+	background: #dee9f3;
+}
+
+/* grays */
+
+.tt-hint {
+	color: #999 !important;
+}
+
+.tt-suggestion:hover,
+.tt-suggestion.tt-cursor {
+  background-color: #f7f7f7;
+}
+
+
+
+/* highlight */
+
+.highlight {
+	background: #ffffe4;
+}
+
+
+/* form parts */
+
+input {
+	color: #000000;
+	outline-color: #00b5ff;
+	-webkit-focus-ring-color: #00b5ff;
+}
+
+input.form-control {
+	background: #ffffff;
+}
+
+.label-d {
+	color: rgba(0, 0, 0, 0.4);
+	font-family: 'Open-Sans-Semibold';
+	text-transform: uppercase;
 }
 
 
@@ -200,7 +261,6 @@ footer,
 
 .flight-direction-item-coming-soon {
   font-size: 18px;
-	color: #ffffff;
 	text-align: center;
 	position: relative;
 		top: 50px;
@@ -211,11 +271,12 @@ footer,
 
 .flight-direction {
   margin-top: 50px;
-  background-color: #004a99;
   position: relative;
 }
 
-.flight-direction-form {
+.flight-direction-form,
+.flight-direction-item-coming-soon {
+	color: #ffffff;
   padding: 50px 0;
 }
 
@@ -224,15 +285,18 @@ footer,
 }
 
 .flight-direction-item {
-  width: 100px;
-  height: 100px;
-  background-color: #004a99;
-  border: dashed 1px rgba(255, 255, 255, 0.2);
-  /*color: white;*/
-  font-size: 50px;
-  padding-top: 10px;
-  color:rgba(255, 255, 255, 0.2);
-  margin: 0 auto;
+  color: #ffffff;
+	margin: 0 5px;
+	padding: 10px 0 0 0;
+	position: relative;
+	border: 1px dashed rgba(255, 255, 255, 0.3);
+}
+
+.flight-direction-item span {
+	  font-size: 70px;
+    line-height: 70px;
+    position: relative;
+    top: -15px;
 }
 
 .flight-direction-item-from-to {
@@ -244,10 +308,13 @@ footer,
 
 .flight-direction-item-selected,
 .flight-direction-item-from-to-city {
-	color: #ffffff;
   font-size: 16px;
   text-transform: uppercase;
 	line-height: 1.0;
+}
+
+.flight-direction-item-selected .flight-direction-item-from-to {
+	margin-top: 12px;
 }
 
 .flight-direction-item-from-to-city {
@@ -260,6 +327,146 @@ footer,
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
 }
+
+.flight-direction-form .row {
+	display: flex;
+	justify-content: center;
+}
+
+.flight-direction-form .col-xs-6 {
+	width: 45%;
+}
+
+/* airport search */
+
+#search_title input[type=text] {
+  padding-left: 4px;
+  margin:10px;
+  width: 269px;
+  height: 40px;
+  border: 0px solid transparent;
+}
+
+.search_button_top_cancel {
+  border: 0;
+  background-color: transparent;
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 20px;
+  line-height: 1.0;
+  letter-spacing: 0.2px;
+  padding-top: 20px;
+}
+
+
+.tt-menu {
+	display: block !important;
+	width:100%;
+}
+
+.twitter-typeahead,
+.tt-menu {
+  display: block !important;
+}
+.twitter-typeahead, .tt-hint, .tt-menu { width: 100%;}
+
+.icon-bar {
+  background-color:white !important;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+.tt-hint.form-control {
+  border-radius: 0;
+}
+
+.tt-hint {
+  padding: 0;
+}
+
+.tt-suggestion.tt-selectable {
+	font-family: 'Open-Sans-Light';
+	font-size: 16px;
+	text-align: left;
+	padding: 15px 10px;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+strong.tt-highlight {
+	font-family: 'Open-Sans-Semibold';
+	font-weight: normal;
+}
+
+.tt-suggestion:hover {
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.tt-suggestion p {
+  margin: 0;
+  width:100%;
+}
+
+
+/* date */
+
+.flight-date-info-item {
+	font-size: 14px;
+  text-align: left;
+  padding-top: 10px;
+  text-align: center;
+  width:50%;
+  height: 100px;
+  float: left;
+}
+
+.flight-date-info-item .col-xs-12 {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.flight-date-info-item:first-child, 
+.flight-date-info-item.sel.dep {
+  border-right: 2px solid white;
+}
+
+.flight-date-info-item .row {
+	padding: 0 10px;
+  text-transform: capitalize;
+}
+
+.flight-date-info-item .direction,
+.flight-date-info-item .weekday {
+	display: inline;
+}
+
+.flight-date-info-item.sel .direction {
+	padding-right: 8px;
+}
+
+.flight-date-info-item .the-date {
+	font-size: 20px;
+	text-align: center; 
+	padding-top: 10px;
+}
+
+.the-date .tap-year {
+	padding-left: 8px;
+}
+
+
+
+
+
+
+
+
 
 
 /* heredeb */

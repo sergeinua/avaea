@@ -37,7 +37,7 @@ $(document).ready(function() {
     templates: {
       empty: [
         '<div class="empty-message">',
-        'unable to find the airport that match the current query',
+        'This airport does not seem to exist.',
         '</div>'
       ].join('\n'),
       suggestion: function(vars) {
