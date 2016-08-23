@@ -1,0 +1,881 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I have to go to Beijing (China) for a business trip, leaving on April 21.",
+        "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "I would like to leave from SFO and would like to stop in Japan for 2 days, and then to Beijing.",
+        "beginOffset": 74
+      }
+    },
+    {
+      "text": {
+        "content": "I need to back in my office for a meeting on April 30th.",
+        "beginOffset": 170
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "have",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "have"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "go",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "XCOMP"
+      },
+      "lemma": "go"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Beijing",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "Beijing"
+    },
+    {
+      "text": {
+        "content": "(",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": "("
+    },
+    {
+      "text": {
+        "content": "China",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "APPOS"
+      },
+      "lemma": "China"
+    },
+    {
+      "text": {
+        "content": ")",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": ")"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "a",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "business",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "NN"
+      },
+      "lemma": "business"
+    },
+    {
+      "text": {
+        "content": "trip",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "trip"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "leaving",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "VMOD"
+      },
+      "lemma": "leave"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 61
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "April",
+        "beginOffset": 64
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "POBJ"
+      },
+      "lemma": "April"
+    },
+    {
+      "text": {
+        "content": "21",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "21"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "would",
+        "beginOffset": 76
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "AUX"
+      },
+      "lemma": "would"
+    },
+    {
+      "text": {
+        "content": "like",
+        "beginOffset": 82
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "ROOT"
+      },
+      "lemma": "like"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 87
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 23,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "leave",
+        "beginOffset": 90
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "XCOMP"
+      },
+      "lemma": "leave"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 96
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 23,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 101
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 24,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 105
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "would",
+        "beginOffset": 109
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "AUX"
+      },
+      "lemma": "would"
+    },
+    {
+      "text": {
+        "content": "like",
+        "beginOffset": 115
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "CONJ"
+      },
+      "lemma": "like"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 120
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 30,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "stop",
+        "beginOffset": 123
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "XCOMP"
+      },
+      "lemma": "stop"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 128
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 30,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "Japan",
+        "beginOffset": 131
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 31,
+        "label": "POBJ"
+      },
+      "lemma": "Japan"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 137
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 30,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "2",
+        "beginOffset": 141
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 35,
+        "label": "NUM"
+      },
+      "lemma": "2"
+    },
+    {
+      "text": {
+        "content": "days",
+        "beginOffset": 143
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 33,
+        "label": "POBJ"
+      },
+      "lemma": "day"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 147
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 149
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "then",
+        "beginOffset": 153
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "ADVMOD"
+      },
+      "lemma": "then"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 158
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 28,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Beijing",
+        "beginOffset": 161
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 39,
+        "label": "POBJ"
+      },
+      "lemma": "Beijing"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 168
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 21,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 170
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 43,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "need",
+        "beginOffset": 172
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 43,
+        "label": "ROOT"
+      },
+      "lemma": "need"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 177
+      },
+      "partOfSpeech": {
+        "tag": "PRT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 45,
+        "label": "AUX"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "back",
+        "beginOffset": 180
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 43,
+        "label": "XCOMP"
+      },
+      "lemma": "back"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 185
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 45,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 188
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 48,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "office",
+        "beginOffset": 191
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 46,
+        "label": "POBJ"
+      },
+      "lemma": "office"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 198
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 45,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "a",
+        "beginOffset": 202
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 51,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "meeting",
+        "beginOffset": 204
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 49,
+        "label": "POBJ"
+      },
+      "lemma": "meeting"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 212
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 51,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "April",
+        "beginOffset": 215
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 54,
+        "label": "NN"
+      },
+      "lemma": "April"
+    },
+    {
+      "text": {
+        "content": "30th",
+        "beginOffset": 221
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 52,
+        "label": "POBJ"
+      },
+      "lemma": "30th"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 225
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 43,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "China",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/China"
+      },
+      "salience": 0.36988583,
+      "mentions": [
+        {
+          "text": {
+            "content": "China",
+            "beginOffset": 25
+          }
+        }
+      ]
+    },
+    {
+      "name": "Beijing",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Beijing"
+      },
+      "salience": 0.1805696,
+      "mentions": [
+        {
+          "text": {
+            "content": "Beijing",
+            "beginOffset": 16
+          }
+        },
+        {
+          "text": {
+            "content": "Beijing",
+            "beginOffset": 161
+          }
+        }
+      ]
+    },
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.048267864,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 101
+          }
+        }
+      ]
+    },
+    {
+      "name": "Japan",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Japan"
+      },
+      "salience": 0.040074173,
+      "mentions": [
+        {
+          "text": {
+            "content": "Japan",
+            "beginOffset": 131
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

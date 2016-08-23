@@ -1,0 +1,333 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Flight 77 departs Kona on May 7 lands at SFO.",
+        "beginOffset": 0
+      }
+    },
+    {
+      "text": {
+        "content": "Get tickets for me and my associate.",
+        "beginOffset": 46
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Flight",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "Flight"
+    },
+    {
+      "text": {
+        "content": "77",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 0,
+        "label": "NUM"
+      },
+      "lemma": "77"
+    },
+    {
+      "text": {
+        "content": "departs",
+        "beginOffset": 10
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "Kona",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "DOBJ"
+      },
+      "lemma": "Kona"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 23
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "May",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "May"
+    },
+    {
+      "text": {
+        "content": "7",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NUM"
+      },
+      "lemma": "7"
+    },
+    {
+      "text": {
+        "content": "lands",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POBJ"
+      },
+      "lemma": "land"
+    },
+    {
+      "text": {
+        "content": "at",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "at"
+    },
+    {
+      "text": {
+        "content": "SFO",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "POBJ"
+      },
+      "lemma": "SFO"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": "."
+    },
+    {
+      "text": {
+        "content": "Get",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "ROOT"
+      },
+      "lemma": "Get"
+    },
+    {
+      "text": {
+        "content": "tickets",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "DOBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "for",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "PREP"
+      },
+      "lemma": "for"
+    },
+    {
+      "text": {
+        "content": "me",
+        "beginOffset": 62
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "me"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 65
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 69
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 17,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "associate",
+        "beginOffset": 72
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "CONJ"
+      },
+      "lemma": "associate"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 81
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "Flight 77",
+      "type": "CONSUMER_GOOD",
+      "metadata": {},
+      "salience": 0.42395496,
+      "mentions": [
+        {
+          "text": {
+            "content": "Flight 77",
+            "beginOffset": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Kona",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Kona_International_Airport"
+      },
+      "salience": 0.16479082,
+      "mentions": [
+        {
+          "text": {
+            "content": "Kona",
+            "beginOffset": 18
+          }
+        }
+      ]
+    },
+    {
+      "name": "SFO",
+      "type": "ORGANIZATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco_International_Airport"
+      },
+      "salience": 0.11648565,
+      "mentions": [
+        {
+          "text": {
+            "content": "SFO",
+            "beginOffset": 41
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}
