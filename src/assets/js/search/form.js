@@ -107,6 +107,7 @@ function changeFlightTab(type, prevTab) {
       
       // ------- return date -------
       
+      $('.flight-date-info-item.ret').show();
       
       if ($('#returnDate').data('date')) {
         $('#returnDate').val($('#returnDate').data('date'));
@@ -116,9 +117,11 @@ function changeFlightTab(type, prevTab) {
       if (!!$('#returnDate').val()) {
         $('#returnDate').data('date', $('#returnDate').val());
         $('.flight-date-info-item.ret .the-date').show();
+        $('.flight-date-info-item.ret .weekday').show();
         $('.flight-date-info-item.ret .tap-plus').hide();
       } else {
       	$('.flight-date-info-item.ret .the-date').hide();
+      	$('.flight-date-info-item.ret .weekday').hide();
         $('.flight-date-info-item.ret .tap-plus').show();
       }
       
@@ -176,6 +179,9 @@ function changeFlightTab(type, prevTab) {
     	$('.form-fields').attr("class","form-fields one-way");
     	
       $('.flight-direction-item-voice-search').hide();
+      
+    	$('.flight-date-info-item.ret').hide();
+    	$('#returnDate').val('');
       
  
       // ------- if dates are set --------
@@ -297,7 +303,7 @@ $(document).ready(function() {
 
     $('.search-buttons').hide();
     $("body").addClass("loading");
-    //$('#planePath').removeClass('hidden');
+    $('#planePath').removeClass('hidden');
     setInterval('fly("#plane")', 40);
     setCookie('dimmer_was_showed', 0);
     return true;
@@ -320,15 +326,6 @@ $(document).ready(function() {
 		  } else {
 		  	$('.multi-city-coming-soon').hide();
 		  } 
-	    
-	  // if "one-way" is active, don't show or submit return date
-	    if ($(".flight-type-form .one-way").hasClass("active-choice")) {
-	    	$('.flight-date-info-item.ret').hide();
-	    	$('#returnDate').val('');
-		  } else {
-		  	$('.flight-date-info-item.ret').show();
-		  } 
-	    
 	    	
   });
   
