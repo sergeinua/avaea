@@ -48,20 +48,20 @@ var drawAirportData = function (target) {
 
 
 // Vars
-var flashErrorTimeout = 700;
+var flashErrorTimeout = 1000;
 
 // For elements with error
 var setErrorElement = function (selector) {
   // Logic and animation
-  $(selector).addClass('error_elem error_flash');
+  $(selector).addClass('error-elem error-flash');
   // Animation
   setTimeout(function() {
-    $(selector).removeClass('error_flash');
+    $(selector).removeClass('error-flash');
   }, flashErrorTimeout);
 };
 var unsetErrorElement = function (selector) {
-  if($(selector).hasClass("error_elem")) {
-    $(selector).removeClass("error_elem");
+  if($(selector).hasClass("error-elem")) {
+    $(selector).removeClass("error-elem");
   }
 };
 
@@ -83,6 +83,9 @@ function changeFlightTab(type, prevTab) {
       $('.flight-direction-item').removeClass('hidden');
       $('.flight-direction-item-arrow').removeClass('hidden');
       $('.flight-direction-form').removeClass('hidden');
+      
+      // ------- if from-to are set --------
+      
       if (hasFrom) {
         $('#from-area').addClass('hidden');
         $('#from-area-selected').removeClass('hidden');
@@ -95,25 +98,35 @@ function changeFlightTab(type, prevTab) {
       if ($('#departureDate').data('date')) {
         $('#departureDate').val($('#departureDate').data('date'));
       }
+      
+      // ------- if dates are set --------
+      
       if (!!$('#departureDate').val()) {
         $('#departureDate').data('date', $('#departureDate').val());
         $('.flight-date-info-item.sel.dep').removeClass('hide');
         $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+        
       } else {
+      	
         $('.flight-date-info-item.sel.dep').addClass('hide');
         $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
       }
+      
       if ($('#returnDate').data('date')) {
         $('#returnDate').val($('#returnDate').data('date'));
       }
+      
       if (!!$('#returnDate').val()) {
         $('#returnDate').data('date', $('#returnDate').val());
         $('.flight-date-info-item.sel.ret').removeClass('hide');
         $('.flight-date-info-item.ret').not('.sel').addClass('hide');
+        
       } else {
+      	
         $('.flight-date-info-item.sel.ret').addClass('hide');
         $('.flight-date-info-item.ret').not('.sel').removeClass('hide');
       }
+      
       $('#date_select_main .row.return').removeClass('hidden');
       $('#date_select p.header span.ret').removeClass('hidden');
       $('#date_select p.info span.ret').removeClass('hidden');
@@ -123,13 +136,8 @@ function changeFlightTab(type, prevTab) {
 
       $('.back-history').addClass('hidden');
       $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
+      $('.container-fluid').addClass('noValue');
+      $('.flight-direction').addClass('noValue');
       $('.navbar-brand').text('Avaea Agent');
       $('.navbar-toggle').removeClass('hidden');
       $('.voice-search-buttons').addClass('hidden');
@@ -153,13 +161,8 @@ function changeFlightTab(type, prevTab) {
 
       $('.back-history').addClass('hidden');
       $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
+      $('.container-fluid').addClass('noValue');
+      $('.flight-direction').addClass('noValue');
       $('.navbar-brand').text('Avaea Agent');
       $('.navbar-toggle').removeClass('hidden');
       $('.voice-search-buttons').addClass('hidden');
@@ -178,19 +181,15 @@ function changeFlightTab(type, prevTab) {
       $('.flight-date-info').addClass('hidden');
       $('.flight-additional-info').addClass('hidden');
       $('.searchform-top').addClass('hidden');
-      $('.main.container-fluid').css({
-        'height': '100%'
-      });
-      $('.flight-direction').css({
-        'height': '100%',
-        'margin-top': 0
-      });
+      $('.main.container-fluid').addClass('voice-search');
+      $('.flight-direction').addClass('voice-search');
       $('.navbar-brand').text('Voice Search');
       $('.navbar-toggle').addClass('hidden');
 
       $('.search-button').hide();
       $('.search-top-button').hide();
       $('#voiceSearchTextarea').focus();
+      
       break;
     case 'one_way':
       $('.flight-direction-item-voice-search').addClass('hidden');
@@ -217,6 +216,7 @@ function changeFlightTab(type, prevTab) {
         $('.flight-date-info-item.sel.dep').addClass('hide');
         $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
       }
+      
       $('#returnDate').val('');
       $('.flight-date-info-item.sel.ret').addClass('hide');
       $('.flight-date-info-item').not('.sel').eq(1).addClass('hide');
@@ -229,13 +229,8 @@ function changeFlightTab(type, prevTab) {
 
       $('.back-history').addClass('hidden');
       $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
+      $('.container-fluid').addClass('noValue');
+      $('.flight-direction').addClass('noValue');
       $('.navbar-brand').text('Avaea Agent');
       $('.navbar-toggle').removeClass('hidden');
       $('.voice-search-buttons').addClass('hidden');

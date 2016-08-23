@@ -1,9 +1,6 @@
 
 
-body {
-  color: #333333;
-  padding-top: 50px;
-}
+
 
 body.search-result {
   background-image: url("/images/pattern.png");
@@ -676,15 +673,6 @@ button.buy-button-arrow[aria-expanded=true] {
   margin-top: 20px;
 }
 
-.error_elem {
-}
-.error_flash {
-  background-color: #b92200;
-  color: #ffffff;
-}
-.error_flash .flight-date-info-item-depart, .error_flash .flight-date-info-item-return {
-  color: #ffffff;
-}
 
 .itinerary-airline .modal {
   font-family: WhitneyHTF-MediumCondensed;

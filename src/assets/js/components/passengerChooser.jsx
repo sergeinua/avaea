@@ -3,7 +3,7 @@ var PassengerChooser = React.createClass({
   getInitialState: function() {
     return {
       passengers_count: this.props.passengerVal || $('#passengers').val(),
-      passengers_text: "adult" + (this.props.passengerVal == 1? '':'s')
+      passengers_text: "Adult" + (this.props.passengerVal == 1? '':'s')
     };
   },
 
@@ -21,13 +21,13 @@ var PassengerChooser = React.createClass({
     if (passengerVal == 1 || passengerVal > 4) {
       this.setState({
         passengers_count: 1,
-        passengers_text: "adult"
+        passengers_text: "Adult"
       });
       passengerVal = 1;
     } else {
       this.setState({
         passengers_count: passengerVal,
-        passengers_text: "adults"
+        passengers_text: "Adults"
       });
     }
     $('#passengers').val(passengerVal);

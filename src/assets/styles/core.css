@@ -18,6 +18,7 @@
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
+	color: #000000;
 	background: #ffffff;
 }
 
@@ -90,8 +91,10 @@ footer,
 .tap-date,
 .tap-month,
 .tap-year,
+.tap-plus,
 .tt-highlight,
-.flight-additional-info .text-picker {
+.flight-additional-info .text-picker,
+.flight-direction-item.error-flash {
 	color: #004c9c;
 }
 
@@ -127,7 +130,8 @@ footer,
 
 /* highlight */
 
-.highlight {
+.highlight,
+.error-flash {
 	background: #ffffe4;
 }
 
@@ -242,10 +246,18 @@ input.form-control {
 
 /* search form */
 
+.navbar {
+	margin-bottom: 0;
+	border: 0px solid transparent;
+}
+
+.main.container-fluid {
+	padding-left: 0;
+	padding-right: 0;
+}
+
 .searchform-top {
-  border: 0;
-  margin-top: 50px;
-  z-index: 10;
+
 }
 
 .flight-type-form {
@@ -267,24 +279,23 @@ input.form-control {
 }
 
 .flight-direction-item-coming-soon {
+	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	position: relative;
-		top: 50px;
+	padding-top: 20px;
+  padding-bottom: 67px;
 }
 
 
 /* from to destination arrival */
 
 .flight-direction {
-  margin-top: 50px;
-  position: relative;
+
 }
 
-.flight-direction-form,
-.flight-direction-item-coming-soon {
+.flight-direction-form {
 	color: #ffffff;
-  padding: 45px 0;
+  padding: 45px 15px;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -467,24 +478,29 @@ strong.tt-highlight {
 	padding-left: 5px;
 }
 
+.tap-plus {
+	font-size: 36px;
+	margin-top: -10px;
+}
+
 .flight-additional-info .chooser {
+	font-family: 'Open-Sans-Semibold';
+	padding-top: 18px;
   height: 50px;
-  padding-top: 18px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .flight-additional-info .text-picker {
-  text-transform: capitalize;
   text-align: left;
   padding-left: 15px;
 }
 
 .flight-additional-info .label-d {
-	font-family: 'Open-Sans-Semibold';
   font-size: 14px;
   text-align: right;
   padding-right: 15px;
 }
+
 
 
 
