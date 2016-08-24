@@ -464,31 +464,7 @@ button.buy-button-arrow[aria-expanded=true] {
   color: white;
 }
 
-@media (min-height: 320px) {
-  .datepicker table td.day {
-    line-height: 26px !important;
-  }
-}
-@media (min-height: 360px) {
-  .datepicker table td.day {
-    line-height: 32px !important;
-  }
-}
-@media (min-height: 414px) {
-  .datepicker table td.day {
-    line-height: 42px !important;
-  }
-}
-@media (min-height: 640px) {
-  .datepicker table td.day {
-    line-height: 54px !important;
-  }
-}
-@media (min-height: 768px) {
-  .datepicker table td.day {
-    line-height: 64px !important;
-  }
-}
+
 
 .bootstrap-datetimepicker-widget table td,
 .bootstrap-datetimepicker-widget table th {
