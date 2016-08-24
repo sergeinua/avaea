@@ -97,9 +97,10 @@ footer,
 
 .back-history {
 	font-family: 'Open-Sans-Light';
-	font-size: 22px;
+	font-size: 16px;
 	text-transform: capitalize;
-	padding: 2px 2px 6px 12px;
+	margin-top: -2px;
+	padding: 0px 2px 6px 12px;
 	color: #ffffff;
 	display: inline-block;
 	float: left;
@@ -107,7 +108,7 @@ footer,
 
 .back-history:before {
 	font-size: 36px;
-	top: 5px;
+	top: 8px;
 	left: -5px;
 }
 
@@ -821,6 +822,22 @@ strong.tt-highlight {
 
 .datepicker table td.day {
   line-height: 26px !important;
+}
+
+.multi-city-coming-soon {
+	padding-bottom: 55px;
+}
+
+.tap-plus {
+	line-height: 30px;
+}
+
+.voice-form {
+	margin-top: 10px;
+}
+
+.voice-search-buttons {
+	bottom: 0;
 }
 	
 }
