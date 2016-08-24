@@ -61,7 +61,7 @@
             <span class="icon-bar"></span>
           </button>
           <% if (typeof user != 'undefined') { %>
-            <div class="back-history">Back</div>
+            <div class="icon-arr-left-circle back-history"></div>
           <% } %>
           <div class="navbar-brand">
             <%- typeof head_content == 'undefined' ? __('Avaea Agent') : head_content %>
