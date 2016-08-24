@@ -134,10 +134,6 @@ function changeFlightTab(type, prevTab) {
         $('.flight-date-info-item.ret .tap-plus').show();
       }
       
-      $('#date_select_main .row.return').show();
-      $('#date_select p.header span.ret').show();
-      $('#date_select p.info span.ret').show();
-
       	
       break;
     case 'multi_city':

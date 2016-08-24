@@ -209,11 +209,7 @@ nav {
   color: #FFFFFF;
 }
 
-.disabled:not(.big-button) {
-  /*background-color: rgba(255, 123, 123, 0.1) !important;*/
-  border-color: #EFD4D4;
-  color: #BFB6C1 !important;
-}
+
 .disabled.dis-selected {
   background-color: #004a99 !important;
   opacity: 0.4;
@@ -437,103 +433,7 @@ body.loading .modalLoader {
 
 
 
-#date_select_main {
-  font-family: WhitneyHTF-Book;
-}
 
-#date_select_main .row.depart, #date_select_main .row.return {
-  margin-top: 25px;
-}
-
-#date_select .navbar-header {
-  height: 54px;
-  padding-top: 5px;
-}
-
-#date_select .navbar-header .row > div:first-child {
-  padding-left: 5px;
-}
-
-#date_select .navbar-header .row > div:last-child {
-  padding-right: 5px;
-}
-
-#date_select p.header {
-  margin: 0 10px 0 0;
-  font-size: 14px;
-  font-family: WhitneyHTF-MediumCondensed;
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
-  color: #6F738D;
-}
-#date_select p.info {
-  margin: 0 10px 0 0;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 20px;
-  letter-spacing: 0.2px;
-}
-
-.date_select-button {
-  margin-top: 2px;
-  width: 80px;
-  height: 40px;
-  background-color: #7c1d00;
-  border-radius: 20px;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  border: 0;
-}
-
-.datepicker .picker-switch {
-  font-weight: normal;
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #101742;
-}
-
-.datepicker table td.day {
-  background-color: #ffffff !important;
-}
-
-.datepicker span.range:not(.disabled),
-.datepicker table td.day.range:not(.disabled) {
-  background-color: #FFFBEB !important;
-}
-
-.datepicker span.range.new, .datepicker span.range.old,
-.datepicker table td.day.range.new, .datepicker table td.day.range.old {
-  background-image: url("/images/ydiag_dark.png");
-}
-
-.datepicker span.active.new, .datepicker span.active.old,
-.datepicker table td.day.active.new, .datepicker table td.day.active.old,
-.datepicker span.active, .bootstrap-datetimepicker-widget span.active:hover,
-.datepicker table td.active, .bootstrap-datetimepicker-widget table td.active:hover {
-  background-color: #ffe03f !important;
-  border-radius: 0;
-  color: #101742 !important;
-}
-.datepicker span.active.new, .datepicker span.active.old,
-.datepicker table td.day.active.new, .datepicker table td.day.active.old {
-  background-image: url("/images/ydiag_light.png");
-}
-
-.datepicker table td.today:before {
-  display: none !important;
-}
-
-.datepicker table tr {
-  border-bottom: 1px solid #e8e8e8;
-}
-.datepicker table td.day {
-  line-height: 26px !important;
-}
 
 .buy-button-group {
   width:68px;
@@ -588,18 +488,6 @@ button.buy-button-arrow[aria-expanded=true] {
   .datepicker table td.day {
     line-height: 64px !important;
   }
-}
-
-.datepicker span.old, .datepicker span.new,
-.datepicker table td.day.old, .datepicker table td.day.new {
-  background-color: inherit !important;
-}
-
-.datepicker span.disabled, .datepicker span.disabled:hover,
-.datepicker table th.disabled, .datepicker table th.disabled:hover,
-.datepicker table td.disabled, .datepicker table td.disabled:hover {
-  background: none !important;
-  text-decoration: line-through;
 }
 
 .bootstrap-datetimepicker-widget table td,
@@ -796,14 +684,9 @@ div.nothing-found-icon {
   body {
     padding-top: 30px;
   }
-  .navbar-default .navbar-toggle {
-    padding: 0 4px;
-  }
+
   #tiles_ui {
     margin-top: 30px;
-  }
-  .navmenu {
-    margin-top: 30px !important;
   }
   .navbar-brand {
     padding: 4px;
@@ -814,16 +697,8 @@ div.nothing-found-icon {
   .navbar#tiles_ui {
     height: 20px;
   }
-  .searchform-top {
-    border: 0;
-    margin-top: 30px;
-    z-index: 10;
-  }
   .searchform-flight-direction {
     padding-top: 30px;
-  }
-  .flight-direction {
-    height: 132px;
   }
   .flight-type {
     padding-left: 5px;

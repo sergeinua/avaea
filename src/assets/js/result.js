@@ -18,26 +18,11 @@ $.fn.scrollTo = function(elem) {
 };
 
 var recalculateBodyPadding = function () {
-  $('body').removeClass('landscape-mode');
-  if (isLandscapeMode()) {
-    $('body').addClass('landscape-mode');
-    if (isMobile.any() && $('#landscapeMode').length) {
-      $('#landscapeMode').modal('show');
-      $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
-      $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
-    }
-  } else {
-    if(isMobile.any()) {
-      $('#landscapeMode').modal('hide');
-    }
-  }
 
-  var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-  var navHeight = 50;
-  if (window.innerWidth >= 480) {
-    navHeight = 30;
-  }
-  $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
+	//------- Deborah removed landscape padding calculation function
+	//------- it is better to handle this in CSS, instead of js
+	//------- waiting for Eugene's merge before removing references
+
 };
 
 function _displayDimmer(flag) {

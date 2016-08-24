@@ -98,37 +98,32 @@
         </div>
       </div><!-- /.container-fluid -->
 
+      <!--  ------- airport selection ------- -->
       <div id="search_title" class="hidden">
         <div class="navbar-header">
           <div style="width:auto; float: left">
             <input id="airport-input" type="text" name="airport" target="" value="" placeholder="City, airport code or airport name"/>
           </div>
           <div style="width:auto; float: left">
-            <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
+            <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('Cancel') %></button>
           </div>
         </div>
       </div>
 
-      <div id="date_select" class="hidden">
+      <!--  ------- date selection ------- -->
+      <div id="date_select" class="calendar-header">
         <div class="navbar-header">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-xs-8">
-                <p class="header"><%= __('Depart') %><span class="ret">/<%= __('Arrive') %></span></p>
-                <p class="info"><span class="dep">Sat 23 Jan</span><span class="ret">Tue 02 Feb</span></p>
-              </div>
-              <div class="col-xs-4">
-                <div class="pull-right">
-                  <button type="button" id="date_select_top" class="date_select-button"><%= __('DONE') %></button>
-                </div>
-              </div>
+                <div class="info"><span class="dep">23 Jan Sat</span><span class="ret">02 Feb Tue</span></div>
+                <button type="button" id="date_select_top" class="date_select-button small-button"><%= __('Done') %></button>
             </div>
           </div>
         </div>
       </div>
     </nav>
 
-    <div id="date_select_main" class="container-fluid clearfix hidden">
+    <div id="date_select_main" class="container-fluid clearfix calendar-panel">
       <div style="overflow:hidden;" class="row">
         <div class="row">
           <div class="col-xs-12">
@@ -137,6 +132,7 @@
         </div>
       </div>
     </div>
+    
     <div id="main" class="main container-fluid clearfix">
 
       <% // Rename errors var to the tmp_errors temporary. For displaying error for booking

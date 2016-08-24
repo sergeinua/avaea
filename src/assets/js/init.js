@@ -90,29 +90,10 @@ $(document).ready(function() {
 
 
   $( window ).resize(function() {
-    $('body').removeClass('landscape-mode');
-    var modalIsOpen = $('#landscapeMode').length && ($("#searchBanner").data('bs.modal') || {}).isShown;
 
-    if (isLandscapeMode()) {
-      $('body').addClass('landscape-mode');
-      if (isMobile.any() && $('#landscapeMode').length) {
-        if ( modalIsOpen ) {
-          $('#searchBanner').hide();
-          $('#planePath').hide();
-        }
-        $('#landscapeMode').modal('show');
-        $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
-        $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
-      }
-    } else {
-      if(isMobile.any()) {
-        if ( modalIsOpen ) {
-          $('#searchBanner').show();
-          $('#planePath').show();
-        }
-        $('#landscapeMode').modal('hide');
-      }
-    }
+  	// ------- Deborah removed landscape modal
+  	// ------- because she will make it work 
+  	// ------- beautifully for landscape
 
     //DEMO-318 an unused horizontal stripe between tiles and itin summaries
     var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;

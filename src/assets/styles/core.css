@@ -11,7 +11,9 @@
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
-.big-button.search-top-button {
+.big-button.search-top-button,
+.calendar-header,
+.calendar-panel {
 	display: none;
 }
 
@@ -62,7 +64,8 @@ footer,
 	background: #ffffff;
 }
 
-.big-button {
+.big-button,
+.small-button {
 	border-radius: 3px;
 }
 
@@ -72,11 +75,21 @@ footer,
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
-	padding: 10px 30px;
+	padding: 8px 25px;
 	display: inline-block;
 }
 
-.big-button.disabled {
+.small-button {
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 16px;
+	margin: 10px 5px;
+	padding: 10px 25px;
+	display: inline-block;
+}
+
+.big-button.disabled,
+.small-button.disabled {
 	cursor: default;
 	background: #ffffff;
 }
@@ -99,6 +112,11 @@ footer,
 
 
 /* colors */
+
+.bootstrap-datetimepicker-widget table td.old, 
+.bootstrap-datetimepicker-widget table td.new {
+	color: #000000;
+}
 
 /* dark blue */
 
@@ -131,11 +149,26 @@ footer,
 
 /* light blue */
 
-.big-button {
+.big-button,
+.navbar-header .small-button {
 	background: #0081c9;
 }
 
-.tt-suggestion.tt-selectable {
+.datepicker span.active.new, 
+.datepicker span.active.old, 
+.datepicker table td.day.active.new, 
+.datepicker table td.day.active.old, 
+.datepicker span.active, 
+.bootstrap-datetimepicker-widget span.active:hover, 
+.datepicker table td.active, 
+.bootstrap-datetimepicker-widget table td.active:hover {
+	background-color: #0081c9;
+}
+
+.tt-suggestion.tt-selectable,
+.datepicker .picker-switch,
+.datepicker th.next,
+.datepicker th.previous {
 	color: #0081c9;
 }
 
@@ -145,6 +178,11 @@ footer,
 	background: #deeef7;
 }
 
+.datepicker span.range:not(.disabled), 
+.datepicker table td.day.range:not(.disabled) {
+	background-color: #deeef7 !important;
+}
+
 /* grays */
 
 .tt-suggestion:hover,
@@ -152,7 +190,8 @@ footer,
   background-color: #f7f7f7;
 }
 
-.big-button.disabled {
+.big-button.disabled,
+.small-button.disabled {
 	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -188,7 +227,9 @@ textarea {
 }
 
 .tt-hint,
-.big-button.disabled {
+.big-button.disabled,
+.small-button.disabled,
+.disabled {
 	color: #bbb !important;
 }
 
@@ -237,6 +278,14 @@ textarea {
 .navbar-header {
 	min-height: 51px;
 }
+
+.navbar-header .small-button {
+	position: absolute;
+	top: -2px;
+	right: 5px;
+}
+
+
 
 /* sliding main menu */
 
@@ -422,13 +471,7 @@ textarea {
 }
 
 .search_button_top_cancel {
-  border: 0;
-  background-color: transparent;
-  font-family: WhitneyHTF-MediumCondensed;
   font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  padding-top: 20px;
 }
 
 .twitter-typeahead,
@@ -632,10 +675,145 @@ strong.tt-highlight {
 }
 
 
+/* calendar */
+
+.calendar-header .ret:before {
+	content: ' - ';
+}
+
+.calendar-header .info {
+	font-size: 16px;
+	text-align: left;
+	display: inline-block;
+	position: absolute;
+	left: 20px;
+	top: 18px;
+}
+
+.datepicker .disabled {
+	opacity: .7;
+}
+
+
+/* landscape */
+
+.calendar-panel {
+	margin-top: 25px;
+}
+
+/* end landscape */
+
+
+#date_select .navbar-header {
+  height: 54px;
+  padding-top: 5px;
+}
+
+#date_select .navbar-header .row > div:first-child {
+  padding-left: 5px;
+}
+
+#date_select .navbar-header .row > div:last-child {
+  padding-right: 5px;
+}
+
+#date_select p.header {
+  margin: 0 10px 0 0;
+  font-size: 14px;
+  font-family: WhitneyHTF-MediumCondensed;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+  color: #6F738D;
+}
+
+#date_select p.info {
+  margin: 0 10px 0 0;
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 20px;
+  letter-spacing: 0.2px;
+}
+
+.datepicker .picker-switch {
+  font-size: 20px;
+}
+
+.datepicker span.range.new, .datepicker span.range.old,
+.datepicker table td.day.range.new, .datepicker table td.day.range.old {
+  background-image: url("/images/ydiag_dark.gif");
+}
+
+.datepicker span.active.new, .datepicker span.active.old,
+.datepicker table td.day.active.new, .datepicker table td.day.active.old {
+  background-image: url("/images/ydiag_light.gif");
+}
+
+.datepicker table td.today:before {
+  display: none !important;
+}
+
+.datepicker table tr {
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.datepicker table td.day {
+  line-height: 26px !important;
+}
+
+
 /* heredeb */
 
-/* responsive */
+/* ------- responsive ------- */
 
+/* landscape phone */
+
+@media (max-width: 736px) and (max-height: 414px) {
+	
+/* search form */
+	
+.flight-direction-form {
+	padding: 0px 15px 5px 15px;
+}
+
+.flight-direction-item-from-to {
+	padding-bottom: 0;
+}
+
+#from-airport-selected, 
+#to-airport-selected {
+	font-size: 36px;
+	line-height: 40px;
+}
+
+.flight-direction-item-from-to-city {
+	line-height: 1.5em;
+}
+
+.flight-date-info-item {
+	padding-top: 15px;
+	height: 75px;
+}
+
+.flight-date-info-item .the-date {
+	font-size: 20px;
+	letter-spacing: 0;
+	padding-top: 0;
+}
+
+.flight-additional-info .chooser {
+	display: inline-block;
+	width: 50%;
+	float: left;
+}
+
+.search-buttons {
+	bottom: 0;
+}
+
+.search-buttons .big-button {
+	margin: 0;
+}
+	
+}
 
 
 /* animations */
