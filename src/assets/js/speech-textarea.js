@@ -166,11 +166,9 @@
     if (recognition && recognizing) {
       recognition.stop();
     }
-    var heightNav = $('.navbar-header').outerHeight(true);
     demo(function(res, data) {
       log("Result of demo: "+JSON.stringify(data));
       loggerQuery(data, (res ? 'success' : 'failed'));
-      $('.navbar-header').height(heightNav);
     });
 
   });
@@ -178,7 +176,7 @@
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
     if (!isMobileDev) {
-      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+      final_textarea.attr('placeholder', 'This browser is not enabled for voice commands.');
     }
     upgrade();
   }
@@ -218,11 +216,9 @@
 
   function showButtons(disable) {
     if (disable) {
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
-    } else if (!$('.flight-direction-item-voice-search').hasClass('hidden')) {
-      $('.voice-search-buttons').removeClass('hidden');
-      $('#voiceSearchFlight').removeClass('disabled');
+      $('.voice-search-buttons').hide();
+    } else if ($('.flight-direction-item-voice-search:visible')) {
+      $('.voice-search-buttons').show();
     }
   }
 

@@ -76,6 +76,7 @@ var setupVoiceSearch = function () {
 };
 
 var removeVoicePanel = function() {
+	$('.voice-form').hide();
 	$('.back-history').hide();
   $('.searchform-top').show();
   $('.navbar-brand').show();
@@ -93,7 +94,9 @@ function changeFlightTab(type, prevTab) {
     case 'round_trip':
     	
     	$('.form-fields').attr("class","form-fields round-trip");
-      $('.voice-form').hide();
+    	
+    	// toggle voice nav out
+      removeVoicePanel();
       
       // ------- depart date --------
       
@@ -135,15 +138,11 @@ function changeFlightTab(type, prevTab) {
       $('#date_select p.header span.ret').show();
       $('#date_select p.info span.ret').show();
 
-      // toggle voice nav out
-      removeVoicePanel();
-
       	
       break;
     case 'multi_city':
     	
     	$('.form-fields').attr("class","form-fields multi-city");
-    	$('.voice-form').hide();
       
     	// toggle voice nav out
     	removeVoicePanel();
@@ -154,23 +153,20 @@ function changeFlightTab(type, prevTab) {
     	$('.form-fields').attr("class","form-fields voice-search");
     	$('.voice-form').show();
     	
-      $('.flight-direction-item-voice-search').show();
+    	$('.searchform-top').hide();
+      $('.navbar-brand').hide();
+      $('.navbar-toggle').hide();
+      $('#voiceSearchTextarea').focus();
+    	
       $('.back-history').off('click').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
       }).show();
 
-      $('.searchform-top').hide();
-      $('.main.container-fluid').addClass('voice-search');
-      $('.navbar-brand').hide();
-      $('.navbar-toggle').hide();
-
-      $('#voiceSearchTextarea').focus();
       
       break;
     case 'one_way':
     	
     	$('.form-fields').attr("class","form-fields one-way");
-      $('.voice-form').hide();
     	$('.flight-date-info-item.ret').hide();
     	$('#returnDate').val('');
  
@@ -308,8 +304,10 @@ $(document).ready(function() {
     
 	    if ($(".flight-type-form .multi-city").hasClass("active-choice")) {
   			$('.multi-city-coming-soon').show();
+  			$('.voice-search-button').hide();
 		  } else {
 		  	$('.multi-city-coming-soon').hide();
+		  	$('.voice-search-button').show();
 		  } 
 	    	
   });
