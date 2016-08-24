@@ -282,8 +282,7 @@ $(document).ready(function() {
 
     $('.search-buttons').hide();
     $("body").addClass("loading");
-    $('#planePath').removeClass('hidden');
-    setInterval('fly("#plane")', 40);
+    setInterval(40000);
     setCookie('dimmer_was_showed', 0);
     return true;
   });

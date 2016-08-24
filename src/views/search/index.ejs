@@ -127,13 +127,18 @@
   </div><!-- ends form-fields -->
 
   <!-- Modal -->
-  <div id="searchBanner" class="modal fade" role="dialog">
+  <div id="searchBanner" class="modal fade searchingModal" role="dialog">
     <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-body">
-          We are searching best priced flights and constructing smart filters to help you select your perfect flight.
+          <div class="copy">
+            We are searching best priced flights and constructing smart filters to help you select your perfect flight.
+          </div>
+          <div class="spinner-holder">
+            <div class="icon-spinner"></div>
+          </div>
         </div>
       </div>
 
@@ -141,8 +146,3 @@
   </div>
   <%- partial('landscape')%>
 
-  <div id="planePath" class="hidden" style="position:absolute;left:0;bottom:0;z-index:99999; width:100%;height: 50px; background-color: white; overflow: hidden;">
-    <div id="plane" style="position:inherit;left:0;bottom:0;z-index:99999">
-      <img src="/images/plane.jpg">
-    </div>
-  </div>

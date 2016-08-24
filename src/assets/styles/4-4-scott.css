@@ -26,16 +26,7 @@ nav {
 .navbar-default .navbar-toggle {
   margin-right: 0;
 }
-.navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
-  border: 0;
-  background-color: transparent;
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 20px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  padding-right: 6px;
-  padding-left: 6px;
-}
+
 
 .navbar-default .navbar-toggle>span, .navbar-default .navbar-toggle:focus>span, .navbar-default .navbar-toggle:hover>span{
   font-size: 10px;
@@ -382,31 +373,7 @@ nav {
   padding: 2px;
 }
 
-.modalLoader {
-  display:    none;
-  position:   fixed;
-  z-index:    1000;
-  top:        0;
-  left:       0;
-  height:     100%;
-  width:      100%;
-  background: rgba( 255, 255, 255, .8 )
-  url('../images/ajax-loader.gif')
-  50% 50%
-  no-repeat;
-}
 
-/* When the body has the loading class, we turn
-   the scrollbar off with overflow:hidden */
-body.loading {
-  overflow: hidden;
-}
-
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .modalLoader {
-  display: block;
-}
 
 
 
@@ -510,24 +477,7 @@ button.buy-button-arrow[aria-expanded=true] {
   cursor: pointer;
 }
 
-#searchBanner {
-  width: 300px;
-  left:50%;
-  margin-left: -150px;
-  margin-top: -150px;
-  top: 50%;
-}
-#landscapeMode {
-  /*left:50%;*/
-  /*margin-left: -150px;*/
-  margin-top: -150px;
-  top: 50%;
-}
 
-#searchBanner > div > .modal-content,
-#landscapeMode > div > .modal-content {
-  background-color: lightgrey;
-}
 
 .btn-sm, .btn-group-sm > .btn {
   padding: 4px;

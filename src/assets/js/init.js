@@ -96,6 +96,7 @@ $(document).ready(function() {
   	// ------- beautifully for landscape
 
     // Deborah also removed this, it injected padding all the time, not just on results page
+  	// will re-resolve this bug after merge
   	// DEMO-318 an unused horizontal stripe between tiles and itin summaries
 
   });

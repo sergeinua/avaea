@@ -185,6 +185,12 @@ footer,
 	background-color: #deeef7 !important;
 }
 
+/* green */
+
+.icon-spinner {
+	color: #39d744;
+}
+
 /* grays */
 
 .tt-suggestion:hover,
@@ -267,6 +273,17 @@ textarea {
   letter-spacing: 0.5px;
   color: #ffffff;
   text-transform: uppercase;
+}
+
+.navbar-default .navbar-toggle, 
+.navbar-default .navbar-toggle:focus, 
+.navbar-default .navbar-toggle:hover {
+  font-family: 'Open-Sans-Extrabold';
+	margin: 10px 0 8px 0;
+  padding-right: 6px;
+  padding-left: 6px;
+	background-color: transparent;
+	border: 0px solid transparent;
 }
 
 .navbar-default .navbar-nav {
@@ -372,7 +389,7 @@ textarea {
   font-size: 17px;
   opacity: .5;
   text-transform: uppercase;
-  padding: 25px 12px;
+  padding: 25px 12px 15px 12px;
 }
 
 .flight-type-item.active-choice,
@@ -385,7 +402,7 @@ textarea {
   font-size: 18px;
 	text-align: center;
 	padding-top: 20px;
-  padding-bottom: 132px;
+  padding-bottom: 127px;
 }
 
 
@@ -397,7 +414,7 @@ textarea {
 
 .flight-direction-form {
 	color: #ffffff;
-  padding:15px 15px 45px 15px;
+  padding:15px 15px 40px 15px;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -764,6 +781,84 @@ strong.tt-highlight {
 }
 
 
+/* modal */
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+  overflow: hidden;
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modalLoader {
+  display: block;
+}
+
+/* this is the overlay */
+.modalLoader {
+  display:    none;
+  position:   fixed;
+  z-index:    1000;
+  top:        0;
+  left:       0;
+  height:     100%;
+  width:      100%;
+  background: rgba( 255, 255, 255, .1 );
+}
+
+.modal {
+	margin: 0 auto;
+	width: 90%;
+	top: 25%;
+}
+
+.modal-dialog {
+	margin: 0;
+}
+
+.modal-content {
+	border: 0px solid transparent;
+	border-radius: 3px;
+	box-shadow: none;
+	-webkit-box-shadow: none;
+}
+
+.modal-body {
+	font-size: 16px;
+	padding: 30px 15px;
+}
+
+.modal-body.searchingModal {
+	font-size: 16px;
+	line-height: 24px;
+	padding: 30px 30px;
+}
+
+.spinner-holder {
+	margin: 30px 0 15px 0;
+}
+
+.icon-spinner {
+	font-size: 36px;
+	display: inline-block;
+	
+	-webkit-animation: spin .9s infinite linear;
+	animation: spin 1s infinite linear;
+}
+
+.icon-spinner:before {	
+	-webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+
+
+
+
+
+
+
 /* heredeb */
 
 /* ------- responsive ------- */
@@ -774,89 +869,97 @@ strong.tt-highlight {
 	
 /* search form */
 
-.flight-type-form {
-	margin-top: 0;
-}
-
-.flight-type-item:not(.voice-search-button) {
-	padding-bottom: 5px;
-}
+	.flight-type-form {
+		margin-top: 0;
+	}
 	
-.flight-direction-form {
-	padding: 0px 15px 5px 15px;
-}
-
-.flight-direction-item-from-to {
-	padding-bottom: 0;
-}
-
-#from-airport-selected, 
-#to-airport-selected {
-	font-size: 36px;
-	line-height: 40px;
-}
-
-.flight-direction-item-from-to-city {
-	line-height: 1.5em;
-}
-
-.flight-date-info-item {
-	padding-top: 15px;
-	height: 75px;
-}
-
-.flight-date-info-item .the-date {
-	font-size: 20px;
-	letter-spacing: 0;
-	padding-top: 0;
-}
-
-.flight-additional-info .chooser {
-	display: inline-block;
-	width: 50%;
-	float: left;
-}
-
-.calendar-panel {
-	margin-top: 25px;
-}
-
-.search-buttons {
-	bottom: 0;
-}
-
-.search-buttons .big-button {
-	margin: 0;
-}
-
-#search_title input[type=text] {
-	width: 400px;
-}
-
-.datepicker table td.day {
-  line-height: 26px !important;
-}
-
-.multi-city-coming-soon {
-	padding-bottom: 55px;
-}
-
-.tap-plus {
-	line-height: 30px;
-}
-
-.voice-form {
-	margin-top: 10px;
-}
-
-.voice-search-buttons {
-	bottom: 0;
-}
+	.flight-type-item:not(.voice-search-button) {
+		padding-bottom: 5px;
+	}
+		
+	.flight-direction-form {
+		padding: 0px 15px 5px 15px;
+	}
+	
+	.flight-direction-item-from-to {
+		padding-bottom: 0;
+	}
+	
+	#from-airport-selected, 
+	#to-airport-selected {
+		font-size: 36px;
+		line-height: 40px;
+	}
+	
+	.flight-direction-item-from-to-city {
+		line-height: 1.5em;
+	}
+	
+	.flight-date-info-item {
+		padding-top: 15px;
+		height: 75px;
+	}
+	
+	.flight-date-info-item .the-date {
+		font-size: 20px;
+		letter-spacing: 0;
+		padding-top: 0;
+	}
+	
+	.flight-additional-info .chooser {
+		display: inline-block;
+		width: 50%;
+		float: left;
+	}
+	
+	.calendar-panel {
+		margin-top: 25px;
+	}
+	
+	.search-buttons {
+		bottom: 0;
+	}
+	
+	.search-buttons .big-button {
+		margin: 0;
+	}
+	
+	#search_title input[type=text] {
+		width: 400px;
+	}
+	
+	.datepicker table td.day {
+		line-height: 26px !important;
+	}
+	
+	.multi-city-coming-soon {
+		padding-bottom: 67px;
+	}
+	
+	.tap-plus {
+		line-height: 30px;
+	}
+	
+	.voice-form {
+		margin-top: 10px;
+	}
+	
+	.voice-search-buttons {
+		bottom: 0;
+	}
 	
 }
 
 
 /* animations */
+
+@-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 /* Chrome, Safari, Opera */
 @-webkit-keyframes blink {
