@@ -124,8 +124,8 @@ $(document).ready(function() {
   });
   
   /**
-   * *********  Deborah script to manage desktop vs. touch        ********
-   * *********  but only for supported devices (iPhone, Android)  ********
+   * *********  This is Deborah's script to manage desktop vs. touch   ********
+   * *********  but only for supported devices (iPhone, Android)       ********
    */ 
   
 	// detect if is touch

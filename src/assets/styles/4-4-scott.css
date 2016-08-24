@@ -16,9 +16,6 @@ nav {
   border-width: 0;
 }
 
-.navbar,.navbar-header{
-  min-height: 20px;
-}
 
 .navbar-default {
   -webkit-box-shadow: none;
@@ -212,7 +209,7 @@ nav {
   color: #FFFFFF;
 }
 
-.disabled {
+.disabled:not(.big-button) {
   /*background-color: rgba(255, 123, 123, 0.1) !important;*/
   border-color: #EFD4D4;
   color: #BFB6C1 !important;
@@ -415,61 +412,6 @@ body.loading .modalLoader {
   display: block;
 }
 
-
-
-
-
-
-
-
-
-
-.container-bottom {
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  margin-left: -15px;
-}
-.search-col-left {
-  padding-right: 2px;
-}
-.search-col-right {
-  padding-left: 2px;
-}
-.search-button {
-  width: 145px;
-  height: 44px;
-  background-color: #7c1d00;
-  border-radius: 22px 0 0 22px;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 22px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  border: 0;
-  /*right: 51%;*/
-  /*position: fixed;*/
-  /*bottom: 10px;*/
-  box-shadow: 6px 6px 7px  #888888;
-}
-.search-top-button {
-  width: 145px;
-  height: 44px;
-  background-color: #7c1d00;
-  border-radius: 0 22px 22px 0;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 22px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  border: 0;
-  /*left: 51%;*/
-  /*position: fixed;*/
-  /*bottom: 10px;*/
-  box-shadow: 6px 6px 7px  #888888;
-}
 
 
 

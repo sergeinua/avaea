@@ -216,9 +216,9 @@
 
   function showButtons(disable) {
     if (disable) {
-      $('.voice-search-buttons').hide();
-    } else if ($('.flight-direction-item-voice-search:visible')) {
-      $('.voice-search-buttons').show();
+      $('#voiceSearchFlight').addClass('disabled');
+    } else if (!$('.voice-form').is(':hidden')) {
+      $('#voiceSearchFlight').removeClass('disabled');
     }
   }
 

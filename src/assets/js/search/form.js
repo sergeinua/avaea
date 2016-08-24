@@ -151,8 +151,8 @@ function changeFlightTab(type, prevTab) {
     case 'voice_search':
     	
     	$('.form-fields').attr("class","form-fields voice-search");
-    	$('.voice-form').show();
     	
+    	$('.voice-form').show();
     	$('.searchform-top').hide();
       $('.navbar-brand').hide();
       $('.navbar-toggle').hide();
@@ -169,6 +169,9 @@ function changeFlightTab(type, prevTab) {
     	$('.form-fields').attr("class","form-fields one-way");
     	$('.flight-date-info-item.ret').hide();
     	$('#returnDate').val('');
+    	
+    	// toggle voice nav
+      removeVoicePanel();
  
       // ------- if dates are set --------
       
@@ -184,8 +187,7 @@ function changeFlightTab(type, prevTab) {
         $('.flight-date-info-item.dep .tap-plus').show();
       }
       
-      // toggle voice nav
-      removeVoicePanel();
+      
 
       break;
   }

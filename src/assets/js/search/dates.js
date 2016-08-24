@@ -125,8 +125,6 @@ $(document).ready(function() {
 
   // bind date controls click event
   $('.open-calendar').on('click', function () {
-    heightNav = $('.navbar-header').outerHeight(true);
-    $('.navbar-header').height(heightNav);
     $('#main_title').addClass('hidden');
     $('#main').addClass('hidden');
     $('#date_select').removeClass('hidden');

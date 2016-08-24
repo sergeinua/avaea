@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="col-xs-12 clearfix voice-search-buttons">
-        <div class="big-button" id="voiceSearchFlight">Continue</div>
+        <div class="big-button disabled" id="voiceSearchFlight">Continue</div>
       </div>
     </div>
   
@@ -116,16 +116,12 @@
       <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
       <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
       <input type="hidden" name="voiceSearchQuery" id="voiceSearchQuery" value="" />
-      <div class="container-fluid container-bottom">
-        <div class="row search-buttons">
-          <div class="col-xs-6 search-col-left">
-            <button type="submit" class="btn btn-sm btn-primary btn-block search-button pull-right"><%= __('All Flights') %></button>
-          </div>
-          <div class="col-xs-6 search-col-right">
-            <button type="submit" class="btn btn-sm btn-primary btn-block search-top-button pull-left"><%= __('Top Flights') %></button>
-          </div>
-        </div>
+      
+      <div class="search-buttons">
+          <button type="submit" class="big-button search-button"><%= __('Show Flights') %></button>
+          <button type="submit" class="big-button search-top-button"><%= __('Top Flights') %></button>
       </div>
+      
     </form>
     
   </div><!-- ends form-fields -->

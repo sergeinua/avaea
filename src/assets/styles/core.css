@@ -10,7 +10,8 @@
 .form-fields.voice-search,
 .voice-form,
 .navbar-header .back-history,
-.navbar-header .flight-type-item.voice-search-button.active-choice {
+.navbar-header .flight-type-item.voice-search-button.active-choice,
+.big-button.search-top-button {
 	display: none;
 }
 
@@ -67,8 +68,9 @@ footer,
 
 .big-button {
 	cursor: pointer;
+	font-family: 'Open-Sans-Light';
 	color: #ffffff;
-	font-size: 20px;
+	font-size: 24px;
 	margin: 10px 5px;
 	padding: 10px 30px;
 	display: inline-block;
@@ -76,6 +78,7 @@ footer,
 
 .big-button.disabled {
 	cursor: default;
+	background: #ffffff;
 }
 
 .back-history {
@@ -139,7 +142,7 @@ footer,
 /* partial blue */
 
 .flight-date-info-item {
-	background: #dee9f3;
+	background: #deeef7;
 }
 
 /* grays */
@@ -150,7 +153,7 @@ footer,
 }
 
 .big-button.disabled {
-	border: 1px solid inset rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 
@@ -184,12 +187,15 @@ textarea {
 	padding: 8px;
 }
 
-::-webkit-input-placeholder,  
-:-ms-input-placeholder, 
-::-ms-input-placeholder,
 .tt-hint,
 .big-button.disabled {
-	color: #999 !important;
+	color: #bbb !important;
+}
+
+::-webkit-input-placeholder,  
+:-ms-input-placeholder, 
+::-ms-input-placeholder {
+	color: #bbb !important;
 }
 
 .label-d {
@@ -226,6 +232,10 @@ textarea {
 
 .navbar-brand {
 	padding: 15px 5px;
+}
+
+.navbar-header {
+	min-height: 51px;
 }
 
 /* sliding main menu */
@@ -386,7 +396,7 @@ textarea {
 
 #from-airport-selected, 
 #to-airport-selected {
-  font-size: 48px;
+  font-size: 54px;
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
 	line-height: 50px;
@@ -615,25 +625,11 @@ strong.tt-highlight {
   bottom: 30%;
 }
 
-.button-search-continue {
-  background: #7c1d00;
-  box-shadow: 6px 6px 7px rgba(0, 0, 0, 0.3);
-  border-radius: 100px;
-  width: 170px;
-  height: 44px;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 22px;
-  color: #ffffff;
-  text-align: center;
-  margin: 0 auto;
-  padding-top: 10px;
-  text-transform: uppercase;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  cursor: pointer;
+.search-buttons {
+	width: 100%;
+	position: fixed;
+	bottom: 5%;
 }
-
-
 
 
 /* heredeb */
