@@ -673,13 +673,13 @@ strong.tt-highlight {
   text-align: center;
   width: 100%;
   position: fixed;
-  bottom: 30%;
+  bottom: 5px;
 }
 
 .search-buttons {
 	width: 100%;
 	position: fixed;
-	bottom: 5%;
+	bottom: 5px;
 }
 
 

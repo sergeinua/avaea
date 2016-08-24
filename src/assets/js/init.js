@@ -95,13 +95,9 @@ $(document).ready(function() {
   	// ------- because she will make it work 
   	// ------- beautifully for landscape
 
-    //DEMO-318 an unused horizontal stripe between tiles and itin summaries
-    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-    var navHeight = 50;
-    if (window.innerWidth >= 480) {
-      navHeight = 30;
-    }
-    $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
+    // Deborah also removed this, it injected padding all the time, not just on results page
+  	// DEMO-318 an unused horizontal stripe between tiles and itin summaries
+
   });
   
   /**
@@ -185,6 +181,8 @@ $(function () {
   $('#content')
     .on('content-will-change', ReactContentRenderer.unmountAll);
 });
+
+
 
 
 
