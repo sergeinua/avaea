@@ -362,6 +362,7 @@ textarea {
 }
 
 .flight-type-form {
+	margin-top: 45px;
 	display: flex;
 	justify-content: center;
 }
@@ -618,6 +619,10 @@ strong.tt-highlight {
 	float: right;
 }
 
+.voice-form {
+	margin-top: 45px;
+}
+
 .voice-search-content {
 	cursor: pointer;
 }
@@ -698,13 +703,9 @@ strong.tt-highlight {
 }
 
 
-/* landscape */
-
 .calendar-panel {
-	margin-top: 25px;
+	margin-top: 65px;
 }
-
-/* end landscape */
 
 
 #date_select .navbar-header {
@@ -772,6 +773,14 @@ strong.tt-highlight {
 @media (max-width: 736px) and (max-height: 414px) {
 	
 /* search form */
+
+.flight-type-form {
+	margin-top: 0;
+}
+
+.flight-type-item:not(.voice-search-button) {
+	padding-bottom: 5px;
+}
 	
 .flight-direction-form {
 	padding: 0px 15px 5px 15px;
@@ -806,6 +815,10 @@ strong.tt-highlight {
 	display: inline-block;
 	width: 50%;
 	float: left;
+}
+
+.calendar-panel {
+	margin-top: 25px;
 }
 
 .search-buttons {

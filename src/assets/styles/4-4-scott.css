@@ -667,9 +667,7 @@ div.nothing-found-icon {
   .navbar-brand {
     padding: 4px;
   }
-  .navbar,.navbar-header {
-    height: 30px;
-  }
+
   .navbar#tiles_ui {
     height: 20px;
   }
@@ -689,10 +687,7 @@ div.nothing-found-icon {
     height: 30px;
     padding-top: 0;
   }
-  .flight-date-info-item {
-    height: 60px;
-    padding-top: 0;
-  }
+
   .flight-date-info-item-return {
     display: none;
   }
