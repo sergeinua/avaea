@@ -42,6 +42,7 @@ var recalculateBodyPadding = function () {
 
 function _displayDimmer(flag) {
   if (flag) {
+    $('body').addClass('dimmer-show');
     $('.dimmer').show();
     $('.dimmer').off('click').on('click', function(){
       setCookie('dimmer_was_showed', 1);
@@ -53,6 +54,7 @@ function _displayDimmer(flag) {
       return false;
     });
   } else {
+    $('body').removeClass('dimmer-show');
     $('.dimmer').hide();
     $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer');
   }
