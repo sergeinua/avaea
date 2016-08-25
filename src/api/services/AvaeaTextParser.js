@@ -41,7 +41,7 @@ function get_tomorrow() {
 }
 function validate_city_name(city_name) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
-  if (/from|flying|leaving|departing|students/i.exec(city_name))
+  if (/from|fly|flying|leaving|departing|students/i.exec(city_name)) // TODO: Get rid of this eventually. Do not even capture these words as possible airports.
     throw new Exception("Wrong city name" + city_name);
   return city_name;
 }
@@ -65,7 +65,7 @@ function AvaeaTextParser() {
     'number_of_tickets'
   ];
 
-  this.date_pattern = "\\d{1,2}(?:st|nd|rd|th)?|"+
+  this.date_pattern = "\\b(?:\\d{1,2}(?:st|nd|rd|th)?|"+
     "first(?!\\s+class)|" +
     "second|" +
     "third|" +
@@ -77,7 +77,7 @@ function AvaeaTextParser() {
     "nineth|" +
     "tenth|" +
     "eleventh|" +
-    "twelfth";
+    "twelfth)\\b";
 
   this.month_pattern = "jan(?:uary)?|"+
     "feb(?:ruary)?|" +
@@ -92,6 +92,7 @@ function AvaeaTextParser() {
     "nov(?:ember)?|" +
     "dec(?:ember)?";
 
+  // \d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve
   this.number_pattern = "\\d{1,2}|"+
     "one|" +
     "two|" +
@@ -115,8 +116,8 @@ function AvaeaTextParser() {
     "sunday";
 
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+(?:[SsFfPp]t\\.?|de)(?:\\s+[A-Z][A-z\\-]*,?))|" +
-    "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]*,?){0,3})";
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+(?:[SsFfPp]t\\.?|de)(?:\\s+[A-Z][A-z\\-]+,?))|" +
+    "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]+,?){0,3})";
 
   // regexps matching different elements
   this.action_regexps = [
@@ -126,23 +127,52 @@ function AvaeaTextParser() {
   this.origin_date_regexps = [
     new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) { // 20 Dec, 20th of Dec
+    new Regexp_and_Conversion('(\\d{1,2})\\.(\\d{1,2})(?:\\.(\\d{2,4}))?', function (matches, result) { // 13.10.2016, 13.10
+      var date = matches[1];
+      var month = matches[2];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : (new Date()).getFullYear();
+      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
+    }),
+    new Regexp_and_Conversion('(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?', function (matches, result) { // 10/13/2016, 10/13
+      var date = matches[2];
+      var month = matches[1];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : (new Date()).getFullYear();
+      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
+    }),
+    new Regexp_and_Conversion('((?:the\\s+)?(' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) { // 20 Dec, 20th of Dec
       var date = ordinal_to_number(matches[2]);
       var month = matches[3];
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('((' + this.month_pattern + ')\\s+(' + this.date_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) {
+    new Regexp_and_Conversion('((' + this.month_pattern + ')\\s+(?:the\\s+)?(' + this.date_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) {
       var date = ordinal_to_number(matches[3]);
       var month = matches[2];
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : (new Date()).getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('next\\s+((?:week)|(?:month))', function (matches, result) {
-      return (new Date((new Date()).getTime() + (matches[1] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
-    }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')\\s+((?:week)|(?:month))s?', function (matches, result) {
-      return (new Date((new Date()).getTime() + ordinal_to_number(matches[1]) * (matches[2] == 'week' ? 7 : 30) * 24 * 60 * 60 * 1000));
+    // TODO: this will easily catch "returning next week", i.e. will catch the return, not the origin date
+    new Regexp_and_Conversion('(next|(?:in\\s)?a|(?:in\\s)?(?:'+this.number_pattern+'))\\s+(day|week|fortnight|month)s?', function (matches, result) {
+      var r        = new Date(); // departure date relative to today's date
+      var quantity = 0;
+      if (( /\ba\b/.test(matches[1]) )||( /\bnext\b/.test(matches[1]) )) {
+        quantity = 1;
+      } else {
+        // CF, how can we use the variable this.number_pattern here? Should we define it outside of THIS object/class/namespace ?
+        quantity = new RegExp("\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve").exec(matches[1]);
+        if ( quantity ) {
+          quantity = ordinal_to_number(quantity);
+        } else {
+          quantity = 0;
+        }
+      }
+      switch (matches[2].toLowerCase()) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
+      }
+      return r;
     }),
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
       return get_date_of_next_weekday(new Date(), matches[1]);
@@ -151,7 +181,19 @@ function AvaeaTextParser() {
   this.return_date_regexps = [
     new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('((' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {  // 20 Dec, 20th of Dec
+    new Regexp_and_Conversion('(\\d{1,2})\\.(\\d{1,2})(?:\\.(\\d{2,4}))?', function (matches, result) { // 13.01.2017, 13.01
+      var date = matches[1];
+      var month = matches[2];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : result.origin_date.value.getFullYear();
+      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
+    }),
+    new Regexp_and_Conversion('(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?', function (matches, result) { // 01/13/2017, 1/13
+      var date = matches[2];
+      var month = matches[1];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : result.origin_date.value.getFullYear();
+      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
+    }),
+    new Regexp_and_Conversion('((?:the\\s+)?(' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {  // 20 Dec, 20th of Dec
       var date = ordinal_to_number(matches[2]);
       var month = matches[3];
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
@@ -163,29 +205,39 @@ function AvaeaTextParser() {
       var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('the next day', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 1);
-      return r;
-    }),
-    new Regexp_and_Conversion('(in (a|1)|next) week', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 7);
-      return r;
-    }),
-    new Regexp_and_Conversion('((' + this.number_pattern + ')(?=\\s+week))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 7 * ordinal_to_number(matches[1]));
-      return r;
-    }),
-    new Regexp_and_Conversion('((' + this.number_pattern + ')(?=\\s+day))', function (matches, result) {
-      var r = new Date(result.origin_date.value.getTime());
-      r.setDate(r.getDate() + 1 * ordinal_to_number(matches[1]));
+    new Regexp_and_Conversion('((?:the\\s)?next|(?:in\\s|for\\s)?a|(?:in\\s|for\\s)?(?:'+this.number_pattern+'))\\s+(day|week|fortnight|month)s?(?:\\slater)?', function (matches, result) {
+      var r        = new Date(result.origin_date.value.getTime()); // return date relative to the departure date
+      var quantity = 0;
+      if (( /\ba\b/.test(matches[1]) )||( /\bnext\b/.test(matches[1]) )) {
+        quantity = 1;
+      } else {
+        // CF, how can we use the variable this.number_pattern here? Should we define it outside of THIS object/class/namespace ?
+        quantity = new RegExp("\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve").exec(matches[1]);
+        if ( quantity ) {
+          quantity = ordinal_to_number(quantity);
+        } else {
+          quantity = 0;
+        }
+      }
+      switch( matches[2].toLowerCase() ) {
+        case 'day'       : r.setDate (r.getDate () +  1*quantity); break;
+        case 'week'      : r.setDate (r.getDate () +  7*quantity); break;
+        case 'fortnight' : r.setDate (r.getDate () + 14*quantity); break;
+        case 'month'     : r.setMonth(r.getMonth() +  1*quantity); break;
+      }
       return r;
     }),
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
       return get_date_of_next_weekday(result.origin_date.value, matches[1]);
     }),
+
+    new Regexp_and_Conversion('(' + this.date_pattern + ')-day', function (matches, result) {
+      var r = new Date(result.origin_date.value.getTime());
+      var trip_length = ordinal_to_number(matches[matches.length - 1]);
+      r.setDate (r.getDate () + trip_length);
+      return r;
+    }),
+
     new Regexp_and_Conversion('(' + this.date_pattern + ')(?!\\s+ticket)', function (matches, result) {
       var r = new Date(result.origin_date.value.getTime());
       var date_of_month = ordinal_to_number(matches[matches.length - 1]);
@@ -237,24 +289,26 @@ function AvaeaTextParser() {
     })
   ];
   this.class_of_service_regexps = [
-    new Regexp_and_Conversion('economy',function() { return "E"; }),
-    new Regexp_and_Conversion('premium',function() { return "P"; }),
-    new Regexp_and_Conversion('business',function() { return "B"; }),
-    new Regexp_and_Conversion('first',function() { return "F"; })
+    new Regexp_and_Conversion('(?:in\\s)?economy(?:\\sclass)?',function() { return "E"; }),
+    new Regexp_and_Conversion('(?:in\\s)?premium(?:\\sclass)?',function() { return "P"; }),
+    new Regexp_and_Conversion('(?:in\\s)?business(?:\\sclass)?',function() { return "B"; }),
+    new Regexp_and_Conversion('(?:in\\s)?first(?:\\sclass)?',function() { return "F"; })
   ];
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
     new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ),     // NEW: added to handle "Cats and dog are flying from SFO to JFK"
+    new Regexp_and_Conversion('\\w+[^s]s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ), // NEW: added to handle "Cats and dog are flying from SFO to JFK"
 
-    new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one)\\b',function() { return 1; }),
-    new Regexp_and_Conversion('s\\s+(with|and)\\s+(I|myself|me)\\b',function() { return 3; } ), // same as old NUM #02
-    new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(I|myself|me))\\b',function() { return 2; }),
-    new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+ticket',function(s) { return ordinal_to_number(s[1]); }),
-    new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(I|myself|me)\\b',function() { return 3; }),
+    new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one(?!\\s+way))\\b',function() { return 1; }),
+    new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(me|myself|I)\\b',function() { return 3; } ), // same as old NUM #02
+    new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(me|myself|I))\\b',function() { return 2; }),
+    new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+tickets?',function(s) { return ordinal_to_number(s[1]); }),
+    new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(me|myself|I)\\b',function() { return 3; }),
     new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
     new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ), // same as old NUM #06
+    new Regexp_and_Conversion('for\\s+me\\b',function() { return 1; } ),
+    new Regexp_and_Conversion('for\\s+(' + this.number_pattern + ')(?!\\s+day)',function(s) { return ordinal_to_number(s[1]); }),
 
     new Regexp_and_Conversion('\\b[Ww]e\\b\\s+',function() { return 'multiple'; } ),
     new Regexp_and_Conversion('\\b[Oo]ur\\s+',function() { return 'multiple'; } ),
@@ -335,8 +389,19 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
+          sails.log.verbose("Parser success: "+JSON.stringify(result));
+
+          //sails.log.info("Parsing query : '" + result.query + "'");
+          //sails.log.info("Parsing result:       from '" + result.origin_airport + "' to '" + result.destination_airport + "'");
+          //sails.log.info("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
+          //sails.log.info("Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class");
+          //sails.log.info("Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'");
+          //sails.log.info("Parsing result:       not parsed: '" + result.not_parsed + "'");
+          //sails.log.info("Parsing result:       airline: '" + result.airline + "'");
+
         } catch (e) {
           err = e;
+          sails.log.error("Parser error: "+JSON.stringify(err));
         }
         return callback(err, result);
       }
