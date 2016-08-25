@@ -451,6 +451,10 @@ body.loading {
   overflow: hidden;
 }
 
+body.dimmer-show {
+  overflow-y: hidden;
+}
+
 .flight-type-form>.row {
   margin: 0;
   padding: 0;
