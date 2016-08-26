@@ -8,7 +8,7 @@ var Flight = React.createClass({
 
   showNoStops: function(flight) {
     if (flight.noOfStops > 0) {
-      return <span className="hidden-xs small text-danger">{'+' + flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop'))}</span>
+      return <span className="hidden-xs small text-danger">{'+' + flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? ' stops' : ' stop')}</span>
     }
     return ''
   },

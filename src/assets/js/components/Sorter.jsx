@@ -29,7 +29,7 @@ var Sorter = React.createClass({
       // }}
     };
     if (InitResultData.searchParams.returnDate) {
-      sortOptions.duration.title += '&#8644;';
+      sortOptions.duration.title += '⇄';
       sortOptions.idepart = {
         title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Departure',
         current: false,

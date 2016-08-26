@@ -493,6 +493,7 @@ $(document).ready(function() {
   }
 
   var expandedItitns = 0;
+  /*
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
     //$(this).addClass('selected');
@@ -503,11 +504,6 @@ $(document).ready(function() {
 
       if ($('#' + details).is(':visible')) {
         expandedItitns++;
-        // disabled, TODO: confirm this functionality still needed
-        /*if ($(this).hasClass('recommended')) {
-         $(this).find('.itinerary-airline').find('span:last')
-         .replaceWith($('<span class="label label-success"><span class="glyphicon glyphicon-star"></span>recommended</span>'));
-         }*/
 
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
@@ -517,17 +513,12 @@ $(document).ready(function() {
         });
       } else {
         expandedItitns--;
-        // disabled, TODO: confirm this functionality still needed
-        /*if ($(this).hasClass('recommended')) {
-         $(this).find('.itinerary-airline').find('span:last')
-         .replaceWith($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-         }*/
       }
     }
 
     //$('#buy_button').removeAttr('disabled');
   });
-
+  */
   $('[id*=buy-button-]').click(function (event) {
     var id = $(this).parents('.itinerary').attr('id');
     if (id) {
