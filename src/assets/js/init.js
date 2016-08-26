@@ -88,7 +88,7 @@ $(document).ready(function() {
     placement: 'left'
   });
 
-
+/*
   $( window ).resize(function() {
     $('body').removeClass('landscape-mode');
     var modalIsOpen = $('#landscapeMode').length && ($("#searchBanner").data('bs.modal') || {}).isShown;
@@ -122,6 +122,7 @@ $(document).ready(function() {
     }
     $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
+*/
 });
 
 

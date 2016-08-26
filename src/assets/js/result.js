@@ -18,6 +18,7 @@ $.fn.scrollTo = function(elem) {
 };
 
 var recalculateBodyPadding = function () {
+  return true;
   $('body').removeClass('landscape-mode');
   if (isLandscapeMode()) {
     $('body').addClass('landscape-mode');
@@ -306,19 +307,19 @@ $(document).ready(function() {
   });
 
   // more/less button for merchandising
-  $('.mymorebutton').click(function () {
-    var _it = $(this).attr('for');
-    var _mmcnt = '.mymorecontent' + _it;
-    $(_mmcnt).toggleClass(function () {
-      if ($(_mmcnt).is(".hidden")) {
-        $('#mymorebtn' + _it).text("less")
-      } else {
-        $('#mymorebtn' + _it).text("more")
-      }
-      return "hidden";
-    });
-    return false;
-  });
+  // $('.mymorebutton').click(function () {
+  //   var _it = $(this).attr('for');
+  //   var _mmcnt = '.mymorecontent' + _it;
+  //   $(_mmcnt).toggleClass(function () {
+  //     if ($(_mmcnt).is(".hidden")) {
+  //       $('#mymorebtn' + _it).text("less")
+  //     } else {
+  //       $('#mymorebtn' + _it).text("more")
+  //     }
+  //     return "hidden";
+  //   });
+  //   return false;
+  // });
 
   // disabled, TODO: confirm this functionality still needed
   /*$('.recommended').each(function(item){

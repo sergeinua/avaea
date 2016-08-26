@@ -32,7 +32,7 @@
 body {
   background-color: #f8f8f8;
   color: #333333;
-  padding-top: 50px;
+  padding-top: 32px;
 }
 
 body.search-result {
@@ -49,13 +49,14 @@ nav {
 }
 
 .navbar,.navbar-header{
-  min-height: 20px;
+  min-height: 0;
 }
 
 .navbar-default {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  margin-bottom: 0;
 }
 
 .navbar-header,.navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -292,14 +293,16 @@ nav {
 }
 
 .sort-button {
-  margin: 0 0 0 15px;
+  margin: 0 0 0 5px;
   padding: 0;
+  width: 60px;
+  float: left;
 }
 
 .sort-button .dropdown-menu {
-  margin-top: -18px;
+  top: initial;
   left: auto;
-  right: -50px;
+  right: 30px;
   -webkit-transform: translate(-50%, 0);
      -moz-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
@@ -1153,6 +1156,7 @@ button.buy-button-arrow[aria-expanded=true] {
 }
 .notable-area {
   background-color: #f5f5f5;
+  line-height: 1.8;
 }
 .detail-col {
   padding: 0 !important;
@@ -1293,7 +1297,7 @@ div.nothing-found-icon {
     height: 30px;
   }
   .navbar#tiles_ui {
-    height: 20px;
+    height: 0;
   }
   .searchform-top {
     border: 0;
@@ -1373,6 +1377,29 @@ div.nothing-found-icon {
   content:"\000A";
   white-space: pre;
 }
+
+.modal-flight-info-block {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 16px;
+}
+
+.modal-flight-info-footer {
+  border-top: none;
+  background-color: #F2F5F8;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+#searchResultData {
+  overflow: auto;
+  max-height: 100vh;
+}
+
+.bottom-nav-text {
+  width: 160px;
+  float: left;
+}
+
 
 @media (max-height: 510px) {
   .dimmer-arrow {
