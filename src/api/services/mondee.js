@@ -488,9 +488,10 @@ module.exports = {
           var resArr = [];
           if (err || ('TPErrorList' in result && result.TPErrorList) || !result.FlightSearchResponse) {
               if (!err) {
-                err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'No Results Found';
+                err = (result.TPErrorList && result.TPErrorList.TPError.errorText
+                      && result.TPErrorList.TPError.errorText != 'No Results Found') ? result.TPErrorList.TPError.errorText : null;
               }
-            sails.log.error(err);
+            if (err) sails.log.error(err);
             return callback( err, [] );
           } else {
             if (result.FlightSearchResponse.FlightItinerary) {

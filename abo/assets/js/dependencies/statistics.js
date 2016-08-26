@@ -59,7 +59,7 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.name + '<br/>';
       }) : '--na--',
-    result: (!row.logInfo.error) ? 'success' : 'failed',
+    result: (row.logInfo.error && row.logInfo.error != 'No Results Found') ? 'failed' : 'success',
     serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.count + '<br/>';
@@ -68,20 +68,23 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.timeStr + '<br/>';
       }) : '--na--',
-    voiceQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
-      ? row.logInfo.searchParams.voiceSearchQuery.query :
-      ((row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--'),
-    voiceParsedQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
-      ? Object.keys(row.logInfo.searchParams.voiceSearchQuery).map(function (key) {
-        if (key != 'query') {
-          return '<b>' + key + '</b>: ' + row.logInfo.searchParams.voiceSearchQuery[key] + '<br/>';
-        }
-      }) : '--na--',
+    //voiceQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
+    //  ? row.logInfo.searchParams.voiceSearchQuery.query :
+    //  ((row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--'),
+    //voiceParsedQuery: (row.logInfo.searchParams.voiceSearchQuery && typeof row.logInfo.searchParams.voiceSearchQuery == 'object')
+    //  ? Object.keys(row.logInfo.searchParams.voiceSearchQuery).map(function (key) {
+    //    if (key != 'query') {
+    //      return '<b>' + key + '</b>: ' + row.logInfo.searchParams.voiceSearchQuery[key] + '<br/>';
+    //    }
+    //  }) : '--na--',
     timeWork: row.logInfo.timeWorkStr || '--na--',
-    //airportsCode: (row.logInfo.searchInfoAirports && row.logInfo.searchInfoAirports.length) ?
-    //  row.logInfo.searchInfoAirports.map(function (it) {
-    //    return it.code + '=' + it.count + '; ';
-    //  }) : '--na--'
+    voiceQueryVS: (row.logInfo.searchParams.query) ? row.logInfo.searchParams.query : '--na--',
+    voiceParsedQueryVS: (row.logInfo.searchParams && typeof row.logInfo.searchParams == 'object')
+      ? Object.keys(row.logInfo.searchParams).map(function (key) {
+        if (key != 'query') {
+          return '<b>' + key + '</b>: ' + row.logInfo.searchParams[key] + '<br/>';
+        }
+    }) : '--na--'
   };
 };
 
@@ -126,8 +129,6 @@ var generateGridUsersStat = function () {
       {name: 'result', title: 'Result', type: 'text'},
       {name: 'serviceTimeWork', title: 'Latency', type: 'date'},
       {name: 'serviceCount', title: 'Itins', type: 'number'},
-      {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
-      {name: 'voiceParsedQuery', title: 'Parsed Query', type: 'text'},
       {name: 'timeWork', title: 'Processing time', type: 'date'},
       {name: 'id', title: 'Id', type: 'number', sorter: "number"}
     ]
@@ -157,6 +158,34 @@ var generateGridOverallStat = function () {
       {name: 'totalFailures', title: 'Failures', type: 'number'},
       {name: 'avgMondee', title: 'Mondee avg. latency', type: 'number'},
       {name: 'avgTime', title: 'Avg. processing time', type: 'number'}
+    ]
+  });
+};
+
+var genGridUsersStatVoiceSearch = function () {
+  $('#gridUsersStatVoiceSearch').jsGrid('destroy');
+  $('#gridUsersStatVoiceSearch').jsGrid({
+    height: '550px',
+    width: '100%',
+    css: "cell-ellipsis",
+    inserting: false,
+    editing: false,
+    sorting: false,
+    paging: false,
+    filtering: false,
+    autoload: true,
+    controller: {
+      loadData: function (data) {
+        return data;
+      }
+    },
+    fields: [
+      {name: 'id', title: 'ID', type: 'number', sorter: "number"},
+      {name: 'email', title: 'User', type: 'text'},
+      {name: 'createdDt', title: 'Date', type: 'date'},
+      {name: 'createdTime', title: 'Time', type: 'date'},
+      {name: 'voiceQueryVS', title: 'Voice Query Text', type: 'text'},
+      {name: 'voiceParsedQueryVS', title: 'Parsing Result', type: 'text'}
     ]
   });
 };
