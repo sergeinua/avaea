@@ -90,12 +90,15 @@ footer,
 }
 
 .big-button.disabled,
-.small-button.disabled {
+.big-button.disabled:hover,
+.small-button.disabled,
+.small-button.disabled:hover {
 	cursor: default;
 	background: #ffffff;
 }
 
 .back-history {
+	cursor: pointer;
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	text-transform: capitalize;
@@ -119,8 +122,8 @@ footer,
 	background-color: transparent;
 }
 
-.bootstrap-datetimepicker-widget table td.old, 
-.bootstrap-datetimepicker-widget table td.new {
+.bootstrap-datetimepicker-widget table td.old:not(.active), 
+.bootstrap-datetimepicker-widget table td.new:not(.active) {
 	color: #000000;
 }
 
@@ -175,8 +178,14 @@ footer,
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
 .datepicker th.next,
-.datepicker th.previous {
+.datepicker th.prev {
 	color: #0081c9;
+}
+
+/* bright blue */
+
+.big-button:hover {
+	background: #00b5ff;
 }
 
 /* partial blue */
@@ -243,6 +252,14 @@ textarea {
 .big-button.disabled,
 .small-button.disabled,
 .disabled {
+	color: #bbb !important;
+}
+
+.big-button.disabled,
+.big-button.disabled:hover,
+.small-button.disabled,
+.small-button.disabled:hover {
+	cursor: default;
 	color: #bbb !important;
 }
 
@@ -449,15 +466,15 @@ textarea {
 .flight-direction-item-from-to {
   font-size: 15px;
   text-transform: uppercase;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
 	opacity: .5;
 }
 
-.flight-direction-item-selected,
 .flight-direction-item-from-to-city {
   font-size: 16px;
   text-transform: uppercase;
 	line-height: 1.0;
+	padding-top: 5px;
 }
 
 .flight-direction-item-selected .flight-direction-item-from-to {
@@ -474,7 +491,7 @@ textarea {
   font-size: 54px;
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
-	line-height: 50px;
+	line-height: 1em;
 }
 
 .flight-direction-form .row {
@@ -484,6 +501,11 @@ textarea {
 
 .flight-direction-form .col-xs-6 {
 	width: 45%;
+}
+
+.flight-direction-form .col-xs-6 div,
+.flight-direction-form .col-xs-6 span {
+	cursor: pointer;
 }
 
 /* airport search */
@@ -559,6 +581,10 @@ strong.tt-highlight {
 
 /* date */
 
+.open-calendar div {
+	cursor: pointer;
+}
+
 .flight-date-info-item {
 	font-size: 14px;
 	text-align: center;  
@@ -624,6 +650,11 @@ strong.tt-highlight {
 .flight-additional-info .text-picker {
   text-align: left;
   padding-left: 15px;
+}
+
+.flight-additional-info .text-picker,
+.flight-additional-info .text-picker span {
+	cursor: pointer;
 }
 
 .flight-additional-info .label-d {
@@ -695,8 +726,6 @@ strong.tt-highlight {
 .voice-search-buttons {
   text-align: center;
   width: 100%;
-  position: fixed;
-  bottom: 5px;
 }
 
 .search-buttons {
@@ -704,7 +733,8 @@ strong.tt-highlight {
 	width: 100%;
 }
 
-body.touch .search-buttons {
+.touch .search-buttons,
+.touch .voice-search-buttons {
 	position: fixed;
 	bottom: 5px;
 }
@@ -732,6 +762,10 @@ body.touch .search-buttons {
 
 .calendar-panel {
 	margin-top: 65px;
+}
+
+td[data-action*="selectDay"] {
+	cursor: pointer;
 }
 
 
@@ -768,14 +802,9 @@ body.touch .search-buttons {
   font-size: 20px;
 }
 
-.datepicker span.range.new, .datepicker span.range.old,
-.datepicker table td.day.range.new, .datepicker table td.day.range.old {
-  background-image: url("/images/ydiag_dark.gif");
-}
-
-.datepicker span.active.new, .datepicker span.active.old,
-.datepicker table td.day.active.new, .datepicker table td.day.active.old {
-  background-image: url("/images/ydiag_light.gif");
+.bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
+	cursor: not-allowed;
+  background: #fafafa url("/images/ydiag_light.png");
 }
 
 .datepicker table td.today:before {
@@ -824,7 +853,7 @@ body.loading .modalLoader {
 }
 
 .modal-dialog {
-	margin: 0;
+	margin: 0 auto;
 }
 
 .modal-content {
@@ -840,7 +869,7 @@ body.loading .modalLoader {
 	padding: 30px 15px;
 }
 
-.modal-body.searchingModal {
+.searchingModal .modal-body {
 	font-size: 16px;
 	text-align: center;
 	line-height: 24px;
@@ -889,6 +918,7 @@ body.loading .modalLoader {
 	margin: 0 auto;
 	padding: 10px;
 	max-width: 900px;
+	min-width: 785px;
 	background: #ffffff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
@@ -900,6 +930,11 @@ body.loading .modalLoader {
 	padding: 20px 0;
 	display: inline-block;
 	float: left;
+}
+
+.desktop .desktop-wrapper,
+.desktop .desktop-inner {
+	min-height: 684px;
 }
 
 .desktop .desktop-inner {
@@ -957,6 +992,14 @@ body.loading .modalLoader {
 
 .desktop .flight-type-form {
 	margin-top: 0;
+}
+
+.desktop .tt-suggestion.tt-selectable {
+	border-left: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop #search_title input[type=text] {
+	width: 400px;
 }
 
 
@@ -1026,9 +1069,34 @@ body.loading .modalLoader {
 	padding-top: 70px;
 }
 
+.desktop .calendar-panel {
+	margin-top: 25px;
+	padding-left: 0;
+	padding-right: 0;
+}
 
+.desktop .calendar-panel .col-xs-12 {
+	padding-left: 0;
+	padding-right: 0;
+}
 
+.desktop .datepicker .picker-switch {
+	font-size: 24px;
+}
 
+.desktop th.prev, 
+.desktop th.next {
+	font-size: 18px;
+}
+
+.desktop .voice-search-content {
+	text-align: center;
+}
+
+.desktop .voice-search-textarea {
+	text-align: left;
+	width: 55%;
+}
 
 
 /* heredeb */
