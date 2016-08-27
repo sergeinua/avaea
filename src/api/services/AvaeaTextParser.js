@@ -371,7 +371,7 @@ function AvaeaTextParser() {
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
 
-	  sails.log.verbose("Parser success: "+JSON.stringify(result));
+          sails.log.verbose("Parser success: "+JSON.stringify(result));
           sails.log.verbose("Parsing query : '" + result.query + "'");
           sails.log.verbose("Parsing result:       from '" + result.origin_airport + "' to '" + result.destination_airport + "'");
           sails.log.verbose("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
