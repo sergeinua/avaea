@@ -24,6 +24,14 @@ $(document).ready(function() {
         });
     };
   };
+  
+  var removeAirportSearcher = function() {
+  	$('#search_title').hide();
+    $('#main').show();
+    $('#main_title').show();
+    $('#airport-input').val('');
+    $('#airport-input').typeahead('val','');
+  }
 
   $('#airport-input').typeahead({
     hint: true,
@@ -48,21 +56,14 @@ $(document).ready(function() {
     var target = $(this).attr('target');
     setAirportData(target, datum);
     drawAirportData(target);
-    $('#search_title').addClass('hidden');
-    $('#main').removeClass('hidden');
-    $('#main_title').removeClass('hidden');
-    $('#airport-input').val('');
-    $('#airport-input').typeahead('val','');
-    $('.navbar-header').height(heightNav);
+    removeAirportSearcher();
   });
   $('.tt-hint').addClass('form-control');
 
   $('.flight-direction-item,.flight-direction-item-selected').on('click', function () {
-    heightNav = $('.navbar-header').outerHeight(true);
-    $('.navbar-header').height('60px');
-    $('#main_title').addClass('hidden');
-    $('#main').addClass('hidden');
-    $('#search_title').removeClass('hidden');
+    $('#main_title').hide();
+    $('#main').hide();
+    $('#search_title').show();
     $('#airport-input').focus();
     var target = ($(this).is('#from-area') || $(this).is('#from-area-selected') ? 'origin' : 'destination') + 'Airport';
     $('#airport-input').attr('target', target);
@@ -73,12 +74,7 @@ $(document).ready(function() {
   });
 
   $('#search_button_top').on('click', function () {
-    $('#search_title').addClass('hidden');
-    $('#main').removeClass('hidden');
-    $('#main_title').removeClass('hidden');
-    $('#airport-input').val('');
-    $('#airport-input').typeahead('val','');
-    $('.navbar-header').height(heightNav);
+    removeAirportSearcher();
   });
 
 

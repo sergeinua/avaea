@@ -105,12 +105,10 @@
             </div><!-- /.container-fluid -->
       
             <!--  ------- airport selection ------- -->
-            <div id="search_title" class="hidden">
+            <div id="search_title" class="airport-search-panel">
               <div class="navbar-header">
-                <div style="width:auto; float: left">
+                <div class="airport-search-header">
                   <input id="airport-input" type="text" name="airport" target="" value="" placeholder="City, airport code or airport name"/>
-                </div>
-                <div style="width:auto; float: left">
                   <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('Cancel') %></button>
                 </div>
               </div>
@@ -150,7 +148,7 @@
       
             <%- body %>
           </div>
-      
+          
           <div class="modalLoader"></div>
       
           <!--

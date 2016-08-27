@@ -81,6 +81,8 @@ var removeVoicePanel = function() {
   $('.searchform-top').show();
   $('.navbar-brand').show();
   $('.navbar-toggle').show();
+  // jQuery bug - show sometimes doesn't pick up the correct display attribute
+  $('#nav_slide_menu').show().attr("style", "display: inline-block;");
 }
 
 
@@ -152,11 +154,13 @@ function changeFlightTab(type, prevTab) {
     	$('.searchform-top').hide();
       $('.navbar-brand').hide();
       $('.navbar-toggle').hide();
+      $('#nav_slide_menu').hide();
       $('#voiceSearchTextarea').focus();
+      $('.back-history').show();
     	
-      $('.back-history').off('click').click(function () {
+      $('.back-history').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
-      }).show();
+      });
 
       
       break;
@@ -282,7 +286,7 @@ $(document).ready(function() {
 
     $('.search-buttons').hide();
     $("body").addClass("loading");
-    setInterval(40000);
+    setInterval(700);
     setCookie('dimmer_was_showed', 0);
     return true;
   });

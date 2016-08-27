@@ -22,12 +22,8 @@ var isMobile = {
   }
 };
 
-var isLandscapeMode = function () {
-  if ( typeof window.orientation == 'undefined' ) {
-    return (window.outerHeight < window.outerWidth)
-  }
-  return (window.orientation == 90 || window.orientation == -90);
-};
+// Deborah removed landscape function
+// in order to landscape view with responsive CSS
 
 /**
  * Possible types
@@ -81,36 +77,17 @@ function setCookie(name, value, options) {
   document.cookie = updatedCookie;
 }
 
+
 $(document).ready(function() {
 	
+	/**
+	 * *********  This is Deborah's script to manage desktop vs. touch   ********
+	 * *********  but only for supported devices (iPhone, Android)       ********
+	 */ 
 
-	  $('#nav_slide_menu').offcanvas({
-	    toggle: false,
-	    placement: 'left'
-	  });
-		
-
-
-  $( window ).resize(function() {
-
-  	// ------- Deborah removed landscape modal
-  	// ------- because she will make it work 
-  	// ------- beautifully for landscape
-
-    // Deborah also removed this, it injected padding all the time, not just on results page
-  	// will re-resolve this bug after merge
-  	// DEMO-318 an unused horizontal stripe between tiles and itin summaries
-
-  });
-  
-  /**
-   * *********  This is Deborah's script to manage desktop vs. touch   ********
-   * *********  but only for supported devices (iPhone, Android)       ********
-   */ 
-  
 	// detect if is touch
 	function isTouchDevice(){
-    return typeof window.ontouchstart !== 'undefined';
+	  return typeof window.ontouchstart !== 'undefined';
 	}
 
 	// if not touch
@@ -122,7 +99,7 @@ $(document).ready(function() {
 	    body.addClass(' desktop');
 	    
 		});
- 
+
 	// else if touch, add classes to body
 	} else {
 		
@@ -145,7 +122,27 @@ $(document).ready(function() {
 		});
 	}
 	
-	//***** on scroll, add class to header ***** // 
+	
+  $('#nav_slide_menu').offcanvas({
+    toggle: false,
+    placement: 'left'
+  });
+  
+
+  $( window ).resize(function() {
+
+  	// ------- Deborah removed landscape modal
+  	// ------- because she will make it work 
+  	// ------- beautifully for landscape
+
+    // Deborah also removed this, it injected padding all the time, not just on results page
+  	// will re-resolve this bug after merge
+  	// DEMO-318 an unused horizontal stripe between tiles and itin summaries
+
+  });
+  
+	
+	//***** Deborah script - on scroll, add class to header ***** // 
   var header = $('header');
   $(window).scroll(function() {    
       var scroll = $(window).scrollTop();
