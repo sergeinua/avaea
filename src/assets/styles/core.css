@@ -115,6 +115,10 @@ footer,
 
 /* colors */
 
+.navbar-default {
+	background-color: transparent;
+}
+
 .bootstrap-datetimepicker-widget table td.old, 
 .bootstrap-datetimepicker-widget table td.new {
 	color: #000000;
@@ -144,7 +148,8 @@ footer,
 .tap-plus,
 .tt-highlight,
 .flight-additional-info .text-picker,
-.flight-direction-item.error-flash {
+.flight-direction-item.error-flash,
+.desktop .desktop-wrapper:after {
 	color: #004c9c;
 }
 
@@ -332,7 +337,7 @@ textarea {
 	margin-top: 50px;
 }
 
-.navmenu:before {
+.navmenu.offcanvas:before {
 	content: '';
 	display: block;
 	width: 100%;
@@ -387,9 +392,10 @@ textarea {
 .flight-type-item:not(.voice-search-button) {
 	font-family: 'Open-Sans-Semibold';
   font-size: 17px;
-  opacity: .5;
   text-transform: uppercase;
+	cursor: pointer;
   padding: 25px 12px 15px 12px;
+	opacity: .5;
 }
 
 .flight-type-item.active-choice,
@@ -694,7 +700,11 @@ strong.tt-highlight {
 }
 
 .search-buttons {
+	text-align: center;
 	width: 100%;
+}
+
+body.touch .search-buttons {
 	position: fixed;
 	bottom: 5px;
 }
@@ -826,11 +836,13 @@ body.loading .modalLoader {
 
 .modal-body {
 	font-size: 16px;
+	text-align: left;
 	padding: 30px 15px;
 }
 
 .modal-body.searchingModal {
 	font-size: 16px;
+	text-align: center;
 	line-height: 24px;
 	padding: 30px 30px;
 }
@@ -853,6 +865,166 @@ body.loading .modalLoader {
 }
 
 
+/* desktop */
+
+.desktop {  
+	text-align: center;
+	padding: 30px 30px 100px 30px;
+    background: linear-gradient(#e8f7fd, #50c5f0);
+}
+
+.desktop:after {
+	  content: '';
+    width: 110%;
+    height: 603px;
+    position: fixed;
+    bottom: 0;
+    left: -5%;
+    right: 0;
+    background: url(../images/clouds.png) repeat-x;
+    z-index: -1;
+}
+
+.desktop .desktop-wrapper {
+	margin: 0 auto;
+	padding: 10px;
+	max-width: 900px;
+	background: #ffffff;
+	border-radius: 4px;
+	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
+}
+
+.desktop .desktop-wrapper:after {
+	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
+	font-size: 13px;
+	padding: 20px 0;
+	display: inline-block;
+	float: left;
+}
+
+.desktop .desktop-inner {
+	text-align: left;
+	padding-bottom: 70px;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .main.container-fluid {
+	min-height: 561px;
+}
+
+.desktop .navbar-fixed-top,
+.desktop #main_title {
+	position: relative;
+	height: 51px;
+	z-index: 0;
+}
+
+.desktop .flight-direction-form {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.desktop .row {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.desktop .search-buttons {
+	margin: 30px 0;
+}
+
+.desktop .navbar-default .navbar-toggle > span, 
+.desktop .navbar-default .navbar-toggle:focus > span, 
+.desktop .navbar-default .navbar-toggle:hover > span {
+  top: -4px;
+}
+
+.desktop .navbar-toggle .icon-bar {
+	width: 26px;
+	height: 3px;
+}
+
+.desktop .navbar-toggle .icon-bar + .icon-bar {
+	margin-top: 5px;
+}
+
+.desktop .navbar-default .navbar-toggle, 
+.desktop .navbar-default .navbar-toggle:focus, 
+.desktop .navbar-default .navbar-toggle:hover {
+	margin-top: 8px; 
+	margin-bottom: 0;
+}
+
+.desktop .flight-type-form {
+	margin-top: 0;
+}
+
+
+/* desktop slide menu */
+
+.desktop .navbar-fixed-top {
+	text-align: left;
+	position: relative;
+}
+
+.desktop .navmenu.offcanvas {
+  /* width: 300px; */
+  height: auto;
+	display: block;
+	width: auto;
+}
+
+.desktop .navmenu.navmenu-default.navmenu-fixed-left.offcanvas {
+	margin-top: 0;
+	display: inline-block;
+	position: relative;
+		top: -50px;
+    left: 200px;
+	background: transparent;
+	border: 0px solid transparent;
+}
+
+.desktop #nav-slide-menu .divider,
+.desktop .navmenu.offcanvas:before,
+.desktop .nav.navbar-nav > li > a > b {
+	display: none;
+}
+
+.desktop .navbar-nav {
+	margin: 0;
+}
+
+.desktop .offcanvas .navbar-nav > li,
+.desktop .offcanvas .navbar-nav > li > a {
+	font-size: 14px;
+	line-height: 1.4em;
+	padding-top: 0;
+	padding-bottom: 0;
+	display: inline-block;
+	float: left;
+}
+
+.desktop .offcanvas .navbar-nav > li > a {
+	padding-top: 17px;
+	padding-bottom: 10px;
+	opacity: .7;
+}
+
+.desktop .offcanvas .navbar-nav > li:hover a {
+	opacity: 1;
+}
+
+.desktop button.navbar-toggle {
+	display: none !important;
+}
+
+.desktop .navbar-header	{
+	padding-left: 20px;
+}
+
+.desktop .multi-city-coming-soon {
+	padding-top: 70px;
+}
 
 
 
@@ -916,7 +1088,7 @@ body.loading .modalLoader {
 		margin-top: 25px;
 	}
 	
-	.search-buttons {
+	body.touch .search-buttons {
 		bottom: 0;
 	}
 	
@@ -949,6 +1121,8 @@ body.loading .modalLoader {
 	}
 	
 }
+
+
 
 
 /* animations */

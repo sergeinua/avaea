@@ -82,11 +82,13 @@ function setCookie(name, value, options) {
 }
 
 $(document).ready(function() {
+	
 
-  $('#nav_slide_menu').offcanvas({
-    toggle: false,
-    placement: 'left'
-  });
+	  $('#nav_slide_menu').offcanvas({
+	    toggle: false,
+	    placement: 'left'
+	  });
+		
 
 
   $( window ).resize(function() {
