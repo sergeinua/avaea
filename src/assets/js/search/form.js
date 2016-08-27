@@ -81,9 +81,21 @@ var removeVoicePanel = function() {
   $('.searchform-top').show();
   $('.navbar-brand').show();
   $('.navbar-toggle').show();
-  // jQuery bug - show sometimes doesn't pick up the correct display attribute
-  $('#nav_slide_menu').show().attr("style", "display: inline-block;");
+  
+  if ($('body').hasClass('desktop')) {
+		$('#nav_slide_menu').show();
+	} 
+  
 }
+
+var setVoiceCue = function() {
+	if ($('body').hasClass('desktop')) {
+		$('#nav_slide_menu').hide();
+		$('#voiceSearchTextarea').attr("placeholder", "Activate the mic to specify your from and to cities, and dates of travel");
+	} else {
+		$('#voiceSearchTextarea').attr("placeholder", "Tap the mic on your device to specify your from and to cities, and dates of travel");
+	}
+};
 
 
 function changeFlightTab(type, prevTab) {
@@ -150,17 +162,22 @@ function changeFlightTab(type, prevTab) {
     	
     	$('.form-fields').attr("class","form-fields voice-search");
     	
+    	
     	$('.voice-form').show();
     	$('.searchform-top').hide();
       $('.navbar-brand').hide();
       $('.navbar-toggle').hide();
-      $('#nav_slide_menu').hide();
       $('#voiceSearchTextarea').focus();
+      
+      setVoiceCue();
+      
       $('.back-history').show();
     	
       $('.back-history').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
       });
+      
+      
 
       
       break;
@@ -286,7 +303,7 @@ $(document).ready(function() {
 
     $('.search-buttons').hide();
     $("body").addClass("loading");
-    setInterval(700);
+    setInterval(40000);
     setCookie('dimmer_was_showed', 0);
     return true;
   });

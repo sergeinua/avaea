@@ -80,6 +80,11 @@ function setCookie(name, value, options) {
 
 $(document).ready(function() {
 	
+	$('#nav_slide_menu').offcanvas({
+    toggle: false,
+    placement: 'left'
+  });
+	
 	/**
 	 * *********  This is Deborah's script to manage desktop vs. touch   ********
 	 * *********  but only for supported devices (iPhone, Android)       ********
@@ -123,12 +128,6 @@ $(document).ready(function() {
 	}
 	
 	
-  $('#nav_slide_menu').offcanvas({
-    toggle: false,
-    placement: 'left'
-  });
-  
-
   $( window ).resize(function() {
 
   	// ------- Deborah removed landscape modal

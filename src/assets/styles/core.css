@@ -574,7 +574,7 @@ textarea {
 .navbar-default .navbar-toggle:focus, 
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 10px 0 8px 0;
+	margin: 9px 0 8px 0;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -586,7 +586,7 @@ textarea {
 }
 
 .navbar-brand {
-	padding: 15px 5px;
+	padding: 16px 4px;
 }
 
 .navbar-header {
