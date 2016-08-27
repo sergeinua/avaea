@@ -126,27 +126,16 @@ function AvaeaTextParser() {
   this.origin_date_regexps = [
     new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('(\\d{1,2})\\.(\\d{1,2})(?:\\.(\\d{2,4}))?', function (matches, result) { // 13.10.2016, 13.10.16, 13.10
-      var date = matches[1];
-      var month = matches[2];
-      var year;
-      if (!matches[3]) matches[3] = '';
-      switch (matches[3].toString().length) {
-        case 0 : year = (new Date()).getFullYear(); break;
-        case 2 : year = +matches[3]+2000; break;
-        case 4 : year = +matches[3]; break;
+    new Regexp_and_Conversion('(?:[^\\.\\/\\w]|^)(\\d{1,2})([\\.\\/])(\\d{1,2})(?:\\2(\\d{2,4})|(?![\\.\\/\\w]))', function (matches, result) {
+      switch (matches[2]) {
+        case '.' : var date = matches[1]; var month = matches[3]; break; // 13.01.2017, 13.01.17, 13.1
+        case '/' : var date = matches[3]; var month = matches[1]; break; // 01/13/2017, 01/13/17, 1/13
       }
-      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
-    }),
-    new Regexp_and_Conversion('(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?', function (matches, result) { // 10/13/2016, 10/13/16, 10/13
-      var date = matches[2];
-      var month = matches[1];
-      var year;
-      if (!matches[3]) matches[3] = '';
-      switch (matches[3].length) {
-        case 0 : year = (new Date()).getFullYear(); break;
-        case 2 : year = +matches[3]+2000; break;
-        case 4 : year = +matches[3]; break;
+      if (!matches[4]) matches[4] = '';
+      switch (matches[4].length) {
+        case 0 : var year = (new Date()).getFullYear(); break;
+        case 2 : var year = Number(matches[4])+2000; break;
+        case 4 : var year = Number(matches[4]); break;
       }
       return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
     }),
@@ -181,31 +170,18 @@ function AvaeaTextParser() {
   this.return_date_regexps = [
     new Regexp_and_Conversion('today|tonight|(depart|leav|fly)\\w+\\s+now|earliest|soon|quickly', get_today),
     new Regexp_and_Conversion('(?! after\\s*)tomorrow', get_tomorrow),
-    new Regexp_and_Conversion('(\\d{1,2})\\.(\\d{1,2})(?:\\.(\\d{2,4}))?', function (matches, result) { // 13.01.2017, 13.01.17, 13.01
-      var date = matches[1];
-      var month = matches[2];
-      var year;
-      if (!matches[3]) matches[3] = '';
-      switch (matches[3].length) {
-        case 0 : year = result.origin_date.value.getFullYear();
-                 if ( new Date(year,month-1,date) < result.origin_date.value ) year++; // incrementing the year by 1, if the return date is earlier
-                 break;
-        case 2 : year = +matches[3]+2000; break;
-        case 4 : year = +matches[3]; break;
+    new Regexp_and_Conversion('(?:[^\\.\\/\\w]|^)(\\d{1,2})([\\.\\/])(\\d{1,2})(?:\\2(\\d{2,4})|(?![\\.\\/\\w]))', function (matches, result) {
+      switch (matches[2]) {
+        case '.' : var date = matches[1]; var month = matches[3]; break; // 13.01.2017, 13.01.17, 13.1
+        case '/' : var date = matches[3]; var month = matches[1]; break; // 01/13/2017, 01/13/17, 1/13
       }
-      return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
-    }),
-    new Regexp_and_Conversion('(\\d{1,2})\\/(\\d{1,2})(?:\\/(\\d{2,4}))?', function (matches, result) { // 01/13/2017, 01/13/17, 1/13
-      var date = matches[2];
-      var month = matches[1];
-      var year;
-      if (!matches[3]) matches[3] = '';
-      switch (matches[3].length) {
-        case 0 : year = result.origin_date.value.getFullYear();
+      if (!matches[4]) matches[4] = '';
+      switch (matches[4].length) {
+        case 0 : var year = result.origin_date.value.getFullYear();
                  if ( new Date(year,month-1,date) < result.origin_date.value ) year++; // incrementing the year by 1, if the return date is earlier
                  break;
-        case 2 : year = +matches[3]+2000; break;
-        case 4 : year = +matches[3]; break;
+        case 2 : var year = Number(matches[4])+2000; break;
+        case 4 : var year = Number(matches[4]); break;
       }
       return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
     }),
@@ -395,7 +371,7 @@ function AvaeaTextParser() {
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
 
-          //sails.log.verbose("Parser success: "+JSON.stringify(result));
+          sails.log.verbose("Parser success: "+JSON.stringify(result));
           sails.log.verbose("Parsing query : '" + result.query + "'");
           sails.log.verbose("Parsing result:       from '" + result.origin_airport + "' to '" + result.destination_airport + "'");
           sails.log.verbose("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
