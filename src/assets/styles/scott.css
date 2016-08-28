@@ -1385,7 +1385,7 @@ div.nothing-found-icon {
 }
 
 .bottom-nav-text {
-  width: 160px;
+  width: auto;
   float: left;
 }
 

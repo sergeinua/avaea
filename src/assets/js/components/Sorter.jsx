@@ -80,7 +80,7 @@ var Sorter = React.createClass({
         <ul className="dropdown-menu">
           {Object.keys(this.state.sortOptions).map(function(key) {
             if (getOption(key)) {
-              return <li key={key} sort={ key } className={getOption(key).current ? "selected" : ""} order={getOption(key).order}>
+              return <li key={key} className={getOption(key).current ? "selected" : ""} order={getOption(key).order}>
                 <a href="#">{ getOption(key).title }</a>
               </li>
             }
