@@ -15,12 +15,6 @@ var Buckets = React.createClass({
     }.bind(this);
   },
 
-  componentDidMount: function () {
-    showTotal = !!$('.itinerary:visible').length;
-    console.log('showTotal', showTotal);
-    filterItineraries();
-  },
-
   render: function() {
     return (
     <div>
@@ -28,7 +22,7 @@ var Buckets = React.createClass({
         <div className="swiper-container">
           <div id="tiles" className="swiper-wrapper" data-max_filter_items="{ this.props.max_filter_items }">
             {this.state.tiles.map(function (tile) {
-              return <Tile key={tile.id} info={tile}/>
+              return <Tile key={tile.id} info={tile} />
             })}
           </div>
           <div className="clickable-tiles-area clickable hidden"></div>
@@ -37,7 +31,7 @@ var Buckets = React.createClass({
       }
       <div className="bottomNav">
         <div className="bottom-nav-text">
-        <span>Showing <span className='search_count'><span id='search_count'>{ this.state.searchResultLength }</span>/{this.props.searchResultLength} </span></span>
+        <span>Showing <span className='search_count'><span id='search_count'>{ this.props.searchResultLength }</span>/{this.state.searchResultLength} </span></span>
         Flights by </div><Sorter current={{"name":"price"}}/>
         <div className="clear-undo-buttons text-right">
           <span id="clear" className="clear-all-filters disabled">Clear</span>|

@@ -19,7 +19,7 @@ $.fn.scrollTo = function(elem) {
 
 var recalculateBodyPadding = function () {
   return true;
-  $('body').removeClass('landscape-mode');
+ /* $('body').removeClass('landscape-mode');
   if (isLandscapeMode()) {
     $('body').addClass('landscape-mode');
     if (isMobile.any() && $('#landscapeMode').length) {
@@ -39,6 +39,7 @@ var recalculateBodyPadding = function () {
     navHeight = 30;
   }
   $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
+  */
 };
 
 function _displayDimmer(flag) {
@@ -62,6 +63,7 @@ function _displayDimmer(flag) {
     $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer');
   }
 }
+/*
 var getFilters = function () {
   var filter = $('.selectedfilters').attr('filters');
   filter = filter ? filter.split(' ') : [];
@@ -77,8 +79,9 @@ var getDisFilters = function () {
     if (item.length > 0) return item;
   }) : [];
 };
-
+*/
 //tile recalculation
+/*
 var recalcTiles = function () {
   console.log('called recalcTiles');
   var filters = $.merge([], getFilters(), getDisFilters());
@@ -154,44 +157,44 @@ var recalcTiles = function () {
       tile.addClass('disabled');
     }
   });
-  recalculateBodyPadding();
-};
-var showTotal = !!$('.itinerary:visible').length;
+  // recalculateBodyPadding();
+};*/
+// var showTotal = !!$('.itinerary:visible').length;
 
-var filtersCount = {};
-var filterItineraries = function () {
+// var filtersCount = {};
+// var filterItineraries = function () {
 
-  var filters = getFilters();
-  if (filters.length) {
-    $('#clear, #undo').removeClass('disabled');
-  } else {
-    $('#clear, #undo').addClass('disabled');
-  }
-  $('.itinerary').show();
-  $('.mybucket').each(function () {
-
-    var selectedTileFilers = [];
-    var tileName = $(this).attr('id');
-    $(this).find('li').each(function () {
-      var tileId = $(this).attr('for');
-      if ($.inArray(tileId, filters) != -1) {
-        selectedTileFilers.push(tileId);
-      }
-    });
-
-    if (selectedTileFilers.length) {
-      filtersCount[tileName] = $('.itinerary:visible').filter('.' + selectedTileFilers.join(',.')).length;
-      $('.itinerary:visible').not('.' + selectedTileFilers.join(',.')).hide();
-    }
-  });
-
-  if (showTotal) {
-    var sCount = $('.itinerary:visible').length;
-    $('#search_count').text(sCount);
-    $('#search_count').removeClass('hidden');
-    recalcTiles();
-  }
-};
+  // var filters = getFilters();
+  // if (filters.length) {
+  //   $('#clear, #undo').removeClass('disabled');
+  // } else {
+  //   $('#clear, #undo').addClass('disabled');
+  // }
+  // $('.itinerary').show();
+  // $('.mybucket').each(function () {
+  //
+  //   var selectedTileFilers = [];
+  //   var tileName = $(this).attr('id');
+  //   $(this).find('li').each(function () {
+  //     var tileId = $(this).attr('for');
+  //     if ($.inArray(tileId, filters) != -1) {
+  //       selectedTileFilers.push(tileId);
+  //     }
+  //   });
+  //
+  //   if (selectedTileFilers.length) {
+  //     filtersCount[tileName] = $('.itinerary:visible').filter('.' + selectedTileFilers.join(',.')).length;
+  //     $('.itinerary:visible').not('.' + selectedTileFilers.join(',.')).hide();
+  //   }
+  // });
+  //
+  // if (showTotal) {
+  //   var sCount = $('.itinerary:visible').length;
+  //   $('#search_count').text(sCount);
+  //   $('#search_count').removeClass('hidden');
+  //   recalcTiles();
+  // }
+// };
 
 
 $(document).ready(function() {
@@ -223,7 +226,7 @@ $(document).ready(function() {
     $('body').removeClass('show-tiles-arrow');
   }
 
-  recalculateBodyPadding();
+  // recalculateBodyPadding();
 
   // Set sprite number for the every airlines icon
   $('.itinerary-airline-icon').each(function () {
@@ -248,38 +251,38 @@ $(document).ready(function() {
   $('#timeAlert').fadeOut(5000, function () {
     recalculateBodyPadding();
   });
-  showTotal = !!$('.itinerary:visible').length;
+  // showTotal = !!$('.itinerary:visible').length;
 
 
-  filterItineraries();
+  // filterItineraries();
 
-  $('#clear').click(function () {
-    $('.selectedfilters').attr('filters', '');
-    $('.selectedfilters').attr('filters-dis', '');
-    $('#tiles').find('li.selected').removeClass('selected');
-    $('#tiles').find('li.dis-selected').removeClass('dis-selected');
-    swiper.slideTo(0);
-    filterItineraries();
-  });
+  // $('#clear').click(function () {
+  //   $('.selectedfilters').attr('filters', '');
+  //   $('.selectedfilters').attr('filters-dis', '');
+  //   $('#tiles').find('li.selected').removeClass('selected');
+  //   $('#tiles').find('li.dis-selected').removeClass('dis-selected');
+  //   swiper.slideTo(0);
+  //   filterItineraries();
+  // });
+  //
+  // $('#undo').click(function () {
+  //   if ($(this).hasClass('disabled')) {
+  //     return;
+  //   }
+  //   var filters = getFilters();
+  //   if (filters.length) {
+  //     var lastElement = filters[filters.length - 1];
+  //     filters.pop();
+  //     $('.selectedfilters').attr('filters', filters.join(' '));
+  //     if (lastElement) {
+  //       swiper.slideTo($('[for=' + lastElement + ']').parents('.swiper-slide').index());
+  //       $('[for=' + lastElement + ']').removeClass('selected');
+  //     }
+  //     filterItineraries();
+  //   }
+  // });
 
-  $('#undo').click(function () {
-    if ($(this).hasClass('disabled')) {
-      return;
-    }
-    var filters = getFilters();
-    if (filters.length) {
-      var lastElement = filters[filters.length - 1];
-      filters.pop();
-      $('.selectedfilters').attr('filters', filters.join(' '));
-      if (lastElement) {
-        swiper.slideTo($('[for=' + lastElement + ']').parents('.swiper-slide').index());
-        $('[for=' + lastElement + ']').removeClass('selected');
-      }
-      filterItineraries();
-    }
-  });
-
-  $('.sort-button .dropdown-menu li').not('.divider').click(function () {
+  /*$('.sort-button .dropdown-menu li').not('.divider').click(function () {
     if (!$(this).hasClass('selected')) {
       $('span.caret', '.sort-button .dropdown-menu li.selected').addClass('hide');
       $('.sort-button .dropdown-menu li.selected').removeAttr('order').removeClass('selected');
@@ -312,7 +315,7 @@ $(document).ready(function() {
       return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
     $('#searchResultData').append(itineraries);
-  });
+  });*/
 
   // more/less button for merchandising
   // $('.mymorebutton').click(function () {
@@ -340,7 +343,7 @@ $(document).ready(function() {
   var firstSelectionCount = {};
   var globalSelectionCount = 0;
   var numberOfTiles = $('.mybucket').length;
-
+/*
   $('.list-group-item').click(function (event) {
 
     _displayDimmer(false);
@@ -407,7 +410,7 @@ $(document).ready(function() {
     scrollAirlines();
     swiper.slideTo($(this).parents('.swiper-slide').index());
   });
-
+*/
   var scrollAirlines = function () {
     // Bucket was touched. Not need scrolling
     if ($('#airline_tile').data('_is_touched')) {
@@ -454,49 +457,49 @@ $(document).ready(function() {
   });
 
   //search count
-  var sCount = $('.itinerary:visible').length;
-  $('#search_count').text(sCount);
-  if (showTotal) {
-    $('#search_count').removeClass('hidden');
-    recalculateBodyPadding();
-    recalcTiles();
-  }
+  // var sCount = $('.itinerary:visible').length;
+  // $('#search_count').text(sCount);
+  // if (showTotal) {
+  //   $('#search_count').removeClass('hidden');
+  //   recalculateBodyPadding();
+  //   recalcTiles();
+  // }
 
   // DEMO-429 Collapse tiles
-  $('.clickable-tiles-area-yellow').click(function () {
-    if ($('.clickable-tiles-area').hasClass('hidden')) {
-      shrinkTiles(false);
-    }
-    return false;
-  });
-  $('.clickable-tiles-area').click(function () {
-    shrinkTiles(true);
-    return false;
-  });
-  var tilesHeightFull = $('#tiles').outerHeight();
-  var shrinkTiles = function (revert) {
-    if (!revert) {
-      if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() >= $('body').outerHeight()) {
-        tilesHeightFull = $('#tiles').outerHeight();
-        $('#tiles').outerHeight(20);
-        recalculateBodyPadding();
-        $('.clickable-tiles-area').removeClass('hidden');
-        $('body').removeClass('show-tiles-arrow');
-      }
-    } else {
-      $('.clickable-tiles-area').addClass('hidden');
-      $('#tiles').outerHeight(tilesHeightFull);
-      recalculateBodyPadding();
-      initScroll = $(window).scrollTop();
-    }
-  };
+  // $('.clickable-tiles-area-yellow').click(function () {
+  //   if ($('.clickable-tiles-area').hasClass('hidden')) {
+  //     shrinkTiles(false);
+  //   }
+  //   return false;
+  // });
+  // $('.clickable-tiles-area').click(function () {
+  //   shrinkTiles(true);
+  //   return false;
+  // });
+  // var tilesHeightFull = $('#tiles').outerHeight();
+  // var shrinkTiles = function (revert) {
+  //   if (!revert) {
+  //     if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() >= $('body').outerHeight()) {
+  //       tilesHeightFull = $('#tiles').outerHeight();
+  //       $('#tiles').outerHeight(20);
+  //       recalculateBodyPadding();
+  //       $('.clickable-tiles-area').removeClass('hidden');
+  //       $('body').removeClass('show-tiles-arrow');
+  //     }
+  //   } else {
+  //     $('.clickable-tiles-area').addClass('hidden');
+  //     $('#tiles').outerHeight(tilesHeightFull);
+  //     recalculateBodyPadding();
+  //     initScroll = $(window).scrollTop();
+  //   }
+  // };
   if ($(".swiper-container").length) {
     $(".swiper-container").hammer();
     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
     $(".swiper-container").bind("swipeup", function (e) {
       shrinkTiles(false);
     }).bind("swipedown", function (e) {
-      shrinkTiles(true);
+      // shrinkTiles(true);
     });
   }
 

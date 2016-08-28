@@ -1182,6 +1182,7 @@ module.exports = {
         currentNum++;
 
         itinerary.filterClass = filterClass;
+        itinerary.filterArr = filterClass.split(" ");
         return doneCallback(null);
       }, function (err) {
         if ( err ) {
