@@ -65,7 +65,7 @@ function AvaeaTextParser() {
     'number_of_tickets'
   ];
 
-  this.date_pattern = "\\b(?:\\d{1,2}(?:st|nd|rd|th)?|"+
+  this.date_pattern = "\\b(?:\\d{1,2}(?:st|nd|rd|th)?(?!\\s+class)|"+
     "first(?!\\s+class)|" +
     "second|" +
     "third|" +
@@ -273,7 +273,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('(?:in\\s)?economy(?:\\sclass)?',function() { return "E"; }),
     new Regexp_and_Conversion('(?:in\\s)?premium(?:\\sclass)?',function() { return "P"; }),
     new Regexp_and_Conversion('(?:in\\s)?business(?:\\sclass)?',function() { return "B"; }),
-    new Regexp_and_Conversion('(?:in\\s)?first(?:\\sclass)?',function() { return "F"; })
+    new Regexp_and_Conversion('(?:in\\s)?(?:first|1st)(?:\\sclass)?',function() { return "F"; })
   ];
   this.number_of_tickets_regexps = [
     new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
