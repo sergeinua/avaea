@@ -45,7 +45,7 @@
 	      ignore_onend = true;
 	    }
 	  };
-
+	  
     recognition.onend = function () {
       recognizing = false;
       if (ignore_onend) {
@@ -56,12 +56,6 @@
         return;
       }
       log('End speech');
-      //if (window.getSelection) {
-      //  window.getSelection().removeAllRanges();
-      //  var range = document.createRange();
-      //  range.selectNode(document.getElementById('voiceSearchTextarea'));
-      //  window.getSelection().addRange(range);
-      //}
     };
 
     recognition.onresult = function (event) {
@@ -92,39 +86,38 @@
       log(final_transcript);
       if (final_textarea) final_textarea.empty().val(final_transcript);
       if (interim_transcript) final_textarea.val(capitalize(interim_transcript));
-      if (final_transcript || interim_transcript) {
-        showButtons(false);
-      }
+      if (final_transcript || interim_transcript);
     };
   }
   
   clear_button.click(function() {
+  	disableButton();
     final_textarea.val('');
-    showButtons(true);
     final_textarea.focus();
   });
+  
 
   final_textarea.bind('keyup change paste cut', function () {
-    var elem = $(this);
     setTimeout(function () {
-      var _value = $.trim(elem.val());
+      var _value = $.trim(final_textarea.val());
       if (_value != '' && _value.length > 0 && cntWords(_value)) {
-        showButtons(false);
+        enableButton();
       } else {
-        showButtons(true);
+        disableButton();
       }
     }, 100);
   }).focus(function () {
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
     }
   }).blur(function () {
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
+      // set timer so button does not enable if user blurred by clicking "clear"
     }
-  });
+  }, 100);
 
   var cntWords = function (val) {
     var words = val.split(' ');
@@ -132,7 +125,7 @@
   };
 
   var clearVoiceSearch = function () {
-    if ($(this).hasClass('disabled')) return;
+    if ($('.voice-search-buttons .big-button').hasClass('disabled')) return;
 
     final_textarea.val('');
     final_transcript = '';
@@ -186,33 +179,17 @@
     });
   }
 
-  function startButton(event) {
-    if (recognizing) {
-      recognition.stop();
-      return;
-    }
-    final_transcript = '';
-    recognition.start();
-    ignore_onend = false;
-    final_textarea.val('');
-    log('info_allow');
-    showButtons(true);
-    start_timestamp = event.timeStamp;
-  }
-
   function log() {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
     }
   }
 
-  function showButtons(disable) {
-    if (disable) {
-      $('#voiceSearchFlight').addClass('disabled');
-    } else {
-    	// bug to tackle - button does not enable unless user clicks off of textarea
-      $('#voiceSearchFlight').removeClass('disabled');
-    }
+  var enableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button');
+  }
+  var disableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button disabled');
   }
   
   function loggerQuery(q, result) {
