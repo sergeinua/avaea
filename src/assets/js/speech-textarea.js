@@ -4,57 +4,53 @@
   var recognizing = false;
   var ignore_onend;
   var start_timestamp;
-  var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
   var clear_button = $('.voice-form .clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
-  if (!('webkitSpeechRecognition' in window)) {
-    notSupported();
-  } else {
-    start_button.click(function (e) {
-      startButton(e);
-    }).show();
-
-    var recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = function () {
-      recognizing = true;
-      log('info_speak_now');
-      start_button.addClass('listening');
-    };
-
-    recognition.onerror = function (event) {
-      if (event.error == 'no-speech') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_speech');
-        ignore_onend = true;
-      }
-      if (event.error == 'audio-capture') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_microphone');
-        ignore_onend = true;
-      }
-      if (event.error == 'not-allowed') {
-        if (event.timeStamp - start_timestamp < 100) {
-          log('info_blocked');
-        } else {
-          log('info_denied');
-        }
-        ignore_onend = true;
-      }
-    };
+	if (!('webkitSpeechRecognition' in window)) {
+	  notSupported();
+	} else {
+	  
+	  // #start_button does not exist in the DOM, so
+  	// Deborah removed the reference to it here
+  	// and throughout this file
+	
+	  var recognition = new webkitSpeechRecognition();
+	  recognition.lang = 'en-US';
+	  recognition.continuous = true;
+	  recognition.interimResults = true;
+	
+	  recognition.onstart = function () {
+	    recognizing = true;
+	    log('info_speak_now');
+	  };
+	
+	  recognition.onerror = function (event) {
+	    if (event.error == 'no-speech') {
+	      log('info_no_speech');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'audio-capture') {
+	      log('info_no_microphone');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'not-allowed') {
+	      if (event.timeStamp - start_timestamp < 100) {
+	        log('info_blocked');
+	      } else {
+	        log('info_denied');
+	      }
+	      ignore_onend = true;
+	    }
+	  };
 
     recognition.onend = function () {
       recognizing = false;
       if (ignore_onend) {
         return;
       }
-      start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
       if (!final_transcript) {
         log('info_start');
         return;
@@ -119,13 +115,11 @@
       }
     }, 100);
   }).focus(function () {
-    start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
     }
   }).blur(function () {
-    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
       showButtons(false);
@@ -182,7 +176,6 @@
   }
 
   function upgrade() {
-    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
@@ -202,7 +195,6 @@
     recognition.start();
     ignore_onend = false;
     final_textarea.val('');
-    start_button.toggleClass('fa-microphone fa-stop');
     log('info_allow');
     showButtons(true);
     start_timestamp = event.timeStamp;
@@ -217,11 +209,12 @@
   function showButtons(disable) {
     if (disable) {
       $('#voiceSearchFlight').addClass('disabled');
-    } else if (!$('.voice-form').is(':hidden')) {
+    } else {
+    	// bug to tackle - button does not enable unless user clicks off of textarea
       $('#voiceSearchFlight').removeClass('disabled');
     }
   }
-
+  
   function loggerQuery(q, result) {
     $.ajax({
       url: '/voice/logger',
