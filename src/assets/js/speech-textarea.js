@@ -6,7 +6,7 @@
   var start_timestamp;
   var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
-  var clear_button = $('#clear_button');
+  var clear_button = $('.voice-form .clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
@@ -101,8 +101,8 @@
       }
     };
   }
-
-  clear_button.click(function (e) {
+  
+  clear_button.click(function() {
     final_textarea.val('');
     showButtons(true);
     final_textarea.focus();

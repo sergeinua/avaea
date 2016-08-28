@@ -231,13 +231,19 @@
 	font-size: 18px;
 }
 
+.desktop .voice-form {
+	margin-top: 45px;
+	margin-bottom: 20px;
+}
+
 .desktop .voice-search-content {
 	text-align: center;
+	width: 55%;
 }
 
 .desktop .voice-search-textarea {
 	text-align: left;
-	width: 55%;
+	height: 200px;
 }
 
 .desktop .input-sm,
@@ -296,19 +302,13 @@ footer,
 	background: #ffffff;
 }
 
-.big-button,
-.small-button {
-	border-radius: 3px;
-}
 
 .big-button {
-	cursor: pointer;
 	font-family: 'Open-Sans-Light';
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
 	padding: 8px 25px;
-	display: inline-block;
 }
 
 .big-button:hover,
@@ -317,13 +317,28 @@ footer,
 }
 
 .small-button,
-.search_button_top_cancel {
+.search_button_top_cancel,
+.tertiary-button,
+.big-button,
+.clear-textarea {
 	cursor: pointer;
+	display: inline-block;
+	border-radius: 3px;
+}
+
+.small-button,
+.search_button_top_cancel {
 	color: #ffffff;
 	font-size: 16px;
 	margin: 10px 5px;
 	padding: 10px 25px;
-	display: inline-block;
+}
+
+.tertiary-button {
+	font-size: 14px;
+	margin: 10px 5px;
+	padding: 4px 15px;
+	box-shadow: inset 0 0 2px #ffffff;
 }
 
 .big-button.disabled,
@@ -428,17 +443,33 @@ legend {
 	color: #0081c9;
 }
 
+
 /* bright blue */
 
 a,
 a:hover,
-a:focus {
+a:focus,
+.tertiary-button,
+.clear-textarea {
 	color: #00b5ff;
+}
+
+.tertiary-button:before,
+.clear-textarea:before {
+	color: rgba(0, 181, 255, .8);
+}
+
+.clear-textarea {
+	border: 1px solid rgba(0, 181, 255, .1);
 }
 
 .big-button:hover,
 .big-button:focus {
 	background: #00b5ff;
+}
+
+.tertiary-button {
+	border: 1px solid rgba(0, 181, 255, .7);
 }
 
 /* partial blue */
@@ -468,6 +499,19 @@ a:focus {
 }
 
 
+/* this rgb is 50% of the bright blue */
+.tertiary-button:hover,
+.tertiary-button:focus,
+.clear-textarea {
+	background-color: rgba(145, 217, 255, .2);	
+}
+
+.clear-textarea:hover,
+.clear-textarea:focus {
+	background: rgba(145, 217, 255, .4);
+}
+
+
 /* green */
 
 .icon-spinner {
@@ -482,7 +526,8 @@ a:focus {
 }
 
 .big-button.disabled,
-.small-button.disabled {
+.small-button.disabled,
+.tertiary-button.disabled {
 	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -519,6 +564,10 @@ form.form {
 
 textarea {
 	padding: 8px;
+}
+
+.tertiary-button.disabled:before {
+	color: #bbb;
 }
 
 .tt-hint,
@@ -574,7 +623,7 @@ textarea {
 .navbar-default .navbar-toggle:focus, 
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 9px 0 8px 0;
+	margin: 8px 0 8px 0;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -586,7 +635,7 @@ textarea {
 }
 
 .navbar-brand {
-	padding: 16px 4px;
+	padding: 15px 5px;
 }
 
 .navbar-header {
@@ -976,21 +1025,41 @@ strong.tt-highlight {
 }
 
 .voice-form {
-	margin-top: 45px;
+	margin-top: 65px;
+}
+
+.voice-form:after {
+	content: ' ';
+	display: table;
+	width: 100%;
 }
 
 .voice-search-content {
 	cursor: pointer;
+	margin: 0 auto;
 }
 
 .voice-search-textarea {
-	margin-top: 20px;
 	width: 100%;
-	height: 200px;
+	height: 120px;
+	position: relative;
 	outline: none;
 	resize: none;
 }
 
+.voice-search-content .clear-textarea {
+	margin: 0 0 5px 0px;
+	padding: 5px 15px 5px 35px;
+	float: right;
+	position: relative;
+}
+
+.clear-textarea:before  {
+	font-size: 20px;
+  position: absolute;
+    top: 4px;
+    left: 12px;	
+}
 
 .voice-search-content .fa {
   position: relative;

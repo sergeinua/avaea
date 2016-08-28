@@ -41,6 +41,7 @@
 
 
 .back-history:before,
+.clear-textarea:before,
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
@@ -85,6 +86,10 @@
 }
 .icon-close:before {
   content: "\e907";
+}
+.clear-textarea:before,
+.icon-close-circle:before {
+  content: "\e924";
 }
 .icon-heart-half .path1:before {
   content: "\e908";
