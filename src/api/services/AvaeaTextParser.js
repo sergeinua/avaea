@@ -185,16 +185,16 @@ function AvaeaTextParser() {
       }
       return new Date(year,month-1,date); // JavaScript counts months from 0 to 11. January is 0. December is 11.
     }),
-    new Regexp_and_Conversion('((?:the\\s+)?(' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?)', function (matches, result) {  // 20 Dec, 20th of Dec
-      var date = ordinal_to_number(matches[2]);
-      var month = matches[3];
-      var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
+    new Regexp_and_Conversion('(?:the\\s+)?(' + this.date_pattern + ')\\s+(?:of\\s+)?(' + this.month_pattern + ')[,; \\t]*(\\d{2,4})?', function (matches, result) {  // 20 Dec, 20th of Dec
+      var date = ordinal_to_number(matches[1]);
+      var month = matches[2];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : result.origin_date.value.getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
-    new Regexp_and_Conversion('((' + this.month_pattern + ')\\s+(' + this.date_pattern + ')[,; \\t]*(\\d{4})?)', function (matches, result) {
-      var date = ordinal_to_number(matches[3]);
-      var month = matches[2];
-      var year = /\d{4}/.exec(matches[4]) ? matches[4] : result.origin_date.value.getFullYear();
+    new Regexp_and_Conversion('(' + this.month_pattern + ')\\s+(' + this.date_pattern + ')[,; \\t]*(\\d{4})?', function (matches, result) {
+      var date = ordinal_to_number(matches[2]);
+      var month = matches[1];
+      var year = /\d{4}/.exec(matches[3]) ? matches[3] : result.origin_date.value.getFullYear();
       return new Date(date + " " + month + " " + year);
     }),
     new Regexp_and_Conversion('((?:the\\s)?next|(?:in\\s|for\\s)?a|(?:in\\s|for\\s)?(' + this.number_pattern + '))\\s+(day|week|fortnight|month)s?(?:\\slater)?', function (matches, result) {
