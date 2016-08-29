@@ -7,30 +7,102 @@ var ResultPage = React.createClass({
       searchResultLength: this.props.InitResultData.searchResultLength,
       searchResult: this.props.InitResultData.searchResult,
       iconSpriteMap: this.props.InitResultData.iconSpriteMap,
-      filter: []
+      filter: [],
+      currentSort: {"name": "price", "order": "asc"}
     };
   },
 
   componentWillMount: function () {
     SearchForm.updateTiles = (filter) => {
       this.updateTiles(filter);
-    }
+    };
+    SearchForm.undoTiles = () => {
+      this.undoTiles();
+    };
+    SearchForm.clearTiles = () => {
+      this.clearTiles();
+    };
+    SearchForm.sortItineraries = (option, direction) => {
+      this.sortItineraries(option, direction);
+    };
+  },
+
+  sortItineraries: function (option, direction) {
+    var itineraries = this.state.searchResult;
+    itineraries.sort(function (a, b) {
+      switch (option) {
+        case 'smart':
+          a = parseFloat(a.smartRank);
+          b = parseFloat(b.smartRank);
+          break;
+        case 'price':
+          a = parseFloat(a.price);
+          b = parseFloat(b.price);
+          break;
+        case 'duration':
+          a = parseFloat(a.durationMinutes);
+          b = parseFloat(b.durationMinutes);
+          break;
+        case 'odepart':
+          a = parseFloat(a.citypairs[0].from.minutes);
+          b = parseFloat(b.citypairs[0].from.minutes);
+          break;
+        case 'oarrival':
+          a = parseFloat(a.citypairs[0].to.minutes);
+          b = parseFloat(b.citypairs[0].to.minutes);
+          break;
+        case 'idepart':
+          a = parseFloat(a.citypairs[a.citypairs.length - 1].from.minutes);
+          b = parseFloat(b.citypairs[b.citypairs.length - 1].from.minutes);
+          break;
+        case 'iarrival':
+          a = parseFloat(a.citypairs[a.citypairs.length - 1].to.minutes);
+          b = parseFloat(b.citypairs[b.citypairs.length - 1].to.minutes);
+          break;
+        default:
+          a = parseFloat(a.price);
+          b = parseFloat(b.price);
+      }
+
+      if (direction == 'desc') {
+        b = [a, a = b][0];
+      }
+      return (a > b) ? 1 : ((a < b) ? -1 : 0);
+    });
+
+    this.setState({searchResult: itineraries});
+    this.setState({currentSort: {"name": option, "order": direction}});
+  },
+
+  clearTiles: function () {
+    this.setState({filter: []}, function() {
+      this.updateTiles('');
+    });
+  },
+
+  undoTiles: function () {
+    var filters = this.state.filter;
+    filters = filters.splice(0, filters.length-1);
+    this.setState({filter: filters}, function() {
+      this.updateTiles('');
+    });
   },
 
   updateTiles: function (filterNew) {
     var itineraries = this.state.searchResult;
 
     var filters = this.state.filter;
-    if (filterNew.selected) {
-      var found = filters.indexOf(filterNew.id);
-      if (found != -1) {
-        filters.splice(found, 1);
+    if (filterNew) {
+      if (filterNew.selected) {
+        var found = filters.indexOf(filterNew.id);
+        if (found != -1) {
+          filters.splice(found, 1);
+        }
+      } else {
+        filters.push(filterNew.id);
       }
-    } else {
-      filters.push(filterNew.id);
+      this.setState({filter: filters});
     }
-    this.setState({filter: filters});
-
     this.resetResultVisibility();
     this.filterItineraries();
 
@@ -138,7 +210,7 @@ var ResultPage = React.createClass({
         <NavBar InitResultData={this.state}/>
         {(this.props.InitResultData.searchResultLength
             ? (<span>
-                 <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength}/>
+                 <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
                  <ResultList InitResultData={this.state} />
                </span>)
             : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} />

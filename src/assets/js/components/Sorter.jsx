@@ -4,7 +4,7 @@ var Sorter = React.createClass({
     var sortOptions = {
       price: {
         title: 'Price',
-        current: true,
+        current: false,
         order: 'asc'
       },
       smart: {
@@ -16,20 +16,9 @@ var Sorter = React.createClass({
         title: 'Duration',
         current: false,
         order: 'asc'
-      }//,
-      // {odepart: {
-      //   title: 'Departure',
-      //   current: false,
-      //   order: 'asc'
-      // }},
-      // {oarrival: {
-      //   title: 'Arrival',
-      //   current: false,
-      //   order: 'asc'
-      // }}
+      }
     };
     if (InitResultData.searchParams.returnDate) {
-      sortOptions.duration.title += '⇄';
       sortOptions.idepart = {
         title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Departure',
         current: false,
@@ -66,22 +55,42 @@ var Sorter = React.createClass({
       sortOptions: sortOptions
     }
   },
+
   getOption: function (key) {
     return this.state.sortOptions[key] || false;
   },
+
+  sortItineraries: function (option, direction) {
+    if (option == this.props.current.name) {
+      direction = this.props.current.order == 'asc' ? 'desc' : 'asc';
+    }
+    return function() {
+      SearchForm.sortItineraries(option, direction);
+    }.bind(this);
+  },
+
+  getOrderArrow: function (order) {
+    if (order == "asc") {
+      return '↓';
+    }
+    return '↑'
+  },
+
   render: function() {
     var getOption = this.getOption;
-    var current = Object.keys(this.state.sortOptions).filter(function(key) {return getOption(key).current});
+    var sortItineraries = this.sortItineraries;
+    var getOrderArrow = this.getOrderArrow;
+    var current = this.props.current;
     return (
       <div className="sort-button">
         <button className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span>{getOption(current).title}</span><span id="sort-menu-direction">&darr;</span>
+          <span>{getOption(current.name).title}</span><span id="sort-menu-direction">{getOrderArrow(this.props.current.order)}</span>
         </button>
         <ul className="dropdown-menu">
           {Object.keys(this.state.sortOptions).map(function(key) {
             if (getOption(key)) {
-              return <li key={key} className={getOption(key).current ? "selected" : ""} order={getOption(key).order}>
-                <a href="#">{ getOption(key).title }</a>
+              return <li key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
+                <span>{ getOption(key).title }</span>{key == current.name?<span className="pull-right">{current.order == 'asc'?getOrderArrow('desc'):getOrderArrow('asc')}</span>:''}
               </li>
             }
             return '';
