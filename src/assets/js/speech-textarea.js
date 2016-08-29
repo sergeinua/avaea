@@ -108,13 +108,16 @@
     final_textarea.focus();
   });
 
-  final_textarea.keyup(function () {
-    var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
-    } else {
-      showButtons(true);
-    }
+  final_textarea.bind('keyup change paste cut', function () {
+    var elem = $(this);
+    setTimeout(function () {
+      var _value = $.trim(elem.val());
+      if (_value != '' && _value.length > 0 && cntWords(_value)) {
+        showButtons(false);
+      } else {
+        showButtons(true);
+      }
+    }, 100);
   }).focus(function () {
     start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
@@ -164,8 +167,9 @@
       recognition.stop();
     }
     var heightNav = $('.navbar-header').outerHeight(true);
-    demo(function(res) {
-      loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
+    demo(function(res, data) {
+      log("Result of demo: "+JSON.stringify(data));
+      loggerQuery(data, (res ? 'success' : 'failed'));
       $('.navbar-header').height(heightNav);
     });
 
@@ -227,12 +231,14 @@
       url: '/voice/logger',
       type: 'post',
       data: {
-        q: $.trim(q),
+        q: q,
         result: result
       },
       dataType: 'json'
     }).done(function( msg ) {
-      log(msg);
+      if( !msg.success ) {
+	log("Result of logger query: "+JSON.stringify(msg));
+      }
     });
   }
 
@@ -248,24 +254,13 @@
       data: {q: $.trim(final_textarea.val())},
       dataType: 'json'
     }).done(function( result ) {
-      result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
-      result.return_date = result.return_date ? new Date(result.return_date) : false;
 
-      log(final_textarea.val());
       var text = $.trim(final_textarea.val());
-      var out_field = '';
-
-      if (/Fly me to the moon/i.exec(text)) {
-        out_field = "Meri says: Fill my heart with song and \n"
-          + "Let me sing for ever more You are all I long for \n"
-          + "All I worship and adore";
-        log(out_field);
-        return callback(false);
-      }
-
       var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
-      out_field += "Meri says:";
+
+      result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
+      result.return_date = result.return_date ? new Date(result.return_date) : false;
 
       for(var _k in _airportsKeys) {
         if (result[_k]) {
@@ -284,13 +279,8 @@
           result[_k] = "an unknown airport";
         }
       }
-      if (_airportsPromises.length) {
-        out_field += " here is what I understood -"
-          + " The trip is from " + result.origin_airport + " to " + result.destination_airport;
-      } else {
-        out_field += " I did not understand where you are flying to.";
-        log(out_field);
-        return callback(false);
+      if( !_airportsPromises.length ) {
+        return callback(false, result);
       }
 
       $.when.apply($, _airportsPromises).done(function() {
@@ -321,7 +311,6 @@
             $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
             picker.date(result.origin_date);
             leaving = result.origin_date.toDateString();
-            out_field += ", leaving on " + leaving;
             // we can't set return date on search form without origin date
             if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
               var _month = result.return_date.getMonth() + 1,
@@ -331,7 +320,6 @@
               $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
               picker.date(result.return_date);
               returning = result.return_date.toDateString();
-              if (returning) out_field += ", returning on " + returning;
             } else if (result.type == 'round_trip') {
               result.type = 'one_way';
               $('#one_way').trigger('click');
@@ -342,12 +330,9 @@
             $('#date_select_top').trigger('click');
           }
 
-        } else {
-          out_field += ", I did not find dates in your request but will do what I can";
         }
 
         if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
-          out_field += ", You need " + result.number_of_tickets + (result.number_of_tickets == 1 ? " ticket" : " tickets");
           if (result.number_of_tickets == "multiple") {
             result.number_of_tickets = 4;
           }
@@ -357,9 +342,7 @@
         SearchForm.updatePassengers(result.number_of_tickets);
 
 
-        if (result.class_of_service) {
-          out_field += ", You are travelling in " + result.class_of_service + " class.";
-        } else {
+        if( !result.class_of_service ) {
           result.class_of_service = 'E';
         }
         $('input[name=preferedClass]').each(function (i, o) {
@@ -374,8 +357,7 @@
           $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
         }
 
-        log(out_field);
-
+        $('#voiceSearchQuery').val(JSON.stringify(result));
         switch (result.action) {
           case 'top':
             $('#topSearchOnly').val(1);
@@ -384,12 +366,12 @@
             break;
         }
 
-        return callback(true);
+        return callback(true, result);
       }).fail(function(){
-        return callback(false);
+        return callback(false, result);
       });
     }).fail(function (err) {
-      return callback(false);
+      return callback(false, result);
     });
   }
 })(jQuery);

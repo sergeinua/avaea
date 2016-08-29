@@ -441,17 +441,8 @@ nav {
 }
 
 .modalLoader {
-  display:    none;
-  position:   fixed;
-  z-index:    1000;
-  top:        0;
-  left:       0;
-  height:     100%;
-  width:      100%;
-  background: rgba( 255, 255, 255, .8 )
-  url('../images/ajax-loader.gif')
-  50% 50%
-  no-repeat;
+  display: block;
+  margin: 15px auto 5px;
 }
 
 /* When the body has the loading class, we turn
@@ -460,10 +451,8 @@ body.loading {
   overflow: hidden;
 }
 
-/* Anytime the body has the loading class, our
-   modal element will be visible */
-body.loading .modalLoader {
-  display: block;
+body.dimmer-show {
+  overflow-y: hidden;
 }
 
 .flight-type-form>.row {

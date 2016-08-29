@@ -129,7 +129,7 @@ module.exports = {
         sails.log.info('Unable restore search parameters from encoded string');
       }
     }
-    var
+    var voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
       params = {
         user: req.user,
         session: req.session,
@@ -141,7 +141,7 @@ module.exports = {
           topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
           returnDate: '',
-          voiceSearchQuery:  req.param('voiceSearchQuery', '').trim()
+          voiceSearchQuery: voiceSearchQuery ? JSON.parse(voiceSearchQuery) : ''
         }
       },
       depDate = new Date();

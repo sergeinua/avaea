@@ -211,14 +211,12 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('(' + this.weekday_pattern + ')', function (matches, result) {
       return get_date_of_next_weekday(result.origin_date.value, matches[1]);
     }),
-
     new Regexp_and_Conversion('(' + this.date_pattern + ')-day', function (matches, result) {
       var r = new Date(result.origin_date.value.getTime());
       var trip_length = ordinal_to_number(matches[matches.length - 1]);
       r.setDate (r.getDate () + trip_length);
       return r;
     }),
-
     new Regexp_and_Conversion('(' + this.date_pattern + ')(?!\\s+ticket)', function (matches, result) {
       var r = new Date(result.origin_date.value.getTime());
       var date_of_month = ordinal_to_number(matches[matches.length - 1]);
@@ -284,6 +282,7 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(me|myself|I)\\b',function() { return 3; } ), // same as old NUM #02
     new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(me|myself|I))\\b',function() { return 2; }),
     new Regexp_and_Conversion('(' + this.number_pattern + ')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+tickets?',function(s) { return ordinal_to_number(s[1]); }),
+
     new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(me|myself|I)\\b',function() { return 3; }),
     new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
     new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
@@ -370,16 +369,7 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
-
           sails.log.verbose("Parser success: "+JSON.stringify(result));
-          sails.log.verbose("Parsing query : '" + result.query + "'");
-          sails.log.verbose("Parsing result:       from '" + result.origin_airport + "' to '" + result.destination_airport + "'");
-          sails.log.verbose("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
-          sails.log.verbose("Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class");
-          sails.log.verbose("Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'");
-          sails.log.verbose("Parsing result:       not parsed: '" + result.not_parsed + "'");
-          //sails.log.verbose("Parsing result:       airline: '" + result.airline + "'");
-
         } catch (e) {
           err = e;
           sails.log.error("Parser error: "+JSON.stringify(err));
