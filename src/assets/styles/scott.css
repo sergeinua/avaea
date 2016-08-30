@@ -35,7 +35,7 @@
 body {
   background-color: #f8f8f8;
   color: #333333;
-  padding-top: 50px;
+  padding-top: 32px;
 }
 
 body.search-result {
@@ -52,13 +52,14 @@ nav {
 }
 
 .navbar,.navbar-header{
-  min-height: 20px;
+  min-height: 0;
 }
 
 .navbar-default {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  margin-bottom: 0;
 }
 
 .navbar-header,.navbar-default .navbar-collapse, .navbar-default .navbar-form {
@@ -75,6 +76,7 @@ nav {
 }
 .navbar-default .navbar-toggle {
   margin-right: 0;
+  padding: 0;
 }
 .navbar-default .navbar-toggle, .navbar-default .navbar-toggle:focus, .navbar-default .navbar-toggle:hover {
   border: 0;
@@ -103,7 +105,9 @@ nav {
 
 #tiles_ui {
   border: 0;
-  margin-top: 50px;
+  padding: 0;
+  margin: 0;
+  margin-top: 32px;
   z-index: 10;
 }
 
@@ -132,8 +136,8 @@ nav {
   letter-spacing: 0.1px;
   text-align: center;
   border-bottom: 0;
-  padding-left: 15px;
-  padding-right: 5px;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 
 .flight-date {
@@ -141,8 +145,6 @@ nav {
 }
 
 .flight-date>span {
-  font-size: 6px;
-  margin-bottom: 2px;
   top: 0 !important;
 }
 
@@ -155,7 +157,7 @@ nav {
 .clear-undo-buttons {
   float: right;
   width: auto;
-  color: white;
+  color: #101742;
 }
 
 .itin-result-count {
@@ -163,10 +165,14 @@ nav {
   width: auto;
   color: #FFE03E;
 }
-
+.search_count {
+  color: #101742;
+  font-weight: bold;
+}
 #search_count {
-  min-width: 25px;
+  /*min-width: 25px;*/ /*
   display: inline-block;
+  text-align: right;
 }
 
 #user-icon-small {
@@ -174,7 +180,7 @@ nav {
 }
 
 .text-spacer {
-  padding-left: 5px;
+  padding-left: 4px;
 }
 
 .mycustomtab {
@@ -290,34 +296,38 @@ nav {
 }
 
 .sort-button {
-  margin: 0 0 0 15px;
+  margin: 0 0 0 5px;
   padding: 0;
+  width: 60px;
+  float: left;
 }
 
 .sort-button .dropdown-menu {
-  margin-top: -18px;
+  top: initial;
   left: auto;
-  right: -50px;
+  right: 3px;
   -webkit-transform: translate(-50%, 0);
      -moz-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
        -o-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
-  font-family: WhitneyHTF-MediumCondensed;
-  min-width: 110px;
-  text-transform: uppercase;
+  /*font-family: WhitneyHTF-MediumCondensed;*/ /*
+  min-width: 140px;
+  /*text-transform: uppercase;*/ /*
   vertical-align: middle;
   background-color: #fff;
   background-color: rgba(255, 255, 255, 0.9);
+  border-color: #004a99;
+  margin-top: 4px;
 }
 
 .sort-button .selected {
-  color: #FFFFFF !important;
+  color: #fff !important;
   background-color: #004a99 !important;
   background-color: rgba(0, 74,153, 0.9) !important;
 }
 
-.sort-button .selected a {
+.sort-button .selected {
   color: #FFFFFF !important;
 }
 
@@ -327,16 +337,16 @@ nav {
 }
 
 .sort-button .dropdown-menu li span {
-  margin-top: 8px;
+  /*margin-top: 8px;*/ /*
 }
 
-.sort-button button.btn {
-  font-family: WhitneyHTF-BookCondensed;
-  text-transform: uppercase;
-  color: #ffffff;
+.sort-button button.btn { 
+  /*font-family: WhitneyHTF-BookCondensed;*/ /*
+  color: #101742;
+  font-weight: bold;
   border-radius: 0;
-  border-color: #101742 !important;
-  background-color: #101742 !important;
+  border-color: #F2F5F8 !important;
+  background-color: #F2F5F8 !important;
   max-width: 80px;
   padding: 0;
 }
@@ -344,11 +354,11 @@ nav {
 .sort-button .btn.focus, .sort-button .btn:focus,
 .sort-button .btn.active, .sort-button .btn:active,
 .sort-button .btn:hover {
-  color: #ffffff;
+  color: #101742;
   outline: none;
 }
 
-.sort-button .dropdown-menu>li>a {
+.sort-button .dropdown-menu>li {
   padding: 3px 8px;
 }
 
@@ -1089,7 +1099,7 @@ button.buy-button-arrow[aria-expanded=true] {
   background-color: #F2F5F8;
 }
 
-.show-tiles-arrow #tiles_ui .row:after {
+.show-tiles-arrow #tiles_ui:after {
   background: url('/images/avaea-sprite.png') -52px 48px;
   position: absolute;
   width: 16px;
@@ -1140,6 +1150,7 @@ button.buy-button-arrow[aria-expanded=true] {
 }
 .notable-area {
   background-color: #f5f5f5;
+  line-height: 1.8;
 }
 .detail-col {
   padding: 0 !important;
@@ -1249,6 +1260,17 @@ div.nothing-found-icon {
   z-index: 9998;
 }
 
+.bottomNav {
+  background-color: #F2F5F8;
+  border-top: 1px solid white;
+  border-bottom: 1px solid #DADADB;
+  min-height: 32px;
+  width: auto;
+  /*margin-left: -15px;*/
+  /*margin-right: -15px;*/ /*
+  padding: 5px;
+}
+
 @media all and (min-width: 480px) {
   body {
     padding-top: 30px;
@@ -1269,7 +1291,7 @@ div.nothing-found-icon {
     height: 30px;
   }
   .navbar#tiles_ui {
-    height: 20px;
+    height: 0;
   }
   .searchform-top {
     border: 0;
@@ -1349,6 +1371,29 @@ div.nothing-found-icon {
   content:"\000A";
   white-space: pre;
 }
+
+.modal-flight-info-block {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 16px;
+}
+
+.modal-flight-info-footer {
+  border-top: none;
+  background-color: #F2F5F8;
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+#searchResultData {
+  overflow: auto;
+  max-height: 100vh;
+}
+
+.bottom-nav-text {
+  width: auto;
+  float: left;
+}
+
 
 @media (max-height: 510px) {
   .dimmer-arrow {

@@ -1,0 +1,102 @@
+var Sorter = React.createClass({
+  getInitialState: function() {
+
+    var sortOptions = {
+      price: {
+        title: 'Price',
+        current: false,
+        order: 'asc'
+      },
+      smart: {
+        title: 'Smart Rank',
+        current: false,
+        order: 'asc'
+      },
+      duration: {
+        title: 'Duration',
+        current: false,
+        order: 'asc'
+      }
+    };
+    if (InitResultData.searchParams.returnDate) {
+      sortOptions.idepart = {
+        title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Departure',
+        current: false,
+        order: 'asc'
+      };
+      sortOptions.iarrival = {
+        title: InitResultData.searchParams.DepartureLocationCode + ' ' + 'Arrival',
+        current: false,
+        order: 'asc'
+      };
+      sortOptions.odepart = {
+        title: InitResultData.searchParams.DepartureLocationCode + ' ' + 'Departure',
+        current: false,
+        order: 'asc'
+      };
+      sortOptions.oarrival = {
+        title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Arrival',
+        current: false,
+        order: 'asc'
+      };
+    } else {
+      sortOptions.odepart = {
+        title: 'Departure',
+        current: false,
+        order: 'asc'
+      };
+      sortOptions.oarrival = {
+        title: 'Arrival',
+        current: false,
+        order: 'asc'
+      };
+    }
+    return {
+      sortOptions: sortOptions
+    }
+  },
+
+  getOption: function (key) {
+    return this.state.sortOptions[key] || false;
+  },
+
+  sortItineraries: function (option, direction) {
+    if (option == this.props.current.name) {
+      direction = this.props.current.order == 'asc' ? 'desc' : 'asc';
+    }
+    return function() {
+      SearchForm.sortItineraries(option, direction);
+    }.bind(this);
+  },
+
+  getOrderArrow: function (order) {
+    if (order == "asc") {
+      return '↓';
+    }
+    return '↑'
+  },
+
+  render: function() {
+    var getOption = this.getOption;
+    var sortItineraries = this.sortItineraries;
+    var getOrderArrow = this.getOrderArrow;
+    var current = this.props.current;
+    return (
+      <div className="sort-button">
+        <button className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span>{getOption(current.name).title}</span><span id="sort-menu-direction">{getOrderArrow(this.props.current.order)}</span>
+        </button>
+        <ul className="dropdown-menu">
+          {Object.keys(this.state.sortOptions).map(function(key) {
+            if (getOption(key)) {
+              return <li key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
+                <span>{ getOption(key).title }</span>{key == current.name?<span className="pull-right">{current.order == 'asc'?getOrderArrow('desc'):getOrderArrow('asc')}</span>:''}
+              </li>
+            }
+            return '';
+          })}
+        </ul>
+      </div>
+    )
+  }
+});
