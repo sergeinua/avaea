@@ -404,9 +404,7 @@ footer,
 	background: #004c9c;
 }
 
-.tap-date,
-.tap-month,
-.tap-year,
+.flight-date-info-item .the-date span,
 .tap-plus,
 .tt-highlight,
 .flight-additional-info .text-picker,
@@ -455,12 +453,21 @@ a,
 a:hover,
 a:focus,
 .tertiary-button,
-.clear-textarea {
+.clear-textarea,
+.tap-plus:hover,
+.plus:hover,
+.flight-additional-info .text-picker:hover {
 	color: #00b5ff;
 }
 
+.search-from:hover,
+.search-to:hover {
+	color: #ebf9ff;
+}
+
 .tertiary-button:before,
-.clear-textarea:before {
+.clear-textarea:before,
+.flight-date-info-item .the-date:hover span {
 	color: rgba(0, 181, 255, .8);
 }
 
@@ -771,6 +778,7 @@ textarea {
 }
 
 .flight-type-item.active-choice,
+.flight-type-item:hover,
 .flight-type-item.voice-search-button {
 	opacity: 1;
 }
