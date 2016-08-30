@@ -59,7 +59,7 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.name + '<br/>';
       }) : '--na--',
-    result: (!row.logInfo.error) ? 'success' : 'failed',
+    result: (row.logInfo.error && row.logInfo.error != 'No Results Found') ? 'failed' : 'success',
     serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.count + '<br/>';

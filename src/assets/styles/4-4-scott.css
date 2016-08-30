@@ -683,9 +683,8 @@ div.nothing-found-icon {
   text-align:center;
 }
 
-/* iPhone 6+ */
-@media (min-width: 414px) {
+body.dimmer-show {
+	overflow-y: hidden;
 }
-/* iPad */
-@media (min-width: 768px) {
-}
+
+

@@ -27,7 +27,9 @@ var recalculateBodyPadding = function () {
 
 function _displayDimmer(flag) {
   if (flag) {
+    $('body').addClass('dimmer-show');
     $('.dimmer').show();
+    $('#tiles_ui > div.row').addClass('hideArrow');
     $('.dimmer').off('click').on('click', function(){
       setCookie('dimmer_was_showed', 1);
       _displayDimmer(false);
@@ -38,7 +40,9 @@ function _displayDimmer(flag) {
       return false;
     });
   } else {
+    $('body').removeClass('dimmer-show');
     $('.dimmer').hide();
+    $('#tiles_ui > div.row').removeClass('hideArrow');
     $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer');
   }
 }
