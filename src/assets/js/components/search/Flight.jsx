@@ -28,9 +28,10 @@ var Flight = React.createClass({
           <div className="col-xs-3 text-nowrap notable-text detail-col-left">
             <span
               className="itinerary-airline-icon"
-              data-sprite_num={ InitResultData.iconSpriteMap[this.state.flight.airlineCode] }
+              style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.flight.airlineCode] * 15 + "px"}}
               alt={ this.state.flight.airlineCode }
-              title={ this.state.flight.airline }></span>
+              title={ this.state.flight.airline }>
+            </span>
             <span>{this.state.flight.abbrNumber}</span>
           </div>
           <div className="col-xs-2 text-nowrap detail-col">{ moment(this.state.flight.from.date).format('DD MMM') }</div>

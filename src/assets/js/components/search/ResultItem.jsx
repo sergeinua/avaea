@@ -51,7 +51,7 @@ var ResultItem = React.createClass({
     <div className="row">
       <div className="col-xs-12 itinerary-airline col-from-to">
         <span className="itinerary-airline-icon"
-              data-sprite_num={ InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] }
+              style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}
               alt={ this.state.sRes.citypairs[0].from.airlineCode }
               title={ this.state.sRes.citypairs[0].from.airline }>
         </span>

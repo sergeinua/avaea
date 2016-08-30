@@ -229,9 +229,9 @@ $(document).ready(function() {
   // recalculateBodyPadding();
 
   // Set sprite number for the every airlines icon
-  $('.itinerary-airline-icon').each(function () {
-    $(this).css('background-position', '0 -' + $(this).data('sprite_num') * 15 + 'px');
-  });
+  // $('.itinerary-airline-icon').each(function () {
+  //   $(this).css('background-position', '0 -' + $(this).data('sprite_num') * 15 + 'px');
+  // });
 
   var showDimmer = getCookie('dimmer_was_showed') || 0;
   if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
