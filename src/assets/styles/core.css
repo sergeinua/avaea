@@ -519,6 +519,12 @@ a:focus,
 	color: #39d744;
 }
 
+/* red */
+
+form label.required:before {
+	color: #ed2741;
+}
+
 /* grays */
 
 .tt-suggestion:hover,
@@ -557,6 +563,19 @@ textarea {
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.15);
 	border-radius: 3px;
+}
+
+form.label {
+	position: relative;
+}
+
+form label.required:before {
+	content: '*';
+	font-size: 20px;
+	line-height: 20px;
+	position: absolute;
+		top: 3px;
+		left: -14px;
 }
 
 form.form {
@@ -783,7 +802,6 @@ textarea {
 }
 
 .flight-direction-item:not(.sel) {
-	margin-bottom: 4px;
 	border: 1px dashed rgba(255, 255, 255, 0.3);
 }
 
@@ -1256,7 +1274,7 @@ body.loading .modalLoader {
 	padding-top: 130px;
 }
 
-/* create */
+/* create profile */
 
 
 .panel-group.create {
@@ -1283,6 +1301,10 @@ body.loading .modalLoader {
 .panel-group .panel-heading + .panel-collapse > .list-group,
 .panel-heading {
 	border: 0px solid transparent;
+}
+
+.panel-body {
+	padding-left: 25px;
 }
 
 .form-control {
@@ -1323,6 +1345,7 @@ legend {
 	font-size: 16px;
 	margin-top: 15px;
 	margin-bottom: 0;
+	position: relative;
 }
 
 .panel-heading {
@@ -1364,7 +1387,6 @@ select.input-sm {
 /* ------- responsive ------- */
 
 /* landscape phone */
-/* android portrait with keyboard is picking this up */
 
 @media screen and (min-aspect-ratio: 13/9) {
 	
@@ -1469,6 +1491,10 @@ select.input-sm {
 	
 	.voice-search-textarea {
 		height: 40px;
+	}
+	
+	.sitepage.about {
+		padding-top: 70px;
 	}
 	
 }

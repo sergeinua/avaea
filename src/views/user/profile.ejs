@@ -20,11 +20,11 @@
       <div class="panel-body">
 
 
-    <label>First Name</label>
+    <label class="required">First Name</label>
     <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" value="<%= profile_fields.personal_info.first_name %>" required/>
     <label>Middle Name</label>
     <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"  value="<%= profile_fields.personal_info.middle_name %>" />
-    <label>Last Name</label>
+    <label class="required">Last Name</label>
     <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name"  value="<%= profile_fields.personal_info.last_name %>"  required/>
     <label>Gender</label>
     <%- _res = widgets.dropDownList(profile_fields.personal_info, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
@@ -190,11 +190,8 @@ if (profile_fields.lounge_membership) {
     body { padding-bottom: 70px; }
 </style>
 
-<div class="container">
-    <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
-      <div class="container-fluid">
-        <button type="submit" class="btn btn-sm btn-primary btn-block" >Update</button>
-      </div>
-    </nav>
+<div class="button-holder">
+  <button type="submit" class="big-button" >Update</button>
 </div>
+
 </form>
