@@ -44,6 +44,11 @@ var recalculateBodyPadding = function () {
 
 function _displayDimmer(flag) {
   if (flag) {
+    var _topMarge = 0;
+    if ($('.swiper-container').length) {
+      _topMarge = $('.swiper-container').outerHeight(true);
+      $('.dimmer').css('margin-top', _topMarge);
+    }
     $('body').addClass('dimmer-show');
     $('.dimmer').show();
     $('#tiles_ui > div.row').addClass('hideArrow');
@@ -57,6 +62,7 @@ function _displayDimmer(flag) {
       return false;
     });
   } else {
+    $('.dimmer').css('margin-top', 0);
     $('body').removeClass('dimmer-show');
     $('.dimmer').hide();
     $('#tiles_ui > div.row').removeClass('hideArrow');
