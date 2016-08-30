@@ -497,7 +497,7 @@ $(document).ready(function() {
     $(".swiper-container").hammer();
     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
     $(".swiper-container").bind("swipeup", function (e) {
-      shrinkTiles(false);
+      // shrinkTiles(false);
     }).bind("swipedown", function (e) {
       // shrinkTiles(true);
     });
@@ -530,12 +530,20 @@ $(document).ready(function() {
     //$('#buy_button').removeAttr('disabled');
   });
   */
-  $('[id*=buy-button-]').click(function (event) {
-    var id = $(this).parents('.itinerary').attr('id');
-    if (id) {
-      location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
-    }
-  });
+  //
+  // $('[id*=buy-button-]').click(function (event) {
+  //   var id = $(this).parents('.itinerary').attr('id');
+  //   if (id) {
+  //     location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
+  //   }
+  // });
+  // $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
+  //   var id = $(this).parents('.itinerary').attr('id');
+  //   if (id) {
+  //     location.href = '/order?special=1&id=' + id + '&searchId='+ $('#searchId').val();
+  //   }
+  // });
+
   var initScroll = 0;
   var scrollStarted = false;
   $(window).scroll(function() {
@@ -554,12 +562,7 @@ $(document).ready(function() {
       scrollStarted = false;
     }
   });
-  $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
-    var id = $(this).parents('.itinerary').attr('id');
-    if (id) {
-      location.href = '/order?special=1&id=' + id + '&searchId='+ $('#searchId').val();
-    }
-  });
+
 
   $('.result-search-info-bar > div').click(function (event) {
     location.href = '/search';

@@ -35,6 +35,14 @@ var ResultItem = React.createClass({
     return <span>→</span>
   },
 
+  handleBuyButton: function(id, searchId, isSpecial) {
+    return function() {
+      location.href = '/order?&id=' + id
+        + '&searchId='+ searchId
+        + (isSpecial?'&special=1':'');
+    }.bind(this);
+  },
+
   render() {
     var showNoStops = this.showNoStops;
     return (
@@ -67,12 +75,12 @@ var ResultItem = React.createClass({
 
       <div className="col-xs-3 buy-button">
         <div className="btn-group text-nowrap buy-button-group">
-          <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price">{this.showPrice()}</button>
+          <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.state.sRes.id, this.state.sRes.searchId, false)}>{this.showPrice()}</button>
           <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <span className="caret"></span>
           </button>
           <ul className="dropdown-menu">
-            <li><a id="buy-cron-button-" href="#" className="our-dropdown text-center">or better</a></li>
+            <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.state.sRes.id, this.state.sRes.searchId, true)} className="our-dropdown text-center">or better</a></li>
           </ul>
         </div>
       </div>
