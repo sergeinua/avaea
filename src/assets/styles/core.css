@@ -102,7 +102,7 @@
 }
 
 .desktop .search-buttons {
-	margin: 30px 0;
+	margin: 30px 0 0 0;
 }
 
 .desktop .navbar-default .navbar-toggle > span, 
@@ -203,7 +203,7 @@
 }
 
 .desktop .multi-city-coming-soon {
-	padding-top: 70px;
+	padding-top: 50px;
 }
 
 .desktop .tt-menu {
@@ -753,8 +753,8 @@ textarea {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	padding-top: 20px;
-  padding-bottom: 127px;
+	padding-top: 50px;
+  padding-bottom: 100px;
 }
 
 
@@ -766,7 +766,7 @@ textarea {
 
 .flight-direction-form {
 	color: #ffffff;
-  padding:15px 15px 40px 15px;
+  padding: 15px 0 40px 0;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -787,7 +787,7 @@ textarea {
 
 .flight-direction-item span.plus {
 	  font-size: 70px;
-    line-height: 70px;
+    line-height: 78px;
     position: relative;
     top: -12px;
 }
@@ -825,7 +825,7 @@ textarea {
 
 .flight-direction-form .row {
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 }
 
 .flight-direction-form .col-xs-6 {
@@ -839,9 +839,6 @@ textarea {
 
 /* airport search */
 
-.airport-search {
-	
-}
 
 .airport-search-panel input,
 .airport-search-panel button {
@@ -880,7 +877,9 @@ textarea {
 
 .tt-menu {
 	margin-top: 62px;
-	width: 90%;
+	margin-left: 10px;
+	width: 93%;
+	background: #ffffff;
 }
 
 .icon-bar {
@@ -908,8 +907,8 @@ textarea {
 	font-size: 16px;
 	text-align: left;
 	padding: 15px 10px;
-  border-right: 1px solid rgba(0, 0, 0, 0.15);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 0px solid transparent;
 }
 
 strong.tt-highlight {
@@ -949,8 +948,9 @@ strong.tt-highlight {
 	padding-right: 0;
 }
 
-.flight-date-info.row {
-	margin: 0;
+.row {
+	margin-right: 0;
+	margin-left: 0;
 }
 
 .flight-date-info-item:first-child, 
@@ -1072,27 +1072,6 @@ strong.tt-highlight {
   padding-top: 15px;
 }
 
-.fa.listening,
-.fa-repeat.listening,
-.fa-stop.listening {
-  border-radius: 100%;
-  -webkit-animation-name: blink;
-  /* Chrome, Safari, Opera */
-  animation-name: blink;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-duration: 3s;
-  animation-duration: 3s;
-  outline: 0;
-}
-
-.fa-repeat {
-  background: #101742;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
-}
-
 .voice-search-buttons {
   text-align: center;
   width: 100%;
@@ -1133,6 +1112,7 @@ strong.tt-highlight {
 .calendar-panel {
 	margin-top: 65px;
 }
+
 
 td[data-action*="selectDay"] {
 	cursor: pointer;
@@ -1380,8 +1360,9 @@ select.input-sm {
 /* ------- responsive ------- */
 
 /* landscape phone */
+/* android portrait with keyboard is picking this up */
 
-@media (max-width: 736px) and (max-height: 414px) {
+@media screen and (min-aspect-ratio: 13/9) {
 	
 /* search form */
 
@@ -1973,6 +1954,11 @@ nav {
 	body {
     -moz-osx-font-smoothing: auto;
 	}
+	
+	.desktop .tt-menu {
+		margin-top: 64px;
+	}
+	
 }
 
 /* ie11 */
