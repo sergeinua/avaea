@@ -1096,7 +1096,7 @@ button.buy-button-arrow[aria-expanded=true] {
   background-color: #F2F5F8;
 }
 
-.show-tiles-arrow #tiles_ui .row:after {
+.show-tiles-arrow #tiles_ui:after {
   background: url('/images/avaea-sprite.png') -52px 48px;
   position: absolute;
   width: 16px;
