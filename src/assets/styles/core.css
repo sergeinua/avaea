@@ -40,13 +40,6 @@
     z-index: -1;
 }
 
-.desktop:after {
-	content: '';
-	display: table;
-	width: 100%;
-	clear: both;
-}
-
 .desktop .desktop-wrapper {
 	margin: 0 auto;
 	padding: 10px;
@@ -290,6 +283,15 @@ header,
 footer,
 .content {
   display: flex;
+}
+
+.desktop:after,
+.flight-additional-info:after,
+#search_form:before {
+	content: '';
+	display: table;
+	width: 100%;
+	clear: both;
 }
 
 .circle {
@@ -788,8 +790,9 @@ textarea {
 .flight-direction-item span.plus {
 	  font-size: 70px;
     line-height: 78px;
+		display: inline-block;
     position: relative;
-    top: -12px;
+    	top: -12px;
 }
 
 .flight-direction-item-from-to {
@@ -987,6 +990,7 @@ strong.tt-highlight {
 .tap-plus {
 	font-size: 36px;
 	line-height: 36px;
+	padding-bottom: 19px;
 }
 
 .flight-additional-info .chooser {
@@ -1364,13 +1368,20 @@ select.input-sm {
 
 @media screen and (min-aspect-ratio: 13/9) {
 	
-/* search form */
+	.navbar-fixed-top {
+		position: relative;
+	}
+	
+	.navbar.searchform-top {
+		min-height: 1px;
+	}
 
 	.flight-type-form {
-		margin-top: 0;
+		margin-top: 0px;
 	}
 	
 	.flight-type-item:not(.voice-search-button) {
+		padding-top: 5px;
 		padding-bottom: 5px;
 	}
 		
@@ -1378,8 +1389,17 @@ select.input-sm {
 		padding: 0px 15px 5px 15px;
 	}
 	
+	.flight-direction-item {
+		padding-top: 5px;
+	}
+	
 	.flight-direction-item-from-to {
 		padding-bottom: 0;
+	}
+	
+	.flight-direction-item span.plus {
+		line-height: 74px;
+		margin-bottom: -12px;
 	}
 	
 	#from-airport-selected, 
@@ -1389,12 +1409,12 @@ select.input-sm {
 	}
 	
 	.flight-direction-item-from-to-city {
-		line-height: 1.5em;
+		line-height: 1em;
 	}
 	
 	.flight-date-info-item {
-		padding-top: 15px;
-		height: 75px;
+		padding-top: 10px;
+		height: 65px;
 	}
 	
 	.flight-date-info-item .the-date {
@@ -1404,21 +1424,25 @@ select.input-sm {
 	}
 	
 	.flight-additional-info .chooser {
+		padding-top: 13px;
 		display: inline-block;
 		width: 50%;
+		height: 40px;
 		float: left;
 	}
 	
 	.calendar-panel {
-		margin-top: 25px;
+		margin-top: 10px;
 	}
 	
-	body.touch .search-buttons {
-		bottom: 0;
+	.touch .search-buttons,
+	.touch .voice-search-buttons {
+		position: relative;
+			top: 5px;
 	}
 	
 	.search-buttons .big-button {
-		margin: 0;
+		margin: 5px 0 0 0;
 	}
 	
 	#search_title input[type=text] {
@@ -1430,19 +1454,21 @@ select.input-sm {
 	}
 	
 	.multi-city-coming-soon {
-		padding-bottom: 67px;
+		padding-top: 22px;
+		padding-bottom: 50px;
 	}
 	
 	.tap-plus {
 		line-height: 30px;
+		padding-bottom: 0;
 	}
 	
 	.voice-form {
-		margin-top: 10px;
+		margin-top: 60px;
 	}
 	
-	.voice-search-buttons {
-		bottom: 0;
+	.voice-search-textarea {
+		height: 40px;
 	}
 	
 }
