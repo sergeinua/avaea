@@ -23,7 +23,7 @@ var isMobile = {
 };
 
 // Deborah removed landscape function
-// in order to landscape view with responsive CSS
+// in order to control landscape view with responsive CSS
 
 /**
  * Possible types
@@ -127,19 +127,11 @@ $(document).ready(function() {
 		});
 	}
 	
-	
-  $( window ).resize(function() {
-
-  	// ------- Deborah removed landscape modal
-  	// ------- because she will make it work 
-  	// ------- beautifully for landscape
-
-    // Deborah also removed this, it injected padding all the time, not just on results page
-  	// will re-resolve this bug after merge
-  	// DEMO-318 an unused horizontal stripe between tiles and itin summaries
-
-  });
-  
+//***** detect IE10 or IE11 and append string  ***** // 
+	  var doc = document.documentElement;
+	  doc.setAttribute('data-useragent', navigator.userAgent);
+	  
+	  
 	
 	//***** Deborah script - on scroll, add class to header ***** // 
   var header = $('header');

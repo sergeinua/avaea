@@ -1,10 +1,16 @@
 /* ---------------
    avaea.css
 	 --------------- */
+	 
+/* todo
+	 ~ un-nest the accordion sections in profile
+	 ~ get profile and create to use the same code
+*/  
 
 
 .hide,
 .device,
+.ie-fixer,
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
@@ -195,12 +201,7 @@
 	padding-left: 20px;
 }
 
-.desktop .multi-city-coming-soon {
-	padding-top: 50px;
-}
-
 .desktop .tt-menu {
-	margin-top: 62px;
 	width: 55%;
 }
 
@@ -593,7 +594,8 @@ textarea {
 .tt-hint,
 .big-button.disabled,
 .small-button.disabled,
-.disabled {
+.disabled,
+.ie-fixer.placeholder {
 	color: #bbb !important;
 }
 
@@ -751,7 +753,7 @@ textarea {
 }
 
 .flight-type-form {
-	margin-top: 45px;
+	margin: 45px 0 -1px 0;
 	display: flex;
 	justify-content: center;
 }
@@ -774,7 +776,7 @@ textarea {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	padding-top: 50px;
+	padding-top: 46px;
   padding-bottom: 100px;
 }
 
@@ -897,7 +899,7 @@ textarea {
 }
 
 .tt-menu {
-	margin-top: 62px;
+	margin-top: 63px;
 	margin-left: 10px;
 	width: 93%;
 	background: #ffffff;
@@ -1283,7 +1285,7 @@ body.loading .modalLoader {
 
 .create .button-holder {
 	padding-top: 10px;
-	padding-left: 10px;
+	padding-left: 20px;
 }
 
 .panel-group .panel {
@@ -1305,6 +1307,10 @@ body.loading .modalLoader {
 
 .panel-body {
 	padding-left: 25px;
+}
+
+.panel-body .panel-body {
+	padding-left: 0;
 }
 
 .form-control {
@@ -1330,7 +1336,7 @@ legend {
 
 legend {
 	font-family: 'Open-Sans-Bold';
-	margin: 15px 0 -10px 15px;
+	margin: 15px 0 -10px 0;
 }
 
 .input-sm {
@@ -1364,7 +1370,7 @@ select.input-sm {
 }
 
 .panel-footer {
-	margin: 0 0 35px 15px;
+	margin: 0 0 35px 0;
 	padding: 0 0 0 0;
 	background: none;
 	border-bottom-right-radius: 0px;
@@ -1390,62 +1396,64 @@ select.input-sm {
 
 @media screen and (min-aspect-ratio: 13/9) {
 	
-	.navbar-fixed-top {
+	/* have to add .touch to restrict */
+	
+	.touch .navbar-fixed-top {
 		position: relative;
 	}
 	
-	.navbar.searchform-top {
+	.touch .navbar.searchform-top {
 		min-height: 1px;
 	}
 
-	.flight-type-form {
+	.touch .flight-type-form {
 		margin-top: 0px;
 	}
 	
-	.flight-type-item:not(.voice-search-button) {
+	.touch .flight-type-item:not(.voice-search-button) {
 		padding-top: 5px;
 		padding-bottom: 5px;
 	}
 		
-	.flight-direction-form {
+	.touch .flight-direction-form {
 		padding: 0px 15px 5px 15px;
 	}
 	
-	.flight-direction-item {
+	.touch .flight-direction-item {
 		padding-top: 5px;
 	}
 	
-	.flight-direction-item-from-to {
+	.touch .flight-direction-item-from-to {
 		padding-bottom: 0;
 	}
 	
-	.flight-direction-item span.plus {
+	.touch .flight-direction-item span.plus {
 		line-height: 74px;
 		margin-bottom: -12px;
 	}
 	
-	#from-airport-selected, 
-	#to-airport-selected {
+	.touch #from-airport-selected, 
+	.touch #to-airport-selected {
 		font-size: 36px;
 		line-height: 40px;
 	}
 	
-	.flight-direction-item-from-to-city {
+	.touch .flight-direction-item-from-to-city {
 		line-height: 1em;
 	}
 	
-	.flight-date-info-item {
+	.touch .flight-date-info-item {
 		padding-top: 10px;
 		height: 65px;
 	}
 	
-	.flight-date-info-item .the-date {
+	.touch .flight-date-info-item .the-date {
 		font-size: 20px;
 		letter-spacing: 0;
 		padding-top: 0;
 	}
 	
-	.flight-additional-info .chooser {
+	.touch .flight-additional-info .chooser {
 		padding-top: 13px;
 		display: inline-block;
 		width: 50%;
@@ -1453,7 +1461,7 @@ select.input-sm {
 		float: left;
 	}
 	
-	.calendar-panel {
+	.touch .calendar-panel {
 		margin-top: 10px;
 	}
 	
@@ -1463,38 +1471,42 @@ select.input-sm {
 			top: 5px;
 	}
 	
-	.search-buttons .big-button {
+	.touch .search-buttons .big-button {
 		margin: 5px 0 0 0;
 	}
 	
-	#search_title input[type=text] {
+	.touch #search_title input[type=text] {
 		width: 400px;
 	}
 	
-	.datepicker table td.day {
+	.touch .datepicker table td.day {
 		line-height: 26px !important;
 	}
 	
-	.multi-city-coming-soon {
+	.touch .multi-city-coming-soon {
 		padding-top: 22px;
 		padding-bottom: 50px;
 	}
 	
-	.tap-plus {
+	.touch .tap-plus {
 		line-height: 30px;
 		padding-bottom: 0;
 	}
 	
-	.voice-form {
+	.touch .voice-form {
 		margin-top: 60px;
 	}
 	
-	.voice-search-textarea {
+	.touch .voice-search-textarea {
 		height: 40px;
 	}
 	
-	.sitepage.about {
+	.touch .sitepage.about {
 		padding-top: 70px;
+	}
+	
+	.touch .panel-group.create {
+		margin-top: 0;
 	}
 	
 }
@@ -2013,9 +2025,40 @@ nav {
 	
 }
 
-/* ie11 */
-html[data-useragent*='Trident'] .div .mydiv .anotherdiv {
-	body: ;
+/* ie10 ie11 */
+html[data-useragent*='Trident'] .flight-type-item:not(.voice-search-button) {
+	display: inline-block;
+}
+
+html[data-useragent*='Trident'] .flight-type-form,
+html[data-useragent*='Trident'] .flight-direction-form .row.clearfix {
+	text-align: center;
+}
+
+html[data-useragent*='Trident'] .flight-direction-form .row.clearfix {
+	margin: 0 auto;
+	display: inline-block;
+	width: auto;
+}
+
+html[data-useragent*='Trident'] .flight-direction-form .col-xs-6 {
+	margin: 0 auto;
+	display: inline-block;
+	width: 385px;
+}
+
+html[data-useragent*='Trident'] #main_title .navbar-header:first-child {
+	height: 51px;
+	max-height: 51px;
+}
+
+html[data-useragent*='Trident'] .multi-city-coming-soon {
+	padding-bottom: 105px;
+}
+
+html[data-useragent*='Trident'] .ie-fixer.placeholder {
+	padding: 10px 0;
+	display: block;
 }
 
 
