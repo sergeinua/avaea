@@ -1,3 +1,6 @@
+var firstSelectionCount = {};
+var globalSelectionCount = 0;
+
 var ResultPage = React.createClass({
   getInitialState: function() {
     return {
@@ -14,6 +17,64 @@ var ResultPage = React.createClass({
 
   componentWillMount: function () {
     SearchForm.updateTiles = (filter) => {
+
+      var tileId = filter.id.replace(/(tile).+/, '$1');
+      var filters = this.state.filter;
+      var groups = {};
+      var needRecalculate = false;
+
+      if (filters.length) {
+        filters.forEach(function (filter) {
+          if (filter && filter != '') {
+            var tileGroup = filter.replace(/(tile).+/, '$1');
+            if (typeof groups[tileGroup] == 'undefined') {
+              groups[tileGroup] = [];
+            }
+            groups[tileGroup].push(filter);
+          }
+        });
+      }
+
+      if (filter.selected) {
+        if (groups[tileId]) {
+          needRecalculate = !((groups[tileId].length || 1) - 1);
+        } else {
+          needRecalculate = true;
+        }
+        // log to abo
+        logAction('on_tile_choice', {
+          action: 'filter_remove',
+          tileName: tileId,
+          tileValue: filter.title,
+          tileId: filter.id,
+          sample: (-1.0 * firstSelectionCount[tileId]) / this.state.tiles.length,
+          recalculate: needRecalculate
+        });
+
+      } else {
+
+        // Check if the very first bucket in a tile is selected
+        if (groups[tileId]) {
+          needRecalculate = !(groups[tileId].length || 0);
+        } else {
+          needRecalculate = true;
+        }
+        globalSelectionCount++;
+        if (needRecalculate) {
+          firstSelectionCount[tileId] = globalSelectionCount;
+        }
+        // log to abo
+        logAction('on_tile_choice', {
+          action: 'filter_add',
+          tileName: tileId,
+          tileValue: filter.title,
+          tileId: filter.id,
+          sample: (1.0 * firstSelectionCount[tileId]) / this.state.tiles.length,
+          recalculate: needRecalculate
+        });
+
+      }
+
       this.updateTiles(filter);
     };
     SearchForm.undoTiles = () => {

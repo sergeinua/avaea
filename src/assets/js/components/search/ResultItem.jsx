@@ -7,9 +7,20 @@ var ResultItem = React.createClass({
   },
 
   toggleFullInfo: function () {
+    var itineraryId = this.state.sRes.id;
     return function() {
       var newVal = !this.state.fullinfo;
       this.setState({fullinfo: newVal});
+
+      if (newVal) {
+        logAction('on_itinerary_purchase', {
+          action: 'itinerary_expanded',
+          itinerary: {
+            id: itineraryId
+          }
+        });
+      }
+
     }.bind(this);
   },
 

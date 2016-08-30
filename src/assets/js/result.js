@@ -346,8 +346,8 @@ $(document).ready(function() {
    });*/
 
   //tiles
-  var firstSelectionCount = {};
-  var globalSelectionCount = 0;
+  // var firstSelectionCount = {};
+  // var globalSelectionCount = 0;
   var numberOfTiles = $('.mybucket').length;
 /*
   $('.list-group-item').click(function (event) {
