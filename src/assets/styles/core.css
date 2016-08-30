@@ -72,7 +72,13 @@
 .desktop .desktop-inner {
 	text-align: left;
 	padding-bottom: 70px;
+	position: relative;
 	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .login-holder:after {
+	bottom: -1px;
+	background-size: 65%;
 }
 
 .desktop .main.container-fluid {
@@ -739,6 +745,17 @@ textarea {
 
 .login-holder {
 	text-align: center;
+}
+
+.login-holder:after {
+	content: '';
+	height: 200px;
+	width: 100%;
+	position: absolute;
+		bottom: 0;
+		left: 0;
+	background: url('../images/lil-plane.svg') center bottom no-repeat;	
+	background-size: 110%;	
 }
 
 .form-signin-heading {
@@ -1410,6 +1427,22 @@ select.input-sm {
 @media screen and (min-aspect-ratio: 13/9) {
 	
 	/* have to add .touch to restrict */
+	
+	.touch .form-signin-heading {
+		margin: 1em auto 0 auto;
+	}
+	
+	.touch .login-holder:after {
+		background-size: 70%;
+	}
+	
+	.touch.android .login-holder:after {
+		bottom: -25px;
+	}
+	
+	.touch.android .form-signin-heading {
+		margin: .5em auto 0 auto;
+	}
 	
 	.touch .navbar-fixed-top {
 		position: relative;
