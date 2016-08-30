@@ -11,23 +11,6 @@ nav {
   min-width: 320px;
 }
 
-.navbar-header,
-.navbar-fixed-top {
-  border-width: 0;
-}
-
-
-.navbar-default {
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-
-
-
-
-
-
 #tiles_ui {
   border: 0;
   margin-top: 50px;
@@ -426,15 +409,6 @@ button.buy-button-arrow[aria-expanded=true] {
 
 
 
-.bootstrap-datetimepicker-widget table td,
-.bootstrap-datetimepicker-widget table th {
-  border-radius: 0 !important;
-}
-
-
-
-
-
 #form_booking div.panel {
   margin-top: 20px;
 }
@@ -572,9 +546,6 @@ div.nothing-found-icon {
  
   #tiles_ui {
     margin-top: 30px;
-  }
-  .navbar-brand {
-    padding: 4px;
   }
 
   .navbar#tiles_ui {

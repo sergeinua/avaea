@@ -374,6 +374,9 @@ footer,
 
 .navbar-default {
 	background-color: transparent;
+	-webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 }
 
 .bootstrap-datetimepicker-widget table td.old:not(.active), 
@@ -1132,16 +1135,13 @@ strong.tt-highlight {
 	opacity: .7;
 }
 
-
 .calendar-panel {
 	margin-top: 65px;
 }
 
-
 td[data-action*="selectDay"] {
 	cursor: pointer;
 }
-
 
 #date_select .navbar-header {
   height: 54px;
@@ -1174,6 +1174,11 @@ td[data-action*="selectDay"] {
 
 .datepicker .picker-switch {
   font-size: 20px;
+}
+
+.bootstrap-datetimepicker-widget table td,
+.bootstrap-datetimepicker-widget table th {
+  border-radius: 0;
 }
 
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
