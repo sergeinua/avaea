@@ -81,7 +81,7 @@ var ResultItem = React.createClass({
             {pair.from.time + ' ' + pair.from.code}</div>
           <div className="col-xs-2 text-center stops-letter-spacing">{showNoStops(pair)}</div>
           <div className="col-xs-3">{ pair.to.time + ' ' + pair.to.code }</div>
-          <div className="col-xs-3">{ pair.duration }</div>
+          <div className="col-xs-3" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
         </div>
         }) }
       </div>
