@@ -185,6 +185,7 @@ $(document).ready(function() {
       $('button', '#main_title').prependTo('.flight-info');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
       $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
+      // horrible!!!! Deborah fix this later
     }
 
     var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
@@ -424,16 +425,16 @@ $(document).ready(function() {
   var swiper = new Swiper('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
+    nextButton: '.swiper-arrow',
     onTouchMove: function (swiper) {
       $('body').removeClass('show-tiles-arrow');
     }
+  
   });
   
   $('.swiper-arrow').on('click touch', function () {
-  	$('#tiles').trigger('swipeleft');
   	$('body').removeClass('show-tiles-arrow');
   });
-
   
 
   //search count
