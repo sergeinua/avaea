@@ -176,7 +176,38 @@ var recalcTiles = function () {
   // }
 // };
 
+var scrollAirlines = function () {
+  // Bucket was touched. Not need scrolling
+  if ($('#airline_tile').data('_is_touched')) {
+    return;
+  }
 
+  // get parent object for the filters
+  var _parentElem = $('#airline_tile .list-group');
+
+  // Define start element of the bucket scroll window
+  var start_elem = Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh);
+  var am_elems = $(_parentElem).children().length;
+  // Iteration will overflow visible window
+  if (start_elem + maxBucketVisibleFilters > am_elems) {
+    start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
+  }
+
+  // Define if a bucket has all disabled filters on an entire scroll window
+  var _am_disabled = 0;
+  for (var ii = start_elem; ii < (start_elem + maxBucketVisibleFilters); ii++) {
+    _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
+  }
+  if (_am_disabled < maxBucketVisibleFilters) // not need scrolling
+    return;
+
+  // Scroll to the first enabled filter
+  var _scrollItem = $(_parentElem).children().not('.disabled').first();
+  if (typeof _scrollItem == 'object') {
+    $(_parentElem).scrollTo(_scrollItem);
+  }
+};
+var swiper;
 $(document).ready(function() {
 
   // result page init
@@ -385,44 +416,13 @@ $(document).ready(function() {
     swiper.slideTo($(this).parents('.swiper-slide').index());
   });
 */
-  var scrollAirlines = function () {
-    // Bucket was touched. Not need scrolling
-    if ($('#airline_tile').data('_is_touched')) {
-      return;
-    }
-
-    // get parent object for the filters
-    var _parentElem = $('#airline_tile .list-group');
-
-    // Define start element of the bucket scroll window
-    var start_elem = Math.round(bucketAirlineScrollPos / bucketFilterItemHeigh);
-    var am_elems = $(_parentElem).children().length;
-    // Iteration will overflow visible window
-    if (start_elem + maxBucketVisibleFilters > am_elems) {
-      start_elem = (am_elems > maxBucketVisibleFilters) ? (am_elems - maxBucketVisibleFilters) : 0;
-    }
-
-    // Define if a bucket has all disabled filters on an entire scroll window
-    var _am_disabled = 0;
-    for (var ii = start_elem; ii < (start_elem + maxBucketVisibleFilters); ii++) {
-      _am_disabled = $(_parentElem).children().eq(ii).hasClass('disabled') ? (_am_disabled + 1) : _am_disabled;
-    }
-    if (_am_disabled < maxBucketVisibleFilters) // not need scrolling
-      return;
-
-    // Scroll to the first enabled filter
-    var _scrollItem = $(_parentElem).children().not('.disabled').first();
-    if (typeof _scrollItem == 'object') {
-      $(_parentElem).scrollTo(_scrollItem);
-    }
-  };
   // Track and remember airlines scroll position
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
 
   // Horizontal scroll for tiles
-  var swiper = new Swiper('.swiper-container', {
+  swiper = new Swiper('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
     nextButton: '.swiper-arrow',
@@ -475,9 +475,9 @@ $(document).ready(function() {
     $(".swiper-container").hammer();
     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
     $(".swiper-container").bind("swipeup", function (e) {
-      // shrinkTiles(false);
+      SearchForm.toggleFullInfo(false);
     }).bind("swipedown", function (e) {
-      // shrinkTiles(true);
+      SearchForm.toggleFullInfo(true);
     });
   }
 
@@ -524,19 +524,19 @@ $(document).ready(function() {
 
   var initScroll = 0;
   var scrollStarted = false;
-  $(window).scroll(function() {
-    if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
-      shrinkTiles(true);
+  $('#searchResultData').scroll(function() {
+    if ($(this).scrollTop() == 0 ) {
+      SearchForm.toggleFullInfo(true);
     }
-    if (!scrollStarted /*&& expandedItitns*/) {
+    if (!scrollStarted) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') /*&& expandedItitns*/) {
-      shrinkTiles(false);
+    if ( ($(this).scrollTop() - initScroll) >= 100 ) {
+      SearchForm.toggleFullInfo(false);
       scrollStarted = false;
     }
   });
