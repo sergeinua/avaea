@@ -121,7 +121,7 @@
 
   var cntWords = function (val) {
     var words = val.split(' ');
-    return (words.length >= 4);
+    return (words.length >= 3);
   };
 
   var clearVoiceSearch = function () {
