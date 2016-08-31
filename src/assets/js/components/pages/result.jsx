@@ -138,11 +138,16 @@ var ResultPage = React.createClass({
   clearTiles: function () {
     this.setState({filter: []}, function() {
       this.updateTiles('');
+      swiper.slideTo(0);
     });
   },
 
   undoTiles: function () {
     var filters = this.state.filter;
+    var lastFilter = filters[filters.length - 1];
+    if (lastFilter) {
+      swiper.slideTo($('#' + lastFilter.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
+    }
     filters = filters.splice(0, filters.length-1);
     this.setState({filter: filters}, function() {
       this.updateTiles('');
@@ -162,6 +167,7 @@ var ResultPage = React.createClass({
       } else {
         filters.push(filterNew.id);
       }
+      swiper.slideTo($('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
       this.setState({filter: filters});
     }
     this.resetResultVisibility();
@@ -219,6 +225,7 @@ var ResultPage = React.createClass({
       });
     });
     this.setState({tiles: tiles});
+    scrollAirlines();
   },
 
   resetResultVisibility: function() {

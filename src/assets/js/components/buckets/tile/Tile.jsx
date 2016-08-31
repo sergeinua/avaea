@@ -22,6 +22,12 @@ var Tile = React.createClass({
 
   updateTiles: function (filter) {
     return function() {
+      _displayDimmer(false);
+
+      if (filter.id == 'airline_tile') {
+        $('#' + filter.id).data("_is_touched", 1);
+      }
+
       if (filter.count) {
         SearchForm.updateTiles(filter);
       }
@@ -33,7 +39,7 @@ var Tile = React.createClass({
     var showClass = this.showClass;
     return (
           <div className="swiper-slide">
-            <div className="mybucket" id="{ this.state.tile.id }">
+            <div className="mybucket" id={this.state.tile.id}>
               <div className="mycustomtab">{this.state.tile.name}</div>
               <ul className="list-group">
                 { this.state.tile.filters.map( function (filter) {
