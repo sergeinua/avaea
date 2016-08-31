@@ -37,7 +37,7 @@ var Flight = React.createClass({
           <div className="col-xs-2 text-nowrap detail-col">{ moment(this.state.flight.from.date).format('DD MMM') }</div>
           <div className="col-xs-2 text-nowrap detail-col">{ this.state.flight.from.code + ' ' + this.state.flight.to.code }</div>
           <div className="col-xs-3 text-nowrap notable-text detail-col">{ this.state.flight.from.time + '-' + this.state.flight.to.time }</div>
-          <div className="col-xs-2 text-nowrap detail-col">{ this.state.flight.duration + this.showNoStops(this.state.flight)}</div>
+          <div className="col-xs-2 text-nowrap detail-col" dangerouslySetInnerHTML={ createMarkup(this.state.flight.duration + this.showNoStops(this.state.flight))}></div>
         </div>
         { this.state.flight.stops.map(function (stop) {
         return  <div className="row">
