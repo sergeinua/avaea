@@ -428,7 +428,8 @@ footer,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
 .desktop .desktop-wrapper:after,
-legend {
+legend,
+.mybucket .list-group-item > div.text {
 	color: #004c9c;
 }
 
@@ -694,6 +695,7 @@ textarea {
 
 .navbar-header {
 	min-height: 51px;
+	width: 100%;
 }
 
 .navbar-header .small-button {
