@@ -28,9 +28,13 @@
 .glyphicon-remove:before {
   content: "\e014";
 }
-.glyphicon-user:before {
-  content: "\e008";
-} 
+.glyphicon-chevron-left:before {
+  content: "\e079";
+}
+.glyphicon-chevron-right:before {
+  content: "\e080";
+}
+
 
 @font-face {
     font-family: 'icomoon';
@@ -40,6 +44,7 @@
 }
 
 
+.passenger-count:before,
 .back-history:before,
 .clear-textarea:before,
 [class^="icon-"], [class*=" icon-"] {
@@ -61,6 +66,7 @@
 
 /* icons */
 
+.passenger-count:before,
 .icon-account:before {
   content: "\e900";
 }

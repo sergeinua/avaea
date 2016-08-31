@@ -32,7 +32,7 @@ function _displayDimmer(flag) {
       _displayDimmer(false);
     });
 
-    $(document).on('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer', function(event){
+    $(document).on('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimmer', function(event){
       event.stopPropagation();
       return false;
     });
@@ -41,7 +41,7 @@ function _displayDimmer(flag) {
     $('body').removeClass('dimmer-show');
     $('.dimmer').hide();
     $('#tiles_ui > div.row').removeClass('hideArrow');
-    $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimer');
+    $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimmer');
   }
 }
 /*
@@ -182,10 +182,9 @@ $(document).ready(function() {
   // result page init
   {
     if ($('.flight-info').length) {
-      $('.flight-info > div:first-child').css('padding-left', '0');
-      $('button', '#main_title').prependTo('.flight-info > div:first-child').css('margin', '4px 0');
+      $('button', '#main_title').prependTo('.flight-info');
       $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
-      $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>').wrap('<div class="container-fluid"/>');
+      $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
     }
 
     var max_filter_items = parseInt($('#tiles').data('max_filter_items'));

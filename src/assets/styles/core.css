@@ -432,6 +432,10 @@ legend {
 	color: #004c9c;
 }
 
+.mybucket {
+	border-top: 4px solid #004c9c;
+}
+
 
 /* light blue */
 
@@ -1193,22 +1197,6 @@ td[data-action*="selectDay"] {
   padding-right: 5px;
 }
 
-#date_select p.header {
-  margin: 0 10px 0 0;
-  font-size: 14px;
-  font-family: WhitneyHTF-MediumCondensed;
-  text-transform: uppercase;
-  letter-spacing: 0.2px;
-  color: #6F738D;
-}
-
-#date_select p.info {
-  margin: 0 10px 0 0;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 20px;
-  letter-spacing: 0.2px;
-}
-
 .datepicker .picker-switch {
   font-size: 20px;
 }
@@ -1320,6 +1308,116 @@ body.loading .modalLoader {
 	-webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+
+/* ------- results ------- */
+
+.flight-info {
+	text-align: left;
+}
+
+.result-search-info-bar {
+	font-size: 12px;
+	text-align: left;
+	padding: 16px 0 0 2px;
+	display: inline-block;
+}
+
+.result-search-info-bar span {
+	padding-right: 6px;
+}
+
+.result-search-info-bar .passenger-count {
+	position: relative;
+}
+
+.result-search-info-bar .passenger-count:before {
+	font-size: 14px;
+	margin-right: 1px;
+	display: inline-block;
+		top: 1px;
+		left: 0;
+}
+
+/* buckets */
+
+.swiper-container {
+	padding: 10px;
+	background: #fafafa;
+}
+
+/* bucket header */
+.mycustomtab,
+.mybucket .badge {
+	 color: #000;
+}
+
+.mycustomtab {
+	padding: 3px 5px 0 5px;
+}
+
+.mybucket {
+	font-size: 13px;
+	margin-right: 5px;
+	border-radius: 3px;
+	box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, .1);
+}
+
+.mybucket .list-group {
+  margin-bottom: 0;
+  max-height: 137px;
+  overflow: auto;
+}
+
+.mybucket .list-group-item:first-child {
+  border-radius: 0;
+}
+
+/* tiles */
+.mybucket .list-group-item {
+	padding: 7px;
+  height: 32px;
+	border: 0px solid transparent;
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+	overflow: hidden;
+  text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.list-group-item:first-child,
+.list-group-item:last-child {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.mybucket .list-group-item > div.text {
+	text-align: left;
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* plus and flight count */
+.mybucket .list-group-item > span {
+
+}
+
+/* flight count */
+.mybucket .badge {
+	font-size: 13px;
+	position: absolute;
+		top: 7px;
+		right: 0;
+	background-color: transparent;
+	opacity: .3;
+}
+
+
+
+
 
 /* pages */
 
@@ -1640,15 +1738,6 @@ select.input-sm {
 
 /* sliding menu */
 
-.container-smooth {
-  max-width: 1170px;
-}
-@media (min-width: 1px) {
-  .container-smooth {
-    width: auto;
-  }
-}
-
 .navmenu-fixed-left,
 .navbar-offcanvas {
   position: fixed;
@@ -1673,6 +1762,7 @@ select.input-sm {
 }
 
 /* swiper */
+
 .swiper-container {
   margin: 0 auto;
   position: relative;
@@ -1718,6 +1808,10 @@ select.input-sm {
   position: relative;
 }
 
+.swiper-slide {
+    max-width: 140px;
+    margin: 0 2px;
+}
 
 
 

@@ -6,54 +6,10 @@ nav {
 }
 
 #tiles_ui {
-  border: 0;
+	margin: 0;
+  margin-top: 51px;
   padding: 0;
-  margin: 0;
-  margin-top: 32px;
   z-index: 10;
-}
-
-.flight-info {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 15px;
-  line-height: 1.2;
-  letter-spacing: 0.1px;
-  padding: 5px 0;
-  color: #007EA7;
-}
-
-.flight-info > div {
-  padding: 0 5px;
-}
-
-.requested-airports {
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  font-size: 17px;
-  line-height: 1.0;
-  letter-spacing: 0.1px;
-}
-
-.flight-type {
-  line-height: 1.0;
-  letter-spacing: 0.1px;
-  text-align: center;
-  border-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-.flight-date {
-  padding-top: 10px;
-}
-
-.flight-date>span {
-  top: 0 !important;
-}
-
-.flight-date>span.passengers_count {
-  font-size: inherit;
-  min-width: 6px;
-  display: inline-block;
 }
 
 .clear-undo-buttons {
@@ -78,26 +34,6 @@ nav {
   display: inline-block;
 }
 
-#user-icon-small {
-  font-size: 0.8em;
-}
-
-.text-spacer {
-  padding-left: 4px;
-}
-
-.mycustomtab {
-  height: 23px;
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  font-size: 14px;
-  line-height: 1.0;
-  letter-spacing: 0.5px;
-  color: #101742;
-  text-transform: uppercase;
-  padding: 5px;
-  background-color: white;
-}
-
 .good-bad-flights {
   font-family: sans-serif;
   font-size: 14px;
@@ -105,62 +41,7 @@ nav {
   padding-top: 20px;
 }
 
-.mybucket {
-  /* Don't set width here ! Only via Swiper container or other elements */
-  background-color: white;
-  border-top: 4px solid  #fee148;
-  border-bottom: 4px solid  #fee148;
-}
 
-.mybucket .list-group {
-  margin-bottom: 0;
-  height: 137px;
-  border-radius: 0;
-  background-color: #F2F5F8;
-  overflow: auto;
-}
-
-.mybucket .list-group-item:first-child {
-  border-radius: 0;
-}
-
-.mybucket .list-group-item {
-  height: 32px;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 16px;
-  line-height: 1.2;
-  letter-spacing: 0.4px;
-  color: #101742;
-  padding: 7px;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 1px solid #eeeeee;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.mybucket .list-group-item>span {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 14px;
-  line-height: 1.3;
-  letter-spacing: 0.3px;
-  color: rgba(16, 23, 66, 0.4);
-  font-weight: normal;
-}
-
-.mybucket .list-group-item>div.text {
-  width: 114px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.mybucket .list-group-item>span.badge {
-  position: absolute;
-  top: 4px;
-  right: 0;
-  background-color: transparent;
-}
 
 .selected {
   font-weight: normal;
@@ -174,7 +55,6 @@ nav {
 .mybucket .selected > .badge, .mybucket .selected > span {
   color: #FFFFFF;
 }
-
 
 .disabled.dis-selected {
   background-color: #004a99 !important;
@@ -233,12 +113,7 @@ nav {
   margin: auto 0;
 }
 
-.sort-button .dropdown-menu li span {
-  /* margin-top: 8px; */
-}
-
 .sort-button button.btn {
-  /*font-family: WhitneyHTF-BookCondensed;*/
   color: #101742;
   font-weight: bold;
   border-radius: 0;
@@ -262,10 +137,8 @@ nav {
 .itinerary {
   background-color: #ffffff;
   border-top: 1px solid #E8E8E8;
-  /*border-bottom: 1px solid #E8E8E8;*/
   font-family: WhitneyHTF-BookCondensed;
   font-size: 13px;
-  /*line-height: 0.9;*/
   letter-spacing: 0.3px;
   color: #333333;
   padding-top: 6px;
@@ -311,7 +184,6 @@ nav {
   margin-top: 4px;
 }
 
-
 .itinerary-price {
   font-family: WhitneyHTF-MediumCondensed;
   font-size: 18px;
@@ -332,8 +204,6 @@ nav {
 }
 
 .buy-button {
-  /*padding-left: 15px;*/
-  /*padding-right:  15px;*/
   padding-right: 3px;
 }
 
@@ -349,10 +219,6 @@ nav {
   max-width: 45px;
   padding: 2px;
 }
-
-
-
-
 
 
 /* Smart button styles */
@@ -373,12 +239,6 @@ nav {
 
 /* end of Smart button styles */
 
-
-
-
-
-
-
 .buy-button-group {
   width:68px;
 }
@@ -386,9 +246,11 @@ nav {
 .buy-button-price {
   width: 40px;
 }
+
 .buy-button-price-open {
   border-bottom-left-radius: 0;
 }
+
 .dropdown-menu {
   width:65px;
   background-color: #151444;
@@ -399,21 +261,20 @@ nav {
   margin-left: 0;
   z-index: 1031;
 }
+
 button.buy-button-arrow[aria-expanded=true] {
   background-color: #151444 !important;
   border-bottom-right-radius: 0;
   border-bottom-color: #151444;
 }
-.dropdown-menu>li>a.our-dropdown {
+
+.dropdown-menu > li> a.our-dropdown {
   color: white;
 }
-
-
 
 #form_booking div.panel {
   margin-top: 20px;
 }
-
 
 .itinerary-airline .modal {
   font-family: WhitneyHTF-MediumCondensed;
@@ -425,10 +286,6 @@ button.buy-button-arrow[aria-expanded=true] {
 
 .modal-content .border-up {
   border-top: 1px solid rgba(0, 0, 0, 0.2);
-}
-
-.swiper-container {
-  background-color: #F2F5F8;
 }
 
 .show-tiles-arrow #tiles_ui:after {
@@ -444,8 +301,6 @@ button.buy-button-arrow[aria-expanded=true] {
 .clickable {
   cursor: pointer;
 }
-
-
 
 .btn-sm, .btn-group-sm > .btn {
   padding: 4px;
@@ -550,8 +405,6 @@ div.nothing-found-icon {
   border-bottom: 1px solid #DADADB;
   min-height: 32px;
   width: auto;
-  /*margin-left: -15px;*/
-  /*margin-right: -15px;*/
   padding: 5px;
 }
 
@@ -665,7 +518,6 @@ div.nothing-found-icon {
   color: #b9bbc7;
   margin-top: 21px;
   height: 30px;
-
   opacity:0.5;
   font-family:WhitneyHTF-MediumCondensed;
   font-size:16px;
@@ -687,6 +539,53 @@ div.nothing-found-icon {
 
 body.dimmer-show {
 	overflow-y: hidden;
+}
+
+
+#searchResultData .itinerary .col-icon-airline {
+  width: 1%;
+  padding: 0 10px;
+}
+#searchResultData .itinerary .airlineIcon {
+  margin: 0 3px 0 0;
+}
+#searchResultData .itinerary .col-from-to {
+  padding-left: 3px;
+  padding-right: 4px;
+}
+#searchResultData .mymorebutton {
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 15px;
+  background-color: #101742;
+  color: white;
+}
+#searchResultData .merchandising {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+#searchResultData .merchandising li {
+  list-style: none;
+  display: inline-block;
+}
+#searchResultData .merchandising li .gicon {
+  background: transparent url("../../images/merchandising-icons-sprite-15x14-30.png") no-repeat center;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  margin: 7px 10px 0 0;
+}
+#searchResultData .merchandising li .wifi {
+  background-position: 0 0;
+}
+#searchResultData .merchandising li .priority_seat {
+  background-position: 0 -47px;
+}
+#searchResultData .merchandising li .luggage {
+  background-position: 0 -112px;
+}
+.show-tiles-arrow #tiles_ui .row.hideArrow:after {
+  display: none;
 }
 
 
