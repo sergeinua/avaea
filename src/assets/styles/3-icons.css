@@ -39,7 +39,7 @@
     font-style: normal;
 }
 
-.swiper-container:after,
+.swiper-arrow:after,
 .glyphicon.glyphicon-chevron-left:before,
 .glyphicon.glyphicon-chevron-right:before,
 .passenger-count:before,
@@ -187,7 +187,7 @@
 .icon-arr-chevron-left:before {
   content: "\e925";
 }
-.swiper-container:after,
+.swiper-arrow:after,
 .glyphicon.glyphicon-chevron-right:before,
 .icon-arr-chevron-right:before {
   content: "\e926";

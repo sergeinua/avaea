@@ -428,8 +428,7 @@ footer,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
 .desktop .desktop-wrapper:after,
-legend,
-.mybucket .list-group-item > div.text {
+legend {
 	color: #004c9c;
 }
 
@@ -465,7 +464,8 @@ legend,
 .panel-title a:focus,
 .panel-footer button,
 .panel-footer button:hover,
-.panel-footer button:focus {
+.panel-footer button:focus,
+.mybucket .list-group-item > div.text {
 	color: #0081c9;
 }
 
@@ -506,6 +506,8 @@ a:focus,
 .tertiary-button {
 	border: 1px solid rgba(0, 181, 255, .7);
 }
+
+
 
 /* partial blue */
 
@@ -654,32 +656,32 @@ textarea {
 	text-transform: uppercase;
 }
 
-.swiper-container:before,
-.swiper-container:after {
-	z-index: 5;
+.swiper-arrow {
 	display: none;
 }
 
-.swiper-container:before {
-	content: '';
+.show-tiles-arrow .swiper-arrow {
 	display: inline-block;
-	width: 65px;
+	width: 65px; 
 	height: 65px;
 	position: absolute;
 		top: 50px;
 		right: 10px;
   background: rgba(155, 155, 155, .4);
 	border-radius: 50%;
+	z-index: 5;
 }
 
-.swiper-container:after {
+.show-tiles-arrow .swiper-arrow:after {
 	color: #ffffff;
 	font-size: 22px;
 	display: inline-block;
 	position: absolute;
-		top: 70px;
-		right: 28px;
+		top: 20px;
+		right: 18px;
 }
+
+
 
 
 /* header nav */
@@ -1396,7 +1398,7 @@ body.loading .modalLoader {
 }
 
 .mybucket {
-	font-size: 13px;
+	font-size: 14px;
 	margin-right: 5px;
 	border-radius: 3px;
 	box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, .1);
@@ -1445,7 +1447,7 @@ body.loading .modalLoader {
 
 /* flight count */
 .mybucket .badge {
-	font-size: 13px;
+	font-size: 14px;
 	position: absolute;
 		top: 7px;
 		right: 0;

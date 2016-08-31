@@ -43,6 +43,7 @@ var Buckets = React.createClass({
           </div>
           <div className="clickable-tiles-area clickable hidden"></div>
           <div className="clickable-tiles-area-yellow clickable"></div>
+          <span className="swiper-arrow"></span>
         </div>: ''
       }
       <div className="bottomNav">
