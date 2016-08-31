@@ -552,19 +552,19 @@ $(document).ready(function() {
 
   var initScroll = 0;
   var scrollStarted = false;
-  $(window).scroll(function() {
-    if ($(this).scrollTop() == 0 && !$('.clickable-tiles-area').hasClass('hidden')) {
-      shrinkTiles(true);
+  $('#searchResultData').scroll(function() {
+    if ($(this).scrollTop() == 0 ) {
+      SearchForm.toggleFullInfo(true);
     }
-    if (!scrollStarted /*&& expandedItitns*/) {
+    if (!scrollStarted) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 && $('.clickable-tiles-area').hasClass('hidden') /*&& expandedItitns*/) {
-      shrinkTiles(false);
+    if ( ($(this).scrollTop() - initScroll) >= 100 ) {
+      SearchForm.toggleFullInfo(false);
       scrollStarted = false;
     }
   });

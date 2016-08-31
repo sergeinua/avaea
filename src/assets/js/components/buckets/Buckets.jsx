@@ -25,10 +25,13 @@ var Buckets = React.createClass({
   },
 
   toggleFullInfo: function () {
-    return function() {
+    SearchForm.toggleFullInfo = (value) => {
       $('body').removeClass('show-tiles-arrow');
-      var newVal = !this.state.fullinfo;
+      var newVal = (typeof value != 'undefined')?value:!this.state.fullinfo;
       this.setState({fullinfo: newVal});
+    };
+    return function() {
+      SearchForm.toggleFullInfo();
     }.bind(this);
   },
 
