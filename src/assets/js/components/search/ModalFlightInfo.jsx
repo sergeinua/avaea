@@ -1,7 +1,10 @@
 var ModalFlightInfo = React.createClass({
+  closeModal: function () {
+    $('[data-id=' + this.props.id +']').modal('hide');
+  },
   render() {
     return (
-      <div id="flightInfo" className="modal fade modal-flight-info-block" role="dialog">
+      <div data-id={this.props.id} className="modal modal-flight-info-block" role="dialog">
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-body">
@@ -34,7 +37,7 @@ var ModalFlightInfo = React.createClass({
                 </div>
               </div>
               <div className="modal-footer modal-flight-info-footer">
-                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-default" onClick={this.closeModal()}>Close</button>
               </div>
             </div>
           </div>

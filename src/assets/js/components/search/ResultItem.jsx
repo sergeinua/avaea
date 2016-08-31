@@ -36,7 +36,7 @@ var ResultItem = React.createClass({
 
   showThumbsUp: function() {
     if (this.state.sRes.smartRank <= 3 && this.state.sRes.information && this.state.sRes.information.length) {
-      return <span className="glyphicon glyphicon-thumbs-up clickable" style={{color:"forestgreen"}} data-toggle="modal" data-target="#flightInfo"><ModalFlightInfo key={'info' + this.state.sRes.id} info={this.state.sRes}/></span>
+      return <span className="glyphicon glyphicon-thumbs-up clickable" style={{color:"forestgreen"}} data-toggle="modal" data-target={'[data-id=' + this.state.sRes.id + ']'}><ModalFlightInfo id={this.state.sRes.id} info={this.state.sRes}/></span>
     }
     return null;
   },
