@@ -509,6 +509,7 @@ a:focus,
 
 /* partial blue */
 
+.mybucket .selected,
 .flight-date-info-item {
 	background: #deeef7;
 }
@@ -620,7 +621,8 @@ textarea {
 	padding: 8px;
 }
 
-.tertiary-button.disabled:before {
+.tertiary-button.disabled:before,
+.mybucket .list-group-item.disabled > div.text {
 	color: #bbb;
 }
 
@@ -650,6 +652,33 @@ textarea {
 	color: rgba(0, 0, 0, 0.4);
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
+}
+
+.swiper-container:before,
+.swiper-container:after {
+	z-index: 5;
+	display: none;
+}
+
+.swiper-container:before {
+	content: '';
+	display: inline-block;
+	width: 65px;
+	height: 65px;
+	position: absolute;
+		top: 50px;
+		right: 10px;
+  background: rgba(155, 155, 155, .4);
+	border-radius: 50%;
+}
+
+.swiper-container:after {
+	color: #ffffff;
+	font-size: 22px;
+	display: inline-block;
+	position: absolute;
+		top: 70px;
+		right: 28px;
 }
 
 
@@ -1213,6 +1242,11 @@ td[data-action*="selectDay"] {
   background: #fafafa url("/images/ydiag_light.png");
 }
 
+.bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-left:before,
+.bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-right:before {
+	font-size: 16px;
+}
+
 .datepicker table td.today:before {
   display: none !important;
 }
@@ -1345,6 +1379,9 @@ body.loading .modalLoader {
 
 .swiper-container {
 	padding: 10px;
+}
+
+.swiper-container { 
 	background: #fafafa;
 }
 
@@ -1404,7 +1441,6 @@ body.loading .modalLoader {
 
 /* plus and flight count */
 .mybucket .list-group-item > span {
-
 }
 
 /* flight count */
@@ -1416,6 +1452,18 @@ body.loading .modalLoader {
 	background-color: transparent;
 	opacity: .3;
 }
+
+.selected {
+  font-weight: normal;
+}
+
+.mybucket .list-group-item.disabled {
+	background: #f0f0f0;
+}
+
+
+/* heredeb */
+
 
 
 

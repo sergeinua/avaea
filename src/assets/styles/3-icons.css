@@ -28,12 +28,8 @@
 .glyphicon-remove:before {
   content: "\e014";
 }
-.glyphicon-chevron-left:before {
-  content: "\e079";
-}
-.glyphicon-chevron-right:before {
-  content: "\e080";
-}
+
+
 
 
 @font-face {
@@ -43,7 +39,9 @@
     font-style: normal;
 }
 
-
+.swiper-container:after,
+.glyphicon.glyphicon-chevron-left:before,
+.glyphicon.glyphicon-chevron-right:before,
 .passenger-count:before,
 .back-history:before,
 .clear-textarea:before,
@@ -185,7 +183,15 @@
 .icon-watched:before {
   content: "\e923";
 }
-
+.glyphicon.glyphicon-chevron-left:before,
+.icon-arr-chevron-left:before {
+  content: "\e925";
+}
+.swiper-container:after,
+.glyphicon.glyphicon-chevron-right:before,
+.icon-arr-chevron-right:before {
+  content: "\e926";
+}
 
 
 
