@@ -1,11 +1,5 @@
 
-
-
-
-body.search-result {
-  background-image: url("/images/pattern.png");
-  background-size: contain;
-}
+/* scott.css - in the process of being deprecated */
 
 nav {
   min-width: 320px;

@@ -25,13 +25,13 @@ var NavBar = React.createClass({
 
   render: function() {
     return (
-      <nav id="tiles_ui" className="navbar navbar-default navbar-fixed-top container-fluid">
+      <nav id="tiles_ui" className="tiles-ui">
         <div className="flight-info row hide">
           <div className="col-xs-12 result-search-info-bar">
             <div style={{float: 'left', width: 'auto'}}>
               <span className="requested-airports">{ this.state.title }</span>
               <span className="text-spacer"></span>
-              <span className="flight-date">{ this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'–'+this.state.searchParams.returnDate:'') }
+              <span className="flight-date">{ this.state.searchParams.departureDate + (this.state.searchParams.returnDate?''+this.state.searchParams.returnDate:'') }
               <span className="text-spacer"></span>
                 { this.state.searchParams.CabinClass }
                 <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>

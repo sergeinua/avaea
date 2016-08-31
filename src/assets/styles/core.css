@@ -246,6 +246,18 @@
 	height: 200px;
 }
 
+.desktop .searchingModal .modal-body {
+	padding: 30px 50px 5px 50px;
+}
+
+.desktop .searchingModal .spinner-holder {
+	margin-top: 20px;
+}
+
+.desktop .searchingModal .modal-body:after {
+	bottom: 0;
+}
+
 .desktop .input-sm,
 .desktop .panel-footer {
 	width: 50%;
@@ -1278,10 +1290,22 @@ body.loading .modalLoader {
 	text-align: center;
 	line-height: 24px;
 	padding: 30px 30px;
+	position: relative;
 }
 
-.spinner-holder {
-	margin: 30px 0 15px 0;
+.searchingModal .modal-body:after {
+	content: ' ';
+	width: 100%;
+	height: 110px;
+	display: inline-block;
+	position: relative;
+		bottom: -20px;
+		left: 0;
+	background: url(../images/lil-plane-2.svg) bottom center no-repeat;
+}
+
+.searchingModal .spinner-holder {
+	margin-top: 35px;
 }
 
 .icon-spinner {
@@ -1551,8 +1575,24 @@ select.input-sm {
 		padding-top: 70px;
 	}
 	
+	.touch .searchingModal .spinner-holder {
+		margin-top: 20px;
+	}
+	
 	.touch .panel-group.create {
 		margin-top: 0;
+	}
+	
+	.touch .modal.searchingModal {
+		top: 15%;
+	}
+	
+	.touch .searchingModal .modal-body {
+		padding: 25px 50px 5px 50px;
+	}
+	
+	.touch .searchingModal .modal-body:after {
+		bottom: 0;
 	}
 	
 }
