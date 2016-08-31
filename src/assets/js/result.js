@@ -503,9 +503,9 @@ $(document).ready(function() {
     $(".swiper-container").hammer();
     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
     $(".swiper-container").bind("swipeup", function (e) {
-      // shrinkTiles(false);
+      SearchForm.toggleFullInfo(false);
     }).bind("swipedown", function (e) {
-      // shrinkTiles(true);
+      SearchForm.toggleFullInfo(true);
     });
   }
 
