@@ -656,30 +656,7 @@ textarea {
 	text-transform: uppercase;
 }
 
-.swiper-arrow {
-	display: none;
-}
 
-.show-tiles-arrow .swiper-arrow {
-	display: inline-block;
-	width: 65px; 
-	height: 65px;
-	position: absolute;
-		top: 50px;
-		right: 10px;
-  background: rgba(155, 155, 155, .4);
-	border-radius: 50%;
-	z-index: 5;
-}
-
-.show-tiles-arrow .swiper-arrow:after {
-	color: #ffffff;
-	font-size: 22px;
-	display: inline-block;
-	position: absolute;
-		top: 20px;
-		right: 18px;
-}
 
 
 
@@ -1379,12 +1356,65 @@ body.loading .modalLoader {
 
 /* buckets */
 
-.swiper-container {
-	padding: 10px;
-}
-
+.filters-area,
 .swiper-container { 
 	background: #fafafa;
+}
+
+.swiper-container {
+  margin: 0 auto;
+	padding: 10px;
+  position: relative;
+  overflow: hidden;
+  /* Fix of Webkit flickering */
+  z-index: 1;
+	
+}
+
+.swiper-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+	
+  -webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  -ms-transition-property: -ms-transform;
+  transition-property: transform;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+
+
+.swiper-container-android .swiper-slide,
+.swiper-wrapper {
+  -webkit-transform: translate3d(0px, 0, 0);
+  -moz-transform: translate3d(0px, 0, 0);
+  -o-transform: translate(0px, 0px);
+  -ms-transform: translate3d(0px, 0, 0);
+  transform: translate3d(0px, 0, 0);
+}
+
+.swiper-slide {
+  -webkit-flex-shrink: 0;
+  -ms-flex: 0 0 auto;
+  flex-shrink: 0;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.swiper-slide {
+    max-width: 140px;
+    margin: 0 2px;
 }
 
 /* bucket header */
@@ -1813,57 +1843,7 @@ select.input-sm {
   transition: top .35s, left .35s, bottom .35s, right .35s;
 }
 
-/* swiper */
 
-.swiper-container {
-  margin: 0 auto;
-  position: relative;
-  overflow: hidden;
-  /* Fix of Webkit flickering */
-  z-index: 1;
-}
-
-.swiper-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  -ms-transition-property: -ms-transform;
-  transition-property: transform;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-}
-.swiper-container-android .swiper-slide,
-.swiper-wrapper {
-  -webkit-transform: translate3d(0px, 0, 0);
-  -moz-transform: translate3d(0px, 0, 0);
-  -o-transform: translate(0px, 0px);
-  -ms-transform: translate3d(0px, 0, 0);
-  transform: translate3d(0px, 0, 0);
-}
-
-.swiper-slide {
-  -webkit-flex-shrink: 0;
-  -ms-flex: 0 0 auto;
-  flex-shrink: 0;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.swiper-slide {
-    max-width: 140px;
-    margin: 0 2px;
-}
 
 
 

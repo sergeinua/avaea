@@ -230,10 +230,10 @@ $(document).ready(function() {
   }
 
   if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
-    // start arrow blinking
-    $('body').addClass('show-tiles-arrow');
+    // start tiles sliding cue
+    $('body').addClass('tiles-cue');
   } else {
-    $('body').removeClass('show-tiles-arrow');
+    $('body').removeClass('tiles-cue');
   }
 
   // Set sprite number for the every airlines icon
@@ -427,15 +427,34 @@ $(document).ready(function() {
     slidesPerView: 'auto',
     nextButton: '.swiper-arrow',
     onTouchMove: function (swiper) {
-      $('body').removeClass('show-tiles-arrow');
+      $('body').removeClass('tiles-cue');
     }
   
   });
   
-  $('.swiper-arrow').on('click touch', function () {
-  	$('body').removeClass('show-tiles-arrow');
-  });
+  function tilesCue() {
+  $( ".tiles-cue .swiper-container" ).delay(200).animate({
+    left: 30
+  	}, {
+      duration: "32000",
+      easing: "swing"
+    }).animate({
+    	left: -10
+  	}, {
+      duration: "16000",
+      easing: "swing"
+    }).animate({
+    	left: 0
+  	}, {
+      duration: "8000",
+      easing: "swing"
+    });
+  }
+  tilesCue();
   
+
+
+ 
 
   //search count
   // var sCount = $('.itinerary:visible').length;

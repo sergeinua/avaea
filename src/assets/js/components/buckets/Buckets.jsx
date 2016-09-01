@@ -37,18 +37,16 @@ var Buckets = React.createClass({
 
   render: function() {
     return (
-    <div>
-
-        <div className={this.state.fullinfo ? "swiper-container":"swiper-container hidden"}>
-          <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
-            {this.state.tiles.map(function (tile) {
-              return <Tile key={tile.id} info={tile} />
-            })}
-          </div>
-          <div className="clickable-tiles-area clickable hidden"></div>
-          <div className="clickable-tiles-area-yellow clickable"></div>
-          <span className="swiper-arrow"></span>
-        </div>
+    <div className="filters-area">
+       <div className={this.state.fullinfo ? "swiper-container":"swiper-container hidden"}>
+         <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
+           {this.state.tiles.map(function (tile) {
+             return <Tile key={tile.id} info={tile} />
+           })}
+         </div>
+         <div className="clickable-tiles-area clickable hidden"></div>
+         <div className="clickable-tiles-area-yellow clickable"></div>
+      </div>
 
       <div className="bottomNav">
         <div className="bottom-nav-text">
