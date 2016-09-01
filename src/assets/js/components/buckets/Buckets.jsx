@@ -53,7 +53,7 @@ var Buckets = React.createClass({
       <div className="bottomNav">
         <div className="bottom-nav-text">
         <span>Showing <span className='search_count'><span id='search_count'>{ this.props.searchResultLength }</span>/{this.state.searchResultLength} </span></span>
-        Flights by </div><Sorter current={this.props.currentSort}/>
+        flights by </div><Sorter current={this.props.currentSort}/>
         <div className="clear-undo-buttons text-right">
           <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
           <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>

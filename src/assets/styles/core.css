@@ -1291,7 +1291,7 @@ body.loading .modalLoader {
 .modal {
 	margin: 0 auto;
 	width: 90%;
-	top: 0%;
+	top: 18%;
 }
 
 .modal-dialog {
