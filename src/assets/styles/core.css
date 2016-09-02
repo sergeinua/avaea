@@ -1370,6 +1370,42 @@ body.loading .modalLoader {
   /* Fix of Webkit flickering */
   z-index: 1;
 	
+  /* animate in */
+	
+	-webkit-animation: swipeCue 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	animation: swipeCue 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes swipeCue {
+    0% { 
+			left: 250px;
+			opacity: 0;
+		}
+		
+		25% {
+			opacity: 0;
+		}
+		
+		100% { 
+			left: 0px;
+			opacity: 1;
+		}
+}
+
+@-webkit-keyframes swipeCue {
+    0% { 
+			left: 250px;
+			opacity: 0;
+		}
+		
+		25% {
+			opacity: 0;
+		}
+		
+		100% { 
+			left: 0px;
+			opacity: 1;
+		}
 }
 
 .swiper-wrapper {
@@ -1383,19 +1419,23 @@ body.loading .modalLoader {
   display: -webkit-flex;
   display: flex;
 	
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  -o-transition-property: -o-transform;
-  -ms-transition-property: -ms-transform;
-  transition-property: transform;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
 }
 
+.swiper-container, 
+.swiper-wrapper {
+	-webkit-transition-property: -webkit-transform;
+  -moz-transition-property: -moz-transform;
+  -o-transition-property: -o-transform;
+  -ms-transition-property: -ms-transform;
+  transition-property: transform;
+}
 
 
-.swiper-container-android .swiper-slide,
+
+.swiper-container .swiper-slide,
 .swiper-wrapper {
   -webkit-transform: translate3d(0px, 0, 0);
   -moz-transform: translate3d(0px, 0, 0);

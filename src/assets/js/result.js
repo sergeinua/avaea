@@ -432,29 +432,6 @@ $(document).ready(function() {
   
   });
   
-  function tilesCue() {
-  $( ".tiles-cue .swiper-container" ).delay(4000).animate({
-    left: 50
-  	}, {
-      duration: "32000",
-      easing: "swing"
-    }).animate({
-    	left: -10
-  	}, {
-      duration: "16000",
-      easing: "swing"
-    }).animate({
-    	left: 0
-  	}, {
-      duration: "8000",
-      easing: "swing"
-    });
-  }
-  tilesCue();
-  
-
-
- 
 
   //search count
   // var sCount = $('.itinerary:visible').length;
