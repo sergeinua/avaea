@@ -22,7 +22,6 @@ var Tile = React.createClass({
 
   updateTiles: function (filter) {
     return function() {
-      _displayDimmer(false);
 
       if (filter.id == 'airline_tile') {
         $('#' + filter.id).data("_is_touched", 1);

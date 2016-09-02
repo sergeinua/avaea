@@ -1364,17 +1364,13 @@ body.loading .modalLoader {
 
 /* buckets */
 
-.filters-area,
-.swiper-container { 
-	background: #fafafa;
-	background: #cdeffc;
-}
 
 .filters-area {
 	overflow: hidden;
+	background: #cdeffc;
 }
 
-.swiper-container {
+.filters-area .holder {
     background: #cdeffc url(../images/clouds-sm.png) -300px center;
 }
 
@@ -1382,6 +1378,7 @@ body.loading .modalLoader {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
+	overflow: hidden;
   /* Fix of Webkit flickering */
   z-index: 1;
 	
@@ -1486,7 +1483,7 @@ body.loading .modalLoader {
 	font-size: 14px;
 	margin-right: 5px;
 	border-radius: 3px;
-	box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0px 1px 1px 0 rgba(0, 0, 0, .3);
 }
 
 .mybucket .list-group {

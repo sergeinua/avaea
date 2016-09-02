@@ -412,7 +412,7 @@ $(document).ready(function() {
   // Horizontal scroll for tiles
   swiper = new Swiper('.swiper-container', {
     freeMode: true,
-    slidesPerView: 'auto',
+    slidesPerView: 'auto'
   });
   
 
