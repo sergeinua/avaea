@@ -433,8 +433,8 @@ $(document).ready(function() {
   });
   
   function tilesCue() {
-  $( ".tiles-cue .swiper-container" ).delay(3000).animate({
-    left: 30
+  $( ".tiles-cue .swiper-container" ).delay(4000).animate({
+    left: 50
   	}, {
       duration: "32000",
       easing: "swing"
