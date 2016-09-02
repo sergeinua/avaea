@@ -497,6 +497,10 @@ a:focus,
 	color: rgba(0, 181, 255, .8);
 }
 
+.mycustomtab {
+	background: rgba(0, 181, 255, .1);
+}
+
 .clear-textarea {
 	border: 1px solid rgba(0, 181, 255, .1);
 }
@@ -1371,6 +1375,10 @@ body.loading .modalLoader {
 }
 
 .swiper-container {
+    background: #cdeffc url(../images/clouds-sm.png) -300px center;
+}
+
+.swiper-container {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
@@ -1472,7 +1480,6 @@ body.loading .modalLoader {
 
 .mycustomtab {
 	padding: 3px 5px 0 5px;
-	background: rgba(255, 255, 255, .5);
 }
 
 .mybucket {
