@@ -492,7 +492,6 @@ a:focus,
 }
 
 .tertiary-button:before,
-.clear-textarea:before,
 .flight-date-info-item .the-date:hover span {
 	color: rgba(0, 181, 255, .8);
 }
@@ -501,7 +500,15 @@ a:focus,
 	background: rgba(0, 181, 255, .1);
 }
 
-.clear-textarea {
+.mybucket .selected {
+	background: rgba(0, 181, 255, .5);
+}
+
+.flight-date-info-item {
+	background: rgba(0, 181, 255, .5);
+}
+
+.lil-button {
 	border: 1px solid rgba(0, 181, 255, .1);
 }
 
@@ -518,9 +525,8 @@ a:focus,
 
 /* partial blue */
 
-.mybucket .selected,
 .flight-date-info-item {
-	background: #deeef7;
+    background: #deeef7;
 }
 
 .panel-default > .panel-heading,
@@ -546,15 +552,11 @@ a:focus,
 
 /* this rgb is 50% of the bright blue */
 .tertiary-button:hover,
-.tertiary-button:focus,
-.clear-textarea {
+.tertiary-button:focus {
 	background-color: rgba(145, 217, 255, .2);	
 }
 
-.clear-textarea:hover,
-.clear-textarea:focus {
-	background: rgba(145, 217, 255, .4);
-}
+
 
 
 /* green */
@@ -1132,6 +1134,7 @@ strong.tt-highlight {
 }
 
 .voice-search-content .clear-textarea {
+	font-size: 16px;
 	margin: 0 0 5px 0px;
 	padding: 5px 15px 5px 35px;
 	float: right;
@@ -1139,10 +1142,10 @@ strong.tt-highlight {
 }
 
 .clear-textarea:before  {
-	font-size: 20px;
+	font-size: 24px;
   position: absolute;
-    top: 4px;
-    left: 12px;	
+    top: 3px;
+    left: 9px;	
 }
 
 .voice-search-content .fa {
@@ -1378,7 +1381,7 @@ body.loading .modalLoader {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
-	overflow: hidden;
+
   /* Fix of Webkit flickering */
   z-index: 1;
 	
@@ -1542,7 +1545,11 @@ body.loading .modalLoader {
 }
 
 .mybucket .list-group-item.disabled {
-	background: #f0f0f0;
+	background: #ededed;
+}
+
+.tertiary-button.disabled:before, .mybucket .list-group-item.disabled > div.text {
+	color: #aaa;
 }
 
 

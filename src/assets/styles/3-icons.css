@@ -92,7 +92,7 @@
 .icon-close:before {
   content: "\e907";
 }
-.clear-textarea:before,
+
 .icon-close-circle:before {
   content: "\e924";
 }
@@ -130,6 +130,7 @@
 .icon-spinner:before {
   content: "\e911";
 }
+.clear-textarea:before,
 .icon-start-over:before {
   content: "\e91d";
 }
