@@ -39,9 +39,9 @@
     font-style: normal;
 }
 
-.swiper-arrow:after,
 .glyphicon.glyphicon-chevron-left:before,
 .glyphicon.glyphicon-chevron-right:before,
+.close-x:before,
 .passenger-count:before,
 .back-history:before,
 .clear-textarea:before,
@@ -88,6 +88,7 @@
 .icon-checkmark:before {
   content: "\e906";
 }
+.close-x:before,
 .icon-close:before {
   content: "\e907";
 }

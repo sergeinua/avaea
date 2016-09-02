@@ -17,33 +17,7 @@ $.fn.scrollTo = function(elem) {
   return this;
 };
 
-function _displayDimmer(flag) {
-  if (flag) {
-    var _topMarge = 0;
-    if ($('.swiper-container').length) {
-      _topMarge = $('.swiper-container').outerHeight(true);
-      $('.dimmer').css('margin-top', _topMarge);
-    }
-    $('body').addClass('dimmer-show');
-    $('.dimmer').show();
-    $('#tiles_ui').addClass('hideArrow');
-    $('.dimmer').off('click').on('click', function(){
-      setCookie('dimmer_was_showed', 1);
-      _displayDimmer(false);
-    });
 
-    $(document).on('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimmer', function(event){
-      event.stopPropagation();
-      return false;
-    });
-  } else {
-    $('.dimmer').css('margin-top', 0);
-    $('body').removeClass('dimmer-show');
-    $('.dimmer').hide();
-    $('#tiles_ui').removeClass('hideArrow');
-    $(document).off('mousewheel.dimmer touchmove.dimmer swipe.dimmer scroll.dimmer');
-  }
-}
 /*
 var getFilters = function () {
   var filter = $('.selectedfilters').attr('filters');
@@ -228,27 +202,47 @@ $(document).ready(function() {
       touchScrollStep: 30
     });
   }
+  
+  
+  var displayDimmer = function () {
+  	
+  	// get the cookie, was dimmer shown?
+    var showDimmer = getCookie('dimmer_was_showed');
+  	
+  	if (showDimmer !=="true") {
+  		
+  		// dimmer was not already shown
+  		// check if search results are < 10
+  		if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount < 10) {
+  			
+  			// there were < 10 results, not enough to show the dimmer
+  			$('.dimmer').attr('style', 'display: none;');
+  			
+  		} else {
 
+  			// there were > 10 results, so show it's ok to show the dimmer, 
+  			// on click anywhere, remove it and set the cookie to "dimmer was shown"
+  		  $('.dimmer').attr('style', 'display: inline-block;');
+  		  $('body').click(function(){
+  		    setCookie('dimmer_was_showed', "true", 10000);
+  		    $('.dimmer').attr('style', 'display: none;');
+  		  });
+  		}
+  	
+  	} else {
+			// dimmer shown was true
+		}	
+  }
+  displayDimmer();
+
+ 
 
   // Set sprite number for the every airlines icon
   // $('.itinerary-airline-icon').each(function () {
   //   $(this).css('background-position', '0 -' + $(this).data('sprite_num') * 15 + 'px');
   // });
 
-  var showDimmer = getCookie('dimmer_was_showed') || 0;
-  if (+showDimmer == 0 && typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
-    _displayDimmer(true);
 
-    if (GlobalSearchResultCount < 5) {
-      setTimeout(function () {
-        $('.dimmer').fadeOut(function () {
-          _displayDimmer(false);
-        });
-      }, 1000);
-    }
-  } else {
-    _displayDimmer(false);
-  }
 
   // showTotal = !!$('.itinerary:visible').length;
 

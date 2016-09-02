@@ -304,7 +304,6 @@ $(document).ready(function() {
     $('.search-buttons').hide();
     $("body").addClass("loading");
     setInterval(40000);
-    setCookie('dimmer_was_showed', 0);
     return true;
   });
 

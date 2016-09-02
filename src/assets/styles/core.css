@@ -20,8 +20,10 @@
 .big-button.search-top-button,
 .calendar-header,
 .calendar-panel,
-.airport-search-panel {
-	display: none;
+.airport-search-panel,
+.dimmer .landscape,
+.dimmer {
+	display: none; 
 }
 
 /* desktop */
@@ -428,7 +430,8 @@ footer,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
 .desktop .desktop-wrapper:after,
-legend {
+legend,
+.dimmer .copy {
 	color: #004c9c;
 }
 
@@ -1360,18 +1363,21 @@ body.loading .modalLoader {
 .filters-area,
 .swiper-container { 
 	background: #fafafa;
+	background: #cdeffc;
+}
+
+.filters-area {
+	overflow: hidden;
 }
 
 .swiper-container {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
-  overflow: hidden;
   /* Fix of Webkit flickering */
   z-index: 1;
 	
   /* animate in */
-	
 	-webkit-animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -1466,6 +1472,7 @@ body.loading .modalLoader {
 
 .mycustomtab {
 	padding: 3px 5px 0 5px;
+	background: rgba(255, 255, 255, .5);
 }
 
 .mybucket {
@@ -1488,7 +1495,7 @@ body.loading .modalLoader {
 /* tiles */
 .mybucket .list-group-item {
 	padding: 7px;
-  height: 32px;
+  height: 36px;
 	border: 0px solid transparent;
 	border-top: 1px solid rgba(0, 0, 0, 0.05);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -1538,30 +1545,61 @@ body.loading .modalLoader {
 /* dimmer */
 
 .dimmer {
-	margin-top: 250px;
-  width: 100%;
-  height: 100%;
-  background: ffffff;
-  position: fixed;
-  z-index: 1000;
+	  margin-top: 235px;
+    width: 100%;
+    height: 100%;
+		position: fixed;
+		left: 0;
+		right: 0;
+    background-color: rgba(0, 0, 0, .5);
+    z-index: 1000;
 }
 
-.dimmer-close {
-  position: absolute;
-  right: 16px;
-  top: 16px;
-  width: 24px;
-  height: 24px;
-  cursor: pointer;
+.dimmer .wrapper {
+	margin: 25px auto 0 auto;
+	width: 325px;
+	height: 110px;
+	display: inline-block;
+	position: relative;
+	background: #ffffff;
+	border-radius: 3px;
 }
 
-.dimmer-arrow {
-  cursor: pointer;
-  width: 43px;
-  height: 75px;
-  margin: 67px auto 0;
-  display: block;
+.dimmer .wrapper:before {
+	content: '';
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	position: absolute;
+	top: -7px;
+	background: #ffffff;
+	border-radius: 3px;
+	transform: rotate(45deg);
+	z-index: -1;
 }
+
+.close-x {
+	font-size: 18px;
+	padding: 14px;
+	opacity: .5;
+	display: inline-block;
+	position: absolute;
+		right: 0;
+	opacity: .3;
+}
+
+.dimmer-text {
+	text-align: left;
+	padding: 20px 50px;
+}
+
+.dimmer .copy {
+	font-size: 18px;
+	text-align: center;
+	padding-top: 10px;
+}
+
+
 
 
 /* heredeb */
@@ -1843,6 +1881,14 @@ select.input-sm {
 	
 	.touch .searchingModal .modal-body:after {
 		bottom: 0;
+	}
+	
+	.touch .dimmer .landscape {
+		display: inline;
+	}
+	
+	.touch .dimmer .portrait {
+		display: none;
 	}
 	
 }
