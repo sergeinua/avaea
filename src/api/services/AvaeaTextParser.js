@@ -298,22 +298,6 @@ function validate_city_name(city_name) {
     throw new Error("Wrong city name" + city_name);
   return city_name;
 }
-function get_return_date( origin_date, date_of_month, month_name, year ) {
-  date_of_month = string_to_date_of_month(date_of_month);
-  if( !month_name ) {
-    // if month is not specified, then the year is unlikely to be specified, so just find the
-    // next date with given date_of_month
-    return get_date_of_next_date_of_month(origin_date,date_of_month);
-  }
-  var month_number = string_to_month_number(month_name);
-  if( !year ) {
-    // Let's default to the year of the origin date. However if this happens to be *before*
-    // the origin date then advance the year by 1
-    var r = new Date(origin_date.getFullYear(),month_number,date_of_month);
-    return (r>=origin_date) ? r : new Date(origin_date.getFullYear()+1,month_number,date_of_month);
-  }
-  return new Date(string_to_full_year(year),month_number,date_of_month);
-}
 function do_date_arithmetics( base_date, quantity_match, date_unit_match, qualifier_match ) {
   var result    = new Date(base_date);
   var quantity  = (["a","next"].indexOf(quantity_match.toLowerCase())<0 ? string_to_number(quantity_match) : 1) * _DATE_QUALIFIERS[qualifier_match.toLowerCase()];
