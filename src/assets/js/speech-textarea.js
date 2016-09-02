@@ -256,7 +256,7 @@
     }).done(function( result ) {
 
       var text = $.trim(final_textarea.val());
-      var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
+      var _airportsKeys = {origin_airport: 'originAirport', return_airport: 'destinationAirport'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
