@@ -172,9 +172,10 @@
       <div>
         <label class="control-label">Card Type</label>
         <%- _res = widgets.dropDownList(reqParams, "CardType", {
-            VI: "VI",
-            VISA: "VISA",
-            Maestro: "Maestro"
+            'VI' : 'VISA',
+            'CA' : 'Master Card',
+            'AX' : 'American Express',
+            'DS' : 'Discover'
           },
           {"class": "form-control input-sm"}) %>
       </div>
