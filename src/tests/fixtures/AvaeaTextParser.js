@@ -347,7 +347,7 @@ function get_avaea_parser_tests() {
 			    undefined,
 			    undefined,
 			    undefined),
-    new AvaeaTextParserTest("I want to fly from San Jose 2 Oregon on the 1st of August", // "2" instead of "to" is intended
+    new AvaeaTextParserTest("I want to fly from San Jose to Oregon on the 1st of August", // "2" instead of "to" is intended
 			    "San Jose",
 			    "Oregon",
 			    "Mon Aug 01 2016",

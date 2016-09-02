@@ -17,10 +17,9 @@ describe('VoiceController', function() {
             if (!err) {
               Object.keys(t).forEach((key) => {
                 if (key != 'query') {
-                  var rkey = (key == 'return_airport' ? 'destination_airport' : key);
                   var value = undefined;
-                  if (result.body[rkey]) {
-                    value = (typeof(result.body[rkey].toDateString) == "function") ? result.body[rkey].toDateString() : result.body[rkey];
+                  if (result.body[key]) {
+                    value = (typeof(result.body[key].toDateString) == "function") ? result.body[key].toDateString() : result.body[key];
                   }
                   if (t[key] != value) {
                     throw Error("Values for '" + key + "' do not match, '" + t[key] + "' vs. '" + value + "'");
