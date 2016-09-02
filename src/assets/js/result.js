@@ -229,12 +229,6 @@ $(document).ready(function() {
     });
   }
 
-  if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount) {
-    // start tiles sliding cue
-    $('body').addClass('tiles-cue');
-  } else {
-    $('body').removeClass('tiles-cue');
-  }
 
   // Set sprite number for the every airlines icon
   // $('.itinerary-airline-icon').each(function () {
@@ -425,11 +419,7 @@ $(document).ready(function() {
   swiper = new Swiper('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
-    nextButton: '.swiper-arrow',
     onTouchMove: function (swiper) {
-      $('body').removeClass('tiles-cue');
-    }
-  
   });
   
 
