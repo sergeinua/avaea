@@ -12,21 +12,12 @@ nav {
   z-index: 10;
 }
 
-.clear-undo-buttons {
-  float: right;
-  width: auto;
-  color: #101742;
-}
+
 
 .itin-result-count {
   float: right;
   width: auto;
   color: #FFE03E;
-}
-
-.search_count {
-  color: #101742;
-  font-weight: bold;
 }
 
 #search_count {
@@ -63,65 +54,6 @@ nav {
   color: #333333;
 }
 
-.sort-button {
-  margin: 0 0 0 5px;
-  padding: 0;
-  width: 60px;
-  float: left;
-}
-
-.sort-button .dropdown-menu {
-  top: initial;
-  left: auto;
-  right: 3px;
-  -webkit-transform: translate(-50%, 0);
-     -moz-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
-       -o-transform: translate(-50%, 0);
-          transform: translate(-50%, 0);
-  min-width: 140px;
-  vertical-align: middle;
-  background-color: #fff;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-color: #004a99;
-  margin-top: 4px;
-}
-
-.sort-button .selected {
-  color: #fff !important;
-  background-color: #004a99 !important;
-  background-color: rgba(0, 74,153, 0.9) !important;
-}
-
-.sort-button .selected a {
-  color: #FFFFFF !important;
-}
-
-.sort-button .dropdown-menu li, .sort-button .dropdown-menu li span {
-  vertical-align: middle;
-  margin: auto 0;
-}
-
-.sort-button button.btn {
-  color: #101742;
-  font-weight: bold;
-  border-radius: 0;
-  border-color: #F2F5F8 !important;
-  background-color: #F2F5F8 !important;
-  max-width: 80px;
-  padding: 0;
-}
-
-.sort-button .btn.focus, .sort-button .btn:focus,
-.sort-button .btn.active, .sort-button .btn:active,
-.sort-button .btn:hover {
-  color: #ffffff;
-  outline: none;
-}
-
-.sort-button .dropdown-menu>li>a {
-  padding: 3px 8px;
-}
 
 .itinerary {
   background-color: #ffffff;
@@ -378,14 +310,7 @@ div.nothing-found-icon {
   z-index: 9998;
 }
 
-.bottomNav {
-  background-color: #F2F5F8;
-  border-top: 1px solid white;
-  border-bottom: 1px solid #DADADB;
-  min-height: 32px;
-  width: auto;
-  padding: 5px;
-}
+
 
 @media all and (min-width: 480px) {
  

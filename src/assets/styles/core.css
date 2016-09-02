@@ -442,6 +442,8 @@ legend,
 
 /* light blue */
 
+.sort-button .selected,
+.mybucket .selected,
 .big-button,
 .navbar-header .small-button {
 	background: #0081c9;
@@ -458,6 +460,11 @@ legend,
 	background-color: #0081c9;
 }
 
+.mycustomtab {
+	background: rgba(0, 129, 201, .1);
+}
+
+.clear-undo-buttons,
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
 .datepicker th.next,
@@ -494,14 +501,6 @@ a:focus,
 .tertiary-button:before,
 .flight-date-info-item .the-date:hover span {
 	color: rgba(0, 181, 255, .8);
-}
-
-.mycustomtab {
-	background: rgba(0, 181, 255, .1);
-}
-
-.mybucket .selected {
-	background: rgba(0, 181, 255, .5);
 }
 
 .flight-date-info-item {
@@ -1374,7 +1373,9 @@ body.loading .modalLoader {
 }
 
 .filters-area .holder {
-    background: #cdeffc url(../images/clouds-sm.png) -300px center;
+  background: #cdeffc url(../images/clouds-sm.png) -300px center; 
+	/* background: url(../images/lil-clouds.svg) 0 100px repeat-x;
+	background-color: rgba(255, 255, 255, .5); */
 }
 
 .swiper-container {
@@ -1526,6 +1527,11 @@ body.loading .modalLoader {
   text-overflow: ellipsis;
 }
 
+.mybucket .list-group-item.selected > div.text,
+.mybucket .selected .badge {
+	color: #ffffff;
+}
+
 /* plus and flight count */
 .mybucket .list-group-item > span {
 }
@@ -1540,6 +1546,10 @@ body.loading .modalLoader {
 	opacity: .3;
 }
 
+.mybucket .selected .badge {
+	opacity: 1;
+}
+
 .selected {
   font-weight: normal;
 }
@@ -1551,6 +1561,92 @@ body.loading .modalLoader {
 .tertiary-button.disabled:before, .mybucket .list-group-item.disabled > div.text {
 	color: #aaa;
 }
+
+/* sorters */
+
+.bottomNav {
+	font-size: 12px;
+  padding: 8px;
+  height: 32px;
+  width: auto;
+	background-color: #F2F5F8;
+  border-top: 1px solid #ffffff;
+}
+
+.bottomNav .sort-button button.btn {
+	font-size: 12px;
+}
+
+.clear-undo-buttons {
+  float: right;
+}
+
+.search_count {
+	font-family: 'Open-Sans-Semibold';
+}
+
+.sort-button {
+  margin: 0 0 0 5px;
+  padding: 0;
+  width: 60px;
+  float: left;
+}
+
+.sort-button .dropdown-menu {
+  top: initial;
+  left: auto;
+  right: 3px;
+  -webkit-transform: translate(-50%, 0);
+     -moz-transform: translate(-50%, 0);
+      -ms-transform: translate(-50%, 0);
+       -o-transform: translate(-50%, 0);
+          transform: translate(-50%, 0);
+  min-width: 140px;
+  vertical-align: middle;
+  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: #004a99;
+  margin-top: 4px;
+}
+
+.sort-button .selected {
+  color: #ffffff !important;
+}
+
+.sort-button .selected a {
+  color: #FFFFFF !important;
+}
+
+.sort-button .dropdown-menu li, .sort-button .dropdown-menu li span {
+  vertical-align: middle;
+  margin: auto 0;
+}
+
+.sort-button button.btn {
+  color: #101742;
+  font-weight: bold;
+  border-radius: 0;
+  border-color: 1px solid transparent !important;
+  background-color: transparent !important;
+  max-width: 80px;
+  padding: 0;
+}
+
+.sort-button .btn.focus, .sort-button .btn:focus,
+.sort-button .btn.active, .sort-button .btn:active,
+.sort-button .btn:hover {
+  color: #ffffff;
+  outline: none;
+}
+
+.sort-button .dropdown-menu > li > a {
+  padding: 3px 8px;
+}
+
+
+
+/* heredeb */
+
 
 
 /* dimmer */
@@ -1609,15 +1705,6 @@ body.loading .modalLoader {
 	text-align: center;
 	padding-top: 10px;
 }
-
-
-
-
-/* heredeb */
-
-
-
-
 
 
 /* pages */
