@@ -419,7 +419,6 @@ $(document).ready(function() {
   swiper = new Swiper('.swiper-container', {
     freeMode: true,
     slidesPerView: 'auto',
-    onTouchMove: function (swiper) {
   });
   
 
