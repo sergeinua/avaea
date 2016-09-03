@@ -368,10 +368,7 @@ div.nothing-found-icon {
   max-height: 100vh;
 }
  
-.bottom-nav-text {
-  width: auto;
-  float: left;
-}
+
 
 @media (max-height: 510px) {
   .dimmer-arrow {

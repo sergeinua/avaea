@@ -1578,11 +1578,43 @@ body.loading .modalLoader {
   padding: 8px;
   height: 32px;
   width: auto;
-  border-top: 1px solid #ffffff;
+  border-top: 1px solid rgba(255, 255, 255, .8);
 }
 
 .bottomNav .sort-button button.btn {
 	font-size: 12px;
+	padding: 5px 10px 5px 4px;
+}
+
+.arr-asc,
+.arr-desc {
+	position: relative;
+}
+
+.dropdown-menu .arr-asc,
+.dropdown-menu .arr-desc {
+	position: absolute;
+		top: 0;
+		right: 0;
+}
+
+.arr-asc:before,
+.arr-desc:before {
+	font-size: 30px;
+	display: inline-block;
+	position: absolute;
+		top: -8px;
+		right: -22px;
+}
+
+.dropdown-menu .arr-asc:before,
+.dropdown-menu .arr-desc:before {
+	top: -1px;
+	right: 0;
+}
+
+.bottom-nav-text {
+  float: left;
 }
 
 .clear-undo-buttons {
@@ -1595,7 +1627,7 @@ body.loading .modalLoader {
 }
 
 .sort-button {
-  margin: 0 0 0 5px;
+  margin: -6px 0 0 0;
   padding: 0;
   float: left;
 }
@@ -1618,7 +1650,7 @@ body.loading .modalLoader {
        -o-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
   vertical-align: middle;
-  margin-top: 3px;
+  margin-top: -1px;
 }
 
 .sort-button .selected {
@@ -1631,6 +1663,7 @@ body.loading .modalLoader {
 
 .sort-button .dropdown-menu li {
 	padding: 5px 30px 5px 8px;
+	position: relative;
 }
 
 .sort-button .dropdown-menu li.selected 

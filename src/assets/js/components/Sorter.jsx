@@ -68,22 +68,24 @@ var Sorter = React.createClass({
       SearchForm.sortItineraries(option, direction);
     }.bind(this);
   },
+  
 
   render: function() {
     var getOption = this.getOption;
     var sortItineraries = this.sortItineraries;
-    var getOrderArrow = this.getOrderArrow;
     var current = this.props.current;
     return (
       <div className="sort-button">
         <button className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span>{getOption(current.name).title}</span><span id="sort-menu-direction" className="{current.order == 'asc'? 'up' : 'down'}"></span>
+          <span>{getOption(current.name).title}</span>
+          <span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span> 
         </button>
         <ul className="dropdown-menu">
           {Object.keys(this.state.sortOptions).map(function(key) {
             if (getOption(key)) {
               return <li key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
-                <span>{ getOption(key).title }</span><span className="up-down-arrow"><span className="{current.order == 'asc'? 'up' : 'down'}"></span></span>
+                <span>{ getOption(key).title }</span>
+                {key == current.name?<span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span> : '' }
               </li>
             }
             return '';
