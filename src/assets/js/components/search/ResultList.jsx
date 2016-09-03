@@ -10,7 +10,7 @@ var ResultList = React.createClass({
     return (
       <span>
       {(this.props.InitResultData.searchResultLength ?
-      <div id="searchResultData">
+      <div id="searchResultData" className="flights">
         {this.state.searchResult.map(function(itinerary) {
           if (!itinerary.is_hidden) {
             return <ResultItem key={itinerary.id} itinerary={itinerary}/>

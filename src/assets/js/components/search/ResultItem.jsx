@@ -36,16 +36,16 @@ var ResultItem = React.createClass({
 
   showThumbsUp: function() {
     if (this.state.sRes.smartRank <= 3 && this.state.sRes.information && this.state.sRes.information.length) {
-      return <span className="glyphicon glyphicon-thumbs-up clickable" style={{color:"forestgreen"}} data-toggle="modal" data-target={'[data-id=' + this.state.sRes.id + ']'}><ModalFlightInfo id={this.state.sRes.id} info={this.state.sRes}/></span>
+      return <span className="glyphicon glyphicon-thumbs-up clickable" data-toggle="modal" data-target={'[data-id=' + this.state.sRes.id + ']'}><ModalFlightInfo id={this.state.sRes.id} info={this.state.sRes}/></span>
     }
     return null;
   },
 
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
-      return <span><span className="visible-xs-inline">{'→ ' + pair.noOfStops}</span>→</span>
+      return <span className="arr-connects"><span className="connections">{pair.noOfStops}</span></span>
     }
-    return <span>→</span>
+    return <span className="arr-connects-none"></span>
   },
 
   handleBuyButton: function(id, searchId, isSpecial) {
@@ -77,11 +77,11 @@ var ResultItem = React.createClass({
       <div className="col-xs-9"  id={ this.state.sRes.id } style={{"lineHeight": "0.86"}} onClick={this.toggleFullInfo()}>
         { this.state.sRes.citypairs.map(function (pair, i) {
         return <div className="itinerary-info" key={"itin-info-" +  i}>
-          <div className="col-xs-3 text-right">
+          <div className="col-xs-3 departLoc">
             {pair.from.time + ' ' + pair.from.code}</div>
-          <div className="col-xs-2 text-center stops-letter-spacing">{showNoStops(pair)}</div>
-          <div className="col-xs-3">{ pair.to.time + ' ' + pair.to.code }</div>
-          <div className="col-xs-3" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
+          <div className="col-xs-2 connections text-center">{showNoStops(pair)}</div>
+          <div className="col-xs-3 arriveLoc">{ pair.to.time + ' ' + pair.to.code }</div>
+          <div className="col-xs-3 duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
         </div>
         }) }
       </div>

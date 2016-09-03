@@ -39,6 +39,9 @@
     font-style: normal;
 }
 
+.arr-connects:before,
+.arr-connects:after,
+.arr-connects-none:before,
 .arr-asc:before,
 .arr-desc:before,
 .glyphicon.glyphicon-chevron-left:before,
@@ -203,6 +206,15 @@
 .arr-desc:before,
 .icon-arr-descend:before {
   content: "\e928";
+}
+.arr-connects-none:before,
+.icon-arr-connects-none:before {
+  content: "\e929";
+}
+.arr-connects:before,
+.arr-connects:after,
+.icon-arr-connects:before {
+  content: "\e92a";
 }
 
 

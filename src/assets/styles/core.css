@@ -306,9 +306,11 @@ footer,
   display: flex;
 }
 
+.clear-this,
 .desktop:after,
 .flight-additional-info:after,
-#search_form:before {
+#search_form:before,
+.itinerary-info:after {
 	content: '';
 	display: table;
 	width: 100%;
@@ -471,7 +473,7 @@ legend,
 }
 
 .bottomNav {
-	border-bottom: 1px solid rgba(0, 129, 201, .7);
+	border-bottom: 1px solid rgba(0, 129, 201, .2);
 }
 
 .tt-suggestion.tt-selectable,
@@ -486,6 +488,12 @@ legend,
 .panel-footer button:focus,
 .mybucket .list-group-item > div.text {
 	color: #0081c9;
+}
+
+
+.mybucket .list-group-item.disabled.dis-selected {
+	/* light blue with gray 70% multiply */
+	background: #a5cde3;
 }
 
 
@@ -569,6 +577,7 @@ a:focus,
 
 /* green */
 
+.itinerary-airline .glyphicon-thumbs-up,
 .icon-spinner {
 	color: #39d744;
 }
@@ -1375,6 +1384,11 @@ body.loading .modalLoader {
 
 /* buckets */
 
+.tiles-ui {
+  margin-top: 51px;
+  padding: 0;
+  z-index: 10;
+}
 
 .filters-area {
 	overflow: hidden;
@@ -1512,7 +1526,7 @@ body.loading .modalLoader {
 /* tiles */
 .mybucket .list-group-item {
 	padding: 7px;
-  height: 36px;
+  height: 35px;
 	border: 0px solid transparent;
 	border-top: 1px solid rgba(0, 0, 0, 0.05);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -1575,7 +1589,7 @@ body.loading .modalLoader {
 
 .bottomNav {
 	font-size: 12px;
-  padding: 8px;
+  padding: 8px 13px;
   height: 32px;
   width: auto;
   border-top: 1px solid rgba(255, 255, 255, .8);
@@ -1687,6 +1701,116 @@ body.loading .modalLoader {
 .sort-button .dropdown-menu > li > a {
   padding: 3px 8px;
 }
+
+
+/* flights */
+
+.itinerary {
+	font-size: 13px;
+  padding: 6px 0 6px 10px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.flights .col-xs-9 {
+	padding: 0 0 0 0;
+}
+
+.arr-connects,
+.arr-connects-none {
+	position: relative;
+}
+
+.arr-connects-none:before,
+.arr-connects:before,
+.arr-connects:after {
+	font-size: 16px;
+	top: -3px;
+}
+
+.itinerary-airline.col-from-to {
+	text-align: left;
+	padding: 3px 10px 5px 0;
+}
+
+.airline-text {
+	text-align: left;
+	padding-right: 5px;
+}
+
+.itinerary-airline .glyphicon-thumbs-up {
+}
+
+.itinerary-airline .itinerary-airline-icon {
+  display: inline;
+  vertical-align: middle;
+}
+
+.itinerary-airline-icon {
+  width: 15px;
+  height: 15px;
+  float: left;
+  margin: 0 5px 0 0;
+  background: url("/images/airlines/avaea-airlines-sprite.png");
+}
+
+.detail-col-left .itinerary-airline-icon {
+  margin-top: 4px;
+}
+
+.itinerary-price {
+  font-family: WhitneyHTF-MediumCondensed;
+  font-size: 18px;
+  line-height: 1.2;
+  letter-spacing: 0.4px;
+  color: #333333;
+}
+
+.itinerary-info {
+  margin: 0 -10px;
+  position: relative;
+}
+
+.itinerary-info > div {
+  margin-bottom: 2px;
+  padding: 0;
+}
+
+.itinerary-info .col-xs-3.departLoc,
+.itinerary-info .col-xs-3.arriveLoc {
+	width: 32%;
+}
+
+.itinerary-info .col-xs-3.duration {
+	width: 22%;
+}
+
+.itinerary-info .col-xs-2.connections {
+	width: 13%;
+	position: relative;
+}
+
+.itinerary-info .connections .connections {
+	position: relative;
+	top: -5px;
+}
+
+.buy-button {
+  padding: 0 0 0 0;
+}
+
+.buy-button > button {
+  font-family: WhitneyHTF-BookCondensed;
+  font-size: 13px;
+  line-height: 1.3;
+  letter-spacing: 0.1px;
+  color: #ffffff;
+  border-radius: 0;
+  background-color: #004a99;
+  border-color: #004a99;
+  max-width: 45px;
+  padding: 2px;
+}
+
 
 
 
