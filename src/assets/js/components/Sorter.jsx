@@ -69,13 +69,6 @@ var Sorter = React.createClass({
     }.bind(this);
   },
 
-  getOrderArrow: function (order) {
-    if (order == "asc") {
-      return '↓';
-    }
-    return '↑'
-  },
-
   render: function() {
     var getOption = this.getOption;
     var sortItineraries = this.sortItineraries;
@@ -84,13 +77,13 @@ var Sorter = React.createClass({
     return (
       <div className="sort-button">
         <button className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span>{getOption(current.name).title}</span><span id="sort-menu-direction">{getOrderArrow(this.props.current.order)}</span>
+          <span>{getOption(current.name).title}</span><span id="sort-menu-direction" className="{current.order == 'asc'? 'up' : 'down'}"></span>
         </button>
         <ul className="dropdown-menu">
           {Object.keys(this.state.sortOptions).map(function(key) {
             if (getOption(key)) {
               return <li key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
-                <span>{ getOption(key).title }</span>{key == current.name?<span className="pull-right">{current.order == 'asc'?getOrderArrow('desc'):getOrderArrow('asc')}</span>:''}
+                <span>{ getOption(key).title }</span><span className="up-down-arrow"><span className="{current.order == 'asc'? 'up' : 'down'}"></span></span>
               </li>
             }
             return '';

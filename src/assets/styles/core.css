@@ -424,6 +424,8 @@ footer,
 	background: #004c9c;
 }
 
+.bottomNav .sort-button button.btn,
+.clear-undo-buttons,
 .flight-date-info-item .the-date span,
 .tap-plus,
 .tt-highlight,
@@ -464,7 +466,14 @@ legend,
 	background: rgba(0, 129, 201, .1);
 }
 
-.clear-undo-buttons,
+.bottomNav {
+	background: #b7e5f8;
+}
+
+.bottomNav {
+	border-bottom: 1px solid rgba(0, 129, 201, .7);
+}
+
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
 .datepicker th.next,
@@ -1569,7 +1578,6 @@ body.loading .modalLoader {
   padding: 8px;
   height: 32px;
   width: auto;
-	background-color: #F2F5F8;
   border-top: 1px solid #ffffff;
 }
 
@@ -1581,6 +1589,7 @@ body.loading .modalLoader {
   float: right;
 }
 
+.bottomNav .sort-button button.btn,
 .search_count {
 	font-family: 'Open-Sans-Semibold';
 }
@@ -1588,25 +1597,28 @@ body.loading .modalLoader {
 .sort-button {
   margin: 0 0 0 5px;
   padding: 0;
-  width: 60px;
   float: left;
+}
+
+.dropdown-menu {
+  border-radius: 0 0 3px 3px;
+  padding: 0;
+  margin: -2px;
+  margin-left: 0;
+  z-index: 1031;
 }
 
 .sort-button .dropdown-menu {
   top: initial;
   left: auto;
-  right: 3px;
+  right: 8px;
   -webkit-transform: translate(-50%, 0);
      -moz-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
        -o-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
-  min-width: 140px;
   vertical-align: middle;
-  background-color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-color: #004a99;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
 .sort-button .selected {
@@ -1617,19 +1629,19 @@ body.loading .modalLoader {
   color: #FFFFFF !important;
 }
 
-.sort-button .dropdown-menu li, .sort-button .dropdown-menu li span {
-  vertical-align: middle;
-  margin: auto 0;
+.sort-button .dropdown-menu li {
+	padding: 5px 30px 5px 8px;
 }
 
+.sort-button .dropdown-menu li.selected 
+
 .sort-button button.btn {
-  color: #101742;
-  font-weight: bold;
-  border-radius: 0;
-  border-color: 1px solid transparent !important;
-  background-color: transparent !important;
-  max-width: 80px;
   padding: 0;
+}
+
+.sort-button button.btn:active {
+	box-shadow: none;
+	-webkit-box-shadow: none;
 }
 
 .sort-button .btn.focus, .sort-button .btn:focus,
