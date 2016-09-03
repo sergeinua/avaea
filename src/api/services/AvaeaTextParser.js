@@ -285,13 +285,6 @@ function get_date_of_next_date_of_month( start, date_of_month ) {
   }
   throw new Error("Cannot find the next date for " + date_of_month);
 }
-function validate_origin_date_matches( matches ) {
-  var input    = matches.input.substr(0,matches.index);
-  // TODO: this needs to be much more sophisticated
-  var matches1 = /(from|ending|return|returning|come\s+back|coming\s+back|get\s+back|getting\s+back|back)(\s+(?:on|next))?\s+$/i.exec(input);
-  if( matches1 )
-    throw new Error("origin_date cannot be preceded by a '"+matches1[1]+"'");
-}
 function validate_city_name(city_name) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
   if (/from|fly|flying|leaving|departing|students/i.exec(city_name)) // TODO: Get rid of this eventually. Do not even capture these words as possible airports.
@@ -390,7 +383,7 @@ function AvaeaTextParser() {
     ],
     [
       '(?:('+_MONTH_NAME_PATTERN+')\\s+)(?:the\\s+)?('+_DATE_OF_MONTH_PATTERN+')(?:(?:,\\s*|\\s+)(\\d{2,4}))?',
-      function( min_date, matches, result) {
+      function( min_date, matches, apt ) {
 	// These indexes can only be figured out by testing. Too bad that JS regexps do not have names
 	// captures like python regexps have
 	var date_of_month = string_to_date_of_month(matches[2]);
@@ -401,7 +394,7 @@ function AvaeaTextParser() {
     ],
     [
       '(?:[^\\./\\w]|^)(\\d{1,2})([\\./])(\\d{1,2})(?:[\\./](\\d{2,4})|(?![\\./\\w]))?',
-      function( min_date, matches, result ) {
+      function( min_date, matches, apt ) {
 	var year = matches[4] ? string_to_full_year(matches[4]) : start.getFullYear();
 	// JavaScript counts months from 0 to 11. January is 0. December is 11.
 	return (matches[2]=='/') ?
@@ -413,11 +406,23 @@ function AvaeaTextParser() {
     ],
     [
       '('+_ORDINAL_DATE_OF_MONTH_PATTERN+')',
-      function( min_date, matches, result ) {
+      function( min_date, matches, apt ) {
 	return get_date_of_next_date_of_month(min_date,string_to_date_of_month(matches[1]));
       }
     ]
-  ];
+  ].map(function( pattern_and_proc ) {
+    // This function maps patterns and conversion procs for dates without date arithmetics to
+    // patterns and conversion procs with date arithmetics. Basically all date arithmetics
+    // handling is contained in this function.
+    return [
+      '((?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+('+Object.keys(_DATE_QUALIFIERS).join('|')+')\\s+)?'+pattern_and_proc[0],
+      function( min_date, matches, apt ) {
+	// The date arithmetics regexp has 4 submatches, so slice the parsing of the date itself by 4
+	var result = pattern_and_proc[1](min_date,Array.prototype.slice.call(matches,4),apt);
+	return matches[1] ? do_date_arithmetics(result,matches[2],matches[3],matches[4]) : result;
+      }
+    ];
+  });
   
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
   this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+(?:[SsFfPp]t\\.?|de)(?:\\s+[A-Z][A-z\\-]+,?))|" +
@@ -428,90 +433,89 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('top\\s+flights',function() { return "top"; }),
     new Regexp_and_Conversion('all\\s+flights',function() { return "all"; })
   ];
-  this.origin_date_regexps = this.date_patterns_and_procs.map(function( pattern_and_proc ) {
-    return new Regexp_and_Conversion(
-      '((?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+('+Object.keys(_DATE_QUALIFIERS).join('|')+')\\s+)?'+pattern_and_proc[0],
-      function( matches, apt ) {
-	validate_origin_date_matches(matches);
-	// The date arithmetics regexp has 4 submatches, so slice the parsing of the date itself by 4
-	var result = pattern_and_proc[1](new Date(),Array.prototype.slice.call(matches,4),apt);
-	return matches[1] ? do_date_arithmetics(result,matches[2],matches[3],matches[4]) : result;
-      });
-  }).concat(
-    // Below go the date patterns that do not refer to specific date
-    new Regexp_and_Conversion(
+  this.origin_date_regexps = this.date_patterns_and_procs.concat([
+    [
+      // Below go the date patterns that do not refer to specific date
       '(?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?',
-      function( matches, apt ) {
-	validate_origin_date_matches(matches);
+      function( min_date, matches, apt ) {
 	// If the origin_date didn not provide specific date (e.g. 8/16/2016) then it is based on the
 	// current moment as in phrase 'I am leaving the next day.'
-	return do_date_arithmetics(new Date(),matches[1],matches[2],"after");
+	return do_date_arithmetics(min_date,matches[1],matches[2],"after");
       }
-    )
-  );
-  this.return_date_regexps = this.date_patterns_and_procs.map(function( pattern_and_proc ) {
+    ]
+  ]).map(function( pattern_and_proc ) {
     return new Regexp_and_Conversion(
-      '((?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+('+Object.keys(_DATE_QUALIFIERS).join('|')+')\\s+)?'+pattern_and_proc[0],
+      pattern_and_proc[0],
       function( matches, apt ) {
-	var min_date = apt.origin_date ? apt.origin_date.value : new Date();
-	// The date arithmetics regexp has 4 submatches, so slice the parsing of the date itself by 4
-	var result = pattern_and_proc[1](min_date,Array.prototype.slice.call(matches,4),apt);
-	return matches[1] ? do_date_arithmetics(result,matches[2],matches[3],matches[4]) : result;
-      });
-  }).concat(
+	// Make sure that origin date does not follow anything that belongs to return date
+	// TODO: this needs to be much more sophisticated
+	var input    = matches.input.substr(0,matches.index);
+	var matches1 = /(from|ending|return|returning|come\s+back|coming\s+back|get\s+back|getting\s+back|back)(\s+(?:on|next))?\s+$/i.exec(input);
+	if( matches1 )
+	  throw new Error("origin_date cannot be preceded by a '"+matches1[1]+"'");
+	// Now actually call the procedure
+	return pattern_and_proc[1](new Date(),matches,apt);
+      }
+    );
+  });
+  this.return_date_regexps = this.date_patterns_and_procs.concat([
     // Below go the date patterns that do not refer to specific date
-    new Regexp_and_Conversion(
+    [
       '(?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?',
-      function( matches, apt ) {
-	var min_date = apt.origin_date ? apt.origin_date.value : new Date();
-	// If the return_date didn not provide specific date (e.g. 8/16/2016) then it is based on the
-	// origin date as in phrase 'I am leaving the next day returning 3 weeks later.'
+      function( min_date, matches, apt ) {
 	return do_date_arithmetics(min_date,matches[1],matches[2],"after");
       }
-    ),
-    new Regexp_and_Conversion(
+    ],
+    [
       '('+_NUMBER_PATTERN+')(?:\\s+|-)('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+(?:trip|travel|voyage|getaway)',
-      function( matches, apt ) {
-	var min_date = apt.origin_date ? apt.origin_date.value : new Date();
-	// If the return_date didn not provide specific date (e.g. 8/16/2016) then it is based on the
-	// origin date as in phrase 'I am leaving the next day returning 3 weeks later.'
+      function( min_date, matches, apt ) {
 	return do_date_arithmetics(min_date,matches[1],matches[2],"after");
       }
-    )
-  );
+    ]
+  ]).map(function( pattern_and_proc ) {
+    return new Regexp_and_Conversion(
+      pattern_and_proc[0],
+      function( matches, apt ) {
+	// If the return_date did not provide specific date (e.g. 8/16/2016) then it is based on the
+	// origin date as in phrase 'I am leaving the next day returning 3 weeks later.'
+	var min_date = apt.origin_date ? apt.origin_date.value : new Date();
+	return pattern_and_proc[1](min_date,matches,apt);
+      }
+    );
+  });
   this.origin_airport_regexps = [
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+(?:to|-)\\s+("+this.city_pattern+")"), function (matches, result) {
-      result['return_airport'] = {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+(?:to|-)\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+      apt['return_airport'] = {
         value: validate_city_name(matches[2]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[1]);
     }),
-    new Regexp_and_Conversion(new RegExp("between\\s+("+this.city_pattern+")\\s+and\\s*("+this.city_pattern+")"), function (matches, result) {
-      result['return_airport'] = {
+    new Regexp_and_Conversion(new RegExp("between\\s+("+this.city_pattern+")\\s+and\\s*("+this.city_pattern+")"), function ( matches, apt ) {
+      apt['return_airport'] = {
         value: validate_city_name(matches[2]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[1]);
     }),
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+from\\s+("+this.city_pattern+")"), function (matches, result) {
-      result['return_airport'] = {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+from\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+      apt['return_airport'] = {
         value: validate_city_name(matches[1]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[2]);
     }),
-    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:I'm|am|is|are)\\s+(?:\\w+\\s+)?in))\\s+("+this.city_pattern+")"), function (matches, result) {
+    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:I'm|am|is|are)\\s+(?:\\w+\\s+)?in))\\s+("+this.city_pattern+")"), function ( matches, apt ) {
       return validate_city_name(matches[1]);
     })
   ];
   this.return_airport_regexps = [
-    new Regexp_and_Conversion(new RegExp("\\b(?:(?:(?:(?:[Rr]eache?s?)|(?:[Ff]l[iy]e?s?)|(?:[Aa]rrive?s?)|(?:[Ll]ands?)|(?:[Gg]oe?s?))(?:ing)?(?:\\s+(?:(?:[Tt]o)|(?:[Aa]t)))?)|(?:[Tt]o))\\s+("+this.city_pattern+")"), function (matches, result) {
+    new Regexp_and_Conversion(new RegExp("\\b(?:(?:(?:(?:[Rr]eache?s?)|(?:[Ff]l[iy]e?s?)|(?:[Aa]rrive?s?)|(?:[Ll]ands?)|(?:[Gg]oe?s?))(?:ing)?(?:\\s+(?:(?:[Tt]o)|(?:[Aa]t)))?)|(?:[Tt]o))\\s+("+this.city_pattern+")"), function ( matches, apt ) {
       return validate_city_name(matches[1]);
     }),
     // This is the last resort match for cases like "Kiev-Moscow" or even "Kiev Moscow"
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")(?:-|\\s+)("+this.city_pattern+")"), function (matches, result) {
-      result['origin_airport'] = {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")(?:-|\\s+)("+this.city_pattern+")"),function ( matches, apt ) {
+      apt['origin_airport'] = {
         value: validate_city_name(matches[1]),
         pattern: 'same as return_airport'
       };
@@ -556,7 +560,7 @@ function AvaeaTextParser() {
   /////////////////////////////////////////////////////////////////
   // Methods
   /////////////////////////////////////////////////////////////////
-  this.run = function (text) {
+  this.run = function( text ) {
     // Takes a text, parses it, returns whatever is left unrecognized
     this.not_parsed = text;
     var match_and_convert = (regexp_and_conversion) => {
