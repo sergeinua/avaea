@@ -435,7 +435,11 @@ $(document).ready(function () {
           if (showGridUsersStat) {
             //insertRowToGrid('#gridUsersStat', item);
             $('#gridUsersStat').jsGrid('loadData', dataUsersStatsFormat).done(function() {
-              $('#gridUsersStat').jsGrid('sort', {field: 'id', order: 'desc'});
+              var sorting = $('#gridUsersStat').jsGrid('getSorting');
+              if (sorting)
+                $('#gridUsersStat').jsGrid('sort', sorting);
+              else
+                $('#gridUsersStat').jsGrid('sort', {field: 'id', order: 'desc'});
             });
           }
         });
@@ -470,7 +474,11 @@ $(document).ready(function () {
 
           if (showGridUsersStatVS) {
             $('#gridUsersStatVoiceSearch').jsGrid('loadData', dataUsersStatVoiceSearch).done(function() {
-              $('#gridUsersStatVoiceSearch').jsGrid('sort', {field: 'id', order: 'desc'});
+              var sorting = $('#gridUsersStatVoiceSearch').jsGrid('getSorting');
+              if (sorting)
+                $('#gridUsersStatVoiceSearch').jsGrid('sort', sorting);
+              else
+                $('#gridUsersStatVoiceSearch').jsGrid('sort', {field: 'id', order: 'desc'});
             });
           }
         });
