@@ -18,10 +18,10 @@ var Flight = React.createClass({
       <div className="details">
         { this.props.count?
           <div className="row switch-planes">
-            <div className="col-xs-5 text-nowrap detail-col change-planes">Change planes</div>
-            <div className="col-xs-2 detail-col">{ this.state.pair.stops[this.props.count - 1].code }</div>
+            <div className="detail-col change-planes">Change planes</div>
+            <div className="switch-loc">{ this.state.pair.stops[this.props.count - 1].code }</div>
             <div
-              className="col-xs-2 col-xs-offset-3 detail-col">{ this.state.pair.stops[this.props.count - 1].duration }</div>
+              className="wait-time">{ this.state.pair.stops[this.props.count - 1].duration }</div>
           </div>:''
         }
         <div className="row details info">
