@@ -194,7 +194,12 @@
 .icon-arr-chevron-right:before {
   content: "\e926";
 }
-
+.icon-arr-ascend:before {
+  content: "\e927";
+}
+.icon-arr-descend:before {
+  content: "\e928";
+}
 
 
 /* end icons.css */
