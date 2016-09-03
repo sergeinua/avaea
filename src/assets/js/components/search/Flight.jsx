@@ -15,33 +15,33 @@ var Flight = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className="details">
         { this.props.count?
-          <div className="row">
-            <div className="col-xs-5 text-nowrap detail-col-left">➲ Change planes</div>
+          <div className="row switch-planes">
+            <div className="col-xs-5 text-nowrap detail-col change-planes">Change planes</div>
             <div className="col-xs-2 detail-col">{ this.state.pair.stops[this.props.count - 1].code }</div>
             <div
               className="col-xs-2 col-xs-offset-3 detail-col">{ this.state.pair.stops[this.props.count - 1].duration }</div>
           </div>:''
         }
-        <div className="row">
-          <div className="col-xs-3 text-nowrap notable-text detail-col-left">
+        <div className="row details info">
+          <div className="col-xs-3 text-nowrap notable-text detail-col flight-no">
             <span
               className="itinerary-airline-icon"
               style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.flight.airlineCode] * 15 + "px"}}
               alt={ this.state.flight.airlineCode }
               title={ this.state.flight.airline }>
             </span>
-            <span>{this.state.flight.abbrNumber}</span>
+            <span className="flightNumber">{this.state.flight.abbrNumber}</span>
           </div>
-          <div className="col-xs-2 text-nowrap detail-col">{ moment(this.state.flight.from.date).format('DD MMM') }</div>
-          <div className="col-xs-2 text-nowrap detail-col">{ this.state.flight.from.code + ' ' + this.state.flight.to.code }</div>
-          <div className="col-xs-3 text-nowrap notable-text detail-col">{ this.state.flight.from.time + '-' + this.state.flight.to.time }</div>
-          <div className="col-xs-2 text-nowrap detail-col" dangerouslySetInnerHTML={ createMarkup(this.state.flight.duration + this.showNoStops(this.state.flight))}></div>
+          <div className="col-xs-2 text-nowrap detail-col date">{ moment(this.state.flight.from.date).format('DD MMM') }</div>
+          <div className="col-xs-2 text-nowrap detail-col dest">{ this.state.flight.from.code + ' ' + this.state.flight.to.code }</div>
+          <div className="col-xs-3 text-nowrap notable-text detail-col times">{ this.state.flight.from.time + '-' + this.state.flight.to.time }</div>
+          <div className="col-xs-2 text-nowrap detail-col length" dangerouslySetInnerHTML={ createMarkup(this.state.flight.duration + this.showNoStops(this.state.flight))}></div>
         </div>
         { this.state.flight.stops.map(function (stop) {
-        return  <div className="row">
-                  <div className="col-xs-5 text-nowrap detail-col-left">○ Intermediate stop</div>
+        return  <div className="row stopovers">
+                  <div className="col-xs-5 text-nowrap detail-col stopover">Intermediate stop</div>
                   <div className="col-xs-2 detail-col">{ stop.code }</div>
                   <div className="col-xs-2 col-xs-offset-3 detail-col">{ stop.duration }</div>
                 </div>

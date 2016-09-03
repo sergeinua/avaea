@@ -61,7 +61,7 @@ var ResultItem = React.createClass({
     return (
       <div id={this.state.sRes.id} className={"col-xs-12 itinerary " + this.state.sRes.filterClass}>
 
-    <div className="row">
+    <div className="row title">
       <div className="col-xs-12 itinerary-airline col-from-to">
         <span className="itinerary-airline-icon"
               style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}

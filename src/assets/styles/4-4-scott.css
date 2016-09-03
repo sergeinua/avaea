@@ -83,10 +83,6 @@ button.buy-button-arrow[aria-expanded=true] {
   border-bottom-color: #151444;
 }
 
-.dropdown-menu > li> a.our-dropdown {
-  color: white;
-}
-
 #form_booking div.panel {
   margin-top: 20px;
 }
@@ -111,28 +107,10 @@ button.buy-button-arrow[aria-expanded=true] {
   padding: 4px;
 }
 
-.our-dropdown {
-  padding: 4px !important;
-}
 
-.dropdown-menu {
-  min-width: 60px;
-}
 
 /* Result details */
-.notable-text {
-  color: #004a99;
-}
-.notable-area {
-  background-color: #f5f5f5;
-	line-height: 1.8;
-}
-.detail-col {
-  padding: 0 !important;
-}
-.detail-col-left {
-  padding: 0 0 0 2px !important;
-}
+
 
 
 .nothing-found {
@@ -261,52 +239,7 @@ div.nothing-found-icon {
   border-bottom-left-radius: 6px;
 }
  
-#searchResultData {
-  overflow: auto;
-  max-height: 100vh;
-}
- 
-#searchResultData .itinerary .col-icon-airline {
-  width: 1%;
-  padding: 0 10px;
-}
-#searchResultData .itinerary .airlineIcon {
-  margin: 0 3px 0 0;
-}
 
-#searchResultData .mymorebutton {
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 15px;
-  background-color: #101742;
-  color: white;
-}
-#searchResultData .merchandising {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-#searchResultData .merchandising li {
-  list-style: none;
-  display: inline-block;
-}
-#searchResultData .merchandising li .gicon {
-  background: transparent url("../../images/merchandising-icons-sprite-15x14-30.png") no-repeat center;
-  width: 15px;
-  height: 15px;
-  display: inline-block;
-  margin: 7px 10px 0 0;
-}
-#searchResultData .merchandising li .wifi {
-  background-position: 0 0;
-}
-#searchResultData .merchandising li .priority_seat {
-  background-position: 0 -47px;
-}
-#searchResultData .merchandising li .luggage {
-  background-position: 0 -112px;
-}
-.show-tiles-arrow #tiles_ui .row.hideArrow:after {
-  display: none;
-}
+
 
 
