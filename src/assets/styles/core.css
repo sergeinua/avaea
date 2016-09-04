@@ -305,11 +305,13 @@ footer,
   display: flex;
 }
 
-.clear-this,
+.clear-it,
 .desktop:after,
 .flight-additional-info:after,
 #search_form:before,
-.itinerary-info:after {
+.itinerary-info:after,
+.modal-body .extras:after,
+.flight-extras .total:after {
 	content: '';
 	display: table;
 	width: 100%;
@@ -595,6 +597,7 @@ a:focus,
 
 /* green */
 
+.flight-extras .total-value,
 .itinerary-airline .glyphicon-thumbs-up,
 .icon-spinner {
 	color: #39d744;
@@ -608,14 +611,12 @@ form label.required:before {
 
 /* grays */
 
-.notable-area {
-	background: #fafafa;
-}
 
-
+.notable-area,
+.modal-content .title-bar,
 .tt-suggestion:hover,
 .tt-suggestion.tt-cursor {
-  background-color: #f7f7f7;
+  background-color: #f8f8f8;
 }
 
 .big-button.disabled,
@@ -1354,10 +1355,76 @@ body.loading .modalLoader {
 	-webkit-box-shadow: none;
 }
 
+.modal-content .close-x {
+	top: 5px;
+}
+
+.modal-content .title-bar {
+	padding: 10px;
+	position: relative;
+	border-top-left-radius: 3px;
+	border-top-right-radius: 3px;
+}
+
+.title-bar .title {
+	font-size: 18px;
+	text-align: center;
+	padding: 11px 0;
+	
+	
+	/*bootstrap*/
+	line-height: 1em;
+}
+
+.modal-content .buttons-bar {
+	text-align: center;
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-content .buttons-bar .secondary {
+	margin: 0;
+	border: 0px solid transparent;
+}
+
 .modal-body {
-	font-size: 16px;
+	font-size: 14px;
 	text-align: left;
-	padding: 30px 15px;
+	padding: 30px 25px;
+}
+
+.flight-extras .modal-body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.flight-extras .extras {
+	padding: 2px 0;
+	border-bottom: 1px solid rgba(0, 0, 0, .05);
+}
+
+.flight-extras .total {
+	margin: 10px 0;
+}
+
+.flight-extras .total .wrapper {
+	font-family: 'Open-Sans-Semibold';
+}
+
+.flight-extras .name,
+.flight-extras .airline {
+	display: inline-block;
+	float: left;
+}
+
+.flight-extras .value,
+.flight-extras .total-value {
+	display: inline-block;
+	float: right;
+}
+
+.flight-extras .value-from {
+	font-size: 12px;
+	opacity: .4;
 }
 
 .searchingModal .modal-body {
@@ -2029,11 +2096,10 @@ body.loading .modalLoader {
 .close-x {
 	font-size: 18px;
 	padding: 14px;
-	opacity: .5;
+	opacity: .3;
 	display: inline-block;
 	position: absolute;
 		right: 0;
-	opacity: .3;
 }
 
 .dimmer-text {

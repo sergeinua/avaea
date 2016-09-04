@@ -64,16 +64,6 @@ nav {
 /* end of Smart button styles */
 
 
-.buy-button-price-open {
-  border-bottom-left-radius: 0;
-}
-
-button.buy-button-arrow[aria-expanded=true] {
-  background-color: #151444 !important;
-  border-bottom-right-radius: 0;
-  border-bottom-color: #151444;
-}
-
 #form_booking div.panel {
   margin-top: 20px;
 }
