@@ -181,7 +181,7 @@ module.exports = {
    * @returns {string}
    */
   getHeadContent: function(searchId) {
-    return '<span onclick="window.location.href=\'/result?s='+searchId+'\'">&lt; Flights</span>';
+  	return '<div class="back-history" style="display: inline-block;" onclick="window.location.href=\'/result?s='+searchId+'\'">Back</div>';
   },
 
   getStatistics: function (itineraries) {

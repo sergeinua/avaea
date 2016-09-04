@@ -311,7 +311,8 @@ footer,
 #search_form:before,
 .itinerary-info:after,
 .modal-body .extras:after,
-.flight-extras .total:after {
+.flight-extras .total:after,
+.buttons-bar:after {
 	content: '';
 	display: table;
 	width: 100%;
@@ -478,6 +479,8 @@ legend,
 	border: 1px solid #0081c9;
 }
 
+.big-button.secondary:hover, 
+.big-button.secondary:focus,
 .mycustomtab {
 	background: rgba(0, 129, 201, .1);
 }
@@ -495,6 +498,8 @@ legend,
 }
 
 .big-button.secondary,
+.big-button.secondary:hover, 
+.big-button.secondary:focus,
 .dropdown-menu > li > a,
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
@@ -1376,20 +1381,44 @@ body.loading .modalLoader {
 	line-height: 1em;
 }
 
+.modal .sub-title {
+	margin-bottom: 10px;
+}
+
 .modal-content .buttons-bar {
 	text-align: center;
 	border-top: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.modal-content .buttons-bar .secondary {
+.modal-content .buttons-bar .big-button {
 	margin: 0;
 	border: 0px solid transparent;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+.modal-content .buttons-bar.double .big-button {
+	width: 50%;
+	display: inline-block;
+	float: left;
+}
+
+.buttons-bar.double .big-button:first-child {
+	border-bottom-right-radius: 0px;
+}
+
+.buttons-bar.double .big-button:last-child {
+	border-bottom-left-radius: 0px;
 }
 
 .modal-body {
 	font-size: 14px;
 	text-align: left;
 	padding: 30px 25px;
+}
+
+.continuous-search .modal-body {
+	font-size: 16px;
 }
 
 .flight-extras .modal-body {
@@ -2152,8 +2181,13 @@ body.loading .modalLoader {
 	border: 0px solid transparent;
 }
 
-.panel-body {
-	padding-left: 25px;
+.form {
+	text-align: left;
+}
+
+.panel-body,
+.form {
+	padding: 15px 15px 15px 25px;
 }
 
 .panel-body .panel-body {
@@ -2192,7 +2226,9 @@ legend {
 	height: auto;
 }
 
-.panel-group label {
+.panel-group label,
+.form-group label,
+.booking label {
 	font-family: 'Open-Sans-Semibold';
 	font-weight: normal;
 	font-size: 16px;
