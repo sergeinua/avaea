@@ -17,7 +17,6 @@
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
-.big-button.search-top-button,
 .calendar-header,
 .calendar-panel,
 .airport-search-panel,
@@ -333,12 +332,20 @@ footer,
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
-	padding: 8px 25px;
+	padding: 13px 25px;
+	
+	/* bootstrap */
+	line-height: 1em;
 }
 
 .big-button:hover,
 .big-button:focus {
 	color: #ffffff;
+}
+
+.big-button.secondary {
+	margin-right: 0;
+	background: #ffffff;
 }
 
 .small-button,
@@ -465,6 +472,10 @@ legend,
 	background-color: #0081c9;
 }
 
+.big-button.secondary {
+	border: 1px solid #0081c9;
+}
+
 .mycustomtab {
 	background: rgba(0, 129, 201, .1);
 }
@@ -481,6 +492,7 @@ legend,
 	border-bottom: 1px solid rgba(0, 129, 201, .2);
 }
 
+.big-button.secondary,
 .dropdown-menu > li > a,
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
@@ -1306,7 +1318,29 @@ body.loading .modalLoader {
 .modal {
 	margin: 0 auto;
 	width: 90%;
+}
+
+.modal,
+.nothing-found {
 	top: 18%;
+}
+
+.nothing-found {
+	padding-bottom: 30px;
+	width: 100%;
+	position: absolute;
+}
+
+.nothing-found,
+.searchingModal .modal-body {
+	font-size: 16px;
+	text-align: center;
+	line-height: 24px;
+	padding: 30px 30px 0 30px;
+}
+
+.nothing-found .buttons {
+	margin-top: 25px;
 }
 
 .modal-dialog {
@@ -1327,10 +1361,6 @@ body.loading .modalLoader {
 }
 
 .searchingModal .modal-body {
-	font-size: 16px;
-	text-align: center;
-	line-height: 24px;
-	padding: 30px 30px 0 30px;
 	position: relative;
 	overflow: hidden;
 }
@@ -1718,7 +1748,7 @@ body.loading .modalLoader {
 
 .itinerary {
 	font-size: 13px;
-  padding: 6px 0 3px 10px;
+  padding: 5px 0 0 10px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -1893,11 +1923,11 @@ body.loading .modalLoader {
 }
 
 .switch-loc {
-	padding-right: 20px;
+	padding-right: 8px;
 }
 
 .change-planes {
-	padding: 0 38px 0 25px;
+	padding: 0 8px 0 25px;
 }
 
 #searchResultData {

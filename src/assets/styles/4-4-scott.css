@@ -113,52 +113,6 @@ button.buy-button-arrow[aria-expanded=true] {
 
 
 
-.nothing-found {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translate(0, -50%);
-     -moz-transform: translate(0, -50%);
-      -ms-transform: translate(0, -50%);
-       -o-transform: translate(0, -50%);
-          transform: translate(0, -50%);
-}
-
-.nothing-found-text {
-  opacity:0.3;
-  font-family: WhitneyHTF-SemiBoldCondensed;
-  font-size:24px;
-  color:#101742;
-  text-align:center;
-}
-
-div.nothing-found-icon {
-  margin: 0 auto;
-  width: 70px;
-  height: 85px;
-  background: url(/images/avaea-sprite.png) no-repeat 0 -400px;
-}
-
-
-.new-search-button {
-  position: fixed;
-  bottom: 10px;
-  width: 200px;
-  left: 50%;
-  margin-left: -100px;
-  padding-top: 10px;
-  height: 44px;
-  background-color: #7c1d00;
-  border-radius: 22px;
-  font-family: WhitneyHTF-BookCondensed;
-  font-size: 22px;
-  line-height: 1.0;
-  letter-spacing: 0.2px;
-  color: #ffffff;
-  text-transform: uppercase;
-  border: 0;
-  box-shadow: 6px 6px 7px #888888;
-}
-
 .clickable-tiles-area {
   position: absolute;
   width: 100%;

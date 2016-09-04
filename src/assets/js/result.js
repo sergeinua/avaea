@@ -451,13 +451,13 @@ $(document).ready(function() {
   //   }
   // };
   if ($(".swiper-container").length) {
-    $(".swiper-container").hammer();
-    $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-    $(".swiper-container").bind("swipeup", function (e) {
-      SearchForm.toggleFullInfo(false);
-    }).bind("swipedown", function (e) {
-      SearchForm.toggleFullInfo(true);
-    });
+	     $(".swiper-container").hammer();
+	     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+	     $(".swiper-container").bind("swipeup", function (e) {
+	       SearchForm.toggleFullInfo(false);
+	     }).bind("swipedown", function (e) {
+	       SearchForm.toggleFullInfo(true);
+	     });
   }
 
   var expandedItitns = 0;
