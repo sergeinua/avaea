@@ -26,30 +26,39 @@
       sRes.price = parseFloat(sRes.price).toFixed(2);
       orderPrice = (sRes.currency == 'USD') ? "$"+sRes.price : sRes.price +' '+ sRes.currency;
     %>
-    <div id="<%= sRes.id %>" for="cli<%= i %>" class="col-xs-12 itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+    <div id="<%= sRes.id %>" for="cli<%= i %>" class="itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+      <div class="wrapper">
 
-      <div class="row">
-        <div class="col-xs-9 itinerary-airline">
-          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
-          <span><%= sRes.citypairs[0].from.airline %> </span>
+      <div class="row title">
+        <div class="itinerary-airline">
+          <span class="airline-text"><%= sRes.citypairs[0].from.airline %> </span>
         </div>
-        <div class="col-xs-3 text-right itinerary-price">
+        <div class="itinerary-price">
           <%= orderPrice %>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-11">
+      <div class="itinerary-info">
           <% sRes.citypairs.forEach(function (pair) { %>
           <div class="itinerary-info">
-            <div class="col-xs-3 text-right">
-              <%= pair.from.time %> <%= pair.from.code %></div>
-            <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
-            <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
-            <div class="col-xs-3"><%= pair.duration %></div>
+            <div class="col-xs-3 departLoc">
+              <%= pair.from.time %> <%= pair.from.code %>
+            </div>
+            <div class="col-xs-2 connections text-center">
+            
+              <% if (pair.noOfStops > 0) { %>
+                <span class="arr-connects">
+                  <span class="connections"><%= pair.noOfStops %></span>
+               </span>
+              <% } else { %> 
+                <span class="arr-connects-none">
+              <% } %>
+            </div>
+            
+            <div class="col-xs-3 arriveLoc"><%= pair.to.time %> <%= pair.to.code %></div>
+            <div class="col-xs-3 duration"><%= pair.duration %></div>
           </div>
           <% }); %>
-        </div>
       </div>
 
       <div class="row collapse" id="cli<%= i %>"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
@@ -112,13 +121,14 @@
     <% }); %></div></div>
 
       <% iterator++ %>
-    </div>
+      </div>
+    </div> <!-- ends itinerary -->
     <% }); %>
     <% } %>
   </div>
   <!-- ---------- flight unit ---------- -->
   
-  <div id="user-time-limit-target-div" class="time-limit message">
+  <div id="user-time-limit-target-div" class="time-limit message hidden">
     <div class="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
   </div>
 
