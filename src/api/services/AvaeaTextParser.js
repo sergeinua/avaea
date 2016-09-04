@@ -1,128 +1,6 @@
 ////////////////////////////////////////////////////////////////
 // Module constants
 /////////////////////////////////////////////////////////////////
-const _CARDINALS_1DIGIT = {
-  "one"   : 1,
-  "two"   : 2,
-  "three" : 3,
-  "four"  : 4,
-  "five"  : 5,
-  "six"   : 6,
-  "seven" : 7,
-  "eight" : 8,
-  "nine"  : 9,
-  "1"     : 1,
-  "2"     : 2,
-  "3"     : 3,
-  "4"     : 4,
-  "5"     : 5,
-  "6"     : 6,
-  "7"     : 7,
-  "8"     : 8,
-  "9"     : 9
-};
-const _CARDINALS_2DIGITS_DATE = {
-  "ten"       : 10,
-  "eleven"    : 11,
-  "twelve"    : 12,
-  "thirteen"  : 13,
-  "fourteen"  : 14,
-  "fifteen"   : 15,
-  "sixteen"   : 16,
-  "seventeen" : 17,
-  "eighteen"  : 18,
-  "nineteen"  : 19,
-  "twenty"    : 20,
-  "thirty"    : 30,
-  "10"        : 10,
-  "11"        : 11,
-  "12"        : 12,
-  "13"        : 13,
-  "14"        : 14,
-  "15"        : 15,
-  "16"        : 16,
-  "17"        : 17,
-  "18"        : 18,
-  "19"        : 19,
-  "20"        : 20,
-  "21"        : 21,
-  "22"        : 22,
-  "23"        : 23,
-  "24"        : 24,
-  "25"        : 25,
-  "26"        : 26,
-  "27"        : 27,
-  "28"        : 28,
-  "29"        : 29,
-  "30"        : 30,
-  "31"        : 31
-};
-const _CARDINALS_DECIMALS = {
-  "twenty"    : 20,
-  "thirty"    : 30,
-  "fourty"    : 40,
-  "fifty"     : 50,
-  "sixty"     : 60,
-  "seventy"   : 70,
-  "eighty"    : 80,
-  "ninety"    : 90
-};
-const _ORDINALS_1DIGIT = {
-  "first(?!\\s+class)" : 1,
-  "second(?!\\s+class)" : 2,
-  "third" : 3,
-  "fourth" : 4,
-  "fifth" : 5,
-  "sixth" : 6,
-  "seventh" : 7,
-  "eighth" : 8,
-  "ninth" : 9,
-  "1st(?!\\s+class)" : 1,
-  "2nd(?!\\s+class)" : 2,
-  "3rd" : 3,
-  "4th" : 4,
-  "5th" : 5,
-  "6th" : 6,
-  "7th" : 7,
-  "8th" : 8,
-  "9th" : 9,
-};
-const _ORDINALS_2DIGITS_DATE = {
-  "tenth" : 10,
-  "eleventh" : 11,
-  "twelfth" : 12,
-  "thirteenth" : 13,
-  "fourteenth" : 14,
-  "fifteenth" : 15,
-  "sixteenth" : 16,
-  "seventeenth" : 17,
-  "eighteenth" : 18,
-  "nineteenth" : 19,
-  "twentieth" : 20,
-  "thirtieth" : 30,
-  "10th" : 10,
-  "11th" : 11,
-  "12th" : 12,
-  "13th" : 13,
-  "14th" : 14,
-  "15th" : 15,
-  "16th" : 16,
-  "17th" : 17,
-  "18th" : 18,
-  "19th" : 19,
-  "20th" : 20,
-  "21st" : 21,
-  "22nd" : 22,
-  "23rd" : 23,
-  "24th" : 24,
-  "25th" : 25,
-  "26th" : 26,
-  "27th" : 27,
-  "28th" : 28,
-  "29th" : 29,
-  "30th" : 30,
-  "31st" : 31
-};
 const _MONTH_NAMES = {
   "jan(?:uary)?"        : 0,
   "feb(?:ruary)?"       : 1,
@@ -148,43 +26,21 @@ const _DATE_QUALIFIERS = {
   "after"               : 1,
   "before"              : -1
 };
-
+const _PRONOUNS = {
+  "my"                  : 1,
+  "mine"                : 1,
+  "our"                 : 2,
+  "ours"                : 2,
+  "her"                 : 1,
+  "his"                 : 1,
+  "its"                 : 1,
+  "they"                : 2,
+  "their"               : 2,
+  "theirs"              : 2
+};
 ////////////////////////////////////////////////////////////////
-// Different RE patterns
+// Module functions
 /////////////////////////////////////////////////////////////////
-const _NUMBER_PATTERN   = "\d{1,2}|"+
-      "(?:(?:(?:"+Object.keys(_CARDINALS_DECIMALS).join("|")+")\\s+)?"+Object.keys(_CARDINALS_1DIGIT).join("|")+")|"+
-      Object.keys(_CARDINALS_2DIGITS_DATE).join("|");
-const _ORDINAL_DATE_OF_MONTH_PATTERN =
-      // December 13th, 2016
-      Object.keys(_ORDINALS_2DIGITS_DATE).join("|")+"|"+
-      // December twenty? 2nd, 2016
-      "(?:(?:twenty\\s+)?"+Object.keys(_ORDINALS_1DIGIT).join("|")+")|"+
-      // December thirty 1st, 2016
-      "(?:thirty\\s+(?:1st|first))";
-const _CARDINAL_DATE_OF_MONTH_PATTERN =
-      // December 13, 2016
-      Object.keys(_CARDINALS_2DIGITS_DATE).join("|")+"|"+
-      // December 2, 2016
-      "(?:(?:twenty\\s+)?"+Object.keys(_CARDINALS_1DIGIT).join("|")+")|"+
-      // December thirty 1, 2016
-      "(?:thirty\\s+(?:1|one))";
-const _DATE_OF_MONTH_PATTERN   = "\\b(?:"+
-      _ORDINAL_DATE_OF_MONTH_PATTERN+"|"+
-      _CARDINAL_DATE_OF_MONTH_PATTERN+
-      ")\\b";
-const _MONTH_NAME_PATTERN  = Object.keys(_MONTH_NAMES).join("|");
-
-////////////////////////////////////////////////////////////////
-// Module variables/functions
-/////////////////////////////////////////////////////////////////
-function __format_matches( m ) {
-  var s = [];
-  for( var n=0; n<m.length; n++ ) {
-    s.push(n+" : "+m[n]);
-  }
-  return "["+s.join(",\n")+"]";
-}
 function get_matching_pattern( s, patterns ) {
   // See if there is a direct match
   for( var p in patterns ) {
@@ -201,74 +57,29 @@ function get_matching_pattern( s, patterns ) {
   throw new Error("'"+s+"' does not match anything expected");
 }
 function string_to_date_of_month( s ) {
-  s = s.toLowerCase();
-  var possibles = [
-    _CARDINALS_1DIGIT,
-    _ORDINALS_1DIGIT,
-    _CARDINALS_2DIGITS_DATE,
-    _ORDINALS_2DIGITS_DATE
-  ];
-  for( var n=0; n<possibles.length; n++ ) {
-    try {
-      return get_matching_pattern(s,possibles[n]);
-    }
-    catch( e ) {
-      // suppress, keep trying
-    }
+  var result = Number(s);
+  if( isNaN(result) || (result<0) || (result>31) )
+    throw Error("'"+s+"' is not a date of the month");
+  return result;
+}
+function get_date_from_matches( min_date, year_match, month_match, date_of_month_match ) {
+  // In JScript monht numbers start from 0
+  var month_number  = /\d+/.test(month_match) ? (Number(month_match)-1) : get_matching_pattern(month_match,_MONTH_NAMES);
+  var date_of_month = string_to_date_of_month(date_of_month_match);
+  // If year is not specified then make sure to return the date compliant with the min_date requirement
+  if( !year_match ) {
+    var candidate = new Date(min_date.getFullYear(),month_number,date_of_month);
+    return candidate<min_date ? new Date(min_date.getFullYear()+1,month_number,date_of_month) : candidate;
   }
-  // it is not a 2 digit/one word string. Try other options
-  // Handle 'twenty ' or 'thirty ' prefix
-  if( (matches=/^twenty\s+(.+)$/i.exec(s)) )
-    return 20+string_to_date_of_month(matches[1]);
-  if( (matches=/^thirty\s+(.+)$/i.exec(s)) )
-    return 30+string_to_date_of_month(matches[1]);
-  throw new Error("'"+s+"' does not look like a date of the month");
-}
-function string_to_number( s ) {
-  s = s.toLowerCase();
-  if( /^\d+$/.test(s) )
-    return Number(s);
-  var possibles = [
-    _CARDINALS_1DIGIT,
-    _CARDINALS_2DIGITS_DATE
-  ];
-  for( var n=0; n<possibles.length; n++ ) {
-    try {
-      return get_matching_pattern(s,possibles[n]);
-    }
-    catch( e ) {
-      // suppress, keep trying
-    }
-  }
-  // This is slow
-  for( var d in _CARDINALS_DECIMALS ) {
-    var re      = new RegExp("^"+d+"\\s+(.+)$","i");
-    var matches = re.exec(s);
-    if( matches )
-      return _CARDINALS_DECIMALS[d]+get_matching_pattern(_CARDINALS_1DIGIT);
-  }
-  throw new Error("'"+s+"' does not look like a number");
-}
-function string_to_month_number( s ) {
-  return get_matching_pattern(s.toLowerCase(),_MONTH_NAMES);
-}
-function string_to_full_year( s ) {
-  return s.length==2 ? (2000+Number(s)) : Number(s);
-}
-function get_month_number_of( d ) {
-  // d.toLocaleString() will return "8" for "August" but JScript needs months
-  // indexed at 0 for new Date() object constructors. That's why -1 is.
-  return Number(d.toLocaleString("en-us",{month:"numeric"}))-1;
-}
-function get_weekday_of( d ) {
-  return d.toLocaleString("en-us",{ weekday: "short" });
+  // The year was explicitly specified. Ignore the min_date
+  return new Date(((year_match.length==2)?2000:0)+Number(year_match),month_number,date_of_month);
 }
 function get_date_of_next_weekday(start, weekday) {
   // Always make a copy so that we leave the original intact
   start = new Date(start);
   weekday = String(weekday).toLowerCase();
   for (var n = 0; n < 7; n++) {
-    if (weekday.indexOf(get_weekday_of(start).toLowerCase()) == 0)
+    if (weekday.indexOf(start.toLocaleString("en-us",{ weekday: "short" }).toLowerCase()) == 0)
       return start;
     start.setDate(start.getDate() + 1);
   }
@@ -285,7 +96,7 @@ function get_date_of_next_date_of_month( start, date_of_month ) {
   }
   throw new Error("Cannot find the next date for " + date_of_month);
 }
-function validate_city_name(city_name) {
+function validate_city_name( city_name ) {
   city_name = city_name.replace(/( on|[^a-z]+)$/i, '');
   if (/from|fly|flying|leaving|departing|students/i.exec(city_name)) // TODO: Get rid of this eventually. Do not even capture these words as possible airports.
     throw new Error("Wrong city name" + city_name);
@@ -293,12 +104,122 @@ function validate_city_name(city_name) {
 }
 function do_date_arithmetics( base_date, quantity_match, date_unit_match, qualifier_match ) {
   var result    = new Date(base_date);
-  var quantity  = (["a","next"].indexOf(quantity_match.toLowerCase())<0 ? string_to_number(quantity_match) : 1) * _DATE_QUALIFIERS[qualifier_match.toLowerCase()];
+  var quantity  = (["a","next"].indexOf(quantity_match.toLowerCase())<0 ? Number(quantity_match) : 1) * _DATE_QUALIFIERS[qualifier_match.toLowerCase()];
   if( date_unit_match.toLowerCase()=='month' )
     result.setMonth(result.getMonth()+quantity);
   else
     result.setDate(result.getDate()+_DATE_UNITS[date_unit_match.toLowerCase()]*quantity);
   return result;
+}
+function canonicalize_numbers( s ) {
+  const _CARDINALS_1DIGIT_WORDS = {
+    "one"   : 1,
+    "two"   : 2,
+    "three" : 3,
+    "four"  : 4,
+    "five"  : 5,
+    "six"   : 6,
+    "seven" : 7,
+    "eight" : 8,
+    "nine"  : 9
+  }
+  const _TEEN_CARDINALS_2DIGITS_WORDS = {
+    "ten"       : 10,
+    "eleven"    : 11,
+    "twelve"    : 12,
+    "thirteen"  : 13,
+    "fourteen"  : 14,
+    "fifteen"   : 15,
+    "sixteen"   : 16,
+    "seventeen" : 17,
+    "eighteen"  : 18,
+    "nineteen"  : 19
+  };
+  const _CARDINALS_DECIMAL_WORDS = {
+    "twenty"    : 20,
+    "thirty"    : 30,
+    "fourty"    : 40,
+    "fifty"     : 50,
+    "sixty"     : 60,
+    "seventy"   : 70,
+    "eighty"    : 80,
+    "ninety"    : 90
+  };
+  const _ORDINALS_1DIGIT_WORDS = {
+    "first"     : 1,
+    "second"    : 2,
+    "third"     : 3,
+    "fourth"    : 4,
+    "fifth"     : 5,
+    "sixth"     : 6,
+    "seventh"   : 7,
+    "eighth"    : 8,
+    "nineth"    : 9,
+    "ninth"     : 9  // a common typo
+  };
+  const _TEEN_ORDINALS_2DIGITS_WORDS = {
+    "tenth"        : 10,
+    "eleventh"     : 11,
+    "twelfth"      : 12,
+    "thirteenth"   : 13,
+    "fourteenth"   : 14,
+    "fifteenth"    : 15,
+    "sixteenth"    : 16,
+    "seventeenth"  : 17,
+    "eighteenth"   : 18,
+    "nineteenth"   : 19
+  };
+  const _ORDINALS_DECIMAL_WORDS = {
+    "twentieth"    : 20,
+    "thirtieth"    : 30,
+    "fourtieth"    : 40,
+    "fiftieth"     : 50,
+    "sixtieth"     : 60,
+    "seventieth"   : 70,
+    "eightieth"    : 80,
+    "ninetieth"    : 90
+  };
+  // First replace word cardinals with numbers (e.g. "thirty one" with "31")
+  return s
+    .replace(new RegExp('\\b(?:('+Object.keys(_CARDINALS_DECIMAL_WORDS).join('|')+') )?('+Object.keys(_CARDINALS_1DIGIT_WORDS).join('|')+')\\b',"gi"),function( matches, decimal, _1digit ) {
+      return (decimal ? _CARDINALS_DECIMAL_WORDS[decimal.toLowerCase()]:0)+_CARDINALS_1DIGIT_WORDS[_1digit.toLowerCase()];
+    })
+    .replace(new RegExp('\\b('+Object.keys(_CARDINALS_DECIMAL_WORDS).join('|')+')\\b',"gi"),function( matches, decimal ) {
+      return _CARDINALS_DECIMAL_WORDS[decimal.toLowerCase()];
+    })
+    .replace(new RegExp('\\b('+Object.keys(_TEEN_CARDINALS_2DIGITS_WORDS).join('|')+')\\b',"gi"),function( matches, _2digits ) {
+      return _TEEN_CARDINALS_2DIGITS_WORDS[_2digits.toLowerCase()];
+    })
+  // First replace word ordinals with numbers (e.g. "thirty first" with "31th", yes, we will not bother to have it as 31st")
+    .replace(new RegExp('\\b(?:('+Object.keys(_CARDINALS_DECIMAL_WORDS).join('|')+') )?('+Object.keys(_ORDINALS_1DIGIT_WORDS).join('|')+')\\b',"gi"),function( matches, decimal, _1digit ) {
+      return (decimal ? _CARDINALS_DECIMAL_WORDS[decimal.toLowerCase()]:0)+_ORDINALS_1DIGIT_WORDS[_1digit.toLowerCase()]+"th";
+    })
+    .replace(new RegExp('\\b('+Object.keys(_ORDINALS_DECIMAL_WORDS).join('|')+')\\b',"gi"),function( matches, decimal ) {
+      return _ORDINALS_DECIMAL_WORDS[decimal.toLowerCase()]+"th";
+    })
+    .replace(new RegExp('\\b('+Object.keys(_TEEN_ORDINALS_2DIGITS_WORDS).join('|')+')\\b',"gi"),function( matches, _2digits ) {
+      return _TEEN_ORDINALS_2DIGITS_WORDS[_2digits.toLowerCase()]+"th";
+    })
+  // Bring ..1st, ..2nd and 3rd to stardard ..th form
+    .replace(/( |\d)(1st|2nd|3rd)/gi,function( matches, one, two ) {
+      return one+two.substr(0,1)+"th";
+    });
+}
+function count_tickets( s ) {
+  s = s.toLowerCase();
+  switch( s ) {
+  case 'would':
+  case 'will':
+  case 'on':
+  case 'flying':
+    throw Error("Grabbed invalid match for number of tickets (TODO)");
+  case 'boss':
+    return 1;
+  }
+  return s[s.length-1]=='s' ? 2 : 1;
+}
+function nan_to_multiple( a ) {
+  return isNaN(a) ? 'multiple' : a;
 }
 /////////////////////////////////////////////////////////////////
 // Module classes
@@ -329,7 +250,7 @@ function AvaeaTextParser() {
       }
     ],
     [
-      '((?! after\\s*)tomorrow)',
+      'tomorrow',
       function( min_date, matches, atp ) {
 	var result = new Date();
 	result.setDate(result.getDate()+1);
@@ -362,50 +283,34 @@ function AvaeaTextParser() {
     [
       '(monday|tuesday|wednesday|thursday|friday|saturday|sunday)',
       function( min_date, matches, atp ) {
-	var start   = new Date(min_date);
-        var weekday = String(matches[1]).toLowerCase();
-        for (var n=0; n<7; n++) {
-	  if (weekday.indexOf(get_weekday_of(start).toLowerCase()) == 0)
-	    return start;
-	  start.setDate(start.getDate()+1);
-	}
-        throw new Error("Cannot find the next date for " + weekday);
+	return get_date_of_next_weekday(min_date,matches[1]);
       }
     ],
     [
-      '(?:the\\s+)?('+_DATE_OF_MONTH_PATTERN+')(?:\\s+(?:of\\s+)?('+_MONTH_NAME_PATTERN+'))(?:(?:,\\s*|\\s+)(\\d{2,4}))?',
+      '(\\d+)(?:th)?(?: (?:of )?('+Object.keys(_MONTH_NAMES).join("|")+'))(?:(?:, | )(\\d{2,4}))?',
       function( min_date, matches, atp ) {
-	var date_of_month = string_to_date_of_month(matches[1]);
-	var month_number  = string_to_month_number(matches[2]);
-	var year          = matches[3] ? string_to_full_year(matches[3]) : min_date.getFullYear();
-	return new Date(year,month_number,date_of_month);
+	return get_date_from_matches(min_date,matches[3],matches[2],matches[1]);
       }
     ],
     [
-      '(?:('+_MONTH_NAME_PATTERN+')\\s+)(?:the\\s+)?('+_DATE_OF_MONTH_PATTERN+')(?:(?:,\\s*|\\s+)(\\d{2,4}))?',
+      '(?:('+Object.keys(_MONTH_NAMES).join("|")+') )(\\d+)(?:th)?(?:(?:, | )(\\d{2,4}))?',
       function( min_date, matches, apt ) {
-	// These indexes can only be figured out by testing. Too bad that JS regexps do not have names
-	// captures like python regexps have
-	var date_of_month = string_to_date_of_month(matches[2]);
-	var month_number  = string_to_month_number(matches[1]);
-	var year          = matches[3] ? string_to_full_year(matches[3]) : min_date.getFullYear();
-	return new Date(year,month_number,date_of_month);
+	return get_date_from_matches(min_date,matches[3],matches[1],matches[2]);
       }
     ],
     [
       '(?:[^\\./\\w]|^)(\\d{1,2})([\\./])(\\d{1,2})(?:[\\./](\\d{2,4})|(?![\\./\\w]))?',
       function( min_date, matches, apt ) {
-	var year = matches[4] ? string_to_full_year(matches[4]) : start.getFullYear();
 	// JavaScript counts months from 0 to 11. January is 0. December is 11.
 	return (matches[2]=='/') ?
 	  // 01/13/2017, 01/13/17, 1/13
-	  new Date(year,Number(matches[1])-1,Number(matches[3])) :
+	  get_date_from_matches(min_date,matches[4],matches[1],matches[3]) : 
 	  // 13.01.2017, 13.01.17, 13.1
-	  new Date(year,Number(matches[3])-1,Number(matches[1])) ;
+	  get_date_from_matches(min_date,matches[4],matches[3],matches[1]) ;
       }
     ],
     [
-      '('+_ORDINAL_DATE_OF_MONTH_PATTERN+')',
+      '(\\d+)th(?! class)',
       function( min_date, matches, apt ) {
 	return get_date_of_next_date_of_month(min_date,string_to_date_of_month(matches[1]));
       }
@@ -415,7 +320,7 @@ function AvaeaTextParser() {
     // patterns and conversion procs with date arithmetics. Basically all date arithmetics
     // handling is contained in this function.
     return [
-      '((?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+('+Object.keys(_DATE_QUALIFIERS).join('|')+')\\s+)?'+pattern_and_proc[0],
+      '((?:in )?(next|a|\\d+) ('+Object.keys(_DATE_UNITS).join('|')+')s? ('+Object.keys(_DATE_QUALIFIERS).join('|')+') )?'+pattern_and_proc[0],
       function( min_date, matches, apt ) {
 	// The date arithmetics regexp has 4 submatches, so slice the parsing of the date itself by 4
 	var result = pattern_and_proc[1](min_date,Array.prototype.slice.call(matches,4),apt);
@@ -425,18 +330,18 @@ function AvaeaTextParser() {
   });
   
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+\\s+(?:[SsFfPp]t\\.?|de)(?:\\s+[A-Z][A-z\\-]+,?))|" +
-    "(?:(?:[SsFfPp]t\\.?\\s*)?[A-Z][A-z\\-,]+(?:\\s+[A-Z][A-z\\-]+,?){0,3})";
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:[SsFfPp]t\\.?|de)(?: [A-Z][A-z\\-]+,?))|" +
+    "(?:(?:[SsFfPp]t\\.? *)?[A-Z][A-z\\-,]+(?: [A-Z][A-z\\-]+,?){0,3})";
 
   // regexps matching different elements
   this.action_regexps = [
-    new Regexp_and_Conversion('top\\s+flights',function() { return "top"; }),
-    new Regexp_and_Conversion('all\\s+flights',function() { return "all"; })
+    new Regexp_and_Conversion('top flights',function() { return "top"; }),
+    new Regexp_and_Conversion('all flights',function() { return "all"; })
   ];
   this.origin_date_regexps = this.date_patterns_and_procs.concat([
     [
       // Below go the date patterns that do not refer to specific date
-      '(?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?',
+      '(?:in )?(next|a|\\d+) ('+Object.keys(_DATE_UNITS).join('|')+')s?',
       function( min_date, matches, apt ) {
 	// If the origin_date didn not provide specific date (e.g. 8/16/2016) then it is based on the
 	// current moment as in phrase 'I am leaving the next day.'
@@ -450,7 +355,7 @@ function AvaeaTextParser() {
 	// Make sure that origin date does not follow anything that belongs to return date
 	// TODO: this needs to be much more sophisticated
 	var input    = matches.input.substr(0,matches.index);
-	var matches1 = /(from|ending|return|returning|come\s+back|coming\s+back|get\s+back|getting\s+back|back)(\s+(?:on|next))?\s+$/i.exec(input);
+	var matches1 = /(from|ending|return|returning|come back|coming back|get back|getting back|back)( (?:on|next))? $/i.exec(input);
 	if( matches1 )
 	  throw new Error("origin_date cannot be preceded by a '"+matches1[1]+"'");
 	// Now actually call the procedure
@@ -461,13 +366,13 @@ function AvaeaTextParser() {
   this.return_date_regexps = this.date_patterns_and_procs.concat([
     // Below go the date patterns that do not refer to specific date
     [
-      '(?:in\\s+)?(?:the\\s+)?(next|a|'+_NUMBER_PATTERN+')\\s+('+Object.keys(_DATE_UNITS).join('|')+')s?',
+      '(?:in )?(next|a|\\d+) ('+Object.keys(_DATE_UNITS).join('|')+')s?',
       function( min_date, matches, apt ) {
 	return do_date_arithmetics(min_date,matches[1],matches[2],"after");
       }
     ],
     [
-      '('+_NUMBER_PATTERN+')(?:\\s+|-)('+Object.keys(_DATE_UNITS).join('|')+')s?\\s+(?:trip|travel|voyage|getaway)',
+      '(\\d+)(?: |-)('+Object.keys(_DATE_UNITS).join('|')+')s? (?:trip|travel|voyage|getaway)',
       function( min_date, matches, apt ) {
 	return do_date_arithmetics(min_date,matches[1],matches[2],"after");
       }
@@ -484,37 +389,37 @@ function AvaeaTextParser() {
     );
   });
   this.origin_airport_regexps = [
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+(?:to|-)\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+") (?:to|2|-) ("+this.city_pattern+")"), function ( matches, apt ) {
       apt['return_airport'] = {
         value: validate_city_name(matches[2]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[1]);
     }),
-    new Regexp_and_Conversion(new RegExp("between\\s+("+this.city_pattern+")\\s+and\\s*("+this.city_pattern+")"), function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("between ("+this.city_pattern+") and ("+this.city_pattern+")"), function ( matches, apt ) {
       apt['return_airport'] = {
         value: validate_city_name(matches[2]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[1]);
     }),
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")\\s+from\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+") from ("+this.city_pattern+")"), function ( matches, apt ) {
       apt['return_airport'] = {
         value: validate_city_name(matches[1]),
         pattern: 'same as origin_airport'
       };
       return validate_city_name(matches[2]);
     }),
-    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:I'm|am|is|are)\\s+(?:\\w+\\s+)?in))\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("\\b(?:(?:[Ff]rom|[Dd]epart\\w*)|(?:(?:I'm|am|is|are) (?:\\w+ )?in)) ("+this.city_pattern+")"), function ( matches, apt ) {
       return validate_city_name(matches[1]);
     })
   ];
   this.return_airport_regexps = [
-    new Regexp_and_Conversion(new RegExp("\\b(?:(?:(?:(?:[Rr]eache?s?)|(?:[Ff]l[iy]e?s?)|(?:[Aa]rrive?s?)|(?:[Ll]ands?)|(?:[Gg]oe?s?))(?:ing)?(?:\\s+(?:(?:[Tt]o)|(?:[Aa]t)))?)|(?:[Tt]o))\\s+("+this.city_pattern+")"), function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("\\b(?:(?:(?:(?:[Rr]eache?s?)|(?:[Ff]l[iy]e?s?)|(?:[Aa]rrive?s?)|(?:[Ll]ands?)|(?:[Gg]oe?s?))(?:ing)?(?: (?:(?:[Tt]o)|(?:[Aa]t)))?)|(?:[Tt]o)) ("+this.city_pattern+")"), function ( matches, apt ) {
       return validate_city_name(matches[1]);
     }),
     // This is the last resort match for cases like "Kiev-Moscow" or even "Kiev Moscow"
-    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")(?:-|\\s+)("+this.city_pattern+")"),function ( matches, apt ) {
+    new Regexp_and_Conversion(new RegExp("("+this.city_pattern+")(?:-| )("+this.city_pattern+")"),function ( matches, apt ) {
       apt['origin_airport'] = {
         value: validate_city_name(matches[1]),
         pattern: 'same as return_airport'
@@ -523,54 +428,46 @@ function AvaeaTextParser() {
     })
   ];
   this.class_of_service_regexps = [
-    new Regexp_and_Conversion('(?:in\\s)?economy(?:\\sclass)?',function() { return "E"; }),
-    new Regexp_and_Conversion('(?:in\\s)?premium(?:\\sclass)?',function() { return "P"; }),
-    new Regexp_and_Conversion('(?:in\\s)?business(?:\\sclass)?',function() { return "B"; }),
-    new Regexp_and_Conversion('(?:in\\s)?(?:first|1st)(?:\\sclass)?',function() { return "F"; })
+    new Regexp_and_Conversion('(?:in )?economy(?: class)?',function() { return "E"; }),
+    new Regexp_and_Conversion('(?:in )?premium(?: class)?',function() { return "P"; }),
+    new Regexp_and_Conversion('(?:in )?business(?: class)?',function() { return "B"; }),
+    new Regexp_and_Conversion('(?:in )?1th(?: class)?',function() { return "F"; })
   ];
   this.number_of_tickets_regexps = [
-    new Regexp_and_Conversion('\\w+s\\b\\s+(with|and)\\s+\\w+s\\b',function() { return 4; } ), // NEW: added to handle "Cats and dogs are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+s\\b',function() { return 3; } ),     // NEW: added to handle "Cat and dogs are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\w+[^s]s\\b\\s+(with|and)\\s+\\w+',function() { return 3; } ), // NEW: added to handle "Cats and dog are flying from SFO to JFK"
-
-    new Regexp_and_Conversion('\\b(ticket|needs|by\\smyself|one(?!\\s+way))\\b',function() { return 1; }),
-    new Regexp_and_Conversion('[^s]s\\s+(with|and)\\s+(me|myself|I)\\b',function() { return 3; } ), // same as old NUM #02
-    new Regexp_and_Conversion('\\b(two)|(seco(?= nd))|((with|and)\\s+(me|myself|I))\\b',function() { return 2; }),
-    new Regexp_and_Conversion('('+_NUMBER_PATTERN+')(?:\\s+[a-z\\-]+)?(?:\\s+[a-z\\-]+)?\\s+tickets?',function(s) { return string_to_number(s[1]); }),
-
-    new Regexp_and_Conversion('s\\s+(three)|(thi(?= rd))|(with|and)\\s+(me|myself|I)\\b',function() { return 3; }),
-    new Regexp_and_Conversion('\\b(with|and)\\s+my\\s+\\w+s\\b',function() { return 3; } ), // same as old NUM #04
-    new Regexp_and_Conversion('\\b(with|and)\\s+(my|a)\\b',function() { return 2; } ),
-    new Regexp_and_Conversion('and\\s*my\\s+\\w+s\\b',function() { return 2; } ), // same as old NUM #06
-    new Regexp_and_Conversion('for\\s+me\\b',function() { return 1; } ),
-    new Regexp_and_Conversion('for\\s+('+_NUMBER_PATTERN+')(?!\\s+day)',function(s) { return string_to_number(s[1]); }),
-
-    new Regexp_and_Conversion('\\b[Ww]e\\b\\s+',function() { return 'multiple'; } ),
-    new Regexp_and_Conversion('\\b[Oo]ur\\s+',function() { return 'multiple'; } ),
-    new Regexp_and_Conversion('\\b(children|students|a group)\\s+',function() { return 'multiple'; } ), // same as old NUM #09
-    new Regexp_and_Conversion('tickets',function() { return 'multiple'; } ), // same as old NUM #10
-    new Regexp_and_Conversion('how\\s+much\\s+does\\s+it\\s+cost',function() { return 1; } ), // same as old NUM #11
-
-    // This test is unreliable, so we try to catch constructs like "I am flying with my parents are" earlier
-    new Regexp_and_Conversion("(?:\\bi\\s+)|(?:\\bi[`'](m|d)\\b)",function() { return 1; } ),
-    new Regexp_and_Conversion('\\w+\\s+(with|and)\\s+\\w+',function() { return 2; } ),          // NEW: added to handle "Cat and dog are flying from SFO to JFK"
-    new Regexp_and_Conversion('\\bare\\b\\s+',function() { return 'multiple'; } )
+    new Regexp_and_Conversion('\\b(?:we|children|students|group|team) ',function() {
+      return 'multiple';
+    }),
+    new Regexp_and_Conversion('(\\d+) tickets?',function( matches, apt ) {
+      return Number(matches[1]);
+    }),
+    new Regexp_and_Conversion('\\b(\\w+) (?:with|and) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
+      return nan_to_multiple(count_tickets(matches[1]) + (/\d+/.test(matches[2])?Number(matches[2]):count_tickets(matches[3])));
+    }),
+    new Regexp_and_Conversion(' (with|and|for) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
+      return nan_to_multiple(((matches[1]=='for')?0:1) + (/\d+/.test(matches[2])?Number(matches[2]):count_tickets(matches[3])));
+    }),
+    new Regexp_and_Conversion('^',function() {
+      return 1; // default;
+    })
   ];
 
   /////////////////////////////////////////////////////////////////
   // Methods
   /////////////////////////////////////////////////////////////////
   this.run = function( text ) {
-    // Takes a text, parses it, returns whatever is left unrecognized
-    this.not_parsed = text;
+    // Clean up the string a bit first
+    this.not_parsed = canonicalize_numbers(String(text).replace(/\bthe\s+/ig,' ').replace(/\ban\s+/ig,'a '));
+
+    // The matching and conversion procedure
     var match_and_convert = (regexp_and_conversion) => {
       try {
-        var matches = regexp_and_conversion.re.exec(this.not_parsed);
+	// Remove extra spaces at every step because they can re-appear as we remove found parts
+        var matches = regexp_and_conversion.re.exec(this.not_parsed.replace(/\s+/gi,' '));
         if (!matches)
 	  throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
         var result = {};
         result['matches'] = matches;
-        result['value']   = regexp_and_conversion.conversion_proc ? regexp_and_conversion.conversion_proc(matches, this) : matches[matches.length - 1];
+        result['value']   = regexp_and_conversion.conversion_proc(matches,this);
         result['pattern'] = regexp_and_conversion.re;
         this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re,'');
         return result;
