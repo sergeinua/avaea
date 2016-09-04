@@ -264,7 +264,7 @@
 	width: 50%;
 }
 
-.desktop .panel-group.create {
+.desktop .profile {
 	margin-top: 0;
 }
 
@@ -1523,7 +1523,7 @@ body.loading .modalLoader {
 /* buckets */
 
 .tiles-ui,
-.panel-group.create,
+.profile,
 .booking {
   margin-top: 51px;
 }
@@ -2082,7 +2082,8 @@ body.loading .modalLoader {
 
 /* booking */
 
-.booking {
+.booking,
+.profile {
 	padding-bottom: 40px;
 }
 
@@ -2257,7 +2258,7 @@ body.loading .modalLoader {
 }
 
 .panel-default > .panel-heading + .panel-collapse > .panel-body,
-.panel-group.create hr {
+.profile hr {
 	border-top: 0px solid transparent;
 }
 
@@ -2363,8 +2364,8 @@ select.input-sm {
 	/* un-fixed nav */
 	.touch .flight-type-form,
 	.touch .tiles-ui,
-  .panel-group.create, 
-  .booking {
+  .touch .profile, 
+  .touch .booking {
 		margin-top: 0px;
 	}
 	
@@ -2465,10 +2466,6 @@ select.input-sm {
 	
 	.touch .searchingModal .spinner-holder {
 		margin-top: 20px;
-	}
-	
-	.touch .panel-group.create {
-		margin-top: 0;
 	}
 	
 	.touch .modal.searchingModal {
