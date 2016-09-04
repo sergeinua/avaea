@@ -63,19 +63,10 @@ nav {
 
 /* end of Smart button styles */
 
-.buy-button-group {
-  width:68px;
-}
-
-.buy-button-price {
-  width: 40px;
-}
 
 .buy-button-price-open {
   border-bottom-left-radius: 0;
 }
-
-
 
 button.buy-button-arrow[aria-expanded=true] {
   background-color: #151444 !important;
@@ -87,25 +78,8 @@ button.buy-button-arrow[aria-expanded=true] {
   margin-top: 20px;
 }
 
-.itinerary-airline .modal {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 18px;
-  line-height: 1.1;
-  letter-spacing: 0.3px;
-  color: #333333;
-}
 
-.modal-content .border-up {
-  border-top: 1px solid rgba(0, 0, 0, 0.2);
-}
 
-.clickable {
-  cursor: pointer;
-}
-
-.btn-sm, .btn-group-sm > .btn {
-  padding: 4px;
-}
 
 
 
@@ -181,17 +155,7 @@ button.buy-button-arrow[aria-expanded=true] {
   white-space: pre;
 }
 
-.modal-flight-info-block {
-  font-family: WhitneyHTF-MediumCondensed;
-  font-size: 16px;
-}
- 
-.modal-flight-info-footer {
-  border-top: none;
-  background-color: #F2F5F8;
-  border-bottom-right-radius: 6px;
-  border-bottom-left-radius: 6px;
-}
+
  
 
 
