@@ -440,6 +440,9 @@ function AvaeaTextParser() {
     new Regexp_and_Conversion('(\\d+) tickets?',function( matches, apt ) {
       return Number(matches[1]);
     }),
+    // TODO: in the 2 following regexps change the patterns so that they do not find the matches if any of the
+    // (\\w+) captures are 'would', 'wil'l, 'flying', 'on' etc. Ideally we want (\\w+) to capture only nouns and
+    // pronouns but it is too much to ask for. So we can just exclude that words that we know as wrong matches.
     new Regexp_and_Conversion('\\b(\\w+) (?:with|and) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
       return nan_to_multiple(count_tickets(matches[1]) + (/\d+/.test(matches[2])?Number(matches[2]):count_tickets(matches[3])));
     }),
