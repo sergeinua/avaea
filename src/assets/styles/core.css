@@ -2145,6 +2145,15 @@ body.loading .modalLoader {
 	text-align: right;
 }
 
+.booking .buttons {
+	position: fixed;
+	bottom: 0;
+	text-align: center;
+	background: #fff;
+	width: 100%;
+	border-top: 1px solid rgba(0, 0, 0, .15);
+}
+
 
 /* dimmer */
 
@@ -2503,9 +2512,18 @@ select.input-sm {
 	}
 	
 	.touch .flight-unit .itinerary .wrapper {
+		margin-bottom: -5px;
 		width: 55%;
 	}
-
+	
+	.touch .booking .ti {
+		margin-top: -10px;
+    margin-bottom: -10px;
+	}
+	
+	.touch .flight-unit .itinerary {
+		padding-top: 0;
+	}
 	
 }
 
