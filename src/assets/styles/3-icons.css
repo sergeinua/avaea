@@ -22,10 +22,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.glyphicon-thumbs-up:before {
-  content: "\e125";
-}
-.glyphicon-remove:before {
+
+.glyphicon.glyphicon-remove:before {
   content: "\e014";
 }
 
@@ -217,7 +215,9 @@
 .icon-arr-chevron-right:before {
   content: "\e926";
 }
-
+.icon-thumbs-up:before {
+  content: "\e92b";
+}
 
 
 /* end icons.css */

@@ -514,7 +514,7 @@ $(document).ready(function() {
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
     //DEMO-429 Collapse tiles
-    if ( ($(this).scrollTop() - initScroll) >= 100 ) {
+    if ( ($(this).scrollTop() - initScroll) >= 50 ) {
       SearchForm.toggleFullInfo(false);
       scrollStarted = false;
     }

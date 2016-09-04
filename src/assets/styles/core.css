@@ -603,7 +603,7 @@ a:focus,
 /* green */
 
 .flight-extras .total-value,
-.itinerary-airline .glyphicon-thumbs-up,
+.itinerary-airline .icon-thumbs-up,
 .icon-spinner {
 	color: #39d744;
 }
@@ -1387,7 +1387,7 @@ body.loading .modalLoader {
 
 .modal-content .buttons-bar {
 	text-align: center;
-	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .modal-content .buttons-bar .big-button {
@@ -1414,7 +1414,7 @@ body.loading .modalLoader {
 .modal-body {
 	font-size: 14px;
 	text-align: left;
-	padding: 30px 25px;
+	padding: 30px 25px 40px;
 }
 
 .continuous-search .modal-body {
@@ -1422,6 +1422,7 @@ body.loading .modalLoader {
 }
 
 .flight-extras .modal-body {
+	font-size: 16px;
 	padding-top: 40px;
 	padding-bottom: 40px;
 }
@@ -1879,7 +1880,7 @@ body.loading .modalLoader {
 	padding-right: 5px;
 }
 
-.itinerary-airline .glyphicon-thumbs-up {
+.itinerary-airline .icon-thumbs-up {
 	cursor: pointer;
 }
 
@@ -1970,14 +1971,13 @@ body.loading .modalLoader {
 .row.notable-area {
 	margin-right: -15px;
 	margin-bottom: -6px;
-	margin-left: -15px;
-	padding: 0 10px 8px 10px;
+	margin-left: -10px;
+	padding: 0 10px 8px 0;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .notable-area .col-xs-3.flight-no {
 	text-align: left;
-	padding: 0 0 0 5px;
 	width: 20%;
 }
 
@@ -1993,6 +1993,7 @@ body.loading .modalLoader {
 
 .notable-area .details {
 	font-size: 12px;
+	margin-left: 5px;
 }
 
 .notable-area .col-xs-2.date {
@@ -2011,8 +2012,8 @@ body.loading .modalLoader {
 
 .notable-area .row.title {
 	text-align: left;
-	padding: 12px 0 3px 5px;
-  padding-bottom: 3px;
+	margin-left: 10px;
+	padding: 12px 0 3px 0;
 }
 
 .notable-area .details .col-xs-2.dest {
@@ -2084,6 +2085,10 @@ body.loading .modalLoader {
 
 /* booking */
 
+.booking {
+	padding-bottom: 40px;
+}
+
 .booking .ti {
 	font-size: 18px;
 	padding: 10px 0 10px 32px;
@@ -2141,12 +2146,6 @@ body.loading .modalLoader {
 .flight-unit .itinerary-info .col-xs-3.duration {
 	text-align: right;
 }
-
-
-
-
-/* heredeb */
-
 
 
 /* dimmer */
@@ -2275,6 +2274,7 @@ legend {
 
 legend {
 	font-family: 'Open-Sans-Bold';
+	line-height: 1.3em;
 	margin: 15px 0 -10px 0;
 }
 
@@ -2489,6 +2489,7 @@ select.input-sm {
 	.touch .dimmer .portrait {
 		display: none;
 	}
+
 	
 }
 
@@ -2565,6 +2566,8 @@ select.input-sm {
 
 
 /* ------- browser fixes ------- */
+
+
 
 /* safari ignoring flex basis */
 nav {
