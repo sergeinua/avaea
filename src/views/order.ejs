@@ -214,18 +214,22 @@
 
 <% if (reqParams.special) { %>
 
-<div class="modal fade" id="user-price-modal" role="dialog">
+<div class="modal continuous-search" id="user-price-modal" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 style="color:red;">Choose your price</h4>
+
+      <div class="title-bar">
+        <div class="close-x" onClick={this.closeModal()}></div>
+        <div class="title">Choose Your Price</div>
       </div>
+        
+      <form role="form" id="form_user_price">
+      
       <div class="modal-body">
-        <p>Continuous search for better price.</p>
-        <form role="form" id="form_user_price">
+        <div class="sub-title">Continuous search for better price.</div>
+        
           <div class="form-group">
             <label for="user_price">Price you commit for this itinerary:</label>
             <input type="text" class="form-control" id="user_price" name="user_price" placeholder="Enter your price">
@@ -234,25 +238,29 @@
             <label for="user_timelimit">Time limit for getting the fare:</label>
             <input type="text" class="form-control" id="user_timelimit" name="user_timelimit" placeholder="Enter days">
           </div>
-          <button type="submit" class="btn btn-default btn-primary btn-block" id="user-price-submit">Submit</button>
-        </form>
+        
       </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal" onclick="window.history.back();return false;"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+      
+      <div class="buttons-bar double">
+        <button type="button" class="big-button secondary" data-dismiss="modal" onclick="window.history.back();return false;">Cancel</button>
+        <button type="submit" class="big-button" id="user-price-submit">Submit</button>
       </div>
+      
+      </form>
+      
     </div>
   </div>
 </div>
 <% } %>
 
 <!-- Modal -->
-<div id="buy-message" class="modal fade" role="dialog">
+<div id="buy-message" class="modal basic-message" role="dialog">
   <div class="modal-dialog">
 
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-body">
-        Thank you for your interest in Avaea. We will let you know when the booking feature is available
+        Thank you for your interest in Avaea. Please use our contact page to get on the list to find out when booking is implemented.
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal" onclick="$('#buy-message').modal('hide');return false;"><span class="glyphicon glyphicon-remove"></span> Cancel</button>

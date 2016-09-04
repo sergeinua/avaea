@@ -37,8 +37,8 @@ var ModalFlightInfo = React.createClass({
                   
                 </div>
               
-                <div className="buttons-bar">
-                  <button type="button" className="single big-button secondary" onClick={this.closeModal()}>Ok</button>
+                <div className="buttons-bar single">
+                  <button type="button" className="big-button secondary" onClick={this.closeModal()}>Ok</button>
                 </div>
               
             </div>
