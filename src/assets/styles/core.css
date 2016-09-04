@@ -1969,10 +1969,9 @@ body.loading .modalLoader {
 }
 
 .row.notable-area {
-	margin-right: -15px;
-	margin-bottom: -6px;
-	margin-left: -10px;
-	padding: 0 10px 8px 0;
+	margin-bottom: -1px;
+	margin-left: -15px;
+	padding: 0 0 8px 15px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -1993,7 +1992,6 @@ body.loading .modalLoader {
 
 .notable-area .details {
 	font-size: 12px;
-	margin-left: 5px;
 }
 
 .notable-area .col-xs-2.date {
@@ -2001,7 +1999,7 @@ body.loading .modalLoader {
 }
 
 .notable-area .col-xs-3.direction {
-	width: 20%;
+	width: 17%;
 }
 
 .notable-area .details .col-xs-2.date,
@@ -2012,7 +2010,6 @@ body.loading .modalLoader {
 
 .notable-area .row.title {
 	text-align: left;
-	margin-left: 10px;
 	padding: 12px 0 3px 0;
 }
 
@@ -2363,7 +2360,11 @@ select.input-sm {
 		min-height: 1px;
 	}
 
-	.touch .flight-type-form {
+	/* un-fixed nav */
+	.touch .flight-type-form,
+	.touch .tiles-ui,
+  .panel-group.create, 
+  .booking {
 		margin-top: 0px;
 	}
 	
@@ -2488,6 +2489,24 @@ select.input-sm {
 	
 	.touch .dimmer .portrait {
 		display: none;
+	}
+	
+	.touch .modal.flight-extras,
+	.touch .modal.continuous-search {
+		top: 10%;
+	}
+	
+	.touch .modal.flight-extras .modal-body {
+		padding-top: 10px;
+    padding-bottom: 0px;
+	}
+	
+	.touch .notable-area .col-xs-3.direction {
+		width: 9%;
+	}
+	
+	.touch .flight-unit .itinerary .wrapper {
+		width: 55%;
 	}
 
 	
