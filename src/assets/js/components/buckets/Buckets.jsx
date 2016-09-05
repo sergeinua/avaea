@@ -56,7 +56,7 @@ var Buckets = React.createClass({
           <div className="clear-undo-buttons text-right">
             <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
             <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
-            <span className={!this.state.fullinfo ?"icon-expander-down":"icon-expander-up"} onClick={this.toggleFullInfo()}></span>
+            <span className={!this.state.fullinfo ?"glyphicon glyphicon-triangle-bottom":"glyphicon glyphicon-triangle-top"} onClick={this.toggleFullInfo()}></span>
           </div>
         </div>
       </div>  
