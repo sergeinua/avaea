@@ -2,39 +2,63 @@
 /* global reqParams */
   var orderPrice;
 %>
-<form action="/booking?searchId=<%= reqParams.searchId %>" method="post" id="form_booking">
+<form action="/booking?searchId=<%= reqParams.searchId %>" method="post" id="form_booking" class="booking">
 
-  <div id="searchResultData" class="row">
+  <!-- hacky enforce conventions on the unconventional nav structure
+       Deborah will fix later -->
+       <style>
+        .navbar-toggle {
+          display: none;
+        }
+        .navbar-brand {
+          padding-top: 0;
+        }
+       </style>
+  <!-- ----------------------- -->   
+       
+
+  <!-- ---------- flight unit ---------- -->
+  
+  <div id="searchResultData" class="flight-unit">
     <% iterator = 0; %>
     <% if (order.length) { %>
     <% order.forEach(function (sRes, i) {
       sRes.price = parseFloat(sRes.price).toFixed(2);
       orderPrice = (sRes.currency == 'USD') ? "$"+sRes.price : sRes.price +' '+ sRes.currency;
     %>
-    <div id="<%= sRes.id %>" for="cli<%= i %>" class="col-xs-12 itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+    <div id="<%= sRes.id %>" for="cli<%= i %>" class="itinerary <%= sRes.filterClass %>" smart="<%= sRes.smartRank %>">
+      <div class="wrapper">
 
-      <div class="row">
-        <div class="col-xs-9 itinerary-airline">
-          <img class="airlineIcon" src="/images/airlines/unknown.png" alt="<%= sRes.citypairs[0].from.airlineCode %>" title="<%= sRes.citypairs[0].from.airline %>" data-code="<%= sRes.citypairs[0].from.airlineCode %>" data-name="<%= sRes.citypairs[0].from.airline %>" >
-          <span><%= sRes.citypairs[0].from.airline %> </span>
+      <div class="row title">
+        <div class="itinerary-airline">
+          <span class="airline-text"><%= sRes.citypairs[0].from.airline %> </span>
         </div>
-        <div class="col-xs-3 text-right itinerary-price">
+        <div class="itinerary-price">
           <%= orderPrice %>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-11">
+      <div class="itinerary-info">
           <% sRes.citypairs.forEach(function (pair) { %>
           <div class="itinerary-info">
-            <div class="col-xs-3 text-right">
-              <%= pair.from.time %> <%= pair.from.code %></div>
-            <div class="col-xs-2 text-center"><% if (pair.noOfStops > 0) { %><span class="visible-xs-inline">&rarr;<%= pair.noOfStops %></span><% } %>&rarr;</div>
-            <div class="col-xs-4"><%= pair.to.time %> <%= pair.to.code %></div>
-            <div class="col-xs-3"><%= pair.duration %></div>
+            <div class="col-xs-3 departLoc">
+              <%= pair.from.time %> <%= pair.from.code %>
+            </div>
+            <div class="col-xs-2 connections text-center">
+            
+              <% if (pair.noOfStops > 0) { %>
+                <span class="arr-connects">
+                  <span class="connections"><%= pair.noOfStops %></span>
+               </span>
+              <% } else { %> 
+                <span class="arr-connects-none">
+              <% } %>
+            </div>
+            
+            <div class="col-xs-3 arriveLoc"><%= pair.to.time %> <%= pair.to.code %></div>
+            <div class="col-xs-3 duration"><%= pair.duration %></div>
           </div>
           <% }); %>
-        </div>
       </div>
 
       <div class="row collapse" id="cli<%= i %>"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
@@ -97,80 +121,53 @@
     <% }); %></div></div>
 
       <% iterator++ %>
-    </div>
+      </div>
+    </div> <!-- ends itinerary -->
     <% }); %>
     <% } %>
   </div>
-  <div class="row hidden" id="user-time-limit-target-div">
-    <div class="col-xs-12">* Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
+  <!-- ---------- flight unit ---------- -->
+  
+  <div id="user-time-limit-target-div" class="time-limit message hidden">
+    <div class="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
   </div>
 
-  <div class="panel panel-default">
-
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Billing data
-        </a>
-      </h4>
-    </div>
-
-    <div class="panel-body">
+    <div class="form">
+    <div class="ti">Billing</div>
 
       <input type="hidden" name="id" value="<%= reqParams.id %>">
-
-      <div>
-        <label class="control-label">First Name</label>
+      
+        <label class="required">First Name</label>
         <input type="text" name="FirstName" class="form-control input-sm" placeholder="First Name" value="<%= reqParams.FirstName ? reqParams.FirstName : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Last Name</label>
+        <label class="required">Last Name</label>
         <input type="text" name="LastName" class="form-control input-sm" placeholder="Last Name"  value="<%= reqParams.LastName ? reqParams.LastName : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Gender</label>
+        <label class="required">Gender</label>
         <%- _res = widgets.dropDownList(reqParams, "Gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
-      </div>
 
-      <div>
-        <label class="control-label">Birthday</label>
+        <label class="required">Birthday</label>
         <input type="date" name="DateOfBirth" class="form-control input-sm" placeholder="YYYY-MM-DD" maxlength="10" value="<%= reqParams.DateOfBirth ? reqParams.DateOfBirth : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Passenger Type</label>
+        <label>Passenger Type</label>
         <%- _res = widgets.dropDownList(reqParams, "PaxType", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
-      </div>
 
-      <div>
-        <label class="control-label">Address</label>
+        <label class="required">Address</label>
         <input type="text" name="Address1" class="form-control input-sm" value="<%= reqParams.Address1 ? reqParams.Address1 : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">City</label>
+        <label class="required">City</label>
         <input type="text" name="City" class="form-control input-sm" value="<%= reqParams.City ? reqParams.City : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">State</label>
+        <label class="required">State</label>
         <input type="text" name="State" class="form-control input-sm" value="<%= reqParams.State ? reqParams.State : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Zip Code</label>
+        <label class="required">Zip Code</label>
         <input type="text" name="ZipCode" class="form-control input-sm" value="<%= reqParams.ZipCode ? reqParams.ZipCode : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Country</label>
+        <label class="required">Country</label>
         <input type="text" name="Country" class="form-control input-sm" value="<%= reqParams.Country ? reqParams.Country : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Card Type</label>
+        <label class="required">Card Type</label>
         <%- _res = widgets.dropDownList(reqParams, "CardType", {
             'VI' : 'VISA',
             'CA' : 'Master Card',
@@ -178,76 +175,66 @@
             'DS' : 'Discover'
           },
           {"class": "form-control input-sm"}) %>
-      </div>
 
-      <div>
-        <label class="control-label">Card Number</label>
+        <label class="required">Card Number</label>
         <input type="number" name="CardNumber" class="form-control input-sm" value="<%= reqParams.CardNumber ? reqParams.CardNumber : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">Expiration Date</label>
+        <label class="required">Expiration Date</label>
         <input type="text" name="ExpiryDate" class="form-control input-sm" maxlength="7" placeholder="MM/YYYY" value="<%= reqParams.ExpiryDate ? reqParams.ExpiryDate : '' %>">
-      </div>
 
-      <div>
-        <label class="control-label">CVV</label>
+        <label class="required">CVV</label>
         <input type="text" name="CVV" class="form-control input-sm" value="<%= reqParams.CVV ? reqParams.CVV : '' %>">
-      </div>
 
     </div>
-  </div>
 
-  <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
-    <div class="container-fluid">
-      <div class="buy-button"><button id="booking_button" class="btn btn-sm btn-primary btn-block center-block" style="max-width: 100%">
+    <div class="buttons">
+      <button id="booking_button" class="big-button">
           <% if (!reqParams.special) { %>
-        BOOK FOR <%= orderPrice %>
+              Book for 
+              <%= orderPrice %>
           <%} else {%>
-          SUBMIT
+              Submit
           <% } %>
-      </button></div>
+      </button>
     </div>
-  </nav>
 
 </form>
 
 <% if (reqParams.special) { %>
 
-<div class="modal fade" id="user-price-modal" role="dialog">
+<div class="modal continuous-search" id="user-price-modal" role="dialog">
   <div class="modal-dialog">
-
-    <!-- Modal content-->
     <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 style="color:red;">Choose your price</h4>
+
+      <div class="title-bar">
+        <div class="close-x" onclick="window.history.back();return false;"></div>
+        <div class="title">Choose Your Price</div>
       </div>
-      <div class="modal-body">
-        <p>Continuous search for better price.</p>
-        <form role="form" id="form_user_price">
-          <div class="form-group">
-            <label for="user_price">Price you commit for this itinerary:</label>
-            <input type="text" class="form-control" id="user_price" name="user_price" placeholder="Enter your price">
-          </div>
-          <div class="form-group">
-            <label for="user_timelimit">Time limit for getting the fare:</label>
-            <input type="text" class="form-control" id="user_timelimit" name="user_timelimit" placeholder="Enter days">
-          </div>
-          <button type="submit" class="btn btn-default btn-primary btn-block" id="user-price-submit">Submit</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-default btn-default pull-left" data-dismiss="modal" onclick="window.history.back();return false;"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
-      </div>
+        
+      <form role="form" id="form_user_price">
+      
+        <div class="modal-body">
+          <div class="sub-title">Continuous search for better price.</div>
+          
+            <div class="form-group">
+              <label class="required" for="user_price">Price you commit for this itinerary:</label>
+              <input type="text" class="form-control input-sm" id="user_price" name="user_price" placeholder="Enter your price">
+            </div>
+            <div class="form-group">
+              <label class="required" for="user_timelimit">Time limit for getting the fare:</label>
+              <input type="text" class="form-control input-sm" id="user_timelimit" name="user_timelimit" placeholder="Enter days">
+            </div>
+          
+        </div>
+        
+        <div class="buttons-bar double">
+          <button type="button" class="big-button secondary" onclick="window.history.back();return false;">Cancel</button>
+          <button type="submit" class="big-button" id="user-price-submit">Submit</button>
+        </div>
+      
+      </form>
+      
     </div>
   </div>
 </div>
 <% } %>
-
-<style>
-    body {
-      padding-bottom: 33px;
-      padding-top: 70px;
-    }
-</style>

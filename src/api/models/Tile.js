@@ -116,10 +116,10 @@ module.exports = {
     var index = null;
     var filterClass = '';
     var timeArr = [
-      '12m &ndash; 6am',
-      '6am &ndash; 12n',
-      '12n &ndash; 6pm',
-      '6pm &ndash; 12m'
+      '12m&ndash;6a',
+      '6a&ndash;12n',
+      '12n&ndash;6p',
+      '6p&ndash;12m'
     ];
 
     var systemData = {};
@@ -1182,6 +1182,7 @@ module.exports = {
         currentNum++;
 
         itinerary.filterClass = filterClass;
+        itinerary.filterArr = filterClass.split(" ");
         return doneCallback(null);
       }, function (err) {
         if ( err ) {

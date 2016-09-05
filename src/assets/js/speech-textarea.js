@@ -4,68 +4,58 @@
   var recognizing = false;
   var ignore_onend;
   var start_timestamp;
-  var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
-  var clear_button = $('#clear_button');
+  var clear_button = $('.voice-form .clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
-  if (!('webkitSpeechRecognition' in window)) {
-    notSupported();
-  } else {
-    start_button.click(function (e) {
-      startButton(e);
-    }).show();
-
-    var recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = function () {
-      recognizing = true;
-      log('info_speak_now');
-      start_button.addClass('listening');
-    };
-
-    recognition.onerror = function (event) {
-      if (event.error == 'no-speech') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_speech');
-        ignore_onend = true;
-      }
-      if (event.error == 'audio-capture') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_microphone');
-        ignore_onend = true;
-      }
-      if (event.error == 'not-allowed') {
-        if (event.timeStamp - start_timestamp < 100) {
-          log('info_blocked');
-        } else {
-          log('info_denied');
-        }
-        ignore_onend = true;
-      }
-    };
-
+	if (!('webkitSpeechRecognition' in window)) {
+	  notSupported();
+	} else {
+	  
+	  // #start_button does not exist in the DOM, so
+  	// Deborah removed the reference to it here
+  	// and throughout this file
+	
+	  var recognition = new webkitSpeechRecognition();
+	  recognition.lang = 'en-US';
+	  recognition.continuous = true;
+	  recognition.interimResults = true;
+	
+	  recognition.onstart = function () {
+	    recognizing = true;
+	    log('info_speak_now');
+	  };
+	
+	  recognition.onerror = function (event) {
+	    if (event.error == 'no-speech') {
+	      log('info_no_speech');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'audio-capture') {
+	      log('info_no_microphone');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'not-allowed') {
+	      if (event.timeStamp - start_timestamp < 100) {
+	        log('info_blocked');
+	      } else {
+	        log('info_denied');
+	      }
+	      ignore_onend = true;
+	    }
+	  };
+	  
     recognition.onend = function () {
       recognizing = false;
       if (ignore_onend) {
         return;
       }
-      start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
       if (!final_transcript) {
         log('info_start');
         return;
       }
       log('End speech');
-      //if (window.getSelection) {
-      //  window.getSelection().removeAllRanges();
-      //  var range = document.createRange();
-      //  range.selectNode(document.getElementById('voiceSearchTextarea'));
-      //  window.getSelection().addRange(range);
-      //}
     };
 
     recognition.onresult = function (event) {
@@ -96,41 +86,38 @@
       log(final_transcript);
       if (final_textarea) final_textarea.empty().val(final_transcript);
       if (interim_transcript) final_textarea.val(capitalize(interim_transcript));
-      if (final_transcript || interim_transcript) {
-        showButtons(false);
-      }
+      if (final_transcript || interim_transcript);
     };
   }
-
-  clear_button.click(function (e) {
+  
+  clear_button.click(function() {
+  	disableButton();
     final_textarea.val('');
-    showButtons(true);
     final_textarea.focus();
   });
+  
 
   final_textarea.bind('keyup change paste cut', function () {
-    var elem = $(this);
     setTimeout(function () {
-      var _value = $.trim(elem.val());
+      var _value = $.trim(final_textarea.val());
       if (_value != '' && _value.length > 0 && cntWords(_value)) {
-        showButtons(false);
+        enableButton();
       } else {
-        showButtons(true);
+        disableButton();
       }
     }, 100);
   }).focus(function () {
-    start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
     }
   }).blur(function () {
-    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
+      // set timer so button does not enable if user blurred by clicking "clear"
     }
-  });
+  }, 100);
 
   var cntWords = function (val) {
     var words = val.split(' ');
@@ -138,7 +125,7 @@
   };
 
   var clearVoiceSearch = function () {
-    if ($(this).hasClass('disabled')) return;
+    if ($('.voice-search-buttons .big-button').hasClass('disabled')) return;
 
     final_textarea.val('');
     final_transcript = '';
@@ -166,11 +153,9 @@
     if (recognition && recognizing) {
       recognition.stop();
     }
-    var heightNav = $('.navbar-header').outerHeight(true);
     demo(function(res, data) {
       log("Result of demo: "+JSON.stringify(data));
       loggerQuery(data, (res ? 'success' : 'failed'));
-      $('.navbar-header').height(heightNav);
     });
 
   });
@@ -178,13 +163,12 @@
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
     if (!isMobileDev) {
-      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+      final_textarea.attr('placeholder', 'This browser is not enabled for voice commands.');
     }
     upgrade();
   }
 
   function upgrade() {
-    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
@@ -195,37 +179,19 @@
     });
   }
 
-  function startButton(event) {
-    if (recognizing) {
-      recognition.stop();
-      return;
-    }
-    final_transcript = '';
-    recognition.start();
-    ignore_onend = false;
-    final_textarea.val('');
-    start_button.toggleClass('fa-microphone fa-stop');
-    log('info_allow');
-    showButtons(true);
-    start_timestamp = event.timeStamp;
-  }
-
   function log() {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
     }
   }
 
-  function showButtons(disable) {
-    if (disable) {
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
-    } else if (!$('.flight-direction-item-voice-search').hasClass('hidden')) {
-      $('.voice-search-buttons').removeClass('hidden');
-      $('#voiceSearchFlight').removeClass('disabled');
-    }
+  var enableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button');
   }
-
+  var disableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button disabled');
+  }
+  
   function loggerQuery(q, result) {
     $.ajax({
       url: '/voice/logger',
