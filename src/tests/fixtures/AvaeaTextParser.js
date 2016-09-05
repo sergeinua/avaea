@@ -13,23 +13,29 @@ function get_avaea_parser_tests() {
     }
     throw new Exception("Cannot find the next date for "+weekday);
   }
-  const add_several_days = function( start, num_days ) {
+  const add_days = function( start, num_days ) {
     // Always make a copy so that we leave the original intact
     start = new Date(start.getTime());
     start.setDate(start.getDate() + num_days);
     return start;
   }
-  const add_several_weeks = function( start, num_weeks ) {
+  const add_weeks = function( start, num_weeks ) {
     // Always make a copy so that we leave the original intact
     start = new Date(start.getTime());
     start.setDate(start.getDate() + 7*num_weeks);
     return start;
   }
-  const add_several_months = function( start, num_month ) {
+  const add_months = function( start, num_month ) {
     // Always make a copy so that we leave the original intact
     start = new Date(start.getTime());
     start.setMonth(start.getMonth() + num_month);
     return start;
+  }
+  const get_future_date = function( month_number, date_of_month, min_date ) {
+    // In JScript monht numbers start from 0
+    min_date = min_date ? min_date : new Date();
+    var candidate = new Date(min_date.getFullYear(),month_number-1,date_of_month);
+    return candidate<min_date ? new Date(min_date.getFullYear()+1,month_number-1,date_of_month) : candidate;
   }
   function AvaeaTextParserTest( query, origin_airport, return_airport, origin_date, return_date, number_of_tickets, class_of_service, action ) {
     this.query             = query;
@@ -51,37 +57,40 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("Skiing trip from Portland, Maine to Portland, Oregon on December 20, 2017 returning two weeks later",
 			    "Portland, Maine",
 			    "Portland, Oregon",
-			    new Date("Wed Dec 20 2017"),
-			    add_several_weeks(new Date("Wed Dec 20 2017"), 2)), // two weeks from
+			    new Date("Dec 20 2017"),
+			    add_weeks(new Date("Dec 20 2017"),2),
+			    1),
     new AvaeaTextParserTest("Singapore to Sidney tomorrow first class",
 			    "Singapore",
 			    "Sidney",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(),1), // one day from now
 			    undefined,
-			    undefined,
+			    1,
 			    "F"),
     new AvaeaTextParserTest("My baby sitter and I need to fly from San Francisco to Boston, leaving on March 25 and returning on April 10th.",
 			    "San Francisco",
 			    "Boston",
-			    "Fri Mar 25 2016",
-			    "Sun Apr 10 2016",
+			    get_future_date(3,25),
+			    get_future_date(4,10,get_future_date(3,25)),
 			    "2"),
     new AvaeaTextParserTest("I need to fly to Wichita with my parents next week.",
 			    undefined,
 			    "Wichita",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "3"),
     new AvaeaTextParserTest("Ft. Lauderdale, Florida to St.Peterburg, Russia, leave now return two weeks later.",
 			    "Ft. Lauderdale, Florida",
 			    "St.Peterburg, Russia",
 			    new Date(),
-			    add_several_weeks(new Date(), 2)), // two weeks from now
+			    add_weeks(new Date(),2),
+			   1), 
     new AvaeaTextParserTest("Round-trip from Istanbul to Hong Kong, Aug 20, 2017 through September 23",
 			    "Istanbul",
 			    "Hong Kong",
-			    "Sun Aug 20 2017",
-			    "Sat Sep 23 2017"),
+			    new Date(2017,7,20),
+			    get_future_date(9,23,new Date(2017,7,20)),
+			   1),
     new AvaeaTextParserTest("I need to fly to Washington on business as soon as possible.",
 			    undefined,
 			    "Washington",
@@ -92,19 +101,21 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("Check availability for my parents trip from JFK to Tokyo, leaving on 20 Dec, coming back in January.",
 			    "JFK",
 			    "Tokyo",
-			    "Tue Dec 20 2016"),
+			    get_future_date(12,20),
+			    undefined,
+			    2),
     new AvaeaTextParserTest("One economy ticket from Yoshkar-Ola to Paris-Orly tomorrow, return in six days.",
 			    "Yoshkar-Ola",
 			    "Paris-Orly",
-			    add_several_days(new Date(), 1), // one day from now
-			    add_several_days(new Date(), 7), // seven days from now
+			    add_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 7), // seven days from now
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("I am currently in Bogota. Need to get to Miami as soon as possible. Back next week.",
 			    "Bogota",
 			    "Miami",
 			    new Date(),
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    "1"),
     new AvaeaTextParserTest("Tickets for a group of athletes flying from San Diego, CA to Austin, TX in March returning in May.",
 			    "San Diego, CA",
@@ -115,26 +126,27 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("Vacation trip from Toronto to Cabo San Lucas on December 13. Flying back on the 2nd. I will travel with a body guard.",
 			    "Toronto",
 			    "Cabo San Lucas",
-			    "Tue Dec 13 2016",
-			    "Mon Jan 02 2017",
+			    get_future_date(12,13),
+			    get_future_date(1,2,get_future_date(12,13)),
 			    "2"),
     new AvaeaTextParserTest("Leaving from Buenos Aires to Vancouver today, returning two weeks later",
 			    "Buenos Aires",
 			    "Vancouver",
 			    new Date(),
-			    add_several_weeks(new Date(), 2)), // two weeks from now
+			    add_weeks(new Date(),2),
+			    1),
     new AvaeaTextParserTest("Two business class tickets from Memphis to Madrid on March 8, back in three weeks",
 			    "Memphis",
 			    "Madrid",
-			    "Tue Mar 08 2016",
-			    "Tue Mar 29 2016",
+			    get_future_date(3,8),
+			    get_future_date(3,29,get_future_date(3,8)),
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("We would like to leave on March 10 from Sacramento in the evening to Lahore Pakistan, and would like to be back in Sacramento on the 17th.",
 			    "Sacramento",
 			    "Lahore Pakistan",
-			    "Thu Mar 10 2016",
-			    "Thu Mar 17 2016",
+			    get_future_date(3,10),
+			    get_future_date(3,17,get_future_date(3,10)),
 			    "multiple"),
     new AvaeaTextParserTest("My wife needs to fly to Dubai right away. She is stuck in Paris right now. Get her the earliest ticket there.",
 			    "Paris",
@@ -145,7 +157,7 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("How much is a Kiev-Moscow one-way ticket two weeks from now?",
 			    "Kiev",
 			    "Moscow",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("How soon can my children reach Frankfurt-Hahn from Minneapolis St. Paul?",
@@ -157,32 +169,32 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("My parents and I are flying to Johannesburg on Jul 10, returning in September",
 			    undefined,
 			    "Johannesburg",
-			    "Sun Jul 10 2016",
+			    get_future_date(7,10),
 			    undefined,
 			    "3"),
     new AvaeaTextParserTest("I need a ticket departing Los Angeles on May 2 and reaching London the next day.",
 			    "Los Angeles",
 			    "London",
-			    new Date("Mon May 02 2016"),
-			    add_several_days(new Date("Mon May 02 2016"), 1), // one day from May 2
+			    new Date("Mon May 02 2017"),
+			    add_days(new Date("Mon May 02 2017"), 1), // one day from May 2
 			    "1"),
     new AvaeaTextParserTest("Flight 77 departs Kona on May 7 lands at SFO. Get tickets for me and my associate.",
 			    "Kona",
 			    "SFO",
-			    "Sat May 07 2016",
+			    get_future_date(5,7),
 			    undefined,
 			    "2"),
     new AvaeaTextParserTest("Students from Kalamazoo, MI are flying on a school trip to Mexico City. April 3 to April 17.",
 			    "Kalamazoo, MI",
 			    "Mexico City",
-			    "Sun Apr 03 2016",
-			    "Sun Apr 17 2016",
+			    get_future_date(4,3),
+			    get_future_date(4,17,get_future_date(4,3)),
 			    "multiple"),
     new AvaeaTextParserTest("I have to go to Beijing (China) for a business trip, leaving on April 21. I would like to leave from SFO and would like to stop in Japan for 2 days, and then to Beijing. I need to back in my office for a meeting on April 30th.",
 			    "SFO",
 			    "Beijing",
-			    "Thu Apr 21 2016",
-			    "Sat Apr 30 2016",
+			    get_future_date(4,21),
+			    get_future_date(4,30,get_future_date(4,21)),
 			    "1",
 			    "B"),
     new AvaeaTextParserTest("I'd like a ticket between San Francisco and New York City",
@@ -207,72 +219,73 @@ function get_avaea_parser_tests() {
 			    undefined,
 			    "Phoenix",
 			    get_date_of_next_weekday(new Date(),"Wednesday"),
-			    get_date_of_next_weekday(get_date_of_next_weekday(new Date(),"Wednesday"),"Friday")),
+			    get_date_of_next_weekday(get_date_of_next_weekday(new Date(),"Wednesday"),"Friday"),
+			    1),
     new AvaeaTextParserTest("I would like to book two tickets from San Francisco to Honolulu June 26th return July 17th",
 			    "San Francisco",
 			    "Honolulu",
-			    "Sun Jun 26 2016",
-			    "Sun Jul 17 2016",
+			    get_future_date(6,26),
+			    get_future_date(7,17,get_future_date(6,26)),
 			    "2"),
     new AvaeaTextParserTest("Ticket from Juno, Alaska to Augusta, Georgia, September 20 through September 23",
 			    "Juno, Alaska",
 			    "Augusta, Georgia",
-			    "Tue Sep 20 2016",
-			    "Fri Sep 23 2016",
+			    get_future_date(9,20),
+			    get_future_date(9,23,get_future_date(9,20)),
 			    "1"),
     new AvaeaTextParserTest("I would like to fly from San Francisco to New York on June 15th returning August 25th 2016 in business class",
 			    "San Francisco",
 			    "New York",
-			    "Wed Jun 15 2016",
+			    get_future_date(6,15),
 			    "Thu Aug 25 2016",
 			    1,
 			    "B"),
     new AvaeaTextParserTest("I'm flying from Tokyo to st. Petersburg Russia next week",
 			    "Tokyo",
 			    "st. Petersburg Russia",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    1),
     new AvaeaTextParserTest("I'm flying from Tokyo to St. Petersburg Russia next week",
 			    "Tokyo",
 			    "St. Petersburg Russia",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("I'm flying from Tokyo to Saint Petersburg Russia next week",
 			    "Tokyo",
 			    "Saint Petersburg Russia",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("1 ticket from SFO to Pt. Hope tomorrow",
 			    "SFO",
 			    "Pt. Hope",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("1 ticket from SFO to Point Hope tomorrow",
 			    "SFO",
 			    "Point Hope",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("1 ticket from SFO to Ft. Lauderdale tomorrow",
 			    "SFO",
 			    "Ft. Lauderdale",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("1 ticket from SFO to Fort Lauderdale tomorrow",
 			    "SFO",
 			    "Fort Lauderdale",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("1 ticket from Pt. Hope to St. Petersburg tomorrow",
 			    "Pt. Hope",
 			    "St. Petersburg",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("I am in SFO, need to fly to JFK",
@@ -284,7 +297,7 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("I am in Paris need to fly to Madrid tomorrow",
 			    "Paris",
 			    "Madrid",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("I'm in Paris. I need to fly to Madrid.",
@@ -338,7 +351,7 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("1 ticket from Ho Chi Minh City to Washington Deep Sea tomorrow", // intentional incorrect voice transcription
 			    "Ho Chi Minh City",
 			    "Washington Deep Sea",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("from TLL to Moscow",
@@ -346,24 +359,25 @@ function get_avaea_parser_tests() {
 			    "Moscow",
 			    undefined,
 			    undefined,
-			    undefined),
+			    1),
     new AvaeaTextParserTest("I want to fly from San Jose 2 Oregon on the 1st of August", // "2" instead of "to" is intended
 			    "San Jose",
 			    "Oregon",
-			    "Mon Aug 01 2016",
+			    get_future_date(8,1),
 			    undefined,
 			    "1"),
     new AvaeaTextParserTest("I'm flying from San Jose to New York on the 1st of August returning on the 10th of August",
 			    "San Jose",
 			    "New York",
-			    "Mon Aug 01 2016",
-			    "Wed Aug 10 2016",
+			    get_future_date(8,1),
+			    get_future_date(8,10,get_future_date(8,1)),
 			    "1"),
     new AvaeaTextParserTest("From SFO to JFK next week, returning October 10", // unparsed in Meri2.4.html
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 1), // one week from now
-			    "Mon Oct 10 2016"),
+			    add_weeks(new Date(),1), // one week from now
+			    get_future_date(10,10,add_weeks(new Date(),1)),
+			    1),
     new AvaeaTextParserTest("1 ticket from SFO to JFK on 10/13/2016, returning on 1/13/2017", // unparsed in Meri2.4.html
 			    "SFO",
 			    "JFK",
@@ -398,7 +412,7 @@ function get_avaea_parser_tests() {
 			    undefined,
 			    "Dublin",
 			    new Date(),
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    "2"),
     new AvaeaTextParserTest("I'd like to fly from the San Francisco International Airport to Boston Logan International Airport",
 			    "San Francisco International Airport",
@@ -410,28 +424,28 @@ function get_avaea_parser_tests() {
 			    "Phoenix",
 			    "Boston",
 			    get_date_of_next_weekday(new Date(),"Sunday"),
-			    add_several_weeks(get_date_of_next_weekday(new Date(),"Sunday"), 2),
+			    add_weeks(get_date_of_next_weekday(new Date(),"Sunday"), 2),
 			    "1"),
     new AvaeaTextParserTest("I need to fly from Phoenix to Boston in two weeks return on Sunday",
 			    "Phoenix",
 			    "Boston",
-			    add_several_weeks(new Date(), 2), // two weeks from now
-			    get_date_of_next_weekday(add_several_weeks(new Date(), 2),"Sunday"),
+			    add_weeks(new Date(), 2), // two weeks from now
+			    get_date_of_next_weekday(add_weeks(new Date(), 2),"Sunday"),
 			    "1"),
     new AvaeaTextParserTest("Show me all flights in business class from San Francisco to JFK departing Oct 5, returning Nov 7",
 			    "San Francisco",
 			    "JFK",
-			    "Wed Oct 05 2016",
-			    "Mon Nov 07 2016",
-			    undefined,
+			    get_future_date(10,5),
+			    get_future_date(11,7,get_future_date(10,5)),
+			    1,
 			    "B",
 			    "all"),
     new AvaeaTextParserTest("Show me top flights in first class from San Francisco to JFK departing Oct 5, returning Nov 7",
 			    "San Francisco",
 			    "JFK",
-			    "Wed Oct 05 2016",
-			    "Mon Nov 07 2016",
-			    undefined,
+			    get_future_date(10,5),
+			    get_future_date(11,7,get_future_date(10,5)),
+			    1,
 			    "F",
 			    "top"),
     new AvaeaTextParserTest("I want 3 tickets from SFO to London",
@@ -449,411 +463,412 @@ function get_avaea_parser_tests() {
     new AvaeaTextParserTest("Fly to San Francisco from Los Angeles on the 1st of September returning a month later",
 			    "Los Angeles",
 			    "San Francisco",
-			    "Thu Sep 01 2016",
-			    add_several_months(new Date("Thu Sep 01 2016"), 1)), // one month from Oct 1
+			    get_future_date(9,1),
+			    add_months(get_future_date(9,1),1),
+			    1),
     new AvaeaTextParserTest("I'm stuck in Paris, need to fly to Berlin, returning next Monday in business class",
 			    "Paris",
 			    "Berlin",
 			    undefined,
 			    get_date_of_next_weekday(new Date(),"Monday"),
-			    undefined,
+			    1,
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning the next day",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in a day",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 1 day",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in one day",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 1), // one day from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 2 days",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 2), // two days from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 2), // two days from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in two days",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_days(new Date("Mon Oct 10 2016"), 2), // two days from Oct 10
+			    add_days(new Date("Mon Oct 10 2016"), 2), // two days from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning next week",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in a week",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 1 week",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in one week",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 1), // one week from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 2 weeks",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in two weeks",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning next fortnight",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in a fortnight",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 1 fortnight",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in one fortnight",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 2), // two weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 2 fortnights",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 4), // four weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 4), // four weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in two fortnights",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_weeks(new Date("Mon Oct 10 2016"), 4), // four weeks from Oct 10
+			    add_weeks(new Date("Mon Oct 10 2016"), 4), // four weeks from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning next month",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in a month",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 1 month",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in one month",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 1), // one month from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in 2 months",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 2), // two months from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 2), // two months from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Oct 10 in business class, returning in two months",
 			    "SFO",
 			    "JFK",
 			    "Mon Oct 10 2016",
-			    add_several_months(new Date("Mon Oct 10 2016"), 2), // two months from Oct 10
+			    add_months(new Date("Mon Oct 10 2016"), 2), // two months from Oct 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("My boss and I need to fly from SFO to JFK on Sep 10 in business class, returning in a month",
 			    "SFO",
 			    "JFK",
 			    "Sat Sep 10 2016",
-			    add_several_months(new Date("Sat Sep 10 2016"), 1), // one month from Sep 10
+			    add_months(new Date("Sat Sep 10 2016"), 1), // one month from Sep 10
 			    "2",
 			    "B"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving next day",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in a day",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 1 day",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in one day",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 1), // one day from now
+			    add_days(new Date(), 1), // one day from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 2 days",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 2), // two days from now
+			    add_days(new Date(), 2), // two days from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in two days",
 			    "SFO",
 			    "JFK",
-			    add_several_days(new Date(), 2), // two days from now
+			    add_days(new Date(), 2), // two days from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving next week",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in a week",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 1 week",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in one week",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 1), // one week from now
+			    add_weeks(new Date(), 1), // one week from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 2 weeks",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in two weeks",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving next fortnight",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in a fortnight",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 1 fortnight",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in one fortnight",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 2), // two weeks from now
+			    add_weeks(new Date(), 2), // two weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 2 fortnights",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 4), // four weeks from now
+			    add_weeks(new Date(), 4), // four weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in two fortnights",
 			    "SFO",
 			    "JFK",
-			    add_several_weeks(new Date(), 4), // four weeks from now
+			    add_weeks(new Date(), 4), // four weeks from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving next month",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 1), // one month from now
+			    add_months(new Date(), 1), // one month from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in a month",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 1), // one month from now
+			    add_months(new Date(), 1), // one month from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 1 month",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 1), // one month from now
+			    add_months(new Date(), 1), // one month from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in one month",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 1), // one month from now
+			    add_months(new Date(), 1), // one month from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in 2 months",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 2), // two months from now
+			    add_months(new Date(), 2), // two months from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("one economy ticket from SFO to JFK, leaving in two months",
 			    "SFO",
 			    "JFK",
-			    add_several_months(new Date(), 2), // two months from now
+			    add_months(new Date(), 2), // two months from now
 			    undefined,
 			    "1",
 			    "E"),
     new AvaeaTextParserTest("My parents are flying from Hong Kong to Beijing on the 1st of September returning on the 23rd of September",
 			    "Hong Kong",
 			    "Beijing",
-			    "Thu Sep 01 2016",
-			    "Fri Sep 23 2016",
+			    get_future_date(9,1),
+			    get_future_date(9,23,get_future_date(9,1)),
 			    "2"),
     new AvaeaTextParserTest("My wife with her parents are flying from Hong Kong to Beijing on the 1st of September returning on the 23rd of September",
 			    "Hong Kong",
 			    "Beijing",
-			    "Thu Sep 01 2016",
-			    "Fri Sep 23 2016",
+			    get_future_date(9,1),
+			    get_future_date(9,23,get_future_date(9,1)),
 			    "3"),
     new AvaeaTextParserTest("I want to fly to Tokyo with two friends on the 1st of November returning a week later",
 			    undefined,
 			    "Tokyo",
 			    "Tue Nov 01 2016",
-			    add_several_weeks(new Date("Tue Nov 01 2016"), 1), // one week from Nov 1
+			    add_weeks(new Date("Tue Nov 01 2016"), 1), // one week from Nov 1
 			    "3"),
     new AvaeaTextParserTest("I want to fly to Tokyo with two friends on the 1st of November for a week",
 			    undefined,
 			    "Tokyo",
 			    "Tue Nov 01 2016",
-			    add_several_weeks(new Date("Tue Nov 01 2016"), 1), // one week from Nov 1
+			    add_weeks(new Date("Tue Nov 01 2016"), 1), // one week from Nov 1
 			    "3"),
     new AvaeaTextParserTest("I want to fly to Tokyo with two friends on the 1st of November for 10 days",
 			    undefined,
 			    "Tokyo",
 			    "Tue Nov 01 2016",
-			    add_several_days(new Date("Tue Nov 01 2016"), 10), // ten days from Nov 1
+			    add_days(new Date("Tue Nov 01 2016"), 10), // ten days from Nov 1
 			    "3"),
     new AvaeaTextParserTest("3 tickets from Moscow to Tokyo on the 1st of September returning a week later",
 			    "Moscow",
 			    "Tokyo",
-			    "Thu Sep 01 2016",
-			    add_several_weeks(new Date("Thu Sep 01 2016"), 1), // one week from Sep 1
+			    get_future_date(9,1),
+			    add_weeks(get_future_date(9,1),1), // one week from Sep 1
 			    "3"),
     new AvaeaTextParserTest("A 10-day trip from LA to New York starting first of November for me",
 			    "LA",
 			    "New York",
-			    "Tue Nov 01 2016",
-			    add_several_days(new Date("Tue Nov 01 2016"), 10), // ten days from Nov 1
+			    get_future_date(11,1),
+			    add_days(get_future_date(11,1),10), // ten days from Nov 1
 			    "1"),
     new AvaeaTextParserTest("A 10-day trip from LA to New York ending 2nd of September for 3",
 			    "LA",
 			    "New York",
-			    add_several_days(new Date("Fri Sep 02 2016"), -10), // ten days before Sep 2
-			    "Fri Sep 02 2016",
+			    add_days(get_future_date(9,2),-10), // ten days before Sep 2
+			    get_future_date(9,2),
 			    "3"),
     new AvaeaTextParserTest("One first class ticket from LA to NYC departing one week before Thanksgiving and returning ten days after Christmas",
 			    "LA",
 			    "NYC",
-			    add_several_weeks(new Date("Thu Nov 24 2016"), -1), // one week before Nov 24
-			    add_several_days(new Date("Thu Dec 25 2016"), 10), // ten days after
+			    add_weeks(new Date("Thu Nov 24 2016"), -1), // one week before Nov 24
+			    add_days(new Date("Thu Dec 25 2016"), 10), // ten days after
 			    "1",
 			    "F")
   ];
