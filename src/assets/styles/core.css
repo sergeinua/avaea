@@ -264,7 +264,15 @@
 	width: 50%;
 }
 
-.desktop .profile {
+.desktop .result-search-info-bar {
+	text-align: center;
+	display: block;
+	width: 100%;
+}
+
+.desktop .tiles-ui,
+.desktop .profile,
+.desktop .booking {
 	margin-top: 0;
 }
 
@@ -752,7 +760,7 @@ textarea {
 }
 
 .navbar-brand {
-	padding: 15px 5px;
+	padding: 16px 5px 14px 5px;
 }
 
 .navbar-header {
