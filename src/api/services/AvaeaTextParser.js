@@ -259,30 +259,27 @@ function AvaeaTextParser() {
     [
       '(thanksgiving|christmas|xmas|new year)',
       function( min_date, matches, atp ) {
+	var result;
 	switch( matches[1] ) {
 	case 'thanksgiving':
 	  // Fourth Thursday in November
-	  var result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,1),"thursday");
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,1),"thursday");
 	  result.setDate(result.getDate()+21);
-	  if( result>=min_date )
-	    return result;
-	  result.setFullYear(result.getFullYear()+1);
-	  return result;
+	  break;
 	case 'christmas':
 	case 'xmas':
-	  var result = new Date(min_date.getFullYear(),11,25);
-	  if( result>=min_date )
-	    return result;
-	  result.setFullYear(result.getFullYear()+1);
-	  return result;
+	  result = new Date(min_date.getFullYear(),11,25);
+	  break;	  
 	case 'new year':
-          var result = new Date(min_date.getFullYear(),11,31);
-	  if( result>=min_date )
-	    return result;
-	  result.setFullYear(result.getFullYear()+1);
-	  return result;
+          result = new Date(min_date.getFullYear(),11,31);
+	  break;
+	default:
+	  throw new Error("'"+s+"' does not look like a holiday name");
 	}
-	throw new Error("'"+s+"' does not look like a holiday name");
+	if( result>=min_date )
+	  return result;
+	result.setFullYear(result.getFullYear()+1);
+	return result;
       }
     ],
     [
