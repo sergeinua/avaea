@@ -1,0 +1,271 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "Round-trip from Istanbul to Hong Kong, Aug 20, 2017 through September 23",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "Round",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NN"
+      },
+      "lemma": "Round"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 5
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "trip",
+        "beginOffset": 6
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "trip"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 11
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Istanbul",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Istanbul"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Hong",
+        "beginOffset": 28
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "Hong"
+    },
+    {
+      "text": {
+        "content": "Kong",
+        "beginOffset": 33
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Kong"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 37
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "Aug",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "APPOS"
+      },
+      "lemma": "Aug"
+    },
+    {
+      "text": {
+        "content": "20",
+        "beginOffset": 43
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "NUM"
+      },
+      "lemma": "20"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "2017",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "TMOD"
+      },
+      "lemma": "2017"
+    },
+    {
+      "text": {
+        "content": "through",
+        "beginOffset": 52
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "through"
+    },
+    {
+      "text": {
+        "content": "September",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "POBJ"
+      },
+      "lemma": "September"
+    },
+    {
+      "text": {
+        "content": "23",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "NUM"
+      },
+      "lemma": "23"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Istanbul",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Istanbul"
+      },
+      "salience": 0.19878249,
+      "mentions": [
+        {
+          "text": {
+            "content": "Istanbul",
+            "beginOffset": 16
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hong Kong",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Hong_Kong"
+      },
+      "salience": 0.1435338,
+      "mentions": [
+        {
+          "text": {
+            "content": "Hong Kong",
+            "beginOffset": 28
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

@@ -14,7 +14,7 @@ var PassengerChooser = React.createClass({
   },
 
   changePassengersCount: function() {
-    this.updateCount(this.state.passengers_count + 1);
+    this.updateCount(parseInt(this.state.passengers_count) + 1);
   },
 
   updateCount: function(passengerVal) {
@@ -23,6 +23,7 @@ var PassengerChooser = React.createClass({
         passengers_count: 1,
         passengers_text: "adult"
       });
+      passengerVal = 1;
     } else {
       this.setState({
         passengers_count: passengerVal,
@@ -32,7 +33,7 @@ var PassengerChooser = React.createClass({
     $('#passengers').val(passengerVal);
   },
 
-  render: function() {
+  render: function () {
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
     return (
@@ -53,5 +54,5 @@ function renderPassengerChooser(passengerVal) {
 }
 
 $(document).ready(function() {
-  renderPassengerChooser(1);
+  renderPassengerChooser($('#passengers').val() || 1);
 });
