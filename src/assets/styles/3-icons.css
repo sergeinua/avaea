@@ -7,7 +7,7 @@
 		
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff'), 
+  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff'); 
 }
 .glyphicon {
   position: relative;
@@ -28,15 +28,18 @@
 }
 
 
-
-
 @font-face {
-    font-family: 'icomoon';
-		  src: url('../fonts/icomoon.woff') format('woff'),
-       url('../fonts/icomoon.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?2wiwcx');
+  src:  url('../fonts/icomoon.eot?2wiwcx#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?2wiwcx') format('truetype'),
+    url('../fonts/icomoon.woff?2wiwcx') format('woff'),
+    url('../fonts/icomoon.svg?2wiwcx#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
+
+
 
 .booking .ti:before,
 .arr-connects:before,
