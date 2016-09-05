@@ -225,7 +225,8 @@ function nan_to_multiple( a ) {
 /////////////////////////////////////////////////////////////////
 function Regexp_and_Conversion(pattern, conversion_proc) {
   // if the pattern is an object then assume that it is a regexp already
-  this.re = (typeof(pattern) == 'string') ? new RegExp(pattern, 'i') : pattern;
+  this.re              = (typeof(pattern)=='string') ? new RegExp(pattern,'i') : pattern;
+  this.fold_the_case   = (typeof(pattern)=='string') ? true : false; // regretfully re.flags is not standard
   this.conversion_proc = conversion_proc;
 }
 function AvaeaTextParser() {
@@ -462,7 +463,6 @@ function AvaeaTextParser() {
   this.run = function( text ) {
     // Clean up the string a bit first
     this.not_parsed = canonicalize_numbers(String(text).replace(/\bthe\s+/ig,' ').replace(/\ban\s+/ig,'a '));
-
     // The matching and conversion procedure
     var match_and_convert = (regexp_and_conversion) => {
       try {
@@ -470,7 +470,7 @@ function AvaeaTextParser() {
 	// Also if the regexp is case insensitive then immediately lowercase the string so that
 	// we do not have to write .toLowerCase() on every match
 	var not_parsed = this.not_parsed.replace(/\s+/gi,' ');
-        var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.re.flags.indexOf('i')<0?not_parsed:not_parsed.toLowerCase());
+        var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.fold_the_case?not_parsed.toLowerCase():not_parsed);
         if (!matches)
 	  throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
         var result = {
