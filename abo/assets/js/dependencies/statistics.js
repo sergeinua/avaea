@@ -33,8 +33,8 @@ var generateGridSearch = function (nameFilter, data) {
       {name: 'serviceProvider', title: 'Name API', type: 'text'},
       {name: 'serviceCount', title: 'Count', type: 'number'},
       {name: 'serviceTimeWork', title: 'Time', type: 'date'},
-      //{name: 'airportsCode', title: 'Airports'},
-      //{type: 'control', modeSwitchButton: false, editButton: false, deleteButton: false}
+      {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
+      {name: 'voiceParsedQuery', title: 'Parsed Query', type: 'text'}
     ]
   });
 };
@@ -43,21 +43,19 @@ var getRowGridSearch = function (row) {
   return {
     email: (row.user && row.user.email) ? row.user.email : '--na--',
     createdAt: new Date(row.createdAt).toLocaleString(),
-    createdDt: new Date(row.createdAt).toLocaleString("en-US", {month: '2-digit', day: '2-digit', year: 'numeric'}),
+    createdDt: new Date(row.createdAt).toLocaleString("en-US", {month: 'short', day: '2-digit', year: '2-digit'}),
     createdTime: new Date(row.createdAt).toLocaleString("en-US", {hour: '2-digit', minute: '2-digit', second: '2-digit'}),
     id: row.id,
     DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
     ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
-    departureDate: moment(row.logInfo.searchParams.departureDate, 'DD/MM/YYYY').format('MM/DD/YYYY') || '-- na --',
-    returnDate: moment(row.logInfo.searchParams.returnDate, 'DD/MM/YYYY').format('MM/DD/YYYY') || '-- na --',
-    flightType: row.logInfo.searchParams.flightType || '-- na --',
-    topSearchOnly: row.logInfo.searchParams.topSearchOnly || 0,
+    departureDate: moment(row.logInfo.searchParams.departureDate, 'DD/MM/YYYY').format('MMM DD, YY') || '-- na --',
+    returnDate: row.logInfo.searchParams.returnDate ? moment(row.logInfo.searchParams.returnDate, 'DD/MM/YYYY').format('MMM DD, YY') : '',
     passengers: row.logInfo.searchParams.passengers || 0,
     serviceProvider: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.name + '<br/>';
       }) : '--na--',
-    result: (!row.logInfo.error) ? 'success' : 'failed',
+    result: (row.logInfo.error && row.logInfo.error != 'No Results Found') ? 'failed' : 'success',
     serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.count + '<br/>';
@@ -66,12 +64,14 @@ var getRowGridSearch = function (row) {
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.timeStr + '<br/>';
       }) : '--na--',
-    voiceQuery: (row.logInfo.searchParams.voiceSearchQuery) ? row.logInfo.searchParams.voiceSearchQuery : '--na--',
     timeWork: row.logInfo.timeWorkStr || '--na--',
-    //airportsCode: (row.logInfo.searchInfoAirports && row.logInfo.searchInfoAirports.length) ?
-    //  row.logInfo.searchInfoAirports.map(function (it) {
-    //    return it.code + '=' + it.count + '; ';
-    //  }) : '--na--'
+    voiceQueryVS: (row.logInfo.searchParams.query) ? row.logInfo.searchParams.query : '--na--',
+    voiceParsedQueryVS: (row.logInfo.searchParams && typeof row.logInfo.searchParams == 'object')
+      ? Object.keys(row.logInfo.searchParams).map(function (key) {
+        if (key != 'query') {
+          return '<b>' + key + '</b>: ' + row.logInfo.searchParams[key] + '<br/>';
+        }
+    }) : '--na--'
   };
 };
 
@@ -92,7 +92,7 @@ var generateGridUsersStat = function () {
     css: "cell-ellipsis",
     inserting: false,
     editing: false,
-    sorting: false,
+    sorting: true,
     paging: false,
     filtering: false,
     autoload: true,
@@ -102,23 +102,20 @@ var generateGridUsersStat = function () {
       }
     },
     fields: [
-      {name: 'email', title: 'Email', type: 'text'},
-      {name: 'createdDt', title: 'Date', type: 'date'},
-      {name: 'createdTime', title: 'Time', type: 'date'},
-      {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
-      {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
-      {name: 'departureDate', title: 'Departure Date', type: 'date'},
-      {name: 'returnDate', title: 'Return Date', type: 'date'},
-      {name: 'flightType', title: 'Flight Type', type: 'text'},
-      {name: 'topSearchOnly', title: 'Top', type: 'number'},
-      {name: 'passengers', title: 'Passengers', type: 'number'},
-      {name: 'serviceProvider', title: 'Provider', type: 'text'},
-      {name: 'result', title: 'Result', type: 'text'},
-      {name: 'serviceTimeWork', title: 'Latency', type: 'date'},
-      {name: 'serviceCount', title: 'Itins', type: 'number'},
-      {name: 'voiceQuery', title: 'Voice Query', type: 'text'},
-      {name: 'timeWork', title: 'Processing time', type: 'date'},
-      {name: 'id', title: 'Id', type: 'number', sorter: "number"}
+      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 100, align: "center"},
+      {name: 'email', title: 'Email', type: 'text', width: 100, align: "center"},
+      {name: 'createdDt', title: 'Date', type: 'date', width: 100, align: "center"},
+      {name: 'createdTime', title: 'Time', type: 'date', width: 100, align: "center"},
+      {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true, width: 100, align: "center"},
+      {name: 'ArrivalLocationCode', title: 'To', type: 'text', width: 100, align: "center"},
+      {name: 'departureDate', title: 'Departing', type: 'date', width: 100, align: "center"},
+      {name: 'returnDate', title: 'Returning', type: 'date', width: 100, align: "center"},
+      {name: 'passengers', title: 'Passengers', type: 'number', width: 100, align: "center"},
+      {name: 'serviceProvider', title: 'Provider', type: 'text', width: 100, align: "center"},
+      {name: 'result', title: 'Result', type: 'text', width: 100, align: "center"},
+      {name: 'serviceTimeWork', title: 'Latency', type: 'date', width: 100, align: "center"},
+      {name: 'serviceCount', title: 'Itins', type: 'number', width: 100, align: "center"},
+      {name: 'timeWork', title: 'Processing time', type: 'date', width: 100, align: "center"}
     ]
   });
 };
@@ -146,6 +143,34 @@ var generateGridOverallStat = function () {
       {name: 'totalFailures', title: 'Failures', type: 'number'},
       {name: 'avgMondee', title: 'Mondee avg. latency', type: 'number'},
       {name: 'avgTime', title: 'Avg. processing time', type: 'number'}
+    ]
+  });
+};
+
+var genGridUsersStatVoiceSearch = function () {
+  $('#gridUsersStatVoiceSearch').jsGrid('destroy');
+  $('#gridUsersStatVoiceSearch').jsGrid({
+    height: '550px',
+    width: '100%',
+    css: "cell-ellipsis",
+    inserting: false,
+    editing: false,
+    sorting: true,
+    paging: false,
+    filtering: false,
+    autoload: true,
+    controller: {
+      loadData: function (data) {
+        return data;
+      }
+    },
+    fields: [
+      {name: 'id', title: 'ID', type: 'number', sorter: "number", width: 50, align: "center"},
+      {name: 'email', title: 'User', type: 'text', width: 100, align: "center"},
+      {name: 'createdDt', title: 'Date', type: 'date', width: 70, align: "center"},
+      {name: 'createdTime', title: 'Time', type: 'date', width: 70, align: "center"},
+      {name: 'voiceQueryVS', title: 'Voice Query Text', width: 200, type: 'text', align: "left"},
+      {name: 'voiceParsedQueryVS', title: 'Parsing Result', type: 'text', width: 200, align: "left"}
     ]
   });
 };

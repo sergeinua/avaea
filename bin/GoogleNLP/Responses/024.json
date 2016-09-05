@@ -1,0 +1,215 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I'd like a ticket between San Francisco and New York City",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "'d",
+        "beginOffset": 1
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "AUX"
+      },
+      "lemma": "'d"
+    },
+    {
+      "text": {
+        "content": "like",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "ROOT"
+      },
+      "lemma": "like"
+    },
+    {
+      "text": {
+        "content": "a",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 11
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "DOBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "between",
+        "beginOffset": 18
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "between"
+    },
+    {
+      "text": {
+        "content": "San",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "NN"
+      },
+      "lemma": "San"
+    },
+    {
+      "text": {
+        "content": "Francisco",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "POBJ"
+      },
+      "lemma": "Francisco"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "New",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "New"
+    },
+    {
+      "text": {
+        "content": "York",
+        "beginOffset": 48
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "NN"
+      },
+      "lemma": "York"
+    },
+    {
+      "text": {
+        "content": "City",
+        "beginOffset": 53
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "CONJ"
+      },
+      "lemma": "City"
+    }
+  ],
+  "entities": [
+    {
+      "name": "San Francisco",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/San_Francisco"
+      },
+      "salience": 0.26387218,
+      "mentions": [
+        {
+          "text": {
+            "content": "San Francisco",
+            "beginOffset": 26
+          }
+        }
+      ]
+    },
+    {
+      "name": "New York City",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/New_York_City"
+      },
+      "salience": 0.19673282,
+      "mentions": [
+        {
+          "text": {
+            "content": "New York City",
+            "beginOffset": 44
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

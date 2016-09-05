@@ -1,0 +1,295 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "One economy ticket from Yoshkar-Ola to Paris-Orly tomorrow, return in six days.",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "One",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NUM"
+      },
+      "lemma": "One"
+    },
+    {
+      "text": {
+        "content": "economy",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "NN"
+      },
+      "lemma": "economy"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 12
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "NSUBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 19
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Yoshkar",
+        "beginOffset": 24
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Yoshkar"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Ola",
+        "beginOffset": 32
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "POBJ"
+      },
+      "lemma": "Ola"
+    },
+    {
+      "text": {
+        "content": "to",
+        "beginOffset": 36
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "PREP"
+      },
+      "lemma": "to"
+    },
+    {
+      "text": {
+        "content": "Paris",
+        "beginOffset": 39
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "NN"
+      },
+      "lemma": "Paris"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 44
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 10,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Orly",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "Orly"
+    },
+    {
+      "text": {
+        "content": "tomorrow",
+        "beginOffset": 50
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "TMOD"
+      },
+      "lemma": "tomorrow"
+    },
+    {
+      "text": {
+        "content": ",",
+        "beginOffset": 58
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 2,
+        "label": "P"
+      },
+      "lemma": ","
+    },
+    {
+      "text": {
+        "content": "return",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "ROOT"
+      },
+      "lemma": "return"
+    },
+    {
+      "text": {
+        "content": "in",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "PREP"
+      },
+      "lemma": "in"
+    },
+    {
+      "text": {
+        "content": "six",
+        "beginOffset": 70
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 16,
+        "label": "NUM"
+      },
+      "lemma": "six"
+    },
+    {
+      "text": {
+        "content": "days",
+        "beginOffset": 74
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 14,
+        "label": "POBJ"
+      },
+      "lemma": "day"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 78
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 13,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "Yoshkar-Ola",
+      "type": "PERSON",
+      "metadata": {},
+      "salience": 0.13850875,
+      "mentions": [
+        {
+          "text": {
+            "content": "Yoshkar-Ola",
+            "beginOffset": 24
+          }
+        }
+      ]
+    },
+    {
+      "name": "Paris-Orly",
+      "type": "LOCATION",
+      "metadata": {},
+      "salience": 0.11091873,
+      "mentions": [
+        {
+          "text": {
+            "content": "Paris-Orly",
+            "beginOffset": 39
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

@@ -1,0 +1,285 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "I need a ticket departing Los Angeles on May 2 and reaching London the next day.",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "I",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "NSUBJ"
+      },
+      "lemma": "I"
+    },
+    {
+      "text": {
+        "content": "need",
+        "beginOffset": 2
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ROOT"
+      },
+      "lemma": "need"
+    },
+    {
+      "text": {
+        "content": "a",
+        "beginOffset": 7
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "DET"
+      },
+      "lemma": "a"
+    },
+    {
+      "text": {
+        "content": "ticket",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "DOBJ"
+      },
+      "lemma": "ticket"
+    },
+    {
+      "text": {
+        "content": "departing",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 3,
+        "label": "VMOD"
+      },
+      "lemma": "depart"
+    },
+    {
+      "text": {
+        "content": "Los",
+        "beginOffset": 26
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 6,
+        "label": "NN"
+      },
+      "lemma": "Los"
+    },
+    {
+      "text": {
+        "content": "Angeles",
+        "beginOffset": 30
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "DOBJ"
+      },
+      "lemma": "Angeles"
+    },
+    {
+      "text": {
+        "content": "on",
+        "beginOffset": 38
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "PREP"
+      },
+      "lemma": "on"
+    },
+    {
+      "text": {
+        "content": "May",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 7,
+        "label": "POBJ"
+      },
+      "lemma": "May"
+    },
+    {
+      "text": {
+        "content": "2",
+        "beginOffset": 45
+      },
+      "partOfSpeech": {
+        "tag": "NUM"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NUM"
+      },
+      "lemma": "2"
+    },
+    {
+      "text": {
+        "content": "and",
+        "beginOffset": 47
+      },
+      "partOfSpeech": {
+        "tag": "CONJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CC"
+      },
+      "lemma": "and"
+    },
+    {
+      "text": {
+        "content": "reaching",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "CONJ"
+      },
+      "lemma": "reach"
+    },
+    {
+      "text": {
+        "content": "London",
+        "beginOffset": 60
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "DOBJ"
+      },
+      "lemma": "London"
+    },
+    {
+      "text": {
+        "content": "the",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "DET"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "DET"
+      },
+      "lemma": "the"
+    },
+    {
+      "text": {
+        "content": "next",
+        "beginOffset": 71
+      },
+      "partOfSpeech": {
+        "tag": "ADJ"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 15,
+        "label": "AMOD"
+      },
+      "lemma": "next"
+    },
+    {
+      "text": {
+        "content": "day",
+        "beginOffset": 76
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 11,
+        "label": "TMOD"
+      },
+      "lemma": "day"
+    },
+    {
+      "text": {
+        "content": ".",
+        "beginOffset": 79
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "P"
+      },
+      "lemma": "."
+    }
+  ],
+  "entities": [
+    {
+      "name": "Los Angeles",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Los_Angeles"
+      },
+      "salience": 0.29515913,
+      "mentions": [
+        {
+          "text": {
+            "content": "Los Angeles",
+            "beginOffset": 26
+          }
+        }
+      ]
+    },
+    {
+      "name": "London",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/London"
+      },
+      "salience": 0.076159149,
+      "mentions": [
+        {
+          "text": {
+            "content": "London",
+            "beginOffset": 60
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}
