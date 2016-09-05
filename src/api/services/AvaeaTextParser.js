@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
 // Module constants
 /////////////////////////////////////////////////////////////////
 const _MONTH_NAMES = {
@@ -77,7 +77,7 @@ function get_date_from_matches( min_date, year_match, month_match, date_of_month
 function get_date_of_next_weekday(start, weekday) {
   // Always make a copy so that we leave the original intact
   start = new Date(start);
-  weekday = String(weekday).toLowerCase();
+  weekday = String(weekday);
   for (var n = 0; n < 7; n++) {
     if (weekday.indexOf(start.toLocaleString("en-us",{ weekday: "short" }).toLowerCase()) == 0)
       return start;
@@ -104,11 +104,11 @@ function validate_city_name( city_name ) {
 }
 function do_date_arithmetics( base_date, quantity_match, date_unit_match, qualifier_match ) {
   var result    = new Date(base_date);
-  var quantity  = (["a","next"].indexOf(quantity_match.toLowerCase())<0 ? Number(quantity_match) : 1) * _DATE_QUALIFIERS[qualifier_match.toLowerCase()];
-  if( date_unit_match.toLowerCase()=='month' )
+  var quantity  = (["a","next"].indexOf(quantity_match)<0 ? Number(quantity_match) : 1) * _DATE_QUALIFIERS[qualifier_match];
+  if( date_unit_match=='month' )
     result.setMonth(result.getMonth()+quantity);
   else
-    result.setDate(result.getDate()+_DATE_UNITS[date_unit_match.toLowerCase()]*quantity);
+    result.setDate(result.getDate()+_DATE_UNITS[date_unit_match]*quantity);
   return result;
 }
 function canonicalize_numbers( s ) {
@@ -206,7 +206,6 @@ function canonicalize_numbers( s ) {
     });
 }
 function count_tickets( s ) {
-  s = s.toLowerCase();
   switch( s ) {
   case 'would':
   case 'will':
@@ -258,9 +257,17 @@ function AvaeaTextParser() {
       }
     ],
     [
-      '(thanksgiving|christmas|xmas)',
+      '(thanksgiving|christmas|xmas|new year)',
       function( min_date, matches, atp ) {
-	switch( matches[1].toLowerCase() ) {
+	switch( matches[1] ) {
+	case 'thanksgiving':
+	  // Fourth Thursday in November
+	  var result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,1),"thursday");
+	  result.setDate(result.getDate()+21);
+	  if( result>=min_date )
+	    return result;
+	  result.setFullYear(result.getFullYear()+1);
+	  return result;
 	case 'christmas':
 	case 'xmas':
 	  var result = new Date(min_date.getFullYear(),11,25);
@@ -268,10 +275,8 @@ function AvaeaTextParser() {
 	    return result;
 	  result.setFullYear(result.getFullYear()+1);
 	  return result;
-	case 'thanksgiving':
-	  // Fourth Thursday in November
-	  var result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,1),"Thursday");
-	  result.setDate(result.getDate()+21);
+	case 'new year':
+          var result = new Date(min_date.getFullYear(),11,31);
 	  if( result>=min_date )
 	    return result;
 	  result.setFullYear(result.getFullYear()+1);
@@ -465,15 +470,19 @@ function AvaeaTextParser() {
     var match_and_convert = (regexp_and_conversion) => {
       try {
 	// Remove extra spaces at every step because they can re-appear as we remove found parts
-        var matches = regexp_and_conversion.re.exec(this.not_parsed.replace(/\s+/gi,' '));
+	// Also if the regexp is case insensitive then immediately lowercase the string so that
+	// we do not have to write .toLowerCase() on every match
+	var not_parsed = this.not_parsed.replace(/\s+/gi,' ');
+        var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.re.flags.indexOf('i')<0?not_parsed:not_parsed.toLowerCase());
         if (!matches)
 	  throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
-        var result = {};
-        result['matches'] = matches;
-        result['value']   = regexp_and_conversion.conversion_proc(matches,this);
-        result['pattern'] = regexp_and_conversion.re;
+        var result = {
+          'matches' : matches,
+          'value'   : regexp_and_conversion.conversion_proc(matches,this),
+          'pattern' : regexp_and_conversion.re
+	};
         this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re,'');
-        return result;
+	return result;
       } catch (e) {
         return undefined;
       }
