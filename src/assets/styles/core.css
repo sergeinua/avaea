@@ -1739,7 +1739,7 @@ body.loading .modalLoader {
 
 .bottomNav {
 	font-size: 12px;
-  padding: 8px 13px;
+  padding: 8px 35px 8px 10px;
   height: 32px;
   width: auto;
   border-top: 1px solid rgba(255, 255, 255, .8);
@@ -1850,6 +1850,19 @@ body.loading .modalLoader {
 
 .sort-button .dropdown-menu > li > a {
   padding: 3px 8px;
+}
+
+.bottomNav span[class^="icon-expander-"] {
+  margin-right: -5px;
+	margin-left: 5px;
+	display: inline-block;
+	position: relative;
+		top: -17px;
+}
+
+.bottomNav span[class^="icon-expander-"]:before {
+	font-size: 26px;
+	position: absolute;
 }
 
 
