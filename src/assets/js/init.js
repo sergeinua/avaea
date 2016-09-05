@@ -22,12 +22,8 @@ var isMobile = {
   }
 };
 
-var isLandscapeMode = function () {
-  if ( typeof window.orientation == 'undefined' ) {
-    return (window.outerHeight < window.outerWidth)
-  }
-  return (window.orientation == 90 || window.orientation == -90);
-};
+// Deborah removed landscape function
+// in order to control landscape view with responsive CSS
 
 /**
  * Possible types
@@ -81,48 +77,76 @@ function setCookie(name, value, options) {
   document.cookie = updatedCookie;
 }
 
-$(document).ready(function() {
 
-  $('#nav_slide_menu').offcanvas({
+$(document).ready(function() {
+	
+	$('#nav_slide_menu').offcanvas({
     toggle: false,
     placement: 'left'
   });
+	
+	/**
+	 * *********  This is Deborah's script to manage desktop vs. touch   ********
+	 * *********  but only for supported devices (iPhone, Android)       ********
+	 */ 
 
+	// detect if is touch
+	function isTouchDevice(){
+	  return typeof window.ontouchstart !== 'undefined';
+	}
 
-  $( window ).resize(function() {
-    $('body').removeClass('landscape-mode');
-    var modalIsOpen = $('#landscapeMode').length && ($("#searchBanner").data('bs.modal') || {}).isShown;
+	// if not touch
+	if (!isTouchDevice()) {
+		
+		// add 'desktop' class to body
+		$(function() {
+	    var body = $('body');
+	    body.addClass(' desktop');
+	    
+		});
 
-    if (isLandscapeMode()) {
-      $('body').addClass('landscape-mode');
-      if (isMobile.any() && $('#landscapeMode').length) {
-        if ( modalIsOpen ) {
-          $('#searchBanner').hide();
-          $('#planePath').hide();
-        }
-        $('#landscapeMode').modal('show');
-        $('#landscapeMode').data('bs.modal').$backdrop.css('background-color','white');
-        $('#landscapeMode').data('bs.modal').$backdrop.css('opacity', 1);
+	// else if touch, add classes to body
+	} else {
+		
+	  // add 'touch' 
+		$(function() {
+			var body = $('body');
+			body.addClass(' touch');
+			
+			// now get which device, add 'ios' or 'android'
+			$(function() {
+			  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+			  if (userAgent.match((/iPad/i) || (/iPhone/i) || (/iPod/i))) {
+			  	body.addClass(' ios');
+			  	
+			  } else if (userAgent.match(/Android/i)) {
+			    body.addClass(' android');
+			  }
+			});
+		});
+	}
+	
+//***** detect IE10 or IE11 and append string  ***** // 
+	  var doc = document.documentElement;
+	  doc.setAttribute('data-useragent', navigator.userAgent);
+	  
+	  
+	
+	//***** Deborah script - on scroll, add class to header ***** // 
+  var header = $('header');
+  $(window).scroll(function() {    
+      var scroll = $(window).scrollTop();
+      if (scroll >= 5) {
+          header.addClass(' scrolled');
+      } else {
+          header.removeClass(' scrolled');
       }
-    } else {
-      if(isMobile.any()) {
-        if ( modalIsOpen ) {
-          $('#searchBanner').show();
-          $('#planePath').show();
-        }
-        $('#landscapeMode').modal('hide');
-      }
-    }
-
-    //DEMO-318 an unused horizontal stripe between tiles and itin summaries
-    var tilesHeight = $('#tiles_ui>.row').outerHeight(true) || 0;
-    var navHeight = 50;
-    if (window.innerWidth >= 480) {
-      navHeight = 30;
-    }
-    $('body').css('padding-top', ( tilesHeight + navHeight  ) + 'px');
   });
+  // ***** end Deborah script *****
+  
 });
+// ends dom ready
 
 
 let nodes = [];
@@ -148,3 +172,9 @@ $(function () {
   $('#content')
     .on('content-will-change', ReactContentRenderer.unmountAll);
 });
+
+
+
+
+
+
