@@ -732,7 +732,6 @@ textarea {
 .navbar-default .navbar-brand:hover {
 	font-family: 'montserrat-semibold';
   font-size: 19px;
-  letter-spacing: 0.5px;
   color: #ffffff;
   text-transform: uppercase;
 }
