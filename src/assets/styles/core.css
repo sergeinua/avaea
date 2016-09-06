@@ -2498,7 +2498,7 @@ body.loading .modalLoader {
 	font-size: 20px;
 	padding: 0 10px;
 	position: absolute;
-	top: 12px;
+	top: 3px;
 }
 
 .panel-default > .panel-heading + .panel-collapse > .panel-body,
