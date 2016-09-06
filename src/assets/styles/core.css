@@ -285,7 +285,6 @@
 	margin-top: 0;
 }
 
-
 .desktop .swiper-slide {
 	max-width: 155px;
 }
@@ -2493,6 +2492,13 @@ body.loading .modalLoader {
 
 .panel-default > .panel-heading {
 	border-color: transparent;
+}
+
+.panel-title a:after {
+	font-size: 20px;
+	padding: 0 10px;
+	position: absolute;
+	top: 12px;
 }
 
 .panel-default > .panel-heading + .panel-collapse > .panel-body,

@@ -40,7 +40,7 @@
 }
 
 
-
+#accordion .panel-title a:after,
 .booking .ti:before,
 .arr-connects:before,
 .arr-connects:after,
@@ -79,6 +79,9 @@
 .icon-arr-dropdown:before {
   content: "\e901";
 }
+.icon-arr-dropdown-up:before {
+  content: "\e92c";
+}
 .arr-asc:before,
 .icon-arr-ascend:before {
   content: "\e927";
@@ -95,6 +98,14 @@
 .arr-connects:after,
 .icon-arr-connects:before {
   content: "\e92a";
+}
+.panel-title a.collapsed:after,
+.icon-arr-chevron-up:before {
+  content: "\e92d";
+}
+.panel-title a:after,
+.icon-arr-chevron-down:before {
+  content: "\e92e";
 }
 .back-history:before,
 .icon-arr-left-circle:before {
