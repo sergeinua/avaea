@@ -467,7 +467,7 @@ function AvaeaTextParser() {
       // Also if the regexp is case insensitive then immediately lowercase the string so that
       // we do not have to write .toLowerCase() on every match
       var not_parsed = this.not_parsed.replace(/\s+/gi,' ');
-      var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.re.flags.indexOf('i')<0?not_parsed:not_parsed.toLowerCase());
+      var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.fold_the_case?not_parsed.toLowerCase():not_parsed);
       if (!matches)
 	throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
       var result = {
