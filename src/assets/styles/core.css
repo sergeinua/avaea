@@ -2492,6 +2492,7 @@ body.loading .modalLoader {
 }
 
 .close-x {
+	cursor: pointer;
 	font-size: 18px;
 	padding: 14px;
 	opacity: .3;
@@ -2551,7 +2552,11 @@ body.loading .modalLoader {
 
 .panel-body,
 .booking .form {
-	padding: 15px 15px 85px 25px;
+	padding: 15px 15px 15px 25px;
+}
+
+.booking .form {
+	padding-bottom: 85px;
 }
 
 .panel-body .panel-body {
