@@ -295,6 +295,7 @@
 	height: 50px;
 	position: absolute;
 		top: 51px;
+	border-bottom: 1px solid rgba(0, 129, 201, .2);		
 }
 
 .desktop.search-result .main.container-fluid {
@@ -427,6 +428,15 @@
 	text-align: left;
 	padding: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .flight-extras .modal-body {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.desktop .modal-content .buttons-bar {
+	height: 51px;
 }
 
 .desktop .booking .buttons {
@@ -670,11 +680,20 @@ legend,
 	border: 1px solid #0081c9;
 }
 
+.flight-extras .buttons-bar:hover,
+.flight-extras .buttons-bar:focus,
 .big-button.secondary:hover, 
 .big-button.secondary:focus,
 .mycustomtab {
 	background: rgba(0, 129, 201, .1);
 }
+
+.flight-extras .buttons-bar .big-button.secondary,
+.flight-extras .buttons-bar .big-button.secondary:hover,
+.flight-extras .buttons-bar .big-button.secondary:focus {
+	background: transparent;
+}
+
 
 .bottomNav {
 	background: #b7e5f8;
@@ -806,9 +825,10 @@ form label.required:before {
 
 /* grays */
 
+.desktop .flight-info,
 .desktop.search-result .flights,
 .desktop .flight-unit {
-	background: #f3f3f3;
+	background: #f3f3f3 url(../images/texture.gif);
 }
 
 /* .desktop.search-result .itinerary:hover, */
@@ -1755,6 +1775,7 @@ body.loading .modalLoader {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
+	transition: all 0.2s ease-in-out; 
 
   /* Fix of Webkit flickering */
   z-index: 1;
@@ -1762,6 +1783,10 @@ body.loading .modalLoader {
   /* animate in */
 	-webkit-animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.swiper-container.collapsed {
+	 
 }
 
 @keyframes swipeCue {
