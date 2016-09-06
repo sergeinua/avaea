@@ -27,7 +27,7 @@
 
 /* desktop */
 
-/* :not[.search-result] */
+/* :not(.search-result) */
 
 .desktop {  
 	text-align: center;
@@ -96,7 +96,7 @@
 	z-index: 0;
 }
 
-.desktop:not[.search-result] #main_title {
+.desktop:not(.search-result) #main_title {
 	overflow: hidden;
 }
 
@@ -268,6 +268,7 @@
 }
 
 .desktop .result-search-info-bar {
+	font-size: 16px;
 	text-align: center;
 	display: block;
 	width: 100%;
@@ -287,8 +288,8 @@
 	margin-left: -20px;
 	width: 878px;
 	height: 50px;
-	position: fixed;
-		top: 92px;
+	position: absolute;
+		top: 51px;
 }
 
 .desktop.search-result .main.container-fluid {
@@ -302,6 +303,35 @@
 	color: #ffffff;
 	text-transform: uppercase;
 	padding: 13px 5px 0 5px;
+}
+
+.desktop .result-search-info-bar span {
+	padding: 0 20px;
+}
+
+.desktop .bottomNav .sort-button button.btn,
+.desktop .bottomNav {
+	font-size: 14px;
+}
+
+.desktop .bottomNav {
+	height: 36px;
+}
+
+.desktop .arr-asc:before, 
+.desktop .arr-desc:before {
+	top: -7px;
+}
+
+.desktop .sort-button .dropdown-menu {
+	left: 240px;
+	right: auto;
+}
+
+.desktop .dimmer {    
+	text-align: center;
+	margin: 285px auto 0 auto;
+	width: 878px;
 }
 
 
@@ -497,6 +527,7 @@ legend,
 }
 
 
+
 /* light blue */
 
 .sort-button .selected,
@@ -659,6 +690,7 @@ form label.required:before {
 
 /* grays */
 
+.desktop .sort-button .dropdown-menu li:not(.selected):hover,
 .desktop .flight-info,
 .notable-area,
 .modal-content .title-bar,
@@ -1699,6 +1731,7 @@ body.loading .modalLoader {
 }
 
 .mycustomtab {
+	text-align: center;
 	padding: 3px 5px 0 5px;
 }
 
@@ -1879,6 +1912,7 @@ body.loading .modalLoader {
 }
 
 .sort-button .dropdown-menu li {
+	cursor: pointer;
 	padding: 5px 30px 5px 8px;
 	position: relative;
 }
@@ -2109,7 +2143,7 @@ body.loading .modalLoader {
 	padding: 0 8px 0 25px;
 }
 
-#searchResultData {
+.touch #searchResultData {
   overflow: auto;
   max-height: 100vh;
 }
