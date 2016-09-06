@@ -27,6 +27,8 @@
 
 /* desktop */
 
+/* :not(.search-result) */
+
 .desktop {  
 	text-align: center;
 	padding: 30px 30px 100px 30px;
@@ -84,6 +86,7 @@
 
 .desktop .main.container-fluid {
 	min-height: 561px;
+	height: auto;
 }
 
 .desktop .navbar-fixed-top,
@@ -93,7 +96,7 @@
 	z-index: 0;
 }
 
-.desktop #main_title {
+.desktop:not(.search-result) #main_title {
 	overflow: hidden;
 }
 
@@ -264,7 +267,13 @@
 	width: 50%;
 }
 
+.desktop.search-result .flights {
+	margin-bottom: -70px;
+	padding-bottom: 70px;
+}
+
 .desktop .result-search-info-bar {
+	font-size: 16px;
 	text-align: center;
 	display: block;
 	width: 100%;
@@ -272,9 +281,210 @@
 
 .desktop .tiles-ui,
 .desktop .profile,
-.desktop .booking {
+.desktop .booking  {
 	margin-top: 0;
 }
+
+.desktop .swiper-slide {
+	max-width: 155px;
+}
+
+.desktop .flight-info {
+	margin-left: -20px;
+	width: 878px;
+	height: 50px;
+	position: absolute;
+		top: 51px;
+	border-bottom: 1px solid rgba(0, 129, 201, .2);		
+}
+
+.desktop.search-result .main.container-fluid {
+	margin-top: 50px;
+}
+
+.desktop.search-result .navbar-header:before {
+	content: 'Avaea Agent';
+  font-family: 'montserrat-semibold';
+	font-size: 19px;
+	color: #ffffff;
+	text-transform: uppercase;
+	padding: 13px 5px 0 5px;
+}
+
+.desktop .result-search-info-bar span {
+	padding: 0 20px;
+}
+
+.desktop .mybucket {
+	font-size: 15px;
+}
+
+.desktop .mycustomtab {
+	padding: 3px 5px 3px 5px;
+}
+
+.desktop .bottomNav .sort-button button.btn,
+.desktop .bottomNav {
+	font-size: 14px;
+}
+
+.desktop .bottomNav {
+	height: 36px;
+}
+
+.desktop .arr-asc:before, 
+.desktop .arr-desc:before {
+	top: -7px;
+}
+
+.desktop .sort-button .dropdown-menu {
+	left: 240px;
+	right: auto;
+}
+
+.desktop .dimmer {    
+	text-align: center;
+	margin: 285px auto 0 auto;
+	width: 878px;
+}
+
+.desktop .swiper-container {
+	padding: 20px;
+}
+
+.desktop.search-result .flights {
+	text-align: center;
+	padding: 5px 20px 40px 20px;
+	min-height: 388px;
+}
+
+.desktop.search-result .itinerary,
+.desktop .flight-unit .itinerary {
+	font-size: 14px;
+	margin: 5px auto;
+	padding: 20px 20px 20px 40px;
+	float: none;
+	width: 60%;
+	background: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 6px;
+}
+
+.desktop .row.notable-area {
+	margin: 20px -20px -20px -40px;
+	padding: 0 20px 20px 40px;
+	border-bottom: none;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	
+}
+
+.desktop .notable-area .details {
+	font-size: 14px;
+}
+
+.desktop .itinerary .row.title {
+	font-size: 16px;
+	text-transform: uppercase;
+	padding-bottom: 2px;
+}
+
+.desktop .itinerary-info {
+	margin-bottom: 4px;
+}
+
+.desktop .itinerary-airline .icon-thumbs-up {
+	font-size: 18px;
+}
+
+.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
+.desktop .btn-group > .btn + .dropdown-toggle {
+	font-size: 16px;
+}
+
+.desktop .caret {
+	border-top-width: 6px;
+	border-right-width: 6px;
+	border-left-width: 6px;
+}
+
+.desktop .btn-group {
+	top: -3px;
+	width: 90px;
+}
+
+.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	width: 57px;
+}
+
+.desktop .dropdown-menu > li> a.our-dropdown {
+	font-size: 14px;
+	padding: 6px 8px 4px 7px;
+	width: 82px;
+}
+
+.btn-group {
+	width: 75px;
+}
+
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	width: 47px;
+}
+
+.dropdown-menu > li> a.our-dropdown {
+	width: 69px;
+}
+
+.desktop #searchResultData .merchandising li .gicon {
+	margin-top: 3px;
+}
+
+.desktop .modal {
+	width: 400px;
+}
+
+.desktop .flight-unit {
+	margin: 0;
+	text-align: left;
+	padding: 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .flight-extras .modal-body {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
+.desktop .modal-content .buttons-bar {
+	height: 51px;
+}
+
+.desktop .booking .buttons {
+	text-align: left;
+	padding-left: 20px;
+	position: relative;
+	border-top: 0px solid transparent;
+}
+
+.desktop .booking .form {
+	padding-bottom: 45px;
+}
+
+.desktop .booking .ti {
+	font-size: 26px;
+	padding-left: 40px;
+}
+
+.desktop .ti:before {
+	font-size: 32px;
+		top: 13px;
+}
+
+
+/* heredeb */
+
+
+
 
 
 /* ------- everywhere parts ------- */
@@ -314,6 +524,7 @@ footer,
 }
 
 .clear-it,
+.desktop.search-result .flights,
 .desktop:after,
 .flight-additional-info:after,
 #search_form:before,
@@ -444,6 +655,7 @@ footer,
 	background: #004c9c;
 }
 
+.desktop .result-search-info-bar,
 .bottomNav .sort-button button.btn,
 .clear-undo-buttons,
 .flight-date-info-item .the-date span,
@@ -460,6 +672,7 @@ legend,
 .mybucket {
 	border-top: 4px solid #004c9c;
 }
+
 
 
 /* light blue */
@@ -487,11 +700,20 @@ legend,
 	border: 1px solid #0081c9;
 }
 
+.flight-extras .buttons-bar:hover,
+.flight-extras .buttons-bar:focus,
 .big-button.secondary:hover, 
 .big-button.secondary:focus,
 .mycustomtab {
 	background: rgba(0, 129, 201, .1);
 }
+
+.flight-extras .buttons-bar .big-button.secondary,
+.flight-extras .buttons-bar .big-button.secondary:hover,
+.flight-extras .buttons-bar .big-button.secondary:focus {
+	background: transparent;
+}
+
 
 .bottomNav {
 	background: #b7e5f8;
@@ -571,7 +793,6 @@ a:focus,
 }
 
 
-
 /* partial blue */
 
 .flight-date-info-item {
@@ -624,7 +845,15 @@ form label.required:before {
 
 /* grays */
 
+.desktop .flight-info,
+.desktop.search-result .flights,
+.desktop .flight-unit {
+	background: #f3f3f3 url(../images/texture.gif);
+}
 
+/* .desktop.search-result .itinerary:hover, */
+.desktop .sort-button .dropdown-menu li:not(.selected):hover,
+.desktop .flight-info,
 .notable-area,
 .modal-content .title-bar,
 .tt-suggestion:hover,
@@ -724,7 +953,7 @@ textarea {
 
 
 
-/* header nav */
+/* header nav */ 
 
 .navbar-header,
 .navbar-default .navbar-nav > li > a,
@@ -747,7 +976,7 @@ textarea {
 .navbar-default .navbar-toggle, 
 .navbar-default .navbar-toggle:focus, 
 .navbar-default .navbar-toggle:hover {
-  font-family: 'Open-Sans-Extrabold';
+  font-family: 'Open-Sans-Extrabold'; 
 	margin: 8px 0 8px 0;
   padding-right: 6px;
   padding-left: 6px;
@@ -1287,6 +1516,8 @@ td[data-action*="selectDay"] {
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-left:before,
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-right:before {
 	font-size: 16px;
+	position: absolute;
+    top: -18px;
 }
 
 .datepicker table td.today:before {
@@ -1505,6 +1736,7 @@ body.loading .modalLoader {
 }
 
 .result-search-info-bar {
+	cursor: pointer;
 	font-size: 12px;
 	text-align: left;
 	padding: 16px 0 0 2px;
@@ -1547,14 +1779,25 @@ body.loading .modalLoader {
 
 .filters-area .holder {
   background: #cdeffc url(../images/clouds-sm.png) -300px center; 
-	/* background: url(../images/lil-clouds.svg) 0 100px repeat-x;
-	background-color: rgba(255, 255, 255, .5); */
 }
+
+/* 
+.clickable-tiles-area-yellow {
+  position: absolute;
+  width: 100%;
+  height: 15px;
+  top: 0;
+	left: 0;
+  border: 0;
+  z-index: 9998;
+}
+*/
 
 .swiper-container {
   margin: 0 auto;
 	padding: 10px;
   position: relative;
+	transition: all 0.2s ease-in-out; 
 
   /* Fix of Webkit flickering */
   z-index: 1;
@@ -1562,6 +1805,10 @@ body.loading .modalLoader {
   /* animate in */
 	-webkit-animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.swiper-container.collapsed {
+	 
 }
 
 @keyframes swipeCue {
@@ -1653,6 +1900,7 @@ body.loading .modalLoader {
 }
 
 .mycustomtab {
+	text-align: center;
 	padding: 3px 5px 0 5px;
 }
 
@@ -1675,6 +1923,7 @@ body.loading .modalLoader {
 
 /* tiles */
 .mybucket .list-group-item {
+	cursor: pointer;
 	padding: 7px;
   height: 35px;
 	border: 0px solid transparent;
@@ -1739,7 +1988,7 @@ body.loading .modalLoader {
 
 .bottomNav {
 	font-size: 12px;
-  padding: 8px 13px;
+  padding: 8px 35px 8px 10px;
   height: 32px;
   width: auto;
   border-top: 1px solid rgba(255, 255, 255, .8);
@@ -1767,7 +2016,7 @@ body.loading .modalLoader {
 	font-size: 30px;
 	display: inline-block;
 	position: absolute;
-		top: -8px;
+		top: -9px;
 		right: -22px;
 }
 
@@ -1783,6 +2032,12 @@ body.loading .modalLoader {
 
 .clear-undo-buttons {
   float: right;
+}
+
+.clear-all-filters,
+.undo-button,
+.bottomNav span[class^="icon-expander-"] {
+	cursor: pointer;
 }
 
 .bottomNav .sort-button button.btn,
@@ -1826,6 +2081,7 @@ body.loading .modalLoader {
 }
 
 .sort-button .dropdown-menu li {
+	cursor: pointer;
 	padding: 5px 30px 5px 8px;
 	position: relative;
 }
@@ -1852,10 +2108,24 @@ body.loading .modalLoader {
   padding: 3px 8px;
 }
 
+.bottomNav span[class^="icon-expander-"] {
+  margin-right: -5px;
+	margin-left: 5px;
+	display: inline-block;
+	position: relative;
+		top: -17px;
+}
+
+.bottomNav span[class^="icon-expander-"]:before {
+	font-size: 26px;
+	position: absolute;
+}
+
 
 /* flights */
 
 .itinerary {
+	cursor: pointer;
 	font-size: 13px;
   padding: 5px 0 0 10px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -1977,6 +2247,7 @@ body.loading .modalLoader {
 
 .row.notable-area {
 	margin-bottom: -1px;
+	margin-right: -20px;
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -2005,6 +2276,7 @@ body.loading .modalLoader {
 	width: 12%;
 }
 
+.notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
 	width: 17%;
 }
@@ -2018,10 +2290,6 @@ body.loading .modalLoader {
 .notable-area .row.title {
 	text-align: left;
 	padding: 12px 0 3px 0;
-}
-
-.notable-area .details .col-xs-2.dest {
-	width: 14%;
 }
 
 .switch-planes {
@@ -2042,7 +2310,7 @@ body.loading .modalLoader {
 	padding: 0 8px 0 25px;
 }
 
-#searchResultData {
+.touch #searchResultData {
   overflow: auto;
   max-height: 100vh;
 }
@@ -2258,7 +2526,7 @@ body.loading .modalLoader {
 
 .panel-body,
 .booking .form {
-	padding: 15px 15px 15px 25px;
+	padding: 15px 15px 85px 25px;
 }
 
 .panel-body .panel-body {
@@ -2271,6 +2539,13 @@ body.loading .modalLoader {
 
 .panel-default > .panel-heading {
 	border-color: transparent;
+}
+
+.panel-title a:after {
+	font-size: 20px;
+	padding: 0 10px;
+	position: absolute;
+	top: 3px;
 }
 
 .panel-default > .panel-heading + .panel-collapse > .panel-body,
@@ -2342,8 +2617,6 @@ select.input-sm {
 
 
 
-
-/* heredeb */
 
 /* ------- responsive ------- */
 
@@ -2661,6 +2934,10 @@ html[data-useragent*='Trident'] .multi-city-coming-soon {
 html[data-useragent*='Trident'] .ie-fixer.placeholder {
 	padding: 10px 0;
 	display: block;
+}
+
+html[data-useragent*='Trident'] .input-sm {
+	line-height: 1.5em;
 }
 
 
