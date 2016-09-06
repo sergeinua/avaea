@@ -423,18 +423,6 @@
 	width: 82px;
 }
 
-.btn-group {
-	width: 75px;
-}
-
-.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 47px;
-}
-
-.dropdown-menu > li> a.our-dropdown {
-	width: 69px;
-}
-
 .desktop #searchResultData .merchandising li .gicon {
 	margin-top: 3px;
 }
@@ -478,6 +466,12 @@
 .desktop .ti:before {
 	font-size: 32px;
 		top: 13px;
+}
+
+.desktop .warning {
+	font-size: 22px;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
 
@@ -839,8 +833,17 @@ a:focus,
 
 /* red */
 
-form label.required:before {
+form label.required:before,
+.warning {
 	color: #ed2741;
+}
+
+.warning {
+	background-color: rgba(237, 39, 65, .2);
+}
+
+.warning {
+	border-bottom: 1px solid rgba(237, 39, 65, .2);
 }
 
 /* grays */
@@ -1954,6 +1957,11 @@ body.loading .modalLoader {
 	color: #ffffff;
 }
 
+.mybucket .list-group-item.selected .hidden-xs {
+	color: #ffffff;
+	opacity: .5;
+}
+
 /* plus and flight count */
 .mybucket .list-group-item > span {
 }
@@ -2235,6 +2243,7 @@ body.loading .modalLoader {
 .dropdown-menu > li> a.our-dropdown {
 	font-size: 13px;
 	padding: 4px 5px 4px 4px;
+	width: 69px;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -2243,6 +2252,14 @@ body.loading .modalLoader {
 
 .buy-button {
   padding: 0 0 0 0;
+}
+
+.btn-group {
+	width: 75px;
+}
+
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	width: 47px;
 }
 
 .row.notable-area {
@@ -2427,6 +2444,14 @@ body.loading .modalLoader {
 	background: #fff;
 	width: 100%;
 	border-top: 1px solid rgba(0, 0, 0, .15);
+}
+
+.warning {
+	font-size: 18px;
+	text-align: center;
+	margin-top: 50px;
+  margin-bottom: -50px;
+	padding: 20px;
 }
 
 
@@ -2936,8 +2961,12 @@ html[data-useragent*='Trident'] .ie-fixer.placeholder {
 	display: block;
 }
 
+: -ms-input-placeholder.form-control {
+	line-height: 1em;
+}
+
 html[data-useragent*='Trident'] .input-sm {
-	line-height: 1.5em;
+	line-height: 1em;
 }
 
 

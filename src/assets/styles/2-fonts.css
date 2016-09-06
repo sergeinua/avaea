@@ -82,16 +82,24 @@
 
 @font-face {
     font-family: 'montserrat-semibold';
-    src: url('../fonts/montserrat-semibold.woff2') format('woff2'),
-         url('../fonts/montserrat-semibold.woff') format('woff');
+    src: url('../fonts/montserrat-semibold.eot');
+    src: url('../fonts/montserrat-semibold.eot?#iefix') format('embedded-opentype'),
+    		 url('../fonts/montserrat-semibold.woff2') format('woff2'),
+         url('../fonts/montserrat-semibold.woff') format('woff'),
+				 url('../fonts/montserrat-semibold.ttf') format('truetype'),
+         url('../fonts/montserrat-semibold.svg#montserratsemibold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'montserratbold';
-    src: url('../fonts/montserrat-bold.woff2') format('woff2'),
-         url('../fonts/montserrat-bold.woff') format('woff');
+    src: url('../fonts/montserrat-bold.eot');
+    src: url('../fonts/montserrat-bold.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/montserrat-bold.woff2') format('woff2'),
+         url('../fonts/montserrat-bold.woff') format('woff'),
+         url('../fonts/montserrat-bold.ttf') format('truetype'),
+         url('../fonts/montserrat-bold.svg#montserratbold') format('svg');
     font-weight: normal;
     font-style: normal;
 }
