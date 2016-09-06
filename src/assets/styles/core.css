@@ -281,7 +281,7 @@
 }
 
 .desktop .swiper-slide {
-	max-width: 150px;
+	max-width: 155px;
 }
 
 .desktop .flight-info {
@@ -309,6 +309,14 @@
 	padding: 0 20px;
 }
 
+.desktop .mybucket {
+	font-size: 15px;
+}
+
+.desktop .mycustomtab {
+	padding: 3px 5px 3px 5px;
+}
+
 .desktop .bottomNav .sort-button button.btn,
 .desktop .bottomNav {
 	font-size: 14px;
@@ -332,6 +340,81 @@
 	text-align: center;
 	margin: 285px auto 0 auto;
 	width: 878px;
+}
+
+.desktop .swiper-container {
+	padding: 20px;
+}
+
+.desktop.search-result .flights {
+	text-align: center;
+	padding: 5px 20px 40px 20px;
+}
+
+.desktop.search-result .itinerary {
+	font-size: 14px;
+	margin: 5px auto;
+	padding: 20px 20px 20px 40px;
+	float: none;
+	width: 60%;
+	background: #ffffff;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	border-radius: 6px;
+}
+
+.desktop .row.notable-area {
+	margin: 20px -20px -20px -40px;
+	padding: 0 20px 20px 40px;
+	border-bottom: none;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	
+}
+
+.desktop .notable-area .details {
+	font-size: 14px;
+}
+
+.desktop .itinerary .row.title {
+	font-size: 16px;
+	padding-bottom: 2px;
+}
+
+.desktop .itinerary-info {
+	margin-bottom: 4px;
+}
+
+.desktop .itinerary-airline .icon-thumbs-up {
+	font-size: 18px;
+}
+
+.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
+.desktop .btn-group > .btn + .dropdown-toggle {
+	font-size: 16px;
+}
+
+.desktop .caret {
+	border-top-width: 6px;
+	border-right-width: 6px;
+	border-left-width: 6px;
+}
+
+.desktop .btn-group {
+	top: -3px;
+}
+
+.desktop .dropdown-menu > li> a.our-dropdown {
+	font-size: 14px;
+	padding: 6px 8px 4px 7px;
+}
+
+.desktop #searchResultData .merchandising li .gicon {
+	margin-top: 3px;
+}
+
+.desktop .modal.flight-extras,
+.desktop .modal .continuous-search {
+	width: 400px;
 }
 
 
@@ -378,6 +461,7 @@ footer,
 }
 
 .clear-it,
+.desktop.search-result .flights,
 .desktop:after,
 .flight-additional-info:after,
 #search_form:before,
@@ -637,7 +721,6 @@ a:focus,
 }
 
 
-
 /* partial blue */
 
 .flight-date-info-item {
@@ -690,6 +773,11 @@ form label.required:before {
 
 /* grays */
 
+.desktop.search-result .flights {
+	background: #f3f3f3;
+}
+
+/* .desktop.search-result .itinerary:hover, */
 .desktop .sort-button .dropdown-menu li:not(.selected):hover,
 .desktop .flight-info,
 .notable-area,
@@ -2078,6 +2166,7 @@ body.loading .modalLoader {
 
 .row.notable-area {
 	margin-bottom: -1px;
+	margin-right: -20px;
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
@@ -2106,6 +2195,7 @@ body.loading .modalLoader {
 	width: 12%;
 }
 
+.notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
 	width: 17%;
 }
@@ -2119,10 +2209,6 @@ body.loading .modalLoader {
 .notable-area .row.title {
 	text-align: left;
 	padding: 12px 0 3px 0;
-}
-
-.notable-area .details .col-xs-2.dest {
-	width: 14%;
 }
 
 .switch-planes {
