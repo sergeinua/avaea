@@ -410,12 +410,28 @@ $(document).ready(function() {
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
+  
+  
+  	// correctly initialize the swiper for desktop vs. touch
+  	function isTouchDevice(){
+  	  return typeof window.ontouchstart !== 'undefined';
+  	}
 
-  // Horizontal scroll for tiles
-  swiper = new Swiper('.swiper-container', {
-    freeMode: true,
-    slidesPerView: 'auto'
-  });
+  	if (!isTouchDevice()) {
+  		// is desktop
+  		swiper = new Swiper('.swiper-container', {
+  	    freeMode: true,
+  	    slidesPerView: '6'
+  	  });
+
+  	} else {
+  	  // is touch 
+  		swiper = new Swiper('.swiper-container', {
+  	    freeMode: true,
+  	    slidesPerView: 'auto'
+  	  });
+  	}
+  
   
 
   //search count
