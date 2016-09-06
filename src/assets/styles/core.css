@@ -2990,6 +2990,13 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 	left: 250px;
 }
 
+/* IE 11 ONLY */
+@media all and (-ms-high-contrast:none) {
+ *::-ms-backdrop, .sort-button.open ul.dropdown-menu { 
+ 		top: 310px !important;
+ } 
+}
+
 
 
 /* end avaea.css */
