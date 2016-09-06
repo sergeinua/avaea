@@ -52,8 +52,7 @@
 .desktop .desktop-wrapper {
 	margin: 0 auto;
 	padding: 10px;
-	max-width: 900px;
-	min-width: 785px;
+	width: 878px;
 	background: #ffffff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
@@ -291,7 +290,7 @@
 
 .desktop .flight-info {
 	margin-left: -20px;
-	width: 878px;
+	width: 856px;
 	height: 50px;
 	position: absolute;
 		top: 51px;
@@ -2492,6 +2491,7 @@ body.loading .modalLoader {
 }
 
 .close-x {
+	cursor: pointer;
 	font-size: 18px;
 	padding: 14px;
 	opacity: .3;
@@ -2551,7 +2551,11 @@ body.loading .modalLoader {
 
 .panel-body,
 .booking .form {
-	padding: 15px 15px 85px 25px;
+	padding: 15px 15px 15px 25px;
+}
+
+.booking .form {
+	padding-bottom: 85px;
 }
 
 .panel-body .panel-body {
@@ -2967,6 +2971,29 @@ html[data-useragent*='Trident'] .ie-fixer.placeholder {
 
 html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
+}
+
+html[data-useragent*='Trident'] .desktop.search-result .navbar-header:before {
+	content: '';
+	margin-top: 15px;
+	padding: 0 0 0 0;
+	height: 40px;
+	width: 150px;
+	background: url(../images/avaea-ie.svg) left top no-repeat;
+}
+
+html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
+	display: block;
+	position: absolute;
+	top: 345px;
+	left: 250px;
+}
+
+/* IE 11 ONLY */
+@media all and (-ms-high-contrast:none) {
+ *::-ms-backdrop, .sort-button.open ul.dropdown-menu { 
+ 		top: 310px !important;
+ } 
 }
 
 

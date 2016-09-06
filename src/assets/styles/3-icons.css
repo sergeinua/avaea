@@ -99,11 +99,11 @@
 .icon-arr-connects:before {
   content: "\e92a";
 }
-.panel-title a.collapsed:after,
+.panel-title a:after,
 .icon-arr-chevron-up:before {
   content: "\e92d";
 }
-.panel-title a:after,
+.panel-title a.collapsed:after,
 .icon-arr-chevron-down:before {
   content: "\e92e";
 }

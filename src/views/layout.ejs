@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title><%= (typeof head_title != 'undefined') ? head_title :__('Avaea Agent') %></title>
+<head>
 
-    <!-- Viewport mobile tag for sensible mobile support -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title><%= (typeof head_title != 'undefined') ? head_title :__('Avaea Agent') %></title>
 
-    <meta http-equiv='Content-Language' content='en-US' />
-    <link rel="icon" href="favicon.ico" type="image/x-icon"/>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    
-    <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
-    
-        <!--STYLES-->
-        <link rel="stylesheet" href="/styles/1-reset.css">
-        <link rel="stylesheet" href="/styles/2-fonts.css">
-        <link rel="stylesheet" href="/styles/3-icons.css">
-        <link rel="stylesheet" href="/styles/4-2-bootstrap.css">
-        <link rel="stylesheet" href="/styles/4-4-scott.css">
-        <link rel="stylesheet" href="/styles/core.css">
-        <link rel="stylesheet" href="/styles/scott.css">
-        <!--STYLES END-->
-    
-  </head>
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+  <meta http-equiv='Content-Language' content='en-US' />
+  <link rel="icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  
+  <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
+  
+  <!--STYLES-->
+  <link rel="stylesheet" href="/styles/1-reset.css">
+  <link rel="stylesheet" href="/styles/2-fonts.css">
+  <link rel="stylesheet" href="/styles/3-icons.css">
+  <link rel="stylesheet" href="/styles/4-2-bootstrap.css">
+  <link rel="stylesheet" href="/styles/4-4-scott.css">
+  <link rel="stylesheet" href="/styles/core.css">
+  <link rel="stylesheet" href="/styles/scott.css">
+  <!--STYLES END-->
+  
+</head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
     <body class="search-result">
@@ -184,50 +186,50 @@
       
           -->
       
-          <!--SCRIPTS-->
-          <script src="/js/dependencies/jquery.js"></script>
-          <script src="/js/dependencies/react.js"></script>
-          <script src="/js/dependencies/react-dom.js"></script>
-          <script src="/js/dependencies/bootstrap.js"></script>
-          <script src="/js/dependencies/jasny-bootstrap.js"></script>
-          <script src="/js/dependencies/jquery.slimscroll.js"></script>
-          <script src="/js/dependencies/jquery.validate.min.js"></script>
-          <script src="/js/dependencies/natural-compare.js"></script>
-          <script src="/js/dependencies/swiper.min.js"></script>
-          <script src="/js/dependencies/typeahead.bundle.min.js"></script>
-          <script src="/js/components/buckets/Buckets.js"></script>
-          <script src="/js/components/buckets/tile/Tile.js"></script>
-          <script src="/js/components/classChooser.js"></script>
-          <script src="/js/components/NavBar.js"></script>
-          <script src="/js/components/pages/result.js"></script>
-          <script src="/js/components/passengerChooser.js"></script>
-          <script src="/js/components/search/Citypairs.js"></script>
-          <script src="/js/components/search/Flight.js"></script>
-          <script src="/js/components/search/MerchandisingInfo.js"></script>
-          <script src="/js/components/search/ModalFlightInfo.js"></script>
-          <script src="/js/components/search/NotFound.js"></script>
-          <script src="/js/components/search/ResultItem.js"></script>
-          <script src="/js/components/search/ResultList.js"></script>
-          <script src="/js/components/Sorter.js"></script>
-          <script src="/js/init.js"></script>
-          <script src="/js/booking.js"></script>
-          <script src="/js/order.js"></script>
-          <script src="/js/profile.js"></script>
-          <script src="/js/result.js"></script>
-          <script src="/js/search/airport.js"></script>
-          <script src="/js/search/dates.js"></script>
-          <script src="/js/search/form.js"></script>
-          <script src="/js/speech-textarea.js"></script>
-          <!--SCRIPTS END-->
-      
-          <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-          <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-          <!-- adding hammer.js library with jquery support -->
-          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-          <script type="text/javascript" src="https://cdn.rawgit.com/hammerjs/jquery.hammer.js/master/jquery.hammer.js"></script>
-          <script type="text/javascript" src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
-          <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
-    </div>
+        <!--SCRIPTS-->
+        <script src="/js/dependencies/jquery.js"></script>
+        <script src="/js/dependencies/react.js"></script>
+        <script src="/js/dependencies/react-dom.js"></script>
+        <script src="/js/dependencies/bootstrap.js"></script>
+        <script src="/js/dependencies/jasny-bootstrap.js"></script>
+        <script src="/js/dependencies/jquery.slimscroll.js"></script>
+        <script src="/js/dependencies/jquery.validate.min.js"></script>
+        <script src="/js/dependencies/natural-compare.js"></script>
+        <script src="/js/dependencies/swiper.min.js"></script>
+        <script src="/js/dependencies/typeahead.bundle.min.js"></script>
+        <script src="/js/components/buckets/Buckets.js"></script>
+        <script src="/js/components/buckets/tile/Tile.js"></script>
+        <script src="/js/components/classChooser.js"></script>
+        <script src="/js/components/NavBar.js"></script>
+        <script src="/js/components/pages/result.js"></script>
+        <script src="/js/components/passengerChooser.js"></script>
+        <script src="/js/components/search/Citypairs.js"></script>
+        <script src="/js/components/search/Flight.js"></script>
+        <script src="/js/components/search/MerchandisingInfo.js"></script>
+        <script src="/js/components/search/ModalFlightInfo.js"></script>
+        <script src="/js/components/search/NotFound.js"></script>
+        <script src="/js/components/search/ResultItem.js"></script>
+        <script src="/js/components/search/ResultList.js"></script>
+        <script src="/js/components/Sorter.js"></script>
+        <script src="/js/init.js"></script>
+        <script src="/js/booking.js"></script>
+        <script src="/js/order.js"></script>
+        <script src="/js/profile.js"></script>
+        <script src="/js/result.js"></script>
+        <script src="/js/search/airport.js"></script>
+        <script src="/js/search/dates.js"></script>
+        <script src="/js/search/form.js"></script>
+        <script src="/js/speech-textarea.js"></script>
+        <!--SCRIPTS END-->
+    
+        <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <!-- adding hammer.js library with jquery support -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/hammerjs/jquery.hammer.js/master/jquery.hammer.js"></script>
+        <script type="text/javascript" src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+        <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
+      </div>
     </div>
   </body>
 </html>

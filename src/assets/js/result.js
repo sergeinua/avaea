@@ -182,6 +182,8 @@ var scrollAirlines = function () {
   }
 };
 var swiper;
+
+
 $(document).ready(function() {
 
   // result page init
@@ -408,12 +410,28 @@ $(document).ready(function() {
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
+  
+  
+  	// correctly initialize the swiper for desktop vs. touch
+  	function isTouchDevice(){
+  	  return typeof window.ontouchstart !== 'undefined';
+  	}
 
-  // Horizontal scroll for tiles
-  swiper = new Swiper('.swiper-container', {
-    freeMode: true,
-    slidesPerView: 'auto'
-  });
+  	if (!isTouchDevice()) {
+  		// is desktop
+  		swiper = new Swiper('.swiper-container', {
+  	    freeMode: true,
+  	    slidesPerView: '5.5'
+  	  });
+
+  	} else {
+  	  // is touch 
+  		swiper = new Swiper('.swiper-container', {
+  	    freeMode: true,
+  	    slidesPerView: 'auto'
+  	  });
+  	}
+  
   
 
   //search count
@@ -524,6 +542,18 @@ $(document).ready(function() {
   $('.result-search-info-bar').click(function (event) {
     location.href = '/search';
   });
+  
+  //------------ fix for Bootstrap menu not opening in IE ----------
+	  if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
+	  	$('.sort-button').click(function(){
+	      if ($('.sort-button').attr('class', 'sort-button open')) {
+	      	$('.sort-button').attr('class', 'sort-button');
+	      } else {
+	      	$('.sort-button').attr('class', 'sort-button open');
+	      }
+	    });
+	  }
+  // ----------------------------------------------------------------
 
 });
 
