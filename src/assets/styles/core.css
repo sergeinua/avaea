@@ -267,6 +267,11 @@
 	width: 50%;
 }
 
+.desktop.search-result .flights {
+	margin-bottom: -70px;
+	padding-bottom: 70px;
+}
+
 .desktop .result-search-info-bar {
 	font-size: 16px;
 	text-align: center;
@@ -276,9 +281,10 @@
 
 .desktop .tiles-ui,
 .desktop .profile,
-.desktop .booking {
+.desktop .booking  {
 	margin-top: 0;
 }
+
 
 .desktop .swiper-slide {
 	max-width: 155px;
@@ -351,7 +357,8 @@
 	padding: 5px 20px 40px 20px;
 }
 
-.desktop.search-result .itinerary {
+.desktop.search-result .itinerary,
+.desktop .flight-unit .itinerary {
 	font-size: 14px;
 	margin: 5px auto;
 	padding: 20px 20px 20px 40px;
@@ -412,9 +419,36 @@
 	margin-top: 3px;
 }
 
-.desktop .modal.flight-extras,
-.desktop .modal .continuous-search {
+.desktop .modal {
 	width: 400px;
+}
+
+.desktop .flight-unit {
+	margin: 0;
+	text-align: left;
+	padding: 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .booking .buttons {
+	text-align: left;
+	padding-left: 20px;
+	position: relative;
+	border-top: 0px solid transparent;
+}
+
+.desktop .booking .form {
+	padding-bottom: 45px;
+}
+
+.desktop .booking .ti {
+	font-size: 26px;
+	padding-left: 40px;
+}
+
+.desktop .ti:before {
+	font-size: 32px;
+		top: 13px;
 }
 
 
@@ -773,7 +807,8 @@ form label.required:before {
 
 /* grays */
 
-.desktop.search-result .flights {
+.desktop.search-result .flights,
+.desktop .flight-unit {
 	background: #f3f3f3;
 }
 
