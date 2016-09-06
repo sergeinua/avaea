@@ -205,21 +205,6 @@ function canonicalize_numbers( s ) {
       return one+two.substr(0,1)+"th";
     });
 }
-function count_tickets( s ) {
-  switch( s ) {
-  case 'would':
-  case 'will':
-  case 'on':
-  case 'flying':
-    throw Error("Grabbed invalid match for number of tickets (TODO)");
-  case 'boss':
-    return 1;
-  }
-  return s[s.length-1]=='s' ? 2 : 1;
-}
-function nan_to_multiple( a ) {
-  return isNaN(a) ? 'multiple' : a;
-}
 /////////////////////////////////////////////////////////////////
 // Module classes
 /////////////////////////////////////////////////////////////////
@@ -430,31 +415,71 @@ function AvaeaTextParser() {
     })
   ];
   this.class_of_service_regexps = [
-    new Regexp_and_Conversion('(?:in )?economy(?: class)?',function() { return "E"; }),
-    new Regexp_and_Conversion('(?:in )?premium(?: class)?',function() { return "P"; }),
-    new Regexp_and_Conversion('(?:in )?business(?: class)?',function() { return "B"; }),
-    new Regexp_and_Conversion('(?:in )?1th(?: class)?',function() { return "F"; })
-  ];
+    ['(?:in )?economy(?: class)?',function() { return "E"; }],
+    ['(?:in )?premium(?: class)?',function() { return "P"; }],
+    ['(?:in )?business(?: class)?',function() { return "B"; }],
+    ['(?:in )?1th(?: class)?',function() { return "F"; }]
+  ].map(function( e ) {
+    return new Regexp_and_Conversion(e[0],e[1]);
+  });
+  function get_ticket_count( a1, a2 ) {
+    if( (a1==undefined) && (a2==undefined) )
+      return 1;
+    if( /\d+/.test(a1) )
+      return Number(a1);
+    if( a1=='a' )
+      return 1;
+    switch( a2 ) {
+    case 'boss':
+      return 1;
+    }
+    return a2[a2.length-1]=='s' ? 2 : 1;
+  }
   this.number_of_tickets_regexps = [
-    new Regexp_and_Conversion('\\b(?:we|children|students|group|team) ',function() {
-      return 'multiple';
-    }),
-    new Regexp_and_Conversion('(\\d+) tickets?',function( matches, apt ) {
-      return Number(matches[1]);
-    }),
-    // TODO: in the 2 following regexps change the patterns so that they do not find the matches if any of the
-    // (\\w+) captures are 'would', 'wil'l, 'flying', 'on' etc. Ideally we want (\\w+) to capture only nouns and
-    // pronouns but it is too much to ask for. So we can just exclude that words that we know as wrong matches.
-    new Regexp_and_Conversion('\\b(\\w+) (?:with|and) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
-      return nan_to_multiple(count_tickets(matches[1]) + (/\d+/.test(matches[2])?Number(matches[2]):count_tickets(matches[3])));
-    }),
-    new Regexp_and_Conversion(' (with|and|for) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
-      return nan_to_multiple(((matches[1]=='for')?0:1) + (/\d+/.test(matches[2])?Number(matches[2]):count_tickets(matches[3])));
-    }),
-    new Regexp_and_Conversion('^',function() {
-      return 1; // default;
+    new Regexp_and_Conversion('^',function( matches, apt ) {
+      // Here we want to see if there are any companions to the flier and count their number. The companions can be found
+      // by watching for pattern with|and, except that we do not want the words by both sides of with|and to be anything
+      // but nouns or pronouns. The trouble is that regular expressions to do allow to catch only certain parts of speech.
+      // So we really have to do some interesting analysis here.
+      apt.not_parsed = matches.input.replace(/\b(?:out|in|back|flying|returning|leave|stop|want|departing|fly|ending|leaving|will|would|from|to|on|a|like|trip|travel|flight|need|return|show|starting|(?:look|search)(?:ing)? for|\.|,)\b /g,'')
+      var regexps = [
+	['\\b(?:we|children|students|group|team) ',function() { return 'multiple'; }],
+	['(\\d+) tickets?',function( matches, apt ) { return Number(matches[1]); }],
+	['for (\\d+) ?$',function( matches, apt ) { return Number(matches[1]); }],
+	['\\b(?:(?:('+Object.keys(_PRONOUNS).join('|')+'|a|\d+) )?(\\w+) )?(?:with|and) (?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )?(\\w+)\\b',function( matches, apt ) {
+	  return get_ticket_count(matches[1],matches[2])+get_ticket_count(matches[3],matches[4]);
+	}],
+	['\\b(?:for )?(?:('+Object.keys(_PRONOUNS).join('|')+'|a|\\d+) )(\\w+)\\b',function( matches, apt ) {
+	  return get_ticket_count(matches[1],matches[2]);
+	}]
+      ];
+      regexps.find(function( e ) {
+	var result = apt.match_and_convert(new Regexp_and_Conversion(e[0],e[1]));
+	return apt['temp_number_of_tickets'] = result;
+      });
+      return apt['temp_number_of_tickets'] ? apt['temp_number_of_tickets'].value : 1;
     })
   ];
+  this.match_and_convert = function( regexp_and_conversion ) {
+    try {
+      // Remove extra spaces at every step because they can re-appear as we remove found parts
+      // Also if the regexp is case insensitive then immediately lowercase the string so that
+      // we do not have to write .toLowerCase() on every match
+      var not_parsed = this.not_parsed.replace(/\s+/gi,' ');
+      var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.re.flags.indexOf('i')<0?not_parsed:not_parsed.toLowerCase());
+      if (!matches)
+	throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
+      var result = {
+        'matches' : matches,
+        'value'   : regexp_and_conversion.conversion_proc(matches,this),
+        'pattern' : regexp_and_conversion.re
+      };
+      this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re,'');
+      return result;
+    } catch (e) {
+      return undefined;
+    }
+  }
 
   /////////////////////////////////////////////////////////////////
   // Methods
@@ -464,26 +489,6 @@ function AvaeaTextParser() {
     this.not_parsed = canonicalize_numbers(String(text).replace(/\bthe\s+/ig,' ').replace(/\ban\s+/ig,'a '));
 
     // The matching and conversion procedure
-    var match_and_convert = (regexp_and_conversion) => {
-      try {
-	// Remove extra spaces at every step because they can re-appear as we remove found parts
-	// Also if the regexp is case insensitive then immediately lowercase the string so that
-	// we do not have to write .toLowerCase() on every match
-	var not_parsed = this.not_parsed.replace(/\s+/gi,' ');
-        var matches    = regexp_and_conversion.re.exec(regexp_and_conversion.re.flags.indexOf('i')<0?not_parsed:not_parsed.toLowerCase());
-        if (!matches)
-	  throw new Error("Did not match '"+regexp_and_conversion.re.source+"'");
-        var result = {
-          'matches' : matches,
-          'value'   : regexp_and_conversion.conversion_proc(matches,this),
-          'pattern' : regexp_and_conversion.re
-	};
-        this.not_parsed = this.not_parsed.replace(regexp_and_conversion.re,'');
-	return result;
-      } catch (e) {
-        return undefined;
-      }
-    };
     // clean the previous matches
     this.keys.forEach(function (key) {
       delete this[key];
@@ -492,7 +497,7 @@ function AvaeaTextParser() {
     this.keys.forEach(function (key) {
       if (!this[key]) {
         this[key+'_regexps'].find(function (re) {
-          return this[key] = match_and_convert(re);
+          return this[key] = this.match_and_convert(re);
         }, this);
       }
     }, this);
