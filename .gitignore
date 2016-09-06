@@ -11,3 +11,5 @@ migrations.lock
 **/node_modules
 src/assets/rev.txt
 abo/assets/rev.txt
+
+.project

@@ -28,7 +28,6 @@ $(document).ready(function() {
           $('#timeAlert').text('Error saving data to ' + fieldset + '.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  recalculateBodyPadding();
                 });
               }
             );
@@ -44,7 +43,6 @@ $(document).ready(function() {
           $('#timeAlert').text('Record was removed successfully.')
             .fadeIn('slow', function () {
                 $(this).fadeOut(5000, function () {
-                  recalculateBodyPadding();
                 });
               }
             );

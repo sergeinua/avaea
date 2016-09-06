@@ -210,7 +210,8 @@ function canonicalize_numbers( s ) {
 /////////////////////////////////////////////////////////////////
 function Regexp_and_Conversion(pattern, conversion_proc) {
   // if the pattern is an object then assume that it is a regexp already
-  this.re = (typeof(pattern) == 'string') ? new RegExp(pattern, 'i') : pattern;
+  this.re              = (typeof(pattern)=='string') ? new RegExp(pattern,'i') : pattern;
+  this.fold_the_case   = (typeof(pattern)=='string') ? true : false; // regretfully re.flags is not standard
   this.conversion_proc = conversion_proc;
 }
 function AvaeaTextParser() {
@@ -487,8 +488,6 @@ function AvaeaTextParser() {
   this.run = function( text ) {
     // Clean up the string a bit first
     this.not_parsed = canonicalize_numbers(String(text).replace(/\bthe\s+/ig,' ').replace(/\ban\s+/ig,'a '));
-
-    // The matching and conversion procedure
     // clean the previous matches
     this.keys.forEach(function (key) {
       delete this[key];

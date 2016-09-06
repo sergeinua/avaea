@@ -9,194 +9,225 @@
     <meta http-equiv='Content-Language' content='en-US' />
     <link rel="icon" href="favicon.ico" type="image/x-icon"/>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
-    <!--STYLES-->
-
-    <!--STYLES END-->
-
+    
     <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
+    
+        <!--STYLES-->
+        <link rel="stylesheet" href="/styles/1-reset.css">
+        <link rel="stylesheet" href="/styles/2-fonts.css">
+        <link rel="stylesheet" href="/styles/3-icons.css">
+        <link rel="stylesheet" href="/styles/4-2-bootstrap.css">
+        <link rel="stylesheet" href="/styles/4-4-scott.css">
+        <link rel="stylesheet" href="/styles/core.css">
+        <link rel="stylesheet" href="/styles/scott.css">
+        <!--STYLES END-->
+    
   </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
     <body class="search-result">
+      <div class="desktop-wrapper"> 
+        <div class="desktop-inner">
   <% } else {%>
     <body>
+      <div class="desktop-wrapper">
+        <div class="desktop-inner">
   <% } %>
 
-  <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-    <div class="dimmer">
-      <div class="dimmer-close"></div>
-      <div class="dimmer-arrow"></div>
-      <div class="dimmer-text-light">
-        <div>We've found <%= searchResult.length %> flights.</div>
-        <% if (searchResult.length > 10) { %>
-        <div>Sounds like too many?</div>
-        <% } %>
-      </div>
-      <div class="dimmer-text-dark">
-        <div>Please use filters to <span class="break"></span>narrow down search results</div>
-      </div>
-    </div>
-    <% } %>
-
-    <nav class="navbar navbar-default navbar-fixed-top">
-      <div id="main_title">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle pull-left" data-toggle="offcanvas" data-target="#nav_slide_menu" data-canvas="body">
-            <!--<span class="sr-only"><%= __('MENU') %></span>-->
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <% if (typeof user != 'undefined') { %>
-          <i class="fa fa-long-arrow-left back-history hidden"></i>
-          <% } %>
-          <div class="navbar-brand">
-            <%- typeof head_content == 'undefined' ? __('Avaea Agent') : head_content %><!--<% if (typeof searchResult != 'undefined') {
-              %><span class="hidden-xs">, Departure&nbsp;<%= searchParams.departureDate %><%
-              if (searchParams.returnDate) {
-                %>, Return&nbsp;<%= searchParams.returnDate %><%
-              }
-              %>, <%= searchParams.CabinClass %></span><%
-            }
-            %>&nbsp;<span id='search_count' class="badge hidden" style="background-color: lightgray"></span>-->
-          </div>
-          <% if (typeof user != 'undefined' && req.options.controller == 'search') { %>
-          <div id="voice_search" class="flight-type-item voice-search-button"><i class="fa fa-microphone"></i></div>
-          <% } %>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div id="nav_slide_menu" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
-          <ul class="nav navbar-nav">
-            <% if (typeof user != 'undefined') { %>
-            <li><a href="http://www.avaea.com/">Main Search</a></li>
-            <li><a href="http://stage.avaea.com/">Test Search</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="/profile">Profile</a></li>
-            <li><a href="/site/about">About</a></li>
-            <li><a href="/logout">Log out&nbsp;&nbsp;<b><%= user.email %></b></a></li>
-            <% } else { %>
-            <li><a href="http://www.avaea.com/">Main Search</a></li>
-            <li><a href="http://stage.avaea.com/">Test Search</a></li>
-            <li><a href="/site/about">About</a></li>
-            <% } %>
-          </ul>
-        </div>
-      </div><!-- /.container-fluid -->
-
-      <div id="search_title" class="hidden">
-        <div class="navbar-header">
-          <div style="width:auto; float: left">
-            <input id="airport-input" type="text" name="airport" target="" value="" placeholder="Enter city, airport code or airport name"/>
-          </div>
-          <div style="width:auto; float: left">
-            <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('CANCEL') %></button>
-          </div>
-        </div>
-      </div>
-
-      <div id="date_select" class="hidden">
-        <div class="navbar-header">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col-xs-8">
-                <p class="header"><%= __('Depart') %><span class="ret">/<%= __('Arrive') %></span></p>
-                <p class="info"><span class="dep">Sat 23 Jan</span><span class="ret"> – Tue 02 Feb</span></p>
-              </div>
-              <div class="col-xs-4">
-                <div class="pull-right">
-                  <button type="button" id="date_select_top" class="date_select-button"><%= __('DONE') %></button>
+        <% if (typeof searchResult != 'undefined' && (searchResult.length > 10)) {%>
+            <div class="dimmer">
+              <div class="wrapper">
+                <div class="close-x"></div>
+                <div class="dimmer-text">
+                  <!-- <div class="flights"><%= searchResult.length %> flights</div> -->
+                  <div class="copy">
+                    <!--  <span class="landscape">Open</span>
+                    <span class="portrait">Use</span> 
+                    buckets to select features you care about. -->
+                    Please use filters to narrow down search results.
+                  </div>
                 </div>
               </div>
             </div>
+          <% } %>
+      
+          <nav class="navbar navbar-default navbar-fixed-top">
+            <div id="main_title">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle pull-left" data-toggle="offcanvas" data-target="#nav_slide_menu" data-canvas="body">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <% if (typeof user != 'undefined') { %>
+                  <div class="back-history">Back</div>
+                <% } %>
+                <div class="navbar-brand">
+                  <%- typeof head_content == 'undefined' ? __('Avaea Agent') : head_content %>
+                </div>
+                <% if (typeof user != 'undefined' && req.options.controller == 'search') { %>
+                <div id="voice_search" class="flight-type-item voice-search-button"><i class="fa fa-microphone"></i></div>
+                <% } %>
+              </div>
+      
+              <div id="nav_slide_menu" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+                <ul class="nav navbar-nav">
+                  <% if (typeof user != 'undefined') { %>
+                  <li><a href="http://www.avaea.com/">Main Search</a></li>
+                  <li><a href="http://stage.avaea.com/">Test Search</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li><a href="/profile">Profile</a></li>
+                  <li><a href="/site/about">About</a></li>
+                  <li><a href="/logout">Log out&nbsp;&nbsp;<b><%= user.email %></b></a></li>
+                  <% } else { %>
+                  <li><a href="http://www.avaea.com/">Main Search</a></li>
+                  <li><a href="http://stage.avaea.com/">Test Search</a></li>
+                  <li><a href="/site/about">About</a></li>
+                  <% } %>
+                </ul>
+              </div>
+            </div><!-- /.container-fluid -->
+      
+            <!--  ------- airport selection ------- -->
+            <div id="search_title" class="airport-search-panel">
+              <div class="navbar-header">
+                <div class="airport-search-header">
+                  <input id="airport-input" type="text" name="airport" target="" value="" placeholder="City, airport code or airport name"/>
+                  <button type="button" id="search_button_top" class="search_button_top_cancel"><%= __('Cancel') %></button>
+                </div>
+              </div>
+            </div>
+      
+            <!--  ------- date selection ------- -->
+            <div id="date_select" class="calendar-header">
+              <div class="navbar-header">
+                <div class="container-fluid">
+                  <div class="row">
+                      <div class="info"><span class="dep">23 Jan Sat</span><span class="ret">02 Feb Tue</span></div>
+                      <button type="button" id="date_select_top" class="date_select-button small-button"><%= __('Done') %></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </nav>
+      
+          <div id="date_select_main" class="clearfix calendar-panel">
+            <div style="overflow:hidden;" class="row">
+              <div class="row">
+                <div id="dr_picker"></div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </nav>
-
-    <div id="date_select_main" class="container-fluid clearfix hidden">
-      <div style="overflow:hidden;" class="row">
-        <div class="row">
-          <div class="col-xs-12">
-            <div id="dr_picker"></div>
+          
+          <div id="main" class="main container-fluid clearfix">
+      
+            <% // Rename errors var to the tmp_errors temporary. For displaying error for booking
+            if (typeof tmp_errors != 'undefined') {  %>
+              <% tmp_errors.forEach(function (error) { %>
+                <div class="alert alert-danger" role="alert"><%= __(error) %></div>
+              <% }); %>
+            <% } %>
+      
+            <%- body %>
           </div>
-        </div>
-      </div>
+          
+          <div class="modalLoader"></div>
+      
+          <!--
+              Client-side Templates
+              ========================
+      
+              HTML templates are important prerequisites of modern, rich client applications.
+              To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
+              that you load these templates client-side.
+      
+              By default, your Gruntfile is configured to automatically load and precompile
+              client-side JST templates in your `assets/templates` folder, then
+              include them here automatically (between TEMPLATES and TEMPLATES END).
+      
+              To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
+              For example, here are a few things you could do:
+      
+                  + Import templates from other directories
+                  + Use a different template engine (handlebars, jade, dust, etc.)
+                  + Internationalize your client-side templates using a server-side
+                    stringfile before they're served.
+          -->
+      
+          <!--TEMPLATES-->
+          
+          <!--TEMPLATES END-->
+      
+      
+          <!--
+      
+            Client-side Javascript
+            ========================
+      
+            You can always bring in JS files manually with `script` tags, or asynchronously
+            on the client using a solution like AMD (RequireJS).  Or, if you like, you can
+            take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
+      
+            By default, files in your `assets/js` folder are included here
+            automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
+            CoffeeScript (.coffee) are supported. In production, your scripts will be minified
+            and concatenated into a single file.
+      
+            To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
+            For example, here are a few things you could do:
+      
+                + Change the order of your scripts
+                + Import scripts from other directories
+                + Use a different preprocessor, like TypeScript
+      
+          -->
+      
+          <!--SCRIPTS-->
+          <script src="/js/dependencies/jquery.js"></script>
+          <script src="/js/dependencies/react.js"></script>
+          <script src="/js/dependencies/react-dom.js"></script>
+          <script src="/js/dependencies/bootstrap.js"></script>
+          <script src="/js/dependencies/jasny-bootstrap.js"></script>
+          <script src="/js/dependencies/jquery.slimscroll.js"></script>
+          <script src="/js/dependencies/jquery.validate.min.js"></script>
+          <script src="/js/dependencies/natural-compare.js"></script>
+          <script src="/js/dependencies/swiper.min.js"></script>
+          <script src="/js/dependencies/typeahead.bundle.min.js"></script>
+          <script src="/js/components/buckets/Buckets.js"></script>
+          <script src="/js/components/buckets/tile/Tile.js"></script>
+          <script src="/js/components/classChooser.js"></script>
+          <script src="/js/components/NavBar.js"></script>
+          <script src="/js/components/pages/result.js"></script>
+          <script src="/js/components/passengerChooser.js"></script>
+          <script src="/js/components/search/Citypairs.js"></script>
+          <script src="/js/components/search/Flight.js"></script>
+          <script src="/js/components/search/MerchandisingInfo.js"></script>
+          <script src="/js/components/search/ModalFlightInfo.js"></script>
+          <script src="/js/components/search/NotFound.js"></script>
+          <script src="/js/components/search/ResultItem.js"></script>
+          <script src="/js/components/search/ResultList.js"></script>
+          <script src="/js/components/Sorter.js"></script>
+          <script src="/js/init.js"></script>
+          <script src="/js/booking.js"></script>
+          <script src="/js/order.js"></script>
+          <script src="/js/profile.js"></script>
+          <script src="/js/result.js"></script>
+          <script src="/js/search/airport.js"></script>
+          <script src="/js/search/dates.js"></script>
+          <script src="/js/search/form.js"></script>
+          <script src="/js/speech-textarea.js"></script>
+          <!--SCRIPTS END-->
+      
+          <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+          <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+          <!-- adding hammer.js library with jquery support -->
+          <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+          <script type="text/javascript" src="https://cdn.rawgit.com/hammerjs/jquery.hammer.js/master/jquery.hammer.js"></script>
+          <script type="text/javascript" src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
+          <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
     </div>
-    <div id="main" class="main container-fluid clearfix">
-
-      <% // Rename errors var to the tmp_errors temporary. For displaying error for booking
-      if (typeof tmp_errors != 'undefined') {  %>
-        <% tmp_errors.forEach(function (error) { %>
-          <div class="alert alert-danger" role="alert"><%= __(error) %></div>
-        <% }); %>
-      <% } %>
-
-      <%- body %>
     </div>
-
-    <!--
-        Client-side Templates
-        ========================
-
-        HTML templates are important prerequisites of modern, rich client applications.
-        To work their magic, frameworks like Backbone, Angular, Ember, and Knockout require
-        that you load these templates client-side.
-
-        By default, your Gruntfile is configured to automatically load and precompile
-        client-side JST templates in your `assets/templates` folder, then
-        include them here automatically (between TEMPLATES and TEMPLATES END).
-
-        To customize this behavior to fit your needs, just edit `tasks/pipeline.js`.
-        For example, here are a few things you could do:
-
-            + Import templates from other directories
-            + Use a different template engine (handlebars, jade, dust, etc.)
-            + Internationalize your client-side templates using a server-side
-              stringfile before they're served.
-    -->
-
-    <!--TEMPLATES-->
-    
-    <!--TEMPLATES END-->
-
-
-    <!--
-
-      Client-side Javascript
-      ========================
-
-      You can always bring in JS files manually with `script` tags, or asynchronously
-      on the client using a solution like AMD (RequireJS).  Or, if you like, you can
-      take advantage of Sails' conventional asset pipeline (boilerplate Gruntfile).
-
-      By default, files in your `assets/js` folder are included here
-      automatically (between SCRIPTS and SCRIPTS END).  Both JavaScript (.js) and
-      CoffeeScript (.coffee) are supported. In production, your scripts will be minified
-      and concatenated into a single file.
-
-      To customize any part of the built-in behavior, just edit `tasks/pipeline.js`.
-      For example, here are a few things you could do:
-
-          + Change the order of your scripts
-          + Import scripts from other directories
-          + Use a different preprocessor, like TypeScript
-
-    -->
-
-    <!--SCRIPTS-->
-
-    <!--SCRIPTS END-->
-
-    <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
-    <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <!-- adding hammer.js library with jquery support -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/hammerjs/jquery.hammer.js/master/jquery.hammer.js"></script>
-    <script type="text/javascript" src="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/src/js/bootstrap-datetimepicker.js"></script>
-    <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>-->
   </body>
 </html>

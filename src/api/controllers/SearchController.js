@@ -166,7 +166,8 @@ module.exports = {
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
     }
-    title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
+    // title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
+    title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
 //    var md5 = require("blueimp-md5").md5;
