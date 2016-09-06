@@ -1,16 +1,8 @@
 /* global $ */
 $(document).ready(function() {
-
   /**
    * Client validation during booking of itinerary
    */
-// DEMO-512 disable bookings
-  $("#form_booking").submit(function() {
-    $('#buy-message').modal();
-    return false;
-  });
-/*
- FIXME: DEMO-512 Please turn off all input validation on the booking page.
   $("#form_booking").validate({
     rules: {
       PaxType: {
@@ -76,5 +68,4 @@ $(document).ready(function() {
     }
     //onkeyup: false
   });
-*/
 });
