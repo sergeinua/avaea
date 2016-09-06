@@ -2936,6 +2936,10 @@ html[data-useragent*='Trident'] .ie-fixer.placeholder {
 	display: block;
 }
 
+html[data-useragent*='Trident'] .input-sm {
+	line-height: 1.5em;
+}
+
 
 
 /* end avaea.css */
