@@ -182,6 +182,8 @@ var scrollAirlines = function () {
   }
 };
 var swiper;
+
+
 $(document).ready(function() {
 
   // result page init
@@ -524,6 +526,18 @@ $(document).ready(function() {
   $('.result-search-info-bar').click(function (event) {
     location.href = '/search';
   });
+  
+  //------------ fix for Bootstrap menu not opening in IE ----------
+	  if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
+	  	$('.sort-button').click(function(){
+	      if ($('.sort-button').attr('class', 'sort-button open')) {
+	      	$('.sort-button').attr('class', 'sort-button');
+	      } else {
+	      	$('.sort-button').attr('class', 'sort-button open');
+	      }
+	    });
+	  }
+  // ----------------------------------------------------------------
 
 });
 

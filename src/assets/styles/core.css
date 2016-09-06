@@ -2969,6 +2969,22 @@ html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
 }
 
+html[data-useragent*='Trident'] .desktop.search-result .navbar-header:before {
+	content: '';
+	margin-top: 15px;
+	padding: 0 0 0 0;
+	height: 40px;
+	width: 150px;
+	background: url(../images/avaea-ie.svg) left top no-repeat;
+}
+
+html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
+	display: block;
+	position: absolute;
+	top: 345px;
+	left: 250px;
+}
+
 
 
 /* end avaea.css */
