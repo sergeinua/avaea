@@ -421,7 +421,7 @@ $(document).ready(function() {
   		// is desktop
   		swiper = new Swiper('.swiper-container', {
   	    freeMode: true,
-  	    slidesPerView: '6'
+  	    slidesPerView: '5.5'
   	  });
 
   	} else {
