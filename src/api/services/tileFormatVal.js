@@ -6,17 +6,17 @@ var convertToHours = function (timeMinutes) {
   var minutes = (timeMinutes % 60) ? ":30" : "";
 
   if (hours == 0 || hours == 24) {
-    return (minutes=="" || hours == 24) ? '12m' : ('0' + minutes +'am');
+    return (minutes=="" || hours == 24) ? '12m' : ('0' + minutes +'a');
   }
   else if (hours < 12) {
-    return hours + minutes +'am';
+    return hours + minutes +'a';
   }
   else if (hours == 12) {
-    return (minutes=="") ? '12n' : ('12' + minutes +'pm');
+    return (minutes=="") ? '12n' : ('12' + minutes +'p');
   }
   else if (hours > 12) {
     hours -= 12;
-    return hours + minutes +'pm';
+    return hours + minutes +'p';
   }
 };
 
@@ -73,7 +73,7 @@ module.exports = {
       if(value2) {
         value2 = convertToHours(value2);
         if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : ' &ndash; ')+ value2;
+          _res = _res +(res_type == 2 ? ', ' : '&ndash;')+ value2;
       }
     }
 
@@ -101,7 +101,7 @@ module.exports = {
       if(value2) {
         value2 = parseInt(value2);
         if(value1 != value2)
-          _res = _res +'<span class="visible-xs-inline">&#65291;</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+ value2 +'</span>';
+          _res = _res +'<span class="visible-xs-inline">&#65291;</span> <span class="hidden-xs" style="color:gray">&ndash;$'+ value2 +'</span>';
       }
     }
 
