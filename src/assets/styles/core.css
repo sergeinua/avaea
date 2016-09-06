@@ -355,6 +355,7 @@
 .desktop.search-result .flights {
 	text-align: center;
 	padding: 5px 20px 40px 20px;
+	min-height: 388px;
 }
 
 .desktop.search-result .itinerary,
@@ -384,6 +385,7 @@
 
 .desktop .itinerary .row.title {
 	font-size: 16px;
+	text-transform: uppercase;
 	padding-bottom: 2px;
 }
 
@@ -408,11 +410,29 @@
 
 .desktop .btn-group {
 	top: -3px;
+	width: 90px;
+}
+
+.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	width: 57px;
 }
 
 .desktop .dropdown-menu > li> a.our-dropdown {
 	font-size: 14px;
 	padding: 6px 8px 4px 7px;
+	width: 82px;
+}
+
+.btn-group {
+	width: 75px;
+}
+
+.btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	width: 47px;
+}
+
+.dropdown-menu > li> a.our-dropdown {
+	width: 69px;
 }
 
 .desktop #searchResultData .merchandising li .gicon {
@@ -1496,6 +1516,8 @@ td[data-action*="selectDay"] {
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-left:before,
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-right:before {
 	font-size: 16px;
+	position: absolute;
+    top: -18px;
 }
 
 .datepicker table td.today:before {
