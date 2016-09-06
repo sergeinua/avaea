@@ -211,7 +211,7 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
+        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
         id: 'price_tile_0',
         count : 0
       });
@@ -221,7 +221,7 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
+          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
           id: 'price_tile_' + i,
           count : 0
         });
