@@ -298,8 +298,12 @@ $(document).ready(function() {
       return false;
     }
 
-    $('#searchBanner').modal();
-    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($(this).serializeArray())));
+    $("#searchBanner").modal();
+    $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
+
+    $('.search-buttons').hide();
+    $("body").addClass("loading");
+    setInterval(40000);
     return true;
   });
 
