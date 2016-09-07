@@ -11,24 +11,23 @@ describe('SearchController', function() {
         .post('/search')
         .set('Accept', 'text/html')
         .set('Content-Type', 'text/html')
-        .set('Accept', 'text/html')
         .expect(200)
         .expect('Content-Type', /html/)
         .end(function(err, res) {
           if (err) {
             throw err;
           }
-          res.body.should.match(/<title>Search for flights with Avaea Agent<\/title>/);
-          res.body.should.match(/<form[^>]*id="search_form"/);
-          res.body.should.match(/<input[^>]*name="originAirport"/);
-          res.body.should.match(/<input[^>]*name="destinationAirport"/);
-          res.body.should.match(/<input[^>]*name="departureDate"/);
-          res.body.should.match(/<input[^>]*name="returnDate"/);
-          res.body.should.match(/<input[^>]*name="preferedClass"/);
-          res.body.should.match(/<input[^>]*name="topSearchOnly"/);
-          res.body.should.match(/<input[^>]*name="passengers"/);
-          res.body.should.match(/<input[^>]*name="flightType"/);
-          res.body.should.match(/<input[^>]*name="voiceSearchQuery"/);
+          res.text.should.match(/<title>Search for flights with Avaea Agent<\/title>/);
+          res.text.should.match(/<form[^>]*id="search_form"/);
+          res.text.should.match(/<input[^>]*name="originAirport"/);
+          res.text.should.match(/<input[^>]*name="destinationAirport"/);
+          res.text.should.match(/<input[^>]*name="departureDate"/);
+          res.text.should.match(/<input[^>]*name="returnDate"/);
+          res.text.should.match(/<input[^>]*name="preferedClass"/);
+          res.text.should.match(/<input[^>]*name="topSearchOnly"/);
+          res.text.should.match(/<input[^>]*name="passengers"/);
+          res.text.should.match(/<input[^>]*name="flightType"/);
+          res.text.should.match(/<input[^>]*name="voiceSearchQuery"/);
           done();
         });
     });

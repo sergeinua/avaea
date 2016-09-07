@@ -18,6 +18,15 @@ abo-test-integration:
 abo-test-unit:
 	cd ./abo && ./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
+app-test-health:
+	cd ./src && ./node_modules/.bin/mocha ./tests/bootstrap.health.test.js ./tests/health/**/*.test.js
+
+app-test-health-stage:
+	cd ./src && CHECK_ENV=staging ./node_modules/.bin/mocha ./tests/bootstrap.health.test.js ./tests/health/**/*.test.js
+
+app-test-health-prod:
+	cd ./src && CHECK_ENV=production ./node_modules/.bin/mocha ./tests/bootstrap.health.test.js ./tests/health/**/*.test.js
+
 
 %:
 	@:

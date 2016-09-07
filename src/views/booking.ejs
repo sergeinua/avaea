@@ -2,38 +2,19 @@
 /* global reqParams */
 /* global bookingRes */
 %>
-<div class="panel panel-default">
 
-  <div class="panel-heading" role="tab" id="headingOne">
-    <h4 class="panel-title">
-      <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Booked itinerary
-      </a>
-    </h4>
+<div class="sitepage booking-success">
+ 
+  <div class="success ti">Booked Itinerary</div>
+
+  <div class="copy"><span>PNR:</span> <%= bookingRes.PNR %></div>
+  <div class="copy"><span>Reference Number:</span> <%= bookingRes.ReferenceNumber %></div>
+
+  <div class="buttons">
+    <button class="big-button" onclick="window.location.href='/order?id=<%= reqParams.id %>&searchId=<%= reqParams.searchId %>'">
+      Buy More
+    </button> 
   </div>
 
-  <div class="panel-body">
-
-    <p>PNR: <%= bookingRes.PNR %></p>
-    <p>Reference Number: <%= bookingRes.ReferenceNumber %></p>
-
-  </div>
 </div>
 
-<div class="container">
-    <nav class="navbar navbar-default navbar-fixed-bottom" style="min-height:33px !important; margin-bottom: 0 !important;">
-      <div class="container-fluid">
-        <div class="buy-button">
-          <button class="btn btn-sm btn-primary btn-block center-block" style="max-width: 100%" onclick="window.location.href='/order?id=<%= reqParams.id %>&searchId=<%= reqParams.searchId %>'">
-          BUY MORE
-        </button></div>
-      </div>
-    </nav>
-</div>
-
-<style>
-    body {
-      padding-bottom: 33px;
-      padding-top: 70px;
-    }
-</style>

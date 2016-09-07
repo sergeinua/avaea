@@ -19,27 +19,31 @@ var drawAirportData = function (target) {
   var airportCode = $('#' + target).val();
   if (target == 'originAirport') {
     if (airportCode) {
-      $('#from-area').addClass('hidden');
-      $('#from-area-selected').removeClass('hidden');
+      $('.from .plus').hide();
+      $('.search-from').show();
+      $('.flight-direction-item.from').addClass('sel');
       $('#from-airport-selected').text(airportCode);
       $('#from-city-selected').text(cityName);
       unsetErrorElement('#from-area');
     } else {
-      $('#from-area-selected').addClass('hidden');
-      $('#from-area').removeClass('hidden');
+      $('.from .plus').show();
+      $('.search-from').hide();
+      $('.flight-direction-item.from').removeClass('sel');
       $('#from-airport-selected').text('');
       $('#from-city-selected').text('');
     }
   } else if (target == 'destinationAirport') {
     if (airportCode) {
-      $('#to-area').addClass('hidden');
-      $('#to-area-selected').removeClass('hidden');
+      $('.to .plus').hide();
+      $('.search-to').show();
+      $('.flight-direction-item.to').addClass('sel');
       $('#to-airport-selected').text(airportCode);
       $('#to-city-selected').text(cityName);
       unsetErrorElement('#to-area');
     } else {
-      $('#to-area-selected').addClass('hidden');
-      $('#to-area').removeClass('hidden');
+      $('.to .plus').show();
+      $('.search-to').hide();
+      $('.flight-direction-item.to').removeClass('sel');
       $('#to-airport-selected').text('');
       $('#to-city-selected').text('');
     }
@@ -48,20 +52,20 @@ var drawAirportData = function (target) {
 
 
 // Vars
-var flashErrorTimeout = 700;
+var flashErrorTimeout = 1000;
 
 // For elements with error
 var setErrorElement = function (selector) {
   // Logic and animation
-  $(selector).addClass('error_elem error_flash');
+  $(selector).addClass('error-elem error-flash');
   // Animation
   setTimeout(function() {
-    $(selector).removeClass('error_flash');
+    $(selector).removeClass('error-flash');
   }, flashErrorTimeout);
 };
 var unsetErrorElement = function (selector) {
-  if($(selector).hasClass("error_elem")) {
-    $(selector).removeClass("error_elem");
+  if($(selector).hasClass("error-elem")) {
+    $(selector).removeClass("error-elem");
   }
 };
 
@@ -71,175 +75,136 @@ var setupVoiceSearch = function () {
   }
 };
 
+var removeVoicePanel = function() {
+	$('.voice-form').hide();
+	$('.back-history').hide();
+  $('.searchform-top').show();
+  $('.navbar-brand').show();
+  $('.navbar-toggle').show();
+  
+  if ($('body').hasClass('desktop')) {
+		$('#nav_slide_menu').show();
+	} 
+  
+}
+
+var setVoiceCue = function() {
+	if ($('body').hasClass('desktop')) {
+		$('#nav_slide_menu').hide();
+		$('#voiceSearchTextarea').attr("placeholder", "Activate the mic to specify your from and to cities, and dates of travel");
+	} else {
+		$('#voiceSearchTextarea').attr("placeholder", "Tap the mic on your device to specify your from and to cities, and dates of travel");
+	}
+};
+
+
 function changeFlightTab(type, prevTab) {
   $('#search_form').data('flight-type', type);
   $('#search_form #flightType').val(type);
   var hasFrom = !!$('#originAirport').val();
   var hasTo = !!$('#destinationAirport').val();
   switch (type) {
+  
     case 'round_trip':
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-item').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
-      if (hasFrom) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-      }
-      if (hasTo) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-      }
-      $('.flight-date-info').removeClass('hidden');
+    	
+    	$('.form-fields').attr("class","form-fields round-trip");
+    	
+    	// toggle voice nav out
+      removeVoicePanel();
+      
+      // ------- depart date --------
+      
       if ($('#departureDate').data('date')) {
         $('#departureDate').val($('#departureDate').data('date'));
       }
+      
+      // toggle date or "+"
       if (!!$('#departureDate').val()) {
-        $('#departureDate').data('date', $('#departureDate').val());
-        $('.flight-date-info-item.sel.dep').removeClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+      	$('#departureDate').data('date', $('#departureDate').val());
+        $('.flight-date-info-item.dep .the-date').show();
+        $('.flight-date-info-item.dep .tap-plus').hide();
       } else {
-        $('.flight-date-info-item.sel.dep').addClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.dep .the-date').hide();
+        $('.flight-date-info-item.dep .tap-plus').show();
       }
+      
+      // ------- return date -------
+      
+      $('.flight-date-info-item.ret').show();
+      
       if ($('#returnDate').data('date')) {
         $('#returnDate').val($('#returnDate').data('date'));
       }
+      
+      // toggle date or "+"
       if (!!$('#returnDate').val()) {
         $('#returnDate').data('date', $('#returnDate').val());
-        $('.flight-date-info-item.sel.ret').removeClass('hide');
-        $('.flight-date-info-item.ret').not('.sel').addClass('hide');
+        $('.flight-date-info-item.ret .the-date').show();
+        $('.flight-date-info-item.ret .weekday').show();
+        $('.flight-date-info-item.ret .tap-plus').hide();
       } else {
-        $('.flight-date-info-item.sel.ret').addClass('hide');
-        $('.flight-date-info-item.ret').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.ret .the-date').hide();
+      	$('.flight-date-info-item.ret .weekday').hide();
+        $('.flight-date-info-item.ret .tap-plus').show();
       }
-      $('#date_select_main .row.return').removeClass('hidden');
-      $('#date_select p.header span.ret').removeClass('hidden');
-      $('#date_select p.info span.ret').removeClass('hidden');
-      $('.flight-additional-info').removeClass('hidden');
-      $('.search-button').show();
-      $('.search-top-button').show();
-
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
-      $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
-
+      
+      	
       break;
     case 'multi_city':
-      $('.flight-direction-item-coming-soon').removeClass('hidden');
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item').addClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
-      $('#from-area-selected').addClass('hidden');
-      $('#to-area-selected').addClass('hidden');
-      $('#from-area-selected').addClass('hidden');
-      $('#to-area-selected').addClass('hidden');
-      $('.flight-date-info').addClass('hidden');
-      $('.flight-additional-info').addClass('hidden');
-      $('.search-button').hide();
-      $('.search-top-button').hide();
-
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
-      $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
-
+    	
+    	$('.form-fields').attr("class","form-fields multi-city");
+      
+    	// toggle voice nav out
+    	removeVoicePanel();
+      
       break;
     case 'voice_search':
-      $('.flight-direction-item-voice-search').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.back-history').off('click').click(function () {
-        $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
-      }).removeClass('hidden');
-
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-form').addClass('hidden');
-      $('.flight-date-info').addClass('hidden');
-      $('.flight-additional-info').addClass('hidden');
-      $('.searchform-top').addClass('hidden');
-      $('.main.container-fluid').css({
-        'height': '100%'
-      });
-      $('.flight-direction').css({
-        'height': '100%',
-        'margin-top': 0
-      });
-      $('.navbar-brand').text('Voice Search');
-      $('.navbar-toggle').addClass('hidden');
-
-      $('.search-button').hide();
-      $('.search-top-button').hide();
+    	
+    	$('.form-fields').attr("class","form-fields voice-search");
+    	
+    	
+    	$('.voice-form').show();
+    	$('.searchform-top').hide();
+      $('.navbar-brand').hide();
+      $('.navbar-toggle').hide();
       $('#voiceSearchTextarea').focus();
+      
+      setVoiceCue();
+      
+      $('.back-history').show();
+    	
+      $('.back-history').click(function () {
+        $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
+      });
+      
+      
+
+      
       break;
     case 'one_way':
-      $('.flight-direction-item-voice-search').addClass('hidden');
-      $('.flight-direction-item-coming-soon').addClass('hidden');
-      $('.flight-direction-item').removeClass('hidden');
-      $('.flight-direction-item-arrow').removeClass('hidden');
-      $('.flight-direction-form').removeClass('hidden');
-      if (hasFrom) {
-        $('#from-area').addClass('hidden');
-        $('#from-area-selected').removeClass('hidden');
-      }
-      if (hasTo) {
-        $('#to-area').addClass('hidden');
-        $('#to-area-selected').removeClass('hidden');
-      }
-      $('.flight-date-info').removeClass('hidden');
+    	
+    	$('.form-fields').attr("class","form-fields one-way");
+    	$('.flight-date-info-item.ret').hide();
+    	$('#returnDate').val('');
+    	
+    	// toggle voice nav
+      removeVoicePanel();
+ 
+      // ------- if dates are set --------
+      
       if ($('#departureDate').data('date')) {
         $('#departureDate').val($('#departureDate').data('date'));
       }
+      
       if (!!$('#departureDate').val()) {
-        $('.flight-date-info-item.sel.dep').removeClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').addClass('hide');
+        $('.flight-date-info-item.dep .the-date').show();
+        $('.flight-date-info-item.dep .tap-plus').hide();
       } else {
-        $('.flight-date-info-item.sel.dep').addClass('hide');
-        $('.flight-date-info-item.dep').not('.sel').removeClass('hide');
+      	$('.flight-date-info-item.dep .the-date').hide();
+        $('.flight-date-info-item.dep .tap-plus').show();
       }
-      $('#returnDate').val('');
-      $('.flight-date-info-item.sel.ret').addClass('hide');
-      $('.flight-date-info-item').not('.sel').eq(1).addClass('hide');
-      $('#date_select_main .row.return').addClass('hidden');
-      $('#date_select p.header span.ret').addClass('hidden');
-      $('#date_select p.info span.ret').addClass('hidden');
-      $('.flight-additional-info').removeClass('hidden');
-      $('.search-button').show();
-      $('.search-top-button').show();
-
-      $('.back-history').addClass('hidden');
-      $('.searchform-top').removeClass('hidden');
-      $('.container-fluid').css({
-        'height': ''
-      });
-      $('.flight-direction').css({
-        'height': '',
-        'margin-top': ''
-      });
-      $('.navbar-brand').text('Avaea Agent');
-      $('.navbar-toggle').removeClass('hidden');
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
+      
+      
 
       break;
   }
@@ -333,27 +298,35 @@ $(document).ready(function() {
       return false;
     }
 
-    var voiceSearchQuery = $.trim($('#voiceSearchTextarea').val()) || '';
-    $('#voiceSearchQuery').val(voiceSearchQuery);
     $("#searchBanner").modal();
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($( this ).serializeArray())));
 
-    $('.search-button').hide();
-    $('.search-top-button').hide();
-    $("body").addClass("loading");
-    $('#planePath').removeClass('hidden');
-    setInterval('fly("#plane")', 40);
-    setCookie('dimmer_was_showed', 0);
     return true;
   });
 
   $('.flight-type-item').on('click', function () {
-    var prevTab = $('.flight-type-item.active-choice').attr('id');
-    $('.flight-type-item').removeClass('active-choice');
-    $(this).addClass('active-choice');
-    var id = $(this).attr('id');
-    changeFlightTab(id, prevTab);
+  	
+  	// change the tabs
+  	
+	    var prevTab = $('.flight-type-item.active-choice').attr('id');
+	    $('.flight-type-item').removeClass('active-choice');
+	    $(this).addClass('active-choice');
+	    var id = $(this).attr('id');
+	    changeFlightTab(id, prevTab);
+    
+    // if "multi-city" is active, show "coming soon"
+    
+	    if ($(".flight-type-form .multi-city").hasClass("active-choice")) {
+  			$('.multi-city-coming-soon').show();
+  			$('.voice-search-button').hide();
+		  } else {
+		  	$('.multi-city-coming-soon').hide();
+		  	$('.voice-search-button').show();
+		  } 
+	    	
   });
+  
+  
 
   $('.flight-class-info-item .text-picker').on('click', function () {
 

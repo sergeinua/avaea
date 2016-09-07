@@ -4,68 +4,58 @@
   var recognizing = false;
   var ignore_onend;
   var start_timestamp;
-  var start_button = $('#start_button');
   var final_textarea = $('#voiceSearchTextarea');
-  var clear_button = $('#clear_button');
+  var clear_button = $('.voice-form .clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
-  if (!('webkitSpeechRecognition' in window)) {
-    notSupported();
-  } else {
-    start_button.click(function (e) {
-      startButton(e);
-    }).show();
-
-    var recognition = new webkitSpeechRecognition();
-    recognition.lang = 'en-US';
-    recognition.continuous = true;
-    recognition.interimResults = true;
-
-    recognition.onstart = function () {
-      recognizing = true;
-      log('info_speak_now');
-      start_button.addClass('listening');
-    };
-
-    recognition.onerror = function (event) {
-      if (event.error == 'no-speech') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_speech');
-        ignore_onend = true;
-      }
-      if (event.error == 'audio-capture') {
-        start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
-        log('info_no_microphone');
-        ignore_onend = true;
-      }
-      if (event.error == 'not-allowed') {
-        if (event.timeStamp - start_timestamp < 100) {
-          log('info_blocked');
-        } else {
-          log('info_denied');
-        }
-        ignore_onend = true;
-      }
-    };
-
+	if (!('webkitSpeechRecognition' in window)) {
+	  notSupported();
+	} else {
+	  
+	  // #start_button does not exist in the DOM, so
+  	// Deborah removed the reference to it here
+  	// and throughout this file
+	
+	  var recognition = new webkitSpeechRecognition();
+	  recognition.lang = 'en-US';
+	  recognition.continuous = true;
+	  recognition.interimResults = true;
+	
+	  recognition.onstart = function () {
+	    recognizing = true;
+	    log('info_speak_now');
+	  };
+	
+	  recognition.onerror = function (event) {
+	    if (event.error == 'no-speech') {
+	      log('info_no_speech');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'audio-capture') {
+	      log('info_no_microphone');
+	      ignore_onend = true;
+	    }
+	    if (event.error == 'not-allowed') {
+	      if (event.timeStamp - start_timestamp < 100) {
+	        log('info_blocked');
+	      } else {
+	        log('info_denied');
+	      }
+	      ignore_onend = true;
+	    }
+	  };
+	  
     recognition.onend = function () {
       recognizing = false;
       if (ignore_onend) {
         return;
       }
-      start_button.removeClass('listening').toggleClass('fa-microphone fa-stop');
       if (!final_transcript) {
         log('info_start');
         return;
       }
       log('End speech');
-      //if (window.getSelection) {
-      //  window.getSelection().removeAllRanges();
-      //  var range = document.createRange();
-      //  range.selectNode(document.getElementById('voiceSearchTextarea'));
-      //  window.getSelection().addRange(range);
-      //}
     };
 
     recognition.onresult = function (event) {
@@ -96,46 +86,46 @@
       log(final_transcript);
       if (final_textarea) final_textarea.empty().val(final_transcript);
       if (interim_transcript) final_textarea.val(capitalize(interim_transcript));
-      if (final_transcript || interim_transcript) {
-        showButtons(false);
-      }
+      if (final_transcript || interim_transcript);
     };
   }
-
-  clear_button.click(function (e) {
+  
+  clear_button.click(function() {
+  	disableButton();
     final_textarea.val('');
-    showButtons(true);
     final_textarea.focus();
   });
+  
 
-  final_textarea.keyup(function () {
-    var _value = $.trim($(this).val());
-    if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
-    } else {
-      showButtons(true);
-    }
+  final_textarea.bind('keyup change paste cut', function () {
+    setTimeout(function () {
+      var _value = $.trim(final_textarea.val());
+      if (_value != '' && _value.length > 0 && cntWords(_value)) {
+        enableButton();
+      } else {
+        disableButton();
+      }
+    }, 100);
   }).focus(function () {
-    start_button.addClass('hidden');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
     }
   }).blur(function () {
-    if (!isMobileDev) start_button.removeClass('hidden').css('display', '');
     var _value = $.trim(final_textarea.val());
     if (_value != '' && _value.length > 0 && cntWords(_value)) {
-      showButtons(false);
+      enableButton();
+      // set timer so button does not enable if user blurred by clicking "clear"
     }
-  });
+  }, 100);
 
   var cntWords = function (val) {
     var words = val.split(' ');
-    return (words.length >= 4);
+    return (words.length >= 3);
   };
 
   var clearVoiceSearch = function () {
-    if ($(this).hasClass('disabled')) return;
+    if ($('.voice-search-buttons .big-button').hasClass('disabled')) return;
 
     final_textarea.val('');
     final_transcript = '';
@@ -163,10 +153,9 @@
     if (recognition && recognizing) {
       recognition.stop();
     }
-    var heightNav = $('.navbar-header').outerHeight(true);
-    demo(function(res) {
-      loggerQuery($.trim(final_textarea.val()), (res ? 'success' : 'failed'));
-      $('.navbar-header').height(heightNav);
+    demo(function(res, data) {
+      log("Result of demo: "+JSON.stringify(data));
+      loggerQuery(data, (res ? 'success' : 'failed'));
     });
 
   });
@@ -174,13 +163,12 @@
   function notSupported() {
     log('Web Speech API is not supported by this browser.');
     if (!isMobileDev) {
-      final_textarea.attr('placeholder', 'Web Speech API is not supported by this browser.');
+      final_textarea.attr('placeholder', 'This browser is not enabled for voice commands.');
     }
     upgrade();
   }
 
   function upgrade() {
-    start_button.addClass('hidden');
     log('info_upgrade');
   }
 
@@ -191,48 +179,32 @@
     });
   }
 
-  function startButton(event) {
-    if (recognizing) {
-      recognition.stop();
-      return;
-    }
-    final_transcript = '';
-    recognition.start();
-    ignore_onend = false;
-    final_textarea.val('');
-    start_button.toggleClass('fa-microphone fa-stop');
-    log('info_allow');
-    showButtons(true);
-    start_timestamp = event.timeStamp;
-  }
-
   function log() {
     if (typeof console !== 'undefined') {
       console.log.apply(console, arguments);
     }
   }
 
-  function showButtons(disable) {
-    if (disable) {
-      $('.voice-search-buttons').addClass('hidden');
-      $('#voiceSearchFlight').addClass('disabled');
-    } else if (!$('.flight-direction-item-voice-search').hasClass('hidden')) {
-      $('.voice-search-buttons').removeClass('hidden');
-      $('#voiceSearchFlight').removeClass('disabled');
-    }
+  var enableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button');
   }
-
+  var disableButton = function() {
+  	$('.voice-search-buttons .big-button').attr('class', 'big-button disabled');
+  }
+  
   function loggerQuery(q, result) {
     $.ajax({
       url: '/voice/logger',
       type: 'post',
       data: {
-        q: $.trim(q),
+        q: q,
         result: result
       },
       dataType: 'json'
     }).done(function( msg ) {
-      log(msg);
+      if( !msg.success ) {
+	log("Result of logger query: "+JSON.stringify(msg));
+      }
     });
   }
 
@@ -248,24 +220,13 @@
       data: {q: $.trim(final_textarea.val())},
       dataType: 'json'
     }).done(function( result ) {
+
+      var text = $.trim(final_textarea.val());
+      var _airportsKeys = {origin_airport: 'originAirport', return_airport: 'destinationAirport'};
+      var _airportsPromises = [], _airportsPromisesKeys = [];
+
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;
-
-      log(final_textarea.val());
-      var text = $.trim(final_textarea.val());
-      var out_field = '';
-
-      if (/Fly me to the moon/i.exec(text)) {
-        out_field = "Meri says: Fill my heart with song and \n"
-          + "Let me sing for ever more You are all I long for \n"
-          + "All I worship and adore";
-        log(out_field);
-        return callback(false);
-      }
-
-      var _airportsKeys = {origin_airport: 'originAirport', destination_airport: 'destinationAirport'};
-      var _airportsPromises = [], _airportsPromisesKeys = [];
-      out_field += "Meri says:";
 
       for(var _k in _airportsKeys) {
         if (result[_k]) {
@@ -284,13 +245,8 @@
           result[_k] = "an unknown airport";
         }
       }
-      if (_airportsPromises.length) {
-        out_field += " here is what I understood -"
-          + " The trip is from " + result.origin_airport + " to " + result.destination_airport;
-      } else {
-        out_field += " I did not understand where you are flying to.";
-        log(out_field);
-        return callback(false);
+      if( !_airportsPromises.length ) {
+        return callback(false, result);
       }
 
       $.when.apply($, _airportsPromises).done(function() {
@@ -321,7 +277,6 @@
             $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
             picker.date(result.origin_date);
             leaving = result.origin_date.toDateString();
-            out_field += ", leaving on " + leaving;
             // we can't set return date on search form without origin date
             if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
               var _month = result.return_date.getMonth() + 1,
@@ -331,7 +286,6 @@
               $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
               picker.date(result.return_date);
               returning = result.return_date.toDateString();
-              if (returning) out_field += ", returning on " + returning;
             } else if (result.type == 'round_trip') {
               result.type = 'one_way';
               $('#one_way').trigger('click');
@@ -342,12 +296,9 @@
             $('#date_select_top').trigger('click');
           }
 
-        } else {
-          out_field += ", I did not find dates in your request but will do what I can";
         }
 
         if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
-          out_field += ", You need " + result.number_of_tickets + (result.number_of_tickets == 1 ? " ticket" : " tickets");
           if (result.number_of_tickets == "multiple") {
             result.number_of_tickets = 4;
           }
@@ -357,9 +308,7 @@
         SearchForm.updatePassengers(result.number_of_tickets);
 
 
-        if (result.class_of_service) {
-          out_field += ", You are travelling in " + result.class_of_service + " class.";
-        } else {
+        if( !result.class_of_service ) {
           result.class_of_service = 'E';
         }
         $('input[name=preferedClass]').each(function (i, o) {
@@ -374,8 +323,7 @@
           $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
         }
 
-        log(out_field);
-
+        $('#voiceSearchQuery').val(JSON.stringify(result));
         switch (result.action) {
           case 'top':
             $('#topSearchOnly').val(1);
@@ -384,12 +332,12 @@
             break;
         }
 
-        return callback(true);
+        return callback(true, result);
       }).fail(function(){
-        return callback(false);
+        return callback(false, result);
       });
     }).fail(function (err) {
-      return callback(false);
+      return callback(false, result);
     });
   }
 })(jQuery);

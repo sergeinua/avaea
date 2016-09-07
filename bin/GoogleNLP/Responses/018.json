@@ -1,0 +1,257 @@
+{
+  "sentences": [
+    {
+      "text": {
+        "content": "How soon can my children reach Frankfurt-Hahn from Minneapolis St. Paul?",
+        "beginOffset": 0
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "text": {
+        "content": "How",
+        "beginOffset": 0
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 1,
+        "label": "ADVMOD"
+      },
+      "lemma": "How"
+    },
+    {
+      "text": {
+        "content": "soon",
+        "beginOffset": 4
+      },
+      "partOfSpeech": {
+        "tag": "ADV"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ADVMOD"
+      },
+      "lemma": "soon"
+    },
+    {
+      "text": {
+        "content": "can",
+        "beginOffset": 9
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "AUX"
+      },
+      "lemma": "can"
+    },
+    {
+      "text": {
+        "content": "my",
+        "beginOffset": 13
+      },
+      "partOfSpeech": {
+        "tag": "PRON"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 4,
+        "label": "POSS"
+      },
+      "lemma": "my"
+    },
+    {
+      "text": {
+        "content": "children",
+        "beginOffset": 16
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "NSUBJ"
+      },
+      "lemma": "child"
+    },
+    {
+      "text": {
+        "content": "reach",
+        "beginOffset": 25
+      },
+      "partOfSpeech": {
+        "tag": "VERB"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "ROOT"
+      },
+      "lemma": "reach"
+    },
+    {
+      "text": {
+        "content": "Frankfurt",
+        "beginOffset": 31
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "NN"
+      },
+      "lemma": "Frankfurt"
+    },
+    {
+      "text": {
+        "content": "-",
+        "beginOffset": 40
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 8,
+        "label": "P"
+      },
+      "lemma": "-"
+    },
+    {
+      "text": {
+        "content": "Hahn",
+        "beginOffset": 41
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "DOBJ"
+      },
+      "lemma": "Hahn"
+    },
+    {
+      "text": {
+        "content": "from",
+        "beginOffset": 46
+      },
+      "partOfSpeech": {
+        "tag": "ADP"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "PREP"
+      },
+      "lemma": "from"
+    },
+    {
+      "text": {
+        "content": "Minneapolis",
+        "beginOffset": 51
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "NN"
+      },
+      "lemma": "Minneapolis"
+    },
+    {
+      "text": {
+        "content": "St.",
+        "beginOffset": 63
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 12,
+        "label": "NN"
+      },
+      "lemma": "St."
+    },
+    {
+      "text": {
+        "content": "Paul",
+        "beginOffset": 67
+      },
+      "partOfSpeech": {
+        "tag": "NOUN"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 9,
+        "label": "POBJ"
+      },
+      "lemma": "Paul"
+    },
+    {
+      "text": {
+        "content": "?",
+        "beginOffset": 71
+      },
+      "partOfSpeech": {
+        "tag": "PUNCT"
+      },
+      "dependencyEdge": {
+        "headTokenIndex": 5,
+        "label": "P"
+      },
+      "lemma": "?"
+    }
+  ],
+  "entities": [
+    {
+      "name": "St. Paul",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Saint_Paul,_Minnesota"
+      },
+      "salience": 0.26074958,
+      "mentions": [
+        {
+          "text": {
+            "content": "St. Paul",
+            "beginOffset": 63
+          }
+        }
+      ]
+    },
+    {
+      "name": "Frankfurt-Hahn",
+      "type": "PERSON",
+      "metadata": {},
+      "salience": 0.21815455,
+      "mentions": [
+        {
+          "text": {
+            "content": "Frankfurt-Hahn",
+            "beginOffset": 31
+          }
+        }
+      ]
+    },
+    {
+      "name": "Minneapolis",
+      "type": "LOCATION",
+      "metadata": {
+        "wikipedia_url": "http://en.wikipedia.org/wiki/Minneapolis"
+      },
+      "salience": 0.070068389,
+      "mentions": [
+        {
+          "text": {
+            "content": "Minneapolis",
+            "beginOffset": 51
+          }
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

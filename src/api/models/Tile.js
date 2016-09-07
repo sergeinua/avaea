@@ -116,10 +116,10 @@ module.exports = {
     var index = null;
     var filterClass = '';
     var timeArr = [
-      '12m &ndash; 6am',
-      '6am &ndash; 12n',
-      '12n &ndash; 6pm',
-      '6pm &ndash; 12m'
+      '12m&ndash;6a',
+      '6a&ndash;12n',
+      '12n&ndash;6p',
+      '6p&ndash;12m'
     ];
 
     var systemData = {};
@@ -211,7 +211,7 @@ module.exports = {
       var current = itineraries.priceRange.minPrice + priceStep;
 
       tileArr['Price'].filters.push({
-        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
+        title: '$' + parseInt(priceNameArr[0]) + '<span class="visible-xs-inline">+</span> <span class="hidden-xs"> &ndash; $'+parseInt(priceNameArr[0] + priceStep)+'</span>',
         id: 'price_tile_0',
         count : 0
       });
@@ -221,7 +221,7 @@ module.exports = {
         current = current + priceStep;
 
         tileArr['Price'].filters.push({
-          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs" style="color:gray"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
+          title: '$' + parseInt(priceNameArr[i])+'<span class="visible-xs-inline">+</span> <span class="hidden-xs"> &ndash; $'+parseInt(priceNameArr[i] + priceStep)+'</span>',
           id: 'price_tile_' + i,
           count : 0
         });
@@ -1182,6 +1182,7 @@ module.exports = {
         currentNum++;
 
         itinerary.filterClass = filterClass;
+        itinerary.filterArr = filterClass.split(" ");
         return doneCallback(null);
       }, function (err) {
         if ( err ) {
