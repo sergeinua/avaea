@@ -298,7 +298,8 @@ $(document).ready(function() {
       return false;
     }
 
-    $('#searchBanner').modal();
+    // Safari will not display this modal. Why?!!?
+    $('#searchBanner').modal('show');
     $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($(this).serializeArray())));
     return true;
   });

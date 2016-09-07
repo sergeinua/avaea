@@ -1545,6 +1545,10 @@ td[data-action*="selectDay"] {
 	width: 90%;
 }
 
+.modal-open .searchingModal {
+	display: block;
+}
+
 .modal,
 .nothing-found {
 	top: 18%;
@@ -1689,12 +1693,16 @@ td[data-action*="selectDay"] {
 .icon-spinner {
 	font-size: 42px;
 	display: inline-block;
-	
+		width: 39px;
+		height: 39px;
 	-webkit-animation: spin 1.5s infinite linear;
 	animation: spin 1.5s infinite linear;
 }
 
 .icon-spinner:before {	
+	display: inline-block;
+	position: relative;
+		right: 2px;
 	-webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
