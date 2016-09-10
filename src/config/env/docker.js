@@ -27,7 +27,6 @@ module.exports = {
 
   port: 8000,
   proxyHost: 'http://test.com',
-  //proxyPort: 80,
   proxyPort: process.env.PROXY_PORT,
   explicitHost: 'avaea',
 
@@ -49,10 +48,26 @@ module.exports = {
 
   flightapis: {
     mondee: {
-      baseEndPoint: 'http://nginx:23457/api/v2', // 'http://sandbox.trippro.com/api/v2',
-      clientId: 'CFP1017'
+      baseEndPoint: 'http://nginx:23457/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
+      clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
     },
-    searchProvider: ['mondee'/*, 'mystifly'*/]
+    farelogix: {
+      post_options: {
+        host: 'stg.farelogix.com',
+        path: '/xmlts/sandboxdm'
+      },
+      tc: {
+        iden: {
+          u: "FLXtest",
+          p: "dLKx6Xne",
+          pseudocity: "AEO2",
+          agtpwd: "3l912O8X$p",
+          agy: "05600044"
+        },
+        trace: 'xmlava001'
+      }
+    },
+    searchProvider: ['farelogix'/*,'mondee', 'mystifly'*/]
   },
 
   hookTimeout: 120000,

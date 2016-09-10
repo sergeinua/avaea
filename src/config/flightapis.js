@@ -7,30 +7,32 @@ module.exports.flightapis = {
     clientId: 'CFP1017'
   },
   farelogix: {
-    endPoint: 'https://stg.farelogix.com/xmlts/sandboxdm',
+    post_options: {
+      host: 'api.farelogix.com',
+      port: '443',
+      path: '/xmlts/2e73ff29',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/xml'
+      }
+    },
     tc: {
       iden: {
-        _attr: {
-          u: "FLXtest",
-          p: "dLKx6Xne",
-          pseudocity: "AEO2",
-          agt: "xmlava001",
-          agtpwd: "3l912O8X$p",
-          agtrole: "Ticketing Agent",
-          agy: "05600044"
-        }
+        u: "Avaea",
+        p: "HnCMdDzL72c7sYy4q",
+        pseudocity: "AFPF",
+        agt: "xmlava001",
+        agtpwd: "Bg82810K",
+        agtrole: "Ticketing Agent",
+        agy: "05663033"
       },
       agent: {
-        _attr: {
-          user: "xmlava001"
-        }
+        user: "xmlava001"
       },
-      trace: 'xmlava001',
+      trace: 'AFPF_ava',
       script: {
-        _attr: {
-          engine: "FLXDM",
-          name: "avaea-dispatch.flxdm"
-        }
+        engine: "FLXDM",
+        name: "avaea-dispatch.flxdm"
       }
     }
   },

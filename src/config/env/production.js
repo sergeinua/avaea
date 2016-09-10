@@ -47,7 +47,7 @@ module.exports = {
   },
 
   flightapis: {
-    searchProvider: ['mondee'/*, 'mystifly'*/]
+    searchProvider: ['farelogix'/*,'mondee', 'mystifly'*/]
   },
 
   hookTimeout: 60000

@@ -29,6 +29,7 @@ module.exports = {
   proxyHost: 'http://dev.avaea.com/',
   proxyPort: 80,
   explicitHost: 'localhost',
+
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
@@ -46,11 +47,27 @@ module.exports = {
   },
 
   flightapis: {
-    searchProvider: ['mondee'/*, 'mystifly'*/],
     mondee: {
       baseEndPoint: 'http://sandbox.trippro.com/api/v2',
       // clientId: 'CFS1017' temporary disabled bc of error from mondee "Please Provide Valid ClientId"
-    }
+    },
+    farelogix: {
+      post_options: {
+        host: 'stg.farelogix.com',
+        path: '/xmlts/sandboxdm'
+      },
+      tc: {
+        iden: {
+          u: "FLXtest",
+          p: "dLKx6Xne",
+          pseudocity: "AEO2",
+          agtpwd: "3l912O8X$p",
+          agy: "05600044"
+        },
+        trace: 'xmlava001'
+      }
+    },
+    searchProvider: ['farelogix'/*,'mondee', 'mystifly'*/]
   },
 
   hookTimeout: 60000
