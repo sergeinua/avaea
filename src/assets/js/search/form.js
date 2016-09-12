@@ -71,7 +71,6 @@ var unsetErrorElement = function (selector) {
 
 var setupVoiceSearch = function () {
   if($('#result_empty').text()) {
-    $('#voice_search').hide();
   }
 };
 
@@ -314,16 +313,15 @@ $(document).ready(function() {
 	    var id = $(this).attr('id');
 	    changeFlightTab(id, prevTab);
     
-    // if "multi-city" is active, show "coming soon"
-    
+	    // if "multi-city" is active, show "coming soon" and hide the mic
 	    if ($(".flight-type-form .multi-city").hasClass("active-choice")) {
   			$('.multi-city-coming-soon').show();
-  			$('.voice-search-button').hide();
+  			$('.voice-search-button').addClass('hide');
 		  } else {
 		  	$('.multi-city-coming-soon').hide();
-		  	$('.voice-search-button').show();
+		  	$('.voice-search-button').removeClass('hide');
 		  } 
-	    	
+	    
   });
   
   

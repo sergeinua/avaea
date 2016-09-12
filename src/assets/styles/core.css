@@ -7,6 +7,10 @@
 	 ~ get profile and create to use the same code
 */  
 
+/* syntax
+   transition: all 0.1s ease-in-out;  
+*/
+
 
 .hide,
 .device,
@@ -477,10 +481,6 @@
 
 
 /* ------- everywhere parts ------- */
-
-/* syntax
-   transition: all 0.1s ease-in-out;  
-*/
 
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
@@ -1421,18 +1421,28 @@ strong.tt-highlight {
 }
 
 .voice-search-content .clear-textarea {
+	color: #ffffff;
+	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	margin: 0 0 5px 0px;
 	padding: 5px 15px 5px 35px;
-	float: right;
-	position: relative;
+	  position: fixed;
+    z-index: 1040;
+    top: 13px;
+    right: 0;
+	opacity: .5;	
+	transition: all 0.1s ease-in-out; 	
+}
+
+.voice-search-content .clear-textarea.has-input {
+	opacity: 1;
 }
 
 .clear-textarea:before  {
-	font-size: 24px;
+	font-size: 34px;
   position: absolute;
-    top: 3px;
-    left: 9px;	
+    top: -4px;
+    left: -3px;	
 }
 
 .voice-search-content .fa {

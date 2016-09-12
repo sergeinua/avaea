@@ -94,10 +94,16 @@
   	disableButton();
     final_textarea.val('');
     final_textarea.focus();
+    clear_button.attr('class', 'clear-textarea');
   });
   
 
-  final_textarea.bind('keyup change paste cut', function () {
+  final_textarea.bind('input keyup change paste cut propertychange', function () {
+  	
+  	  if (this.value.length) {
+  	    clear_button.attr('class', 'clear-textarea has-input');
+  	  } 
+  	
     setTimeout(function () {
       var _value = $.trim(final_textarea.val());
       if (_value != '' && _value.length > 0 && cntWords(_value)) {
