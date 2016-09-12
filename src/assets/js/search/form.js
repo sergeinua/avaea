@@ -61,14 +61,11 @@ var unsetErrorElement = function (selector) {
   }
 };
 
-var setupVoiceSearch = function () {
-  if($('#result_empty').text()) {
-  }
-};
 
 var removeVoicePanel = function() {
 	$('.voice-form').hide();
 	$('.back-history').hide();
+	$('.clear-textarea').addClass('hide');
   $('.searchform-top').show();
   $('.navbar-brand').show();
   $('.navbar-toggle').show();
@@ -159,17 +156,15 @@ function changeFlightTab(type, prevTab) {
       $('.navbar-brand').hide();
       $('.navbar-toggle').hide();
       $('#voiceSearchTextarea').focus();
+      $('.back-history').show();
+      $('.clear-textarea').removeClass('hide');
       
       setVoiceCue();
       
-      $('.back-history').show();
-    	
       $('.back-history').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
       });
       
-      
-
       
       break;
     case 'one_way':

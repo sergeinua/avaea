@@ -5,7 +5,7 @@
   var ignore_onend;
   var start_timestamp;
   var final_textarea = $('#voiceSearchTextarea');
-  var clear_button = $('.voice-form .clear-textarea');
+  var clear_button = $('.clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 

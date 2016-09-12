@@ -238,6 +238,10 @@
 	font-size: 18px;
 }
 
+.desktop .back-history {
+	margin-left: -12px;
+}
+
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -252,12 +256,6 @@
 .desktop .voice-search-textarea {
 	text-align: left;
 	height: 200px;
-}
-
-.desktop .voice-search-content .clear-textarea {
-	position: relative;
-	top: -83px;
-	right: -360px;
 }
 
 .desktop .searchingModal .modal-body {
@@ -577,8 +575,7 @@ footer,
 .small-button,
 .search_button_top_cancel,
 .tertiary-button,
-.big-button,
-.clear-textarea {
+.big-button {
 	cursor: pointer;
 	display: inline-block;
 	border-radius: 3px;
@@ -612,7 +609,7 @@ footer,
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	text-transform: capitalize;
-	padding: 0px 2px 6px 12px;
+	padding: 0px 2px 6px 15px;
 	color: #ffffff;
 	display: inline-block;
 	float: left;
@@ -762,7 +759,6 @@ a,
 a:hover,
 a:focus,
 .tertiary-button,
-.clear-textarea,
 .tap-plus:hover,
 .plus:hover,
 .flight-additional-info .text-picker:hover {
@@ -1434,51 +1430,41 @@ strong.tt-highlight {
 
 .voice-search-textarea {
 	width: 100%;
-	height: 120px;
+	height: 160px;
 	position: relative;
 	outline: none;
 	resize: none;
 }
 
-.voice-search-content .clear-textarea {
+.clear-textarea {
+	cursor: pointer;
 	color: #ffffff;
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	margin: 0 0 5px 0px;
 	padding: 5px 15px 5px 35px;
-	  position: fixed;
-    z-index: 1040;
-    top: 13px;
-    right: 0;
+	display: inline-block;
+	float: right;
+	position: relative;
+		top: 12px;
 	opacity: .5;	
 	transition: all 0.1s ease-in-out; 	
 }
 
-.voice-search-content .clear-textarea.has-input {
+.clear-textarea.has-input {
 	opacity: 1;
 }
 
 .clear-textarea:before  {
 	font-size: 34px;
   position: absolute;
-    top: -4px;
+    top: -3px;
     left: -3px;	
-}
-
-.voice-search-content .fa {
-  position: relative;
-  color: #fff;
-  top: -50px;
-  background: #d81159;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  padding-top: 15px;
 }
 
 .voice-search-buttons {
   text-align: center;
+	margin-top: 5px;
   width: 100%;
 }
 
@@ -1487,8 +1473,7 @@ strong.tt-highlight {
 	width: 100%;
 }
 
-.touch .search-buttons,
-.touch .voice-search-buttons {
+.touch .search-buttons {
 	position: fixed;
 	bottom: 5px;
 }
