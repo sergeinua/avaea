@@ -1,13 +1,5 @@
 /* global $ */
 
-var fly = function (target) {
-  var pos = $(target).position();
-  var speed = 1;
-  if ($('body').outerWidth() < pos.left+speed) {
-    pos.left = -50;
-  }
-  $(target).css('left', pos.left+speed);
-};
 
 var setAirportData = function(target, data) {
   $('#' + target).val(data.value);
