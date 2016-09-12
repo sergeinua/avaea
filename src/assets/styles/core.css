@@ -1763,18 +1763,6 @@ td[data-action*="selectDay"] {
   background: #cdeffc url('/images/clouds-sm.png') -300px center; 
 }
 
-/* 
-.clickable-tiles-area-yellow {
-  position: absolute;
-  width: 100%;
-  height: 15px;
-  top: 0;
-	left: 0;
-  border: 0;
-  z-index: 9998;
-}
-*/
-
 .swiper-container {
   margin: 0 auto;
 	padding: 10px;
@@ -1789,9 +1777,8 @@ td[data-action*="selectDay"] {
 	animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.swiper-container.collapsed {
-	 
-}
+
+
 
 @keyframes swipeCue {
     0% { 
@@ -1979,6 +1966,12 @@ td[data-action*="selectDay"] {
   height: 32px;
   width: auto;
   border-top: 1px solid rgba(255, 255, 255, .8);
+}
+
+.touch .bottomNav.sticks {
+	width: 100%;
+	position: fixed;
+	z-index: 10;	
 }
 
 .bottomNav .sort-button button.btn {
@@ -2800,12 +2793,19 @@ select.input-sm {
 	.touch .modal.flight-extras,
 	.touch .modal.continuous-search {
 		top: 10%;
+		width: 65%;
 	}
 	
 	.touch .modal.flight-extras .modal-body {
 		padding-top: 10px;
     padding-bottom: 0px;
 	}
+	
+	.touch .modal .form-group,
+	.touch .modal .sub-title {
+	 	margin-bottom: 0;
+	}
+	
 	
 	.touch .notable-area .col-xs-3.direction {
 		width: 9%;
@@ -2823,6 +2823,11 @@ select.input-sm {
 	
 	.touch .flight-unit .itinerary {
 		padding-top: 0;
+	}
+	
+	.touch .sort-button .dropdown-menu {
+		left: 220px;
+		right: auto;
 	}
 	
 }
