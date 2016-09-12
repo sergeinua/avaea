@@ -392,7 +392,7 @@
 	margin-bottom: 4px;
 }
 
-.desktop .itinerary-airline .icon-thumbs-up {
+.desktop .itinerary-airline .icon-star {
 	font-size: 18px;
 }
 
@@ -822,9 +822,14 @@ a:focus,
 
 .success.ti:before,
 .flight-extras .total-value,
-.itinerary-airline .icon-thumbs-up,
 .icon-spinner {
-	color: #39d744;
+	color: #37d016;
+}
+
+/* gold */
+
+.extras-flag {
+	background: #37d016;
 }
 
 /* red */
@@ -2141,8 +2146,24 @@ td[data-action*="selectDay"] {
 	padding-right: 5px;
 }
 
-.itinerary-airline .icon-thumbs-up {
+.itinerary-airline .extras-flag {
 	cursor: pointer;
+	color: #ffffff;
+	font-family: 'Open-Sans-Light';
+	letter-spacing: .5px;
+	margin-left: 5px;
+	padding: 2px 10px 2px 9px;
+	border-radius: 15px;  
+	opacity: .8;
+}
+
+.extras-flag:before {
+	left: -2px;
+}
+
+.extras-flag:after {
+	content: 'Extras';
+	font-family: 'Open-Sans';
 }
 
 .itinerary-airline .itinerary-airline-icon {

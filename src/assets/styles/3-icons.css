@@ -40,6 +40,7 @@
 }
 
 .success.ti:before,
+.extras-flag:before,
 #accordion .panel-title a:after,
 .booking .ti:before,
 .arr-connects:before,
@@ -233,7 +234,10 @@
 .icon-thumbs-up:before {
   content: "\e92b";
 }
-
+.extras-flag:before,
+.icon-star:before {
+  content: "\e92f";
+}
 
 /* end icons.css */
 
