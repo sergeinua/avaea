@@ -88,20 +88,22 @@ module.exports = {
     if(res_type == 1) {
       _res = '$' + value1;
     }
-    else if(res_type == 2) { // Two values
-      _res = '$' + value1;
-      if(value2) {
-        value2 = parseInt(value2);
-        if(value1 != value2)
-          _res = _res +', $'+ value2;
-      }
+    //else if(res_type == 2) { // Two values
+    //  _res = '$' + value1;
+    //  if(value2) {
+    //    value2 = parseInt(value2);
+    //    if(value1 != value2)
+          // _res = _res +', $'+ value2;
+    //    	_res = _res + '&#65291;';
+    //  }
     }
     else { // Range
       _res = '$' + value1;
       if(value2) {
         value2 = parseInt(value2);
         if(value1 != value2)
-          _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
+         // _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
+        	_res = _res +'&#65291;';
       }
     }
 

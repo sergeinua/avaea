@@ -407,31 +407,32 @@ $(document).ready(function() {
     swiper.slideTo($(this).parents('.swiper-slide').index());
   });
 */
+  
   // Track and remember airlines scroll position
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
   
   
-  	// correctly initialize the swiper for desktop vs. touch
-  	function isTouchDevice(){
-  	  return typeof window.ontouchstart !== 'undefined';
-  	}
+	// correctly initialize the swiper for desktop vs. touch
+	function isTouchDevice(){
+	  return typeof window.ontouchstart !== 'undefined';
+	}
 
-  	if (!isTouchDevice()) {
-  		// is desktop
-  		swiper = new Swiper('.swiper-container', {
-  	    freeMode: true,
-  	    slidesPerView: '5.5'
-  	  });
+	if (!isTouchDevice()) {
+		// is desktop
+		swiper = new Swiper('.swiper-container', {
+	    freeMode: true,
+	    slidesPerView: '5.5'
+	  });
 
-  	} else {
-  	  // is touch 
-  		swiper = new Swiper('.swiper-container', {
-  	    freeMode: true,
-  	    slidesPerView: 'auto'
-  	  });
-  	}
+	} else {
+	  // is touch 
+		swiper = new Swiper('.swiper-container', {
+	    freeMode: true,
+	    slidesPerView: 'auto'
+	  });
+	}
   
   
 

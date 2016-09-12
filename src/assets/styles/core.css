@@ -2190,6 +2190,10 @@ td[data-action*="selectDay"] {
   position: relative;
 }
 
+.touch .itinerary-info {
+	line-height: .86em;
+}
+
 .touch .itinerary-info:last-child {
 	margin-bottom: 2px;
 }
