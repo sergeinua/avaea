@@ -327,6 +327,14 @@
 	padding: 3px 5px 3px 5px;
 }
 
+.desktop .mybucket .list-group-item > div.text {
+	width: 110px;
+}
+
+.desktop .mybucket .badge {
+	top: 8px;
+}
+
 .desktop .bottomNav .sort-button button.btn,
 .desktop .bottomNav {
 	font-size: 14px;
@@ -384,7 +392,6 @@
 	border-bottom: none;
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
-	
 }
 
 .desktop .notable-area .details {
@@ -396,6 +403,10 @@
 	margin-left: -20px;
 	padding-bottom: 2px;
 	position: relative;
+}
+
+.desktop .itinerary-airline-icon {
+	margin-top: 2px;
 }
 
 .desktop .itinerary .airline-text {
@@ -448,6 +459,10 @@
 	text-align: left;
 	padding: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .flight-unit .row.title {
+	margin-left: 0;
 }
 
 .desktop .flight-extras .modal-body {
@@ -2133,6 +2148,8 @@ td[data-action*="selectDay"] {
 .arr-connects:before,
 .arr-connects:after {
 	font-size: 16px;
+	position: relative;
+		top: 2px;
 }
 
 .itinerary-airline.col-from-to {
@@ -2217,9 +2234,12 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
+.touch .itinerary-info .col-xs-2.connections {
+	top: -5px;
+}
+
 .itinerary-info .connections .connections {
 	position: relative;
-	top: -5px;
 }
 
 .btn-primary,
@@ -2416,6 +2436,11 @@ td[data-action*="selectDay"] {
 	width: 85%;
 }
 
+.flight-unit .col-xs-9 {
+	padding: 0 0 0 0;
+	width: 100%;
+}
+
 .flight-unit .title {
 	font-family: 'Open-Sans-Semibold';
 }
@@ -2446,7 +2471,6 @@ td[data-action*="selectDay"] {
 }
 
 .flight-unit .itinerary-info .col-xs-2.connections {
-	padding-top: 3px;
 	width: 20%;
 }
 
