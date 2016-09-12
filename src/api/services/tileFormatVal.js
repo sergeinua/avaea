@@ -96,7 +96,7 @@ module.exports = {
           // _res = _res +', $'+ value2;
     //    	_res = _res + '&#65291;';
     //  }
-    }
+    // }
     else { // Range
       _res = '$' + value1;
       if(value2) {
