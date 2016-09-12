@@ -369,6 +369,10 @@
 	border-radius: 6px;
 }
 
+.desktop .itinerary-info:first-child {
+	margin-bottom: 2px;
+}
+
 .desktop .row.notable-area {
 	margin: 20px -20px -20px -40px;
 	padding: 0 20px 20px 40px;
@@ -384,16 +388,20 @@
 
 .desktop .itinerary .row.title {
 	font-size: 16px;
-	text-transform: uppercase;
+	margin-left: -20px;
 	padding-bottom: 2px;
+	position: relative;
 }
 
-.desktop .itinerary-info {
-	margin-bottom: 4px;
+.desktop .itinerary .airline-text {
+	text-transform: uppercase;
 }
 
-.desktop .itinerary-airline .icon-star {
-	font-size: 18px;
+.desktop .itinerary-airline .extras-flag {
+	font-family: 'Open-Sans-Light';
+	font-size: 14px;
+	position: relative;
+		top: -3px;
 }
 
 .desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
@@ -2133,7 +2141,6 @@ td[data-action*="selectDay"] {
 .arr-connects:before,
 .arr-connects:after {
 	font-size: 16px;
-	top: -3px;
 }
 
 .itinerary-airline.col-from-to {
@@ -2149,7 +2156,6 @@ td[data-action*="selectDay"] {
 .itinerary-airline .extras-flag {
 	cursor: pointer;
 	color: #ffffff;
-	font-family: 'Open-Sans-Light';
 	letter-spacing: .5px;
 	margin-left: 5px;
 	padding: 2px 10px 2px 9px;
@@ -2163,7 +2169,6 @@ td[data-action*="selectDay"] {
 
 .extras-flag:after {
 	content: 'Extras';
-	font-family: 'Open-Sans';
 }
 
 .itinerary-airline .itinerary-airline-icon {
@@ -2180,9 +2185,13 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary-info {
-  margin: 0 0 2px -10px;
+  margin: 0 0 0 -10px;
 	padding-left: 10px;
   position: relative;
+}
+
+.touch .itinerary-info:last-child {
+	margin-bottom: 2px;
 }
 
 .itinerary-info > div {

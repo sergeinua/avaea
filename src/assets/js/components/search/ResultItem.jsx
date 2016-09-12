@@ -76,7 +76,7 @@ var ResultItem = React.createClass({
     </div>
 
     <div className="row">
-      <div className="col-xs-9"  id={ this.state.sRes.id } style={{"lineHeight": "0.86"}} onClick={this.toggleFullInfo()}>
+      <div className="col-xs-9"  id={ this.state.sRes.id } onClick={this.toggleFullInfo()}>
         { this.state.sRes.citypairs.map(function (pair, i) {
         return <div className="itinerary-info" key={"itin-info-" +  i}>
           <div className="col-xs-3 departLoc">
