@@ -1781,7 +1781,7 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area .holder {
-  background: #cdeffc url('/images/clouds-sm.png') -300px center; 
+  background: #cdeffc url('/images/clouds-sm.jpg') -300px center; 
 }
 
 .swiper-container {
@@ -2350,7 +2350,7 @@ td[data-action*="selectDay"] {
 	padding: 0 8px 0 25px;
 }
 
-.touch .flights #searchResultData {
+.touch .results #searchResultData {
   overflow: auto;
   max-height: 100vh;
 }
