@@ -20,7 +20,7 @@
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
-.flight-unit .itinerary-airline .itinerary-airline-icon,
+.flight-unit .itinerary-airline-icon,
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
@@ -2368,6 +2368,7 @@ td[data-action*="selectDay"] {
 }
 
 #searchResultData .merchandising li {
+	margin-right: 5px;
   list-style: none;
   display: inline-block;
 }
@@ -2451,7 +2452,7 @@ td[data-action*="selectDay"] {
 .flight-unit .itinerary {
 	margin: 0 auto;
 	padding: 5px 0;
-	width: 80%;
+	width: 82%;
 	float: none;
 	border-bottom: 0px solid transparent;
 }
@@ -2492,17 +2493,30 @@ td[data-action*="selectDay"] {
 
 /* flight unit details */
 
-.flight-unit .collapse {
-	display: block;
-}
 
 .flight-unit .notable-area {
-	
+	margin: 0 -12%;
+	margin-bottom: -5px;
+	padding-right: 4px;
+	padding-bottom: 10px;
+	padding-left: 12%;
+	border-bottom: 0px solid transparent;
 }
 
 .flight-unit .notable-area .title {
 	text-align: left;
+}
 
+.flight-unit .notable-area .col-xs-3.flight-no {
+	width: 19%;
+}
+
+.flight-unit .notable-area .details .col-xs-2.length {
+	text-align: right;
+}
+
+.flight-unit .notable-area .col-xs-2.date {
+	text-align: left;
 }
 
 
