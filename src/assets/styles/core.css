@@ -15,10 +15,12 @@
 .hide,
 .device,
 .ie-fixer,
+.search-result .static-price,
+.booking-flight-unit .buy-button,
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
-.booking-success .flight-unit .itinerary-price,
+.flight-unit .itinerary-airline .itinerary-airline-icon,
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
@@ -542,6 +544,7 @@ footer,
 }
 
 .clear-it,
+.flight-unit:after,
 .desktop.search-result .flights,
 .desktop:after,
 .flight-additional-info:after,
@@ -2396,10 +2399,16 @@ td[data-action*="selectDay"] {
 	padding-bottom: 40px;
 }
 
-.booking .ti {
-	font-size: 18px;
-	padding: 10px 0 10px 32px;
+.page-ti {
+	font-size: 20px;
+	padding: 5px 0 5px 0;
 	position: relative;
+}
+
+.page-ti:before {
+	font-size: 30px;
+	  top: 5px;
+    left: -2px;
 }
 
 .booking-success .copy span {
@@ -2413,13 +2422,6 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
-.ti:before {
-	font-size: 26px;
-	position: absolute !important;
-	  top: 9px;
-    left: 0;
-}
-
 .booking-success .success.ti:before {
 	font-size: 32px;
     top: -4px;
@@ -2430,34 +2432,39 @@ td[data-action*="selectDay"] {
 	margin-top: 20px;
 }
 
-.booking-success .flight-unit .itinerary {
+/* flight unit */
+
+.flight-unit {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.booking-success .flight-unit {
 	border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.flight-unit .itinerary .wrapper {
-	margin:  auto;
-	padding: 5px 10px 0 0;
-	display: inline-block;
-	width: 85%;
+.flight-unit .col-xs-9 {
+	padding-left: 0;
+	padding-right: 0;
+	width: 100%;
 }
 
-.flight-unit .col-xs-9 {
-	padding: 0 0 0 0;
-	width: 100%;
+.flight-unit .itinerary {
+	margin: 0 auto;
+	padding: 5px 0;
+	width: 80%;
+	float: none;
+	border-bottom: 0px solid transparent;
+}
+
+.flight-unit .itinerary-airline.col-from-to {
+	padding-right: 0;
 }
 
 .flight-unit .title {
 	font-family: 'Open-Sans-Semibold';
 }
 
-.flight-unit .itinerary-airline,
-.flight-unit .airline-text {
-	display: inline-block;
-	float: left;
-}
-
-.flight-unit .itinerary-price {
-	display: inline-block;
+.flight-unit .static-price {
 	float: right;
 }
 
@@ -2482,6 +2489,25 @@ td[data-action*="selectDay"] {
 .flight-unit .itinerary-info .col-xs-3.duration {
 	text-align: right;
 }
+
+/* flight unit details */
+
+.flight-unit .collapse {
+	display: block;
+}
+
+.flight-unit .notable-area {
+	
+}
+
+.flight-unit .notable-area .title {
+	text-align: left;
+
+}
+
+
+/* heredeb */
+
 
 .booking .buttons {
 	position: fixed;
@@ -2598,7 +2624,7 @@ td[data-action*="selectDay"] {
 
 .panel-body,
 .booking .form {
-	padding: 15px 15px 15px 25px;
+	padding: 15px 35px 15px 35px;
 }
 
 .booking .form {

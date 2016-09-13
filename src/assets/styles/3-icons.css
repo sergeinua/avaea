@@ -42,7 +42,7 @@
 .success.ti:before,
 .extras-flag:before,
 #accordion .panel-title a:after,
-.booking .ti:before,
+.page-ti:before,
 .arr-connects:before,
 .arr-connects:after,
 .arr-connects-none:before,
@@ -180,7 +180,7 @@
 .icon-credit-card-outline:before {
   content: "\e913";
 }
-.booking .ti:before,
+.page-ti:before,
 .icon-credit-card:before {
   content: "\e914";
 }

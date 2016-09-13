@@ -72,6 +72,7 @@ var ResultItem = React.createClass({
         </span>
         <span className="airline-text">{ this.state.sRes.citypairs[0].from.airline }</span>
         {this.showThumbsUp()}
+        <span className="static-price">{this.showPrice()}</span>
       </div>
     </div>
 

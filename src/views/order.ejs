@@ -17,7 +17,28 @@
        </style>
   <!-- ----------------------- -->   
   
-  <% include includes/flightunit.ejs %> 
+
+  
+  <!-- ------------- REACT FLIGHT UNIT ------------ -->
+  <!-- -------------------------------------------- -->
+  
+  <!-- script for the React flight unit -->
+  
+  <script>
+  var ItineraryData = <%- JSON.stringify(order[0]) %>;
+  var InitResultData = {iconSpriteMap: []};
+  </script>
+  
+  <div class="flight-unit">
+  
+    <!-- here is the div that the React unit replaces  -->
+    <div id="booking-flight-unit" class="booking-flight-unit"></div>
+  
+  </div>
+  
+  <!-- -------------------------------------------- -->
+  <!-- --------- ENDS REACT FLIGHT UNIT ----------- -->
+  
   
   <% iterator = 0; %>
     <% if (order.length) { %>
@@ -34,7 +55,7 @@
   </div>
 
     <div class="form">
-    <div class="ti">Billing</div>
+    <div class="page-ti">Billing</div>
 
       <input type="hidden" name="id" value="<%= reqParams.id %>">
       
