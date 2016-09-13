@@ -50,38 +50,38 @@
       </div>
 
       <div class="row collapse" id="cli<%= i %>"><div class="col-xs-12"><% sRes.citypairs.forEach(function (pair, c) { %>
-      <div class="row" style="margin-top: 4px;">
+      <div class="row">
         <div class="col-sm-12">
           <strong><%= pair.direction %></strong>
         </div>
       </div>
       <% pair.flights.forEach(function (flight, j) { %>
       <% if (j > 0) {%>
-      <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-6 text-nowrap">&#10162; <%= __('Change planes') %></div>
+      <div class="row">
+        <div class="col-xs-6 text-nowrap"><%= __('Change planes') %></div>
         <div class="col-xs-2"><%= pair.stops[j-1].code %></div>
         <div class="col-xs-4 text-right"><%= pair.stops[j-1].duration %></div>
       </div>
       <% } %>
-      <div class="row" style="margin-top: 4px;">
-        <div class="col-xs-3 text-nowrap"><strong>&#9992; <%= flight.abbrNumber %></strong></div>
+      <div class="row">
+        <div class="col-xs-3 text-nowrap"><strong><%= flight.abbrNumber %></strong></div>
         <div class="col-xs-5"><strong><%= flight.airline %></strong></div>
         <div class="col-xs-4 text-right"><%= flight.duration %><% if (flight.noOfStops > 0) { %>
           <span class="hidden-xs small text-danger">+<%= flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? __(' stops') : __(' stop')) %></span>
         <% } %></div>
       </div>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8599; <%= flight.from.time %></strong></div>
+        <div class="col-xs-3 text-nowrap"><strong> <%= flight.from.time %></strong></div>
         <div class="col-xs-3"><%= sails.moment(flight.from.date).format('MM/DD/YYYY') %></div>
         <div class="col-xs-3"><%= flight.from.code %></div>
       </div><% if (flight.noOfStops > 0) { %><% flight.stops.forEach(function (stop) { %>
       <div class="row">
-        <div class="col-xs-6 text-nowrap">&#9675; <%= __('Intermediate stop') %></div>
+        <div class="col-xs-6 text-nowrap"><%= __('Intermediate stop') %></div>
         <div class="col-xs-2"><%= stop.code %></div>
         <div class="col-xs-4 text-right"><%= stop.duration %></div>
       </div><% }); %><% } %>
       <div class="row">
-        <div class="col-xs-3 text-nowrap"><strong>&#8600; <%= flight.to.time %></strong></div>
+        <div class="col-xs-3 text-nowrap"><strong> <%= flight.to.time %></strong></div>
         <div class="col-xs-3"><%= sails.moment(flight.to.date).format('MM/DD/YYYY') %></div>
         <div class="col-xs-3"><%= flight.to.code %></div>
       </div>
@@ -89,7 +89,7 @@
       <% if (flight.merchandising && flight.merchandising.length) { %>
       <div class="row">
         <div class="col-xs-12">
-          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('more') %></button>
+          <button class="btn btn-xs btn-info btn-block mymorebutton" id="mymorebtn<%= iterator %>_<%= c %>" role="button" for="<%= iterator %>_<%= c %>"><%= __('More') %></button>
         </div>
       </div>
       <div class="row hidden mymorecontent<%= iterator %>_<%= c %>">

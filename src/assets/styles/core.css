@@ -18,6 +18,7 @@
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
+.booking-success .flight-unit .itinerary-price,
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
@@ -1713,7 +1714,7 @@ td[data-action*="selectDay"] {
 }
 
 .searchingModal .spinner-holder {
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 .icon-spinner {
@@ -2200,7 +2201,7 @@ td[data-action*="selectDay"] {
 }
 
 .touch .itinerary-info {
-	line-height: .86em;
+	line-height: 1em;
 }
 
 .touch .itinerary-info:last-child {
@@ -2349,7 +2350,7 @@ td[data-action*="selectDay"] {
 	padding: 0 8px 0 25px;
 }
 
-.touch #searchResultData {
+.touch .flights #searchResultData {
   overflow: auto;
   max-height: 100vh;
 }
@@ -2427,6 +2428,10 @@ td[data-action*="selectDay"] {
 
 .booking-success .buttons {
 	margin-top: 20px;
+}
+
+.booking-success .flight-unit .itinerary {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .flight-unit .itinerary .wrapper {
