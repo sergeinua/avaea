@@ -21,6 +21,7 @@
 .form-fields.multi-city,
 .form-fields.voice-search,
 .flight-unit .itinerary-airline-icon,
+.flight-unit .itinerary-airline .itinerary-airline-icon,
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
@@ -2357,23 +2358,20 @@ td[data-action*="selectDay"] {
   overflow: auto;
   max-height: 100vh;
 }
- 
-#searchResultData .itinerary .airlineIcon {
-  margin: 0 3px 0 0;
-}
 
-#searchResultData .merchandising {
+
+.notable-area .merchandising {
   display: inline-block;
   margin: 0;
 }
 
-#searchResultData .merchandising li {
+.notable-area .merchandising li {
 	margin-right: 5px;
   list-style: none;
   display: inline-block;
 }
 
-#searchResultData .merchandising li .gicon {
+.notable-area .merchandising li .gicon {
   background: transparent url('/images/merchandising-icons-sprite-15x14-30.png') no-repeat center;
   width: 15px;
   height: 15px;
@@ -2381,17 +2379,19 @@ td[data-action*="selectDay"] {
   margin-right: 5px;
 }
 
-#searchResultData .merchandising li .wifi {
+.notable-area  .merchandising li .wifi {
   background-position: 0 0;
 }
 
-#searchResultData .merchandising li .priority_seat {
+.notable-area  .merchandising li .priority_seat {
   background-position: 0 -47px;
 }
 
-#searchResultData .merchandising li .luggage {
+.notable-area .merchandising li .luggage {
   background-position: 0 -112px;
 }
+
+
 
 /* booking */
 
@@ -2505,6 +2505,10 @@ td[data-action*="selectDay"] {
 
 .flight-unit .notable-area .title {
 	text-align: left;
+}
+
+.flight-unit .col-xs-9.extras {
+	width: auto;
 }
 
 .flight-unit .notable-area .col-xs-3.flight-no {
