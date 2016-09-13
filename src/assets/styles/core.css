@@ -878,6 +878,17 @@ form label.required:before,
 	border-bottom: 1px solid rgba(237, 39, 65, .2);
 }
 
+.has-error .form-control {
+	border: 1px solid #ed2741;;
+}
+
+/* highlight */
+
+.has-error .form-control {
+	background: #ffffde;
+}
+
+
 /* grays */
 
 .desktop .flight-info,
@@ -982,9 +993,6 @@ textarea {
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
 }
-
-
-
 
 
 
@@ -2642,7 +2650,7 @@ td[data-action*="selectDay"] {
 
 .panel-body,
 .booking .form {
-	padding: 15px 35px 15px 35px;
+	padding: 15px 25px 15px 35px;
 }
 
 .booking .form {
