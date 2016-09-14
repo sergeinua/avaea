@@ -5,7 +5,7 @@
   var ignore_onend;
   var start_timestamp;
   var final_textarea = $('#voiceSearchTextarea');
-  var clear_button = $('.voice-form .clear-textarea');
+  var clear_button = $('.clear-textarea');
   var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
   var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
 
@@ -94,10 +94,16 @@
   	disableButton();
     final_textarea.val('');
     final_textarea.focus();
+    clear_button.attr('class', 'clear-textarea');
   });
   
 
-  final_textarea.bind('keyup change paste cut', function () {
+  final_textarea.bind('input keyup change paste cut propertychange', function () {
+  	
+  	  if (this.value.length) {
+  	    clear_button.attr('class', 'clear-textarea has-input');
+  	  } 
+  	
     setTimeout(function () {
       var _value = $.trim(final_textarea.val());
       if (_value != '' && _value.length > 0 && cntWords(_value)) {

@@ -130,20 +130,6 @@ $(document).ready(function() {
 //***** detect IE10 or IE11 and append string  ***** // 
 	  var doc = document.documentElement;
 	  doc.setAttribute('data-useragent', navigator.userAgent);
-	  
-	  
-	
-	//***** Deborah script - on scroll, add class to header ***** // 
-  var header = $('header');
-  $(window).scroll(function() {    
-      var scroll = $(window).scrollTop();
-      if (scroll >= 5) {
-          header.addClass(' scrolled');
-      } else {
-          header.removeClass(' scrolled');
-      }
-  });
-  // ***** end Deborah script *****
   
 });
 // ends dom ready
