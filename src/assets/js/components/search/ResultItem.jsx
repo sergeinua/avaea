@@ -37,7 +37,7 @@ var ResultItem = React.createClass({
   showThumbsUp: function() {
     if (this.state.sRes.smartRank <= 3 && this.state.sRes.information && this.state.sRes.information.length) {
       return <span data-toggle="modal" data-target={'[data-id=' + this.state.sRes.id + ']'}><ModalFlightInfo id={this.state.sRes.id} info={this.state.sRes}/>
-        <span className="icon-thumbs-up"></span>
+        <span className="extras-flag"></span>
       </span>
     }
     return null;
@@ -72,11 +72,12 @@ var ResultItem = React.createClass({
         </span>
         <span className="airline-text">{ this.state.sRes.citypairs[0].from.airline }</span>
         {this.showThumbsUp()}
+        <span className="static-price">{this.showPrice()}</span>
       </div>
     </div>
 
     <div className="row">
-      <div className="col-xs-9"  id={ this.state.sRes.id } style={{"lineHeight": "0.86"}} onClick={this.toggleFullInfo()}>
+      <div className="col-xs-9"  id={ this.state.sRes.id } onClick={this.toggleFullInfo()}>
         { this.state.sRes.citypairs.map(function (pair, i) {
         return <div className="itinerary-info" key={"itin-info-" +  i}>
           <div className="col-xs-3 departLoc">
