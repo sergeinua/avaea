@@ -254,7 +254,7 @@ function AvaeaTextParser() {
 	case 'martin luther king day': // third Monday in January
 	case 'mlk day': // third Monday in January
 	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),0,15),"monday"); // check current year
-    if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
 	  break;
 	case 'groundhog day': // fixed: Feb 2
           result = new Date(min_date.getFullYear(),1,2);
@@ -264,7 +264,7 @@ function AvaeaTextParser() {
 	  break;
 	case 'presidents\' day': // third Monday in February
 	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),1,15),"monday"); // check current year
-    if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
 	  break;
 	case 'mardi gras': // Feb 28 // TODO: make dynamic
 	case 'fat tuesday': // Feb 28 // TODO: make dynamic
