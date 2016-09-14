@@ -1,5 +1,5 @@
 /* ---------------
-   avaea.css
+   avaea.css 
 	 --------------- */
 	 
 /* todo
@@ -7,13 +7,21 @@
 	 ~ get profile and create to use the same code
 */  
 
+/* syntax
+   transition: all 0.1s ease-in-out;  
+*/
+
 
 .hide,
 .device,
 .ie-fixer,
+.search-result .static-price,
+.booking-flight-unit .buy-button,
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
+.flight-unit .itinerary-airline-icon,
+.flight-unit .itinerary-airline .itinerary-airline-icon,
 .voice-form,
 .navbar-header .back-history,
 .navbar-header .flight-type-item.voice-search-button.active-choice,
@@ -234,6 +242,10 @@
 	font-size: 18px;
 }
 
+.desktop .back-history {
+	margin-left: -12px;
+}
+
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -242,6 +254,7 @@
 .desktop .voice-search-content {
 	text-align: center;
 	width: 55%;
+	position: relative;
 }
 
 .desktop .voice-search-textarea {
@@ -318,6 +331,14 @@
 	padding: 3px 5px 3px 5px;
 }
 
+.desktop .mybucket .list-group-item > div.text {
+	width: 110px;
+}
+
+.desktop .mybucket .badge {
+	top: 8px;
+}
+
 .desktop .bottomNav .sort-button button.btn,
 .desktop .bottomNav {
 	font-size: 14px;
@@ -365,13 +386,16 @@
 	border-radius: 6px;
 }
 
+.desktop .itinerary-info:first-child {
+	margin-bottom: 2px;
+}
+
 .desktop .row.notable-area {
 	margin: 20px -20px -20px -40px;
 	padding: 0 20px 20px 40px;
 	border-bottom: none;
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
-	
 }
 
 .desktop .notable-area .details {
@@ -380,16 +404,24 @@
 
 .desktop .itinerary .row.title {
 	font-size: 16px;
-	text-transform: uppercase;
+	margin-left: -20px;
 	padding-bottom: 2px;
+	position: relative;
 }
 
-.desktop .itinerary-info {
-	margin-bottom: 4px;
+.desktop .itinerary-airline-icon {
+	margin-top: 2px;
 }
 
-.desktop .itinerary-airline .icon-thumbs-up {
-	font-size: 18px;
+.desktop .itinerary .airline-text {
+	text-transform: uppercase;
+}
+
+.desktop .itinerary-airline .extras-flag {
+	font-family: 'Open-Sans-Light';
+	font-size: 14px;
+	position: relative;
+		top: -3px;
 }
 
 .desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
@@ -431,6 +463,10 @@
 	text-align: left;
 	padding: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.desktop .flight-unit .row.title {
+	margin-left: 0;
 }
 
 .desktop .flight-extras .modal-body {
@@ -478,10 +514,6 @@
 
 /* ------- everywhere parts ------- */
 
-/* syntax
-   transition: all 0.1s ease-in-out;  
-*/
-
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
@@ -513,6 +545,7 @@ footer,
 }
 
 .clear-it,
+.flight-unit:after,
 .desktop.search-result .flights,
 .desktop:after,
 .flight-additional-info:after,
@@ -562,8 +595,7 @@ footer,
 .small-button,
 .search_button_top_cancel,
 .tertiary-button,
-.big-button,
-.clear-textarea {
+.big-button {
 	cursor: pointer;
 	display: inline-block;
 	border-radius: 3px;
@@ -597,7 +629,7 @@ footer,
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	text-transform: capitalize;
-	padding: 0px 2px 6px 12px;
+	padding: 0px 2px 6px 15px;
 	color: #ffffff;
 	display: inline-block;
 	float: left;
@@ -747,7 +779,6 @@ a,
 a:hover,
 a:focus,
 .tertiary-button,
-.clear-textarea,
 .tap-plus:hover,
 .plus:hover,
 .flight-additional-info .text-picker:hover {
@@ -822,9 +853,14 @@ a:focus,
 
 .success.ti:before,
 .flight-extras .total-value,
-.itinerary-airline .icon-thumbs-up,
 .icon-spinner {
-	color: #39d744;
+	color: #37d016;
+}
+
+/* gold */
+
+.extras-flag {
+	background: #37d016;
 }
 
 /* red */
@@ -841,6 +877,17 @@ form label.required:before,
 .warning {
 	border-bottom: 1px solid rgba(237, 39, 65, .2);
 }
+
+.has-error .form-control {
+	border: 1px solid #ed2741;;
+}
+
+/* highlight */
+
+.has-error .form-control {
+	background: #ffffde;
+}
+
 
 /* grays */
 
@@ -946,9 +993,6 @@ textarea {
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
 }
-
-
-
 
 
 
@@ -1414,41 +1458,41 @@ strong.tt-highlight {
 
 .voice-search-textarea {
 	width: 100%;
-	height: 120px;
+	height: 160px;
 	position: relative;
 	outline: none;
 	resize: none;
 }
 
-.voice-search-content .clear-textarea {
+.clear-textarea {
+	cursor: pointer;
+	color: #ffffff;
+	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	margin: 0 0 5px 0px;
 	padding: 5px 15px 5px 35px;
+	display: inline-block;
 	float: right;
 	position: relative;
+		top: 12px;
+	opacity: .5;	
+	transition: all 0.1s ease-in-out; 	
+}
+
+.clear-textarea.has-input {
+	opacity: 1;
 }
 
 .clear-textarea:before  {
-	font-size: 24px;
+	font-size: 34px;
   position: absolute;
-    top: 3px;
-    left: 9px;	
-}
-
-.voice-search-content .fa {
-  position: relative;
-  color: #fff;
-  top: -50px;
-  background: #d81159;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.3);
-  width: 100px;
-  height: 100px;
-  border-radius: 100%;
-  padding-top: 15px;
+    top: -3px;
+    left: -3px;	
 }
 
 .voice-search-buttons {
   text-align: center;
+	margin-top: 5px;
   width: 100%;
 }
 
@@ -1457,8 +1501,7 @@ strong.tt-highlight {
 	width: 100%;
 }
 
-.touch .search-buttons,
-.touch .voice-search-buttons {
+.touch .search-buttons {
 	position: fixed;
 	bottom: 5px;
 }
@@ -1683,14 +1726,12 @@ td[data-action*="selectDay"] {
 }
 
 .searchingModal .spinner-holder {
-	margin-top: 30px;
+	margin-top: 20px;
 }
 
 .icon-spinner {
 	font-size: 42px;
 	display: inline-block;
-		width: 39px;
-		height: 39px;
 	-webkit-animation: spin 1.5s infinite linear;
 	animation: spin 1.5s infinite linear;
 }
@@ -1698,7 +1739,6 @@ td[data-action*="selectDay"] {
 .icon-spinner:before {	
 	display: inline-block;
 	position: relative;
-		right: 2px;
 	-webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
@@ -1753,20 +1793,8 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area .holder {
-  background: #cdeffc url('/images/clouds-sm.png') -300px center; 
+  background: #cdeffc url('/images/clouds-sm.jpg') -300px center; 
 }
-
-/* 
-.clickable-tiles-area-yellow {
-  position: absolute;
-  width: 100%;
-  height: 15px;
-  top: 0;
-	left: 0;
-  border: 0;
-  z-index: 9998;
-}
-*/
 
 .swiper-container {
   margin: 0 auto;
@@ -1782,9 +1810,8 @@ td[data-action*="selectDay"] {
 	animation: swipeCue 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.swiper-container.collapsed {
-	 
-}
+
+
 
 @keyframes swipeCue {
     0% { 
@@ -1974,6 +2001,12 @@ td[data-action*="selectDay"] {
   border-top: 1px solid rgba(255, 255, 255, .8);
 }
 
+.touch .bottomNav.sticks {
+	width: 100%;
+	position: fixed;
+	z-index: 10;	
+}
+
 .bottomNav .sort-button button.btn {
 	font-size: 12px;
 	padding: 5px 10px 5px 4px;
@@ -2128,7 +2161,8 @@ td[data-action*="selectDay"] {
 .arr-connects:before,
 .arr-connects:after {
 	font-size: 16px;
-	top: -3px;
+	position: relative;
+		top: 2px;
 }
 
 .itinerary-airline.col-from-to {
@@ -2141,8 +2175,22 @@ td[data-action*="selectDay"] {
 	padding-right: 5px;
 }
 
-.itinerary-airline .icon-thumbs-up {
+.itinerary-airline .extras-flag {
 	cursor: pointer;
+	color: #ffffff;
+	letter-spacing: .5px;
+	margin-left: 5px;
+	padding: 2px 10px 2px 9px;
+	border-radius: 15px;  
+	opacity: .8;
+}
+
+.extras-flag:before {
+	left: -2px;
+}
+
+.extras-flag:after {
+	content: 'Extras';
 }
 
 .itinerary-airline .itinerary-airline-icon {
@@ -2159,9 +2207,17 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary-info {
-  margin: 0 0 2px -10px;
+  margin: 0 0 0 -10px;
 	padding-left: 10px;
   position: relative;
+}
+
+.touch .itinerary-info {
+	line-height: 1em;
+}
+
+.touch .itinerary-info:last-child {
+	margin-bottom: 2px;
 }
 
 .itinerary-info > div {
@@ -2191,9 +2247,12 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
+.touch .itinerary-info .col-xs-2.connections {
+	top: -5px;
+}
+
 .itinerary-info .connections .connections {
 	position: relative;
-	top: -5px;
 }
 
 .btn-primary,
@@ -2303,26 +2362,24 @@ td[data-action*="selectDay"] {
 	padding: 0 8px 0 25px;
 }
 
-.touch #searchResultData {
+.touch .results #searchResultData {
   overflow: auto;
   max-height: 100vh;
 }
- 
-#searchResultData .itinerary .airlineIcon {
-  margin: 0 3px 0 0;
-}
 
-#searchResultData .merchandising {
+
+.notable-area .merchandising {
   display: inline-block;
   margin: 0;
 }
 
-#searchResultData .merchandising li {
+.notable-area .merchandising li {
+	margin-right: 5px;
   list-style: none;
   display: inline-block;
 }
 
-#searchResultData .merchandising li .gicon {
+.notable-area .merchandising li .gicon {
   background: transparent url('/images/merchandising-icons-sprite-15x14-30.png') no-repeat center;
   width: 15px;
   height: 15px;
@@ -2330,17 +2387,19 @@ td[data-action*="selectDay"] {
   margin-right: 5px;
 }
 
-#searchResultData .merchandising li .wifi {
+.notable-area  .merchandising li .wifi {
   background-position: 0 0;
 }
 
-#searchResultData .merchandising li .priority_seat {
+.notable-area  .merchandising li .priority_seat {
   background-position: 0 -47px;
 }
 
-#searchResultData .merchandising li .luggage {
+.notable-area .merchandising li .luggage {
   background-position: 0 -112px;
 }
+
+
 
 /* booking */
 
@@ -2349,10 +2408,16 @@ td[data-action*="selectDay"] {
 	padding-bottom: 40px;
 }
 
-.booking .ti {
-	font-size: 18px;
-	padding: 10px 0 10px 32px;
+.page-ti {
+	font-size: 20px;
+	padding: 5px 0 5px 0;
 	position: relative;
+}
+
+.page-ti:before {
+	font-size: 30px;
+	  top: 5px;
+    left: -2px;
 }
 
 .booking-success .copy span {
@@ -2366,13 +2431,6 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
-.ti:before {
-	font-size: 26px;
-	position: absolute !important;
-	  top: 9px;
-    left: 0;
-}
-
 .booking-success .success.ti:before {
 	font-size: 32px;
     top: -4px;
@@ -2383,25 +2441,39 @@ td[data-action*="selectDay"] {
 	margin-top: 20px;
 }
 
-.flight-unit .itinerary .wrapper {
-	margin:  auto;
-	padding: 5px 10px 0 0;
-	display: inline-block;
-	width: 85%;
+/* flight unit */
+
+.flight-unit {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.booking-success .flight-unit {
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.flight-unit .col-xs-9 {
+	padding-left: 0;
+	padding-right: 0;
+	width: 100%;
+}
+
+.flight-unit .itinerary {
+	margin: 0 auto;
+	padding: 5px 0;
+	width: 82%;
+	float: none;
+	border-bottom: 0px solid transparent;
+}
+
+.flight-unit .itinerary-airline.col-from-to {
+	padding-right: 0;
 }
 
 .flight-unit .title {
 	font-family: 'Open-Sans-Semibold';
 }
 
-.flight-unit .itinerary-airline,
-.flight-unit .airline-text {
-	display: inline-block;
-	float: left;
-}
-
-.flight-unit .itinerary-price {
-	display: inline-block;
+.flight-unit .static-price {
 	float: right;
 }
 
@@ -2420,13 +2492,48 @@ td[data-action*="selectDay"] {
 }
 
 .flight-unit .itinerary-info .col-xs-2.connections {
-	padding-top: 3px;
 	width: 20%;
 }
 
 .flight-unit .itinerary-info .col-xs-3.duration {
 	text-align: right;
 }
+
+/* flight unit details */
+
+
+.flight-unit .notable-area {
+	margin: 0 -12%;
+	margin-bottom: -5px;
+	padding-right: 4px;
+	padding-bottom: 10px;
+	padding-left: 12%;
+	border-bottom: 0px solid transparent;
+}
+
+.flight-unit .notable-area .title {
+	text-align: left;
+}
+
+.flight-unit .col-xs-9.extras {
+	width: auto;
+}
+
+.flight-unit .notable-area .col-xs-3.flight-no {
+	width: 19%;
+}
+
+.flight-unit .notable-area .details .col-xs-2.length {
+	text-align: right;
+}
+
+.flight-unit .notable-area .col-xs-2.date {
+	text-align: left;
+}
+
+
+/* heredeb */
+
 
 .booking .buttons {
 	position: fixed;
@@ -2543,7 +2650,7 @@ td[data-action*="selectDay"] {
 
 .panel-body,
 .booking .form {
-	padding: 15px 15px 15px 25px;
+	padding: 15px 25px 15px 35px;
 }
 
 .booking .form {
@@ -2793,12 +2900,19 @@ select.input-sm {
 	.touch .modal.flight-extras,
 	.touch .modal.continuous-search {
 		top: 10%;
+		width: 65%;
 	}
 	
 	.touch .modal.flight-extras .modal-body {
 		padding-top: 10px;
     padding-bottom: 0px;
 	}
+	
+	.touch .modal .form-group,
+	.touch .modal .sub-title {
+	 	margin-bottom: 0;
+	}
+	
 	
 	.touch .notable-area .col-xs-3.direction {
 		width: 9%;
@@ -2816,6 +2930,11 @@ select.input-sm {
 	
 	.touch .flight-unit .itinerary {
 		padding-top: 0;
+	}
+	
+	.touch .sort-button .dropdown-menu {
+		left: 220px;
+		right: auto;
 	}
 	
 }
