@@ -243,7 +243,7 @@ function AvaeaTextParser() {
       }
     ],
     [
-      '(new year|martin luther king day|mlk day|groundhog day|valentine\'s day|presidents\' day|mardi gras|fat tuesday|purim|st. patrick\'s day|passover|easter|' +
+      '(new year|martin luther king day|mlk day|groundhog day|valentine\'s day|presidents\' day|mardi gras|fat tuesday|purim|st\. patrick\'s day|passover|easter|' +
       'tax day|cinco de mayo|memorial day|independence day|labor day|yom kippur|columbus day|halloween|thanksgiving|black friday|cyber monday|hanukkah|christmas|xmas)',
       function( min_date, matches, atp ) {
 	var result;
