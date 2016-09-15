@@ -2,7 +2,7 @@
 /* global async */
 /* global sails */
 var util = require('util');
-var _ = require('lodash');
+var lodash = require('lodash');
 
 var TPContext = {
   messageId: ['string', true],
@@ -365,8 +365,8 @@ var mapCitypairs = function(citypairs) {
 // Merchandising Fake keys Issue #39
 var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
 var mapMerchandising = function (citypairs, val) {
-    var _cityPairKey = ((citypairs.length > 1) ? _.random(0, citypairs.length - 1) : 0),
-        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? _.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
+    var _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
+        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? lodash.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
 
     citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
 };
@@ -388,16 +388,16 @@ var mapItinerary = function(itinerary) {
   res.duration = utils.minutesToDuration(res.durationMinutes);
 
   // Merchandising Fake data Issue #39
-  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'WiFi');
   }
-  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandising1bagfree) && lodash.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, '1st bag free');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Priority seat');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Lounge');
   }
 
@@ -500,10 +500,10 @@ module.exports = {
               var minDuration, maxDuration, minPrice, maxPrice;
 
               // Merchandising Fake keys Issue #39
-              var itineraryIds = _.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
-              _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              var itineraryIds = lodash.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
+              _keysMerchandisingWiFi = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = mapItinerary(itinerary);
@@ -585,7 +585,7 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || _.isEmpty(result.BookItineraryResponse)) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || lodash.isEmpty(result.BookItineraryResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to flightBooking';
             }
@@ -632,7 +632,7 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || _.isEmpty(result.CancelPNRResponse)) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || lodash.isEmpty(result.CancelPNRResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to cancelPnr';
             }

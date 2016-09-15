@@ -1,6 +1,7 @@
 /* global memcache */
 /* global async */
 /* global sails */
+var lodash = require('lodash');
 
 var getWsdlUrl = function() {
   return sails.config.flightapis.mystifly.baseEndPoint + '?singleWsdl';
@@ -349,8 +350,8 @@ var mapCitypairs = function(citypairs) {
 // Merchandising Fake keys Issue #39
 var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
 var mapMerchandising = function (citypairs, val) {
-    var _cityPairKey = ((citypairs.length > 1) ? _.random(0, citypairs.length - 1) : 0),
-        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? _.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
+    var _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
+        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? lodash.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
 
     citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
 };
@@ -372,13 +373,13 @@ var mapItinerary = function(itinerary) {
   res.duration = utils.minutesToDuration(res.durationMinutes);
 
   // Merchandising Fake data Issue #39
-  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+  if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
       mapMerchandising(res.citypairs, 'WiFi');
   }
-  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+  if (lodash.isArray(_keysMerchandising1bagfree) && lodash.indexOf(_keysMerchandising1bagfree, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
       mapMerchandising(res.citypairs, '1st bag free');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
       mapMerchandising(res.citypairs, 'Priority seat');
   }
 
@@ -430,12 +431,12 @@ module.exports = {
                   var minDuration, maxDuration, minPrice, maxPrice;
 
                   // Merchandising Fake keys Issue #39
-                  var itineraryIds = _.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
+                  var itineraryIds = lodash.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
                     return item.AirItineraryPricingInfo.FareSourceCode
                   });
-                  _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-                  _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-                  _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+                  _keysMerchandisingWiFi = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+                  _keysMerchandising1bagfree = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+                  _keysMerchandisingPrioritySeat = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
                   async.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (itinerary, doneCb) {
                     var mappedItinerary = mapItinerary(itinerary);

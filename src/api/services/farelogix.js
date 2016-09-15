@@ -2,11 +2,11 @@
 /* global async */
 /* global sails */
 var
-  util  = require('util'),
-  _     = require('lodash'),
-  ejs   = require('ejs'),
-  https = require('https'),
-  x2j   = require('xml2json');
+  util    = require('util'),
+  lodash  = require('lodash'),
+  ejs     = require('ejs'),
+  https   = require('https'),
+  x2j     = require('xml2json');
 
 var serviceName = require('path').basename(module.filename, '.js');
 var currency = 'USD';
@@ -137,7 +137,7 @@ var farelogixRqGetters = {
 };
 
 var callFarelogixApi = function (api, apiParams, apiCb) {
-  api = _.upperFirst(api);
+  api = lodash.upperFirst(api);
   var farelogixRqGetter = 'get' + api + 'Rq';
   if (!api) {
     throw 'api required';
@@ -170,7 +170,7 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
       if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
         throw err['faultstring'];
       }
-      if (_.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'])) {
+      if (lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'])) {
         throw api + 'RS does not exist';
       }
       return apiCb(null, bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'], body);
@@ -281,7 +281,7 @@ var mapFlights = function(flights, priceSettings) {
       merchandising: [] // Merchandising Fake data Issue #39
     };
     if (flight.StopInformation) {
-      if (!_.isArray(flight.StopInformation)) {
+      if (!lodash.isArray(flight.StopInformation)) {
         flight.StopInformation = [flight.StopInformation];
       }
       mappedFlight.noOfStops = flight.StopInformation.length;
@@ -313,16 +313,16 @@ var mapCitypairs = function(citypairs) {
     if (!pair.PriceGroup) {
       throw 'Wrong response format. No PriceGroup was found in flight';
     }
-    if (!_.isArray(pair.PriceGroup.PriceClass)) {
+    if (!lodash.isArray(pair.PriceGroup.PriceClass)) {
       pair.PriceGroup.PriceClass = [pair.PriceGroup.PriceClass];
     }
     for (var pc = 0; pc < pair.PriceGroup.PriceClass.length; pc++) {
-      if (!_.isArray(pair.PriceGroup.PriceClass[pc].PriceSegment)) {
+      if (!lodash.isArray(pair.PriceGroup.PriceClass[pc].PriceSegment)) {
         pair.PriceGroup.PriceClass[pc].PriceSegment = [pair.PriceGroup.PriceClass[pc].PriceSegment];
       }
     }
     res.price += parseInt(pair.PriceGroup.PriceClass[0].Price.Total) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals));
-    if (!_.isArray(pair.Segment)) {
+    if (!lodash.isArray(pair.Segment)) {
       pair.Segment = [pair.Segment];
     }
     var from = pair.Segment[0];
@@ -382,8 +382,8 @@ var mapCitypairs = function(citypairs) {
 // Merchandising Fake keys Issue #39
 var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
 var mapMerchandising = function (citypairs, val) {
-  var _cityPairKey = ((citypairs.length > 1) ? _.random(0, citypairs.length - 1) : 0),
-    _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? _.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
+  var _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
+    _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? lodash.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
 
   citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
 };
@@ -406,16 +406,16 @@ var mapItinerary = function(itinerary) {
   res.citypairs = mCitypairs.citypairs;
 
   // Merchandising Fake data Issue #39
-  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
     mapMerchandising(res.citypairs, 'WiFi');
   }
-  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandising1bagfree) && lodash.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
     mapMerchandising(res.citypairs, '1st bag free');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
     mapMerchandising(res.citypairs, 'Priority seat');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
     mapMerchandising(res.citypairs, 'Lounge');
   }
 
@@ -457,7 +457,7 @@ module.exports = {
           } else {
             var resArr = [], errors = null;
             if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
-              if (!_.isArray(errors)) {
+              if (!lodash.isArray(errors)) {
                 errors = [errors];
               }
               var errtxt = [];
@@ -471,18 +471,18 @@ module.exports = {
               if (!result.FareGroup) {
                 throw 'No results found';
               }
-              if (!_.isArray(result.FareGroup)) {
+              if (!lodash.isArray(result.FareGroup)) {
                 result.FareGroup = [result.FareGroup];
               }
               var
                 flights = [];
               // prepare data for mapping
               for (var fg = 0; fg < result.FareGroup.length; fg++) {
-                if (!_.isArray(result.FareGroup[fg].OriginDestination)) {
+                if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
                   result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
                 }
                 for (var od = 0; od < result.FareGroup[fg].OriginDestination.length; od++) {
-                  if (!_.isArray(result.FareGroup[fg].OriginDestination[od].Flight)) {
+                  if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight)) {
                     result.FareGroup[fg].OriginDestination[od].Flight = [result.FareGroup[fg].OriginDestination[od].Flight];
                   }
                   for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
@@ -502,9 +502,9 @@ module.exports = {
 
               // Merchandising Fake keys Issue #39
               var itineraryIds = Array.from(Array(itineraries.length).keys());
-              _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              _keysMerchandisingWiFi = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(itineraries, function (itinerary, doneCb) {
 
