@@ -385,7 +385,7 @@ function AvaeaTextParser() {
   });
   
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:\\b[SsFfPp]t\\.?|de|am|upon)(?: [A-Z][A-z\\-]+,?))|" +
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:\\b[SsFfPp]t\\.?|de|am|upon|on)(?: [A-Z][A-z\\-]+,?))|" +
     "(?:(?:\\b[SsFfPp]t\\.? *)?[A-Z][A-z\\-,]+(?: [A-Z][A-z\\-]+,?){0,3})";
 
   // regexps matching different elements
@@ -599,6 +599,13 @@ function AvaeaTextParser() {
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
           sails.log.verbose("Parser success: "+JSON.stringify(result));
+          sails.log.verbose("Parsing query : '" + result.query + "'");
+          sails.log.verbose("Parsing result:       from '" + result.origin_airport + "' to '" + result.return_airport + "'");
+          sails.log.verbose("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
+          sails.log.verbose("Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class");
+          sails.log.verbose("Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'");
+          sails.log.verbose("Parsing result:       not parsed: '" + result.not_parsed + "'");
+          //sails.log.verbose("Parsing result:       airline: '" + result.airline + "'");
         } catch (e) {
           err = e;
           sails.log.error("Parser error: "+JSON.stringify(err));
