@@ -43,7 +43,7 @@ module.exports.passport = {
   //     scope: ['email'] /* email is necessary for login behavior */
   //   }
   // },
-  /*/ //production settings
+  //*/ //production settings
   google: {
     name: 'Google',
     protocol: 'oauth2',
