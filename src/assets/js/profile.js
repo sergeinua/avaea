@@ -52,4 +52,5 @@ $(document).ready(function() {
   });
 
 
+  ReactContentRenderer.render(<UserProfile profileData={UserProfileData} profileStructure={UserProfileStructure} programsStructure={UserProgramsStructure}/>, $('#UserProfile'));
 });

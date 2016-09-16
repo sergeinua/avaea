@@ -43,6 +43,12 @@ module.exports = {
     INF: "Infant"
   },
 
+  attr_travel_type: {
+    'Domestic Short Haul Trips': 'Domestic Short Haul Trips',
+    'Domestic Long Haul Flights': 'Domestic Long Haul Flights',
+    'International Flights': 'International Flights'
+  },
+
   findOneByUserId: function (id) {
     return this.findOne({user:id});
   },

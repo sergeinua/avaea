@@ -13,6 +13,9 @@ body.desktop {
 }
 </style>
 
+
+  <div id="UserProfile"></div>
+
 <!--BASE INFO/FAMILY-->
   <div class="panel panel-default">
     <div class="panel-heading" role="tab" id="headingOne">
@@ -202,3 +205,15 @@ if (profile_fields.lounge_membership) {
 </div>
 
 </form>
+
+<script type="text/javascript">
+  var
+    UserProfileData = <%- JSON.stringify(profile_fields) %>,
+    UserProfileStructure = {
+      gender: <%- JSON.stringify(Profile.attr_gender) %>,
+      pax_type: <%- JSON.stringify(Profile.attr_pax_type) %>
+    },
+    UserProgramsStructure = {
+      travel_type: <%- JSON.stringify(Profile.attr_travel_type) %>
+    };
+</script>
