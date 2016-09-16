@@ -852,15 +852,10 @@ a:focus,
 /* green */
 
 .success.ti:before,
+.extras-flag,
 .flight-extras .total-value,
 .icon-spinner {
 	color: #37d016;
-}
-
-/* gold */
-
-.extras-flag {
-	background: #37d016;
 }
 
 /* red */
@@ -2178,9 +2173,10 @@ td[data-action*="selectDay"] {
 .itinerary-airline .extras-flag {
 	cursor: pointer;
 	color: #ffffff;
-	letter-spacing: .5px;
 	margin-left: 5px;
 	padding: 2px 10px 2px 9px;
+	position: relative;
+    top: -1px;
 	border-radius: 15px;  
 	opacity: .8;
 }

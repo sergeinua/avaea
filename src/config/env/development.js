@@ -34,9 +34,9 @@ module.exports = {
     port: 5432
   },
 
-  port: 80,
-  proxyHost: 'http://stage.avaea.com/',
-  proxyPort: 80,
+//  port: 80,
+//  proxyHost: 'http://stage.avaea.com/',
+//  proxyPort: 80,
 
   flightapis: {
     mondee: {
@@ -46,5 +46,5 @@ module.exports = {
     searchProvider: ['mondee'/*, 'mystifly'*/]
   },
 
-  hookTimeout: 40000
+  hookTimeout: 180000
 };
