@@ -517,11 +517,12 @@
 	border-top: 0px solid transparent;
 }
 
-.desktop .booking-success .confirm-message .thanks {
+.desktop .booking-success .confirm-message .name {
 	font-size: 20px;
 }
 
-.desktop .booking-success .confirm-message .copy {
+.desktop .booking-success .confirm-message .copy,
+.desktop .booking-success .confirm-message .thanks {
 	font-size: 16px;
 }
 
@@ -2507,12 +2508,13 @@ td[data-action*="selectDay"] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.booking-success .confirm-message .copy {
+.booking-success .confirm-message .copy,
+.booking-success .confirm-message .thanks {
 	font-size: 13px;
 }
 
 .booking-success .confirm-code,
-.booking-success .confirm-message .thanks,
+.booking-success .confirm-message .name,
 .booking-success .trip.ti {
 	font-size: 16px;
 }
@@ -2522,7 +2524,7 @@ td[data-action*="selectDay"] {
 }
 
 .booking-success .confirm-message .thanks {
-	margin-bottom: 7px;
+	margin: 7px 0;
 }
 
 .confirm-code .number {
