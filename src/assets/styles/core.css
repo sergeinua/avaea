@@ -16,7 +16,12 @@
 .device,
 .ie-fixer,
 .search-result .static-price,
-.booking-flight-unit .buy-button,
+.search-result .long-wrapper,
+.booking .buy-button,
+.booking .long-wrapper,
+.booking-success .flight-unit .summary,
+.booking-success .col-xs-2.date,
+.booking-success 
 .multi-city-coming-soon,
 .form-fields.multi-city,
 .form-fields.voice-search,
@@ -545,8 +550,10 @@ footer,
 }
 
 .clear-it,
+.confirm-code:after,
+.long-wrapper:after,
 .flight-unit:after,
-.desktop.search-result .flights,
+.desktop.search-result .flights:after,
 .desktop:after,
 .flight-additional-info:after,
 #search_form:before,
@@ -898,7 +905,8 @@ form label.required:before,
 .notable-area,
 .modal-content .title-bar,
 .tt-suggestion:hover,
-.tt-suggestion.tt-cursor {
+.tt-suggestion.tt-cursor,
+.booking-success .trip.ti {
   background-color: #f8f8f8;
 }
 
@@ -937,6 +945,18 @@ textarea {
 
 form.label {
 	position: relative;
+}
+
+label.no-bs {
+	display: inline-block;
+	max-width: 100%;
+	margin-bottom: 0;
+	font-weight: normal;
+}
+
+label {
+	display: inline-block;
+	max-width: 100%; 
 }
 
 form label.required:before {
@@ -2175,7 +2195,6 @@ td[data-action*="selectDay"] {
 	margin-left: 5px;
 	padding: 2px 10px 2px 9px;
 	position: relative;
-    top: -1px;
 	opacity: .8;
 }
 
@@ -2198,6 +2217,11 @@ td[data-action*="selectDay"] {
   float: left;
   margin: 0 5px 0 0;
   background: url('/images/airlines/avaea-airlines-sprite.png');
+}
+
+.itinerary .section:first-child {
+	padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
 }
 
 .itinerary-info {
@@ -2353,7 +2377,7 @@ td[data-action*="selectDay"] {
 }
 
 .change-planes {
-	padding: 0 8px 0 25px;
+	padding: 0 8px 0 20px;
 }
 
 .touch .results #searchResultData {
@@ -2414,35 +2438,121 @@ td[data-action*="selectDay"] {
     left: -2px;
 }
 
-.booking-success .copy span {
-  font-family: 'Open-Sans-Semibold';
+.booking-success {
+	padding-top: 70px;
+}
+
+.booking-success .confirm-message,
+.booking-success .flight-unit .itinerary,
+.booking-success .trip.ti {
+	padding: 0 40px;
 }
 
 .success.ti {
-	font-size: 24px;
-	margin-bottom: 10px;
+	font-size: 18px;
 	display: inline-block;
+	float: left;
 	position: relative;
+		left: 19px;
 }
 
 .booking-success .success.ti:before {
-	font-size: 32px;
-    top: -4px;
-    left: -35px;
+	font-size: 24px;
+	position: absolute;
+    top: -1px;
+    left: -28px;
 }
 
-.booking-success .buttons {
-	margin-top: 20px;
+.booking-success .wrapper {
+	padding-top: 3px;
+	display: inline-block;
+	float: right;
 }
+
+.booking-success .confirm-message {
+	text-align: left;
+	margin-top: 15px;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.booking-success .confirm-code,
+.booking-success .confirm-message .thanks,
+.booking-success .trip.ti {
+	font-size: 16px;
+}
+
+.booking-success .confirm-code {
+	padding: 0 20px;
+}
+
+.booking-success .confirm-message .thanks {
+	margin-bottom: 10px;
+}
+
+.confirm-code .number {
+	font-family: 'Open-Sans-Bold';
+	padding-left: 3px;
+}
+
+.booking-success .flight-unit .itinerary {
+	font-size: 14px;
+	width: 100%;
+}
+
+.booking-success .trip.ti {
+	line-height: 1em;
+	text-align: left;
+	padding: 10px 40px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.booking-success .long-date {
+	display: inline-block;
+	float: left;
+	text-align: left;
+}
+
+.booking-success .long-airline {
+	display: inline-block;
+	float: right;
+	text-align: right;
+}
+
+.booking-success .flight-unit .notable-area .details .col-xs-3.flight-no {
+	width: 20%;
+}
+
+.booking-success .flight-unit .notable-area .details .col-xs-2.dest {
+	width: 20%;
+}
+
+.booking-success .flight-unit .notable-area .details .col-xs-3.times {
+	width: 35%;
+}
+
+.booking-success .change-planes {
+	padding-left: 0;
+}
+
+.booking-success .notable-area .col-xs-3.direction {
+	text-transform: uppercase;
+	width: 20%;
+}
+
+.help-contact {
+	font-family: 'Open-Sans-Italic';
+	font-size: 12px;
+	margin-top: 30px;
+}
+
 
 /* flight unit */
 
 .flight-unit {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-}
-
-.booking-success .flight-unit {
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .flight-unit .col-xs-9 {
@@ -2505,6 +2615,12 @@ td[data-action*="selectDay"] {
 	border-bottom: 0px solid transparent;
 }
 
+.booking-success .flight-unit  .notable-area {
+	margin-bottom: 0;
+	padding-right: 20px;
+	background: #ffffff;
+}
+
 .flight-unit .notable-area .title {
 	text-align: left;
 }
@@ -2524,6 +2640,8 @@ td[data-action*="selectDay"] {
 .flight-unit .notable-area .col-xs-2.date {
 	text-align: left;
 }
+
+
 
 
 /* heredeb */
