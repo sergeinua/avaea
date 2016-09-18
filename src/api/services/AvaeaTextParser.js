@@ -243,21 +243,88 @@ function AvaeaTextParser() {
       }
     ],
     [
-      '(thanksgiving|christmas|xmas|new year)',
+      '(new year|martin luther king day|mlk day|groundhog day|valentine\'s day|presidents\' day|mardi gras|fat tuesday|purim|st\. patrick\'s day|passover|easter|' +
+      'tax day|cinco de mayo|memorial day|independence day|labor day|yom kippur|columbus day|halloween|thanksgiving|black friday|cyber monday|hanukkah|christmas|xmas)',
       function( min_date, matches, atp ) {
 	var result;
 	switch( matches[1] ) {
-	case 'thanksgiving':
-	  // Fourth Thursday in November
-	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,1),"thursday");
-	  result.setDate(result.getDate()+21);
+	case 'new year': // fixed: Jan 1
+          result = new Date(min_date.getFullYear(),0,1);
 	  break;
-	case 'christmas':
-	case 'xmas':
+	case 'martin luther king day': // third Monday in January
+	case 'mlk day': // third Monday in January
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),0,15),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
+	  break;
+	case 'groundhog day': // fixed: Feb 2
+          result = new Date(min_date.getFullYear(),1,2);
+	  break;
+	case 'valentine\'s day': // fixed: Feb 14
+          result = new Date(min_date.getFullYear(),1,14);
+	  break;
+	case 'presidents\' day': // third Monday in February
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),1,15),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,0,15),"monday"); // in in the past, check next year
+	  break;
+	case 'mardi gras': // Feb 28 // TODO: make dynamic
+	case 'fat tuesday': // Feb 28 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),1,28);
+	  break;
+	case 'purim': // Mar 12 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),2,12);
+	  break;
+	case 'st. patrick\'s day': // fixed Mar 17
+          result = new Date(min_date.getFullYear(),2,17);
+	  break;
+	case 'passover': // Apr 11 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),3,11);
+	  break;
+	case 'easter': // Apr 16 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),3,16);
+	  break;
+	case 'tax day': // Apr 18 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),3,18);
+	  break;
+	case 'cinco de mayo': // fixed: May 5
+          result = new Date(min_date.getFullYear(),4,5);
+	  break;
+	case 'memorial day': // last Monday in May
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),4,25),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,4,25),"monday"); // if in the past, check next year
+	  break;
+	case 'independence day': // fixed: Jul 4
+          result = new Date(min_date.getFullYear(),6,4);
+	  break;
+	case 'labor day': // first Monday in Sep
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),8,1),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,8,1),"monday"); // if in the past, check next year
+	  break;
+	case 'yom kippur': // Oct 12 // TODO: make dynamic
+          result = new Date(min_date.getFullYear(),9,12);
+	  break;
+	case 'halloween': // fixed: Oct 31
+          result = new Date(min_date.getFullYear(),9,31);
+	  break;
+	case 'columbus day': // second Monday in Oct
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),9,8),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,9,8),"monday"); // if in the past, check next year
+	  break;
+	case 'thanksgiving': // fourth Thursday in November
+	  result = get_date_of_next_weekday(new Date(min_date.getFullYear(),10,22),"thursday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(new Date(min_date.getFullYear()+1,10,22),"thursday"); // if in the past, check next year
+	  break;
+	case 'black friday': // Friday after the fourth Thursday in November
+	  result = get_date_of_next_weekday(get_date_of_next_weekday(new Date(min_date.getFullYear(),10,22),"thursday"),"friday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(get_date_of_next_weekday(new Date(min_date.getFullYear()+1,10,22),"thursday"),"friday"); // if in the past, check next year
+	  break;
+	case 'cyber monday': // Monday after the fourth Thursday in November
+	  result = get_date_of_next_weekday(get_date_of_next_weekday(new Date(min_date.getFullYear(),10,22),"thursday"),"monday"); // check current year
+	  if (result<min_date) result = get_date_of_next_weekday(get_date_of_next_weekday(new Date(min_date.getFullYear()+1,10,22),"thursday"),"monday"); // if in the past, check next year
+	  break;
+	case 'hanukkah': // fixed: Dec 25
+	case 'christmas': // fixed: Dec 25
+	case 'xmas': // fixed: Dec 25
 	  result = new Date(min_date.getFullYear(),11,25);
-	  break;	  
-	case 'new year':
-          result = new Date(min_date.getFullYear(),11,31);
 	  break;
 	default:
 	  throw new Error("'"+s+"' does not look like a holiday name");
@@ -318,8 +385,8 @@ function AvaeaTextParser() {
   });
   
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
-  this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:[SsFfPp]t\\.?|de)(?: [A-Z][A-z\\-]+,?))|" +
-    "(?:(?:[SsFfPp]t\\.? *)?[A-Z][A-z\\-,]+(?: [A-Z][A-z\\-]+,?){0,3})";
+  this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:\\b[SsFfPp]t\\.?|de|am|upon)(?: [A-Z][A-z\\-]+,?))|" +
+    "(?:(?:\\b[SsFfPp]t\\.? *)?[A-Z][A-z\\-,]+(?: [A-Z][A-z\\-]+,?){0,3})";
 
   // regexps matching different elements
   this.action_regexps = [
@@ -442,7 +509,7 @@ function AvaeaTextParser() {
       // by watching for pattern with|and, except that we do not want the words by both sides of with|and to be anything
       // but nouns or pronouns. The trouble is that regular expressions to do allow to catch only certain parts of speech.
       // So we really have to do some interesting analysis here.
-      apt.not_parsed = matches.input.replace(/\b(?:out|in|back|flying|returning|leave|stop|want|departing|fly|ending|leaving|will|would|from|to|on|a|like|trip|travel|flight|need|return|show|starting|(?:look|search)(?:ing)? for|\.|,)\b /g,'')
+      apt.not_parsed = matches.input.replace(/\b(?:out|in|back|flying|returning|leave|stop|want|departing|fly|ending|leaving|will|would|from|to|so|let's|on|a|like|trip|travel|flight|need|return|show|starting|(?:look|search)(?:ing)? for|\.|,)\b /g,'')
       var regexps = [
 	['\\b(?:we|children|students|group|team) ',function() { return 'multiple'; }],
 	['(\\d+) tickets?',function( matches, apt ) { return Number(matches[1]); }],

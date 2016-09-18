@@ -26,7 +26,6 @@ var Buckets = React.createClass({
 
   toggleFullInfo: function () {
     SearchForm.toggleFullInfo = (value) => {
-      $('body').removeClass('show-tiles-arrow');
       var newVal = (typeof value != 'undefined')?value:!this.state.fullinfo;
       this.setState({fullinfo: newVal});
     };
@@ -34,29 +33,27 @@ var Buckets = React.createClass({
       SearchForm.toggleFullInfo();
     }.bind(this);
   },
-
+  
   render: function() {
     return (
     <div className="filters-area">
       <div className="holder">
-         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hidden"}>
+         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
            <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
              {this.state.tiles.map(function (tile) {
                return <Tile key={tile.id} info={tile} />
              })}
            </div>
-           <div className="clickable-tiles-area clickable hidden"></div>
-           <div className="clickable-tiles-area-yellow clickable"></div>
         </div>
   
-        <div className="bottomNav">
+        <div className={this.state.fullinfo ? "bottomNav":"bottomNav sticks"}>
           <div className="bottom-nav-text">
-          <span>Showing <span className='search_count'><span id='search_count'>{ this.props.searchResultLength }</span>/{this.state.searchResultLength} </span></span>
-          flights by </div><Sorter current={this.props.currentSort}/>
+          <span>Showing <span className='search_count' id='search_count'>{ this.props.searchResultLength }/{this.state.searchResultLength} </span>
+          flights by</span> </div><Sorter current={this.props.currentSort}/>
           <div className="clear-undo-buttons text-right">
             <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
             <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
-            <span className={!this.state.fullinfo ?"icon-expander-down":"icon-expander-up"} onClick={this.toggleFullInfo()}></span>
+            <span className={this.state.fullinfo ?"icon-expander-up":"icon-expander-down"} onClick={this.toggleFullInfo()}></span>
           </div>
         </div>
       </div>  

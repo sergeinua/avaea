@@ -6,6 +6,26 @@
 <div class="sitepage booking-success">
  
   <div class="success ti">Booked Itinerary</div>
+  
+  <!-- ------------- REACT FLIGHT UNIT ------------ -->
+  <!-- -------------------------------------------- -->
+  
+  <!-- script for the React flight unit -->
+  
+  <script>
+  var ItineraryData = <%- JSON.stringify(order[0]) %>;
+  var InitResultData = {iconSpriteMap: []};
+  </script>
+  
+  <div class="flight-unit">
+  
+    <!-- here is the div that the React unit replaces  -->
+    <div id="booked-flight-unit" class="booked-flight-unit"></div>
+  
+  </div>
+  
+  <!-- -------------------------------------------- -->
+  <!-- --------- ENDS REACT FLIGHT UNIT ----------- -->
 
   <div class="copy"><span>PNR:</span> <%= bookingRes.PNR %></div>
   <div class="copy"><span>Reference Number:</span> <%= bookingRes.ReferenceNumber %></div>

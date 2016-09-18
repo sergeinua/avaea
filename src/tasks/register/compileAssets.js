@@ -4,6 +4,7 @@ module.exports = function (grunt) {
 		'jst:dev',
 		'less:dev',
 		'copy:dev',
-		'babel:dev'
+		'babel:dev',
+		'filerev:dev'
 	]);
 };
