@@ -94,6 +94,12 @@ module.exports = {
           params.departCity = results.depart_city.city;
           params.arrivCity = results.arriv_city.city;
         }
+        // Temp test mail
+        // Mailer.sendMail('bookingResult', {
+        //   to: 'ext.staff@gmail.com',
+        //   subject: 'Test msg',
+        //   recipientName: 'User1',
+        // });
 
         return res.ok(
           {
