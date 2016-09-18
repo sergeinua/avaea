@@ -3,88 +3,18 @@
 ///////////////////////////////////////////////////////////////////////////
 // GLOBALS
 ///////////////////////////////////////////////////////////////////////////
-const _FS   = require('fs');
-const _UTIL = require('util');
-const _JSON = /^.+\.json/i;
-const _LOG_LEVEL = 0;
+const _FS     = require('fs');
+const _UTIL   = require('util');
+const _NLP    = require('./nlp');
 
 ///////////////////////////////////////////////////////////////////////////
 // FUNCTIONS
 ///////////////////////////////////////////////////////////////////////////
-function does_obj_match_criteria( obj, criteria ) {
-  if( _LOG_LEVEL>0 ) {
-    console.log(obj);
-    console.log(criteria);
-  }
-  for( var k in criteria ) {
-    if( !obj.hasOwnProperty(k) )
-      return false;
-    if( typeof(obj[k])!=typeof(criteria[k]) )
-      return false;
-    switch( typeof(obj[k]) ) {
-    case 'object':
-      if( !does_obj_match_criteria(obj[k],criteria[k]) )
-	return false;
-      break;
-    case 'number':
-    case 'string':
-      if( obj[k]!=criteria[k] )
-	return false;
-      break;
-    default:
-      return false;
-    }
-  }
-  return true;
-}
-function does_token_match_criteria( token, partOfSpeech_tag, dependencyEdge_label ) {
-  var criteria = {};
-  if( typeof(partOfSpeech_tag)!='undefined' ) {
-    criteria['partOfSpeech'] = {'tag':partOfSpeech_tag};
-  }
-  if( typeof(dependencyEdge_label)!='undefined' ) {
-    criteria['dependencyEdge'] = {'label':dependencyEdge_label};
-  }
-  return does_obj_match_criteria(token,criteria);
-}
-function get_token_closure( token ) {
-  var result = [token];
-  token.referring_tokens.forEach(function( rt ) {
-    var rt_closure = get_token_closure(rt);
-    for( var n=0; n<rt_closure.length; n++ ) {
-      if( !result.find(function( t ) { return t.ndx==rt_closure[n].ndx }) )
-	result.push(rt_closure[n]);
-    }
-  });
-  result.sort(function( t1, t2 ) {
-    return t1.ndx-t2.ndx;
-  });
-  return result;
-}
-function get_preposition_object_texts( preposition_token ) {
-  return preposition_token.referring_tokens.map(function( t1 ) {
-    return get_token_closure(t1).map(function( t2 ) {
-      return t2.text.content;
-    }).join(" ");
-  });
-}
 function make_sense_of_nlp_response( response ) {
-  // First go over each token and add ndx in there, it will help us later
-  response.tokens.forEach(function( token, ndx ) {
-    token.ndx = ndx;
-  });
-  // Then find all the tokens this token is referring to
-  response.tokens.forEach(function( token, ndx ) {
-    token.referring_tokens = response.tokens.filter(function( token2 ) {
-      if( !token2.dependencyEdge ) return false;
-      if( token2.dependencyEdge.headTokenIndex!=token.ndx ) return false;
-      if( token2.ndx==token.ndx ) return false;
-      return true;
-    });
-  });
+  _NLP.outfit_tokens(response.tokens);
   // Now start making sense of the sentense 
   var preposition_tokens = response.tokens.filter(function( token ) {
-    return does_token_match_criteria(token,'ADP','PREP');
+    return token.match_criteria('ADP','PREP');
   });
   var result = {};
   preposition_tokens.forEach(function( preposition_token, ndx ) {
@@ -122,7 +52,8 @@ function make_sense_of_nlp_response( response ) {
 	  break;
 	}
 	if( key ) {
-	  result[key] = get_preposition_object_texts(preposition_token);
+	  result[key] = preposition_token.get_texts();
+	  console.log(key+"="+result[key]);
 	}
       }
       else {
@@ -138,10 +69,21 @@ function make_sense_of_nlp_response( response ) {
 ///////////////////////////////////////////////////////////////////////////
 // TOP LEVEL
 ///////////////////////////////////////////////////////////////////////////
-for( var ndx=2; ndx<process.argv.length; ndx++ ) {
-  var val = process.argv[ndx];
-  if( !_JSON.test(val) )
-    return;
+var argv = require('minimist')(process.argv.slice(2));
+if( argv.hasOwnProperty('help') ) {
+  console.log("USAGE: %s [--loglevel=loglevel]\n"+
+	      "Arguments:\n"+
+	      "\t--help     - print this message\n"+
+	      "\t--loglevel - defines verbosity.\n"+
+	      "\n"+
+	      "This program process all the Google NLP JSON response files and print\n"+
+	      "what it understood in there\n",
+	      process.argv[1]);
+  process.exit(0);
+}
+global._LOG_LEVEL = argv.hasOwnProperty('loglevel') ? Number(argv.loglevel) : 0;
+for( var ndx=0; ndx<argv._.length; ndx++ ) {
+  var val = argv._[ndx];
   try {
     var response = require('./'+val);
     console.log("\n"+val+": "+response.sentences[0].text.content);
@@ -153,16 +95,13 @@ for( var ndx=2; ndx<process.argv.length; ndx++ ) {
       console.log("Cannot make sense of NLP response ("+sense.error+")");
     }
     else {
-      console.log(JSON.stringify(
-	sense,
-	function(key,value) {
-	  return (key=='referring_tokens') ? undefined : value;
-	},
-	2));
+      console.log(sense);
+      console.log(JSON.stringify(response,_NLP.format_tokens,2));
     }
   }
   catch( err ) {
-    console.log(_UTIL.format("Cannot load file %s (%j)",val,err))
+    console.log(_UTIL.format("Cannot load file %s (%s)",val,err.getMessage()))
   }
+  break;
 };
 

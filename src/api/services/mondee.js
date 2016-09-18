@@ -410,7 +410,7 @@ var getFlightBookingRq = function(id, params) {
   // Check input date
   var d_birth = sails.moment(params.DateOfBirth);
   if(!d_birth.isValid()) {
-    return new Error('Invalid date of birthday format: '+params.DateOfBirth+' Must be MM/DD/YYYY');
+    return new Error('Invalid date format: '+params.DateOfBirth+' Must be MM/DD/YYYY');
   }
 
   req.BookItineraryRequest = {
