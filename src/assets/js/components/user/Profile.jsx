@@ -32,27 +32,7 @@ var UserProfile = React.createClass({
     ];
 
     this.profileStructure = this.props.profileStructure;
-
-    this.programsStructure = {
-
-      preferred_airlines:[
-        {id: 'travel_type', title: 'Preferred Airlines type'},
-        {id: 'airline_name', title: 'Airline Name'}
-      ],
-        miles_programs: [
-        {id: 'airline_name', title: 'Airline Name'},
-        {id: 'account_number', title: 'Account Number'},
-        {id: 'flier_miles', title: 'Frequent Flier Miles'},
-        {id: 'expiration_date', title: 'Expiration Date'}
-      ],
-      lounge_membership: [
-        {id: 'airline_name', title: 'Airline Name'},
-        {id: 'membership_number', title: 'Club Membership Number'},
-        {id: 'expiration_date', title: 'Expiration Date'}
-      ]
-    };
-
-    this.programsStructure = $.extend(true, this.programsStructure, this.props.programsStructure);
+    this.programsStructure = this.props.programsStructure;
 
   },
 
@@ -121,11 +101,21 @@ var UserProfilePanelElement = React.createClass({
 
     } else {
 
-      return <div>
-        <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
-        <input type={this.props.item.type ? this.props.item.type : "text"} name={this.props.item.id} className="form-control input-sm"
-               placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title} defaultValue={this.props.item.data} required/>
-      </div>;
+      if (this.props.item.required) {
+        return <div>
+          <label className="required">{this.props.item.title}</label>
+          <input required type={this.props.item.type ? this.props.item.type : "text"} name={this.props.item.id} className="form-control input-sm"
+                 placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title} defaultValue={this.props.item.data} />
+        </div>;
+
+      } else {
+        return <div>
+          <label>{this.props.item.title}</label>
+          <input type={this.props.item.type ? this.props.item.type : "text"} name={this.props.item.id} className="form-control input-sm"
+                 placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title} defaultValue={this.props.item.data} />
+        </div>;
+
+      }
 
     }
   }
@@ -135,8 +125,9 @@ var UserProfilePanelElement = React.createClass({
 var UserProfilePanelElementDropdown = React.createClass({
 
   render: function () {
+
     var self = this,
-      _nodes = [], _options = [], _selected;
+      _nodes = [], _options = [];
 
     if ($.isArray(this.props.profileStructure)) {
 
@@ -197,26 +188,38 @@ var UserProfilePanelBlock = React.createClass({
 var UserProfilePanelBlockAirlines = React.createClass({
 
   render: function() {
+
+    var self = this;
+
     return <fieldset style={{backgroundImage: "linear-gradient(0, #f7f7ee, #FFFFFF)"}} key={1}>
-      <legend style={{marginBottom: "0px", fontSize: "18px"}}>Preferred Airlines</legend>
+      <legend style={{marginBottom: "0px", fontSize: "18px"}}>{this.props.item.title}</legend>
       <div className="panel-body">
-        <div id="preferredAirlines" fieldset-number="0">
-          <hr className="hidden" />
-          <label>Preferred Airlines type</label>
 
-          <select name="preferred_airlines.travel_type[]" className="form-control input-sm" defaultValue="International Flights">
-            <option defaultValue="" >please choose</option>
-            <option defaultValue="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
-            <option defaultValue="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
-            <option defaultValue="International Flights">International Flights</option>
-          </select>
+        {
+          this.props.item.data.map(function(item, index) {
 
-          <label>Airline Name</label>
-          <input type="text" name="preferred_airlines.airline_name[]" defaultValue="bbb" className="form-control input-sm" placeholder="Airline Name" />
-        </div>
+            var pseudoItem = {id: 'preferred_airlines.travel_type[]', data: item.travel_type},
+              removeButton = self.props.item.data.length > 1
+                ? <input className="remove-fieldset" type="button" value="remove" data-fieldset="preferred_airlines" /> : null;
+
+
+            return <div id="preferred_airlines" data-fieldset-name="preferred_airlines" data-fieldset-number={index} key={index}>
+              <hr className={index == 0 ? "hidden" : ""} />
+              <label>Preferred Airlines type</label>
+
+              {removeButton}
+
+              <UserProfilePanelElementDropdown item={pseudoItem} profileStructure={self.props.programsStructure.travel_type}/>
+
+              <label>Airline Name</label>
+              <input type="text" name="preferred_airlines.airline_name[]" defaultValue={item.airline_name} className="form-control input-sm" placeholder="Airline Name" />
+            </div>
+
+          })
+        }
       </div>
       <div className="panel-footer">
-        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferredAirlines">One more</button>
+        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" data-for="preferred_airlines">One more</button>
       </div>
     </fieldset>;
   }
@@ -226,32 +229,47 @@ var UserProfilePanelBlockAirlines = React.createClass({
 var UserProfilePanelBlockPrograms = React.createClass({
 
   render: function() {
+
+    var self = this;
+
     return <fieldset style={{backgroundImage: "linear-gradient(0, #f7f7ee, #FFFFFF)"}} key={2}>
 
-      <legend style={{marginBottom:"0px", fontSize: "18px"}}>Airlines Frequent Flier Miles Programs</legend>
+      <legend style={{marginBottom:"0px", fontSize: "18px"}}>{this.props.item.title}</legend>
 
       <div className="panel-body">
 
-        <div id="milesPrograms" fieldset-number="0">
-          <hr className="hidden" />
-          <label>Airline Name</label>
-          <input type="text" name="miles_programs.airline_name[]" className="form-control input-sm" placeholder="Airline Name" defualtValue="222" />
+        {
 
-          <label>Account Number</label>
-          <input type="text" name="miles_programs.account_number[]" className="form-control input-sm" placeholder="Account Number" defualtValue="222" />
+          this.props.item.data.map(function (item, index) {
 
-          <label>Frequent Flier Miles</label>
-          <input type="text" name="miles_programs.flier_miles[]" className="form-control input-sm" placeholder="Frequent Flier Miles" defualtValue="222" />
+            var removeButton = self.props.item.data.length > 1
+              ? <input className="remove-fieldset" type="button" value="remove" data-fieldset="miles_programs" /> : null;
 
-          <label>Expiration Date</label>
-          <input type="date" name="miles_programs.expiration_date[]" className="form-control input-sm" placeholder="Expiration Date" defualtValue="222" />
+            return <div id="miles_programs" data-fieldset-name="miles_programs" data-fieldset-number={index} key={index}>
+              <hr className={index == 0 ? "hidden" : ""} />
+              <label>Airline Name</label>
 
-        </div>
+              {removeButton}
+
+              <input type="text" name="miles_programs.airline_name[]" className="form-control input-sm" placeholder="Airline Name" defaultValue={item.airline_name} />
+
+              <label>Account Number</label>
+              <input type="text" name="miles_programs.account_number[]" className="form-control input-sm" placeholder="Account Number" defaultValue={item.account_number} />
+
+              <label>Frequent Flier Miles</label>
+              <input type="text" name="miles_programs.flier_miles[]" className="form-control input-sm" placeholder="Frequent Flier Miles" defaultValue={item.flier_miles} />
+
+              <label>Expiration Date</label>
+              <input type="date" name="miles_programs.expiration_date[]" className="form-control input-sm" placeholder="Expiration Date" defaultValue={item.expiration_date} />
+
+            </div>
+          })
+        }
 
       </div>
 
       <div className="panel-footer">
-        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="milesPrograms">One more</button>
+        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" data-for="miles_programs">One more</button>
       </div>
 
     </fieldset>;
@@ -262,29 +280,45 @@ var UserProfilePanelBlockPrograms = React.createClass({
 var UserProfilePanelBlockMembership = React.createClass({
 
   render: function() {
+
+    var self = this;
+
     return <fieldset style={{backgroundImage: "linear-gradient(0, #f7f7ee, #FFFFFF)"}} key={3}>
 
-      <legend style={{marginBottom:"0px", fontSize: "18px"}}>Airline Club Lounge Memberships</legend>
+      <legend style={{marginBottom:"0px", fontSize: "18px"}}>{this.props.item.title}</legend>
 
       <div className="panel-body">
 
-        <div id="loungeMembership" fieldset-number="0">
-          <hr className="hidden"/>
+        {
 
-          <label>Airline Name</label>
-          <input type="text" name="lounge_membership.airline_name[]" className="form-control input-sm" placeholder="Airline Name" defualtValue="xxx" />
+          this.props.item.data.map(function (item, index) {
 
-          <label>Club Membership Number</label>
-          <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defualtValue="xxx" />
+            var removeButton = self.props.item.data.length > 1
+              ? <input className="remove-fieldset" type="button" value="remove" data-fieldset="lounge_membership" /> : null;
 
-          <label>Expiration Date</label>
-          <input type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defualtValue="4545-04-05" />
-        </div>
+            return <div id="lounge_membership" data-fieldset-name="lounge_membership" data-fieldset-number={index} key={index}>
+              <hr className={index == 0 ? "hidden" : ""} />
+
+              <label>Airline Name</label>
+
+              {removeButton}
+
+              <input type="text" name="lounge_membership.airline_name[]" className="form-control input-sm" placeholder="Airline Name" defaultValue={item.airline_name} />
+
+              <label>Club Membership Number</label>
+              <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number} />
+
+              <label>Expiration Date</label>
+              <input type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defaultValue={item.expiration_date} />
+            </div>
+          })
+        }
+
 
       </div>
 
       <div className="panel-footer">
-        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="loungeMembership">One more</button>
+        <button className="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" data-for="lounge_membership">One more</button>
       </div>
 
     </fieldset>;

@@ -1,8 +1,10 @@
 /* global $ */
+var UserProfileData, UserProfileStructure, UserProgramsStructure;
+
 $(document).ready(function() {
 
-  $('.mymoreprofilebutton').click(function(el) {
-    var cloneTarget = $(this).attr('for');
+  $(document).on('click', '.mymoreprofilebutton', function(el) {
+    var cloneTarget = $(this).attr('data-for');
     var clone = $('#' + cloneTarget).clone().find("input").val("").end();
 
     clone.find('hr').removeClass('hidden');
@@ -11,9 +13,9 @@ $(document).ready(function() {
   });
 
   //remove fieldset
-  $('.remove-fieldset').click(function(event){
-    var fieldset = $(this).attr('fieldset'),
-      iterator = $(this).attr('iterator');
+  $(document).on('click', '.remove-fieldset', function(event){
+    var fieldset = $(this).attr('data-fieldset'),
+      iterator = $('*[data-fieldset-name=' + fieldset + ']' ).index( $(event.target).parents('*[data-fieldset-name=' + fieldset + ']'));
 
     $.ajax({
         method: "POST",
@@ -34,7 +36,7 @@ $(document).ready(function() {
 
         } else {
 
-          $('#' + fieldset + '[fieldset-number="' + iterator + '"]').remove();
+          $('#' + fieldset + '[data-fieldset-number="' + iterator + '"]').remove();
           $('#' + fieldset + ':first > hr').remove();
           if ($('#' + fieldset + ' .remove-fieldset').length == 1) {
             $('#' + fieldset + ' .remove-fieldset').remove();
@@ -51,6 +53,8 @@ $(document).ready(function() {
 
   });
 
-
-  ReactContentRenderer.render(<UserProfile profileData={UserProfileData} profileStructure={UserProfileStructure} programsStructure={UserProgramsStructure}/>, $('#UserProfile'));
+  if (UserProfileData && UserProfileStructure && UserProgramsStructure) {
+    ReactContentRenderer.render(<UserProfile profileData={UserProfileData} profileStructure={UserProfileStructure}
+                                             programsStructure={UserProgramsStructure}/>, $('#UserProfile'));
+  }
 });

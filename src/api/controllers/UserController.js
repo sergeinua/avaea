@@ -97,7 +97,8 @@ module.exports = {
       } else {
 
         var fieldset = req.param('fieldset'), iterator = req.param('iterator');
-        if (found[fieldset][iterator]) {
+
+        if (found[fieldset] && found[fieldset][iterator]) {
 
           found[fieldset].splice(iterator, 1);
           Profile.update({user:req.user.id}, found).exec(function (err, record) {
@@ -106,6 +107,10 @@ module.exports = {
             }
             return res.json({'success': true});
           });
+
+        } else {
+
+          sails.log.error('Fieldset "' + fieldset + '" not found', JSON.stringify(found));
 
         }
 
