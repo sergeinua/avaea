@@ -26,11 +26,11 @@
 </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-    <body class="search-result">
+    <body class="search-result<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper"> 
         <div class="desktop-inner">
   <% } else {%>
-    <body>
+    <body class="<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper">
         <div class="desktop-inner">
   <% } %>
