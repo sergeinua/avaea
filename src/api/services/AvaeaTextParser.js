@@ -599,13 +599,14 @@ function AvaeaTextParser() {
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
           sails.log.verbose("Parser success: "+JSON.stringify(result));
-          sails.log.verbose("Parsing query : '" + result.query + "'");
-          sails.log.verbose("Parsing result:       from '" + result.origin_airport + "' to '" + result.return_airport + "'");
-          sails.log.verbose("Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'");
-          sails.log.verbose("Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class");
-          sails.log.verbose("Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'");
-          sails.log.verbose("Parsing result:       not parsed: '" + result.not_parsed + "'");
-          //sails.log.verbose("Parsing result:       airline: '" + result.airline + "'");
+          sails.log.verbose("Parsing query : '" + result.query + "'"
+            + "\n                                                 Parsing result:       from '" + result.origin_airport + "' to '" + result.return_airport + "'"
+            + "\n                                                 Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'"
+            + "\n                                                 Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class"
+            + "\n                                                 Parsing result:       trip type: '" + result.type + "', action: '" + result.action + "'"
+            + "\n                                                 Parsing result:       not parsed: '" + result.not_parsed + "'"
+          //+ "\n                                                 Parsing result:       airline: '" + result.airline + "'"
+            );
         } catch (e) {
           err = e;
           sails.log.error("Parser error: "+JSON.stringify(err));
