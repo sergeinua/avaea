@@ -1,23 +1,50 @@
 
-module.exports = {
-    sendMail: function(tplName, tplData) {
+var qpromice = require('q');
+var nodemailer = require('nodemailer');
 
-        // sails.hooks.email.send(template, data, options, cb)
-        sails.hooks.email.send(
-            tplName,
-            tplData,
-            {
-                to: tplData.to,
-                subject: tplData.subject
-            },
-            function(err) {
-                if (err) {
-                    sails.log.error(err);
-                }
-                else {
-                    sails.log.info("Email is sent");
-                }
-            }
-        );
+module.exports = {
+  // Send mail
+  sendMail: function (fromField, toField, subjectField, textHtml, textPlain) {
+    var qdefer = qpromice.defer();
+
+    var params = {
+      to: toField,
+      subject: subjectField,
+    };
+    if (textHtml) {
+      params.html = textHtml;
+    } else {
+      params.text = textPlain;
     }
+    params.from = fromField ? fromField : sails.config.email.from;
+
+    var _transport = nodemailer.createTransport(sails.config.email.smtp);
+
+    _transport.sendMail(params, function (err, res) {
+      if (err) {
+        sails.log.error(err);
+        qdefer.reject(err);
+      } else {
+        qdefer.resolve(res);
+      }
+    });
+
+    return qdefer.promise;
+  },
+
+  // Make mail using template
+  makeMailTemplate: function (tplName, tplVars) {
+    var qdefer = qpromice.defer();
+
+    sails.hooks.views.render("emails/"+tplName, tplVars, function(err, html) {
+      if (err) {
+        sails.log.error(err);
+        qdefer.reject(err);
+      } else {
+        qdefer.resolve(html);
+      }
+    });
+
+    return qdefer.promise;
+  },
 };
