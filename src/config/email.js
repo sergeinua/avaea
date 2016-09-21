@@ -3,17 +3,17 @@ module.exports.email = {
 
   smtp: {
     /** Case with remote smtp */
-    service: 'gmail',
-    secure: true, // use SSL
-    auth: {
-      user: 'ext.staff@gmail.com',
-      pass: 'october#5'
-    },
+    // service: 'gmail',
+    // secure: true, // use SSL
+    // auth: {
+    //   user: 'username@gmail.com',
+    //   pass: '***'
+    // },
 
     /** Case with local smtp */
-    // host: 'localhost',
-    // port: 25,
-    // secure: false, // use SSL
+    host: 'localhost',
+    port: 25,
+    secure: false, // use SSL
 
     // Remains from the sails-hook-email. Is not use now
     // testMode: false,
