@@ -181,7 +181,8 @@ module.exports = {
    * @returns {string}
    */
   getHeadContent: function(searchId) {
-  	return '<div class="back-history" style="display: inline-block;" onclick="window.location.href=\'/result?s='+searchId+'\'">Back</div>';
+    //FIXME html in model is bad idea
+    return '<div class="back-history" style="display: inline-block;" onclick="window.location.href=\'/result?s='+searchId+'\'">Back</div>';
   },
 
   getStatistics: function (itineraries) {

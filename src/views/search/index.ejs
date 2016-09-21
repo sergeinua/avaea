@@ -1,4 +1,13 @@
+<script>
+  var InitSearchFormData = {
+    searchParams: <%- JSON.stringify(defaultParams) %>,
+    user: {email:"<%= user.email %>"}
+  };
+  var serviceClass = <%- JSON.stringify(serviceClass) %>;
+</script>
+<div id="searchformpage"></div>
 
+<<<<<<< Updated upstream
   <nav class="navbar navbar-default searchform-top" >
     <div class="flight-type-form">
       <div id="one_way" class="flight-type-item one-way"><%= __('One way')%></div>
@@ -147,5 +156,18 @@
 
     </div>
   </div>
+=======
+<form action="/result" method="post" id="search_form" >
+  <input type="hidden" name="originAirport" id="originAirport" value="<%= defaultParams.DepartureLocationCode %>" city="<%= defaultParams.departCity ? defaultParams.departCity : '' %>" />
+  <input type="hidden" name="destinationAirport" id="destinationAirport" value="<%= defaultParams.ArrivalLocationCode %>" city="<%= defaultParams.arrivCity ? defaultParams.arrivCity : '' %>" />
+  <input type="hidden" name="departureDate" id="departureDate" value="<%= defaultParams.departureDate %>"/>
+  <input type="hidden" name="returnDate" id="returnDate" value="<%= defaultParams.returnDate %>"/>
+  <input type="hidden" name="preferedClass" id="preferedClass" value="<%= _.isEmpty(defaultParams.CabinClass) ? 'E' : defaultParams.CabinClass %>"/>
+  <input type="hidden" name="topSearchOnly" id="topSearchOnly" value="0"/>
+  <input type="hidden" name="passengers" id="passengers" value="<%= _.isEmpty(defaultParams.passengers) ? '1' : defaultParams.passengers %>"/>
+  <input type="hidden" name="flightType" id="flightType" value="<%= _.isEmpty(defaultParams.flightType) ? 'round_trip' : defaultParams.flightType.toLowerCase() %>"/>
+  <input type="hidden" name="voiceSearchQuery" id="voiceSearchQuery" value="" />
+</form>
+>>>>>>> Stashed changes
 
 

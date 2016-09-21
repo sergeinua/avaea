@@ -16,7 +16,7 @@ var ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
-    SearchForm.updateTiles = (filter) => {
+    ActionsStore.updateTiles = (filter) => {
 
       var tileId = filter.id.replace(/(tile).+/, '$1');
       var filters = this.state.filter;
@@ -77,13 +77,13 @@ var ResultPage = React.createClass({
 
       this.updateTiles(filter);
     };
-    SearchForm.undoTiles = () => {
+    ActionsStore.undoTiles = () => {
       this.undoTiles();
     };
-    SearchForm.clearTiles = () => {
+    ActionsStore.clearTiles = () => {
       this.clearTiles();
     };
-    SearchForm.sortItineraries = (option, direction) => {
+    ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
     };
   },
@@ -271,11 +271,14 @@ var ResultPage = React.createClass({
     });
     this.setState({searchResultLength: count});
   },
-
+  getUser: function () {
+    console.log(this.props.InitResultData.user);
+    return this.props.InitResultData.user;
+  },
   render: function() {
     return (
       <div>
-        <NavBar InitResultData={this.state}/>
+        <NavBar page="result" user={this.getUser()} InitResultData={this.state}/>
         {(this.props.InitResultData.searchResultLength
             ? (<span>
                  <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>

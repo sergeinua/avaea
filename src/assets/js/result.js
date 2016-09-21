@@ -18,137 +18,6 @@ $.fn.scrollTo = function(elem) {
 };
 
 
-/*
-var getFilters = function () {
-  var filter = $('.selectedfilters').attr('filters');
-  filter = filter ? filter.split(' ') : [];
-  return (filter.length > 0) ? $.map(filter, function (item) {
-    if (item.length > 0) return item;
-  }) : [];
-};
-
-var getDisFilters = function () {
-  var filter = $('.selectedfilters').attr('filters-dis');
-  filter = filter ? filter.split(' ') : [];
-  return (filter.length > 0) ? $.map(filter, function (item) {
-    if (item.length > 0) return item;
-  }) : [];
-};
-*/
-//tile recalculation
-/*
-var recalcTiles = function () {
-  console.log('called recalcTiles');
-  var filters = $.merge([], getFilters(), getDisFilters());
-  var groups = {};
-  console.log('filters.length',filters.length);
-  if (filters.length) {
-    filters.forEach(function (filter) {
-      if (filter && filter != '') {
-        var tileGroup = filter.replace(/(tile).+/, '$1');
-        if (typeof groups[tileGroup] == 'undefined') {
-          groups[tileGroup] = [];
-        }
-        groups[tileGroup].push(filter);
-      }
-    });
-  }
-  $('#tiles').find('li').each(function (item) {
-    var tile = $(this);
-    var sCount = 0;
-    if (tile.hasClass('selected')) {
-      sCount = $('.' + tile.attr('data-for') + ':visible').length;
-    } else {
-      if (tile.attr('data-for')) {
-        var tileGroup = tile.attr('data-for').replace(/(tile).+/, '$1');
-        var predictedClass = '.' + tile.attr('data-for');
-        var predictedResult = $(predictedClass);
-
-        for (var key in groups) {
-          if (!groups.hasOwnProperty(key)) continue;
-
-          if (key != tileGroup) {
-            predictedResult = predictedResult.filter('.' + groups[key].join(',.'));
-          }
-        }
-        sCount = predictedResult.length;
-      }
-    }
-
-    var _filter = getFilters(),
-      _disFilter = getDisFilters(),
-      filtIndx = _filter.indexOf(tile.attr('data-for')),
-      disFiltIndx = _disFilter.indexOf(tile.attr('data-for'));
-
-    if (sCount > 0) {
-      $('[for=' + tile.attr('data-for') + '] > span.badge').text(sCount);
-      tile.removeClass('disabled');
-      tile.removeClass('dis-selected');
-      if (disFiltIndx != -1) {
-        delete _disFilter[disFiltIndx];
-        $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
-        if (filtIndx == -1) {
-          tile.addClass('selected');
-          _filter.push(tile.attr('data-for'));
-          $('.selectedfilters').attr('filters', _filter.join(' '));
-          filterItineraries();
-        }
-      }
-    } else if (sCount <= 0) {
-      $('[for=' + tile.attr('data-for') + '] > span.badge').text('');
-      tile.removeClass('selected');
-      if (_filter.length) {
-        var _indx = _filter.indexOf(tile.attr('data-for'));
-        if (_indx != -1) {
-          if (_disFilter.indexOf(_filter[_indx]) == -1) {
-            _disFilter.push(_filter[_indx]);
-            $('.selectedfilters').attr('filters-dis', _disFilter.join(' '));
-          }
-          tile.addClass('dis-selected');
-          delete _filter[_indx];
-          $('.selectedfilters').attr('filters', _filter.join(' '));
-        }
-      }
-      tile.addClass('disabled');
-    }
-  });
-};*/
-// var showTotal = !!$('.itinerary:visible').length;
-
-// var filtersCount = {};
-// var filterItineraries = function () {
-
-  // var filters = getFilters();
-  // if (filters.length) {
-  //   $('#clear, #undo').removeClass('disabled');
-  // } else {
-  //   $('#clear, #undo').addClass('disabled');
-  // }
-  // $('.itinerary').show();
-  // $('.mybucket').each(function () {
-  //
-  //   var selectedTileFilers = [];
-  //   var tileName = $(this).attr('id');
-  //   $(this).find('li').each(function () {
-  //     var tileId = $(this).attr('for');
-  //     if ($.inArray(tileId, filters) != -1) {
-  //       selectedTileFilers.push(tileId);
-  //     }
-  //   });
-  //
-  //   if (selectedTileFilers.length) {
-  //     filtersCount[tileName] = $('.itinerary:visible').filter('.' + selectedTileFilers.join(',.')).length;
-  //     $('.itinerary:visible').not('.' + selectedTileFilers.join(',.')).hide();
-  //   }
-  // });
-  //
-  // if (showTotal) {
-  //   var sCount = $('.itinerary:visible').length;
-  //   $('#search_count').text(sCount);
-  //   $('#search_count').removeClass('hidden');
-  //   recalcTiles();
-  // }
-// };
 
 var scrollAirlines = function () {
   // Bucket was touched. Not need scrolling
@@ -188,12 +57,12 @@ $(document).ready(function() {
 
   // result page init
   {
-    if ($('.flight-info').length) {
-      $('button', '#main_title').prependTo('.flight-info');
-      $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
-      $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
-      // horrible!!!! Deborah fix this later
-    }
+    // if ($('.flight-info').length) {
+    //   $('button', '#main_title').prependTo('.flight-info');
+    //   $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
+    //   $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
+    //   // horrible!!!! Deborah fix this later
+    // }
 
     var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
     if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
@@ -204,334 +73,90 @@ $(document).ready(function() {
       touchScrollStep: 30
     });
   }
-  
-  
   /* ------------- LOGIC FOR THE DIMMER ------------------
-     1) don't show the dimmer if user already saw it
-     2) don't show the dimmer if results are fewer than 10
-     user should only see dimmer on first ever load of results that are > 10
-    ----------------------------------------------------- */   
-  
-  var displayDimmer = function () {
-  	
-  	// get the cookie, was dimmer shown?
-    var showDimmer = getCookie('dimmer_was_showed');
-  	
-  	if (showDimmer !=="true") {
-  		
-  		// dimmer was not already shown
-  		// check if search results are < 10
-  		if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount < 10) {
-  			
-  			// there were < 10 results, not enough to show the dimmer
-  			$('.dimmer').attr('style', 'display: none;');
-  			
-  		} else {
+   1) don't show the dimmer if user already saw it
+   2) don't show the dimmer if results are fewer than 10
+   user should only see dimmer on first ever load of results that are > 10
+   ----------------------------------------------------- */
 
-  			// there were > 10 results, so show it's ok to show the dimmer, 
-  			// on click anywhere, remove it and set the cookie to "dimmer was shown"
-  		  $('.dimmer').attr('style', 'display: inline-block;');
-  		  $('body').click(function(){
-  		  	// user saw it so don't show it again for about 20 years
-  		    setCookie('dimmer_was_showed', "true", 10000);
-  		    $('.dimmer').attr('style', 'display: none;');
-  		  });
-  		}
-  	
-  	} else {
-			// dimmer shown was true
-		}	
+  var displayDimmer = function () {
+
+    // get the cookie, was dimmer shown?
+    var showDimmer = getCookie('dimmer_was_showed');
+
+    if (showDimmer !=="true") {
+
+      // dimmer was not already shown
+      // check if search results are < 10
+      if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount < 10) {
+
+        // there were < 10 results, not enough to show the dimmer
+        $('.dimmer').attr('style', 'display: none;');
+
+      } else {
+
+        // there were > 10 results, so show it's ok to show the dimmer,
+        // on click anywhere, remove it and set the cookie to "dimmer was shown"
+        $('.dimmer').attr('style', 'display: inline-block;');
+        $('body').click(function(){
+          // user saw it so don't show it again for about 20 years
+          setCookie('dimmer_was_showed', "true", 10000);
+          $('.dimmer').attr('style', 'display: none;');
+        });
+      }
+
+    } else {
+      // dimmer shown was true
+    }
   }
   displayDimmer();
 
- 
-
-  // Set sprite number for the every airlines icon
-  // $('.itinerary-airline-icon').each(function () {
-  //   $(this).css('background-position', '0 -' + $(this).data('sprite_num') * 15 + 'px');
-  // });
-
-
-
-  // showTotal = !!$('.itinerary:visible').length;
-
-
-  // filterItineraries();
-
-  // $('#clear').click(function () {
-  //   $('.selectedfilters').attr('filters', '');
-  //   $('.selectedfilters').attr('filters-dis', '');
-  //   $('#tiles').find('li.selected').removeClass('selected');
-  //   $('#tiles').find('li.dis-selected').removeClass('dis-selected');
-  //   swiper.slideTo(0);
-  //   filterItineraries();
-  // });
-  //
-  // $('#undo').click(function () {
-  //   if ($(this).hasClass('disabled')) {
-  //     return;
-  //   }
-  //   var filters = getFilters();
-  //   if (filters.length) {
-  //     var lastElement = filters[filters.length - 1];
-  //     filters.pop();
-  //     $('.selectedfilters').attr('filters', filters.join(' '));
-  //     if (lastElement) {
-  //       swiper.slideTo($('[for=' + lastElement + ']').parents('.swiper-slide').index());
-  //       $('[for=' + lastElement + ']').removeClass('selected');
-  //     }
-  //     filterItineraries();
-  //   }
-  // });
-
-  /*$('.sort-button .dropdown-menu li').not('.divider').click(function () {
-    if (!$(this).hasClass('selected')) {
-      $('span.caret', '.sort-button .dropdown-menu li.selected').addClass('hide');
-      $('.sort-button .dropdown-menu li.selected').removeAttr('order').removeClass('selected');
-      $('span.caret', this).removeClass('hide');
-      $(this).addClass('selected');
-    }
-    $('.sort-button button > i').replaceWith($('i', this).clone());
-    var
-      sort = $(this).attr('sort'),
-      order = 'asc';
-    $(this).removeClass('dropup');
-    if ($(this).attr('order') == 'asc') {
-      $(this).addClass('dropup');
-      order = 'desc';
-    }
-    if (order == 'asc') {
-      $('#sort-menu-direction').html('&darr;');
-    } else {
-      $('#sort-menu-direction').html('&uarr;');
-    }
-    $(this).attr('order', order);
-    var itineraries = $('.itinerary');
-    itineraries.sort(function (a, b) {
-      var
-        a = parseFloat($(a).data(sort)),
-        b = parseFloat($(b).data(sort));
-      if (order == 'desc') {
-        b = [a, a = b][0];
-      }
-      return (a > b) ? 1 : ((a < b) ? -1 : 0);
-    });
-    $('#searchResultData').append(itineraries);
-  });*/
-
-  // more/less button for merchandising
-  // $('.mymorebutton').click(function () {
-  //   var _it = $(this).attr('for');
-  //   var _mmcnt = '.mymorecontent' + _it;
-  //   $(_mmcnt).toggleClass(function () {
-  //     if ($(_mmcnt).is(".hidden")) {
-  //       $('#mymorebtn' + _it).text("less")
-  //     } else {
-  //       $('#mymorebtn' + _it).text("more")
-  //     }
-  //     return "hidden";
-  //   });
-  //   return false;
-  // });
-
-
   //tiles
-  // var firstSelectionCount = {};
-  // var globalSelectionCount = 0;
+
   var numberOfTiles = $('.mybucket').length;
-/*
-  $('.list-group-item').click(function (event) {
 
-    _displayDimmer(false);
-
-    if ($(this).hasClass('disabled')) {
-      return false;
-    }
-
-    var tileId = $(this).closest('.mybucket').attr('id');
-    if (tileId == 'airline_tile') {
-      $('#' + tileId).data("_is_touched", 1);
-    }
-
-    if ($(this).hasClass('selected')) {
-      $(this).removeClass('selected');
-      var filters = getFilters();
-
-      //Check if the very last bucket in a tile is unselected
-      var needRecalculate = !$(this).siblings('.selected').length;
-      // log to abo
-      logAction('on_tile_choice', {
-        action: 'filter_remove',
-        tileName: tileId,
-        tileValue: $(this).html(),
-        tileId: $(this).attr('for'),
-        sample: (-1.0 * firstSelectionCount[tileId]) / numberOfTiles,
-        recalculate: needRecalculate
-      });
-      var result = [];
-      var current = $(this).attr('for');
-      if (filters.length) {
-        filters.forEach(function (filter) {
-          if (filter && filter != current && filter != '') {
-            result.push(filter);
-          }
-        });
-
-        $('.selectedfilters').attr('filters', result.join(' '));
-      }
-    } else {
-      $(this).addClass('selected');
-      var filters = $('.selectedfilters').attr('filters');
-      $('.selectedfilters').attr('filters', filters + ' ' + $(this).attr('for'));
-
-      // Check if the very first bucket in a tile is selected
-      var needRecalculate = !$(this).siblings('.selected').length;
-      globalSelectionCount++;
-      if (needRecalculate) {
-        firstSelectionCount[tileId] = globalSelectionCount;
-      }
-      // log to abo
-      logAction('on_tile_choice', {
-        action: 'filter_add',
-        tileName: tileId,
-        tileValue: $(this).html(),
-        tileId: $(this).attr('for'),
-        sample: (1.0 * firstSelectionCount[tileId]) / numberOfTiles,
-        recalculate: needRecalculate
-      });
-    }
-    // recalculate search result
-    filterItineraries();
-
-    scrollAirlines();
-    swiper.slideTo($(this).parents('.swiper-slide').index());
-  });
-*/
-  
   // Track and remember airlines scroll position
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
-  
-  
-	// correctly initialize the swiper for desktop vs. touch
-	function isTouchDevice(){
-	  return typeof window.ontouchstart !== 'undefined';
-	}
 
-	if (!isTouchDevice()) {
-		// is desktop
-		swiper = new Swiper('.swiper-container', {
-	    freeMode: true,
-	    slidesPerView: '5.5'
-	  });
-
-	} else {
-	  // is touch 
-		swiper = new Swiper('.swiper-container', {
-	    freeMode: true,
-	    slidesPerView: 'auto'
-	  });
-	}
-  
-  
-
-  //search count
-  // var sCount = $('.itinerary:visible').length;
-  // $('#search_count').text(sCount);
-  // if (showTotal) {
-  //   $('#search_count').removeClass('hidden');
-  //   recalcTiles();
-  // }
-
-  // DEMO-429 Collapse tiles
-  // $('.clickable-tiles-area-yellow').click(function () {
-  //   if ($('.clickable-tiles-area').hasClass('hidden')) {
-  //     shrinkTiles(false);
-  //   }
-  //   return false;
-  // });
-  // $('.clickable-tiles-area').click(function () {
-  //   shrinkTiles(true);
-  //   return false;
-  // });
-  // var tilesHeightFull = $('#tiles').outerHeight();
-  // var shrinkTiles = function (revert) {
-  //   if (!revert) {
-  //     if ($('#tiles').outerHeight() !== 20 && $('#searchResultData').outerHeight() >= $('body').outerHeight()) {
-  //       tilesHeightFull = $('#tiles').outerHeight();
-  //       $('#tiles').outerHeight(20);
-  //       $('.clickable-tiles-area').removeClass('hidden');
-  //       $('body').removeClass('show-tiles-arrow');
-  //     }
-  //   } else {
-  //     $('.clickable-tiles-area').addClass('hidden');
-  //     $('#tiles').outerHeight(tilesHeightFull);
-  //     initScroll = $(window).scrollTop();
-  //   }
-  // };
-  	
-  	
-  if ($(".swiper-container").length) {
-	     $(".swiper-container").hammer();
-	     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-	     $(".swiper-container").bind("swipeup", function (e) {
-	       SearchForm.toggleFullInfo(false);
-	     }).bind("swipedown", function (e) {
-	       SearchForm.toggleFullInfo(true);
-	     });
-  }
-
-  var expandedItitns = 0;
-  
-  
-  /*
-  $('.itinerary-info').parent().click(function (event) {
-    //$('.itinerary').removeClass('selected');
-    //$(this).addClass('selected');
-    var itineraryId = $(this).attr('id');
-    var details = $(this).attr('for');
-    if (details) {
-      $('#' + details).toggle();
-
-      if ($('#' + details).is(':visible')) {
-        expandedItitns++;
-
-        logAction('on_itinerary_purchase', {
-          action: 'itinerary_expanded',
-          itinerary: {
-            id: itineraryId
-          }
-        });
-      } else {
-        expandedItitns--;
-      }
+    // correctly initialize the swiper for desktop vs. touch
+    function isTouchDevice(){
+      return typeof window.ontouchstart !== 'undefined';
     }
 
-    //$('#buy_button').removeAttr('disabled');
-  });
-  */
-  //
-  // $('[id*=buy-button-]').click(function (event) {
-  //   var id = $(this).parents('.itinerary').attr('id');
-  //   if (id) {
-  //     location.href = '/order?id=' + id + '&searchId='+ $('#searchId').val();
-  //   }
-  // });
-  // $('[id*=buy-cron-button-]').on('click touchstart', function (event) {
-  //   var id = $(this).parents('.itinerary').attr('id');
-  //   if (id) {
-  //     location.href = '/order?special=1&id=' + id + '&searchId='+ $('#searchId').val();
-  //   }
-  // });
+    if (!isTouchDevice()) {
+      // is desktop
+      swiper = new Swiper('.swiper-container', {
+        freeMode: true,
+        slidesPerView: '5.5'
+      });
 
-  
-  // collapse tiles for the user if they scroll a lot
+    } else {
+      // is touch
+      swiper = new Swiper('.swiper-container', {
+        freeMode: true,
+        slidesPerView: 'auto'
+      });
+    }
+
+
+  if ($(".swiper-container").length) {
+       $(".swiper-container").hammer();
+       $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+       $(".swiper-container").bind("swipeup", function (e) {
+         ActionsStore.toggleFullInfo(false);
+       }).bind("swipedown", function (e) {
+         ActionsStore.toggleFullInfo(true);
+       });
+  }
+
+
   var initScroll = 0;
   var scrollStarted = false;
   $('#searchResultData').scroll(function() {
     if ($(this).scrollTop() == 0 ) {
-      SearchForm.toggleFullInfo(true);
+      ActionsStore.toggleFullInfo(true);
     }
     if (!scrollStarted) {
       initScroll = $(this).scrollTop();
@@ -539,9 +164,9 @@ $(document).ready(function() {
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
-    // Collapse 
+    // Collapse
     if ( ($(this).scrollTop() - initScroll) >= 50 ) {
-      SearchForm.toggleFullInfo(false);
+      ActionsStore.toggleFullInfo(false);
       scrollStarted = false;
     }
   });
@@ -550,19 +175,18 @@ $(document).ready(function() {
   $('.result-search-info-bar').click(function (event) {
     location.href = '/search';
   });
-  
-  //------------ IE have to FORCE Bootstrap menu to open ----------
-	  if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
-	  	$('.sort-button').click(function(){
-	      if ($('.sort-button').attr('class', 'sort-button open')) {
-	      	$('.sort-button').attr('class', 'sort-button');
-	      } else {
-	      	$('.sort-button').attr('class', 'sort-button open');
-	      }
-	    });
-	  }
-  // ----------------------------------------------------------------
 
+  //------------ IE have to FORCE Bootstrap menu to open ----------
+  if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
+    $('.sort-button').click(function(){
+      if ($('.sort-button').attr('class', 'sort-button open')) {
+        $('.sort-button').attr('class', 'sort-button');
+      } else {
+        $('.sort-button').attr('class', 'sort-button open');
+      }
+    });
+  }
+  // ----------------------------------------------------------------
 });
 
 

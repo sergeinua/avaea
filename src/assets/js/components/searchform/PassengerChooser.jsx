@@ -1,6 +1,7 @@
 
 var PassengerChooser = React.createClass({
   getInitialState: function() {
+    //FIXME get rid from jquery
     return {
       passengers_count: this.props.passengerVal || $('#passengers').val(),
       passengers_text: "Adult" + (this.props.passengerVal == 1? '':'s')
@@ -8,7 +9,7 @@ var PassengerChooser = React.createClass({
   },
 
   componentWillMount: function () {
-    SearchForm.updatePassengers = (newCount) => {
+    ActionsStore.updatePassengers = (newCount) => {
       this.updateCount(newCount);
     }
   },
@@ -30,6 +31,7 @@ var PassengerChooser = React.createClass({
         passengers_text: "Adults"
       });
     }
+    //FIXME get rid from jquery
     $('#passengers').val(passengerVal);
   },
 
@@ -37,7 +39,7 @@ var PassengerChooser = React.createClass({
     var digits = {1:"One", 2:"Two", 3:"Three", 4:"Four"};
 
     return (
-      <div className="flight-passengers-info-item row">
+      <div className="chooser flight-passengers-info-item row">
         <div className="label-d col-xs-6">Passengers</div>
         <div className="text-picker col-xs-6" onClick={this.changePassengersCount}>
           <span id="passengers_count">{digits[this.state.passengers_count]}</span> <span className="passengers_text">{this.state.passengers_text}</span>
@@ -45,14 +47,4 @@ var PassengerChooser = React.createClass({
       </div>
     )
   }
-});
-
-function renderPassengerChooser(passengerVal) {
-  if ($('#PassengerChooser').length) {
-    ReactContentRenderer.render(<PassengerChooser passengerVal={passengerVal}/>, $('#PassengerChooser'));
-  }
-}
-
-$(document).ready(function() {
-  renderPassengerChooser($('#passengers').val() || 1);
 });

@@ -1,5 +1,5 @@
 /* global $ */
-var SearchForm = {}; //global object for communication with react components
+var ActionsStore = {}; //global object for communication with react components
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);
@@ -79,16 +79,16 @@ function setCookie(name, value, options) {
 
 
 $(document).ready(function() {
-	
-	$('#nav_slide_menu').offcanvas({
+
+  $('#nav_slide_menu').offcanvas({
     toggle: false,
     placement: 'left'
   });
-	
+
 	/**
 	 * *********  This is Deborah's script to manage desktop vs. touch   ********
 	 * *********  but only for supported devices (iPhone, Android)       ********
-	 */ 
+	 */
 
 	// detect if is touch
 	function isTouchDevice(){
@@ -97,40 +97,40 @@ $(document).ready(function() {
 
 	// if not touch
 	if (!isTouchDevice()) {
-		
+
 		// add 'desktop' class to body
 		$(function() {
 	    var body = $('body');
 	    body.addClass(' desktop');
-	    
+
 		});
 
 	// else if touch, add classes to body
 	} else {
-		
-	  // add 'touch' 
+
+	  // add 'touch'
 		$(function() {
 			var body = $('body');
 			body.addClass(' touch');
-			
+
 			// now get which device, add 'ios' or 'android'
 			$(function() {
 			  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
 			  if (userAgent.match((/iPad/i) || (/iPhone/i) || (/iPod/i))) {
 			  	body.addClass(' ios');
-			  	
+
 			  } else if (userAgent.match(/Android/i)) {
 			    body.addClass(' android');
 			  }
 			});
 		});
 	}
-	
-//***** detect IE10 or IE11 and append string  ***** // 
+
+//***** detect IE10 or IE11 and append string  ***** //
 	  var doc = document.documentElement;
 	  doc.setAttribute('data-useragent', navigator.userAgent);
-  
+
 });
 // ends dom ready
 

@@ -2,12 +2,19 @@ var SearchResult = {};
 
 var NavBar = React.createClass({
   getInitialState: function() {
+    console.log(this.props.user);
     return {
       title: this.props.InitResultData.title,
       tiles: this.props.InitResultData.tiles,
       searchParams: this.props.InitResultData.searchParams,
       searchResultLength: this.props.InitResultData.searchResultLength,
     };
+  },
+
+  getDefaultProps: function() {
+    return {
+      user: false
+    }
   },
 
   flightTypeName: {
@@ -23,24 +30,123 @@ var NavBar = React.createClass({
     }
   },
 
+  handleVoice: function () {
+    ActionsStore.changeForm('voice_search');
+  },
+
+  handleBackToSearch: function () {
+    ActionsStore.changeForm('round_trip');
+  },
+
+  handleCalendar: function () {
+    ActionsStore.changeCalendarDate();
+    // ActionsStore.changeForm('round_trip');
+  },
+
+  handleCancelAirport: function () {
+    // ActionsStore.changeCalendarDate();
+    ActionsStore.changeForm($('#search_form').data('flight-type') || 'round_trip');
+  },
+
   render: function() {
     return (
-      <nav id="tiles_ui" className="tiles-ui">
-        <div className="flight-info hide">
-          <div className="result-search-info-bar">
-            <span className="requested-airports">{ this.state.title }</span>
-            <span className="flight-date">
-            	{ this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'-'+this.state.searchParams.returnDate:'') }
-            </span>
-            <span className="seating-class">
-              { this.state.searchParams.CabinClass }
-            </span>  
-            <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>
-            <span className="passenger-count">{ this.state.searchParams.passengers }</span>
-          </div>
-        </div>
+      <nav className="navbar navbar-default navbar-fixed-top">
+        {  this.props.page != 'airport-search'
+        && this.props.page != 'result'
+        && this.props.page != 'calendar' ?
+          <div id="main_title">
+            <div className="navbar-header">
+              {this.props.user && this.props.page == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.props.page == 'calendar' || this.props.page == 'voice_search' ? null:
+                <span>
+                  <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
+                          data-target="#nav_slide_menu" data-canvas="body">
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                    <span className="icon-bar"></span>
+                  </button>
+                  <div className="navbar-brand">Avaea Agent</div>
+                </span>
+              }
+              {this.props.user && (this.props.page == 'round_trip' || this.props.page == 'one_way') ?
+                  <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
+              {this.props.page == 'voice_search' ?
+              <div className="clear-textarea" id="#clear_button">Start over</div> : null
+              }
+            </div>
+
+            <div id="nav_slide_menu" className="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+                {this.props.user ?
+                  <ul className="nav navbar-nav">
+                    <li><a href="http://www.avaea.com/">Main Search</a></li>
+                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/site/about">About</a></li>
+                    <li><a href="/logout">Log out <b>{ this.props.user.email }</b></a></li>
+                  </ul>
+                  :
+                  <ul className="nav navbar-nav">
+                    <li><a href="http://www.avaea.com/">Main Search</a></li>
+                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
+                    <li><a href="/site/about">About</a></li>
+                  </ul>
+                }
+            </div>
+          </div>:null
+        }
+
+        {this.props.page == 'airport-search' ?
+          <div id="search_title" className="airport-search-panel">
+            <div className="navbar-header">
+              <div className="airport-search-header">
+                <input id="airport-input" type="text" name="airport" target="" value="" placeholder="City, airport code or airport name"/>
+                <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleCancelAirport}>Cancel</button>
+              </div>
+            </div>
+          </div>:null
+        }
+
+        {this.props.page == 'calendar'?
+          <div id="date_select" className="calendar-header">
+            <div className="navbar-header">
+              <div className="container-fluid">
+                <div className="row">
+                    <div className="info"><span className="dep">23 Jan Sat</span><span className="ret">02 Feb Tue</span></div>
+                    <button type="button" id="date_select_top" className="date_select-button small-button" onClick={this.handleCalendar}>Done</button>
+                </div>
+              </div>
+            </div>
+          </div>:null
+        }
+
+        {this.props.page == 'result'?
+          <div className="flight-info">
+            <div className="result-search-info-bar">
+              <span className="requested-airports">{ this.state.title }</span>
+              <span className="flight-date">
+                { this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'-'+this.state.searchParams.returnDate:'') }
+              </span>
+              <span className="seating-class">
+                { this.state.searchParams.CabinClass }
+              </span>
+              <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>
+              <span className="passenger-count">{ this.state.searchParams.passengers }</span>
+            </div>
+          </div>:null
+        }
+
       </nav>
+
+
+
     )
   }
 });
 
+$(document).ready(function() {
+  var NavBarData = $('#onlynavbar').attr('page');
+  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
+    ReactContentRenderer.render(<NavBar page={NavBarData.page} user={{}} InitResultData={{}}/>, $('#onlynavbar'));
+  }
+});

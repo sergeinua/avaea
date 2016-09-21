@@ -28,7 +28,7 @@ var Tile = React.createClass({
       }
 
       if (filter.count) {
-        SearchForm.updateTiles(filter);
+        ActionsStore.updateTiles(filter);
       }
     }.bind(this);
   },

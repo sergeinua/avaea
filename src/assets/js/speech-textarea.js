@@ -12,21 +12,21 @@
 	if (!('webkitSpeechRecognition' in window)) {
 	  notSupported();
 	} else {
-	  
+
 	  // #start_button does not exist in the DOM, so
   	// Deborah removed the reference to it here
   	// and throughout this file
-	
+
 	  var recognition = new webkitSpeechRecognition();
 	  recognition.lang = 'en-US';
 	  recognition.continuous = true;
 	  recognition.interimResults = true;
-	
+
 	  recognition.onstart = function () {
 	    recognizing = true;
 	    log('info_speak_now');
 	  };
-	
+
 	  recognition.onerror = function (event) {
 	    if (event.error == 'no-speech') {
 	      log('info_no_speech');
@@ -45,7 +45,7 @@
 	      ignore_onend = true;
 	    }
 	  };
-	  
+
     recognition.onend = function () {
       recognizing = false;
       if (ignore_onend) {
@@ -89,14 +89,14 @@
       if (final_transcript || interim_transcript);
     };
   }
-  
+
   clear_button.click(function() {
   	disableButton();
     final_textarea.val('');
     final_textarea.focus();
     clear_button.attr('class', 'clear-textarea');
   });
-  
+
 
   final_textarea.bind('input keyup change paste cut propertychange', function () {
   	
@@ -148,7 +148,7 @@
 
     $('#returnDate').data('date', '').val('');
 
-    SearchForm.updatePassengers(1);
+    ActionsStore.updatePassengers(1);
 
     $('#preferedClass').val('E');
     $('.flight-class-info-item .text-picker').text(serviceClass['E']);
@@ -197,7 +197,7 @@
   var disableButton = function() {
   	$('.voice-search-buttons .big-button').attr('class', 'big-button disabled');
   }
-  
+
   function loggerQuery(q, result) {
     $.ajax({
       url: '/voice/logger',
@@ -311,7 +311,7 @@
         } else {
           result.number_of_tickets = 1;
         }
-        SearchForm.updatePassengers(result.number_of_tickets);
+        ActionsStore.updatePassengers(result.number_of_tickets);
 
 
         if( !result.class_of_service ) {

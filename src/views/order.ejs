@@ -2,6 +2,8 @@
 /* global reqParams */
   var orderPrice;
 %>
+<div id="onlynavbar" page="order"></div>
+
 <form action="/booking?searchId=<%= reqParams.searchId %>" method="post" id="form_booking" class="booking">
 
   <!-- hacky enforce conventions on the unconventional nav structure
@@ -15,41 +17,41 @@
           padding-left: 0;
         }
        </style>
-  <!-- ----------------------- -->   
-  
+  <!-- ----------------------- -->
 
-  
+
+
   <!-- ------------- REACT FLIGHT UNIT ------------ -->
   <!-- -------------------------------------------- -->
-  
+
   <!-- script for the React flight unit -->
-  
+
   <script>
   var ItineraryData = <%- JSON.stringify(order[0]) %>;
   var InitResultData = {iconSpriteMap: []};
   </script>
-  
+
   <div class="flight-unit">
-  
+
     <!-- here is the div that the React unit replaces  -->
     <div id="booking-flight-unit" class="booking-flight-unit"></div>
-  
+
   </div>
-  
+
   <!-- -------------------------------------------- -->
   <!-- --------- ENDS REACT FLIGHT UNIT ----------- -->
-  
-  
+
+
   <% iterator = 0; %>
     <% if (order.length) { %>
     <% order.forEach(function (sRes, i) {
       sRes.price = parseFloat(sRes.price).toFixed(2);
       orderPrice = (sRes.currency == 'USD') ? "$"+sRes.price : sRes.price +' '+ sRes.currency;
     %>
-       
+
     <% }); %>
   <% } %>
-  
+
   <div id="user-time-limit-target-div" class="time-limit message hidden">
     <div class="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
   </div>
@@ -58,7 +60,7 @@
     <div class="page-ti">Billing</div>
 
       <input type="hidden" name="id" value="<%= reqParams.id %>">
-      
+
         <label class="required">First Name</label>
         <input type="text" name="FirstName" class="form-control input-sm" placeholder="First Name" value="<%= reqParams.FirstName ? reqParams.FirstName : '' %>">
 
@@ -112,7 +114,7 @@
     <div class="buttons">
       <button id="booking_button" class="big-button">
           <% if (!reqParams.special) { %>
-              Book for 
+              Book for
               <%= orderPrice %>
           <%} else {%>
               Submit
@@ -132,12 +134,12 @@
         <div class="close-x" onclick="window.history.back();return false;"></div>
         <div class="title">Choose Your Price</div>
       </div>
-        
+
       <form role="form" id="form_user_price">
-      
+
         <div class="modal-body">
           <div class="sub-title">Continuous search for better price.</div>
-          
+
             <div class="form-group">
               <label class="required" for="user_price">Price you commit for this itinerary:</label>
               <input type="text" class="form-control input-sm" id="user_price" name="user_price" placeholder="Enter your price">
@@ -146,16 +148,16 @@
               <label class="required" for="user_timelimit">Time limit for getting the fare:</label>
               <input type="text" class="form-control input-sm" id="user_timelimit" name="user_timelimit" placeholder="Enter days">
             </div>
-          
+
         </div>
-        
+
         <div class="buttons-bar double">
           <button type="button" class="big-button secondary" onclick="window.history.back();return false;">Cancel</button>
           <button type="submit" class="big-button" id="user-price-submit">Submit</button>
         </div>
-      
+
       </form>
-      
+
     </div>
   </div>
 </div>

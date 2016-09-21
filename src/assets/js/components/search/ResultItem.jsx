@@ -3,7 +3,7 @@ var ResultItem = React.createClass({
     var searchId = $('#searchId').val();
     return {
       sRes: this.props.itinerary,
-      fullinfo: false,
+      fullinfo: this.props.showFullInfo || false,
       searchId: searchId
     };
   },
@@ -106,7 +106,7 @@ var ResultItem = React.createClass({
 
     { (this.state.fullinfo ?
       <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information}/>
-      : ''
+      : null
     )}
 
   </div>
