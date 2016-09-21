@@ -24,6 +24,9 @@
 module.exports = function (req, res, next) {
   // Initialize Passport
   passport.initialize()(req, res, function () {
+    var ua = req.get('user-agent');
+    req.isMobile = res.locals.isMobile = /mobile/i.test(ua);
+
     // Use the built-in sessions
     passport.session()(req, res, function () {
       // Make the user available throughout the frontend

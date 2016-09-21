@@ -90,13 +90,8 @@ $(document).ready(function() {
 	 * *********  but only for supported devices (iPhone, Android)       ********
 	 */ 
 
-	// detect if is touch
-	function isTouchDevice(){
-	  return typeof window.ontouchstart !== 'undefined';
-	}
-
 	// if not touch
-	if (!isTouchDevice()) {
+	if (!uaMobile) {
 		
 		// add 'desktop' class to body
 		$(function() {
