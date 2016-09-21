@@ -67,13 +67,13 @@ describe('SearchController', function() {
             throw err;
           }
           // Make sure we have some results
-          res.text.should.match(/<span id='search_count'>/);
+          res.text.should.match(/var InitResultData/);
           // Make sure we have more than 10 results
-          res.text.should.match(/<span id='search_count'>[^0]\d+/);
+          res.text.should.match(/searchResultLength: [^0]\d+/);
           // Make sure we have tiles generated
-          res.body.should.match(/<div[^>]*id="tiles"/);
+          res.text.should.match(/tiles: \[(.*)+\]/);
           // Make sure we have results generated
-          res.body.should.match(/<div[^>]*id="searchResultData"/);
+          res.text.should.match(/searchResult: \[(.*)+\]/);
           done();
         });
     });

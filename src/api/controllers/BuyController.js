@@ -128,14 +128,6 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      // At this moment we must cancel booked itinerary for money safe
-      mondee.cancelPnr(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, {PNR: result.PNR, session: req.session}, function(err2, result2) {
-        if(err2)
-          res.locals.errors = [err2]; //will display by layout
-        else
-          sails.log.info("Itinerary cancelled successfully:", result2);
-      });
-
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary);
       delete req.session.booking_itinerary;

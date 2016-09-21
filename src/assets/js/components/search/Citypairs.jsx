@@ -11,7 +11,7 @@ var Citypairs = React.createClass({
       <div className="row notable-area">
           {this.state.citypairs.map(function (pair, i) {
             i++;
-            return  <div key={i}><div className="row title">
+            return  <div className="section" key={i}><div className="row title">
 
               <div className="col-xs-3 direction">
                 { pair.direction }
