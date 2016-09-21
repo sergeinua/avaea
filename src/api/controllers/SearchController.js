@@ -94,36 +94,6 @@ module.exports = {
           params.departCity = results.depart_city.city;
           params.arrivCity = results.arriv_city.city;
         }
-        // Temp tests e-mail
-        // var _itin_data = sails.config.email.test_itin.itinerary_data; //test
-        // var _bres = sails.config.email.test_booking_res; //test
-        // var tpl_vars = {
-        //   FirstName: "FName",
-        //   LastName: "LName",
-        //   price: _itin_data.price,
-        //   currency: _itin_data.currency,
-        //   PNR: _bres.PNR,
-        //   ReferenceNumber: _bres.ReferenceNumber,
-        //   serviceClass  : Search.serviceClass, // @todo
-        // };
-        // if (typeof _itin_data.citypairs[0] != 'undefined' && _itin_data.citypairs[0].direction == "Depart") {
-        //   tpl_vars.departData = _itin_data.citypairs[0];
-        // }
-        // if (typeof _itin_data.citypairs[1] != 'undefined' && _itin_data.citypairs[1].direction == "Return") {
-        //   tpl_vars.returnData = _itin_data.citypairs[1];
-        // }
-        //
-        // Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
-        //     .then(function (result) {
-        //       sails.log.info('Sending: '+ result);
-        //       Mailer.sendMail(null, req.user.email, 'Ticket confirmation with PNR '+_bres.PNR, result)
-        //           .then(function () {
-        //             sails.log.info('Mail was send to '+ req.user.email);
-        //           })
-        //     })
-        //     .catch(function (error) {
-        //       sails.log.error(error);
-        //     });
 
         return res.ok(
           {
