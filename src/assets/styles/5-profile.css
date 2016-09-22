@@ -1,0 +1,7 @@
+body {
+  padding-bottom: 70px;
+}
+
+body.desktop {
+  height: 1625px;
+}
