@@ -412,14 +412,9 @@ $(document).ready(function() {
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
-  
-  
-	// correctly initialize the swiper for desktop vs. touch
-	function isTouchDevice(){
-	  return typeof window.ontouchstart !== 'undefined';
-	}
 
-	if (!isTouchDevice()) {
+
+	if (!uaMobile) {
 		// is desktop
 		swiper = new Swiper('.swiper-container', {
 	    freeMode: true,
