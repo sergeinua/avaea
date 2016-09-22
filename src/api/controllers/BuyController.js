@@ -154,7 +154,7 @@ module.exports = {
         .then(function (msgContent) {
           Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+_bres.PNR}, msgContent)
             .then(function () {
-              sails.log.info('Mail was send to '+ req.user.email);
+              sails.log.info('Mail was sent to '+ req.user.email);
             })
         })
         .catch(function (error) {
