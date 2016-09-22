@@ -130,6 +130,7 @@ module.exports = {
 
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary);
+      var order = _.clone(req.session.booking_itinerary.itinerary_data, true);
       delete req.session.booking_itinerary;
 
       // Render view
@@ -137,6 +138,7 @@ module.exports = {
         {
           user: req.user,
           reqParams: req.allParams(),
+          order: [order],
           bookingRes: result
         },
         'booking'
