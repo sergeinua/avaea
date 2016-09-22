@@ -6,7 +6,7 @@ module.exports.email = {
     service: 'gmail',
     secure: true, // use SSL
     auth: {
-      user: 'testing@avaea.com',
+      user: 'confirmation@avaea.com',
       pass: 'B4GMrcBjSGfXtcB'
     },
 
@@ -17,6 +17,7 @@ module.exports.email = {
   },
 
   // Default "from" field
-  from: '"Support Staff" <support@avea.com>',
+  from: '"Customer Support" <support@avea.com>',
+  replyTo: '"Customer Support" <support@avea.com>',
   tpl_ticket_confirm: "ticket-confirmation",
 };

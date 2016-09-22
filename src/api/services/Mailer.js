@@ -4,19 +4,17 @@ var nodemailer = require('nodemailer');
 
 module.exports = {
   // Send mail
-  sendMail: function (fromField, toField, subjectField, textHtml, textPlain) {
+  sendMail: function (msgFields, textHtml, textPlain) {
     var qdefer = qpromice.defer();
 
-    var params = {
-      to: toField,
-      subject: subjectField,
-    };
+    var params = msgFields;
     if (textHtml) {
       params.html = textHtml;
     } else {
       params.text = textPlain;
     }
-    params.from = fromField ? fromField : sails.config.email.from;
+    params.from = typeof params.from != 'undefined' ? params.from : sails.config.email.from;
+    params.replyTo = typeof params.replyTo != 'undefined' ? params.replyTo : sails.config.email.replyTo;
 
     var _transport = nodemailer.createTransport(sails.config.email.smtp);
 
