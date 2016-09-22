@@ -24,6 +24,17 @@
 module.exports = function (req, res, next) {
   // Initialize Passport
   passport.initialize()(req, res, function () {
+    var ua = req.get('user-agent');
+    req.isMobile = res.locals.isMobile = /mobile/i.test(ua);
+    req.mobileDevice = res.locals.mobileDevice = null;
+    if (req.isMobile) {
+      if (/iPhone|iPad|iPod/i.test(ua)) {
+        req.mobileDevice = res.locals.mobileDevice = 'ios';
+      } else if (/Android/i.test(ua)) {
+        req.mobileDevice = res.locals.mobileDevice = 'android';
+      }
+    }
+
     // Use the built-in sessions
     passport.session()(req, res, function () {
       // Make the user available throughout the frontend
