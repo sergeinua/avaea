@@ -93,6 +93,7 @@ module.exports = {
       if (!found) {
 
         sails.log.error('User not found', JSON.stringify(req.user));
+        return res.json({error: 'User not found'});
 
       } else {
 
@@ -111,6 +112,7 @@ module.exports = {
         } else {
 
           sails.log.error('Fieldset "' + fieldset + '" not found', JSON.stringify(found));
+          return res.json({error: 'Fieldset not found'});
 
         }
 
