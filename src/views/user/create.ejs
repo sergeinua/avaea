@@ -1,150 +1,24 @@
 <form action="/update" name="Profile" id="Profile" method="post" class="form profile">
 
-<div class="panel-group create" id="accordion" role="tablist" aria-multiselectable="true"> 
+  <div class="panel-group create" id="accordion" role="tablist" aria-multiselectable="true">
 
-<!--  Deborah temporary fix - hacky, will fix -
-      make sure body height adjusts to long injected form (desktop) -->
-<style>
-body.desktop {
-  height: 1625px;
-}
-</style>
+    <div id="UserProfile"></div>
 
-  <!--BASE INFO/FAMILY-->
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Personal information
-        </a>
-      </h4>
+    <div class="button-holder">
+      <button type="submit" class="big-button" >Create</button>
     </div>
 
-    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-    
-      <div class="panel-body">
-    
-    
-        <label class="required">First Name</label>
-        <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" required/>
-        <label>Middle Name</label>
-        <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"/>
-        <label class="required">Last Name</label>
-        <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name" required/>
-        <label>Gender</label>
-        <%- _res = widgets.dropDownList({}, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
-        <label>Birthday</label>
-        <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"/>
-        <label>Passenger Type</label>
-        <%- _res = widgets.dropDownList({}, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
-        <label>Address</label>
-        <input type="text" name="street" class="form-control input-sm" placeholder="Address"/>
-        <label>City</label>
-        <input type="text" name="city" class="form-control input-sm" placeholder="City"/>
-        <label>State</label>
-        <input type="text" name="state" class="form-control input-sm" placeholder="State"/>
-        <label>Zip Code</label>
-        <input type="text" name="zip_code" class="form-control input-sm" placeholder="ZipCode"/>
-        <label>Country</label>
-        <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"/>
-    
-        <!--In Case of Emergency Notify-->
-        <label>In Case of Emergency Notify</label>
-        <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="First and Last Name"/>
-        <label>Emergency Notify Phone</label>
-        <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Phone"/>
-    
-        </div>
-      </div>
-    </div>
-    <!--END OF BASE INFO-->
-
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Airlines/Programs
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-        <!--AIRLINES/PROGRAMS-->
-        <!--Preferred Airlines-->
-        <fieldset>
-          <legend>Preferred Airlines</legend>
-            <div class="panel-body">
-    
-                <div id="preferredAirlines">
-                <hr class="hidden"/>
-                <label>Preferred Airlines type</label>
-                <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
-                    <option value=''>---</option>
-                    <option value="Domestic Short Haul Trips">Domestic Short Haul Trips</option>
-                    <option value="Domestic Long Haul Flights">Domestic Long Haul Flights</option>
-                    <option value="International Flights">International Flights</option>
-                </select>
-                <label>Airline Name</label>
-                <input type="text" name="preferred_airlines.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
-                </div>
-    
-            </div>
-            <div class="panel-footer">
-                <button class="mymoreprofilebutton" role="button" for="preferredAirlines"><%= __('One more')%></button>
-            </div>
-        </fieldset>
-    
-        <!--Airlines Frequent Flier Miles Programs-->
-        <fieldset>
-          <legend>Airlines Frequent Flier Miles Programs</legend>
-            <div class="panel-body">
-    
-                <div id="milesPrograms">
-                  <hr class="hidden"/>
-                  <label>Airline Name</label>
-                  <input type="text" name="miles_programs.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
-                  <label>Account Number</label>
-                  <input type="text" name="miles_programs.account_number[]" class="form-control input-sm" placeholder="Account Number"/>
-                  <label>Frequent Flier Miles</label>
-                  <input type="text" name="miles_programs.flier_miles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" />
-                  <label>Expiration Date</label>
-                  <input type="text" name="miles_programs.expiration_date[]" class="form-control input-sm" placeholder="Expiration Date" />
-                </div>
-    
-            </div>
-            <div class="panel-footer">
-                <button class="mymoreprofilebutton" role="button" for="milesPrograms"><%= __('One more')%></button>
-            </div>
-        </fieldset>
-        
-        <!--Airline Club Lounge Memberships-->
-        <fieldset>
-          <legend>Airline Club Lounge Memberships</legend>
-            <div class="panel-body">
-                <div id="loungeMembership">
-                  <hr class="hidden"/>
-                  <label>Airline Name</label>
-                  <input type="text" name="lounge_membership.airline_name[]" class="form-control input-sm" placeholder="Airline Name"/>
-                  <label>Club Membership Number</label>
-                  <input type="text" name="lounge_membership.membership_number[]" class="form-control input-sm" placeholder="Club Membership Number"/>
-                  <label>Expiration Date</label>
-                  <input type="date" name="lounge_membership.expiration_date[]" class="form-control input-sm"/>
-                </div>
-    
-            </div>
-            <div class="panel-footer">
-                <button class="mymoreprofilebutton" role="button" for="loungeMembership"><%= __('One more')%></button>
-            </div>
-        </fieldset>
-
-    </div>
   </div>
-</div>
-<!--END OF AIRLINES/PROGRAMS-->
-
-
-<div class="button-holder">
-  <button type="submit" class="big-button" >Create</button>
-</div>
 
 </form>
+
+<script type="text/javascript">
+  UserProfileData = {};
+  UserProfileStructure = {
+    gender: <%- JSON.stringify(Profile.attr_gender) %>,
+    pax_type: <%- JSON.stringify(Profile.attr_pax_type) %>
+  };
+  UserProgramsStructure = {
+    travel_type: <%- JSON.stringify(Profile.attr_travel_type) %>
+  };
+</script>
