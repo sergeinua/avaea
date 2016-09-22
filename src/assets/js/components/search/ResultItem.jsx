@@ -3,7 +3,7 @@ var ResultItem = React.createClass({
     var searchId = $('#searchId').val();
     return {
       sRes: this.props.itinerary,
-      fullinfo: false,
+      fullinfo: this.props.showFullInfo || false,
       searchId: searchId
     };
   },
