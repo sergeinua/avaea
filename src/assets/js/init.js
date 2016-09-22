@@ -85,65 +85,9 @@ $(document).ready(function() {
     placement: 'left'
   });
 	
-	/**
-	 * *********  This is Deborah's script to manage desktop vs. touch   ********
-	 * *********  but only for supported devices (iPhone, Android)       ********
-	 */ 
-
-	// detect if is touch
-	function isTouchDevice(){
-	  return typeof window.ontouchstart !== 'undefined';
-	}
-
-	// if not touch
-	if (!isTouchDevice()) {
-		
-		// add 'desktop' class to body
-		$(function() {
-	    var body = $('body');
-	    body.addClass(' desktop');
-	    
-		});
-
-	// else if touch, add classes to body
-	} else {
-		
-	  // add 'touch' 
-		$(function() {
-			var body = $('body');
-			body.addClass(' touch');
-			
-			// now get which device, add 'ios' or 'android'
-			$(function() {
-			  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-			  if (userAgent.match((/iPad/i) || (/iPhone/i) || (/iPod/i))) {
-			  	body.addClass(' ios');
-			  	
-			  } else if (userAgent.match(/Android/i)) {
-			    body.addClass(' android');
-			  }
-			});
-		});
-	}
-	
-//***** detect IE10 or IE11 and append string  ***** // 
+//***** detect IE10 or IE11 and append string  ***** //
 	  var doc = document.documentElement;
 	  doc.setAttribute('data-useragent', navigator.userAgent);
-	  
-	  
-	
-	//***** Deborah script - on scroll, add class to header ***** // 
-  var header = $('header');
-  $(window).scroll(function() {    
-      var scroll = $(window).scrollTop();
-      if (scroll >= 5) {
-          header.addClass(' scrolled');
-      } else {
-          header.removeClass(' scrolled');
-      }
-  });
-  // ***** end Deborah script *****
   
 });
 // ends dom ready

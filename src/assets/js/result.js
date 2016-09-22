@@ -206,6 +206,12 @@ $(document).ready(function() {
   }
   
   
+  /* ------------- LOGIC FOR THE DIMMER ------------------
+     1) don't show the dimmer if user already saw it
+     2) don't show the dimmer if results are fewer than 10
+     user should only see dimmer on first ever load of results that are > 10
+    ----------------------------------------------------- */   
+  
   var displayDimmer = function () {
   	
   	// get the cookie, was dimmer shown?
@@ -226,6 +232,7 @@ $(document).ready(function() {
   			// on click anywhere, remove it and set the cookie to "dimmer was shown"
   		  $('.dimmer').attr('style', 'display: inline-block;');
   		  $('body').click(function(){
+  		  	// user saw it so don't show it again for about 20 years
   		    setCookie('dimmer_was_showed', "true", 10000);
   		    $('.dimmer').attr('style', 'display: none;');
   		  });
@@ -327,12 +334,6 @@ $(document).ready(function() {
   //   return false;
   // });
 
-  // disabled, TODO: confirm this functionality still needed
-  /*$('.recommended').each(function(item){
-   // $(this).find('div:first').find('div:first').find('div:first')
-   $(this).find('.itinerary-airline')
-   .append($('<span class="glyphicon glyphicon-thumbs-up" style="color:forestgreen"></span>'));
-   });*/
 
   //tiles
   // var firstSelectionCount = {};
@@ -406,31 +407,27 @@ $(document).ready(function() {
     swiper.slideTo($(this).parents('.swiper-slide').index());
   });
 */
+  
   // Track and remember airlines scroll position
   $('#airline_tile .list-group').scroll(function () {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
-  
-  
-  	// correctly initialize the swiper for desktop vs. touch
-  	function isTouchDevice(){
-  	  return typeof window.ontouchstart !== 'undefined';
-  	}
 
-  	if (!isTouchDevice()) {
-  		// is desktop
-  		swiper = new Swiper('.swiper-container', {
-  	    freeMode: true,
-  	    slidesPerView: '5.5'
-  	  });
 
-  	} else {
-  	  // is touch 
-  		swiper = new Swiper('.swiper-container', {
-  	    freeMode: true,
-  	    slidesPerView: 'auto'
-  	  });
-  	}
+	if (!uaMobile) {
+		// is desktop
+		swiper = new Swiper('.swiper-container', {
+	    freeMode: true,
+	    slidesPerView: '5.5'
+	  });
+
+	} else {
+	  // is touch 
+		swiper = new Swiper('.swiper-container', {
+	    freeMode: true,
+	    slidesPerView: 'auto'
+	  });
+	}
   
   
 
@@ -468,6 +465,8 @@ $(document).ready(function() {
   //     initScroll = $(window).scrollTop();
   //   }
   // };
+  	
+  	
   if ($(".swiper-container").length) {
 	     $(".swiper-container").hammer();
 	     $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
@@ -479,6 +478,8 @@ $(document).ready(function() {
   }
 
   var expandedItitns = 0;
+  
+  
   /*
   $('.itinerary-info').parent().click(function (event) {
     //$('.itinerary').removeClass('selected');
@@ -519,6 +520,8 @@ $(document).ready(function() {
   //   }
   // });
 
+  
+  // collapse tiles for the user if they scroll a lot
   var initScroll = 0;
   var scrollStarted = false;
   $('#searchResultData').scroll(function() {
@@ -531,7 +534,7 @@ $(document).ready(function() {
     }
     $('.buy-button-arrow[aria-expanded=true]').trigger('click');
 
-    //DEMO-429 Collapse tiles
+    // Collapse 
     if ( ($(this).scrollTop() - initScroll) >= 50 ) {
       SearchForm.toggleFullInfo(false);
       scrollStarted = false;
@@ -543,7 +546,7 @@ $(document).ready(function() {
     location.href = '/search';
   });
   
-  //------------ fix for Bootstrap menu not opening in IE ----------
+  //------------ IE have to FORCE Bootstrap menu to open ----------
 	  if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
 	  	$('.sort-button').click(function(){
 	      if ($('.sort-button').attr('class', 'sort-button open')) {

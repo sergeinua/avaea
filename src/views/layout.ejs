@@ -16,22 +16,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
   
   <!--STYLES-->
-  <link rel="stylesheet" href="/styles/1-reset.css">
-  <link rel="stylesheet" href="/styles/2-fonts.css">
-  <link rel="stylesheet" href="/styles/3-icons.css">
-  <link rel="stylesheet" href="/styles/4-2-bootstrap.css">
-  <link rel="stylesheet" href="/styles/4-4-scott.css">
-  <link rel="stylesheet" href="/styles/core.css">
+
   <!--STYLES END-->
-  
+
+  <script type="application/javascript">
+    var uaMobile = <%- isMobile %>;
+  </script>
+
 </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-    <body class="search-result">
+    <body class="search-result<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper"> 
         <div class="desktop-inner">
   <% } else {%>
-    <body>
+    <body class="<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper">
         <div class="desktop-inner">
   <% } %>
@@ -70,6 +69,7 @@
                 <% if (typeof user != 'undefined' && req.options.controller == 'search') { %>
                 <div id="voice_search" class="flight-type-item voice-search-button"><i class="icon-mic"></i></div>
                 <% } %>
+                <div class="clear-textarea hide" id="#clear_button">Start over</div>
               </div>
       
               <div id="nav_slide_menu" class="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
@@ -183,39 +183,7 @@
           -->
       
         <!--SCRIPTS-->
-        <script src="/js/dependencies/jquery.js"></script>
-        <script src="/js/dependencies/react.js"></script>
-        <script src="/js/dependencies/react-dom.js"></script>
-        <script src="/js/dependencies/bootstrap.js"></script>
-        <script src="/js/dependencies/jasny-bootstrap.js"></script>
-        <script src="/js/dependencies/jquery.slimscroll.js"></script>
-        <script src="/js/dependencies/jquery.validate.min.js"></script>
-        <script src="/js/dependencies/natural-compare.js"></script>
-        <script src="/js/dependencies/swiper.min.js"></script>
-        <script src="/js/dependencies/typeahead.bundle.min.js"></script>
-        <script src="/js/components/buckets/Buckets.js"></script>
-        <script src="/js/components/buckets/tile/Tile.js"></script>
-        <script src="/js/components/classChooser.js"></script>
-        <script src="/js/components/NavBar.js"></script>
-        <script src="/js/components/pages/result.js"></script>
-        <script src="/js/components/passengerChooser.js"></script>
-        <script src="/js/components/search/Citypairs.js"></script>
-        <script src="/js/components/search/Flight.js"></script>
-        <script src="/js/components/search/MerchandisingInfo.js"></script>
-        <script src="/js/components/search/ModalFlightInfo.js"></script>
-        <script src="/js/components/search/NotFound.js"></script>
-        <script src="/js/components/search/ResultItem.js"></script>
-        <script src="/js/components/search/ResultList.js"></script>
-        <script src="/js/components/Sorter.js"></script>
-        <script src="/js/init.js"></script>
-        <script src="/js/booking.js"></script>
-        <script src="/js/order.js"></script>
-        <script src="/js/profile.js"></script>
-        <script src="/js/result.js"></script>
-        <script src="/js/search/airport.js"></script>
-        <script src="/js/search/dates.js"></script>
-        <script src="/js/search/form.js"></script>
-        <script src="/js/speech-textarea.js"></script>
+
         <!--SCRIPTS END-->
     
         <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>

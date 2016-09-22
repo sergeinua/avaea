@@ -1,13 +1,5 @@
 /* global $ */
 
-var fly = function (target) {
-  var pos = $(target).position();
-  var speed = 1;
-  if ($('body').outerWidth() < pos.left+speed) {
-    pos.left = -50;
-  }
-  $(target).css('left', pos.left+speed);
-};
 
 var setAirportData = function(target, data) {
   $('#' + target).val(data.value);
@@ -69,15 +61,11 @@ var unsetErrorElement = function (selector) {
   }
 };
 
-var setupVoiceSearch = function () {
-  if($('#result_empty').text()) {
-    $('#voice_search').hide();
-  }
-};
 
 var removeVoicePanel = function() {
 	$('.voice-form').hide();
 	$('.back-history').hide();
+	$('.clear-textarea').addClass('hide');
   $('.searchform-top').show();
   $('.navbar-brand').show();
   $('.navbar-toggle').show();
@@ -168,17 +156,15 @@ function changeFlightTab(type, prevTab) {
       $('.navbar-brand').hide();
       $('.navbar-toggle').hide();
       $('#voiceSearchTextarea').focus();
+      $('.back-history').show();
+      $('.clear-textarea').removeClass('hide');
       
       setVoiceCue();
       
-      $('.back-history').show();
-    	
       $('.back-history').click(function () {
         $('#' + (prevTab ? prevTab : 'round_trip')).trigger('click');
       });
       
-      
-
       
       break;
     case 'one_way':
@@ -314,16 +300,15 @@ $(document).ready(function() {
 	    var id = $(this).attr('id');
 	    changeFlightTab(id, prevTab);
     
-    // if "multi-city" is active, show "coming soon"
-    
+	    // if "multi-city" is active, show "coming soon" and hide the mic
 	    if ($(".flight-type-form .multi-city").hasClass("active-choice")) {
   			$('.multi-city-coming-soon').show();
-  			$('.voice-search-button').hide();
+  			$('.voice-search-button').addClass('hide');
 		  } else {
 		  	$('.multi-city-coming-soon').hide();
-		  	$('.voice-search-button').show();
+		  	$('.voice-search-button').removeClass('hide');
 		  } 
-	    	
+	    
   });
   
   
