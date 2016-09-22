@@ -3,22 +3,17 @@ module.exports.email = {
 
   smtp: {
     /** Case with remote smtp */
-    // service: 'gmail',
-    // secure: true, // use SSL
-    // auth: {
-    //   user: 'username@gmail.com',
-    //   pass: '***'
-    // },
+    service: 'gmail',
+    secure: true, // use SSL
+    auth: {
+      user: 'testing@avaea.com',
+      pass: 'B4GMrcBjSGfXtcB'
+    },
 
     /** Case with local smtp */
-    host: 'localhost',
-    port: 25,
-    secure: false, // use SSL
-
-    // Remains from the sails-hook-email. Is not use now
-    // testMode: false,
-    // ssl: true,
-    // from: 'support@avea.com',
+    // host: 'localhost',
+    // port: 25,
+    // secure: false, // use SSL
   },
 
   // Default "from" field

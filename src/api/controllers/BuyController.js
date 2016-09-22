@@ -152,7 +152,6 @@ module.exports = {
 
       Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
         .then(function (msgContent) {
-          sails.log.info('Sending: '+ msgContent); // Debug only
           Mailer.sendMail(null, req.user.email, 'Ticket confirmation with PNR '+_bres.PNR, msgContent)
             .then(function () {
               sails.log.info('Mail was send to '+ req.user.email);
@@ -174,9 +173,7 @@ module.exports = {
         'booking'
       );
     };
-    // parseFlightBooking(null, {PNR: 1234, ReferenceNumber: 5678}); // Skip real booking. For the test only !
 
-    //parseFlightBooking("err", "res");
     mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
   }
 
