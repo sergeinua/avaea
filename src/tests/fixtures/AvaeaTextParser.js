@@ -986,6 +986,30 @@ function get_avaea_parser_tests() {
                             add_days(new Date(), 1), // one day from now
                             undefined,
                             "1"),
+    new AvaeaTextParserTest("From SFO to Komsomolsk on Amur tomorrow",
+                            "SFO",
+                            "Komsomolsk on Amur",
+                            add_days(new Date(), 1), // one day from now
+                            undefined,
+                            "1"),
+    new AvaeaTextParserTest("From SFO to Komsomolsk-on-Amur tomorrow",
+                            "SFO",
+                            "Komsomolsk-on-Amur",
+                            add_days(new Date(), 1), // one day from now
+                            undefined,
+                            "1"),
+    new AvaeaTextParserTest("From SFO to Baden Baden tomorrow",
+                            "SFO",
+                            "Baden Baden",
+                            add_days(new Date(), 1), // one day from now
+                            undefined,
+                            "1"),
+    new AvaeaTextParserTest("From SFO to Baden-Baden tomorrow",
+                            "SFO",
+                            "Baden-Baden",
+                            add_days(new Date(), 1), // one day from now
+                            undefined,
+                            "1"),
     new AvaeaTextParserTest("So let's fly from Illinois to Texas two weeks before Thanksgiving returning on the 6th with my friend in business class",
                             "Illinois",
                             "Texas",
