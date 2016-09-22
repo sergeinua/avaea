@@ -108,7 +108,7 @@ $(document).ready(function() {
     } else {
       // dimmer shown was true
     }
-  }
+  };
   displayDimmer();
 
   //tiles
@@ -125,7 +125,7 @@ $(document).ready(function() {
       return typeof window.ontouchstart !== 'undefined';
     }
 
-    if (!isTouchDevice()) {
+    if (!uaMobile) {
       // is desktop
       swiper = new Swiper('.swiper-container', {
         freeMode: true,
