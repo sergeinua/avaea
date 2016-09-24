@@ -393,7 +393,7 @@
 
 .desktop .row.notable-area {
 	margin: 20px -20px -20px -40px;
-	padding: 0 20px 20px 40px;
+	padding: 0 40px 20px 40px;
 	border-bottom: none;
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
@@ -466,6 +466,10 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.desktop .flight-unit .notable-area .section {
+	padding-left: 0;
+}
+
 .desktop .flight-unit .row.title {
 	margin-left: 0;
 }
@@ -511,7 +515,6 @@
 }
 
 .desktop .booking-success .confirm-message {
-	padding-top: 40px;
 	padding-bottom: 40px;
 	border-top: 0px solid transparent;
 }
@@ -2646,12 +2649,16 @@ td[data-action*="selectDay"] {
 
 
 .flight-unit .notable-area {
-	margin: 0 -12%;
+	margin: 0 -14%;
 	margin-bottom: -5px;
-	padding-right: 4px;
+	padding-right: 7px;
 	padding-bottom: 10px;
-	padding-left: 12%;
+	padding-left: 0;
 	border-bottom: 0px solid transparent;
+}
+
+.flight-unit .notable-area .section {
+	padding-left: 11%;
 }
 
 .booking-success .flight-unit  .notable-area {
@@ -3098,6 +3105,10 @@ select.input-sm {
 	
 	.touch .booking-success .confirm-code {
 		padding-right: 40px;
+	}
+	
+	.touch .flight-unit .notable-area .details .col-xs-2.length {
+		padding-right: 5px;
 	}
 	
 }

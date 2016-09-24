@@ -1,415 +1,504 @@
 <!DOCTYPE html>
 
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
   <title>E-Ticket Confirmed</title>
   
 
 <style type="text/css">
-    body{
-			font-family: 'Open-Sans';
-      font-family: Arial, sans-serif;
-			font-size: 14px;
-			line-height: 22px;
-      width:100% !important;
-      -webkit-text-size-adjust:none;
-      margin:0;
-      padding:20px;
+    
+    /* CLIENT-SPECIFIC STYLES */
+    body, table, td, a {
+      -webkit-text-size-adjust: 100%; 
+      -ms-text-size-adjust: 100%;
+      } /* Prevent WebKit and Windows mobile changing default text sizes */
+      
+    table, td {
+      mso-table-lspace: 0pt; 
+      mso-table-rspace: 0pt;
+    } /* Remove spacing between tables in Outlook 2007 and up */
+      
+    img { 
+    -ms-interpolation-mode: bicubic;
+    } /* Allow smoother rendering of resized image in Internet Explorer */
+
+    /* RESET STYLES */
+    img {
+      border: 0; 
+      height: auto; 
+      line-height: 100%; 
+      outline: none; 
+      text-decoration: none;
     }
-		
-		br {
-			display: none;	
-		}
-		
-    img{
-      margin:0;
-      margin-bottom:0 !important;
-      margin-top:0 !important;
-      border:0; 
-      outline:none; 
-    }
-    table,tbody,td{
-      border-spacing:0 !important;
-      border-collapse:collapse !important;
-    }
-    table[class=backgroundTable]{
-      height:100% !important;
-      margin:0;
-      padding:0;
-      width:100% !important;
-    }
-    table[class=holder]{
-      text-align: left;
-			min-width:360px;
-			border: 1px solid #ebebeb;
-    }
-    a:hover{
-      text-decoration:underline;
-    }
-    a:visited{
-      color:inherit;
-    }  
-    table[class=buttoned]{
-      -moz-border-radius:8px;
-      -webkit-border-radius:8px;
-      border-radius:8px;
-    }
-    @media (max-width: 669px){
-      table.expanding,
-      table.holder{
-        width:100% !important;
+      
+    table {
+      border-collapse: collapse !important;
       }
-    }  
+      
+    body {
+      height: 100% !important; 
+      margin: 0 !important; 
+      padding: 0 !important; 
+      width: 100% !important;
+    }
+
+    /* iOS BLUE LINKS */
+    a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+
+    /* MOBILE STYLES */
+    @media screen and (max-width: 525px) {
+
+        /* ALLOWS FOR FLUID TABLES */
+        .wrapper {
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+
+        /* ADJUSTS LAYOUT OF LOGO IMAGE */
+        .logo img {
+          margin: 0 auto !important;
+        }
+
+        /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
+        .mobile-hide {
+          display: none !important;
+        }
+
+        .img-max {
+          max-width: 100% !important;
+          width: 100% !important;
+          height: auto !important;
+        }
+
+        /* FULL-WIDTH TABLES */
+        .responsive-table {
+          width: 100% !important;
+        }
+
+        /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
+        .padding {
+          padding: 10px 5% 15px 5% !important;
+        }
+
+        .padding-meta {
+          padding: 30px 5% 0px 5% !important;
+          text-align: center;
+        }
+
+        .padding-copy {
+             padding: 10px 5% 10px 5% !important;
+          text-align: center;
+        }
+
+        .no-padding {
+          padding: 0 !important;
+        }
+
+        .section-padding {
+          padding: 50px 15px 50px 15px !important;
+        }
+
+        /* ADJUST BUTTONS ON MOBILE */
+        .mobile-button-container {
+            margin: 0 auto;
+            width: 100% !important;
+        }
+
+        .mobile-button {
+            padding: 15px !important;
+            border: 0 !important;
+            font-size: 16px !important;
+            display: block !important;
+        }
+
+    }
+
+    /* ANDROID CENTER FIX */
+    div[style*="margin: 16px 0;"] {
+      margin: 0 !important; 
+    }
     
-    
-    @font-face {
-      font-family: 'Open-Sans-Light';
-      src: url('http://www.avaea.com/fonts/opensans-light.woff2') format('woff2'),
-           url('http://www.avaea.com/fonts/opensans-light.woff') format('woff'),
-					 url('http://www.avaea.com/fonts/opensans-light.ttf') format('ttf');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Open-Sans';
-      src: url('http://www.avaea.com/fonts/opensans-regular.woff2') format('woff2'),
-           url('http://www.avaea.com/fonts/opensans-regular.woff') format('woff'),
-					 url('http://www.avaea.com/fonts/opensans-regular.ttf') format('ttf');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-    @font-face {
-      font-family: 'Open-Sans-Semibold';
-      src: url('http://www.avaea.com/fonts/opensans-semibold.woff2') format('woff2'),
-           url('http://www.avaea.com/fonts/opensans-semibold.woff') format('woff'),
-					 url('http://www.avaea.com/fonts/opensans-semibold.ttf') format('ttf');
-      font-weight: normal;
-      font-style: normal;
-    }
-
-		@font-face {
-			font-family: 'Open-Sans-Bold';
-			src: url('http://www.avaea.com/fonts/opensans-bold.woff2') format('woff2'),
-					 url('http://www.avaea.com/fonts/opensans-bold.woff') format('woff'),
-					 url('http://www.avaea.com/fonts/opensans-bold.ttf') format('ttf');
-			font-weight: normal;
-			font-style: normal;
-		}
-		    
-    *[class=strong]{
-      font-family: 'Open-Sans-Bold';
-    }
-    
-    strong, b {
-      font-family: 'Open-Sans-Bold';
-			font-weight: normal;
-    }
-		
-		hr {
-			margin: 10px 0 20px 0;
-		}
-		
-		.ti {
-			font-size: 16px;
-		}
-		
-		.ti.name {
-			margin-bottom: 5px;
-			display: block;
-		}
-		
-		.copy {
-			padding: 5px 0;
-			display: block;
-		}
-		
-		.passenger {
-			margin: 10px 0 10px 3px;
-		}
-		
-		.passenger span {
-			padding-right: 15px;
-		}
-		
-		.spacing {
-			line-height: 2em;
-		}
-		
-		.light, .help {
-			color: #777777;
-		}
-		
-		.help {
-			margin: 10px 0 50px 0;
-			display: block;
-		}
-		
-		
-
 </style>
+
+
 </head>
 
-<body bgcolor="#f5f5f5" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" style="-webkit-font-smoothing: antialiased;width: 100% !important;background: #f5f5f5;-webkit-text-size-adjust: none;margin: 0;padding: 20px;">
-  
-<table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f5f5" class="backgroundTable" height="100%" style="margin: 0;padding: 0;border-spacing: 0 !important;border-collapse: collapse !important;height: 100% !important;width: 100% !important;">
-  <tr>
-    <td bgcolor="#f5f5f5" border="1" bordercolor="#ebebeb" valign="top" style="border-spacing: 0 !important;border-collapse: collapse !important;" class="holder">
-    
-      <!-- -------------  holder table ------------- -->
-      
-      <table cellpadding="5" cellspacing="0" align="center" class="holder" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-        <tr>
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-          </td>
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">&nbsp;
-            
-          </td>
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-          </td>
-        </tr>
-        <tr>
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">&nbsp;
-            
-          </td>  
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-      
-            <!-- -------------  main content table ------------- -->
-            
-            <table cellpadding="0" cellspacing="0" border="0" align="left" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-              
-              <!-- -------------  header  ------------- --> 
-              
-              
-              <!-- -------------  END header  ------------- -->      
-              
-              
-              <!-- -------------  content row  ------------- -->
-              <tr>
-                <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                
-                <span class="ti name">Dear <!-- dynamic --><%= FirstName %> <%= LastName %>,</span>
-                <br />
-                <br />
-                
-                <span class="copy">Your reservation has been booked and confirmed.</span>
-                <br />
-                <br />
-                
-                <span class="copy">This email can be used as an E-Ticket.</span>
-                <br />
-                <br />
-                
-                <hr>                
-                
-                </td>
-              </tr>
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                
-                	<!-- summary -->
-                	<table cellpadding="3" cellspacing="0" border="0" align="left" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                  <tr>
-                  	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	Reservation Code (PNR):
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<!-- dynamic --><%= PNR %>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                  	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	Ticket Number:
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<!-- dynamic --><%= ReferenceNumber %>
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                  	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	Flight Total:
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<!-- dynamic --><%= (currency == 'USD') ? "$"+price : price +' '+ currency %>
-                    </td>
-                  </tr>
-                
-                	</table>
-                
-                </td>
-              </tr>  
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                
-                	<!-- summary -->
-                	<table cellpadding="0" cellspacing="0" border="0" align="left" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;" class="passenger">
-                  <tr>
-                  	<td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="strong">
-                    	Passenger Name
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="strong">
-                    	Travel Dates
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="strong">
-                    	Class
-                    </td>
-                  </tr>
-                  
-                  <tr>
-                  	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<span>
-                      	<!-- dynamic --><%= FirstName %> <%= LastName %>
-                      </span>
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<span>
-                      	<!-- dynamic --><%= departData.from.date %> <%= (typeof returnData != 'undefined') ? ' &ndash; '+returnData.to.date : '' %>
-                      </span>  
-                    </td>
-                    <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                    	<span>
-                    		<!-- dynamic -->ClassName
-                      </span>
-                    </td>
-                  </tr>
-                
-                	</table>
-                
-                </td>
-              </tr>
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                  <hr>
-                </td>
-              </tr>
-              
-              
-              <tr class="title-bar">
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="ti">
-                  Trip Overview
-                </td>
-              </tr>
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important; padding-top: 15px;">
-                  <strong>Depart</strong> <!-- dynamic --><%= departData.from.date +' '+ departData.from.time %>
-                </td>
-              </tr>
-              
-              <!-- dynamic -->  
-              <!-- ---------- loop "Depart" flights ----------- -->
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="spacing">
-                  <!-- dynamic --><%= departData.from.airline %> FlightNumber
-                </td>
-              </tr>
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                	<table cellpadding="0" cellspacing="0" border="0" align="left" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important; margin-bottom: 15px;" class="light">
-                    <tr>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                      	<!-- dynamic -->Departure-cityName (<!-- dynamic Departure-airport-code --><%= departData.from.code %>)
-                      </td>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;" align="center">
-                      	<span class="arrow">&nbsp; &gt; &nbsp;</span>
-                      </td>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                      	<!-- dynamic -->Arrival-cityName (<!-- dynamic Arrival-airport-code --><%= departData.to.code %>)
-                      </td>
-                    </tr>
-                  </table>  
-                
-                </td>
-              </tr>
-              
-              <!-- ---------- END loop Depart flights ----------- -->
+<body style="margin: 0 !important; padding: 0 !important;"> 
 
-                <% if (typeof returnData != 'undefined') { %>
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                  <strong>Return</strong> <!-- dynamic --><%= returnData.to.date %> <%= returnData.to.time %>
-                </td>
-              </tr>
-              
-              <!-- ---------- loop "Return" flights ----------- -->
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;" class="spacing">
-                  <!-- dynamic --><%= returnData.from.airline %> FlightNumber
-                </td>
-              </tr>
-              
-              <tr>
-              	<td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                	<table cellpadding="0" cellspacing="0" border="0" align="left" bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important; margin-bottom: 15px;" class="light">
-                    <tr>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                      	<!-- dynamic -->Departure-cityName (<!-- dynamic Departure-airport-code --><%= returnData.from.code %>)
-                      </td>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;" align="center">
-                      	<span class="arrow">&nbsp; &gt; &nbsp;</span> 
-                      </td>
-                      <td style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                      	<!-- dynamic -->Arrival-cityName (<!-- dynamic Arrival-airport-code --><%= returnData.to.code %>)
-                      </td>
-                    </tr>
-                  </table>  
+<!-- HIDDEN PREHEADER TEXT -->
+<div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+    Ticket booking confirmation and E-ticket. Thank you for booking with Avaea!
+</div>
+
+
+<!-- HEADER -->
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td bgcolor="#ffffff" align="center">
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+            <tr>
+            <td align="center" valign="top" width="500">
+            <![endif]-->
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="wrapper">
+
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="padding: 15px;">
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+            <tr>
+            <td align="center" valign="top" width="500">
+            <![endif]-->
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+                <tr>
+                    <td>
+                        <!-- COPY -->
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">E-Ticket Confirmation</td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<!-- dynamic --><%= FirstName %>&nbsp;<%= LastName %>,</td>
+                            </tr>
+                            <tr>
+                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Your reservation has been booked and confirmed. This email can be used as an E-Ticket. </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="padding: 15px;" class="padding">
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+            <tr>
+            <td align="center" valign="top" width="500">
+            <![endif]-->
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+                <tr>
+                    <td style="padding: 10px 0 0 0; border-top: 1px dashed #aaaaaa;">
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                            <tr>
+                                <td valign="top" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Reservation Code (PNR):</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 20px;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= PNR %></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Ticket Number:</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 20px;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= ReferenceNumber %></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
                 
-                </td>
-              </tr>
-                <% } %>
-              
-              <!-- ---------- END loop Return flights ----------- -->
-             
-              
-              <!-- -------------  END content row ------------- --> 
-              
-              
-              <!-- -------------  footer ------------- -->
-              <tr>
-                <td valign="top" align="center" height="20" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-                	<br />
-                  <br />
-                </td>
-              </tr>
-              <!-- -------------  END footer  ------------- -->
-              
-            </table> 
-            <!-- -------------  END main content table  ------------- -->
-      
-          </td>
-          <td bgcolor="#ffffff" style="border-spacing: 0 !important;border-collapse: collapse !important;">&nbsp; </td> 
-        </tr>
-        <tr>
-          <td bgcolor="#ffffff" height="10" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-          </td>
-          <td bgcolor="#ffffff" height="10" style="border-spacing: 0 !important;border-collapse: collapse !important;">&nbsp;
-            
-          </td>
-          <td bgcolor="#ffffff" height="10" style="border-spacing: 0 !important;border-collapse: collapse !important;">
-          </td>
-        </tr> 
-      </table>
-      
-      <!-- -------------  END holder table ------------- -->
-      
-       <tr>
-         <td style="border-spacing: 0 !important;border-collapse: collapse !important;" align="center">
-          <span class="help">Need help? <!-- dynamic -->(000) 000-0000</span>
-          <br />
-          <br />
-         </td>
-      </tr> 
-      
-    </td>
-  </tr>
-</table>   
+                <tr>
+                    <td style="padding: 10px 0 0px 0; border-bottom: 1px dashed #aaaaaa;">
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;"">
+                            <tr>
+                                <td valign="top" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; font-weight: bold;">Total:</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                        <tr>
+                                             <td style="padding: 0 0 10px 20px;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><!-- dynamic --><%= (currency == 'USD') ? "$"+price : price +' '+ currency %></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="padding: 15px;">
+            <table border="0" cellpadding="0" cellspacing="0" width="500" class="responsive-table">
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <!-- COPY -->
+                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Itinerary</td>
+                            </tr>
+                            
+                            <!-- ---------------- itinerary ------------------ -->
+                            
+                            <tr>
+                              <td style="padding: 0 0 10px 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                      <strong>Depart</strong> 
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td style="padding: 0 0 10px 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                      <!-- dynamic --><%= departData.from.date +' '+ departData.from.time %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+
+                              
+                              <!-- dynamic -->  
+                              <!-- ---------- loop "Depart" flights ----------- -->
+                              
+                            <tr>
+                              <td style="padding: 0 0 10px 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                      <!-- dynamic --><%= departData.from.airline %> FlightNumber
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            
+                             <tr>
+                              <td style="padding: 0 0 10px 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" >
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
+                                      <!-- dynamic Departure-airport-code --><%= departData.from.code %>
+                                    </td>
+                                    <td align="center" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                       &gt; 
+                                    </td>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                      <!-- dynamic Arrival-airport-code --><%= departData.to.code %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                              
+                              
+                            <!-- ---------- END loop Depart flights ----------- -->
+                
+                            <% if (typeof returnData != 'undefined') { %>
+                            
+                            <tr>
+                              <td style="padding: 0 0 10px 0; border-top: 1px solid #eaeaea;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                    <td align="left" style="padding: 10px 0 0px 0; font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                      <strong>Return</strong> 
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                                
+                            <tr>
+                              <td style="padding: 0 0 10px 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                      <!-- dynamic --><%= returnData.to.date %> <%= returnData.to.time %>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                               
+                              
+                              <!-- ---------- loop "Return" flights ----------- -->
+                              <tr>
+                                <td style="padding: 0 0 10px 0;">
+                                  <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                    <tr>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                        <!-- dynamic --><%= returnData.from.airline %> FlightNumber
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </td>
+                              </tr>
+                              
+                              <tr>
+                                <td style="padding: 0 0 10px 0;">
+                                  <table cellpadding="0" cellspacing="0" border="0">
+                                    <tr>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
+                                        <!-- dynamic Departure-airport-code --><%= returnData.from.code %>
+                                      </td>
+                                      <td align="center" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
+                                         &gt; 
+                                      </td>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                        <!-- dynamic Arrival-airport-code --><%= returnData.to.code %>
+                                      </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            
+                            <% } %>
+                              
+                            <!-- ---------- END loop Return flights ----------- -->
+                            
+                            <!-- ---------------- ends itinerary ------------- -->
+                            
+                            <tr>
+                              <td style="padding: 30px 0 0 0;">
+                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                  <tr>
+                                      <td align="center" style="padding: 0 0 0 0; font-size: 14px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color: #aaaaaa; font-style: italic; text-align: center;" class="padding-copy">Thank you for booking your trip with Avaea.</td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                            
+                        </table>
+                    </td>
+                </tr>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+    <tr>
+        <td bgcolor="#ffffff" align="center" style="padding: 20px 0px;">
+            <!--[if (gte mso 9)|(IE)]>
+            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+            <tr>
+            <td align="center" valign="top" width="500">
+            <![endif]-->
+            <!-- UNSUBSCRIBE COPY -->
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="max-width: 500px;" class="responsive-table">
+                <tr>
+                    <td align="center" style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
+                        Need help?&nbsp; <a href="mailto:support@avaea.com?subject=E-Ticket Confirmation">Email Us</a>  
+
+                        &nbsp;&nbsp; | &nbsp;&nbsp;Or call
+                        <span style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">&nbsp;510-249-9333</span>
+                        
+                    </td>
+                </tr>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
+            </table>
+            <![endif]-->
+        </td>
+    </tr>
+</table>
             
 </body>
 
