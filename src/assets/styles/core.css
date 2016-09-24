@@ -576,6 +576,7 @@ footer,
 }
 
 .clear-it,
+body.desktop form.profile,
 .confirm-code:after,
 .long-wrapper:after,
 .flight-unit:after,
@@ -894,7 +895,8 @@ a:focus,
 /* red */
 
 form label.required:before,
-.warning {
+.warning,
+.remove-fieldset {
 	color: #ed2741;
 }
 
@@ -2898,6 +2900,26 @@ select.input-sm {
 	padding: 11px 15px 12px 15px;
 	display: inline-block;
 	border-radius: 3px;
+}
+
+
+body.desktop form.profile {
+  height: 1625px;
+}
+
+.user-profile .fieldset {
+  margin-bottom: 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, .15);
+}
+
+.user-profile .legend {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.remove-fieldset {
+  cursor: pointer;
+  margin-left: 10px;
 }
 
 
