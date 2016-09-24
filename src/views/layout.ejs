@@ -16,28 +16,21 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.css">
   
   <!--STYLES-->
-  <link rel="stylesheet" href="/styles/1-reset.8571e1fd.css">
-  <link rel="stylesheet" href="/styles/1-reset.css">
-  <link rel="stylesheet" href="/styles/2-fonts.3006a2e3.css">
-  <link rel="stylesheet" href="/styles/2-fonts.css">
-  <link rel="stylesheet" href="/styles/3-icons.87cff2fc.css">
-  <link rel="stylesheet" href="/styles/3-icons.css">
-  <link rel="stylesheet" href="/styles/4-2-bootstrap.c58452ef.css">
-  <link rel="stylesheet" href="/styles/4-2-bootstrap.css">
-  <link rel="stylesheet" href="/styles/4-4-scott.c884b3d9.css">
-  <link rel="stylesheet" href="/styles/4-4-scott.css">
-  <link rel="stylesheet" href="/styles/core.css">
-  <link rel="stylesheet" href="/styles/core.dfe6540d.css">
+
   <!--STYLES END-->
-  
+
+  <script type="application/javascript">
+    var uaMobile = <%- isMobile %>;
+  </script>
+
 </head>
 
   <% if (typeof searchResult != 'undefined' && searchResult.length) {%>
-    <body class="search-result">
+    <body class="search-result<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper"> 
         <div class="desktop-inner">
   <% } else {%>
-    <body>
+    <body class="<%= (isMobile) ? 'touch ' + mobileDevice : 'desktop'%>">
       <div class="desktop-wrapper">
         <div class="desktop-inner">
   <% } %>
@@ -190,76 +183,7 @@
           -->
       
         <!--SCRIPTS-->
-        <script src="/js/dependencies/jquery.107fbe95.js"></script>
-        <script src="/js/dependencies/jquery.slimscroll.a439f582.js"></script>
-        <script src="/js/dependencies/jquery.slimscroll.js"></script>
-        <script src="/js/dependencies/jquery.validate.min.c4499184.js"></script>
-        <script src="/js/dependencies/jquery.validate.min.js"></script>
-        <script src="/js/dependencies/react.e4752b6a.js"></script>
-        <script src="/js/dependencies/react-dom.380d8646.js"></script>
-        <script src="/js/dependencies/bootstrap.8015042d.js"></script>
-        <script src="/js/dependencies/bootstrap.js"></script>
-        <script src="/js/dependencies/jasny-bootstrap.879431c1.js"></script>
-        <script src="/js/dependencies/jasny-bootstrap.js"></script>
-        <script src="/js/dependencies/jquery.js"></script>
-        <script src="/js/dependencies/natural-compare.12b493e5.js"></script>
-        <script src="/js/dependencies/natural-compare.js"></script>
-        <script src="/js/dependencies/react-dom.js"></script>
-        <script src="/js/dependencies/react.js"></script>
-        <script src="/js/dependencies/swiper.min.6be81f84.js"></script>
-        <script src="/js/dependencies/swiper.min.js"></script>
-        <script src="/js/dependencies/typeahead.bundle.min.cc8f4083.js"></script>
-        <script src="/js/dependencies/typeahead.bundle.min.js"></script>
-        <script src="/js/components/buckets/Buckets.a904b9d9.js"></script>
-        <script src="/js/components/buckets/Buckets.js"></script>
-        <script src="/js/components/buckets/tile/Tile.72133b06.js"></script>
-        <script src="/js/components/buckets/tile/Tile.js"></script>
-        <script src="/js/components/classChooser.62146ea0.js"></script>
-        <script src="/js/components/classChooser.js"></script>
-        <script src="/js/components/NavBar.9347113b.js"></script>
-        <script src="/js/components/NavBar.js"></script>
-        <script src="/js/components/pages/booking.32205892.js"></script>
-        <script src="/js/components/pages/booking.js"></script>
-        <script src="/js/components/pages/order.2c97664c.js"></script>
-        <script src="/js/components/pages/order.js"></script>
-        <script src="/js/components/pages/result.1c031f20.js"></script>
-        <script src="/js/components/pages/result.js"></script>
-        <script src="/js/components/passengerChooser.8ee95f35.js"></script>
-        <script src="/js/components/passengerChooser.js"></script>
-        <script src="/js/components/search/Citypairs.420ef7d3.js"></script>
-        <script src="/js/components/search/Citypairs.js"></script>
-        <script src="/js/components/search/Flight.a0d95a07.js"></script>
-        <script src="/js/components/search/Flight.js"></script>
-        <script src="/js/components/search/MerchandisingInfo.fe34e828.js"></script>
-        <script src="/js/components/search/MerchandisingInfo.js"></script>
-        <script src="/js/components/search/ModalFlightInfo.44d89073.js"></script>
-        <script src="/js/components/search/ModalFlightInfo.js"></script>
-        <script src="/js/components/search/NotFound.b7bff37c.js"></script>
-        <script src="/js/components/search/NotFound.js"></script>
-        <script src="/js/components/search/ResultItem.0994eaa3.js"></script>
-        <script src="/js/components/search/ResultItem.js"></script>
-        <script src="/js/components/search/ResultList.6af53f9d.js"></script>
-        <script src="/js/components/search/ResultList.js"></script>
-        <script src="/js/components/Sorter.3f423816.js"></script>
-        <script src="/js/components/Sorter.js"></script>
-        <script src="/js/init.js"></script>
-        <script src="/js/booking.b2f01ccc.js"></script>
-        <script src="/js/booking.js"></script>
-        <script src="/js/init.b0ad6a55.js"></script>
-        <script src="/js/order.89ab797e.js"></script>
-        <script src="/js/order.js"></script>
-        <script src="/js/profile.719a5559.js"></script>
-        <script src="/js/profile.js"></script>
-        <script src="/js/result.a3b02252.js"></script>
-        <script src="/js/result.js"></script>
-        <script src="/js/search/airport.0d60560b.js"></script>
-        <script src="/js/search/airport.js"></script>
-        <script src="/js/search/dates.39c85392.js"></script>
-        <script src="/js/search/dates.js"></script>
-        <script src="/js/search/form.da656800.js"></script>
-        <script src="/js/search/form.js"></script>
-        <script src="/js/speech-textarea.40f9f694.js"></script>
-        <script src="/js/speech-textarea.js"></script>
+
         <!--SCRIPTS END-->
     
         <script type="text/javascript" src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
