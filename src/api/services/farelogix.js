@@ -439,116 +439,116 @@ module.exports = {
 
     memcache.init(function(){});
 
-      var endPoint = getEndPoint();
-      sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
-      var op = _api_name + ': ' + farelogixApi;
-      utils.timeLog(op);
-      callFarelogixApi(farelogixApi, [guid, params.searchParams], function (err, result, raw) {
-        try {
-          var
-            apiCallTime = utils.timeLogGet(op),
-            apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-          if (apiCallTime > 7000) {
-            params.session.time_log.push(op + ' took %s to respond', apiCallTimeHr);
-          }
-          sails.log.info(op + ' request time: %s', apiCallTimeHr);
-          if (err) {
-            throw err;
-          } else {
-            var resArr = [], errors = null;
-            if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
-              if (!lodash.isArray(errors)) {
-                errors = [errors];
-              }
-              var errtxt = [];
-              for (var i = 0; i < errors.length; i++) {
-                errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
-              }
-              errors = errtxt.join('; ');
-              throw errors;
-            } else {
-              utils.timeLog(_api_name + '_prepare_result');
-              if (!result.FareGroup) {
-                throw 'No results found';
-              }
-              if (!lodash.isArray(result.FareGroup)) {
-                result.FareGroup = [result.FareGroup];
-              }
-              var
-                flights = [];
-              // prepare data for mapping
-              for (var fg = 0; fg < result.FareGroup.length; fg++) {
-                if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
-                  result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
-                }
-                for (var od = 0; od < result.FareGroup[fg].OriginDestination.length; od++) {
-                  if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight)) {
-                    result.FareGroup[fg].OriginDestination[od].Flight = [result.FareGroup[fg].OriginDestination[od].Flight];
-                  }
-                  for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
-                    result.FareGroup[fg].OriginDestination[od].Flight[fl].CurrencyCode = result.FareGroup[fg].CurrencyCode;
-                  }
-                  flights.push(result.FareGroup[fg].OriginDestination[od].Flight);
-                }
-              }
-              // get all combination of flights
-              var itineraries = utils.cartesianProductOf.apply(null, flights);
-              // generate ItinerariesIds
-              for (var it = 0; it < itineraries.length; it++) {
-                itineraries[it].ItineraryId = guid + '-itin-' + (it+1);
-              }
-
-              var minDuration, maxDuration, minPrice, maxPrice;
-
-              // Merchandising Fake keys Issue #39
-              var itineraryIds = Array.from(Array(itineraries.length).keys());
-              _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
-
-              async.map(itineraries, function (itinerary, doneCb) {
-
-                var mappedItinerary = mapItinerary(itinerary);
-                resArr.push( mappedItinerary );
-
-                if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
-                  minPrice = Math.floor(parseFloat(mappedItinerary.price));
-                }
-
-                if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
-                  maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
-                }
-
-                if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
-                  minDuration = mappedItinerary.durationMinutes;
-                }
-                if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
-                  maxDuration = mappedItinerary.durationMinutes;
-                }
-
-                return doneCb(null);
-              }, function (err) {
-                if ( err ) {
-                  sails.log.error( err );
-                }
-                resArr.priceRange = {
-                  minPrice: minPrice || 0,
-                  maxPrice: maxPrice || 0
-                };
-                resArr.durationRange = {
-                  minDuration: minDuration || 0,
-                  maxDuration: maxDuration || 0
-                };
-                sails.log.info(_api_name + ': Map result data to our structure time: %s', utils.timeLogGetHr(_api_name + '_prepare_result'));
-                return callback(errors, resArr);
-              });
-            }
-          }
-        } catch (e) {
-          sails.log.error(op + ': An error occurs: ' + e);
-          return callback(e, []);
+    var endPoint = getEndPoint();
+    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    var op = _api_name + ': ' + farelogixApi;
+    utils.timeLog(op);
+    callFarelogixApi(farelogixApi, [guid, params.searchParams], function (err, result, raw) {
+      try {
+        var
+          apiCallTime = utils.timeLogGet(op),
+          apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
+        if (apiCallTime > 7000) {
+          params.session.time_log.push(op + ' took %s to respond', apiCallTimeHr);
         }
-      });
+        sails.log.info(op + ' request time: %s', apiCallTimeHr);
+        if (err) {
+          throw err;
+        } else {
+          var resArr = [], errors = null;
+          if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
+            if (!lodash.isArray(errors)) {
+              errors = [errors];
+            }
+            var errtxt = [];
+            for (var i = 0; i < errors.length; i++) {
+              errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
+            }
+            errors = errtxt.join('; ');
+            throw errors;
+          } else {
+            utils.timeLog(_api_name + '_prepare_result');
+            if (!result.FareGroup) {
+              throw 'No results found';
+            }
+            if (!lodash.isArray(result.FareGroup)) {
+              result.FareGroup = [result.FareGroup];
+            }
+            var
+              flights = [];
+            // prepare data for mapping
+            for (var fg = 0; fg < result.FareGroup.length; fg++) {
+              if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
+                result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
+              }
+              for (var od = 0; od < result.FareGroup[fg].OriginDestination.length; od++) {
+                if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight)) {
+                  result.FareGroup[fg].OriginDestination[od].Flight = [result.FareGroup[fg].OriginDestination[od].Flight];
+                }
+                for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
+                  result.FareGroup[fg].OriginDestination[od].Flight[fl].CurrencyCode = result.FareGroup[fg].CurrencyCode;
+                }
+                flights.push(result.FareGroup[fg].OriginDestination[od].Flight);
+              }
+            }
+            // get all combination of flights
+            var itineraries = utils.cartesianProductOf.apply(null, flights);
+            // generate ItinerariesIds
+            for (var it = 0; it < itineraries.length; it++) {
+              itineraries[it].ItineraryId = guid + '-itin-' + (it+1);
+            }
+
+            var minDuration, maxDuration, minPrice, maxPrice;
+
+            // Merchandising Fake keys Issue #39
+            var itineraryIds = lodash.map(itineraries, 'ItineraryId');
+            _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+            _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+            _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+
+            async.map(itineraries, function (itinerary, doneCb) {
+
+              var mappedItinerary = mapItinerary(itinerary);
+              resArr.push( mappedItinerary );
+
+              if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
+                minPrice = Math.floor(parseFloat(mappedItinerary.price));
+              }
+
+              if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
+                maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
+              }
+
+              if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
+                minDuration = mappedItinerary.durationMinutes;
+              }
+              if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
+                maxDuration = mappedItinerary.durationMinutes;
+              }
+
+              return doneCb(null);
+            }, function (err) {
+              if ( err ) {
+                sails.log.error( err );
+              }
+              resArr.priceRange = {
+                minPrice: minPrice || 0,
+                maxPrice: maxPrice || 0
+              };
+              resArr.durationRange = {
+                minDuration: minDuration || 0,
+                maxDuration: maxDuration || 0
+              };
+              sails.log.info(_api_name + ': Map result data to our structure time: %s', utils.timeLogGetHr(_api_name + '_prepare_result'));
+              return callback(errors, resArr);
+            });
+          }
+        }
+      } catch (e) {
+        sails.log.error(op + ': An error occurs: ' + e);
+        return callback(e, []);
+      }
+    });
   },
 
   /**
