@@ -3,9 +3,32 @@
 /* global bookingRes */
 %>
 
-<div class="sitepage booking-success">
+<div class="booking-success">
  
-  <div class="success ti">Booked Itinerary</div>
+  <div class="e-ticket confirmation">
+    <div class="confirm-code">
+      <div class="success ti">E-Ticket</div>
+      <div class="wrapper">
+        <span class="label-ti">Reservation Code (PNR)</span>
+        <span class="number"><%= bookingRes.PNR %></span>
+      </div>
+      <div class="wrapper">
+        <span class="label-ti">Ticket Number </span>
+        <!-- no number yet <%= bookingRes.ReferenceNumber %> -->
+        <span class="number">008833</span>
+      </div>
+      
+    </div>
+  </div>
+  
+  <div class="confirm-message">
+    <div class="name">Dear FirstName LastName,</div>
+    <div class="thanks">Thank you for choosing Avaea!</div>
+    <div class="copy">
+      You're all set for your next trip. Your ticket has been issued as an electronic ticket.
+      Please check your email for confirmation.
+    </div>
+  </div>
   
   <!-- ------------- REACT FLIGHT UNIT ------------ -->
   <!-- -------------------------------------------- -->
@@ -17,24 +40,31 @@
   var InitResultData = {iconSpriteMap: []};
   </script>
   
+  <div class="trip ti">Trip Details</div>
+  
   <div class="flight-unit">
   
     <!-- here is the div that the React unit replaces  -->
     <div id="booked-flight-unit" class="booked-flight-unit"></div>
   
-  </div>
+  </div> 
   
   <!-- -------------------------------------------- -->
   <!-- --------- ENDS REACT FLIGHT UNIT ----------- -->
+  
+  
+  <div class="help-contact">
+    <span class="copy">Need help?</span>
+    <span class="contact">(000) 000-0000</span>
+  </div>
 
-  <div class="copy"><span>PNR:</span> <%= bookingRes.PNR %></div>
-  <div class="copy"><span>Reference Number:</span> <%= bookingRes.ReferenceNumber %></div>
-
+  <!-- 
   <div class="buttons">
     <button class="big-button" onclick="window.location.href='/order?id=<%= reqParams.id %>&searchId=<%= reqParams.searchId %>'">
       Buy More
     </button> 
   </div>
+   -->
 
 </div>
 

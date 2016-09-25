@@ -410,7 +410,7 @@ var getFlightBookingRq = function(id, params) {
   // Check input date
   var d_birth = sails.moment(params.DateOfBirth);
   if(!d_birth.isValid()) {
-    return new Error('Invalid date of birthday format: '+params.DateOfBirth+' Must be MM/DD/YYYY');
+    return new Error('Invalid date format: '+params.DateOfBirth+' Must be MM/DD/YYYY');
   }
 
   req.BookItineraryRequest = {
@@ -501,9 +501,9 @@ module.exports = {
 
               // Merchandising Fake keys Issue #39
               var itineraryIds = lodash.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
-              _keysMerchandisingWiFi = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = mapItinerary(itinerary);
