@@ -502,9 +502,9 @@ module.exports = {
 
               // Merchandising Fake keys Issue #39
               var itineraryIds = Array.from(Array(itineraries.length).keys());
-              _keysMerchandisingWiFi = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = lodash.sample( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(itineraries, function (itinerary, doneCb) {
 
