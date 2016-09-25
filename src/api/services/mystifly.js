@@ -201,6 +201,7 @@ var mapIntermediateStops = function (stops) {
 var mapFlights = function(flights) {
   var res = {
     flights: [],
+    pathFlights: [],
     path: [],
     stops: [],
     stopsCodes: [],
@@ -238,7 +239,6 @@ var mapFlights = function(flights) {
       'J':'P'
     };
 
-    res.path.push(flight.DepartureAirportLocationCode);
     var mappedFlight = {
       number: flight.FlightNumber,
       abbrNumber: flight.MarketingAirlineCode.toUpperCase() + flight.FlightNumber,
@@ -276,9 +276,14 @@ var mapFlights = function(flights) {
     */
     res.durationMinutes += mappedFlight.durationMinutes;
     res.flights.push( mappedFlight );
+
+    // prepare paths
+    res.path.push(mappedFlight.from.code.toUpperCase());
+    res.pathFlights.push(mappedFlight.abbrNumber);
     // push last node of path
-    if (j == flights.length - 1) {
-      res.path.push(flight.ArrivalAirportLocationCode);
+    if (j > 0 && j == flights.length - 1) {
+      res.path.push(mappedFlight.from.code.toUpperCase());
+      res.pathFlights.push(mappedFlight.abbrNumber);
     }
   }
   return res;
@@ -288,7 +293,8 @@ var mapCitypairs = function(citypairs) {
   var res = {
     durationMinutes: 0,
     duration: '',
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
   for (var i=0; i < citypairs.length; i++) {
     var currentDurationArr = [];
@@ -325,11 +331,13 @@ var mapCitypairs = function(citypairs) {
       stopsCodes: [],
       stops: [],
       path: [],
-      flights: []
+      flights: [],
+      pathFlights: []
     };
 
     var mFlights = mapFlights(pair.FlightSegments.FlightSegment);
     mappedPair.flights = mFlights.flights;
+    mappedPair.pathFlights = mFlights.pathFlights;
     mappedPair.path = mFlights.path;
     mappedPair.stops = mFlights.stops;
     mappedPair.noOfStops = mFlights.stops.length;
@@ -342,6 +350,8 @@ var mapCitypairs = function(citypairs) {
     res.durationMinutes += mappedPair.durationMinutes;
 
     res.citypairs.push( mappedPair );
+
+    res.key += '|' + mappedPair.pathFlights.join(',');
   }
   res.duration = utils.minutesToDuration(res.durationMinutes);
   return res;
@@ -364,13 +374,15 @@ var mapItinerary = function(itinerary) {
     currency: itinerary.AirItineraryPricingInfo.ItinTotalFare.TotalFare.CurrencyCode,
     duration: '',
     durationMinutes: 0,
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
 
   var mCitypairs = mapCitypairs(itinerary.OriginDestinationOptions.OriginDestinationOption);
   res.citypairs = mCitypairs.citypairs;
   res.durationMinutes = mCitypairs.durationMinutes;
   res.duration = utils.minutesToDuration(res.durationMinutes);
+  res.key = mCitypairs.key;
 
   // Merchandising Fake data Issue #39
   if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.AirItineraryPricingInfo.FareSourceCode) != -1) {
@@ -428,7 +440,7 @@ module.exports = {
                   return callback( err, [] );
                 }
                 if (result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) {
-                  var minDuration, maxDuration, minPrice, maxPrice;
+                  utils.timeLog('mystifly_prepare_result');
 
                   // Merchandising Fake keys Issue #39
                   var itineraryIds = lodash.map(result.AirLowFareSearchResult.PricedItineraries.PricedItinerary, function (item) {
@@ -442,34 +454,12 @@ module.exports = {
                     var mappedItinerary = mapItinerary(itinerary);
                     resArr.push( mappedItinerary );
 
-                    if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
-                      minPrice = Math.floor(parseFloat(mappedItinerary.price));
-                    }
-
-                    if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
-                      maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
-                    }
-
-                    if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
-                      minDuration = mappedItinerary.durationMinutes;
-                    }
-                    if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
-                      maxDuration = mappedItinerary.durationMinutes;
-                    }
-
                     return doneCb(null);
                   }, function (err) {
                     if ( err ) {
                       sails.log.error( err );
                     }
-                    resArr.priceRange = {
-                      minPrice: minPrice || 0,
-                      maxPrice: maxPrice || 0
-                    };
-                    resArr.durationRange = {
-                      minDuration: minDuration || 0,
-                      maxDuration: maxDuration || 0
-                    };
+                    sails.log.info('Mystifly: Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr('mystifly_prepare_result'));
                     return callback( null, resArr );
                   });
                 }

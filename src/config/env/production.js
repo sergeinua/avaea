@@ -46,10 +46,6 @@ module.exports = {
     database: 'avaea'
   },
 
-  flightapis: {
-    searchProvider: ['farelogix'/*,'mondee', 'mystifly'*/]
-  },
-
   hookTimeout: 60000
 
 };
