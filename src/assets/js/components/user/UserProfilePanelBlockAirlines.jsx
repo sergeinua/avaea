@@ -53,7 +53,7 @@ var UserProfilePanelBlockAirlines = React.createClass({
       </div>
 
       <div className="panel-footer">
-        <button className="btn btn-xs btn-info btn-block" type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
+        <button type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
       </div>
 
     </fieldset>;

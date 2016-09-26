@@ -94,7 +94,7 @@ module.exports = {
         }
         else {
           delete req.session.booking_itinerary;
-          req.session.flash = 'Cache has expired. Try new search.';
+          req.session.flash = 'Your search has expired. Try a new search.';
           req.flash('errors', req.session.flash);
           res.redirect('/search');
 
