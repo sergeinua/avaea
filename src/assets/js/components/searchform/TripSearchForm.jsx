@@ -1,3 +1,21 @@
+// Vars
+var flashErrorTimeout = 1000;
+
+// For elements with error
+var setErrorElement = function (selector) {
+  // Logic and animation
+  $(selector).addClass('error-elem error-flash');
+  // Animation
+  setTimeout(function() {
+    $(selector).removeClass('error-flash');
+  }, flashErrorTimeout);
+};
+var unsetErrorElement = function (selector) {
+  if($(selector).hasClass("error-elem")) {
+    $(selector).removeClass("error-elem");
+  }
+};
+
 var TripSearchForm = React.createClass({
   showCalendar: function () {
     return function () {
@@ -14,12 +32,42 @@ var TripSearchForm = React.createClass({
         $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($('#search_form').serializeArray())));
         $('#search_form').submit();
       }
-      // ActionsStore.changeForm('calendar');
     }.bind(this);
   },
 
   validateForm: function () {
-    return true;
+    var _isError = false;
+
+    if ($('.search-button').hasClass('disabled')) {
+      _isError = true;
+    }
+
+    // Check airports selection
+    if ($('#originAirport').val() == '') {
+      setErrorElement('#from-area');
+      _isError = true;
+    }
+    if ($('#destinationAirport').val() == '') {
+      setErrorElement('#to-area');
+      _isError = true;
+    }
+    if ($('#originAirport').val() == $('#destinationAirport').val()) {
+      setErrorElement('#from-area');
+      setErrorElement('#from-area-selected');
+      setErrorElement('#to-area');
+      setErrorElement('#to-area-selected');
+      _isError = true;
+    }
+
+    // Check existence of the return date for the round trip
+    if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+      setErrorElement('.flight-date-info-item.ret');
+      _isError = true;
+    }
+
+    if (_isError) {
+      return false;
+    }
   },
 
   getDatePart: function (type, date) {
