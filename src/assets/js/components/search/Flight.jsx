@@ -10,7 +10,7 @@ var Flight = React.createClass({
     if (flight.noOfStops > 0) {
       return <span className="hidden-xs small text-danger">{'+' + flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? ' stops' : ' stop')}</span>
     }
-    return ''
+    return null;
   },
 
   render: function() {
@@ -22,7 +22,7 @@ var Flight = React.createClass({
             <div className="switch-loc">{ this.state.pair.stops[this.props.count - 1].code }</div>
             <div
               className="wait-time">{ this.state.pair.stops[this.props.count - 1].duration }</div>
-          </div>:''
+          </div>:null
         }
         
         <div className="long-wrapper">

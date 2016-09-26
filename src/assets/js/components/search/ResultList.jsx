@@ -15,10 +15,10 @@ var ResultList = React.createClass({
           if (!itinerary.is_hidden) {
             return <ResultItem key={itinerary.id} itinerary={itinerary}/>
           }
-          return ''
+          return null;
         })}
       </div>
-        : ''
+        : null
       )}
       </span>
     )

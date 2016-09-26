@@ -11,7 +11,7 @@ var Buckets = React.createClass({
   handleUndo: function () {
     return function() {
       if (this.props.searchResultLength != this.state.searchResultLength) {
-        SearchForm.undoTiles();
+        ActionsStore.undoTiles();
       }
     }.bind(this);
   },
@@ -19,21 +19,21 @@ var Buckets = React.createClass({
   handleClear: function () {
     return function() {
       if (this.props.searchResultLength != this.state.searchResultLength) {
-        SearchForm.clearTiles();
+        ActionsStore.clearTiles();
       }
     }.bind(this);
   },
 
   toggleFullInfo: function () {
-    SearchForm.toggleFullInfo = (value) => {
+    ActionsStore.toggleFullInfo = (value) => {
       var newVal = (typeof value != 'undefined')?value:!this.state.fullinfo;
       this.setState({fullinfo: newVal});
     };
     return function() {
-      SearchForm.toggleFullInfo();
+      ActionsStore.toggleFullInfo();
     }.bind(this);
   },
-  
+
   render: function() {
     return (
     <div className={this.state.fullinfo ?"filters-area open":"filters-area closed"}>
@@ -45,7 +45,7 @@ var Buckets = React.createClass({
              })}
            </div>
         </div>
-  
+
         <div className={this.state.fullinfo ? "bottomNav":"bottomNav sticks"}>
           <div className="bottom-nav-text">
           <span>Showing <span className='search_count' id='search_count'>{ this.props.searchResultLength }/{this.state.searchResultLength} </span>
@@ -56,7 +56,7 @@ var Buckets = React.createClass({
             <span id="filters-expander" className={this.state.fullinfo ?"icon-expander-up":"icon-expander-down"} onClick={this.toggleFullInfo()}></span>
           </div>
         </div>
-      </div>  
+      </div>
     </div>
 
     )

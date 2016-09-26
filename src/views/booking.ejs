@@ -2,9 +2,10 @@
 /* global reqParams */
 /* global bookingRes */
 %>
+<div id="onlynavbar" page="booking"></div>
 
 <div class="booking-success">
- 
+
   <div class="e-ticket confirmation">
     <div class="confirm-code">
       <div class="success ti">E-Ticket</div>
@@ -16,10 +17,10 @@
         <span class="label-ti">Ticket:</span>
         <span class="number"><%= bookingRes.ReferenceNumber %></span>
       </div>
-      
+
     </div>
   </div>
-  
+
   <div class="confirm-message">
     <div class="name">Dear&nbsp;<%= reqParams.FirstName %> <%= reqParams.LastName %>,</div>
     <div class="thanks">Thank you for choosing Avaea!</div>
@@ -28,40 +29,40 @@
       Please check your email for confirmation.
     </div>
   </div>
-  
+
   <!-- ------------- REACT FLIGHT UNIT ------------ -->
   <!-- -------------------------------------------- -->
-  
+
   <!-- script for the React flight unit -->
-  
+
   <script>
   var ItineraryData = <%- JSON.stringify(order[0]) %>;
   var InitResultData = {iconSpriteMap: []};
   </script>
-  
+
   <div class="trip ti">Trip Details</div>
-  
+
   <div class="flight-unit">
-  
+
     <!-- here is the div that the React unit replaces  -->
     <div id="booked-flight-unit" class="booked-flight-unit"></div>
-  
-  </div> 
-  
+
+  </div>
+
   <!-- -------------------------------------------- -->
   <!-- --------- ENDS REACT FLIGHT UNIT ----------- -->
-  
-  
+
+
   <div class="help-contact">
     <span class="copy">Need help? &nbsp;<a href="mailto:support@avaea.com?subject=E-Ticket Confirmation">Email Us</a>&nbsp;or call&nbsp;510-249-9333</span>
     
   </div>
 
-  <!-- 
+  <!--
   <div class="buttons">
     <button class="big-button" onclick="window.location.href='/order?id=<%= reqParams.id %>&searchId=<%= reqParams.searchId %>'">
       Buy More
-    </button> 
+    </button>
   </div>
    -->
 

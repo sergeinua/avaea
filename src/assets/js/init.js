@@ -1,5 +1,5 @@
 /* global $ */
-var SearchForm = {}; //global object for communication with react components
+var ActionsStore = {}; //global object for communication with react components
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);
@@ -79,16 +79,16 @@ function setCookie(name, value, options) {
 
 
 $(document).ready(function() {
-	
-	$('#nav_slide_menu').offcanvas({
+
+  $('#nav_slide_menu').offcanvas({
     toggle: false,
     placement: 'left'
   });
-	
+
 //***** detect IE10 or IE11 and append string  ***** //
-	  var doc = document.documentElement;
-	  doc.setAttribute('data-useragent', navigator.userAgent);
-  
+  var doc = document.documentElement;
+  doc.setAttribute('data-useragent', navigator.userAgent);
+
 });
 // ends dom ready
 

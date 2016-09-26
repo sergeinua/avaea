@@ -236,6 +236,7 @@ module.exports = {
    * @returns {string}
    */
   getHeadContent: function(searchId) {
+    //FIXME html in model is bad idea
     return '<div class="back-history" style="display: inline-block;" onclick="window.location.href=\'/result?s='+searchId+'\'">Back</div>';
   },
 

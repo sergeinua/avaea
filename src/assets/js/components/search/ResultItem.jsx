@@ -106,7 +106,7 @@ var ResultItem = React.createClass({
 
     { (this.state.fullinfo ?
       <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information}/>
-      : ''
+      : null
     )}
 
   </div>
