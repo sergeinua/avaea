@@ -134,27 +134,17 @@ module.exports = {
       var order = _.clone(req.session.booking_itinerary.itinerary_data, true);
 
       // E-mail notification
-      var _itin_data = req.session.booking_itinerary.itinerary_data;
-      var _bres = result;
       var tpl_vars = {
-        FirstName: params.FirstName,
-        LastName: params.LastName,
-        price: _itin_data.price,
-        currency: _itin_data.currency,
-        PNR: _bres.PNR,
-        ReferenceNumber: _bres.ReferenceNumber,
-        serviceClass  : Search.serviceClass, // @todo
+        reqParams: req.allParams(),
+        order: order,
+        bookingRes: result,
+        replyTo: sails.config.email.replyTo,
+        callTo: sails.config.email.callTo,
       };
-      if (typeof _itin_data.citypairs[0] != 'undefined' && _itin_data.citypairs[0].direction == "Depart") {
-        tpl_vars.departData = _itin_data.citypairs[0];
-      }
-      if (typeof _itin_data.citypairs[1] != 'undefined' && _itin_data.citypairs[1].direction == "Return") {
-        tpl_vars.returnData = _itin_data.citypairs[1];
-      }
 
       Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
         .then(function (msgContent) {
-          Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+_bres.PNR}, msgContent)
+          Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
             .then(function () {
               sails.log.info('Mail was sent to '+ req.user.email);
             })
