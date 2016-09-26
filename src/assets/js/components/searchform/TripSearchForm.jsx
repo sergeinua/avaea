@@ -60,7 +60,7 @@ var TripSearchForm = React.createClass({
     }
 
     // Check existence of the return date for the round trip
-    if ($('#returnDate').val() == '' && $('.flight-type-item.active-choice').attr('id') == 'round_trip') {
+    if ($('#returnDate').val() == '' && this.props.InitSearchFormData.currentForm == 'round_trip') {
       setErrorElement('.flight-date-info-item.ret');
       _isError = true;
     }

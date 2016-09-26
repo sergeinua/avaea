@@ -3,7 +3,6 @@ var recognizing = false;
 var ignore_onend;
 var start_timestamp;
 var final_textarea = $('#voiceSearchTextarea');
-var clear_button = $('.clear-textarea');
 var recognition = null;
 
 var cntWords = function (val) {
@@ -160,14 +159,14 @@ var VoiceForm = React.createClass({
    * I need 2 tickets from San Jose to Moscow on July 10th returning two weeks later
    */
   demo: function (callback) {
+
     $.ajax({
       url: '/voice/parse',
       type: 'get',
-      data: {q: $.trim(final_textarea.val())},
+      data: {q: this.state.voiceSearchValue},
       dataType: 'json'
     }).done(function( result ) {
 
-      var text = $.trim(final_textarea.val());
       var _airportsKeys = {origin_airport: 'originAirport', return_airport: 'destinationAirport'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
@@ -178,7 +177,6 @@ var VoiceForm = React.createClass({
         if (result[_k]) {
           // reset airport {{{
           setAirportData(_airportsKeys[_k], {value: '', city: ''});
-          drawAirportData(_airportsKeys[_k]);
           // }}} reset airport
           _airportsPromisesKeys.push(_k);
           _airportsPromises.push($.ajax({
@@ -200,47 +198,41 @@ var VoiceForm = React.createClass({
         for (var i = 0; i < arguments.length; i++) {
           if (arguments[i][0] && arguments[i][0].length) {
             setAirportData(_airportsKeys[_airportsPromisesKeys[i]], arguments[i][0][0]);
-            drawAirportData(_airportsKeys[_airportsPromisesKeys[i]]);
           }
-        }
-
-        if (result.type == 'round_trip') {
-          $('#round_trip').trigger('click');
-        }
-        if (result.type == 'one_way') {
-          $('#one_way').trigger('click');
         }
 
         if (result.origin_date || result.return_date) {
-          var leaving, returning;
-          var picker = $('#dr_picker').data('DateTimePicker');
-          picker.clear();
-          if (result.origin_date && picker.maxDate().isSameOrAfter(result.origin_date)) {
-            var _month = result.origin_date.getMonth() + 1,
-              _day = result.origin_date.getDate();
-            if (_month < 10) _month = '0' + _month;
-            if (_day < 10) _day = '0' + _day;
-            $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
-            picker.date(result.origin_date);
-            leaving = result.origin_date.toDateString();
-            // we can't set return date on search form without origin date
-            if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
-              var _month = result.return_date.getMonth() + 1,
-                _day = result.return_date.getDate();
-              if (_month < 10) _month = '0' + _month;
-              if (_day < 10) _day = '0' + _day;
-              $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
-              picker.date(result.return_date);
-              returning = result.return_date.toDateString();
-            } else if (result.type == 'round_trip') {
-              result.type = 'one_way';
-              $('#one_way').trigger('click');
-            }
-          }
-
-          if (leaving) {
-            $('#date_select_top').trigger('click');
-          }
+          $('#departureDate').val(result.origin_date || '');
+          $('#returnDate').val(result.return_date || '');
+          // var leaving, returning;
+          // var picker = $('#dr_picker').data('DateTimePicker');
+          // picker.clear();
+          // if (result.origin_date && picker.maxDate().isSameOrAfter(result.origin_date)) {
+          //   var _month = result.origin_date.getMonth() + 1,
+          //     _day = result.origin_date.getDate();
+          //   if (_month < 10) _month = '0' + _month;
+          //   if (_day < 10) _day = '0' + _day;
+          //   $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+          //   picker.date(result.origin_date);
+          //   leaving = result.origin_date.toDateString();
+          //   // we can't set return date on search form without origin date
+          //   if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
+          //     var _month = result.return_date.getMonth() + 1,
+          //       _day = result.return_date.getDate();
+          //     if (_month < 10) _month = '0' + _month;
+          //     if (_day < 10) _day = '0' + _day;
+          //     $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+          //     picker.date(result.return_date);
+          //     returning = result.return_date.toDateString();
+          //   } else if (result.type == 'round_trip') {
+          //     result.type = 'one_way';
+          //     // $('#one_way').trigger('click');
+          //   }
+          // }
+          //
+          // if (leaving) {
+          //   $('#date_select_top').trigger('click');
+          // }
 
         }
 
@@ -257,17 +249,12 @@ var VoiceForm = React.createClass({
         if( !result.class_of_service ) {
           result.class_of_service = 'E';
         }
-        $('input[name=preferedClass]').each(function (i, o) {
-          var _txt = $(o).parents('label').text();
-          if (_txt.toLowerCase().indexOf(result.class_of_service.toLowerCase()) != -1) {
-            $(o).prop('checked', true);
-            $(o).parents('label').trigger('click');
-          }
-        });
+
         if (serviceClass && serviceClass[result.class_of_service]) {
           $('#preferedClass').val(result.class_of_service);
-          $('.flight-class-info-item .text-picker').text(serviceClass[result.class_of_service]);
         }
+        ActionsStore.updateFormValues();
+        ActionsStore.changeForm(result.type);
 
         $('#voiceSearchQuery').val(JSON.stringify(result));
         switch (result.action) {
