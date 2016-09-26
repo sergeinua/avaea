@@ -58,28 +58,34 @@ var TripSearchForm = React.createClass({
             <div className="row clearfix">
 
               <div className="col-xs-6">
-                <div id="from-area" className="flight-direction-item from" onClick={this.handleAirportSearch('originAirport')}>
+                <div id="from-area"
+                     className={this.props.InitSearchFormData.searchParams.DepartureLocationCode?"flight-direction-item from sel":"flight-direction-item from"}
+                     onClick={this.handleAirportSearch('originAirport')}>
                   <div className="flight-direction-item-from-to">From</div>
                   {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
-                    <span className="plus">+</span> : null
+                    <span className="plus">+</span>
+                    :
+                    <div className="search-from">
+                      <span id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
+                      <div id="from-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.departCity}</div>
+                    </div>
                   }
-                  <div className="search-from">
-                    <span id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
-                    <div id="from-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.departCity}</div>
-                  </div>
                 </div>
               </div>
 
               <div className="col-xs-6">
-                <div id="to-area" className="flight-direction-item to" onClick={this.handleAirportSearch('destinationAirport')}>
+                <div id="to-area"
+                     className={this.props.InitSearchFormData.searchParams.ArrivalLocationCode?"flight-direction-item to sel":"flight-direction-item to"}
+                     onClick={this.handleAirportSearch('destinationAirport')}>
                   <div className="flight-direction-item-from-to">To</div>
                   {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
-                    <span className="plus">+</span> : null
+                    <span className="plus">+</span>
+                    :
+                    <div className="search-to">
+                      <span id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
+                      <div  id="to-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.arrivCity}</div>
+                    </div>
                   }
-                  <div className="search-to">
-                    <span id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
-                    <div  id="to-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.arrivCity}</div>
-                  </div>
                 </div>
               </div>
 
