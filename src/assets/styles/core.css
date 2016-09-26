@@ -1842,6 +1842,10 @@ td[data-action*="selectDay"] {
 	background: #cdeffc;
 }
 
+.touch .filters-area.closed {
+	margin-bottom: 30px;
+}
+
 .filters-area .holder {
   background: #cdeffc url('/images/clouds-sm.jpg') -300px center; 
 }
