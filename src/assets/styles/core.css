@@ -393,7 +393,7 @@
 
 .desktop .row.notable-area {
 	margin: 20px -20px -20px -40px;
-	padding: 0 20px 20px 40px;
+	padding: 0 40px 20px 40px;
 	border-bottom: none;
 	border-bottom-left-radius: 6px;
 	border-bottom-right-radius: 6px;
@@ -466,6 +466,10 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.desktop .flight-unit .notable-area .section {
+	padding-left: 0;
+}
+
 .desktop .flight-unit .row.title {
 	margin-left: 0;
 }
@@ -511,7 +515,6 @@
 }
 
 .desktop .booking-success .confirm-message {
-	padding-top: 40px;
 	padding-bottom: 40px;
 	border-top: 0px solid transparent;
 }
@@ -573,6 +576,7 @@ footer,
 }
 
 .clear-it,
+body.desktop form.profile,
 .confirm-code:after,
 .long-wrapper:after,
 .flight-unit:after,
@@ -891,7 +895,8 @@ a:focus,
 /* red */
 
 form label.required:before,
-.warning {
+.warning,
+.remove-fieldset {
 	color: #ed2741;
 }
 
@@ -1715,7 +1720,8 @@ td[data-action*="selectDay"] {
 	padding: 30px 25px 40px;
 }
 
-.continuous-search .modal-body {
+.continuous-search .modal-body,
+.bookingModal .modal-body {
 	font-size: 16px;
 }
 
@@ -1761,9 +1767,15 @@ td[data-action*="selectDay"] {
 	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
 }
 
-.searchingModal .spinner-holder {
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder {
 	margin-top: 20px;
 }
+
+.bookingModal .modal-body {
+	text-align: center;
+}
+
 
 .icon-spinner {
 	font-size: 42px;
@@ -2643,12 +2655,16 @@ td[data-action*="selectDay"] {
 
 
 .flight-unit .notable-area {
-	margin: 0 -12%;
+	margin: 0 -14%;
 	margin-bottom: -5px;
-	padding-right: 4px;
+	padding-right: 7px;
 	padding-bottom: 10px;
-	padding-left: 12%;
+	padding-left: 0;
 	border-bottom: 0px solid transparent;
+}
+
+.flight-unit .notable-area .section {
+	padding-left: 11%;
 }
 
 .booking-success .flight-unit  .notable-area {
@@ -2891,6 +2907,26 @@ select.input-sm {
 }
 
 
+body.desktop form.profile {
+  height: 1625px;
+}
+
+.user-profile .fieldset {
+  margin-bottom: 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, .15);
+}
+
+.user-profile .legend {
+  margin-bottom: 0;
+  font-size: 18px;
+}
+
+.remove-fieldset {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+
 
 
 
@@ -3094,6 +3130,10 @@ select.input-sm {
 
 	.touch .booking-success .confirm-code {
 		padding-right: 40px;
+	}
+
+	.touch .flight-unit .notable-area .details .col-xs-2.length {
+		padding-right: 5px;
 	}
 
 }

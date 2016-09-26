@@ -10,20 +10,19 @@
     <div class="confirm-code">
       <div class="success ti">E-Ticket</div>
       <div class="wrapper">
-        <span class="label-ti">Reservation Code (PNR)</span>
+        <span class="label-ti">Reservation (PNR):</span>
         <span class="number"><%= bookingRes.PNR %></span>
       </div>
       <div class="wrapper">
-        <span class="label-ti">Ticket Number </span>
-        <!-- no number yet <%= bookingRes.ReferenceNumber %> -->
-        <span class="number">008833</span>
+        <span class="label-ti">Ticket:</span>
+        <span class="number"><!--  NEED TICKET NUMBER HERE --></span>
       </div>
 
     </div>
   </div>
 
   <div class="confirm-message">
-    <div class="name">Dear FirstName LastName,</div>
+    <div class="name">Dear&nbsp;<!--  NEED FIRSTNAME HERE -->&nbsp;<!--  NEED LASTNAME HERE -->,</div>
     <div class="thanks">Thank you for choosing Avaea!</div>
     <div class="copy">
       You're all set for your next trip. Your ticket has been issued as an electronic ticket.
@@ -55,8 +54,8 @@
 
 
   <div class="help-contact">
-    <span class="copy">Need help?</span>
-    <span class="contact">(000) 000-0000</span>
+    <span class="copy">Need help? &nbsp;<a href="mailto:support@avaea.com?subject=E-Ticket Confirmation">Email Us</a>&nbsp;or call&nbsp;510-249-9333</span>
+    
   </div>
 
   <!--
