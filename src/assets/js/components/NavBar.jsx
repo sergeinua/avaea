@@ -40,7 +40,6 @@ var NavBar = React.createClass({
 
   handleCalendar: function () {
     ActionsStore.changeCalendarDate();
-    // ActionsStore.changeForm('round_trip');
   },
 
   handleCancelAirport: function () {
@@ -52,7 +51,8 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    ActionsStore.ClearVoiceInput();
+    console.log(searchId);
+    window.location.href = '/result?s=' + searchId;
   },
 
   render: function() {
@@ -92,7 +92,7 @@ var NavBar = React.createClass({
               {this.props.user && (this.props.page == 'round_trip' || this.props.page == 'one_way') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.page == 'voice_search' ?
-              <div className="clear-textarea" id="#clear_button" onClick={this.handleClearVoice}>Start over</div> : null
+              <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 

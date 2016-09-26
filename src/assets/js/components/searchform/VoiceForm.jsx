@@ -51,6 +51,8 @@ var VoiceForm = React.createClass({
   componentWillMount: function () {
     ActionsStore.ClearVoiceInput = () => {
       this.setState({voiceSearchValue: ''});
+      //FIXME remove jquery
+      $('#clear_button').removeClass('has-input');
       $('#voiceSearchTextarea').focus();
     }
   },
@@ -132,7 +134,13 @@ var VoiceForm = React.createClass({
   },
 
   handleChange: function(event) {
-    this.setState({voiceSearchValue: event.target.value});
+    this.setState({voiceSearchValue: event.target.value}, function() {
+      if (this.state.voiceSearchValue) {
+        $('#clear_button').addClass('has-input');
+      } else {
+        $('#clear_button').removeClass('has-input');
+      }
+    });
   },
 
   handleVoiceSearchStop: function () {
