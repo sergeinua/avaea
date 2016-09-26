@@ -17,7 +17,8 @@ module.exports.email = {
   },
 
   // Default "from" field
-  from: '"Customer Support" <support@avea.com>',
-  replyTo: '"Customer Support" <support@avea.com>',
+  from: '"Avaea Customer Support" <support@avea.com>',
+  replyTo: '"Avaea Customer Support" <support@avea.com>',
+  callTo: '510-249-9333',
   tpl_ticket_confirm: "ticket-confirmation",
 };

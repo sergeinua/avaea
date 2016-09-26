@@ -15,14 +15,14 @@
       </div>
       <div class="wrapper">
         <span class="label-ti">Ticket:</span>
-        <span class="number"><!--  NEED TICKET NUMBER HERE --></span>
+        <span class="number"><%= bookingRes.ReferenceNumber %></span>
       </div>
 
     </div>
   </div>
 
   <div class="confirm-message">
-    <div class="name">Dear&nbsp;<!--  NEED FIRSTNAME HERE -->&nbsp;<!--  NEED LASTNAME HERE -->,</div>
+    <div class="name">Dear&nbsp;<%= reqParams.FirstName %> <%= reqParams.LastName %>,</div>
     <div class="thanks">Thank you for choosing Avaea!</div>
     <div class="copy">
       You're all set for your next trip. Your ticket has been issued as an electronic ticket.

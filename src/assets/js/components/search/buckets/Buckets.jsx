@@ -36,7 +36,7 @@ var Buckets = React.createClass({
 
   render: function() {
     return (
-    <div className="filters-area">
+    <div className={this.state.fullinfo ?"filters-area open":"filters-area closed"}>
       <div className="holder">
          <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
            <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
@@ -53,7 +53,7 @@ var Buckets = React.createClass({
           <div className="clear-undo-buttons text-right">
             <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
             <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
-            <span className={this.state.fullinfo ?"icon-expander-up":"icon-expander-down"} onClick={this.toggleFullInfo()}></span>
+            <span id="filters-expander" className={this.state.fullinfo ?"icon-expander-up":"icon-expander-down"} onClick={this.toggleFullInfo()}></span>
           </div>
         </div>
       </div>

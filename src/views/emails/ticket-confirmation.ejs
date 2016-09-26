@@ -1,3 +1,10 @@
+<%
+/* global reqParams */
+/* global bookingRes */
+/* global order */
+/* global replyTo */
+/* global callTo */
+%>
 <!DOCTYPE html>
 
 <head>
@@ -176,7 +183,7 @@
                                 <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">E-Ticket Confirmation</td>
                             </tr>
                             <tr>
-                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<!-- dynamic --><%= FirstName %>&nbsp;<%= LastName %>,</td>
+                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<!-- dynamic --><%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Your reservation has been booked and confirmed. This email can be used as an E-Ticket. </td>
@@ -224,7 +231,7 @@
                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= PNR %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= bookingRes.PNR %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -259,7 +266,7 @@
                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= ReferenceNumber %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= bookingRes.ReferenceNumber %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -295,7 +302,7 @@
                                              <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><!-- dynamic --><%= (currency == 'USD') ? "$"+price : price +' '+ currency %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><!-- dynamic --><%= (order.currency == 'USD') ? "$"+order.price : order.price +' '+ order.currency %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -326,7 +333,10 @@
                             </tr>
                             
                             <!-- ---------------- itinerary ------------------ -->
-                            
+
+                            <% if (typeof order.citypairs[0] != 'undefined' && order.citypairs[0].direction == "Depart" && Array.isArray(order.citypairs[0].flights)) {
+                                var departData = order.citypairs[0];
+                            %>
                             <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -340,13 +350,14 @@
                             </tr>
 
                             <!-- ---------- BEGIN loop "Depart" flights ----------- -->
+                            <% departData.flights.forEach(function (flight) { %>
                             
                             <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= departData.from.date +' '+ departData.from.time %>
+                                      <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') +', '+ flight.from.time %>
                                     </td>
                                   </tr>
                                 </table>
@@ -358,7 +369,7 @@
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= departData.from.airline %> FlightNumber
+                                      <!-- dynamic --><%= flight.airline %> <%= flight.abbrNumber %>
                                     </td>
                                   </tr>
                                 </table>
@@ -370,13 +381,13 @@
                                 <table cellpadding="0" cellspacing="0" border="0" >
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
-                                      <!-- dynamic Departure-airport-code --><%= departData.from.code %>
+                                      <!-- dynamic Departure-airport-code --><%= flight.from.code %>
                                     </td>
                                     <td align="center" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
                                        &gt; 
                                     </td>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
-                                      <!-- dynamic Arrival-airport-code --><%= departData.to.code %>
+                                      <!-- dynamic Arrival-airport-code --><%= flight.to.code %>
                                     </td>
                                   </tr>
                                 </table>
@@ -386,8 +397,12 @@
                               
                             <!-- ---------- END loop Depart flights ----------- -->
                 
-                            <% if (typeof returnData != 'undefined') { %>
-                            
+                            <% });
+                            }
+
+                            if (typeof order.citypairs[1] != 'undefined' && order.citypairs[1].direction == "Return" && Array.isArray(order.citypairs[1].flights)) {
+                                var returnData = order.citypairs[1];
+                            %>
                             <tr>
                               <td style="padding: 0 0 10px 0; border-top: 1px solid #eaeaea;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -401,13 +416,14 @@
                             </tr>
 
                             <!-- ---------- BEGIN loop "Return" flights ----------- -->
+                            <% returnData.flights.forEach(function (flight) { %>
                                 
                             <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= returnData.from.date +' '+ returnData.from.time %>
+                                      <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') +', '+ flight.from.time %>
                                     </td>
                                   </tr>
                                 </table>
@@ -420,7 +436,7 @@
                                   <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                     <tr>
                                       <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                        <!-- dynamic --><%= returnData.from.airline %> FlightNumber
+                                        <!-- dynamic --><%= flight.airline %> <%= flight.abbrNumber %>
                                       </td>
                                     </tr>
                                   </table>
@@ -432,22 +448,23 @@
                                   <table cellpadding="0" cellspacing="0" border="0">
                                     <tr>
                                       <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
-                                        <!-- dynamic Departure-airport-code --><%= returnData.from.code %>
+                                        <!-- dynamic Departure-airport-code --><%= flight.from.code %>
                                       </td>
                                       <td align="center" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
                                          &gt; 
                                       </td>
                                       <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
-                                        <!-- dynamic Arrival-airport-code --><%= returnData.to.code %>
+                                        <!-- dynamic Arrival-airport-code --><%= flight.to.code %>
                                       </td>
                                   </tr>
                                 </table>
                               </td>
                             </tr>
                             
-                            <% } %>
-                              
                             <!-- ---------- END loop Return flights ----------- -->
+                            <% });
+
+                            } %>
                             
                             <!-- ---------------- ends itinerary ------------- -->
                             
@@ -483,10 +500,11 @@
             <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center" style="max-width: 500px;" class="responsive-table">
                 <tr>
                     <td align="center" style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
-                        Need help?&nbsp; <a href="mailto:support@avaea.com?subject=E-Ticket Confirmation">Email Us</a>  
+                        <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
+                        Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('E-Ticket Confirmation')%>'>Email Us</a>
 
                         &nbsp;&nbsp; | &nbsp;&nbsp;Or call
-                        <span style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">&nbsp;510-249-9333</span>
+                        <span style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;"><%= callTo %></span>
                         
                     </td>
                 </tr>
