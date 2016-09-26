@@ -728,7 +728,9 @@ legend,
 	border-top: 4px solid #004c9c;
 }
 
-
+.flight-date-info-item .the-date span {
+  margin-left: 5px;
+}
 
 /* light blue */
 
@@ -1419,6 +1421,10 @@ strong.tt-highlight {
 .flight-date-info-item .direction,
 .flight-date-info-item .weekday {
 	display: inline;
+}
+
+.flight-date-info-item .weekday {
+  margin-left: 3px;
 }
 
 .flight-date-info-item.sel .direction {
