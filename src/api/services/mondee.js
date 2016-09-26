@@ -2,7 +2,7 @@
 /* global async */
 /* global sails */
 var util = require('util');
-var _ = require('lodash');
+var lodash = require('lodash');
 
 var TPContext = {
   messageId: ['string', true],
@@ -230,6 +230,7 @@ var mapIntermediateStops = function (stops) {
 var mapFlights = function(flights) {
   var res = {
     flights: [],
+    pathFlights: [],
     path: [],
     stops: [],
     stopsCodes: [],
@@ -260,7 +261,6 @@ var mapFlights = function(flights) {
       res.stopsDurationMinutes += cpStopDuration;
     }
 
-    res.path.push(flight.DepartureLocationCode);
     var mappedFlight = {
       number: flight.FlightNumber,
       abbrNumber: flight.MarketingAirline.toUpperCase() + flight.FlightNumber,
@@ -296,9 +296,14 @@ var mapFlights = function(flights) {
       res.stopsDurationMinutes += mappedFlight.stopsDurationMinutes;
     }
     res.flights.push( mappedFlight );
+
+    // prepare paths
+    res.path.push(mappedFlight.from.code.toUpperCase());
+    res.pathFlights.push(mappedFlight.abbrNumber);
     // push last node of path
-    if (j == flights.length - 1) {
-      res.path.push(flight.ArrivalLocationCode);
+    if (j > 0 && j == flights.length - 1) {
+      res.path.push(mappedFlight.from.code.toUpperCase());
+      res.pathFlights.push(mappedFlight.abbrNumber);
     }
   }
   return res;
@@ -307,7 +312,8 @@ var mapFlights = function(flights) {
 var mapCitypairs = function(citypairs) {
   var res = {
     durationMinutes: 0,
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
   for (var i=0; i < citypairs.length; i++) {
     var currentDurationArr = [];
@@ -344,12 +350,14 @@ var mapCitypairs = function(citypairs) {
       stopsCodes: [],
       stops: [],
       path: [],
-      flights: []
+      flights: [],
+      pathFlights: []
     };
     res.durationMinutes += mappedPair.durationMinutes;
 
     var mFlights = mapFlights(pair.FlightSegment);
     mappedPair.flights = mFlights.flights;
+    mappedPair.pathFlights = mFlights.pathFlights;
     mappedPair.path = mFlights.path;
     mappedPair.stops = mFlights.stops;
     mappedPair.noOfStops = mFlights.stops.length;
@@ -358,6 +366,8 @@ var mapCitypairs = function(citypairs) {
     mappedPair.stopsDuration = utils.minutesToDuration(mappedPair.stopsDurationMinutes);
 
     res.citypairs.push( mappedPair );
+
+    res.key += '|' + mappedPair.pathFlights.join(',');
   }
   return res;
 };
@@ -365,8 +375,8 @@ var mapCitypairs = function(citypairs) {
 // Merchandising Fake keys Issue #39
 var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
 var mapMerchandising = function (citypairs, val) {
-    var _cityPairKey = ((citypairs.length > 1) ? _.random(0, citypairs.length - 1) : 0),
-        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? _.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
+    var _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
+        _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? lodash.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
 
     citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
 };
@@ -379,25 +389,27 @@ var mapItinerary = function(itinerary) {
     currency: itinerary.Fares[0].CurrencyCode,
     duration: '',
     durationMinutes: 0,
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
 
   var mCitypairs = mapCitypairs(itinerary.Citypairs);
   res.citypairs = mCitypairs.citypairs;
   res.durationMinutes = mCitypairs.durationMinutes;
   res.duration = utils.minutesToDuration(res.durationMinutes);
+  res.key = mCitypairs.key;
 
   // Merchandising Fake data Issue #39
-  if (_.isArray(_keysMerchandisingWiFi) && _.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'WiFi');
   }
-  if (_.isArray(_keysMerchandising1bagfree) && _.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandising1bagfree) && lodash.indexOf(_keysMerchandising1bagfree, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, '1st bag free');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Priority seat');
   }
-  if (_.isArray(_keysMerchandisingPrioritySeat) && _.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
+  if (lodash.isArray(_keysMerchandisingPrioritySeat) && lodash.indexOf(_keysMerchandisingPrioritySeat, itinerary.ItineraryId) != -1) {
       mapMerchandising(res.citypairs, 'Lounge');
   }
 
@@ -497,47 +509,22 @@ module.exports = {
             if (result.FlightSearchResponse.FlightItinerary) {
               utils.timeLog('mondee_prepare_result');
 
-              var minDuration, maxDuration, minPrice, maxPrice;
-
               // Merchandising Fake keys Issue #39
-              var itineraryIds = _.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
-              _keysMerchandisingWiFi = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              var itineraryIds = lodash.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
+              _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = mapItinerary(itinerary);
                 resArr.push( mappedItinerary );
-
-                if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
-                  minPrice = Math.floor(parseFloat(mappedItinerary.price));
-                }
-
-                if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
-                  maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
-                }
-
-                if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
-                  minDuration = mappedItinerary.durationMinutes;
-                }
-                if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
-                  maxDuration = mappedItinerary.durationMinutes;
-                }
 
                 return doneCb(null);
               }, function (err) {
                 if ( err ) {
                   sails.log.error( err );
                 }
-                resArr.priceRange = {
-                  minPrice: minPrice || 0,
-                  maxPrice: maxPrice || 0
-                };
-                resArr.durationRange = {
-                  minDuration: minDuration || 0,
-                  maxDuration: maxDuration || 0
-                };
-                sails.log.info('Map result data to our structure time: %s', utils.timeLogGetHr('mondee_prepare_result'));
+                sails.log.info('Mondee: Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr('mondee_prepare_result'));
                 return callback( null, resArr );
               });
             } else {
@@ -585,7 +572,7 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || _.isEmpty(result.BookItineraryResponse)) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || lodash.isEmpty(result.BookItineraryResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to flightBooking';
             }
@@ -632,7 +619,7 @@ module.exports = {
           }
           sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
 
-          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || _.isEmpty(result.CancelPNRResponse)) {
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || lodash.isEmpty(result.CancelPNRResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to cancelPnr';
             }
