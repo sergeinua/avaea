@@ -6,6 +6,7 @@
  * @returns {Function}
  */
 var fetchTypeheadSrc = function(controllerName, actionName) {
+  console.log('ajax call fetchTypeheadSrc');
   return function (q, cb) {
     $.ajax({
       url: '/'+controllerName+'/'+actionName,
@@ -15,6 +16,7 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
       async: false // required, because typehead doesn't work with ajax in async mode
     })
       .done(function( msg ) {
+        console.log('ajax call fetchTypeheadSrc done');
         cb(msg ? msg : []);
       })
       .fail(function (msg) {
@@ -60,13 +62,14 @@ var Typeahead = React.createClass({
       ActionsStore.updateFormValues();
     });
 
-    if (this.props.target) {
+    // if (this.props.target) {
       // $('#airport-input').attr('target', this.props.target);
       var val = $('#' + this.props.target).val();
+      $('#airport-input').focus();
       $('#airport-input').val(val);
       $('#airport-input').typeahead('val', val);
       $('#airport-input').typeahead('open');
-    }
+    // }
 
     //FIXME what is it?
     $('.tt-hint').addClass('form-control');

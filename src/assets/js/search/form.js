@@ -248,12 +248,12 @@ $(document).ready(function() {
 
 
   //loading
-  $('.search-top-button').click(function () {
-    $('#topSearchOnly').val(1);
-  });
-  $('.search-button').click(function () {
-    $('#topSearchOnly').val(0);
-  });
+  // $('.search-top-button').click(function () {
+  //   $('#topSearchOnly').val(1);
+  // });
+  // $('.search-button').click(function () {
+  //   $('#topSearchOnly').val(0);
+  // });
   $('#search_form').submit(function (event) {
     var _isError = false;
 
@@ -339,6 +339,6 @@ $(document).ready(function() {
   //   setCabinClass();
   //
   // });
-  $('#search_form').change(ActionsStore.updateFormValues());
+  // $('#search_form').change(ActionsStore.updateFormValues());
 
 });

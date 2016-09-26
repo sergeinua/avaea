@@ -44,15 +44,22 @@ var NavBar = React.createClass({
   },
 
   handleCancelAirport: function () {
-    // ActionsStore.changeCalendarDate();
     ActionsStore.changeForm($('#search_form').data('flight-type') || 'round_trip');
+  },
+
+  handleClearVoice: function () {
+    ActionsStore.ClearVoiceInput();
+  },
+
+  handleBackToSearchResult: function () {
+    ActionsStore.ClearVoiceInput();
   },
 
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         {  this.props.page != 'airport-search'
-        && this.props.page != 'result'
+        && this.props.page != 'order'
         && this.props.page != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
@@ -65,13 +72,27 @@ var NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  <div className="navbar-brand">Avaea Agent</div>
+                  {this.props.page == 'result'?
+                    <div className="flight-info">
+                      <div className="result-search-info-bar">
+                        <span className="requested-airports">{ this.state.title }</span>
+                        <span className="flight-date">
+                { this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'-'+this.state.searchParams.returnDate:'') }
+              </span>
+                        <span className="seating-class">
+                { this.state.searchParams.CabinClass }
+              </span>
+                        <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>
+                        <span className="passenger-count">{ this.state.searchParams.passengers }</span>
+                      </div>
+                    </div>:<div className="navbar-brand">Avaea Agent</div>
+                  }
                 </span>
               }
               {this.props.user && (this.props.page == 'round_trip' || this.props.page == 'one_way') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.page == 'voice_search' ?
-              <div className="clear-textarea" id="#clear_button">Start over</div> : null
+              <div className="clear-textarea" id="#clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
@@ -100,7 +121,7 @@ var NavBar = React.createClass({
           <div id="search_title" className="airport-search-panel">
             <div className="navbar-header">
               <div className="airport-search-header">
-                <input id="airport-input" type="text" name="airport" target="" value="" placeholder="City, airport code or airport name"/>
+                <input id="airport-input" type="text" name="airport" placeholder="City, airport code or airport name"/>
                 <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleCancelAirport}>Cancel</button>
               </div>
             </div>
@@ -120,25 +141,19 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.page == 'result'?
-          <div className="flight-info">
-            <div className="result-search-info-bar">
-              <span className="requested-airports">{ this.state.title }</span>
-              <span className="flight-date">
-                { this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'-'+this.state.searchParams.returnDate:'') }
-              </span>
-              <span className="seating-class">
-                { this.state.searchParams.CabinClass }
-              </span>
-              <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>
-              <span className="passenger-count">{ this.state.searchParams.passengers }</span>
+        {this.props.page == 'order'?
+          <div id="date_select" className="calendar-header">
+            <div className="navbar-header">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
+                </div>
+              </div>
             </div>
           </div>:null
         }
 
       </nav>
-
-
 
     )
   }
@@ -147,6 +162,6 @@ var NavBar = React.createClass({
 $(document).ready(function() {
   var NavBarData = $('#onlynavbar').attr('page');
   if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    ReactContentRenderer.render(<NavBar page={NavBarData.page} user={{}} InitResultData={{}}/>, $('#onlynavbar'));
+    ReactContentRenderer.render(<NavBar page={NavBarData} user={{}} InitResultData={{}}/>, $('#onlynavbar'));
   }
 });

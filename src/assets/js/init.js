@@ -86,8 +86,8 @@ $(document).ready(function() {
   });
 
 //***** detect IE10 or IE11 and append string  ***** //
-	  var doc = document.documentElement;
-	  doc.setAttribute('data-useragent', navigator.userAgent);
+  var doc = document.documentElement;
+  doc.setAttribute('data-useragent', navigator.userAgent);
 
 });
 // ends dom ready

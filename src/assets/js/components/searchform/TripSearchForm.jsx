@@ -5,6 +5,23 @@ var TripSearchForm = React.createClass({
     }.bind(this);
   },
 
+  submitSearchForm: function (topSearchOnly) {
+    return function () {
+      $('#topSearchOnly').val(topSearchOnly);
+      ActionsStore.updateFormValues();
+      if (this.validateForm()) {
+        $("#searchBanner").modal();
+        $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($('#search_form').serializeArray())));
+        $('#search_form').submit();
+      }
+      // ActionsStore.changeForm('calendar');
+    }.bind(this);
+  },
+
+  validateForm: function () {
+    return true;
+  },
+
   getDatePart: function (type, date) {
     let _moment = moment.isMoment(date) ? date : moment(date || undefined);
     let result = '';
@@ -117,8 +134,8 @@ var TripSearchForm = React.createClass({
     </div>
 
     <div className="search-buttons">
-      <button type="submit" className="big-button secondary search-button">All Flights</button>
-      <button type="submit" className="big-button search-top-button">Top Flights</button>
+      <button type="submit" className="big-button secondary search-button" onClick={this.submitSearchForm(0)}>All Flights</button>
+      <button type="submit" className="big-button search-top-button" onClick={this.submitSearchForm(1)}>Top Flights</button>
     </div>
 
   </div>
