@@ -46,5 +46,5 @@ module.exports = {
     searchProvider: ['mondee'/*, 'mystifly'*/]
   },
 
-  hookTimeout: 1200000
+  hookTimeout: 40000
 };
