@@ -501,9 +501,9 @@ module.exports = {
 
               // Merchandising Fake keys Issue #39
               var itineraryIds = _.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
-              _keysMerchandisingWiFi = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
-              _keysMerchandising1bagfree = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
-              _keysMerchandisingPrioritySeat = _.sample( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
+              _keysMerchandisingWiFi = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
+              _keysMerchandising1bagfree = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
+              _keysMerchandisingPrioritySeat = _.sampleSize( _.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
               async.map(result.FlightSearchResponse.FlightItinerary, function (itinerary, doneCb) {
                 var mappedItinerary = mapItinerary(itinerary);
