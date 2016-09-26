@@ -230,6 +230,7 @@ var mapIntermediateStops = function (stops) {
 var mapFlights = function(flights) {
   var res = {
     flights: [],
+    pathFlights: [],
     path: [],
     stops: [],
     stopsCodes: [],
@@ -260,7 +261,6 @@ var mapFlights = function(flights) {
       res.stopsDurationMinutes += cpStopDuration;
     }
 
-    res.path.push(flight.DepartureLocationCode);
     var mappedFlight = {
       number: flight.FlightNumber,
       abbrNumber: flight.MarketingAirline.toUpperCase() + flight.FlightNumber,
@@ -296,9 +296,14 @@ var mapFlights = function(flights) {
       res.stopsDurationMinutes += mappedFlight.stopsDurationMinutes;
     }
     res.flights.push( mappedFlight );
+
+    // prepare paths
+    res.path.push(mappedFlight.from.code.toUpperCase());
+    res.pathFlights.push(mappedFlight.abbrNumber);
     // push last node of path
-    if (j == flights.length - 1) {
-      res.path.push(flight.ArrivalLocationCode);
+    if (j > 0 && j == flights.length - 1) {
+      res.path.push(mappedFlight.from.code.toUpperCase());
+      res.pathFlights.push(mappedFlight.abbrNumber);
     }
   }
   return res;
@@ -307,7 +312,8 @@ var mapFlights = function(flights) {
 var mapCitypairs = function(citypairs) {
   var res = {
     durationMinutes: 0,
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
   for (var i=0; i < citypairs.length; i++) {
     var currentDurationArr = [];
@@ -344,12 +350,14 @@ var mapCitypairs = function(citypairs) {
       stopsCodes: [],
       stops: [],
       path: [],
-      flights: []
+      flights: [],
+      pathFlights: []
     };
     res.durationMinutes += mappedPair.durationMinutes;
 
     var mFlights = mapFlights(pair.FlightSegment);
     mappedPair.flights = mFlights.flights;
+    mappedPair.pathFlights = mFlights.pathFlights;
     mappedPair.path = mFlights.path;
     mappedPair.stops = mFlights.stops;
     mappedPair.noOfStops = mFlights.stops.length;
@@ -358,6 +366,8 @@ var mapCitypairs = function(citypairs) {
     mappedPair.stopsDuration = utils.minutesToDuration(mappedPair.stopsDurationMinutes);
 
     res.citypairs.push( mappedPair );
+
+    res.key += '|' + mappedPair.pathFlights.join(',');
   }
   return res;
 };
@@ -379,13 +389,15 @@ var mapItinerary = function(itinerary) {
     currency: itinerary.Fares[0].CurrencyCode,
     duration: '',
     durationMinutes: 0,
-    citypairs: []
+    citypairs: [],
+    key: ''
   };
 
   var mCitypairs = mapCitypairs(itinerary.Citypairs);
   res.citypairs = mCitypairs.citypairs;
   res.durationMinutes = mCitypairs.durationMinutes;
   res.duration = utils.minutesToDuration(res.durationMinutes);
+  res.key = mCitypairs.key;
 
   // Merchandising Fake data Issue #39
   if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
@@ -497,8 +509,6 @@ module.exports = {
             if (result.FlightSearchResponse.FlightItinerary) {
               utils.timeLog('mondee_prepare_result');
 
-              var minDuration, maxDuration, minPrice, maxPrice;
-
               // Merchandising Fake keys Issue #39
               var itineraryIds = lodash.map(result.FlightSearchResponse.FlightItinerary, 'ItineraryId');
               _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
@@ -509,35 +519,12 @@ module.exports = {
                 var mappedItinerary = mapItinerary(itinerary);
                 resArr.push( mappedItinerary );
 
-                if (minPrice === undefined || minPrice > parseFloat(mappedItinerary.price)) {
-                  minPrice = Math.floor(parseFloat(mappedItinerary.price));
-                }
-
-                if (maxPrice === undefined || maxPrice < parseFloat(mappedItinerary.price)) {
-                  maxPrice = Math.ceil(parseFloat(mappedItinerary.price));
-                }
-
-                if (minDuration === undefined || minDuration > mappedItinerary.durationMinutes) {
-                  minDuration = mappedItinerary.durationMinutes;
-                }
-                if (maxDuration === undefined || maxDuration < mappedItinerary.durationMinutes) {
-                  maxDuration = mappedItinerary.durationMinutes;
-                }
-
                 return doneCb(null);
               }, function (err) {
                 if ( err ) {
                   sails.log.error( err );
                 }
-                resArr.priceRange = {
-                  minPrice: minPrice || 0,
-                  maxPrice: maxPrice || 0
-                };
-                resArr.durationRange = {
-                  minDuration: minDuration || 0,
-                  maxDuration: maxDuration || 0
-                };
-                sails.log.info('Map result data to our structure time: %s', utils.timeLogGetHr('mondee_prepare_result'));
+                sails.log.info('Mondee: Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr('mondee_prepare_result'));
                 return callback( null, resArr );
               });
             } else {

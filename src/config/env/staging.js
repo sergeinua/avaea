@@ -66,8 +66,7 @@ module.exports = {
         },
         trace: 'xmlava001'
       }
-    },
-    searchProvider: ['farelogix'/*,'mondee', 'mystifly'*/],
+    }
   },
 
   hookTimeout: 90000
