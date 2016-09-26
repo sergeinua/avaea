@@ -1,5 +1,7 @@
 /* global $ */
+
 $(document).ready(function() {
+	
   /**
    * Client validation during booking of itinerary
    */
@@ -65,7 +67,26 @@ $(document).ready(function() {
     },
     unhighlight: function(input) {
       $(input).parent().removeClass('has-error');
+    },
+    
+    // booking modal
+    submitHandler: function(form) {
+    	var _isError = false;
+    	
+    	if ($('.booking .form input').parent().hasClass('has-error')) {
+    		_isError = true;
+    		return false;
+    	}  else {
+	      $("#bookingModal").modal();
+	      return true;
+     }
     }
-    //onkeyup: false
+
   });
+  
+  
 });
+
+  
+  
+
