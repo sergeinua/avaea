@@ -1,4 +1,6 @@
 var timer = {};
+var lodash = require('lodash');
+
 module.exports = {
   durationToMinutes: function(duration) {
     var durationArr = /((\d+)[dD]\s*)?((\d+)[hH]\s*)?((\d+)[mM])?/.exec(duration);
@@ -82,5 +84,14 @@ module.exports = {
   },
   timeLogGetHr: function(label) {
     return utils.durationHr(utils.timeLogGet(label)) || '0s';
+  },
+  cartesianProductOf: function () {
+    return lodash.reduce(arguments, function(mtrx, vals) {
+      return lodash.reduce(vals, function(array, val) {
+        return array.concat(
+          lodash.map(mtrx, function (row) { return row.concat(val); })
+        );
+      }, []);
+    }, [[]]);
   }
-}
+};
