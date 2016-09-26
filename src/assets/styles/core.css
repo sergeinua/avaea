@@ -1722,7 +1722,8 @@ td[data-action*="selectDay"] {
 	padding: 30px 25px 40px;
 }
 
-.continuous-search .modal-body {
+.continuous-search .modal-body,
+.bookingModal .modal-body {
 	font-size: 16px;
 }
 
@@ -1768,9 +1769,15 @@ td[data-action*="selectDay"] {
 	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
 }
 
-.searchingModal .spinner-holder {
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder {
 	margin-top: 20px;
 }
+
+.bookingModal .modal-body {
+	text-align: center;
+}
+
 
 .icon-spinner {
 	font-size: 42px;
