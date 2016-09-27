@@ -68,6 +68,7 @@ var TripSearchForm = React.createClass({
     if (_isError) {
       return false;
     }
+    return true;
   },
 
   getDatePart: function (type, date) {
