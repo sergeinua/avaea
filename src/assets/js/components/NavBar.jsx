@@ -2,7 +2,6 @@ var SearchResult = {};
 
 var NavBar = React.createClass({
   getInitialState: function() {
-    console.log(this.props.user);
     return {
       title: this.props.InitResultData.title,
       tiles: this.props.InitResultData.tiles,
@@ -20,6 +19,13 @@ var NavBar = React.createClass({
   flightTypeName: {
     ROUND_TRIP: 'Round trip',
     ONE_WAY: 'One way',
+  },
+
+  componentDidUpdate: function () {
+    $('#nav_slide_menu').offcanvas({
+      toggle: false,
+      placement: 'left'
+    });
   },
 
   componentWillMount: function () {
@@ -51,7 +57,6 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    console.log(searchId);
     window.location.href = '/result?s=' + searchId;
   },
 
