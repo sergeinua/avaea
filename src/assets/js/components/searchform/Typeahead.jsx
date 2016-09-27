@@ -27,7 +27,6 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
 
 var setAirportData = function(target, data) {
   //FIXME get rid from jquery
-  console.log(target, data);
   $('#' + target).val(data.value);
   $('#' + target).attr('city', data.city);
 };
@@ -36,7 +35,6 @@ var Typeahead = React.createClass({
   componentDidMount: function () {
     let target = this.props.target;
     //FIXME get rid from jquery
-    console.log('Typeahead.componentDidMount', $('#airport-input'));
     $('#airport-input').typeahead({
       hint: true,
       highlight: true,
