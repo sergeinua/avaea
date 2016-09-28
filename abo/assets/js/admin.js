@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-  var socket = io.sails.connect(remoteSocket);
+  var socket = window.socket = io.sails.connect(remoteSocket);
   log('Connecting to (' + remoteSocket + ') Sails.js...');
 
   socket.on('connect', function socketConnected() {
@@ -34,7 +34,7 @@ $(document).ready(function () {
     socket.off('user');
   });
 
-  var socketAbo = io.sails.connect();
+  var socketAbo = window.socketAbo = io.sails.connect();
   log('Connecting to (local) Sails.js...');
   socketAbo.on('connect', function socketConnected() {
     // Listen for Comet messages from Sails
