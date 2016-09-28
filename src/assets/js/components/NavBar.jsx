@@ -101,7 +101,7 @@ var NavBar = React.createClass({
               }
             </div>
 
-            <div id="nav_slide_menu" className="navmenu navmenu-default navmenu-fixed-left offcanvas" role="navigation">
+            <div id="nav_slide_menu" className={this.props.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}role="navigation">
                 {this.props.user ?
                   <ul className="nav navbar-nav">
                     <li><a href="http://www.avaea.com/">Main Search</a></li>
@@ -147,8 +147,8 @@ var NavBar = React.createClass({
         }
 
         {this.props.page == 'order'?
-          <div id="date_select" className="calendar-header">
-            <div className="navbar-header">
+          <div className="booking-panel">
+            <div className="navbar-header back-style">
               <div className="container-fluid">
                 <div className="row">
                   <div className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
