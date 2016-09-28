@@ -272,7 +272,6 @@ var ResultPage = React.createClass({
     this.setState({searchResultLength: count});
   },
   getUser: function () {
-    console.log(this.props.InitResultData.user);
     return this.props.InitResultData.user;
   },
   render: function() {

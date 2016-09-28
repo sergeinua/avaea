@@ -202,33 +202,36 @@ var VoiceForm = React.createClass({
         }
 
         if (result.origin_date || result.return_date) {
-          $('#departureDate').val(result.origin_date || '');
-          $('#returnDate').val(result.return_date || '');
-          // var leaving, returning;
+          var leaving, returning;
           // var picker = $('#dr_picker').data('DateTimePicker');
           // picker.clear();
-          // if (result.origin_date && picker.maxDate().isSameOrAfter(result.origin_date)) {
-          //   var _month = result.origin_date.getMonth() + 1,
-          //     _day = result.origin_date.getDate();
-          //   if (_month < 10) _month = '0' + _month;
-          //   if (_day < 10) _day = '0' + _day;
-          //   $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
-          //   picker.date(result.origin_date);
-          //   leaving = result.origin_date.toDateString();
-          //   // we can't set return date on search form without origin date
-          //   if (result.return_date && picker.maxDate().isSameOrAfter(result.return_date)) {
-          //     var _month = result.return_date.getMonth() + 1,
-          //       _day = result.return_date.getDate();
-          //     if (_month < 10) _month = '0' + _month;
-          //     if (_day < 10) _day = '0' + _day;
-          //     $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
-          //     picker.date(result.return_date);
-          //     returning = result.return_date.toDateString();
-          //   } else if (result.type == 'round_trip') {
-          //     result.type = 'one_way';
-          //     // $('#one_way').trigger('click');
-          //   }
-          // }
+          if (result.origin_date /*&& picker.maxDate().isSameOrAfter(result.origin_date)*/) {
+            var _month = result.origin_date.getMonth() + 1,
+              _day = result.origin_date.getDate();
+            if (_month < 10) _month = '0' + _month;
+            if (_day < 10) _day = '0' + _day;
+            $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+            // picker.date(result.origin_date);
+            leaving = result.origin_date.toDateString();
+            // we can't set return date on search form without origin date
+            if (result.return_date /*&& picker.maxDate().isSameOrAfter(result.return_date)*/) {
+              var _month = result.return_date.getMonth() + 1,
+                _day = result.return_date.getDate();
+              if (_month < 10) _month = '0' + _month;
+              if (_day < 10) _day = '0' + _day;
+              $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+              // picker.date(result.return_date);
+              returning = result.return_date.toDateString();
+            } else if (result.type == 'round_trip') {
+              result.type = 'one_way';
+              // $('#one_way').trigger('click');
+            }
+          }
+          var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
+          var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
+
+          $('#departureDate').val(origin_date.format('YYYY-MM-DD') || '');
+          $('#returnDate').val(return_date.format('YYYY-MM-DD') || '');
           //
           // if (leaving) {
           //   $('#date_select_top').trigger('click');
@@ -243,8 +246,7 @@ var VoiceForm = React.createClass({
         } else {
           result.number_of_tickets = 1;
         }
-        ActionsStore.updatePassengers(result.number_of_tickets);
-
+        $('#passengers').val(result.number_of_tickets);
 
         if( !result.class_of_service ) {
           result.class_of_service = 'E';

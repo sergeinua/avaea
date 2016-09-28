@@ -6,7 +6,6 @@
  * @returns {Function}
  */
 var fetchTypeheadSrc = function(controllerName, actionName) {
-  console.log('ajax call fetchTypeheadSrc');
   return function (q, cb) {
     $.ajax({
       url: '/'+controllerName+'/'+actionName,
@@ -16,7 +15,6 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
       async: false // required, because typehead doesn't work with ajax in async mode
     })
       .done(function( msg ) {
-        console.log('ajax call fetchTypeheadSrc done');
         cb(msg ? msg : []);
       })
       .fail(function (msg) {

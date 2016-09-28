@@ -35,7 +35,6 @@ var SearchFormPage = React.createClass({
         flightType: ($('#flightType').length ? $('#flightType').val():''),
         voiceSearchQuery: ($('#voiceSearchQuery').length ? $('#voiceSearchQuery').val():'')
       };
-      console.log('ActionsStore.updateFormValues', formValues);
       this.setState({searchParams: formValues});
     };
 
@@ -44,14 +43,12 @@ var SearchFormPage = React.createClass({
     };
 
     ActionsStore.changeCalendarDate = () => {
-      console.log('changeCalendarDate');
       finalizeValues(true);
       ActionsStore.updateFormValues();
-      console.log('Here we will save calendar result');
     };
+    ActionsStore.updateFormValues();
   },
   getUser: function () {
-    // console.log(this.props.InitSearchFormData.user);
     return this.props.InitSearchFormData.user;
   },
   changeForm: function(form) {
