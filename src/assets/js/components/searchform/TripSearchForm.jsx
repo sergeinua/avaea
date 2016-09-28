@@ -184,7 +184,7 @@ var TripSearchForm = React.createClass({
     <div className="flight-additional-info row">
       <div className="col-xs-12">
         <PassengerChooser passengerVal={this.props.InitSearchFormData.searchParams.passengers || 1}/>
-        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.CabinClass || 'E'}/>
+        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.preferedClass || 'E'}/>
       </div>
     </div>
 

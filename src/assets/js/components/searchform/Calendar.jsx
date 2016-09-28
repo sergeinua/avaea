@@ -59,7 +59,6 @@ var drawDateRange = function(datepicker, range) {
 // }
 
 function finalizeValues() {
-  console.log('finalizeValues');
   var flightType = $('#search_form').data('flight-type');
   var _isError = false;
 
@@ -117,10 +116,8 @@ var Calendar = React.createClass({
   componentDidMount: function () {
     //FIXME get rid from jquery
 
-    console.log($('#dr_picker').length);
     // init datetimepicker {{{
     if ($('#dr_picker').length) {
-      console.log('init datetimepicker');
       var curMoment = moment(0, "HH");
       $('#dr_picker').datetimepicker({
         inline: true,
