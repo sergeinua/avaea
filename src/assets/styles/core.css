@@ -15,23 +15,15 @@
 .hide,
 .device,
 .ie-fixer,
+.desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
 .booking .buy-button,
 .booking .long-wrapper,
 .booking-success .flight-unit .summary,
 .booking-success .col-xs-2.date,
-/*.multi-city-coming-soon,*/
-/*.form-fields.multi-city,*/
-/*.form-fields.voice-search,*/
 .flight-unit .itinerary-airline-icon,
 .flight-unit .itinerary-airline .itinerary-airline-icon,
-/*.voice-form,*/
-/*.navbar-header .back-history,*/
-/*.navbar-header .flight-type-item.voice-search-button.active-choice,*/
-/*.calendar-header,*/
-/*.calendar-panel,*/
-/*.airport-search-panel,*/
 .dimmer .landscape,
 .dimmer {
 	display: none;
@@ -214,7 +206,7 @@
 	display: none !important;
 }
 
-.desktop .navbar-header	{
+.desktop .navbar-header:not(.back-style)	{
 	padding-left: 20px;
 }
 
@@ -305,10 +297,6 @@
 	position: absolute;
 		top: 51px;
 	border-bottom: 1px solid rgba(0, 129, 201, .2);
-}
-
-.desktop.search-result .main.container-fluid {
-	margin-top: 50px;
 }
 
 .desktop.search-result .navbar-header:before {
@@ -423,6 +411,7 @@
 	font-size: 14px;
 	position: relative;
 		top: -3px;
+	opacity: 1;
 }
 
 .desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle),
@@ -1075,7 +1064,7 @@ textarea {
 }
 
 .navbar-brand {
-	padding: 16px 5px 14px 5px;
+	padding: 18px 5px 14px 5px;
 }
 
 .navbar-header {
@@ -1207,7 +1196,7 @@ textarea {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	padding-top: 46px;
+	padding-top: 45px;
   padding-bottom: 100px;
 }
 
@@ -1477,7 +1466,7 @@ strong.tt-highlight {
 .navbar-header .flight-type-item.voice-search-button {
 	cursor: pointer;
 	font-size: 22px;
-	padding: 10px 25px;
+	padding: 10px 24px 0 0;
 	display: inline-block;
 	float: right;
 }
@@ -1793,6 +1782,8 @@ td[data-action*="selectDay"] {
 .icon-spinner:before {
 	display: inline-block;
 	position: relative;
+	  right: 1px;
+    top: 1px;
 	-webkit-transform: rotate(45deg);
     transform: rotate(45deg);
 }
@@ -3242,8 +3233,17 @@ nav {
 }
 
 /* ie10 ie11 */
+
+html[data-useragent*='Trident'] .desktop .navmenu.navmenu-default.navmenu-fixed-left.offcanvas {
+	top: -47px;
+}
+
 html[data-useragent*='Trident'] .flight-type-item:not(.voice-search-button) {
 	display: inline-block;
+}
+
+html[data-useragent*='Trident'] #resultpage {
+	background: #f3f3f3 url(/images/texture.gif);
 }
 
 html[data-useragent*='Trident'] .flight-type-form,
