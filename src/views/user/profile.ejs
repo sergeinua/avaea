@@ -1,204 +1,32 @@
 <%
 /* global profile_fields */
  %>
+<div id="onlynavbar" page="userupdate"></div>
 <form action="user/update" name="Profile" id="Profile" method="post" class="form profile">
 
-<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
-<!--  Deborah temporary fix - hacky, will fix -
-      make sure body height adjusts to long injected form (desktop) -->
-<style>
-body.desktop {
-  height: 1625px;
-}
-</style>
+    <div id="UserProfile"></div>
 
-<!--BASE INFO/FAMILY-->
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingOne">
-      <h4 class="panel-title">
-        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Personal information
-        </a>
-      </h4>
+    <div class="button-holder">
+      <button type="submit" class="big-button" >Update</button>
     </div>
 
-<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-      <div class="panel-body">
-
-
-    <label class="required">First Name</label>
-    <input type="text" name="first_name" class="form-control input-sm" placeholder="First Name" value="<%= profile_fields.personal_info.first_name %>" required/>
-    <label>Middle Name</label>
-    <input type="text" name="middle_name" class="form-control input-sm" placeholder="Middle Name"  value="<%= profile_fields.personal_info.middle_name %>" />
-    <label class="required">Last Name</label>
-    <input type="text" name="last_name" class="form-control input-sm" placeholder="Last Name"  value="<%= profile_fields.personal_info.last_name %>"  required/>
-    <label>Gender</label>
-    <%- _res = widgets.dropDownList(profile_fields.personal_info, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
-    <label>Birthday</label>
-    <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"  value="<%= profile_fields.personal_info.birthday %>" />
-    <label>Passenger Type</label>
-    <%- _res = widgets.dropDownList(profile_fields.personal_info, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
-    <label>Address</label>
-    <input type="text" name="street" class="form-control input-sm" placeholder="Address"  value="<%= profile_fields.personal_info.address.street %>" />
-    <label>City</label>
-    <input type="text" name="city" class="form-control input-sm" placeholder="City"  value="<%= profile_fields.personal_info.address.city %>" />
-    <label>State</label>
-    <input type="text" name="state" class="form-control input-sm" placeholder="State"  value="<%= profile_fields.personal_info.address.state %>" />
-    <label>Zip Code</label>
-    <input type="text" name="zip_code" class="form-control input-sm" placeholder="ZipCode"  value="<%= profile_fields.personal_info.address.zip_code %>" />
-    <label>Country</label>
-    <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"  value="<%= profile_fields.personal_info.address.country_code %>" />
-
-        <!--In Case of Emergency Notify-->
-        <label>In Case of Emergency Notify</label>
-        <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="First and Last Name"  value="<%= profile_fields.notify_contact.name %>" />
-        <label>Emergency Notify Phone</label>
-        <input type="tel" name="notify_contact.phone" class="form-control input-sm" placeholder="Phone number" value="<%= profile_fields.notify_contact.phone %>"/>
-
-      </div>
   </div>
-</div>
-<!--END OF BASE INFO-->
-
-<div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Airlines/Programs
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-<!--AIRLINES/PROGRAMS-->
-<!--Preferred Airlines-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0; font-size:18px;">Preferred Airlines</legend>
-        <div class="panel-body">
-
-<%
-if (profile_fields.preferred_airlines) {
-  isFirst = true
-  iterator = 0
-  profile_fields.preferred_airlines.forEach(function (preferredAirlines) { %>
-            <div id="preferredAirlines" fieldset-number="<%= iterator %>">
-            <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-            <label>Preferred Airlines type</label>
-
-            <% if (profile_fields.preferred_airlines.length > 1) {%>
-            <input class="remove-fieldset" type="button" value="remove" fieldset="preferredAirlines" iterator="<%= iterator %>"/>
-            <% } %>
-
-              <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
-                <option value=''<% if(preferredAirlines.travel_type) {%> selected<%} %>>please choose</option>
-                <option value="Domestic Short Haul Trips"<% if(preferredAirlines.travel_type == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
-                <option value="Domestic Long Haul Flights"<% if(preferredAirlines.travel_type == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
-                <option value="International Flights"<% if(preferredAirlines.travel_type == 'International Flights') {%> selected<%} %>>International Flights</option>
-            </select>
-            <label>Airline Name</label>
-              <input type="text" name="preferred_airlines.airline_name[]" value="<%= preferredAirlines.airline_name %>" class="form-control input-sm" placeholder="Airline Name"/>
-            </div>
-<%
-    isFirst = false
-    iterator++
-  })
-}
-%>
-
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferredAirlines"><%= __('One more')%></button>
-        </div>
-    </fieldset>
-
-<!--Airlines Frequent Flier Miles Programs-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0; font-size:18px;">Airlines Frequent Flier Miles Programs</legend>
-        <div class="panel-body">
-
-<%
-if (profile_fields.miles_programs) {
-  isFirst = true
-  iterator = 0
-  profile_fields.miles_programs.forEach(function (milesPrograms) { %>
-            <div id="milesPrograms" fieldset-number="<%= iterator %>">
-              <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-              <label>Airline Name</label>
-
-              <% if (profile_fields.miles_programs.length > 1) {%>
-              <input class="remove-fieldset" type="button" value="remove" fieldset="milesPrograms" iterator="<%= iterator %>"/>
-              <% } %>
-
-              <input type="text" name="miles_programs.airline_name[]" class="form-control input-sm" placeholder="Airline Name" value="<%= milesPrograms.airline_name %>"/>
-              <label>Account Number</label>
-              <input type="text" name="miles_programs.account_number[]" class="form-control input-sm" placeholder="Account Number" value="<%= milesPrograms.account_number %>"/>
-              <label>Frequent Flier Miles</label>
-              <input type="text" name="miles_programs.flier_miles[]" class="form-control input-sm" placeholder="Frequent Flier Miles" value="<%= milesPrograms.flier_miles %>"/>
-              <label>Expiration Date</label>
-              <input type="text" name="miles_programs.expiration_date[]" class="form-control input-sm" placeholder="Expiration Date" value="<%= milesPrograms.expiration_date %>"/>
-            </div>
-<%
-    isFirst = false
-    iterator++
-  })
-}
-%>
-
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="milesPrograms"><%= __('One more')%></button>
-        </div>
-    </fieldset>
-<!--Airline Club Lounge Memberships-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0; font-size:18px;">Airline Club Lounge Memberships</legend>
-        <div class="panel-body">
-
-<%
-if (profile_fields.lounge_membership) {
-  isFirst = true
-  iterator = 0
-  profile_fields.lounge_membership.forEach(function (loungeMembership) { %>
-            <div id="loungeMembership" fieldset-number="<%= iterator %>">
-              <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-              <label>Airline Name</label>
-
-              <% if (profile_fields.lounge_membership.length > 1) {%>
-              <input class="remove-fieldset" type="button" value="remove" fieldset="loungeMembership" iterator="<%= iterator %>"/>
-              <% } %>
-
-              <input type="text" name="lounge_membership.airline_name[]" class="form-control input-sm" placeholder="Airline Name" value="<%= loungeMembership.airline_name %>"/>
-              <label>Club Membership Number</label>
-              <input type="text" name="lounge_membership.membership_number[]" class="form-control input-sm" placeholder="Club Membership Number" value="<%= loungeMembership.membership_number %>"/>
-              <label>Expiration Date</label>
-              <input type="date" name="lounge_membership.expiration_date[]" class="form-control input-sm" value="<%= loungeMembership.expiration_date %>"/>
-            </div>
-<%
-    isFirst = false
-    iterator++
-  })
-}
-%>
-
-        </div>
-        <div class="panel-footer">
-            <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="loungeMembership"><%= __('One more')%></button>
-        </div>
-    </fieldset>
-
-    </div>
-  </div>
-</div>
-<!--END OF AIRLINES/PROGRAMS-->
-
-
-<style>
-    body { padding-bottom: 70px; }
-</style>
-
-<div class="button-holder">
-  <button type="submit" class="big-button" >Update</button>
-</div>
 
 </form>
+
+<script type="text/javascript">
+    <% if (typeof profile_fields == 'object' ) {%>
+    UserProfileData = <%- JSON.stringify(profile_fields) %>;
+    <% } else { %>
+    UserProfileData = {};
+    <% } %>
+    UserProfileStructure = {
+      gender: <%- JSON.stringify(Profile.attr_gender) %>,
+      pax_type: <%- JSON.stringify(Profile.attr_pax_type) %>
+    };
+    UserProgramsStructure = {
+      travel_type: <%- JSON.stringify(Profile.attr_travel_type) %>
+    };
+</script>

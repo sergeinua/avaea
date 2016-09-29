@@ -89,9 +89,9 @@ describe('SearchController', function() {
       };
       Search.serviceClass = {
         E:'Economy',
-          P:'Premium',
-          B:'Business',
-          F:'First'
+        P:'Premium',
+        B:'Business',
+        F:'First'
       };
       var view = sinon.spy();
       var res = {

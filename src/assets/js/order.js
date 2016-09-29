@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+	// continuous search modal
   $("#user-price-modal").modal();
 
   $("#form_user_price").validate({
@@ -32,6 +33,5 @@ $(document).ready(function() {
       return false;
     }
   });
-
-
+  
 });

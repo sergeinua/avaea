@@ -1,13 +1,14 @@
+<div id="onlynavbar" page="login"></div>
 <% if (Object.keys(providers).length) {%>
 
   <div class="login-holder">
     <h2 class="form-signin-heading">Please sign in</h2>
-  
+
     <% Object.keys(providers).forEach(function (key) { %>
     <% if (key == 'google') { %>
       <a href="/auth/<%= providers[key].slug %>" class="big-button" role="button"><%= providers[key].name %></a>
     <% } %>
     <% }) %>
   </div>
-  
+
 <% } %>

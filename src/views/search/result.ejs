@@ -7,11 +7,28 @@
     searchResult: <%- JSON.stringify(searchResult) %>,
     iconSpriteMap: <%- JSON.stringify(iconSpriteMap) %>,
     departure: <%- JSON.stringify(departure) %>,
-    arrival: <%- JSON.stringify(arrival) %>
+    arrival: <%- JSON.stringify(arrival) %>,
+    user: {email:"<%= user.email %>"}
   };
 </script>
 
 <div id="resultpage" class="results"></div>
+<% if (typeof searchResult != 'undefined' && (searchResult.length > 10)) { %>
+<div class="dimmer">
+  <div class="wrapper">
+    <div class="close-x"></div>
+    <div class="dimmer-text">
+      <!-- <div class="flights"><%= searchResult.length %> flights</div> -->
+      <div class="copy">
+        <!--  <span class="landscape">Open</span>
+        <span class="portrait">Use</span>
+        buckets to select features you care about. -->
+        Please use filters to narrow down search results.
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
 
 <form action="/buy" method="post" id="booking_form" >
   <input type="hidden" name="id" id="_id" value=""/>

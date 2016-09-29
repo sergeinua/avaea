@@ -94,7 +94,7 @@ module.exports = {
         }
         else {
           delete req.session.booking_itinerary;
-          req.session.flash = 'Cache has expired. Try new search.';
+          req.session.flash = 'Your search has expired. Try a new search.';
           req.flash('errors', req.session.flash);
           res.redirect('/search');
 
@@ -128,16 +128,31 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      // At this moment we must cancel booked itinerary for money safe
-      mondee.cancelPnr(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, {PNR: result.PNR, session: req.session}, function(err2, result2) {
-        if(err2)
-          res.locals.errors = [err2]; //will display by layout
-        else
-          sails.log.info("Itinerary cancelled successfully:", result2);
-      });
-
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary);
+
+      var order = _.clone(req.session.booking_itinerary.itinerary_data, true);
+
+      // E-mail notification
+      var tpl_vars = {
+        reqParams: req.allParams(),
+        order: order,
+        bookingRes: result,
+        replyTo: sails.config.email.replyTo,
+        callTo: sails.config.email.callTo,
+      };
+
+      Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+        .then(function (msgContent) {
+          Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
+            .then(function () {
+              sails.log.info('Mail was sent to '+ req.user.email);
+            })
+        })
+        .catch(function (error) {
+          sails.log.error(error);
+        });
+
       delete req.session.booking_itinerary;
 
       // Render view
@@ -145,13 +160,13 @@ module.exports = {
         {
           user: req.user,
           reqParams: req.allParams(),
+          order: [order],
           bookingRes: result
         },
         'booking'
       );
     };
 
-    //parseFlightBooking("err", "res");
     mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
   }
 
