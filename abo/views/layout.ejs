@@ -129,5 +129,16 @@
 
     -->
 
+    <!--SCRIPTS-->
+
+    <!--SCRIPTS END-->
+
+    <script type="text/javascript">
+      var remoteSocket;
+      <% if (sails.config.remoteSocket) { %>
+      remoteSocket = '<%=sails.config.remoteSocket%>';
+      <% } %>
+    </script>
+
   </body>
 </html>
