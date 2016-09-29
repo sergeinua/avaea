@@ -598,7 +598,7 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
-          sails.log.verbose("Parser success: "+JSON.stringify(result));
+          //sails.log.verbose("Parser success: "+JSON.stringify(result));
           sails.log.verbose("Parsing query : '" + result.query + "'"
             + "\n                                                 Parsing result:       from '" + result.origin_airport + "' to '" + result.return_airport + "'"
             + "\n                                                 Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'"
