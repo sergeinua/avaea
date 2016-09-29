@@ -227,11 +227,14 @@ var VoiceForm = React.createClass({
               // $('#one_way').trigger('click');
             }
           }
-          var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
-          var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
-
-          $('#departureDate').val(origin_date.format('YYYY-MM-DD') || '');
-          $('#returnDate').val(return_date.format('YYYY-MM-DD') || '');
+          if (result.origin_date) {
+            var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
+            $('#departureDate').val(origin_date.format('YYYY-MM-DD') || '');
+          }
+          if (result.return_date) {
+            var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
+            $('#returnDate').val(return_date.format('YYYY-MM-DD') || '');
+          }
           //
           // if (leaving) {
           //   $('#date_select_top').trigger('click');
