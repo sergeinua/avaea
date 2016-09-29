@@ -29,6 +29,7 @@ module.exports = {
     return this.tiles;
   },
   tiles: {},
+  userPreferredAirlines: [],
   default_tiles: {
     sourceArrival: {
       name: 'Arrival',
@@ -203,7 +204,7 @@ module.exports = {
         sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
         cicstanford.compute_departure_times_in_minutes(itineraries);
         cicstanford.determine_airline(itineraries);
-        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries,["AA", "DL"]);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
         // append the default zero smartRank
         for (var i = 0; i < itineraries.length; i++) {
           itineraries[i].smartRank = 0;
@@ -558,7 +559,7 @@ module.exports = {
       sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries,["AA", "DL"]);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
