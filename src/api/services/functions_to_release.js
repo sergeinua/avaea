@@ -974,12 +974,12 @@ module.exports = {
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
         sails.log.info("Ranking based on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
-        //if ( price_preference     == 0 ) return itins;
-        //if ( duration_preference  == 0 ) return itins;
-        //if ( departure_preference == 0 ) return itins;
-        //if ( airline_preference   == 0 ) return itins;
 
-	if ( (price_preference==0) || (duration_preference==0) || (departure_preference==0) || (airline_preference==0) )
+//         Profile.findOneByUserId( req.user.id ).exec(function findOneCB(err, found) {
+//         sails.log.info("Preferred airlines: "+ found.preferred_airlines);
+//         });
+
+        if ( (price_preference==0) || (duration_preference==0) || (departure_preference==0) || (airline_preference==0) )
         {
             price_preference     += 0.1;
             duration_preference  += 0.1;
@@ -995,9 +995,37 @@ module.exports = {
         var MAD_airl_rank = this.median_absolute_deviation_in_airl_rank(itins);
         return itins.slice(0) // make a copy
                     .sort( this.compare_in_4D_by_linear_combination(price_preference    *MAD_price    ,
-                                                               duration_preference *MAD_duration ,
-                                                               departure_preference*MAD_dep_rank ,
-                                                               airline_preference  *MAD_airl_rank) ); // sort in 4D by linear combination of price, duration, dep_rank, and airl_rank
+                                                                    duration_preference *MAD_duration ,
+                                                                    departure_preference*MAD_dep_rank ,
+                                                                    airline_preference  *MAD_airl_rank) ); // sort in 4D by linear combination of price, duration, dep_rank, and airl_rank
+    },
+
+    is_in_array: function (array, element)
+    {
+        return array.indexOf(element) >= 0;
+    },
+
+    sort_by_preferred_airlines: function (itins, preferred_airlines)
+    // Sorting by price, taking into account $100 price discount for preferred_airlines.
+    // The airlines, specified in the array preferred_airlines are given a price advantage of $100, when sorting by price.
+    {
+        var loc_itins = itins.slice(0); // make a copy
+
+        if (preferred_airlines.length == 0) return loc_itins;
+
+        var preferred_airline_price_advantage = 100.00;
+
+        for(var i=0; i<loc_itins.length; i++)
+            if (!this.is_in_array(preferred_airlines,loc_itins[i].air_line) )
+                loc_itins[i].price = (Number(loc_itins[i].price) + preferred_airline_price_advantage).toString();
+
+        this.sort_by_increasing_price(loc_itins);
+
+        for(var i=0; i<loc_itins.length; i++)
+            if (!this.is_in_array(preferred_airlines,loc_itins[i].air_line) )
+                loc_itins[i].price = (Number(loc_itins[i].price) - preferred_airline_price_advantage).toString();
+
+        return loc_itins;
     }
 
 };
