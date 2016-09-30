@@ -138,7 +138,7 @@ var NavBar = React.createClass({
             <div className="navbar-header">
               <div className="container-fluid">
                 <div className="row">
-                    <div className="info"><span className="dep">23 Jan Sat</span><span className="ret">02 Feb Tue</span></div>
+                    <div className="info"><span className="dep"></span><span className="ret"></span></div>
                     <button type="button" id="date_select_top" className="date_select-button small-button" onClick={this.handleCalendar}>Done</button>
                 </div>
               </div>

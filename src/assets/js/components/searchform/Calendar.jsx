@@ -116,6 +116,25 @@ var Calendar = React.createClass({
   componentDidMount: function () {
     //FIXME get rid from jquery
 
+
+
+    if ($('#departureDate').data('date')) {
+      $('#departureDate').val($('#departureDate').data('date'));
+    }
+
+    if (!!$('#departureDate').val()) {
+      $('#departureDate').data('date', $('#departureDate').val());
+    }
+    if ($('#returnDate').data('date')) {
+      $('#returnDate').val($('#returnDate').data('date'));
+    }
+
+    if (!!$('#returnDate').val()) {
+      $('#returnDate').data('date', $('#returnDate').val());
+    }
+
+
+
     // init datetimepicker {{{
     if ($('#dr_picker').length) {
       var curMoment = moment(0, "HH");
@@ -178,7 +197,22 @@ var Calendar = React.createClass({
     }).bind("swiperight", function (e) {
       $(this).data("DateTimePicker").previous();
     });
-
+    // force dp.change event hook {{{
+    $('#dr_picker').data("DateTimePicker").clear();
+    var depDate = $('#departureDate').val() ? moment($('#departureDate').val(), 'YYYY-MM-DD') : moment();
+    $('#dr_picker').data("DateTimePicker").date(depDate);
+    if ($('#search_form').data('flight-type') == 'round_trip') {
+      var retDate = $('#returnDate').val() ? moment($('#returnDate').val(), 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
+      if (retDate.isAfter($('#dr_picker').data("DateTimePicker").maxDate())) {
+        retDate = $('#dr_picker').data("DateTimePicker").maxDate().clone();
+      }
+      $('#dr_picker').trigger({
+        type: 'dp.change',
+        date: retDate,
+        oldDate: depDate
+      });
+    }
+    // }}} force dp.change event hook
   },
   render() {
     return (
