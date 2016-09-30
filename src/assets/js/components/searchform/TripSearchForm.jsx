@@ -29,6 +29,9 @@ var TripSearchForm = React.createClass({
       ActionsStore.updateFormValues();
       if (this.validateForm()) {
         $("#searchBanner").modal();
+        if (this.props.InitSearchFormData.currentForm != 'round_trip') {
+          $('#returnDate').val('');
+        }
         $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($('#search_form').serializeArray())));
         $('#search_form').submit();
       }
@@ -77,10 +80,7 @@ var TripSearchForm = React.createClass({
       }
     }
 
-    if (_isError) {
-      return false;
-    }
-    return true;
+    return !_isError;
   },
 
   getDatePart: function (type, date) {
