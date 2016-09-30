@@ -65,6 +65,18 @@ var TripSearchForm = React.createClass({
       _isError = true;
     }
 
+    if ($('#departureDate').val() == '') {
+      setErrorElement('.flight-date-info-item.dep');
+      _isError = true;
+    } else if (this.props.InitSearchFormData.currentForm == 'round_trip') {
+      let _momentRet = $('#returnDate').val() ? moment($('#returnDate').val()) : '';
+      let _momentDep = $('#departureDate').val() ? moment($('#departureDate').val()) : '';
+      if (_momentRet.isBefore(_momentDep, 'day')) {
+        setErrorElement('.flight-date-info-item.ret');
+        _isError = true;
+      }
+    }
+
     if (_isError) {
       return false;
     }
