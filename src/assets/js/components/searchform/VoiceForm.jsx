@@ -174,10 +174,10 @@ var VoiceForm = React.createClass({
       result.return_date = result.return_date ? new Date(result.return_date) : false;
 
       for(var _k in _airportsKeys) {
+        // reset airport {{{
+        setAirportData(_airportsKeys[_k], {value: '', city: ''});
+        // }}} reset airport
         if (result[_k]) {
-          // reset airport {{{
-          setAirportData(_airportsKeys[_k], {value: '', city: ''});
-          // }}} reset airport
           _airportsPromisesKeys.push(_k);
           _airportsPromises.push($.ajax({
             url: '/ac/airports',
@@ -195,9 +195,17 @@ var VoiceForm = React.createClass({
 
       $.when.apply($, _airportsPromises).done(function() {
         // Each argument is an array with the following structure: [ data, statusText, jqXHR ]
-        for (var i = 0; i < arguments.length; i++) {
-          if (arguments[i][0] && arguments[i][0].length) {
-            setAirportData(_airportsKeys[_airportsPromisesKeys[i]], arguments[i][0][0]);
+        let _arguments;
+
+        if (_airportsPromisesKeys.length == 1) {
+          _arguments = [arguments];
+        } else {
+          _arguments = arguments;
+        }
+
+        for (var i = 0; i < _arguments.length; i++) {
+          if (_arguments[i][0] && _arguments[i][0].length) {
+            setAirportData(_airportsKeys[_airportsPromisesKeys[i]], _arguments[i][0][0]);
           }
         }
 
