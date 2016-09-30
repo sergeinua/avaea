@@ -88,7 +88,7 @@ var TripSearchForm = React.createClass({
         result = _moment.format('YYYY');
         break;
     }
-    return result;
+    return date ? result : '';
   },
 
   handleAirportSearch: function (target) {
@@ -152,13 +152,15 @@ var TripSearchForm = React.createClass({
           </div>
         </div>
         {!this.props.InitSearchFormData.searchParams.departureDate ?
-          <div className="tap-plus">+</div> : null
+          <div className="tap-plus">+</div>
+          :
+          <div className="row the-date">
+            <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+            <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+            <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+          </div>
         }
-        <div className="row the-date">
-          <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-          <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-          <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-        </div>
+
       </div>
 
       { this.props.InitSearchFormData.currentForm == 'round_trip' ?
@@ -170,13 +172,15 @@ var TripSearchForm = React.createClass({
             </div>
           </div>
           {!this.props.InitSearchFormData.searchParams.returnDate ?
-            <div className="tap-plus">+</div> : null
+            <div className="tap-plus">+</div>
+            :
+            <div className="row the-date">
+              <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+              <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+              <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+            </div>
           }
-          <div className="row the-date">
-            <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-            <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-            <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-          </div>
+
         </div> : null
       }
     </div>
