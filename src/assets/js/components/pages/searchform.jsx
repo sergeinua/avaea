@@ -43,7 +43,7 @@ var SearchFormPage = React.createClass({
     };
 
     ActionsStore.changeCalendarDate = () => {
-      finalizeValues(true);
+      finalizeValues();
       ActionsStore.updateFormValues();
     };
     ActionsStore.updateFormValues();
