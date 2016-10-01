@@ -29,6 +29,9 @@ var TripSearchForm = React.createClass({
       ActionsStore.updateFormValues();
       if (this.validateForm()) {
         $("#searchBanner").modal();
+        if (this.props.InitSearchFormData.currentForm != 'round_trip') {
+          $('#returnDate').val('');
+        }
         $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($('#search_form').serializeArray())));
         $('#search_form').submit();
       }
@@ -65,10 +68,19 @@ var TripSearchForm = React.createClass({
       _isError = true;
     }
 
-    if (_isError) {
-      return false;
+    if ($('#departureDate').val() == '') {
+      setErrorElement('.flight-date-info-item.dep');
+      _isError = true;
+    } else if (this.props.InitSearchFormData.currentForm == 'round_trip') {
+      let _momentRet = $('#returnDate').val() ? moment($('#returnDate').val()) : '';
+      let _momentDep = $('#departureDate').val() ? moment($('#departureDate').val()) : '';
+      if (_momentRet.isBefore(_momentDep, 'day')) {
+        setErrorElement('.flight-date-info-item.ret');
+        _isError = true;
+      }
     }
-    return true;
+
+    return !_isError;
   },
 
   getDatePart: function (type, date) {
@@ -88,7 +100,7 @@ var TripSearchForm = React.createClass({
         result = _moment.format('YYYY');
         break;
     }
-    return result;
+    return date ? result : '';
   },
 
   handleAirportSearch: function (target) {
@@ -152,13 +164,15 @@ var TripSearchForm = React.createClass({
           </div>
         </div>
         {!this.props.InitSearchFormData.searchParams.departureDate ?
-          <div className="tap-plus">+</div> : null
+          <div className="tap-plus">+</div>
+          :
+          <div className="row the-date">
+            <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+            <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+            <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+          </div>
         }
-        <div className="row the-date">
-          <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-          <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-          <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-        </div>
+
       </div>
 
       { this.props.InitSearchFormData.currentForm == 'round_trip' ?
@@ -170,13 +184,15 @@ var TripSearchForm = React.createClass({
             </div>
           </div>
           {!this.props.InitSearchFormData.searchParams.returnDate ?
-            <div className="tap-plus">+</div> : null
+            <div className="tap-plus">+</div>
+            :
+            <div className="row the-date">
+              <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+              <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+              <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+            </div>
           }
-          <div className="row the-date">
-            <span className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-            <span className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-            <span className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-          </div>
+
         </div> : null
       }
     </div>
