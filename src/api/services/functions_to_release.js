@@ -1011,9 +1011,12 @@ module.exports = {
     {
         var loc_itins = itins.slice(0); // make a copy
 
-        if (preferred_airlines.length == 0) return loc_itins;
+        //var preferred_airline_price_advantage = 100.00;
+        var preferred_airline_price_advantage = this.median_in_price(itins)*0.1; // 10% of the median price
 
-        var preferred_airline_price_advantage = 100.00;
+        sails.log.info("Ranking based on the price advantage of $" + preferred_airline_price_advantage + " for the following airlines: " + preferred_airlines);
+
+        if (preferred_airlines.length == 0) return loc_itins;
 
         for(var i=0; i<loc_itins.length; i++)
             if (!this.is_in_array(preferred_airlines,loc_itins[i].air_line) )
