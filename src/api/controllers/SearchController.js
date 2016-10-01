@@ -171,9 +171,13 @@ module.exports = {
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
     Profile.findOneByUserId( req.user.id ).exec(function findOneCB(err, found) {
-      Tile.userPreferredAirlines = found.preferred_airlines.map(function(item) {
-        return item.airline_name;
-      });
+      if (!_.isEmpty(found.preferred_airlines)) {
+        Tile.userPreferredAirlines = found.preferred_airlines.map(function (item) {
+          return item.airline_name;
+        });
+      } else {
+        Tile.userPreferredAirlines = [];
+      }
       sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
     });
 
