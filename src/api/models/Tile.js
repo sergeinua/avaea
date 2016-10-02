@@ -556,13 +556,14 @@ module.exports = {
         sails.log.info('after DEMO-285', itineraries.length);
       }
     } else {
+      var _itineraries = _.clone(itineraries, true);
       sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      cicstanford.compute_departure_times_in_minutes(_itineraries);
+      cicstanford.determine_airline(_itineraries);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(_itineraries, Tile.userPreferredAirlines);
       // append the default zero smartRank
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
+      for (var i = 0; i < _itineraries.length; i++) {
+        _itineraries[i].smartRank = 0;
       }
       // extract all the itinerary IDs into a separate array
       var ID = itineraries.map(function (it) {
