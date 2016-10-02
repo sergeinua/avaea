@@ -29,6 +29,7 @@ module.exports = {
     return this.tiles;
   },
   tiles: {},
+  userPreferredAirlines: [],
   default_tiles: {
     sourceArrival: {
       name: 'Arrival',
@@ -171,31 +172,52 @@ module.exports = {
     if (itineraries) {
       /* Smart Ranking {{{ */
       utils.timeLog('smart_ranking');
-      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
-      // append the default zero smartRank
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
-      }
-      // extract all the itinerary IDs into a separate array
-      var ID = itineraries.map(function (it) {
-        return it.id
-      });
-      // the itineraries remained after pruning have a non-zero smartRank
-      for (var i = 0; i < temp_ranked_in_4D.length; i++) {
-        var itin_id = temp_ranked_in_4D[i].id;
-        var itin_index = ID.indexOf(itin_id);
-        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-      }
-      // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
-      var next_rank = temp_ranked_in_4D.length + 1;
-      for (var i = 0; i < itineraries.length; i++) {
-        if (itineraries[i].smartRank == 0) {
-          itineraries[i].smartRank = next_rank;
-          next_rank++;
+      if (false) {
+        sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+        var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+        // append the default zero smartRank
+        for (var i = 0; i < itineraries.length; i++) {
+          itineraries[i].smartRank = 0;
+        }
+        // extract all the itinerary IDs into a separate array
+        var ID = itineraries.map(function (it) {
+          return it.id
+        });
+        // the itineraries remained after pruning have a non-zero smartRank
+        for (var i = 0; i < temp_ranked_in_4D.length; i++) {
+          var itin_id = temp_ranked_in_4D[i].id;
+          var itin_index = ID.indexOf(itin_id);
+          itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+        }
+        // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
+        var next_rank = temp_ranked_in_4D.length + 1;
+        for (var i = 0; i < itineraries.length; i++) {
+          if (itineraries[i].smartRank == 0) {
+            itineraries[i].smartRank = next_rank;
+            next_rank++;
+          }
+        }
+      } else {
+        sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+        // append the default zero smartRank
+        for (var i = 0; i < itineraries.length; i++) {
+          itineraries[i].smartRank = 0;
+        }
+        // extract all the itinerary IDs into a separate array
+        var ID = itineraries.map(function (it) {
+          return it.id
+        });
+        // the itineraries in temp_itins are ordered according to a smartRank, copy their ranks to the original itineraries
+        for (var i = 0; i < temp_itins.length; i++) {
+          var itin_id = temp_itins[i].id;
+          var itin_index = ID.indexOf(itin_id);
+          itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
         }
       }
       cicstanford.print_many_itineraries(itineraries);
@@ -494,45 +516,68 @@ module.exports = {
 
     /* Smart Ranking {{{ */
     utils.timeLog('smart_ranking');
-    sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-    cicstanford.compute_departure_times_in_minutes(itineraries);
-    cicstanford.determine_airline(itineraries);
-    var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-    var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
-    // append the default zero smartRank
-    for (var i = 0; i < itineraries.length; i++) {
-      itineraries[i].smartRank = 0;
-    }
-    // extract all the itinerary IDs into a separate array
-    var ID = itineraries.map(function (it) {
-      return it.id
-    });
-    // the itineraries remained after pruning have a non-zero smartRank
-    for (var i = 0; i < temp_ranked_in_4D.length; i++) {
-      var itin_id = temp_ranked_in_4D[i].id;
-      var itin_index = ID.indexOf(itin_id);
-      itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-    }
-    // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
-    var next_rank = temp_ranked_in_4D.length + 1;
-    for (var i = 0; i < itineraries.length; i++) {
-      if (itineraries[i].smartRank == 0) {
-        itineraries[i].smartRank = next_rank;
-        next_rank++;
+    if (false) {
+      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      // append the default zero smartRank
+      for (var i = 0; i < itineraries.length; i++) {
+        itineraries[i].smartRank = 0;
       }
-    }
-    //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
-      sails.log.info('params.topSearchOnly', params.topSearchOnly);
-      var tmp = [];
-      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-        tmp.push(itineraries[i]);
+      // extract all the itinerary IDs into a separate array
+      var ID = itineraries.map(function (it) {
+        return it.id
+      });
+      // the itineraries remained after pruning have a non-zero smartRank
+      for (var i = 0; i < temp_ranked_in_4D.length; i++) {
+        var itin_id = temp_ranked_in_4D[i].id;
+        var itin_index = ID.indexOf(itin_id);
+        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
-      sails.log.info('before DEMO-285', itineraries.length);
-      itineraries = tmp;
-      sails.log.info('after DEMO-285', itineraries.length);
+      // set the smartRank of the other itineraries to be larger than the smartRank of the best ones
+      var next_rank = temp_ranked_in_4D.length + 1;
+      for (var i = 0; i < itineraries.length; i++) {
+        if (itineraries[i].smartRank == 0) {
+          itineraries[i].smartRank = next_rank;
+          next_rank++;
+        }
+      }
+      //DEMO-285 temporary shrink result based on smart rank
+      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+        sails.log.info('params.topSearchOnly', params.topSearchOnly);
+        var tmp = [];
+        for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
+          tmp.push(itineraries[i]);
+        }
+        sails.log.info('before DEMO-285', itineraries.length);
+        itineraries = tmp;
+        sails.log.info('after DEMO-285', itineraries.length);
+      }
+    } else {
+      var _itineraries = _.clone(itineraries, true);
+      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+      cicstanford.compute_departure_times_in_minutes(_itineraries);
+      cicstanford.determine_airline(_itineraries);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(_itineraries, Tile.userPreferredAirlines);
+      // append the default zero smartRank
+      for (var i = 0; i < _itineraries.length; i++) {
+        _itineraries[i].smartRank = 0;
+      }
+      // extract all the itinerary IDs into a separate array
+      var ID = itineraries.map(function (it) {
+        return it.id
+      });
+      // the itineraries in temp_itins are ordered according to a smartRank, copy their ranks to the original itineraries
+      for (var i = 0; i < temp_itins.length; i++) {
+        var itin_id = temp_itins[i].id;
+        var itin_index = ID.indexOf(itin_id);
+        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+      }
+
     }
-    // cicstanford.print_many_itineraries(itineraries);
+    //cicstanford.print_many_itineraries(itineraries);
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
@@ -808,11 +853,21 @@ module.exports = {
       // prepare Duration tile
       tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
 
+      var roundTo30mins = function (durationMinutes) {
+        var durationMinutesRounded = Math.round(durationMinutes/60)*60;
+        if (durationMinutes%60 > 30) {
+          durationMinutesRounded += 60;
+        } else {
+          durationMinutesRounded += 30;
+        }
+        return durationMinutesRounded;
+      };
+
       var durationNameArr = [];
       var fix_duration = params.flightType == "ROUND_TRIP" ? 2 : 1;
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
-        return tileFormatVal.roundTo30mins( item.durationMinutes );
+        return roundTo30mins( item.durationMinutes );
       });
 
       if (tmp.uniqDuration.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket

@@ -170,6 +170,17 @@ module.exports = {
     title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
+    Profile.findOneByUserId( req.user.id ).exec(function findOneCB(err, found) {
+      if (!err && found && !_.isEmpty(found.preferred_airlines)) {
+        Tile.userPreferredAirlines = found.preferred_airlines.map(function (item) {
+          return item.airline_name;
+        });
+      } else {
+        Tile.userPreferredAirlines = [];
+      }
+      sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
+    });
+
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_hash = params.searchParams.CabinClass;

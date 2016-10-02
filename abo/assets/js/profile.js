@@ -12,7 +12,7 @@ $('.remove-fieldset').click(function(event){
   var fieldset = $(this).attr('fieldset'),
     iterator = $(this).attr('iterator');
 
-  socketAbo.post("/user/removeFieldSet", {fieldset: fieldset, iterator: iterator}, function( msg ) {
+  window.socketAbo.post("/user/removeFieldSet", {fieldset: fieldset, iterator: iterator}, function( msg ) {
     if (msg.error) {
 
       $('#timeAlert').text('Error saving data to ' + fieldset + '.')

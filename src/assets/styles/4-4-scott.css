@@ -15,10 +15,6 @@ nav {
   color: #FFE03E;
 }
 
-#search_count {
-	text-align: right;
-  display: inline-block;
-}
 
 .good-bad-flights {
   font-family: sans-serif;
@@ -74,19 +70,6 @@ nav {
 
 
 /* Result details */
-
-
-
-.clickable-tiles-area {
-  position: absolute;
-  width: 100%;
-  height: 21px;
-  top: 0;
-  border-bottom: 4px solid  #fee148;
-  z-index: 9999;
-}
-
-
 
 
 
