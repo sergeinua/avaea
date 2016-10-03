@@ -16,16 +16,38 @@ module.exports = {
     // Trim left whitespaces
     var _query = req.param('q', '').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
     var _limit = parseInt(req.param('l'));
-    var result = [];
 
     var mainSelect = "SELECT "+
       "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
       "FROM "+
       Airports.tableName+" "+
       "WHERE "+
+      " (iata_3code ~* $1) "+
+      " ORDER BY "+
+      "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
+      "   pax DESC, "+
+      "   levenshtein($3, city) ASC "+
+      "LIMIT " + (_limit ? _limit : 8),
+
+      mainSelect2 = "SELECT "+
+      "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
+      "FROM "+
+      Airports.tableName+" "+
+      "WHERE "+
       "   (name ~* $1) OR "+
       "   (city ~* $1) OR "+
-      "   (iata_3code ~* $1) OR "+
+      "   (alternative_name ~* $3) " +
+      " ORDER BY "+
+      "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
+      "   pax DESC, "+
+      "   levenshtein($3, city) ASC "+
+      "LIMIT " + (_limit ? _limit : 8),
+
+      mainSelect3 = "SELECT "+
+      "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
+      "FROM "+
+      Airports.tableName+" "+
+      "WHERE "+
       "   (state ~* $1) OR "+
       "   (concat(city,',',state) ~* $1) OR "+
       "   (concat(city,',',state_short) ~* $1) OR "+
@@ -33,9 +55,8 @@ module.exports = {
       "   (concat(city,' ',state) ~* $1) OR "+
       "   (concat(city,' ',state_short) ~* $1) OR "+
       "   (concat(city,' ',country) ~* $1) OR" +
-      "   (country ~* $1) OR" +
-      "   (alternative_name ~* $3) " +
-      "ORDER BY "+
+      "   (country ~* $1)" +
+      " ORDER BY "+
       "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
       "   pax DESC, "+
       "   levenshtein($3, city) ASC "+
@@ -58,7 +79,19 @@ module.exports = {
 
       function(callback) {
         makeQuery(mainSelect, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
-          callback(null, rows);
+          if (rows.length) {
+            callback(null, rows);
+          } else {
+            makeQuery(mainSelect2, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
+              if (rows.length) {
+                callback(null, rows);
+              } else {
+                makeQuery(mainSelect3, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
+                  callback(null, rows);
+                })
+              }
+            })
+          }
         })
       },
 
@@ -138,7 +171,7 @@ module.exports = {
             if (err) {
               sails.log.error(err);
             } else {
-              sails.log.info('nothing is found for query', _query);
+              // sails.log.info('nothing is found for query', _query);
             }
 
             callback([]);
