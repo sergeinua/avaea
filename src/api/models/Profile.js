@@ -10,21 +10,6 @@ module.exports = {
   attributes: {
     user               : { model: 'User', required: true },
     personal_info      : { type: 'json' },
-    ethnicity          : {
-      type: 'string',
-      enum:
-        [
-          'European',
-          'Mexican',
-          'Latin American',
-          'Eastern European',
-          'South East Asian (India, Pakistan, Bangladesh)',
-          'Chinese',
-          'Asian',
-          'African',
-          'South Pacific'
-        ]
-    },
     notify_contact     : { type: 'json' },
     travel_with        : { type: 'json' },
     miles_programs     : { type: 'json' },
