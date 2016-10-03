@@ -57,7 +57,8 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    window.location.href = '/result?s=' + searchId;
+    history.back();
+    // window.location.href = '/result?s=' + searchId;
   },
 
   render: function() {
