@@ -850,22 +850,11 @@ module.exports = {
 
       // prepare Duration tile
       tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
-
-      var roundTo30mins = function (durationMinutes) {
-        var durationMinutesRounded = Math.round(durationMinutes/60)*60;
-        if (durationMinutes%60 > 30) {
-          durationMinutesRounded += 60;
-        } else {
-          durationMinutesRounded += 30;
-        }
-        return durationMinutesRounded;
-      };
-
       var durationNameArr = [];
       var fix_duration = params.flightType == "ROUND_TRIP" ? 2 : 1;
 
       tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
-        return roundTo30mins( item.durationMinutes );
+        return tileFormatVal.roundTo30mins( item.durationMinutes );
       });
 
       if (tmp.uniqDuration.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
