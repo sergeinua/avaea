@@ -31,11 +31,17 @@ var roundTo30mins = function (durationMinutes, isTime) {
   var durationMinutesRounded = parseInt(durationMinutes/60) * 60;
   var _remain = durationMinutes % 60;
 
-  if (_remain > 45) {
-    if(!(isTime && durationMinutesRounded/60 >= 24))
-      durationMinutesRounded += 60;
-  }
-  else if (_remain > 15) {
+  //if (_remain > 45) {
+  //  if(!(isTime && durationMinutesRounded/60 >= 24))
+  //    durationMinutesRounded += 60;
+  //}
+  //else if (_remain > 15) {
+  //  durationMinutesRounded += 30;
+  //}
+
+  if (_remain > 30) {
+    durationMinutesRounded += 60;
+  } else {
     durationMinutesRounded += 30;
   }
   return durationMinutesRounded;
