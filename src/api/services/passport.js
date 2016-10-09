@@ -135,15 +135,18 @@ passport.connect = function (req, query, profile, next) {
                   callback(err);
                   return;
                 }
+                segmentio.identify(user.id, user);
 
                 query.user = user.id;
 
                 Passport.create(query, function (err, passport) {
                   // If a passport wasn't created, bail out
                   if (err) {
+                    segmentio.track(user.id, 'Registration Failed', {error: err});
                     callback(err);
                     return;
                   }
+                  segmentio.track(user.id, 'Registration', {email: user.email});
 
                   callback(null, user);
                 });
@@ -188,9 +191,11 @@ passport.connect = function (req, query, profile, next) {
               Passport.create(query, function (err, passport) {
                 // If a passport wasn't created, bail out
                 if (err) {
+                  segmentio.track(user.id, 'Registration Failed', {error: err});
                   callback(err);
                   return;
                 }
+                segmentio.track(user.id, 'Registration', {email: user.email});
 
                 callback(null, req.user);
               });
@@ -229,10 +234,12 @@ passport.connect = function (req, query, profile, next) {
               _is_whitelist = 1;
             }
 
-            if (! _is_whitelist)
+            if (! _is_whitelist) {
+              segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
               callback('Email ' + user.email + ' is not in the whitelist');
-            else
+            } else {
               callback(null, genRes);
+            }
           });
       },
 

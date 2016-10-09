@@ -73,6 +73,9 @@ module.exports = {
 
           });
         } else {
+          var _user = req.user;
+          _user.profileFields = profileFields;
+          segmentio.identify(req.user.id, _user);
           res.redirect('/profile');
         }
       });

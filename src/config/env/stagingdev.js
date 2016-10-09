@@ -69,6 +69,7 @@ module.exports = {
     }
   },
 
-  hookTimeout: 60000
+  hookTimeout: 60000,
+  segmentio_key: 'PUT_STAGING_KEY_HERE'
 
 };

@@ -1,7 +1,7 @@
 <script>
   var InitSearchFormData = {
     searchParams: <%- JSON.stringify(defaultParams) %>,
-    user: {email:"<%= user.email %>"}
+    user: {email:"<%= user.email %>", id: <%= user.id %>}
   };
   var serviceClass = <%- JSON.stringify(serviceClass) %>;
 </script>

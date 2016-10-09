@@ -77,6 +77,6 @@ module.exports = {
     exptime: 60*30 // 30 minutes
   },
 
-
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
 
 };
