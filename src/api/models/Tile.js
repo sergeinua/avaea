@@ -66,9 +66,16 @@ module.exports = {
       filters: [
       ]
     },
-    Duration: {
-      name: 'Duration',
-      id: 'duration_tile',
+    // Duration: {
+    //   name: 'Duration',
+    //   id: 'duration_tile',
+    //   order: 96,
+    //   filters: [
+    //   ]
+    // },
+    Stops: {
+      name: 'Stops',
+      id: 'stops_tile',
       order: 96,
       filters: [
       ]
@@ -528,7 +535,8 @@ module.exports = {
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
       var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      //FIXME disabled since we dont have Duration tile DEMO-678
+      // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
@@ -615,8 +623,9 @@ module.exports = {
           sails.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
-          itineraries = ranked;
+          //FIXME disabled since we dont have Duration tile DEMO-678
+          // var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
           sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
@@ -717,76 +726,11 @@ module.exports = {
       delete tmp.uniqPrice;
       delete tmp.priceNameArrTmp;
 
-      // prepare Duration tile
-      tmp.itinerariesDuration = _.sortBy(itineraries, 'durationMinutes');
-      var durationNameArr = [];
-      var fix_duration = params.flightType == "ROUND_TRIP" ? 2 : 1;
-
-      tmp.uniqDuration = _.uniq(tmp.itinerariesDuration, function(item) {
-        return tileFormatVal.roundTo30mins( item.durationMinutes );
-      });
-
-      if (tmp.uniqDuration.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
-        for (var counter = 0; counter < tmp.uniqDuration.length ; counter++) {
-          durationNameArr[counter] = tmp.uniqDuration[ counter ].durationMinutes;
-        }
-
-        for (var i = 0; i < durationNameArr.length; i++) {
-          tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, null, 1),
-            id: 'duration_tile_' + i,
-            count : 0
-          });
-        }
-      } else if (tmp.uniqDuration.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
-        tmp.durationNameArrTmp = [];
-        for (var counter = 0; counter < tmp.uniqDuration.length ; counter++) {
-          if (counter%2 == 0) {
-            durationNameArr.push( tmp.uniqDuration[ counter ].durationMinutes );
-          }
-          tmp.durationNameArrTmp[counter] = tmp.uniqDuration[ counter ].durationMinutes;
-        }
-
-        for (var i = 0, counter = 0; i < tmp.uniqDuration.length; i+=2, counter++) {
-          tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(tmp.durationNameArrTmp[i] / fix_duration, tmp.durationNameArrTmp[i+1] / fix_duration, 2),
-            id: 'duration_tile_' + counter,
-            count : 0
-          });
-        }
-      } else {
-
-        for (var counter = 0; counter < 4 ; counter++) {
-          durationNameArr[counter] = Math.floor(tmp.itinerariesDuration[ counter * N ].durationMinutes);
-        }
-        durationNameArr = _.uniq(durationNameArr);
-        for (var i = 0; i < durationNameArr.length - 1; i++) {
-          tileArr['Duration'].filters.push({
-            title:  tileFormatVal.setFilterTitleDuration(durationNameArr[i] / fix_duration, durationNameArr[i+1] / fix_duration, null),
-            id: 'duration_tile_' + i,
-            count : 0
-          });
-        }
-
-        tmp.lastDuration = tmp.itinerariesDuration[tmp.itinerariesDuration.length - 1].durationMinutes;
-        tileArr['Duration'].filters.push({
-          title:  tileFormatVal.setFilterTitleDuration(durationNameArr[durationNameArr.length - 1] / fix_duration, tmp.lastDuration / fix_duration, null),
-          id: 'duration_tile_' + (durationNameArr.length - 1),
-          count : 0
-        });
-      }
-      delete tmp.itinerariesDuration;
-      delete tmp.lastDuration;
-      delete tmp.uniqDuration;
 
       sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
       orderBy = 'price_tile';
       switch (orderBy) {
-        case 'duration_tile':
-          sails.log.info('Ordered by Duration');
-          itineraries = _.sortBy(itineraries, 'durationMinutes');
-          break;
         case 'price_tile':
           sails.log.info('Ordered by Price');
           itineraries = _.sortBy(itineraries, 'price');
@@ -838,15 +782,6 @@ module.exports = {
 
           tileArr['Price'].filters[i].count++;
           filterClass = tileArr['Price'].filters[i].id;
-        }
-
-        if (itinerary.durationMinutes) {
-          i = 0;
-          while(itinerary.durationMinutes >= durationNameArr[i+1]) {
-            i++;
-          }
-          tileArr['Duration'].filters[i].count++;
-          filterClass = filterClass + ' ' + tileArr['Duration'].filters[i].id;
         }
 
         if (itinerary.citypairs[0].from.quarter) {
@@ -932,6 +867,30 @@ module.exports = {
               }
             }
           }
+        }
+
+        var maxStops = 0;
+        _.forEach(itinerary.citypairs, function (cityPair) {
+          if (cityPair.stops.length > maxStops) {
+            maxStops = cityPair.stops.length;
+          }
+        });
+
+        if (maxStops > 2) {
+          maxStops = 3;
+        }
+
+        index = _.findIndex(tileArr['Stops'].filters, {title:tileFormatVal.getStopsTitle(maxStops)});
+        if ( index === -1 ) {
+          tileArr['Stops'].filters.push({
+            title: tileFormatVal.getStopsTitle(maxStops),
+            id: 'stops_tile_' + maxStops,
+            count : 1
+          });
+          filterClass = filterClass + ' ' + 'stops_tile_' + maxStops;
+        } else {
+          tileArr['Stops'].filters[index].count++;
+          filterClass = filterClass + ' ' + tileArr['Stops'].filters[index].id;
         }
 
         // Merchandising Fake data Issue #39
