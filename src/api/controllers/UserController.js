@@ -14,6 +14,12 @@ module.exports = {
    * `UserController.login()`
    */
   create: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     return res.ok(
       {
         title:'Create profile',
@@ -27,6 +33,12 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (!found) {
         res.redirect('create');
@@ -61,6 +73,12 @@ module.exports = {
    * `UserController.profile()`
    */
   update: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.make(req.body, req.user, function(profileFields) {
 
       Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
@@ -91,6 +109,12 @@ module.exports = {
    * @param res
    */
   removeFieldSet: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.findOneByUserId(req.user.id).exec(function (err, found) {
 
       if (!found) {
