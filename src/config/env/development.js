@@ -70,5 +70,6 @@ module.exports = {
     }
   },
 
-  hookTimeout: 120000
+  hookTimeout: 120000,
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
 };

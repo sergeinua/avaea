@@ -46,6 +46,7 @@ module.exports = {
     database: 'avaea'
   },
 
-  hookTimeout: 60000
+  hookTimeout: 60000,
+  segmentio_key: 'PUT_PRODUCTION_KEY_HERE'
 
 };
