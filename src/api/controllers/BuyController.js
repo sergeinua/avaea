@@ -120,7 +120,8 @@ module.exports = {
 
       if (err) {
         segmentio.track(req.user.id, 'Booking Failed', {error: err, params: params});
-        req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        req.session.flash = 'Something went wrong. Please try again';
         // redirect to order action, i.e. repeat request
         res.redirect(url.format({pathname: "/order", query: req.allParams()}), 302);
         return;
