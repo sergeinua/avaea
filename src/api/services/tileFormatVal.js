@@ -71,15 +71,15 @@ module.exports = {
     value1 = convertToHours(value1);
 
     // Only one fix value
-    if(res_type == 1) {
+    if (res_type == 1) {
       _res = value1;
-    }
-    else { // Two values or Range
+    } else { // Two values or Range
       _res = value1;
-      if(value2) {
+      if (value2) {
         value2 = convertToHours(value2);
-        if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : '&ndash;')+ value2;
+        if (value1 != value2) {
+          _res = _res + (res_type == 2 ? ', ' : '&ndash;') + value2;
+        }
       }
     }
 
@@ -105,11 +105,12 @@ module.exports = {
     // }
     else { // Range
       _res = '$' + value1;
-      if(value2) {
+      if (value2) {
         value2 = parseInt(value2);
-        if(value1 != value2)
-         // _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
-        	_res = _res +'&#65291;';
+        if (value1 != value2) {
+          // _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
+          _res = _res + '&#65291;';
+        }
       }
     }
 
@@ -121,18 +122,36 @@ module.exports = {
     value1 = formatMinutes(value1);
 
     // Only one fix value
-    if(res_type == 1) {
+    if (res_type == 1) {
       _res = value1;
-    }
-    else { // Two values or Range
+    } else { // Two values or Range
       _res = value1;
-      if(value2) {
+      if (value2) {
         value2 = formatMinutes(value2);
-        if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : ' &ndash; ')+ value2;
+        if (value1 != value2) {
+          _res = _res + (res_type == 2 ? ', ' : ' &ndash; ') + value2;
+        }
       }
     }
 
     return _res;
+  },
+
+  getStopsTitle: function (stops) {
+    var title = '';
+    switch (stops) {
+      case 1 :
+        title = '1 stop';
+        break;
+      case 2 :
+        title = '2 stops';
+        break;
+      case 3 :
+        title = '3+ stops';
+        break;
+      default:
+        title = 'non-stop';
+    }
+    return title;
   }
 };
