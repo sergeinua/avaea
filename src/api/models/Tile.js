@@ -535,8 +535,7 @@ module.exports = {
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
       var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-      //FIXME disabled since we dont have Duration tile DEMO-678
-      // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Price'].order, tileArr['Departure'].order, tileArr['Airline'].order);
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
@@ -623,9 +622,8 @@ module.exports = {
           sails.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          //FIXME disabled since we dont have Duration tile DEMO-678
-          // var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
-          // itineraries = ranked;
+          var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Price'].order);
+          itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
           sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
