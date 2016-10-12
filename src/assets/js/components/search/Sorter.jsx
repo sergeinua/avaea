@@ -11,6 +11,11 @@ var Sorter = React.createClass({
         title: 'Smart Rank',
         current: false,
         order: 'asc'
+      },
+      duration: {
+        title: 'Duration',
+        current: false,
+        order: 'asc'
       }
     };
     if (InitResultData.searchParams.returnDate) {
