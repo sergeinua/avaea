@@ -1,0 +1,9 @@
+{
+  "name": "ffm_programs",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Frequent flyer miles programs importer",
+  "dependencies": {
+    "request": "^2.75.0"
+  }
+}

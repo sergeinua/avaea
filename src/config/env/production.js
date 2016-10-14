@@ -47,6 +47,18 @@ module.exports = {
   },
 
   hookTimeout: 60000,
-  segmentio_key: 'PUT_PRODUCTION_KEY_HERE'
+  segmentio_key: 'PUT_PRODUCTION_KEY_HERE',
+  ffmapis: {
+    milefy: {
+      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
+      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
+      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+    },
+    wallet: {
+      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
+      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
+      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+    }
+  }
 
 };
