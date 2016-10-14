@@ -4,7 +4,8 @@ var ResultItem = React.createClass({
     return {
       sRes: this.props.itinerary,
       fullinfo: this.props.showFullInfo || false,
-      searchId: searchId
+      searchId: searchId,
+      miles: false
     };
   },
 
@@ -15,6 +16,19 @@ var ResultItem = React.createClass({
       this.setState({fullinfo: newVal});
 
       if (newVal) {
+        var ResultItem = this;
+        $.ajax({
+          url: '/ac/ffpcalculate?id=' + this.state.sRes.id,
+          type: 'get',
+        }).done(function( msg ) {
+          if( msg.error ) {
+            log("Result of 30K api: " + JSON.stringify(msg));
+          } else {
+            var miles = msg.miles || 0;
+            ResultItem.setState({miles: miles});
+          }
+        });
+
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
           itinerary: {
@@ -62,50 +76,50 @@ var ResultItem = React.createClass({
     var showNoStops = this.showNoStops;
     return (
       <div id={this.state.sRes.id} className={"col-xs-12 itinerary " + this.state.sRes.filterClass}>
-      
-    <div className="summary">  
-	    <div className="row title">
-	      <div className="col-xs-12 itinerary-airline col-from-to">
-	        <span className="itinerary-airline-icon"
-	              style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}
-	              alt={ this.state.sRes.citypairs[0].from.airlineCode }
-	              title={ this.state.sRes.citypairs[0].from.airline }>
-	        </span>
-	        <span className="airline-text">{ this.state.sRes.citypairs[0].from.airline }</span>
-	        {this.showThumbsUp()}
-	        <span className="static-price">{this.showPrice()}</span>
-	      </div>
-	    </div>
 
-	    <div className="row">
-	      <div className="col-xs-9"  id={ this.state.sRes.id } onClick={this.toggleFullInfo()}>
-	        { this.state.sRes.citypairs.map(function (pair, i) {
-	        return <div className="itinerary-info" key={"itin-info-" +  i}>
-	          <div className="col-xs-3 departLoc">
-	            {pair.from.time + ' ' + pair.from.code}</div>
-	          <div className="col-xs-2 connections text-center">{showNoStops(pair)}</div>
-	          <div className="col-xs-3 arriveLoc">{ pair.to.time + ' ' + pair.to.code }</div>
-	          <div className="col-xs-3 duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
-	        </div>
-	        }) }
-	      </div>
+    <div className="summary">
+      <div className="row title">
+        <div className="col-xs-12 itinerary-airline col-from-to">
+          <span className="itinerary-airline-icon"
+                style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}
+                alt={ this.state.sRes.citypairs[0].from.airlineCode }
+                title={ this.state.sRes.citypairs[0].from.airline }>
+          </span>
+          <span className="airline-text">{ this.state.sRes.citypairs[0].from.airline }</span>
+          {this.showThumbsUp()}
+          <span className="static-price">{this.showPrice()}</span>
+        </div>
+      </div>
 
-	      <div className="col-xs-3 buy-button">
-	        <div className="btn-group text-nowrap buy-button-group">
-	          <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.state.sRes.id, this.state.searchId, false)}>{this.showPrice()}</button>
-	          <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	            <span className="caret"></span>
-	          </button>
-	          <ul className="dropdown-menu">
-	            <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.state.sRes.id, this.state.searchId, true)} className="our-dropdown text-center">or better</a></li>
-	          </ul>
-	        </div>
-	      </div>
-	    </div>
+      <div className="row">
+        <div className="col-xs-9"  id={ this.state.sRes.id } onClick={this.toggleFullInfo()}>
+          { this.state.sRes.citypairs.map(function (pair, i) {
+          return <div className="itinerary-info" key={"itin-info-" +  i}>
+            <div className="col-xs-3 departLoc">
+              {pair.from.time + ' ' + pair.from.code}</div>
+            <div className="col-xs-2 connections text-center">{showNoStops(pair)}</div>
+            <div className="col-xs-3 arriveLoc">{ pair.to.time + ' ' + pair.to.code }</div>
+            <div className="col-xs-3 duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
+          </div>
+          }) }
+        </div>
+
+        <div className="col-xs-3 buy-button">
+          <div className="btn-group text-nowrap buy-button-group">
+            <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.state.sRes.id, this.state.searchId, false)}>{this.showPrice()}</button>
+            <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span className="caret"></span>
+            </button>
+            <ul className="dropdown-menu">
+              <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.state.sRes.id, this.state.searchId, true)} className="our-dropdown text-center">or better</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
 
     { (this.state.fullinfo ?
-      <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information}/>
+      <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information} miles={this.state.miles}/>
       : null
     )}
 
