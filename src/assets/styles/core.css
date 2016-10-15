@@ -391,7 +391,8 @@
 	border-bottom-right-radius: 6px;
 }
 
-.desktop .booking-success .notable-area .details,
+.desktop .notable-area .details,
+.booking-success .notable-area .details,
 .desktop .booking-success .notable-area .refundable,
 .desktop .booking-success .notable-area .ff-miles {
 	font-size: 14px;
@@ -2380,6 +2381,10 @@ td[data-action*="selectDay"] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.notable-area .refundable {
+	margin: 10px 0 0 -20px;
+}
+
 .notable-area .ff-miles {
 	margin: 5px 0 0 -20px;
 	position: relative;
@@ -2389,10 +2394,6 @@ td[data-action*="selectDay"] {
 	font-size: 24px;
 		top: 4px;
     left: -5px;
-}
-
-.notable-area .refundable {
-	margin: 10px 0 0 -20px
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2599,6 +2600,11 @@ td[data-action*="selectDay"] {
 
 .booking-success .notable-area .details {
 	font-size: 13px;
+}
+
+.booking .ff-miles,
+.booking .refundable {
+	margin-left: 0;
 }
 
 .booking-success .long-date {
