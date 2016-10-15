@@ -82,6 +82,10 @@
 	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.desktop .login-holder .message-info {
+	margin-top: 30px;
+}
+
 .desktop .login-holder:after {
 	bottom: -1px;
 	background-size: 65%;
@@ -905,7 +909,8 @@ form label.required:before,
 
 /* highlight */
 
-.has-error .form-control {
+.has-error .form-control,
+.message-info {
 	background: #ffffde;
 }
 
@@ -1150,12 +1155,19 @@ textarea {
 	background-size: 110%;
 }
 
-.form-signin-heading {
-	margin-top: 3em;
-}
-
 .login-holder .big-button {
 	width: 280px;
+}
+
+.login-holder .message-info {
+	font-size: 16px;
+	margin: 100px 0 30px 0;
+	padding: 20px;
+}
+
+.login-holder .message-info a {
+	text-decoration: underline;
+	padding-top: 5px;
 }
 
 
@@ -2356,6 +2368,21 @@ td[data-action*="selectDay"] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
+.notable-area .ff-miles {
+	margin: 5px 0 0 -20px;
+	position: relative;
+}
+
+.notable-area .icon-spinner {
+	font-size: 24px;
+		top: 4px;
+    left: -5px;
+}
+
+.notable-area .refundable {
+	margin: 10px 0 0 -20px
+}
+
 .notable-area .col-xs-3.flight-no {
 	text-align: left;
 	width: 20%;
@@ -2938,6 +2965,10 @@ body.desktop form.profile {
 @media screen and (min-aspect-ratio: 13/9) {
 
 	/* have to add .touch to restrict */
+	
+	.touch .login-holder .message-info {
+		margin: 50px 0 30px 0;
+	}
 
 	.touch .form-signin-heading {
 		margin: 1em auto 0 auto;
@@ -2948,7 +2979,7 @@ body.desktop form.profile {
 	}
 
 	.touch.android .login-holder:after {
-		bottom: -25px;
+		display: none;
 	}
 
 	.touch.android .form-signin-heading {
