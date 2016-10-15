@@ -391,8 +391,15 @@
 	border-bottom-right-radius: 6px;
 }
 
-.desktop .notable-area .details {
+.desktop .booking-success .notable-area .details,
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
 	font-size: 14px;
+}
+
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
+	margin-left: 0;
 }
 
 .desktop .itinerary .row.title {
@@ -1800,6 +1807,11 @@ td[data-action*="selectDay"] {
     transform: rotate(45deg);
 }
 
+.ff-miles .icon-spinner:before {
+	right: 0;
+	top: 0;
+}
+
 
 /* ------- results ------- */
 
@@ -2516,6 +2528,11 @@ td[data-action*="selectDay"] {
 		left: 19px;
 }
 
+.booking-success .refundable,
+.booking-success .ff-miles {
+	font-size: 12px;
+}
+
 .booking-success .success.ti:before {
 	font-size: 24px;
 	position: absolute;
@@ -2565,7 +2582,7 @@ td[data-action*="selectDay"] {
 
 .confirm-code .number {
 	font-family: 'Open-Sans-Bold';
-	padding-left: 5px;
+	padding-left: 3px;
 }
 
 .booking-success .flight-unit .itinerary {
