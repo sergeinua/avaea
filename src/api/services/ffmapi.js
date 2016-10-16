@@ -128,7 +128,7 @@ module.exports = {
         };
         if (!lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
           result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
-            if (filteredResult.miles < miles.val) {
+            if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
               filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
               filteredResult.miles = miles.val;
               filteredResult.ProgramCode = result.Value.flts[0].aprg[0].pc;
