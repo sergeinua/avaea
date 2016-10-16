@@ -387,8 +387,16 @@
 	border-bottom-right-radius: 6px;
 }
 
-.desktop .notable-area .details {
+.desktop .notable-area .details,
+.booking-success .notable-area .details,
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
 	font-size: 14px;
+}
+
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
+	margin-left: 0;
 }
 
 .desktop .itinerary .row.title {
@@ -1150,6 +1158,16 @@ textarea {
 	background-size: 110%;
 }
 
+.login-invite-only {
+	line-height: 20px;
+	margin: 10px 0;
+}
+
+.login-invite-only a {
+	text-decoration: underline;
+	display: block;
+}
+
 .form-signin-heading {
 	margin-top: 3em;
 }
@@ -1788,6 +1806,11 @@ td[data-action*="selectDay"] {
     transform: rotate(45deg);
 }
 
+.ff-miles .icon-spinner:before {
+	right: 0;
+	top: 0;
+}
+
 
 /* ------- results ------- */
 
@@ -2356,6 +2379,21 @@ td[data-action*="selectDay"] {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+.notable-area .refundable {
+	margin: 10px 0 0 -20px;
+}
+
+.notable-area .ff-miles {
+	margin: 5px 0 0 -20px;
+	position: relative;
+}
+
+.notable-area .icon-spinner {
+	font-size: 24px;
+		top: 4px;
+    left: -5px;
+}
+
 .notable-area .col-xs-3.flight-no {
 	text-align: left;
 	width: 20%;
@@ -2489,6 +2527,11 @@ td[data-action*="selectDay"] {
 		left: 19px;
 }
 
+.booking-success .refundable,
+.booking-success .ff-miles {
+	font-size: 12px;
+}
+
 .booking-success .success.ti:before {
 	font-size: 24px;
 	position: absolute;
@@ -2538,7 +2581,7 @@ td[data-action*="selectDay"] {
 
 .confirm-code .number {
 	font-family: 'Open-Sans-Bold';
-	padding-left: 5px;
+	padding-left: 3px;
 }
 
 .booking-success .flight-unit .itinerary {
@@ -2555,6 +2598,11 @@ td[data-action*="selectDay"] {
 
 .booking-success .notable-area .details {
 	font-size: 13px;
+}
+
+.booking .ff-miles,
+.booking .refundable {
+	margin-left: 0;
 }
 
 .booking-success .long-date {
@@ -2940,11 +2988,11 @@ body.desktop form.profile {
 	/* have to add .touch to restrict */
 
 	.touch .form-signin-heading {
-		margin: 1em auto 0 auto;
+		margin: 70px auto 0 auto;
 	}
 
 	.touch .login-holder:after {
-		background-size: 70%;
+		background-size: 60%;
 	}
 
 	.touch.android .login-holder:after {
