@@ -79,7 +79,7 @@
 	text-align: left;
 	padding-bottom: 70px;
 	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop .login-holder:after {
@@ -140,7 +140,7 @@
 }
 
 .desktop .tt-suggestion.tt-selectable {
-	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop #search_title input[type=text] {
@@ -371,7 +371,7 @@
 	float: none;
 	width: 60%;
 	background: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 6px;
 }
 
@@ -452,7 +452,7 @@
 	margin: 0;
 	text-align: left;
 	padding: 20px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop .flight-unit .notable-area .section {
@@ -932,7 +932,7 @@ form label.required:before,
 .big-button.disabled,
 .small-button.disabled,
 .tertiary-button.disabled {
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 
@@ -958,7 +958,7 @@ input,
 textarea {
 	color: #000000;
 	background: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
 }
 
@@ -997,7 +997,7 @@ textarea {
 
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text {
-	color: #bbb;
+	color: #a2a2a2;
 }
 
 .tt-hint,
@@ -1005,7 +1005,7 @@ textarea {
 .small-button.disabled,
 .disabled,
 .ie-fixer.placeholder {
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 .big-button.disabled,
@@ -1013,13 +1013,13 @@ textarea {
 .small-button.disabled,
 .small-button.disabled:hover {
 	cursor: default;
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 ::-webkit-input-placeholder,
 :-ms-input-placeholder,
 ::-ms-input-placeholder {
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 .label-d {
@@ -1350,7 +1350,7 @@ textarea {
 	font-size: 16px;
 	text-align: left;
 	padding: 15px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.3);
 	border-top: 0px solid transparent;
 }
 
@@ -1441,7 +1441,7 @@ strong.tt-highlight {
 	font-family: 'Open-Sans-Semibold';
 	padding-top: 18px;
   height: 50px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flight-additional-info .text-picker {
@@ -1685,7 +1685,7 @@ td[data-action*="selectDay"] {
 
 .modal-content .buttons-bar {
 	text-align: center;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .modal-content .buttons-bar .big-button {
@@ -2193,7 +2193,7 @@ td[data-action*="selectDay"] {
 	cursor: pointer;
 	font-size: 13px;
   padding: 5px 0 0 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flights .col-xs-9 {
@@ -2353,7 +2353,7 @@ td[data-action*="selectDay"] {
 	margin-right: -20px;
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2513,8 +2513,8 @@ td[data-action*="selectDay"] {
 	margin-top: 15px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .booking-success .confirm-message .copy,
@@ -2550,7 +2550,7 @@ td[data-action*="selectDay"] {
 	line-height: 1em;
 	text-align: left;
 	padding: 10px 40px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .booking-success .notable-area .details {
@@ -2601,7 +2601,7 @@ td[data-action*="selectDay"] {
 /* flight unit */
 
 .flight-unit {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flight-unit .col-xs-9 {
@@ -2827,7 +2827,7 @@ td[data-action*="selectDay"] {
 }
 
 .form-control {
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .panel-default > .panel-heading {
