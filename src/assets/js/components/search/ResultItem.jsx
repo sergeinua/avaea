@@ -22,11 +22,15 @@ var ResultItem = React.createClass({
           type: 'get',
         }).done(function( msg ) {
           if( msg.error ) {
-            log("Result of 30K api: " + JSON.stringify(msg));
+            console.log("Result of 30K api: " + JSON.stringify(msg));
+            ResultItem.setState({miles: 0});
           } else {
             var miles = msg.miles || 0;
             ResultItem.setState({miles: miles});
           }
+        }).fail(function(err) {
+          console.log("Result of 30K api: " + JSON.stringify(err));
+          ResultItem.setState({miles: 0});
         });
 
         logAction('on_itinerary_purchase', {
