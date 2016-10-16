@@ -9,6 +9,31 @@ var ResultItem = React.createClass({
     };
   },
 
+  componentDidMount: function () {
+    if (this.state.fullinfo) {
+      this.getMilesInfo();
+    }
+  },
+
+  getMilesInfo: function () {
+    var ResultItem = this;
+    $.ajax({
+      url: '/ac/ffpcalculate?id=' + this.state.sRes.id,
+      type: 'get',
+    }).done(function( msg ) {
+      if( msg.error ) {
+        console.log("Result of 30K api: " + JSON.stringify(msg));
+        ResultItem.setState({miles: 0});
+      } else {
+        var miles = msg.miles || 0;
+        ResultItem.setState({miles: miles});
+      }
+    }).fail(function(err) {
+      console.log("Result of 30K api: " + JSON.stringify(err));
+      ResultItem.setState({miles: 0});
+    });
+  },
+
   toggleFullInfo: function () {
     var itineraryId = this.state.sRes.id;
     return function() {
@@ -16,22 +41,7 @@ var ResultItem = React.createClass({
       this.setState({fullinfo: newVal});
 
       if (newVal) {
-        var ResultItem = this;
-        $.ajax({
-          url: '/ac/ffpcalculate?id=' + this.state.sRes.id,
-          type: 'get',
-        }).done(function( msg ) {
-          if( msg.error ) {
-            console.log("Result of 30K api: " + JSON.stringify(msg));
-            ResultItem.setState({miles: 0});
-          } else {
-            var miles = msg.miles || 0;
-            ResultItem.setState({miles: miles});
-          }
-        }).fail(function(err) {
-          console.log("Result of 30K api: " + JSON.stringify(err));
-          ResultItem.setState({miles: 0});
-        });
+        this.getMilesInfo();
 
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
