@@ -166,6 +166,8 @@ module.exports = {
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
     }
+    segmentio.track(req.user.id, 'Keyboard Search', {Search: params});
+
     // title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
