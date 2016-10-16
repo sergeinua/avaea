@@ -10,6 +10,7 @@ var lodash = require('lodash');
 
 module.exports = {
   AccrualTypes: {
+    0: 'Unknown',
     1: 'RDM. Redeemable miles usually by default.',
     2: 'EQM. Elite qualifying miles by default.',
     3: 'EQS. Elite qualifying segments by default.',
@@ -118,12 +119,17 @@ module.exports = {
           sails.log.error('30K api', body);
           return cb({msg: result.Status.Message}, response, body);
         }
+        sails.log.info('Respose 30K api:', JSON.stringify(body));
         // return only one result
-        var filteredResult = {};
+        var filteredResult = {
+          AccrualType: ffmapi.AccrualTypes[0],
+          miles: 0,
+          ProgramCode:''
+        };
         if (!lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
-          result.Value.flts[0].aprg[0].mi.forEach (function (miles) {
-            if (miles.at == '2') {
-              filteredResult.AccrualType = ffmapi.AccrualTypes[2];
+          result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
+            if (filteredResult.miles < miles.val) {
+              filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
               filteredResult.miles = miles.val;
               filteredResult.ProgramCode = result.Value.flts[0].aprg[0].pc;
             }
