@@ -3,11 +3,12 @@
 
   <div class="login-holder">
   
-    <div class="message-info">
-      <div>Authorization to login is by invitation only. </div>  
-      <div><a class="mail-link" href="mailto:contacts@avaea.com?subject=Request%20authorization%20to%20avaea.com&body=I%20would%20like%20authorization%20to%20view%20avaea.com.">Request authorization</a></div>    
-    </div>
     <h2 class="form-signin-heading">Please sign in</h2>
+    <div class="login-invite-only">
+      <div>Authorization to login is by invitation only. 
+      <a class="mail-link" href="mailto:contacts@avaea.com?subject=Request%20authorization%20for%20avaea.com&body=I%20would%20like%20authorization%20to%20view%20avaea.com.">Request authorization</a></div>    
+    </div>
+    
 
     <% Object.keys(providers).forEach(function (key) { %>
     <% if (key == 'google') { %>
