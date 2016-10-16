@@ -236,7 +236,7 @@ module.exports = {
    * @returns {string}
    */
   getHeadContent: function(searchId) {
-    //FIXME html in model is bad idea
+    //FIXME html in model is bad idea (addition from Deborah, "yes! please don't do, add new styles to 'for-integration.css' instead")
     return '<div class="back-history" style="display: inline-block;" onclick="window.location.href=\'/result?s='+searchId+'\'">Back</div>';
   },
 
