@@ -2391,7 +2391,7 @@ td[data-action*="selectDay"] {
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-	border-top: 1px dashed rgba(0, 0, 0, .15);
+	border-top: 1px dashed rgba(0, 0, 0, .2);
 }
 
 .notable-area .refundable {
@@ -2402,7 +2402,7 @@ td[data-action*="selectDay"] {
 .notable-area .ff-miles.no-value {
 	margin: -1px 0 0 -40px;
 	position: relative;
-	border-bottom: 1px dashed rgba(0, 0, 0, .15);
+	border-bottom: 1px dashed rgba(0, 0, 0, .2);
 }
 
 .notable-area .ff-miles {
