@@ -399,6 +399,17 @@
 	margin-left: 0;
 }
 
+.desktop .notable-area .ff-miles, 
+.desktop .notable-area .ff-miles.no-value {
+    margin-left: -40px;
+		margin-right: -40px;
+}
+
+.notable-area .details .col-xs-2.dest, 
+.notable-area .col-xs-3.direction {
+	text-transform: none;
+}
+
 .desktop .itinerary .row.title {
 	font-size: 16px;
 	margin-left: -20px;
@@ -1806,9 +1817,12 @@ td[data-action*="selectDay"] {
     transform: rotate(45deg);
 }
 
+
 .ff-miles .icon-spinner:before {
-	right: 0;
-	top: 0;
+    right: 0;
+    top: 0;
+}
+
 }
 
 
@@ -2377,21 +2391,32 @@ td[data-action*="selectDay"] {
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	border-top: 1px dashed rgba(0, 0, 0, .15);
 }
 
 .notable-area .refundable {
-	margin: 10px 0 0 -20px;
+	margin: 15px 0 0 -20px;
+}
+
+.notable-area .ff-miles,
+.notable-area .ff-miles.no-value {
+	margin: -1px 0 0 -40px;
+	position: relative;
+	border-bottom: 1px dashed rgba(0, 0, 0, .15);
 }
 
 .notable-area .ff-miles {
-	margin: 5px 0 0 -20px;
-	position: relative;
+	padding: 10px 0 5px 0;
+}
+
+.notable-area .ff-miles.no-value {
+	padding: 0 0 6px 0;
 }
 
 .notable-area .icon-spinner {
 	font-size: 24px;
-		top: 4px;
-    left: -5px;
+		top: 5px;
+    left: 5px;
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2419,6 +2444,8 @@ td[data-action*="selectDay"] {
 
 .notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
+	font-family: 'Open-Sans-semibold';
+	text-transform: uppercase;
 	width: 17%;
 }
 
@@ -3183,6 +3210,11 @@ body.desktop form.profile {
 
 	.touch .flight-unit .notable-area .details .col-xs-2.length {
 		padding-right: 5px;
+	}
+	
+	.touch .itinerary-info .col-xs-3.departLoc, 
+	.touch .itinerary-info .col-xs-3.arriveLoc {
+		padding-left: 20px;
 	}
 
 }

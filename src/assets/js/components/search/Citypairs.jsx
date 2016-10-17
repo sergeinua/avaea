@@ -10,12 +10,15 @@ var Citypairs = React.createClass({
     return (
       <div className="row notable-area">
         {this.props.miles === false ?
-          <div className="ff-miles">
+          <div className="ff-miles no-value">
+            Frequent Flyer miles
             <div className="icon-spinner"></div>
-            calculating miles
           </div>
           :
-          <div className="ff-miles">{this.props.miles + ' miles'}</div>
+          <div className="ff-miles">
+            <span className="ff-program">{'Placeholder Program Name' + ' - '}</span>
+            <span className="ff-count">{this.props.miles + ' miles'}</span>
+          </div>
         }
         {this.state.citypairs.map(function (pair, i) {
             i++;
