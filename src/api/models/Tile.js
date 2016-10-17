@@ -558,17 +558,6 @@ module.exports = {
           next_rank++;
         }
       }
-      //DEMO-285 temporary shrink result based on smart rank
-      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
-        sails.log.info('params.topSearchOnly', params.topSearchOnly);
-        var tmp = [];
-        for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-          tmp.push(itineraries[i]);
-        }
-        sails.log.info('before DEMO-285', itineraries.length);
-        itineraries = tmp;
-        sails.log.info('after DEMO-285', itineraries.length);
-      }
     } else {
       var _itineraries = _.clone(itineraries, true);
       sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
@@ -589,7 +578,17 @@ module.exports = {
         var itin_index = ID.indexOf(itin_id);
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
-
+    }
+    //DEMO-285 temporary shrink result based on smart rank
+    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+      sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      var tmp = [];
+      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
+        tmp.push(itineraries[i]);
+      }
+      sails.log.info('before DEMO-285', itineraries.length);
+      itineraries = tmp;
+      sails.log.info('after DEMO-285', itineraries.length);
     }
     //cicstanford.print_many_itineraries(itineraries);
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));

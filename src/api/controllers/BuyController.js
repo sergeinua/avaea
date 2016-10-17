@@ -96,7 +96,6 @@ module.exports = {
             {
               user: req.user,
               reqParams: reqParams,
-              head_content: Search.getHeadContent(req.param('searchId')),
               order:[logData.itinerary]
             },
             'order'
