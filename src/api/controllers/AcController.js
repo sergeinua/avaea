@@ -203,6 +203,33 @@ module.exports = {
         tokens: row.city.toLowerCase().split(/\s+/).concat(row.name.toLowerCase().split(/\s+/).concat([row.iata_3code.toLowerCase()]))
       };
     }
-  }
+  },
+
+  airlines: function (req, res) {
+
+    // Trim left whitespaces
+    var _query = req.param('q').replace(/^\s*/,"");
+
+    Airlines.find({
+      where: {
+        'name': {'startsWith': _query},
+        'active': true
+      },
+      sort: 'name',
+      limit: 10
+    }).exec(function (err, found) {
+      if (!err && found.length) {
+        for (var i = 0; i < found.length; i++) {
+          found[i] = {
+            name: found[i].name,
+          }
+        }
+        return res.json(found);
+      }
+      else {
+        return res.json([]);
+      }
+    });
+  },
 };
 
