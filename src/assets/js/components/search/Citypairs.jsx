@@ -21,7 +21,7 @@ var Citypairs = React.createClass({
       </div>
     }
     // 0 result or error
-    return <div className="ff-miles">No miles found for this flight</div>
+    return <div className="ff-miles none">No Frequent Flyer miles</div>
   },
 
   render: function() {
