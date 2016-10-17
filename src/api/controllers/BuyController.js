@@ -119,11 +119,14 @@ module.exports = {
     var parseFlightBooking = function (err, result) {
 
       if (err) {
-        req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        segmentio.track(req.user.id, 'Booking Failed', {error: err, params: params});
+        // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        req.session.flash = 'Something went wrong. Your credit card wasn\'t charged. Please try again';
         // redirect to order action, i.e. repeat request
-        res.redirect(url.format({pathname: "/order", query: req.allParams()}));
+        res.redirect(url.format({pathname: "/order", query: req.allParams()}), 302);
         return;
       }
+      segmentio.track(req.user.id, 'Booking Succeeded', {params: params, result: result});
       sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';

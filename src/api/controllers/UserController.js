@@ -14,6 +14,12 @@ module.exports = {
    * `UserController.login()`
    */
   create: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     return res.ok(
       {
         title:'Create profile',
@@ -27,23 +33,31 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (!found) {
         res.redirect('create');
-      }
-      else {
+      } else {
         // Assign fields for the view
         var profile_fields = {};
-        for(var prop in found) {
-          if(!found.hasOwnProperty(prop))
+        for (var prop in found) {
+          if (!found.hasOwnProperty(prop)) {
             continue;
-          if(typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()==""))
+          }
+          if (typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()=="")) {
             profile_fields[prop] = '';
-          else
+          } else {
             profile_fields[prop] = found[prop];
+          }
         }
-        if(typeof profile_fields.birthday == 'object')
+        if (typeof profile_fields.birthday == 'object') {
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
+        }
 
         return res.ok(
           {
@@ -61,6 +75,12 @@ module.exports = {
    * `UserController.profile()`
    */
   update: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.make(req.body, req.user, function(profileFields) {
 
       Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
@@ -73,6 +93,9 @@ module.exports = {
 
           });
         } else {
+          var _user = req.user;
+          _user.profileFields = profileFields;
+          segmentio.identify(req.user.id, _user);
           res.redirect('/profile');
         }
       });
@@ -88,6 +111,12 @@ module.exports = {
    * @param res
    */
   removeFieldSet: function (req, res) {
+    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+    if (!req.session.authenticated || !req.user) {
+      return res.redirect('/login');
+    }
+    //end of temp fix
+
     Profile.findOneByUserId(req.user.id).exec(function (err, found) {
 
       if (!found) {
