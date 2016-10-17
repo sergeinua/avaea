@@ -124,18 +124,31 @@ module.exports = {
         var filteredResult = {
           AccrualType: ffmapi.AccrualTypes[0],
           miles: 0,
-          ProgramCode:''
+          ProgramCode:'',
+          ProgramCodeName:''
         };
         if (!lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
           result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
-            if (filteredResult.miles < miles.val) {
+            if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
               filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
               filteredResult.miles = miles.val;
               filteredResult.ProgramCode = result.Value.flts[0].aprg[0].pc;
             }
           });
         }
-        return cb(null, response, filteredResult);
+        if (filteredResult.ProgramCode) {
+
+          FFMPrograms.findOne({program_code: filteredResult.ProgramCode}).exec(function findOneCB(err, found) {
+              if (found) {
+                filteredResult.ProgramCodeName = found.program_name;
+                return cb(null, response, filteredResult);
+              }
+            }
+          );
+
+        } else {
+          return cb(null, response, filteredResult);
+        }
       });
     },
 
