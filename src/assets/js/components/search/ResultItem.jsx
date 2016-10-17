@@ -23,14 +23,27 @@ var ResultItem = React.createClass({
     }).done(function( msg ) {
       if( msg.error ) {
         console.log("Result of 30K api: " + JSON.stringify(msg));
-        ResultItem.setState({miles: 0});
+        ResultItem.setState({
+          miles: {
+            value: 0,
+            name: ''
+          }
+        });
       } else {
         var miles = msg.miles || 0;
-        ResultItem.setState({miles: miles});
+        ResultItem.setState({miles: {
+          value: miles,
+          name: msg.ProgramCodeName
+        }});
       }
     }).fail(function(err) {
       console.log("Result of 30K api: " + JSON.stringify(err));
-      ResultItem.setState({miles: 0});
+      ResultItem.setState({
+        miles: {
+          value: 0,
+          name: ''
+        }
+      });
     });
   },
 

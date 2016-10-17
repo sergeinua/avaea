@@ -6,20 +6,28 @@ var Citypairs = React.createClass({
     };
   },
 
+  showFMiles: function(miles) {
+    if( miles === false ) {
+      // spinner here
+      return <div className="ff-miles no-value">
+        Frequent Flyer miles
+        <div className="icon-spinner"></div>
+      </div>
+    } else if (miles.value > 0) {
+      // successful result
+      return <div className="ff-miles">
+        <span className="ff-program">{miles.name + ' - '}</span>
+        <span className="ff-count">{miles.value + ' miles'}</span>
+      </div>
+    }
+    // 0 result or error
+    return <div className="ff-miles">No miles found for this flight</div>
+  },
+
   render: function() {
     return (
       <div className="row notable-area">
-        {this.props.miles === false ?
-          <div className="ff-miles no-value">
-            Frequent Flyer miles
-            <div className="icon-spinner"></div>
-          </div>
-          :
-          <div className="ff-miles">
-            <span className="ff-program">{'Placeholder Program Name' + ' - '}</span>
-            <span className="ff-count">{this.props.miles + ' miles'}</span>
-          </div>
-        }
+        {this.showFMiles(this.props.miles)}
         {this.state.citypairs.map(function (pair, i) {
             i++;
             return  <div className="section" key={i}><div className="row title">
