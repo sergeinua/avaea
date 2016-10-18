@@ -25,10 +25,8 @@ var SearchFormPage = React.createClass({
       let formValues = {
         DepartureLocationCode: ($('#originAirport').length ? $('#originAirport').val():''),
         departCity: ($('#originAirportCity').length ? $('#originAirportCity').val():''),
-        // departCity: ($('#originAirport').data('city') ? $('#originAirport').data('city'):''),
         ArrivalLocationCode: ($('#destinationAirport').length ? $('#destinationAirport').val():''),
         arrivCity: ($('#destinationAirportCity').length ? $('#destinationAirportCity').val():''),
-        // arrivCity: ($('#destinationAirport').data('city') ? $('#destinationAirport').data('city'):''),
         departureDate: ($('#departureDate').length ? $('#departureDate').val():''),
         returnDate: ($('#returnDate').length ? $('#returnDate').val():''),
         preferedClass: ($('#preferedClass').length ? $('#preferedClass').val():''),

@@ -26,7 +26,6 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
 var setAirportData = function(target, data) {
   //FIXME get rid from jquery
   $('#' + target).val(data.value);
-  // $('#' + target).data('city', data.city);
   $('#'+target+'City').val(data.city);
 };
 
