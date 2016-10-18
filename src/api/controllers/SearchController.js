@@ -272,6 +272,12 @@ module.exports = {
               _tiles = [];
             } else {
               itineraries = _itineraries;
+
+              // Sort filters #DEMO-685
+              _tiles.forEach(function (tile) {
+                  tile.filters = _.sortBy(tile.filters, 'order');
+              });
+
               UserAction.saveAction(req.user, 'order_tiles', _tiles);
             }
             sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
