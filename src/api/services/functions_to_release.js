@@ -22,7 +22,7 @@ module.exports = {
         d.setMinutes(parseInt(time[3],10) || 0);
         d.setSeconds(0, 0);
         return d;
-    },
+    }, // end of function parseTime
 
     compute_departure_times_in_minutes: function (itins)
     // adds a new field to the array of itineraries: depatureMinutes
@@ -32,28 +32,28 @@ module.exports = {
             var d = this.parseTime(itins[i].citypairs[0].from.time);
             itins[i].depatureMinutes = d.getHours() *60 + d.getMinutes();
         }
-    },
+    }, // end of function compute_departure_times_in_minutes
 
     determine_airline: function (itins)
     // adds a new field to the array of itineraries: air_line
     {
         for(var i=0; i<itins.length; i++)
             itins[i].air_line = itins[i].citypairs[0].flights[0].abbrNumber.substring(0,2); // first two characters
-    },
+    }, // end of function determine_airline
 
     determine_airline_preferences: function (itins)
     // adds a new field to the array of itineraries: air_line_pref (the smaller the value, the better the airline is)
     {
-        light_output = false;
+        var light_output = false;
 
-        AL = itins.map(function(it){return it.air_line}); // extract all the airlines into a separate array
+        var AL = itins.map(function(it){return it.air_line}); // extract all the airlines into a separate array
         if (light_output)
         {
             console.log("Decoded airlines in the original order :");
             console.log(AL);
         }
 
-        AL_counts = {};
+        var AL_counts = {};
         AL.forEach(function(x) { AL_counts[x] = (AL_counts[x] || 0)+1; });
         if (light_output)
         {
@@ -61,7 +61,7 @@ module.exports = {
             console.log(AL_counts);
         }
 
-        AL_counts_keysSorted = Object.keys(AL_counts).sort(function(a,b){return AL_counts[b]-AL_counts[a]});
+        var AL_counts_keysSorted = Object.keys(AL_counts).sort(function(a,b){return AL_counts[b]-AL_counts[a]});
         if (light_output)
         {
             console.log("Airlines sorted by popularity:");
@@ -78,7 +78,7 @@ module.exports = {
             {
                 if (AL_counts[value_ALname]!=0)
                 {
-                    idx = AL.indexOf(value_ALname); // search for the airline in the original list
+                    var idx = AL.indexOf(value_ALname); // search for the airline in the original list
                     preferred_airline_indices.push(idx); // save its position
                     AL[idx] = "00"; // replace with dummy airline
                     AL_counts[value_ALname]--; // decrease the count
@@ -99,16 +99,16 @@ module.exports = {
         }
 
         return preferred_airline_indices;
-    },
+    }, // end of function determine_airline_preferences
 
     print_one_itinerary: function (prefix,itin)
     {
-        d = this.parseTime(itin.citypairs[0].from.time);
+        var d = this.parseTime(itin.citypairs[0].from.time);
 
-        dep_rank_str = (itin.best_dep_rank===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
-        air_line_str = (itin.air_line===undefined)?(""):(" on " + itin.air_line);
-        airl_rank_str = (itin.best_airl_rank===undefined)?(""):(" with airl_rank " + itin.best_airl_rank);
-        smartRank_str = (itin.smartRank===undefined)?(""):(", smartRank = " + itin.smartRank);
+        var dep_rank_str = (itin.best_dep_rank===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
+        var air_line_str = (itin.air_line===undefined)?(""):(" on " + itin.air_line);
+        var airl_rank_str = (itin.best_airl_rank===undefined)?(""):(" with airl_rank " + itin.best_airl_rank);
+        var smartRank_str = (itin.smartRank===undefined)?(""):(", smartRank = " + itin.smartRank);
 
         console.log( prefix + "$" + itin.price
                             + ", " + itin.durationMinutes + " mins"
@@ -120,7 +120,7 @@ module.exports = {
                             + airl_rank_str
                             + smartRank_str
                    );
-    },
+    }, // end of function print_one_itinerary
 
     print_many_itineraries: function (itins)
     {
@@ -129,7 +129,7 @@ module.exports = {
         if (itins.length > 1)
             for(var i=0; i<itins.length; i++)
                 this.print_one_itinerary("Itinerary " + i + " of " + itins.length + ": ", itins[i]);
-    },
+    }, // end of function print_many_itineraries
 
     compare_price: function (a, b) // price is a string
     {
@@ -138,12 +138,12 @@ module.exports = {
         if (a_price > b_price) return 1;
         else if (a_price < b_price) return -1;
         return 0;
-    },
+    }, // end of function compare_price
 
     sort_by_increasing_price: function (itins)
     {
         itins.sort(this.compare_price);
-    },
+    }, // end of function sort_by_increasing_price
 
     compare_in_price_by_distance_from_median: function (median) // compare by distance from the median
     {
@@ -156,12 +156,12 @@ module.exports = {
             else if (a_distance_from_median < b_distance_from_median) return -1;
             return 0;
         }
-    },
+    }, // end of function compare_in_price_by_distance_from_median
 
     median_in_price: function (itins)
     // https://en.wikipedia.org/wiki/Median
     {
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort(this.compare_price);
 
         var center_index = Math.floor(itins_loc.length/2);
@@ -170,14 +170,14 @@ module.exports = {
             return +itins_loc[center_index].price;
         else
             return (+itins_loc[center_index-1].price + +itins_loc[center_index].price) / 2.0;
-    },
+    }, // end of function median_in_price
 
     median_absolute_deviation_in_price: function (itins)
     // https://en.wikipedia.org/wiki/Median_absolute_deviation
     {
         var median_price = this.median_in_price(itins);
 
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort( this.compare_in_price_by_distance_from_median(median_price) );
 
         var center_index = Math.floor(itins_loc.length/2);
@@ -187,19 +187,19 @@ module.exports = {
         else
             return ( Math.abs(+itins_loc[center_index-1].price - median_price) +
                      Math.abs(+itins_loc[center_index  ].price - median_price) ) / 2.0;
-    },
+    }, // end of function median_absolute_deviation_in_price
 
     compare_duration: function (a, b)
     {
         if (a.durationMinutes > b.durationMinutes) return 1;
         else if (a.durationMinutes < b.durationMinutes) return -1;
         return 0;
-    },
+    }, // end of function compare_duration
 
     sort_by_increasing_duration: function (itins)
     {
         itins.sort(this.compare_duration);
-    },
+    }, // end of function sort_by_increasing_duration
 
     compare_in_duration_by_distance_from_median: function (median) // compare by distance from the median
     {
@@ -212,12 +212,12 @@ module.exports = {
             else if (a_distance_from_median < b_distance_from_median) return -1;
             return 0;
         }
-    },
+    }, // end of function compare_in_duration_by_distance_from_median
 
     median_in_duration: function (itins)
     // https://en.wikipedia.org/wiki/Median
     {
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort(this.compare_duration);
 
         var center_index = Math.floor(itins_loc.length/2);
@@ -226,14 +226,14 @@ module.exports = {
             return itins_loc[center_index].durationMinutes;
         else
             return (itins_loc[center_index-1].durationMinutes + itins_loc[center_index].durationMinutes) / 2.0;
-    },
+    }, // end of function median_in_duration
 
     median_absolute_deviation_in_duration: function (itins)
     // https://en.wikipedia.org/wiki/Median_absolute_deviation
     {
         var median_duration = this.median_in_duration(itins);
 
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort( this.compare_in_duration_by_distance_from_median(median_duration) );
 
         var center_index = Math.floor(itins_loc.length/2);
@@ -243,19 +243,19 @@ module.exports = {
         else
             return ( Math.abs(itins_loc[center_index-1].durationMinutes - median_duration) +
                      Math.abs(itins_loc[center_index  ].durationMinutes - median_duration) ) / 2.0;
-    },
+    }, // end of function median_absolute_deviation_in_duration
 
     compare_dep_rank: function (a, b)
     {
         if (a.best_dep_rank > b.best_dep_rank) return 1;
         else if (a.best_dep_rank < b.best_dep_rank) return -1;
         return 0;
-    },
+    }, // end of function compare_dep_rank
 
     sort_by_increasing_dep_rank: function (itins)
     {
         itins.sort(this.compare_dep_rank);
-    },
+    }, // end of function sort_by_increasing_dep_rank
 
     compare_in_dep_rank_by_distance_from_median: function (median) // compare by distance from the median
     {
@@ -268,50 +268,50 @@ module.exports = {
             else if (a_distance_from_median < b_distance_from_median) return -1;
             return 0;
         }
-    },
+    }, // end of function compare_in_dep_rank_by_distance_from_median
 
     median_in_dep_rank: function (itins)
     // https://en.wikipedia.org/wiki/Median
     {
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort(this.compare_dep_rank);
 
-        center_index = Math.floor(itins_loc.length/2);
+        var center_index = Math.floor(itins_loc.length/2);
 
         if(itins_loc.length % 2)
             return itins_loc[center_index].best_dep_rank;
         else
             return (itins_loc[center_index-1].best_dep_rank + itins_loc[center_index].best_dep_rank) / 2.0;
-    },
+    }, // end of function median_in_dep_rank
 
     median_absolute_deviation_in_dep_rank: function (itins)
     // https://en.wikipedia.org/wiki/Median_absolute_deviation
     {
-        median_dep_rank = this.median_in_dep_rank(itins);
+        var median_dep_rank = this.median_in_dep_rank(itins);
 
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort( this.compare_in_dep_rank_by_distance_from_median(median_dep_rank) );
 
-        center_index = Math.floor(itins_loc.length/2);
+        var center_index = Math.floor(itins_loc.length/2);
 
         if(itins_loc.length % 2)
             return Math.abs(itins_loc[center_index].best_dep_rank - median_dep_rank);
         else
             return ( Math.abs(itins_loc[center_index-1].best_dep_rank - median_dep_rank) +
                      Math.abs(itins_loc[center_index  ].best_dep_rank - median_dep_rank) ) / 2.0;
-    },
+    }, // end of function median_absolute_deviation_in_dep_rank
 
     compare_airl_rank: function (a, b)
     {
         if (a.best_airl_rank > b.best_airl_rank) return 1;
         else if (a.best_airl_rank < b.best_airl_rank) return -1;
         return 0;
-    },
+    }, // end of function compare_airl_rank
 
     sort_by_increasing_airl_rank: function (itins)
     {
         itins.sort(this.compare_airl_rank);
-    },
+    }, // end of function sort_by_increasing_airl_rank
 
     compare_in_airl_rank_by_distance_from_median: function (median) // compare by distance from the median
     {
@@ -324,38 +324,38 @@ module.exports = {
             else if (a_distance_from_median < b_distance_from_median) return -1;
             return 0;
         }
-    },
+    }, // end of function compare_in_airl_rank_by_distance_from_median
 
     median_in_airl_rank: function (itins)
     // https://en.wikipedia.org/wiki/Median
     {
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort(this.compare_airl_rank);
 
-        center_index = Math.floor(itins_loc.length/2);
+        var center_index = Math.floor(itins_loc.length/2);
 
         if(itins_loc.length % 2)
             return itins_loc[center_index].best_airl_rank;
         else
             return (itins_loc[center_index-1].best_airl_rank + itins_loc[center_index].best_airl_rank) / 2.0;
-    },
+    }, // end of function median_in_airl_rank
 
     median_absolute_deviation_in_airl_rank: function (itins)
     // https://en.wikipedia.org/wiki/Median_absolute_deviation
     {
-        median_airl_rank = this.median_in_airl_rank(itins);
+        var median_airl_rank = this.median_in_airl_rank(itins);
 
-        itins_loc = itins.slice(0) // make a copy // TO DO: avoid copying or even sorting
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
                          .sort( this.compare_in_airl_rank_by_distance_from_median(median_airl_rank) );
 
-        center_index = Math.floor(itins_loc.length/2);
+        var center_index = Math.floor(itins_loc.length/2);
 
         if(itins_loc.length % 2)
             return Math.abs(itins_loc[center_index].best_airl_rank - median_airl_rank);
         else
             return ( Math.abs(itins_loc[center_index-1].best_airl_rank - median_airl_rank) +
                      Math.abs(itins_loc[center_index  ].best_airl_rank - median_airl_rank) ) / 2.0;
-    },
+    }, // end of function median_absolute_deviation_in_airl_rank
 
     find_the_cheapest_itinerary: function (itins) // price is a string
     {
@@ -372,7 +372,7 @@ module.exports = {
         }
 
         return cheap_index;
-    },
+    }, // end of function find_the_cheapest_itinerary
 
     find_the_shortest_itinerary: function (itins)
     {
@@ -389,7 +389,7 @@ module.exports = {
         }
 
         return short_index;
-    },
+    }, // end of function find_the_shortest_itinerary
 
     compare_in_2D_first_by_price_then_by_duration: function (a, b) // price is a string
     {
@@ -400,19 +400,19 @@ module.exports = {
         else if (a.durationMinutes > b.durationMinutes) return 1;
         else if (a.durationMinutes < b.durationMinutes) return -1;
         return 0;
-    },
+    }, // end of function compare_in_2D_first_by_price_then_by_duration
 
     sort_in_2D_first_by_increasing_price_then_by_increasing_duration: function (itins)
     {
         itins.sort(this.compare_in_2D_first_by_price_then_by_duration);
-    },
+    }, // end of function sort_in_2D_first_by_increasing_price_then_by_increasing_duration
 
     is_different_price_from_previous: function (element, index, array)
     {
         if (index==0) return true;
         else if (+element.price != +array[index-1].price) return true;
         return false;
-    },
+    }, // end of function is_different_price_from_previous
 
     is_shorter_but_more_expensive_than_previous: function (element, index, array)
     {
@@ -424,26 +424,26 @@ module.exports = {
                    element.durationMinutes < array[arguments.callee.previous_good_itin_index].durationMinutes)
             { arguments.callee.previous_good_itin_index = index; return true; }
         return false;
-    },
+    }, // end of function is_shorter_but_more_expensive_than_previous
 
-    prune_itineraries: function (itins)
+    prune_itineraries_in_2D: function (itins)
     {
         if (itins.length == 0) return itins; // If empty, then nothing to prune
 
         // Find the index of the cheapest itinerary
-        cheapest_idx = this.find_the_cheapest_itinerary(itins);
-        cheapest_duration =  itins[cheapest_idx].durationMinutes;
+        var cheapest_idx = this.find_the_cheapest_itinerary(itins);
+        var cheapest_duration =  itins[cheapest_idx].durationMinutes;
 
         // Find the index of the shortest itinerary
-        shortest_idx = this.find_the_shortest_itinerary(itins);
-        shortest_price    = +itins[shortest_idx].price; // convert string to float
+        var shortest_idx = this.find_the_shortest_itinerary(itins);
+        var shortest_price    = +itins[shortest_idx].price; // convert string to float
 
         return itins.filter( function(it){return(+it.price<=shortest_price)} )             // only keep the ones with +price <= shortest_price
                     .filter( function(it){return(it.durationMinutes<=cheapest_duration)} ) // only keep the ones with duration <= cheapest_duration
                     .sort(this.compare_in_2D_first_by_price_then_by_duration)                   // sort by price and than by duration
                     .filter(this.is_shorter_but_more_expensive_than_previous)                   // only keep the ones that are shorter and more expensive than the previous kept one
                     ;
-    },
+    }, // end of function prune_itineraries_in_2D
 
     compare_in_2D_by_linear_combination: function (price_pref,duration_pref) // compare in 2D by linear combination of price and duration
     // if price_preference < duration_preference, then low price is more important then low duration
@@ -458,7 +458,7 @@ module.exports = {
             else if (a_linear_combination < b_linear_combination) return -1;
             return 0;
         };
-    },
+    }, // end of function compare_in_2D_by_linear_combination
 
     compare_in_3D_by_linear_combination: function (price_pref, duration_pref, departure_pref) // compare in 2D by linear combination of price, duration, and departure
     // if price_preference < duration_preference, then low price is more important then low duration
@@ -477,7 +477,7 @@ module.exports = {
             else if (a_linear_combination < b_linear_combination) return -1;
             return 0;
         };
-    },
+    }, // end of function compare_in_3D_by_linear_combination
 
     compare_in_4D_by_linear_combination: function (price_pref, duration_pref, departure_pref, airline_pref) // compare in 2D by linear combination of price, duration, departure, and airline
     // if price_preference < duration_preference, then low price is more important then low duration
@@ -497,9 +497,9 @@ module.exports = {
             else if (a_linear_combination < b_linear_combination) return -1;
             return 0;
         };
-    },
+    }, // end of function compare_in_4D_by_linear_combination
 
-    rank_itineraries: function (itins, price_preference, duration_preference)
+    rank_itineraries_in_2D: function (itins, price_preference, duration_preference)
     // price_preference and duration_preference can be positive, negative, or zero, but can't both be zero at the same time.
     // positive number means that lower values are preferred.
     // negative number means that higher values are preferred.
@@ -513,9 +513,9 @@ module.exports = {
         var MAD_price = this.median_absolute_deviation_in_price(itins);
         var MAD_duration = this.median_absolute_deviation_in_duration(itins);
 
-        return itins.slice(0)                                                                                                  // make a copy
-                    .sort(this.compare_in_2D_by_linear_combination(price_preference/MAD_duration,duration_preference/MAD_price) ); // sort in 2D by linear combination of price and duration
-    },
+        return _.clone(itins,true) // make a copy
+                .sort(this.compare_in_2D_by_linear_combination(price_preference/MAD_duration,duration_preference/MAD_price) ); // sort in 2D by linear combination of price and duration
+    }, // end of function rank_itineraries_in_2D
 
     find_closest_array_index: function (a, start_idx, end_idx, x)
     // a -- array
@@ -543,7 +543,7 @@ module.exports = {
             if (x <  a[mid_idx]) { high_idx = mid_idx; }; // look at left part
             if (x >  a[mid_idx]) { low_idx  = mid_idx; }; // look at right part
         }
-    },
+    }, // end of function find_closest_array_index
 
     order_by_diversity: function (data, axis_start, axis_end) // data --- array of numbers
     // output is the array of integer indices [i1 i2 ... iN], such that data[i1] is better than data[i2], which is better than data[i3], ..., which is better than data[iN]
@@ -555,8 +555,8 @@ module.exports = {
 
         //console.log("data length = " + data.length);
 
-        data_loc = data.slice(0) // make a copy
-                       .sort(function(a, b){return a-b});
+        var data_loc = _.clone(data,true) // make a copy
+                        .sort(function(a, b){return a-b});
 
         //console.log("data_loc length = "+ data_loc.length);
 
@@ -596,7 +596,6 @@ module.exports = {
 
             if ( closest_idx >= 0 ) // if something is found
             {
-
                 result.push(closest_idx); // the index of the best diversity element in a sorted array
 
                 queue.push({
@@ -621,7 +620,7 @@ module.exports = {
         while (0 !== queue.length)
 
         return result;
-    },
+    }, // end of function order_by_diversity
 
     order_by_increasing_values: function (toSort)
     // output is the sorted array toSort, where toSort.sortIndices are the integer indices [i1 i2 ... iN], such that toSort[i1] <= toSort[i2] <= ... <= toSort[iN]
@@ -638,22 +637,22 @@ module.exports = {
             toSort[j] = toSort[j][0];
         }
         return toSort;
-    },
+    }, // end of function order_by_increasing_values
 
     prune_itineraries_in_3D: function (itins)
     {
-        light_output = false;
-        heavy_output = false;
+        var light_output = false;
+        var heavy_output = false;
 
         if (itins.length == 0) return itins; // If empty, then nothing to prune
 
         if (light_output) console.log("================  Output from prune_itineraries_in_3D(..)  ================");
 
         // Find the index of the cheapest itinerary
-        cheapest_idx = this.find_the_cheapest_itinerary(itins);
+        var cheapest_idx = this.find_the_cheapest_itinerary(itins);
 
         // Find the index of the shortest itinerary
-        shortest_idx = this.find_the_shortest_itinerary(itins);
+        var shortest_idx = this.find_the_shortest_itinerary(itins);
 
         // Find the index of the best departure itinerary
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
@@ -674,7 +673,7 @@ module.exports = {
             console.log("Indices of the best departures, ordered by diversity :");
             console.log(preferred_departures_indices);
         }
-        best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
+        var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
         // append the departure ranking information to itineraries: the smaller best_dep_rank is, the better the itinerary is
         for(var i=0; i<array_of_departures.length; i++) { itins[array_of_departures.sortIndices[preferred_departures_indices[i]]].best_dep_rank = i; };
@@ -693,27 +692,27 @@ module.exports = {
             this.print_one_itinerary("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]);
             this.print_one_itinerary("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]);
             this.print_one_itinerary("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]);
-            next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
+            var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
             this.print_one_itinerary("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]);
             console.log();
         }
 
-        cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
-        cheapest_duration  =  itins[cheapest_idx].durationMinutes; // needed later for filtering
-        cheapest_departure =  itins[cheapest_idx].depatureMinutes; // not needed
-        cheapest_dep_rank  =  itins[cheapest_idx].best_dep_rank; // needed later for filtering
+        var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
+        var cheapest_duration  =  itins[cheapest_idx].durationMinutes; // needed later for filtering
+        var cheapest_departure =  itins[cheapest_idx].depatureMinutes; // not needed
+        var cheapest_dep_rank  =  itins[cheapest_idx].best_dep_rank; // needed later for filtering
 
-        shortest_price     = +itins[shortest_idx].price; // convert string to float // needed later for filtering
-        shortest_duration  =  itins[shortest_idx].durationMinutes; // not needed
-        shortest_departure =  itins[shortest_idx].depatureMinutes; // not needed
-        shortest_dep_rank  =  itins[shortest_idx].best_dep_rank; // needed later for filtering
+        var shortest_price     = +itins[shortest_idx].price; // convert string to float // needed later for filtering
+        var shortest_duration  =  itins[shortest_idx].durationMinutes; // not needed
+        var shortest_departure =  itins[shortest_idx].depatureMinutes; // not needed
+        var shortest_dep_rank  =  itins[shortest_idx].best_dep_rank; // needed later for filtering
 
-        best_dep_price     = +itins[best_dep_idx].price; // convert string to float
-        best_dep_duration  =  itins[best_dep_idx].durationMinutes; // needed later for filtering
-        best_dep_departure =  itins[best_dep_idx].depatureMinutes; // not needed
-        best_dep_dep_rank  =  itins[best_dep_idx].best_dep_rank; // should be zero // not needed
+        var best_dep_price     = +itins[best_dep_idx].price; // convert string to float
+        var best_dep_duration  =  itins[best_dep_idx].durationMinutes; // needed later for filtering
+        var best_dep_departure =  itins[best_dep_idx].depatureMinutes; // not needed
+        var best_dep_dep_rank  =  itins[best_dep_idx].best_dep_rank; // should be zero // not needed
 
-        loc_itins = itins.slice(0) // make a copy
+        var loc_itins = _.clone(itins,true) // make a copy
                          .filter( function(it){return(it.durationMinutes<=cheapest_duration || it.best_dep_rank<=cheapest_dep_rank )} )  // only keep the ones with duration < cheapest duration or dep better than the cheapest departure
                          .filter( function(it){return(+it.price<=shortest_price || it.best_dep_rank<=shortest_dep_rank )} )              // only keep the ones with price < shortest price or dep better than the shortest departure
                          .filter( function(it){return(it.durationMinutes<=best_dep_duration || +it.price<=best_dep_price )} );           // only keep the ones with duration < best departure duration or price < best departure price
@@ -733,8 +732,8 @@ module.exports = {
         {
             if (heavy_output)
             {
-                temp_to_remove = loc_itins.slice(0) // make a copy
-                                          .filter( function(it){return( ( +it.price >= +loc_itins[i].price ) && ( it.durationMinutes >= loc_itins[i].durationMinutes ) && ( it.best_dep_rank > loc_itins[i].best_dep_rank ) )} );
+                var temp_to_remove = _.clone(loc_itins,true) // make a copy
+                                      .filter( function(it){return( ( +it.price >= +loc_itins[i].price ) && ( it.durationMinutes >= loc_itins[i].durationMinutes ) && ( it.best_dep_rank > loc_itins[i].best_dep_rank ) )} );
 
                 if (temp_to_remove.length>0)
                 {
@@ -773,7 +772,7 @@ module.exports = {
         }
 
         return loc_itins;
-    },
+    }, // end of function prune_itineraries_in_3D
 
     rank_itineraries_in_3D: function (itins, price_preference, duration_preference, departure_preference)
     {
@@ -790,24 +789,24 @@ module.exports = {
         var MAD_duration = this.median_absolute_deviation_in_duration(itins);
         var MAD_dep_rank = this.median_absolute_deviation_in_dep_rank(itins);
 
-        return itins.slice(0) // make a copy
-                    .sort( this.compare_in_3D_by_linear_combination(price_preference*MAD_price,duration_preference*MAD_duration,departure_preference*MAD_dep_rank) ); // sort in 3D by linear combination of price, duration, and dep_rank
-    },
+        return _.clone(itins,true) // make a copy
+                .sort( this.compare_in_3D_by_linear_combination(price_preference*MAD_price,duration_preference*MAD_duration,departure_preference*MAD_dep_rank) ); // sort in 3D by linear combination of price, duration, and dep_rank
+    }, // end of function rank_itineraries_in_3D
 
     prune_itineraries_in_4D: function (itins)
     {
-        light_output = false;
-        heavy_output = false;
+        var light_output = false;
+        var heavy_output = false;
 
         if (itins.length == 0) return itins; // If empty, then nothing to prune
 
         if (light_output) console.log("================  Output from prune_itineraries_in_4D(..)  ================");
 
         // Find the index of the cheapest itinerary
-        cheapest_idx = this.find_the_cheapest_itinerary(itins);
+        var cheapest_idx = this.find_the_cheapest_itinerary(itins);
 
         // Find the index of the shortest itinerary
-        shortest_idx = this.find_the_shortest_itinerary(itins);
+        var shortest_idx = this.find_the_shortest_itinerary(itins);
 
         // Find the index of the best departure itinerary
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
@@ -828,7 +827,7 @@ module.exports = {
             console.log("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
             console.log(preferred_departures_indices);
         }
-        best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
+        var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
         //console.log("best_dep_idx = " + best_dep_idx);
         //console.log("i is changing from 0 to < " + array_of_departures.length);
@@ -855,8 +854,8 @@ module.exports = {
         }
 
         // Find the index of the best airline itinerary
-        preferred_airline_indices = this.determine_airline_preferences(itins);
-        best_airl_idx = preferred_airline_indices[0];
+        var preferred_airline_indices = this.determine_airline_preferences(itins);
+        var best_airl_idx = preferred_airline_indices[0];
 
         // append the airline ranking information to itineraries: the smaller best_airl_rank is, the better the itinerary is
         for(var i=0; i<preferred_airline_indices.length; i++) { itins[preferred_airline_indices[i]].best_airl_rank = i; };
@@ -866,43 +865,43 @@ module.exports = {
             this.print_one_itinerary("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]);
             this.print_one_itinerary("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]);
             this.print_one_itinerary("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]);
-            next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
+            var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
             this.print_one_itinerary("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]);
             this.print_one_itinerary("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]);
-            next_best_airl_idx = preferred_airline_indices[1];
+            var next_best_airl_idx = preferred_airline_indices[1];
             this.print_one_itinerary("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]);
             console.log();
         }
 
-        cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
-        cheapest_duration  =  itins[cheapest_idx].durationMinutes; // needed later for filtering
-        cheapest_departure =  itins[cheapest_idx].depatureMinutes; // not needed
-        cheapest_dep_rank  =  itins[cheapest_idx].best_dep_rank; // needed later for filtering
-        cheapest_air_line  =  itins[cheapest_idx].air_line; // not needed
-        cheapest_airl_rank =  itins[cheapest_idx].best_airl_rank; // needed later for filtering
+        var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
+        var cheapest_duration  =  itins[cheapest_idx].durationMinutes; // needed later for filtering
+        var cheapest_departure =  itins[cheapest_idx].depatureMinutes; // not needed
+        var cheapest_dep_rank  =  itins[cheapest_idx].best_dep_rank; // needed later for filtering
+        var cheapest_air_line  =  itins[cheapest_idx].air_line; // not needed
+        var cheapest_airl_rank =  itins[cheapest_idx].best_airl_rank; // needed later for filtering
 
-        shortest_price     = +itins[shortest_idx].price; // convert string to float // needed later for filtering
-        shortest_duration  =  itins[shortest_idx].durationMinutes; // not needed
-        shortest_departure =  itins[shortest_idx].depatureMinutes; // not needed
-        shortest_dep_rank  =  itins[shortest_idx].best_dep_rank; // needed later for filtering
-        shortest_air_line  =  itins[shortest_idx].air_line; // not needed
-        shortest_airl_rank =  itins[shortest_idx].best_airl_rank; // needed later for filtering
+        var shortest_price     = +itins[shortest_idx].price; // convert string to float // needed later for filtering
+        var shortest_duration  =  itins[shortest_idx].durationMinutes; // not needed
+        var shortest_departure =  itins[shortest_idx].depatureMinutes; // not needed
+        var shortest_dep_rank  =  itins[shortest_idx].best_dep_rank; // needed later for filtering
+        var shortest_air_line  =  itins[shortest_idx].air_line; // not needed
+        var shortest_airl_rank =  itins[shortest_idx].best_airl_rank; // needed later for filtering
 
-        best_dep_price     = +itins[best_dep_idx].price; // convert string to float
-        best_dep_duration  =  itins[best_dep_idx].durationMinutes; // needed later for filtering
-        best_dep_departure =  itins[best_dep_idx].depatureMinutes; // not needed
-        best_dep_dep_rank  =  itins[best_dep_idx].best_dep_rank; // should be zero // not needed
-        best_dep_air_line  =  itins[best_dep_idx].air_line; // not needed
-        best_dep_airl_rank =  itins[best_dep_idx].best_airl_rank; // needed later for filtering
+        var best_dep_price     = +itins[best_dep_idx].price; // convert string to float
+        var best_dep_duration  =  itins[best_dep_idx].durationMinutes; // needed later for filtering
+        var best_dep_departure =  itins[best_dep_idx].depatureMinutes; // not needed
+        var best_dep_dep_rank  =  itins[best_dep_idx].best_dep_rank; // should be zero // not needed
+        var best_dep_air_line  =  itins[best_dep_idx].air_line; // not needed
+        var best_dep_airl_rank =  itins[best_dep_idx].best_airl_rank; // needed later for filtering
 
-        best_airl_price     = +itins[best_airl_idx].price; // convert string to float
-        best_airl_duration  =  itins[best_airl_idx].durationMinutes; // needed later for filtering
-        best_airl_departure =  itins[best_airl_idx].depatureMinutes; // not needed
-        best_airl_dep_rank  =  itins[best_airl_idx].best_dep_rank; // should be zero // not needed
-        best_airl_air_line  =  itins[best_airl_idx].air_line; // not needed
-        best_airl_airl_rank =  itins[best_airl_idx].best_airl_rank; // needed later for filtering
+        var best_airl_price     = +itins[best_airl_idx].price; // convert string to float
+        var best_airl_duration  =  itins[best_airl_idx].durationMinutes; // needed later for filtering
+        var best_airl_departure =  itins[best_airl_idx].depatureMinutes; // not needed
+        var best_airl_dep_rank  =  itins[best_airl_idx].best_dep_rank; // should be zero // not needed
+        var best_airl_air_line  =  itins[best_airl_idx].air_line; // not needed
+        var best_airl_airl_rank =  itins[best_airl_idx].best_airl_rank; // needed later for filtering
 
-        loc_itins = itins.slice(0) // make a copy
+        var loc_itins = _.clone(itins,true) // make a copy
                          .filter( function(it){return(it.durationMinutes<=cheapest_duration || it.best_dep_rank<=cheapest_dep_rank || it.best_airl_rank<=cheapest_airl_rank )} )  // only keep the ones with duration < cheapest duration, or dep better than the cheapest departure, or airline better than the cheapest airline
                          .filter( function(it){return(+it.price<=shortest_price || it.best_dep_rank<=shortest_dep_rank || it.best_airl_rank<=shortest_airl_rank )} )              // only keep the ones with price < shortest price, or dep better than the shortest departure, or airline better than the shortest airline
                          .filter( function(it){return(it.durationMinutes<=best_dep_duration || +it.price<=best_dep_price || it.best_airl_rank<=best_dep_airl_rank )} )            // only keep the ones with duration < best departure duration, or price < best departure price, or airline better than the best departure airline
@@ -923,8 +922,8 @@ module.exports = {
         {
             if (heavy_output)
             {
-                temp_to_remove = loc_itins.slice(0) // make a copy
-                                          .filter( function(it){return( ( +it.price >= +loc_itins[i].price ) && ( it.durationMinutes >= loc_itins[i].durationMinutes ) && ( it.best_dep_rank > loc_itins[i].best_dep_rank ) && ( it.best_airl_rank > loc_itins[i].best_airl_rank ) )} );
+                var temp_to_remove = _.clone(loc_itins,true) // make a copy
+                                      .filter( function(it){return( ( +it.price >= +loc_itins[i].price ) && ( it.durationMinutes >= loc_itins[i].durationMinutes ) && ( it.best_dep_rank > loc_itins[i].best_dep_rank ) && ( it.best_airl_rank > loc_itins[i].best_airl_rank ) )} );
 
                 if (temp_to_remove.length>0)
                 {
@@ -963,7 +962,7 @@ module.exports = {
         }
 
         return loc_itins;
-    },
+    }, // end of function prune_itineraries_in_4D
 
     rank_itineraries_in_4D: function (itins, price_preference, duration_preference, departure_preference, airline_preference)
     {
@@ -974,10 +973,6 @@ module.exports = {
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
         sails.log.info("Ranking based on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
-
-//         Profile.findOneByUserId( req.user.id ).exec(function findOneCB(err, found) {
-//         sails.log.info("Preferred airlines: "+ found.preferred_airlines);
-//         });
 
         if ( (price_preference==0) || (duration_preference==0) || (departure_preference==0) || (airline_preference==0) )
         {
@@ -993,26 +988,26 @@ module.exports = {
         var MAD_duration  = this.median_absolute_deviation_in_duration (itins);
         var MAD_dep_rank  = this.median_absolute_deviation_in_dep_rank (itins);
         var MAD_airl_rank = this.median_absolute_deviation_in_airl_rank(itins);
-        return itins.slice(0) // make a copy
-                    .sort( this.compare_in_4D_by_linear_combination(price_preference    *MAD_price    ,
-                                                                    duration_preference *MAD_duration ,
-                                                                    departure_preference*MAD_dep_rank ,
-                                                                    airline_preference  *MAD_airl_rank) ); // sort in 4D by linear combination of price, duration, dep_rank, and airl_rank
-    },
+        return _.clone(itins,true) // make a copy
+                .sort( this.compare_in_4D_by_linear_combination(price_preference    *MAD_price    ,
+                                                                duration_preference *MAD_duration ,
+                                                                departure_preference*MAD_dep_rank ,
+                                                                airline_preference  *MAD_airl_rank) ); // sort in 4D by linear combination of price, duration, dep_rank, and airl_rank
+    }, // end of function rank_itineraries_in_4D
 
     is_in_array: function (array, element)
     {
         return array.indexOf(element) >= 0;
-    },
+    }, // end of function is_in_array
 
     sort_by_preferred_airlines: function (itins, preferred_airlines)
     // Sorting by price, taking into account $100 price discount for preferred_airlines.
     // The airlines, specified in the array preferred_airlines are given a price advantage of $100, when sorting by price.
     {
-        var loc_itins = itins.slice(0); // make a copy
+        var loc_itins = _.clone(itins,true); // make a copy
 
         //var preferred_airline_price_advantage = 100.00;
-        var preferred_airline_price_advantage = this.median_in_price(itins)*0.1; // 10% of the median price
+        var preferred_airline_price_advantage = this.median_in_price(loc_itins)*0.1; // 10% of the median price
 
         sails.log.info("Ranking based on the price advantage of $" + preferred_airline_price_advantage + " for the following airlines: " + preferred_airlines);
 
@@ -1029,6 +1024,6 @@ module.exports = {
                 loc_itins[i].price = (Number(loc_itins[i].price) - preferred_airline_price_advantage).toString();
 
         return loc_itins;
-    }
+    } // end of function sort_by_preferred_airlines
 
 };
