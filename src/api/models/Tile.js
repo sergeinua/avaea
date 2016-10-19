@@ -963,6 +963,9 @@ module.exports = {
           tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
+          tileArr.forEach(function (tile) {
+            tile.filters = _.sortBy(tile.filters, 'order');
+          });
         }
         return callback(err, itineraries, tileArr);
       });
