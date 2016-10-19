@@ -25,10 +25,10 @@ module.exports = {
     }
     var _dbFields = {
       user_id          : user.id,
-      pnr              : typeof booking_res == 'object' ? booking_res.PNR : 'undefined',
-      reference_number : typeof booking_res == 'object' ? booking_res.ReferenceNumber : 'undefined',
-      itinerary_id     : typeof itinerary_res == 'object' ? itinerary_res.itinerary_id : 'undefined',
-      itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res.itinerary_data : {error: 'saveBooking: typeof itinerary_res='+(typeof itinerary_res)},
+      pnr              : typeof booking_res == 'object' ? booking_res.PNR : null,
+      reference_number : typeof booking_res == 'object' ? booking_res.ReferenceNumber : null,
+      itinerary_id     : typeof itinerary_res == 'object' ? itinerary_res.itinerary_id : null,
+      itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res.itinerary_data : null,
       req_params       : req_params
     };
 
