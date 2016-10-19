@@ -748,7 +748,7 @@ module.exports = {
           sails.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
+          var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
