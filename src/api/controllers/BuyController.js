@@ -163,15 +163,15 @@ module.exports = {
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
         .then(function (record) {
+          delete req.session.booking_itinerary;
           // Redirec to result page
           return res.redirect(url.format({pathname: "/booking", query: {bookingId: record.id}}));
         })
         .catch(function (error) {
           sails.log.error(error);
+          delete req.session.booking_itinerary;
           return res.serverError();
         });
-
-      delete req.session.booking_itinerary;
     };
 
     mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
