@@ -138,7 +138,7 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      var order = _.clone(req.session.booking_itinerary.itinerary_data, true);
+      var order = (typeof req.session.booking_itinerary == 'object') ? _.clone(req.session.booking_itinerary.itinerary_data, true) : {};
 
       // E-mail notification
       var tpl_vars = {
