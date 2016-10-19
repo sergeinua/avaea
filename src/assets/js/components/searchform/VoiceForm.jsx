@@ -130,6 +130,8 @@ var VoiceForm = React.createClass({
         // if (final_transcript || interim_transcript);
       };
     }
+
+    final_textarea.focus();
   },
 
   handleChange: function(event) {
@@ -295,7 +297,6 @@ var VoiceForm = React.createClass({
             <textarea
               name="voiceSearch"
               id="voiceSearchTextarea"
-              autofocus="true"
               placeholder={this.state.placeholderText}
               value = {this.state.voiceSearchValue}
               onChange={this.handleChange}

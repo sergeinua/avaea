@@ -57,7 +57,8 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    window.location.href = '/result?s=' + searchId;
+    history.back();
+    // window.location.href = '/result?s=' + searchId;
   },
 
   render: function() {
@@ -102,7 +103,7 @@ var NavBar = React.createClass({
             </div>
 
             <div id="nav_slide_menu" className={this.props.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}role="navigation">
-                {this.props.user ?
+                {this.props.user.email ?
                   <ul className="nav navbar-nav">
                     <li><a href="http://www.avaea.com/">Main Search</a></li>
                     <li><a href="http://stage.avaea.com/">Test Search</a></li>
@@ -167,6 +168,7 @@ var NavBar = React.createClass({
 $(document).ready(function() {
   var NavBarData = $('#onlynavbar').attr('page');
   if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    ReactContentRenderer.render(<NavBar page={NavBarData} user={{}} InitResultData={{}}/>, $('#onlynavbar'));
+    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
+    ReactContentRenderer.render(<NavBar page={NavBarData} user={userData} InitResultData={{}}/>, $('#onlynavbar'));
   }
 });
