@@ -3020,11 +3020,14 @@ body.desktop form.profile {
 	}
 
 	.touch .login-holder:after {
+		height: 120px;
 		background-size: 60%;
 	}
-
-	.touch.android .login-holder:after {
-		bottom: -25px;
+	
+	.touch .login-holder .big-button,
+	.touch .login-invite-only {
+		position: relative;
+    z-index: 2;
 	}
 
 	.touch.android .form-signin-heading {
