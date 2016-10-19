@@ -119,7 +119,7 @@ module.exports = {
           sails.log.error('30K api', body);
           return cb({msg: result.Status.Message}, response, body);
         }
-        sails.log.info('Respose 30K api:', JSON.stringify(body));
+        sails.log.info('Response 30K api:', JSON.stringify(body));
         // return only one result
         var filteredResult = {
           AccrualType: ffmapi.AccrualTypes[0],
@@ -127,7 +127,7 @@ module.exports = {
           ProgramCode:'',
           ProgramCodeName:''
         };
-        if (!lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
+        if (!lodash.isEmpty(result.Value.flts) && !lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
           result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
             if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
               filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
