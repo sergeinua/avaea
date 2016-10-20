@@ -168,7 +168,7 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
         return apiCb(err, {}, body);
       }
       if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
-        throw api+" returned malformatted result";
+        throw api+" returned malformed result: "+body;
       }
       if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
         throw err['faultstring'];
