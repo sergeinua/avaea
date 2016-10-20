@@ -150,7 +150,9 @@ module.exports = {
           sails.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.
@@ -164,7 +166,9 @@ module.exports = {
           var pruned_departing_Q3 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q3);
           var pruned_departing_Q4 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q4);
           var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
-          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
@@ -624,7 +628,9 @@ module.exports = {
           sails.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
@@ -646,7 +652,9 @@ module.exports = {
           var pruned_departing_Q3 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q3);
           var pruned_departing_Q4 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q4);
           var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
-          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
