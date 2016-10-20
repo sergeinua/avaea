@@ -798,7 +798,8 @@ module.exports = {
             tileArr['Departure'].filters.push({
               title: timeArr[itinerary.citypairs[0].from.quarter - 1],
               id:'departure_tile_' + itinerary.citypairs[0].from.quarter,
-              count : 1
+              count : 1,
+              order: itinerary.citypairs[0].from.quarter
             });
             filterClass = filterClass + ' ' + 'departure_tile_' + itinerary.citypairs[0].from.quarter;
           } else {
@@ -813,7 +814,8 @@ module.exports = {
             tileArr['Arrival'].filters.push({
               title: timeArr[itinerary.citypairs[0].to.quarter - 1],
               id:'arrival_tile_' + itinerary.citypairs[0].to.quarter,
-              count : 1
+              count : 1,
+              order: itinerary.citypairs[0].to.quarter
             });
             filterClass = filterClass + ' ' + 'arrival_tile_' + itinerary.citypairs[0].to.quarter;
           } else {
@@ -830,7 +832,8 @@ module.exports = {
               tileArr['destinationDeparture'].filters.push({
                 title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1],
                 id: 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter,
-                count: 1
+                count: 1,
+                order: itinerary.citypairs[lastElement].from.quarter
               });
               filterClass = filterClass + ' ' + 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter;
             } else {
@@ -845,7 +848,8 @@ module.exports = {
               tileArr['sourceArrival'].filters.push({
                 title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1],
                 id: 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter,
-                count: 1
+                count: 1,
+                order: itinerary.citypairs[lastElement].to.quarter
               });
               filterClass = filterClass + ' ' + 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter;
             } else {
@@ -970,6 +974,9 @@ module.exports = {
           tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
+          tileArr.forEach(function (tile) {
+            tile.filters = _.sortBy(tile.filters, 'order');
+          });
         }
         return callback(err, itineraries, tileArr);
       });

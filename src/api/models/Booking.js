@@ -16,12 +16,19 @@ module.exports = {
 
   saveBooking: function (user, booking_res, itinerary_res, req_params) {
     var qdefer = qpromice.defer();
+
+    if (typeof booking_res != 'object') {
+      sails.log.error('saveBooking: got unexpected type of booking_res='+(typeof booking_res)+'; user='+user.id);
+    }
+    if (typeof itinerary_res != 'object') {
+      sails.log.error('saveBooking: got unexpected type of itinerary_res='+(typeof itinerary_res)+'; user='+user.id);
+    }
     var _dbFields = {
-      user_id          : user,
-      pnr              : booking_res.PNR,
-      reference_number : booking_res.ReferenceNumber,
-      itinerary_id     : itinerary_res.itinerary_id,
-      itinerary_data   : itinerary_res.itinerary_data,
+      user_id          : user.id,
+      pnr              : typeof booking_res == 'object' ? booking_res.PNR : null,
+      reference_number : typeof booking_res == 'object' ? booking_res.ReferenceNumber : null,
+      itinerary_id     : typeof itinerary_res == 'object' ? itinerary_res.itinerary_id : null,
+      itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res.itinerary_data : null,
       req_params       : req_params
     };
 
