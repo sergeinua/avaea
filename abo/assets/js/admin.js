@@ -246,10 +246,17 @@ $(document).ready(function () {
           }
 
           var date = new Date(data.createdAt).toLocaleString();
-          dataGrid.push(data);
-          if (data.actionType == "search" && showGrid) {
+
+          var _indxData = dataGrid.findIndex(function (item) {
+            return item.id == data.id;
+          });
+          if (_indxData == -1)
+            dataGrid.push(data);
+
+          if (data.actionType == "search" && showGrid && _indxData == -1) {
             insertRowToGrid('#jsGrid', data);
           }
+
           $('#log_actions').append($('<tr class="' + data.actionType + ' alert ' + colorClass + ' user_id_'
           + data.user + '"><td>' + date + '</td><td>' + data.id + '</td><td>' + action + '</td><td>' + JSON.stringify(data.logInfo) + '</td></tr>'));
         });
