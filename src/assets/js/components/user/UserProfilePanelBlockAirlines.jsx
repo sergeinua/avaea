@@ -30,9 +30,6 @@ var UserProfilePanelBlockAirlines = React.createClass({
 
     return <fieldset className="fieldset" key={'preferred_airlines'}>
       <legend className="legend">{this.state.item.title}</legend>
-      <div className="panel-footer">
-        <button type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
-      </div>
       <div className="panel-body">
         {
           this.state.item.data.map(function(item, index) {
@@ -47,13 +44,16 @@ var UserProfilePanelBlockAirlines = React.createClass({
               <UserProfilePanelElementDropdown item={pseudoItem} profileStructure={self.props.programsStructure.travel_type}/>
 
               <label>Airline Name</label>
-              <input type="text" name="preferred_airlines.airline_name[]" defaultValue={item.airline_name} className="form-control input-sm" placeholder="Airline Name" id="airline1"/>
-              <UserProfilePanelAirlineSuggest target="airline1"/>{/*@TODO make dynamic elements ids */}
+              <UserProfilePanelAirlineSelect elem_name={"preferred_airlines.airline_name["+index+"]"} elem_value={item.airline_name}/>
 
             </div>
 
           })
         }
+      </div>
+
+      <div className="panel-footer">
+        <button type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
       </div>
 
     </fieldset>;

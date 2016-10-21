@@ -221,7 +221,8 @@ module.exports = {
       if (!err && found.length) {
         for (var i = 0; i < found.length; i++) {
           found[i] = {
-            name: found[i].name,
+            value: found[i].name,
+            label: found[i].name,
           }
         }
         return res.json(found);
