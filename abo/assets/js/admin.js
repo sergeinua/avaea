@@ -137,10 +137,9 @@ $(document).ready(function () {
   });
 
   $('.filter_user').submit(function () {
-    var id = 0;
-    user_id = $('#user_search_form').val();
-    if (id = user_id.match(/^ID#(\d+)/)) {
-      user_id = id[1];
+    var regexp_res;
+    if (regexp_res = $('#user_search_form').val().match(/^ID#(\d+)/)) {
+      user_id = regexp_res[1];
     }
 
     if (user_id) {
