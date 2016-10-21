@@ -496,7 +496,7 @@ module.exports = {
           if (utils.timeLogGet('mondee') > 7000) {
             params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
           }
-          sails.log.info('Mondee FlightSearch request time: %s', utils.timeLogGetHr('mondee'));
+          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee'), JSON.stringify(req), raw);
           var resArr = [];
           if (err || ('TPErrorList' in result && result.TPErrorList) || !result.FlightSearchResponse) {
               if (!err) {
@@ -570,7 +570,7 @@ module.exports = {
           if (utils.timeLogGet('mondee') > 7000) {
             params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
           }
-          sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
+          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee'), JSON.stringify(req), raw);
 
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.BookItineraryResponse != "object") || lodash.isEmpty(result.BookItineraryResponse)) {
             if (!err) {
@@ -617,7 +617,7 @@ module.exports = {
           if (utils.timeLogGet('mondee') > 7000) {
             params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
           }
-          sails.log.info('Mondee '+_api_name+' request time: %s', utils.timeLogGetHr('mondee'));
+          sails.log.info('Mondee '+_api_name+' request time: %s, raw=%s', utils.timeLogGetHr('mondee'), raw);
 
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.CancelPNRResponse != "object") || lodash.isEmpty(result.CancelPNRResponse)) {
             if (!err) {

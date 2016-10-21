@@ -79,7 +79,7 @@
 	text-align: left;
 	padding-bottom: 70px;
 	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop .login-holder:after {
@@ -140,7 +140,7 @@
 }
 
 .desktop .tt-suggestion.tt-selectable {
-	border-left: 1px solid rgba(0, 0, 0, 0.15);
+	border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop #search_title input[type=text] {
@@ -371,7 +371,7 @@
 	float: none;
 	width: 60%;
 	background: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 6px;
 }
 
@@ -387,8 +387,27 @@
 	border-bottom-right-radius: 6px;
 }
 
-.desktop .notable-area .details {
+.desktop .notable-area .details,
+.booking-success .notable-area .details,
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
 	font-size: 14px;
+}
+
+.desktop .booking-success .notable-area .refundable,
+.desktop .booking-success .notable-area .ff-miles {
+	margin-left: 0;
+}
+
+.desktop .notable-area .ff-miles, 
+.desktop .notable-area .ff-miles.no-value {
+    margin-left: -40px;
+		margin-right: -40px;
+}
+
+.notable-area .details .col-xs-2.dest, 
+.notable-area .col-xs-3.direction {
+	text-transform: none;
 }
 
 .desktop .itinerary .row.title {
@@ -452,7 +471,7 @@
 	margin: 0;
 	text-align: left;
 	padding: 20px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop .flight-unit .notable-area .section {
@@ -932,7 +951,7 @@ form label.required:before,
 .big-button.disabled,
 .small-button.disabled,
 .tertiary-button.disabled {
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 
@@ -958,7 +977,7 @@ input,
 textarea {
 	color: #000000;
 	background: #ffffff;
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
 }
 
@@ -996,8 +1015,9 @@ textarea {
 }
 
 .tertiary-button.disabled:before,
-.mybucket .list-group-item.disabled > div.text {
-	color: #bbb;
+.mybucket .list-group-item.disabled > div.text,
+.ff-miles.none {
+	color: #a2a2a2; 
 }
 
 .tt-hint,
@@ -1005,7 +1025,7 @@ textarea {
 .small-button.disabled,
 .disabled,
 .ie-fixer.placeholder {
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 .big-button.disabled,
@@ -1013,13 +1033,13 @@ textarea {
 .small-button.disabled,
 .small-button.disabled:hover {
 	cursor: default;
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 ::-webkit-input-placeholder,
 :-ms-input-placeholder,
 ::-ms-input-placeholder {
-	color: #bbb !important;
+	color: #a2a2a2 !important;
 }
 
 .label-d {
@@ -1148,6 +1168,16 @@ textarea {
 		left: 0;
 	background: url('/images/lil-plane.svg') center bottom no-repeat;
 	background-size: 110%;
+}
+
+.login-invite-only {
+	line-height: 20px;
+	margin: 10px 0;
+}
+
+.login-invite-only a {
+	text-decoration: underline;
+	display: block;
 }
 
 .form-signin-heading {
@@ -1350,7 +1380,7 @@ textarea {
 	font-size: 16px;
 	text-align: left;
 	padding: 15px 10px;
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.3);
 	border-top: 0px solid transparent;
 }
 
@@ -1441,7 +1471,7 @@ strong.tt-highlight {
 	font-family: 'Open-Sans-Semibold';
 	padding-top: 18px;
   height: 50px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flight-additional-info .text-picker {
@@ -1685,7 +1715,7 @@ td[data-action*="selectDay"] {
 
 .modal-content .buttons-bar {
 	text-align: center;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .modal-content .buttons-bar .big-button {
@@ -1786,6 +1816,14 @@ td[data-action*="selectDay"] {
     top: 1px;
 	-webkit-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+
+.ff-miles .icon-spinner:before {
+    right: 0;
+    top: 0;
+}
+
 }
 
 
@@ -2202,7 +2240,7 @@ td[data-action*="selectDay"] {
 	cursor: pointer;
 	font-size: 13px;
   padding: 5px 0 0 10px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flights .col-xs-9 {
@@ -2362,7 +2400,33 @@ td[data-action*="selectDay"] {
 	margin-right: -20px;
 	margin-left: -15px;
 	padding: 0 0 8px 15px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	border-top: 1px dashed rgba(0, 0, 0, .2);
+}
+
+.notable-area .refundable {
+	margin: 15px 0 0 -20px;
+}
+
+.notable-area .ff-miles,
+.notable-area .ff-miles.no-value {
+	margin: -1px 0 0 -40px;
+	position: relative;
+	border-bottom: 1px dashed rgba(0, 0, 0, .2);
+}
+
+.notable-area .ff-miles {
+	padding: 10px 0 5px 0;
+}
+
+.notable-area .ff-miles.no-value {
+	padding: 0 0 6px 0;
+}
+
+.notable-area .icon-spinner {
+	font-size: 24px;
+		top: 5px;
+    left: 5px;
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2390,6 +2454,8 @@ td[data-action*="selectDay"] {
 
 .notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
+	font-family: 'Open-Sans-semibold';
+	text-transform: uppercase;
 	width: 17%;
 }
 
@@ -2498,6 +2564,11 @@ td[data-action*="selectDay"] {
 		left: 19px;
 }
 
+.booking-success .refundable,
+.booking-success .ff-miles {
+	font-size: 12px;
+}
+
 .booking-success .success.ti:before {
 	font-size: 24px;
 	position: absolute;
@@ -2522,8 +2593,8 @@ td[data-action*="selectDay"] {
 	margin-top: 15px;
 	padding-top: 15px;
 	padding-bottom: 15px;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .booking-success .confirm-message .copy,
@@ -2547,7 +2618,7 @@ td[data-action*="selectDay"] {
 
 .confirm-code .number {
 	font-family: 'Open-Sans-Bold';
-	padding-left: 5px;
+	padding-left: 3px;
 }
 
 .booking-success .flight-unit .itinerary {
@@ -2559,11 +2630,16 @@ td[data-action*="selectDay"] {
 	line-height: 1em;
 	text-align: left;
 	padding: 10px 40px;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .booking-success .notable-area .details {
 	font-size: 13px;
+}
+
+.booking .ff-miles,
+.booking .refundable {
+	margin-left: 0;
 }
 
 .booking-success .long-date {
@@ -2610,7 +2686,7 @@ td[data-action*="selectDay"] {
 /* flight unit */
 
 .flight-unit {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .flight-unit .col-xs-9 {
@@ -2836,7 +2912,7 @@ td[data-action*="selectDay"] {
 }
 
 .form-control {
-	border: 1px solid rgba(0, 0, 0, 0.15);
+	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .panel-default > .panel-heading {
@@ -2949,15 +3025,18 @@ body.desktop form.profile {
 	/* have to add .touch to restrict */
 
 	.touch .form-signin-heading {
-		margin: 1em auto 0 auto;
+		margin: 70px auto 0 auto;
 	}
 
 	.touch .login-holder:after {
-		background-size: 70%;
+		height: 120px;
+		background-size: 60%;
 	}
-
-	.touch.android .login-holder:after {
-		bottom: -25px;
+	
+	.touch .login-holder .big-button,
+	.touch .login-invite-only {
+		position: relative;
+    z-index: 2;
 	}
 
 	.touch.android .form-signin-heading {
@@ -3144,6 +3223,11 @@ body.desktop form.profile {
 
 	.touch .flight-unit .notable-area .details .col-xs-2.length {
 		padding-right: 5px;
+	}
+	
+	.touch .itinerary-info .col-xs-3.departLoc, 
+	.touch .itinerary-info .col-xs-3.arriveLoc {
+		padding-left: 20px;
 	}
 
 }

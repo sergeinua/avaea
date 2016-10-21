@@ -148,23 +148,27 @@ module.exports = {
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
-          var pruned = cicstanford.prune_itineraries(itineraries);
+          var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
-        } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets ////////////////
-          // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
+        } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
+          // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.
           sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
           var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} );  // only keep the ones departing midnight-6am
           var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} );  // only keep the ones departing 6am-noon
           var itineraries_departing_Q3 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==3);} );  // only keep the ones departing noon-6pm
           var itineraries_departing_Q4 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==4);} );  // only keep the ones departing 6pm-midnight
-          var pruned_departing_Q1 = cicstanford.prune_itineraries(itineraries_departing_Q1);
-          var pruned_departing_Q2 = cicstanford.prune_itineraries(itineraries_departing_Q2);
-          var pruned_departing_Q3 = cicstanford.prune_itineraries(itineraries_departing_Q3);
-          var pruned_departing_Q4 = cicstanford.prune_itineraries(itineraries_departing_Q4);
+          var pruned_departing_Q1 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q1);
+          var pruned_departing_Q2 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q2);
+          var pruned_departing_Q3 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q3);
+          var pruned_departing_Q4 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q4);
           var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
-          var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
@@ -184,7 +188,9 @@ module.exports = {
         cicstanford.compute_departure_times_in_minutes(itineraries);
         cicstanford.determine_airline(itineraries);
         var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
-        var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+        // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+        // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+        var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Price'].order, tileArr['Departure'].order, tileArr['Airline'].order);
         // append the default zero smartRank
         for (var i = 0; i < itineraries.length; i++) {
           itineraries[i].smartRank = 0;
@@ -535,6 +541,8 @@ module.exports = {
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
       var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
+      // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
+      // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
       var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Price'].order, tileArr['Departure'].order, tileArr['Airline'].order);
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
@@ -558,26 +566,14 @@ module.exports = {
           next_rank++;
         }
       }
-      //DEMO-285 temporary shrink result based on smart rank
-      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
-        sails.log.info('params.topSearchOnly', params.topSearchOnly);
-        var tmp = [];
-        for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-          tmp.push(itineraries[i]);
-        }
-        sails.log.info('before DEMO-285', itineraries.length);
-        itineraries = tmp;
-        sails.log.info('after DEMO-285', itineraries.length);
-      }
     } else {
-      var _itineraries = _.clone(itineraries, true);
       sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(_itineraries);
-      cicstanford.determine_airline(_itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(_itineraries, Tile.userPreferredAirlines);
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
       // append the default zero smartRank
-      for (var i = 0; i < _itineraries.length; i++) {
-        _itineraries[i].smartRank = 0;
+      for (var i = 0; i < itineraries.length; i++) {
+        itineraries[i].smartRank = 0;
       }
       // extract all the itinerary IDs into a separate array
       var ID = itineraries.map(function (it) {
@@ -589,7 +585,17 @@ module.exports = {
         var itin_index = ID.indexOf(itin_id);
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
-
+    }
+    //DEMO-285 temporary shrink result based on smart rank
+    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+      sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      var tmp = [];
+      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
+        tmp.push(itineraries[i]);
+      }
+      sails.log.info('before DEMO-285', itineraries.length);
+      itineraries = tmp;
+      sails.log.info('after DEMO-285', itineraries.length);
     }
     //cicstanford.print_many_itineraries(itineraries);
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
@@ -620,9 +626,11 @@ module.exports = {
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
           sails.log.info('Scenario 1 : Prune and rank all together');
-          var pruned = cicstanford.prune_itineraries(itineraries);
+          var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
           sails.log.info('Pruned itineraries to ', pruned.length);
-          var ranked = cicstanford.rank_itineraries(pruned, tileArr['Price'].order, tileArr['Price'].order);
+          // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
@@ -639,12 +647,14 @@ module.exports = {
           var itineraries_departing_Q4 = itineraries.filter(function (it) {
             return (it.citypairs[0].from.quarter == 4);
           });  // only keep the ones departing 6pm-midnight
-          var pruned_departing_Q1 = cicstanford.prune_itineraries(itineraries_departing_Q1);
-          var pruned_departing_Q2 = cicstanford.prune_itineraries(itineraries_departing_Q2);
-          var pruned_departing_Q3 = cicstanford.prune_itineraries(itineraries_departing_Q3);
-          var pruned_departing_Q4 = cicstanford.prune_itineraries(itineraries_departing_Q4);
+          var pruned_departing_Q1 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q1);
+          var pruned_departing_Q2 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q2);
+          var pruned_departing_Q3 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q3);
+          var pruned_departing_Q4 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q4);
           var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
-          var ranked_departing_Q1234 = cicstanford.rank_itineraries(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+          // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+          var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
           sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
@@ -788,7 +798,8 @@ module.exports = {
             tileArr['Departure'].filters.push({
               title: timeArr[itinerary.citypairs[0].from.quarter - 1],
               id:'departure_tile_' + itinerary.citypairs[0].from.quarter,
-              count : 1
+              count : 1,
+              order: itinerary.citypairs[0].from.quarter
             });
             filterClass = filterClass + ' ' + 'departure_tile_' + itinerary.citypairs[0].from.quarter;
           } else {
@@ -803,7 +814,8 @@ module.exports = {
             tileArr['Arrival'].filters.push({
               title: timeArr[itinerary.citypairs[0].to.quarter - 1],
               id:'arrival_tile_' + itinerary.citypairs[0].to.quarter,
-              count : 1
+              count : 1,
+              order: itinerary.citypairs[0].to.quarter
             });
             filterClass = filterClass + ' ' + 'arrival_tile_' + itinerary.citypairs[0].to.quarter;
           } else {
@@ -820,7 +832,8 @@ module.exports = {
               tileArr['destinationDeparture'].filters.push({
                 title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1],
                 id: 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter,
-                count: 1
+                count: 1,
+                order: itinerary.citypairs[lastElement].from.quarter
               });
               filterClass = filterClass + ' ' + 'destination_departure_tile_' + itinerary.citypairs[lastElement].from.quarter;
             } else {
@@ -835,7 +848,8 @@ module.exports = {
               tileArr['sourceArrival'].filters.push({
                 title: timeArr[itinerary.citypairs[lastElement].to.quarter - 1],
                 id: 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter,
-                count: 1
+                count: 1,
+                order: itinerary.citypairs[lastElement].to.quarter
               });
               filterClass = filterClass + ' ' + 'source_arrival_tile_' + itinerary.citypairs[lastElement].to.quarter;
             } else {
@@ -960,6 +974,9 @@ module.exports = {
           tileArr['Merchandising'].order = 1000;
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
+          tileArr.forEach(function (tile) {
+            tile.filters = _.sortBy(tile.filters, 'order');
+          });
         }
         return callback(err, itineraries, tileArr);
       });

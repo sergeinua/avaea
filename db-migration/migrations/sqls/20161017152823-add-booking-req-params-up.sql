@@ -1,0 +1,1 @@
+ALTER TABLE booking ADD req_params JSON;

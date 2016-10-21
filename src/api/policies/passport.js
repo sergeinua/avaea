@@ -25,7 +25,9 @@ module.exports = function (req, res, next) {
   // Initialize Passport
   passport.initialize()(req, res, function () {
     var ua = req.get('user-agent');
+
     req.isMobile = res.locals.isMobile = /mobile/i.test(ua);
+    req.showUnsupportedAlert = res.locals.showUnsupportedAlert = !/Chrome/i.test(ua) && !/MSIE 1\d/i.test(ua);
     req.mobileDevice = res.locals.mobileDevice = null;
     if (req.isMobile) {
       if (/iPhone|iPad|iPod/i.test(ua)) {
