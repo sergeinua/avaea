@@ -27,7 +27,6 @@ var Citypairs = React.createClass({
   render: function() {
     return (
       <div className="row notable-area">
-        {this.showFMiles(this.props.miles)}
         {this.state.citypairs.map(function (pair, i) {
             i++;
             return  <div className="section" key={i}><div className="row title">
@@ -46,6 +45,7 @@ var Citypairs = React.createClass({
             })}
             </div>
           })}
+        {this.showFMiles(this.props.miles)}
         <div className="refundable">Refund Type:  </div>
       </div>
     )
