@@ -4,6 +4,14 @@
 /* global callTo */
 /* global replyTo */
 %>
+<% if (user) { %>
+<script type="text/javascript">
+  var NavBarInit = {
+    user: {email:"<%= user.email %>", id: <%= user.id %>}
+  };
+</script>
+<% } %>
+
 <div id="onlynavbar" page="booking"></div>
 
 <div class="booking-success">
@@ -39,7 +47,9 @@
 
   <script>
   var ItineraryData = <%- JSON.stringify(order[0]) %>;
-  var InitResultData = {iconSpriteMap: []};
+  var InitResultData = {
+    iconSpriteMap: []
+  };
   </script>
 
   <div class="trip ti">Trip Details</div>
@@ -61,7 +71,7 @@
       Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('E-Ticket Confirmation')%>'>Email Us</a>
       or call&nbsp;<%= callTo %>
     </span>
-    
+
   </div>
 
   <!--
