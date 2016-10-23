@@ -13,11 +13,12 @@ module.exports = {
     });
   },
 
-  track: function (userId, event, properties) {
+  track: function (userId, event, properties, anonymousId) {
     analytics.track({
       userId: userId,
       event: event,
-      properties: properties
+      properties: properties,
+      anonymousId: anonymousId
     });
   }
 

@@ -235,8 +235,13 @@ passport.connect = function (req, query, profile, next) {
             }
 
             if (! _is_whitelist) {
-              segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
-              callback('Email ' + user.email + ' is not in the whitelist');
+              if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
+                segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
+                callback('Email ' + user.email + ' is not in the whitelist');
+              } else {
+                segmentio.track(null, 'Login Failed', {error: 'Email ' + user.email + ' is not registered'}, 'anonymous');
+                callback('Email ' + user.email + ' is not registered');
+              }
             } else {
               callback(null, genRes);
             }
