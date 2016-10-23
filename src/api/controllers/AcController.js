@@ -240,6 +240,34 @@ module.exports = {
         return res.json({error: err});
       }
     });
-  }
+  },
+
+  airlines: function (req, res) {
+
+    // Trim left whitespaces
+    var _query = req.param('q').replace(/^\s*/,"");
+
+    Airlines.find({
+      where: {
+        'name': {'startsWith': _query},
+        'active': true
+      },
+      sort: 'name',
+      limit: 10
+    }).exec(function (err, found) {
+      if (!err && found.length) {
+        for (var i = 0; i < found.length; i++) {
+          found[i] = {
+            value: found[i].name,
+            label: found[i].name,
+          }
+        }
+        return res.json(found);
+      }
+      else {
+        return res.json([]);
+      }
+    });
+  },
 };
 

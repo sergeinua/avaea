@@ -40,7 +40,7 @@ var UserProfilePanelBlockMembership = React.createClass({
               <label>Airline Name</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                     data-fieldset="lounge_membership" onClick={self.props.onRemoveFieldset} >remove</span>
-              <input type="text" name="lounge_membership.airline_name[]" className="form-control input-sm" placeholder="Airline Name" defaultValue={item.airline_name} />
+              <UserProfilePanelAirlineSelect elem_name={"lounge_membership.airline_name["+index+"]"} elem_value={item.airline_name}/>
 
               <label>Club Membership Number</label>
               <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number} />

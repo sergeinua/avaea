@@ -11,7 +11,26 @@ var getSpriteMapFileName = function () {
 
 module.exports = {
 
-  makeIconSpriteMap: function(cbSpriteMap) {
+  autoCreatedAt: false,
+  autoUpdatedAt: false,
+  attributes: {
+    id: {
+      type: 'integer',
+      primaryKey: true,
+      unique: true,
+      required: true
+    },
+    name:       { type: 'string' },
+    alias:      { type: 'string' },
+    iata_2code: { type: 'string' },
+    icao_3code: { type: 'string' },
+    callsign:   { type: 'string' },
+    country:    { type: 'string' },
+    active:     { type: 'boolean' },
+  },
+  tableName: 'airlines_new',
+
+makeIconSpriteMap: function(cbSpriteMap) {
     async.waterfall([
           function (callback) {
             fs.readFile(getSpriteMapFileName(), {encoding: 'utf-8'}, function (err, data) {
