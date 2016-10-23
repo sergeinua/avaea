@@ -46,7 +46,7 @@
     "sails": "~0.12.3",
     "sails-disk": "~0.10.9",
     "sails-generate-auth": "^0.3.1",
-    "sails-hook-winston": "^1.1.0",
+    "sails-hook-winston": "^0.2.1",
     "sails-memory": "^0.10.7",
     "sails-migrations": "^2.0.7",
     "sails-pg-session": "^1.0.1",
