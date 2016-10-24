@@ -30,11 +30,14 @@ module.exports = {
   profile: function (req, res) {
 
     var selectedAirline = this._setAirlineCode(req);
+    sails.log.info('_req_params:' + require('util').inspect(req.params, {showHidden: true, depth: null})); // TEMP debug
 
     Profile.findOneByUserId(req.params.user_id).exec(function findOneCB(err, found) {
 
+      sails.log.info('_found:' + require('util').inspect(found, {showHidden: true, depth: null})); // TEMP debug
       if (!found) {
 
+        sails.log.info('_redirect:' + ((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id)); // TEMP debug
         res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id);
 
       } else {
