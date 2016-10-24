@@ -141,8 +141,6 @@ $(document).ready(function () {
     if (regexp_res = $('#user_search_form').val().match(/^ID#(\d+)/)) {
       user_id = regexp_res[1];
     }
-    console.log('_regexp_res:'+JSON.stringify(regexp_res)); // TEMP debug
-    console.log('_user_id:'+user_id); // TEMP debug
 
     if (user_id) {
       lastUpdated = 0;
@@ -161,11 +159,7 @@ $(document).ready(function () {
 
   $('#userProfileButton').on('click', function () {
     if (user_id) {
-      alert('_userProfileButton:'+ ((GlobalSelectedAirline ? '/' + GlobalSelectedAirline : '') + '/profile/' + user_id)); // TEMP debug
       window.location.href = (GlobalSelectedAirline ? '/' + GlobalSelectedAirline : '') + '/profile/' + user_id;
-    }
-    else { // TEMP debug
-      alert('_userProfileButton: nothing to redirect');
     }
   });
 

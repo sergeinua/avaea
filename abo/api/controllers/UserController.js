@@ -35,6 +35,8 @@ module.exports = {
     Profile.findOneByUserId(req.params.user_id).exec(function findOneCB(err, found) {
 
       sails.log.info('_found:' + require('util').inspect(found, {showHidden: true, depth: null})); // TEMP debug
+      sails.log.info(err); // TEMP debug
+      sails.log.info('_err_inspect:' + require('util').inspect(err, {showHidden: true, depth: null})); // TEMP debug
       if (!found) {
 
         sails.log.info('_redirect:' + ((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id)); // TEMP debug
