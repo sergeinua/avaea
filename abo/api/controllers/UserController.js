@@ -30,17 +30,19 @@ module.exports = {
   profile: function (req, res) {
 
     var selectedAirline = this._setAirlineCode(req);
+    var _user_id = req.params.user_id;
     sails.log.info('_req_params:' + require('util').inspect(req.params, {showHidden: true, depth: null})); // TEMP debug
+    sails.log.info(_user_id); // TEMP debug
 
-    Profile.findOneByUserId(req.params.user_id).exec(function findOneCB(err, found) {
+    Profile.findOneByUserId(_user_id).exec(function findOneCB(err, found) {
 
       sails.log.info('_found:' + require('util').inspect(found, {showHidden: true, depth: null})); // TEMP debug
       sails.log.info(err); // TEMP debug
       sails.log.info('_err_inspect:' + require('util').inspect(err, {showHidden: true, depth: null})); // TEMP debug
       if (!found) {
 
-        sails.log.info('_redirect:' + ((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id)); // TEMP debug
-        res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id);
+        sails.log.info('_redirect:' + ((selectedAirline ? '/' + selectedAirline : '') + '/create/' + _user_id)); // TEMP debug
+        res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + _user_id);
 
       } else {
 
@@ -82,7 +84,7 @@ module.exports = {
         return res.view('user/profile', {
           selectedAirline: selectedAirline,
           title:'Update profile',
-          selectedUser: req.params.user_id,
+          selectedUser: _user_id,
           user: req.user,
           profile_fields: profile_fields
         });
