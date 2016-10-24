@@ -48,9 +48,6 @@ if (selectedAirline) { %>
     <label>Country</label>
     <input type="text" name="country_code" class="form-control input-sm" placeholder="CountryCode"  value="<%= profile_fields.personal_info.address.country_code %>" />
 
-    <label>Ethnicity (Race)</label>
-    <%- _res = widgets.dropDownList(profile_fields, "ethnicity", Profile.attr_ethnicity, {"class": "form-control input-sm"}) %>
-
     <!--In Case of Emergency Notify-->
     <label>In Case of Emergency Notify</label>
     <input type="text" name="notify_contact.name" class="form-control input-sm" placeholder="In Case of Emergency Notify"  value="<%= profile_fields.notify_contact.name %>" />
