@@ -255,7 +255,10 @@ module.exports = {
       sort: 'name',
       limit: 10
     }).exec(function (err, found) {
-      if (!err && found.length) {
+      if (err) {
+        sails.log.error(err);
+      }
+      if (found && found.length) {
         for (var i = 0; i < found.length; i++) {
           found[i] = {
             value: found[i].name,

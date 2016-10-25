@@ -28,7 +28,7 @@ module.exports = {
     country:    { type: 'string' },
     active:     { type: 'boolean' },
   },
-  tableName: 'airlines_new',
+  tableName: 'airlines',
 
 makeIconSpriteMap: function(cbSpriteMap) {
     async.waterfall([
