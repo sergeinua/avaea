@@ -1,7 +1,17 @@
 <%
 /* global reqParams */
 /* global bookingRes */
+/* global callTo */
+/* global replyTo */
 %>
+<% if (user) { %>
+<script type="text/javascript">
+  var NavBarInit = {
+    user: {email:"<%= user.email %>", id: <%= user.id %>}
+  };
+</script>
+<% } %>
+
 <div id="onlynavbar" page="booking"></div>
 
 <div class="booking-success">
@@ -14,7 +24,7 @@
         <span class="number"><%= bookingRes.PNR %></span>
       </div>
       <div class="wrapper">
-        <span class="label-ti">Ticket:</span>
+        <span class="label-ti">Ticket: </span>
         <span class="number"><%= bookingRes.ReferenceNumber %></span>
       </div>
 
@@ -37,7 +47,9 @@
 
   <script>
   var ItineraryData = <%- JSON.stringify(order[0]) %>;
-  var InitResultData = {iconSpriteMap: []};
+  var InitResultData = {
+    iconSpriteMap: []
+  };
   </script>
 
   <div class="trip ti">Trip Details</div>
@@ -54,8 +66,12 @@
 
 
   <div class="help-contact">
-    <span class="copy">Need help? &nbsp;<a href="mailto:support@avaea.com?subject=E-Ticket Confirmation">Email Us</a>&nbsp;or call&nbsp;510-249-9333</span>
-    
+    <span class="copy">
+      <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
+      Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('E-Ticket Confirmation')%>'>Email Us</a>
+      or call&nbsp;<%= callTo %>
+    </span>
+
   </div>
 
   <!--

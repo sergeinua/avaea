@@ -29,10 +29,10 @@ function loggerQuery(q, result) {
 
 var VoiceForm = React.createClass({
   getInitialState: function() {
-    var text = 'Activate the mic to specify your from and to cities, and dates of travel';
+    var text = 'Activate the mic. Then specify your from and to cities, and dates of travel';
     //FIXME get rid from jquery
     if (!$('body').hasClass('desktop')) {
-      text = 'Tap the mic on your device to specify your from and to cities, and dates of travel'
+      text = 'Tap here. Then tap the microphone icon on the keyboard.'
     }
     var isMobileDev = navigator.userAgent.match(/Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile/i);
     if (!('webkitSpeechRecognition' in window)) {
@@ -130,6 +130,8 @@ var VoiceForm = React.createClass({
         // if (final_transcript || interim_transcript);
       };
     }
+
+    final_textarea.focus();
   },
 
   handleChange: function(event) {
@@ -295,7 +297,6 @@ var VoiceForm = React.createClass({
             <textarea
               name="voiceSearch"
               id="voiceSearchTextarea"
-              autofocus="true"
               placeholder={this.state.placeholderText}
               value = {this.state.voiceSearchValue}
               onChange={this.handleChange}

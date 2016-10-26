@@ -43,7 +43,8 @@ module.exports.routes = {
   'get /auth/:provider/:action': 'AuthController.callback',
 
   'get /order': 'BuyController.order',
-  'post /booking': 'BuyController.booking',
+  'post /booking_proc': 'BuyController.booking_proc', // Booking processing
+  'get /booking': 'BuyController.booking', // Booking result page
   'get /search': 'SearchController.index',
   'post /result': 'SearchController.result',
   'get /result': 'SearchController.result',

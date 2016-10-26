@@ -1,0 +1,1 @@
+ALTER TABLE booking DROP req_params;

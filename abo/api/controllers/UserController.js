@@ -30,13 +30,15 @@ module.exports = {
   profile: function (req, res) {
 
     var selectedAirline = this._setAirlineCode(req);
+    var _user_id = req.params.user_id;
 
-    Profile.findOneByUserId(req.params.user_id).exec(function findOneCB(err, found) {
+    Profile.findOneByUserId(_user_id).exec(function findOneCB(err, found) {
+      if (err) {
+        sails.log.error(err);
+      }
 
       if (!found) {
-
-        res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + req.params.user_id);
-
+        res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + _user_id);
       } else {
 
         if (!found.employer) {
@@ -77,7 +79,7 @@ module.exports = {
         return res.view('user/profile', {
           selectedAirline: selectedAirline,
           title:'Update profile',
-          selectedUser: req.params.user_id,
+          selectedUser: _user_id,
           user: req.user,
           profile_fields: profile_fields
         });
