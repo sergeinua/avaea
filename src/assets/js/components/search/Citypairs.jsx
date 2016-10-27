@@ -24,7 +24,7 @@ var Citypairs = React.createClass({
     return <div className="ff-miles none">No Frequent Flyer miles</div>
   },
 
-  render: function() {console.log(this.state, ItineraryData);
+  render: function() {
     return (
       <div className="row notable-area">
         {this.state.citypairs.map(function (pair, i) {
