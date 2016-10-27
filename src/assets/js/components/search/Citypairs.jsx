@@ -24,7 +24,7 @@ var Citypairs = React.createClass({
     return <div className="ff-miles none">No Frequent Flyer miles</div>
   },
 
-  render: function() {
+  render: function() {console.log(this.state, ItineraryData);
     return (
       <div className="row notable-area">
         {this.state.citypairs.map(function (pair, i) {
@@ -46,7 +46,7 @@ var Citypairs = React.createClass({
             </div>
           })}
         {this.showFMiles(this.props.miles)}
-        <div className="refundable">Refund Type:  </div>
+        <div className="refundable">Refund Type: {ItineraryData.RefundType}</div>
       </div>
     )
   }
