@@ -1,5 +1,6 @@
 
 var fs = require('fs');
+var qpromice = require('q');
 
 var assets_dir = '.tmp/public';
 var icons_dir = 'images/airlines';
@@ -29,6 +30,21 @@ module.exports = {
     active:     { type: 'boolean' },
   },
   tableName: 'airlines',
+
+  findByCriteria: function (criteria) {
+    var qdefer = qpromice.defer();
+
+    this.find(criteria).exec(function (err, records) {
+      if (err) {
+        sails.log.error(err);
+        qdefer.reject(err);
+      } else {
+        qdefer.resolve(records);
+      }
+    });
+
+    return qdefer.promise;
+  },
 
 makeIconSpriteMap: function(cbSpriteMap) {
     async.waterfall([

@@ -249,8 +249,12 @@ module.exports = {
 
     Airlines.find({
       where: {
-        'name': {'startsWith': _query},
-        'active': true
+        or : [
+          {name: {'contains': _query}},
+          {iata_2code: _query}
+        ],
+        iata_2code: {'!' : ['','-','--','..','^^','-+',"'"]},
+        active: true
       },
       sort: 'name',
       limit: 10
@@ -262,7 +266,7 @@ module.exports = {
         for (var i = 0; i < found.length; i++) {
           found[i] = {
             value: found[i].name,
-            label: found[i].name,
+            label: found[i].name +' ('+ found[i].iata_2code +')',
           }
         }
         return res.json(found);

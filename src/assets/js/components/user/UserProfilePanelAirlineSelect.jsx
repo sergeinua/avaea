@@ -27,6 +27,7 @@ var UserProfilePanelAirlineSelect = React.createClass({
         return response.json();
       })
       .then((json) => {
+        console.log('_airlines:'+ JSON.stringify(json));
         return {options: json};
       })
       .catch(function (error) {

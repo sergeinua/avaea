@@ -97,7 +97,7 @@ module.exports = {
         });
       }
     } else {
-      sails.log.error('Got miles_programs.airline_name with type =' + (typeof form['miles_programs.airline_name']));
+      sails.log.warn('Got miles_programs.airline_name with type=' + (typeof form['miles_programs.airline_name']));
     }
 
     if (form['lounge_membership.airline_name']) {
@@ -109,10 +109,10 @@ module.exports = {
         });
       }
     } else {
-      sails.log.error('Got lounge_membership.airline_name with type =' + (typeof form['miles_programs.airline_name']));
+      sails.log.warn('Got lounge_membership.airline_name with type=' + (typeof form['lounge_membership.airline_name']));
     }
 
-    if (form['preferred_airlines.travel_type']) {
+    if (form['preferred_airlines.travel_type'] && form['preferred_airlines.airline_name']) {
       for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
         jsonStruct.preferred_airlines.push({
           travel_type: form['preferred_airlines.travel_type'][i],
@@ -120,9 +120,10 @@ module.exports = {
         });
       }
     } else {
-      sails.log.error('Got preferred_airlines.travel_type with type =' + (typeof form['miles_programs.airline_name']));
+      sails.log.warn('Got preferred_airlines.travel_type with type=' + (typeof form['preferred_airlines.travel_type']) +
+        '; preferred_airlines.airline_name type=' + (typeof form['preferred_airlines.airline_name']));
     }
 
     return jsonStruct;
-  }
+  },
 };
