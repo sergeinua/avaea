@@ -399,13 +399,13 @@
 	margin-left: 0;
 }
 
-.desktop .notable-area .ff-miles, 
+.desktop .notable-area .ff-miles,
 .desktop .notable-area .ff-miles.no-value {
     margin-left: -40px;
 		margin-right: -40px;
 }
 
-.notable-area .details .col-xs-2.dest, 
+.notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
 	text-transform: none;
 }
@@ -919,7 +919,7 @@ form label.required:before,
 }
 
 .has-error .form-control {
-	border: 1px solid #ed2741;;
+	border: 1px solid #ed2741;
 }
 
 /* highlight */
@@ -928,6 +928,11 @@ form label.required:before,
 	background: #ffffde;
 }
 
+
+.form label.error {
+  display: block;
+  color: #ed2741;
+}
 
 /* grays */
 
@@ -1017,7 +1022,7 @@ textarea {
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .ff-miles.none {
-	color: #a2a2a2; 
+	color: #a2a2a2;
 }
 
 .tt-hint,
@@ -3022,7 +3027,7 @@ body.desktop form.profile {
 		height: 120px;
 		background-size: 60%;
 	}
-	
+
 	.touch .login-holder .big-button,
 	.touch .login-invite-only {
 		position: relative;
@@ -3214,8 +3219,8 @@ body.desktop form.profile {
 	.touch .flight-unit .notable-area .details .col-xs-2.length {
 		padding-right: 5px;
 	}
-	
-	.touch .itinerary-info .col-xs-3.departLoc, 
+
+	.touch .itinerary-info .col-xs-3.departLoc,
 	.touch .itinerary-info .col-xs-3.arriveLoc {
 		padding-left: 20px;
 	}
