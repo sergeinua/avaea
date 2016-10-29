@@ -8,7 +8,7 @@ $(document).ready(function() {
    */
   $.validator.addMethod("lettersonly", function(value, element) {
     console.log(value, element);
-    return this.optional(element) || /^[a-z]+$/i.test(value);
+    return this.optional(element) || /^[a-z\s]+$/i.test(value);
   }, "Please remove any non alphabetical characters from your name");
 
   /**
