@@ -6,6 +6,7 @@
 /* global Order */
 var util = require('util');
 var url = require('url');
+var lodash = require('lodash');
 /**
  * BuyController
  */
@@ -79,27 +80,51 @@ module.exports = {
             action    : 'order',
             itinerary : JSON.parse(result)
           };
+          lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
+          var parseFareRules = function (err, result) {
+            if (err) {
+              sails.log.error("Itinerary ID= %s Fare Rules:", id, err);
+            } else {
+              sails.log.info("Itinerary ID= %s Fare Rules:", id, result);
+              if (result.SubSection && result.SubSection.Text) {
+                var _parts = result.SubSection.Text.split(/\.\n/);
+                if (_parts[0]) {
+                  var _part = _parts[0].replace(/^(.*\n\s*\n?)(.*)/g, '$2');
+                  logData.itinerary.RefundType = _part || '';
+                }
+              }
+            }
 
-          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(req.user);
-          });
+            itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
-          // Save for booking action
-          req.session.booking_itinerary = {
-            itinerary_id: id,
-            itinerary_data: logData.itinerary
+            UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
+              User.publishCreate(req.user);
+            });
+
+            // Save for booking action
+            req.session.booking_itinerary = {
+              itinerary_id: id,
+              itinerary_data: logData.itinerary
+            };
+
+            return res.ok(
+              {
+                user: req.user,
+                reqParams: reqParams,
+                order:[logData.itinerary]
+              },
+              'order'
+            );
           };
 
-          return res.ok(
-            {
-              user: req.user,
-              reqParams: reqParams,
-              order:[logData.itinerary]
-            },
-            'order'
-          );
+          if (logData.itinerary.service == 'mondee') {
+            mondee.getFareRules(Search.getCurrentSearchGuid() + '-' + sails.config.flightapis.searchProvider, reqParams, parseFareRules);
+
+          }
+
+
+
         }
         else {
           return onIllegalResult();

@@ -473,6 +473,15 @@ var getCancelPnrRq = function(id, params) {
   return req;
 };
 
+var getFareRulesRq = function (id, params) {
+  var req = getBaseRq(id);
+
+  req.FareRulesRequest = {
+    ItineraryId: params.id
+  };
+  return req;
+};
+
 module.exports = {
 
   flightSearch: function(guid, params, callback) {
@@ -628,6 +637,49 @@ module.exports = {
           }
           else {
             return callback(null, result.CancelPNRResponse);
+          }
+        });
+      }
+    });
+  },
+
+  getFareRules: function (guid, params, callback) {
+    var _api_name = "fareRules";
+    sails.log.info('Mondee '+_api_name+' API call started');
+    utils.timeLog('mondee');
+
+    var wsdlUrl = getWsdlUrl(_api_name);
+    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
+
+      if (err) {
+        sails.log.error("SOAP: An error occurs:\n" + err);
+        return callback(err, {});
+      }
+      else {
+        var req = getFareRulesRq(guid, params);
+        sails.log.info("FareRules request:", util.inspect(req, {showHidden: true, depth: null}));
+        if(req instanceof Error) {
+          return callback(req, {});
+        }
+
+        return client.FareRules(req, function(err, result, raw, soapHeader) {
+
+          if (utils.timeLogGet('mondee') > 7000) {
+            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+          }
+          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee'), JSON.stringify(req), raw);
+
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.FareRulesResponse != "object") || lodash.isEmpty(result.FareRulesResponse)) {
+            if (!err) {
+              err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable To Get Fare Rules';
+            }
+            sails.log.error(err);
+            return callback(err, {});
+          }
+          else {
+            return callback(null, result.FareRulesResponse);
           }
         });
       }

@@ -46,7 +46,7 @@ var Citypairs = React.createClass({
             </div>
           })}
         {this.showFMiles(this.props.miles)}
-        <div className="refundable">Refund Type:  </div>
+        <div className="refundable">Refund Type: {ItineraryData.RefundType}</div>
       </div>
     )
   }
