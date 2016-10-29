@@ -1,7 +1,16 @@
 /* global $ */
 
 $(document).ready(function() {
-	
+
+  /**
+   * Added according to DEMO-707
+   * @link https://avaeaeng.atlassian.net/browse/DEMO-707
+   */
+  $.validator.addMethod("lettersonly", function(value, element) {
+    console.log(value, element);
+    return this.optional(element) || /^[a-z]+$/i.test(value);
+  }, "Please remove any non alphabetical characters from your name");
+
   /**
    * Client validation during booking of itinerary
    */
@@ -11,10 +20,12 @@ $(document).ready(function() {
         required: true
       },
       FirstName: {
-        required: true
+        required: true,
+        lettersonly: true
       },
       LastName: {
-        required: true
+        required: true,
+        lettersonly: true
       },
       Gender: {
         required: true
@@ -61,18 +72,23 @@ $(document).ready(function() {
         maxlength: 3
       }
     },
-    errorPlacement: function(error, element){}, // Skip error messages
+    errorPlacement: function(error, element) {
+      if (element.attr("name") == "FirstName" || element.attr("name") == "LastName" ) {
+        error.insertAfter(element);
+      }
+      // Skip other error messages
+    },
     highlight: function(input) {
       $(input).parent().addClass('has-error');
     },
     unhighlight: function(input) {
       $(input).parent().removeClass('has-error');
     },
-    
+
     // booking modal
     submitHandler: function(form) {
     	var _isError = false;
-    	
+
     	if ($('.booking .form input').parent().hasClass('has-error')) {
     		_isError = true;
     		return false;
@@ -83,10 +99,10 @@ $(document).ready(function() {
     }
 
   });
-  
-  
+
+
 });
 
-  
-  
+
+
 
