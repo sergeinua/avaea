@@ -36,12 +36,14 @@ var UserProfilePanelAirlineSelect = React.createClass({
   },
 
   render: function () {
+    // @TODO Turn on caching. Now if caching is on then after airline removing we loose airline values in remain fields
     return <Select.Async
       name={this.props.elem_name} value={this.state.airlineName} className="form-control input-sm" placeholder="Airline Name"
       loadOptions={this.getSelectOptions}
       isLoading={true}
       onChange={this.handleChange}
       clearable={false}
+      cache={false}
     />
   }
 
