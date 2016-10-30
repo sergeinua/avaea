@@ -61,6 +61,7 @@
     <div class="page-ti">Billing</div>
 
       <input type="hidden" name="id" value="<%= reqParams.id %>">
+      <input type="hidden" name="refundType" value=""/>
 
         <label class="required">First Name</label>
         <input type="text" name="FirstName" class="form-control input-sm" placeholder="First Name" value="<%= reqParams.FirstName ? reqParams.FirstName : '' %>">
@@ -172,7 +173,7 @@
       <div class="modal-content">
         <div class="modal-body">
           <div class="copy">
-            Booking your trip!  
+            Booking your trip!
           </div>
           <div class="spinner-holder">
             <div class="icon-spinner"></div>

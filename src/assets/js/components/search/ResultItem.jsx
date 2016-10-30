@@ -5,13 +5,15 @@ var ResultItem = React.createClass({
       sRes: this.props.itinerary,
       fullinfo: this.props.showFullInfo || false,
       searchId: searchId,
-      miles: false
+      miles: false,
+      refundType: false
     };
   },
 
   componentDidMount: function () {
     if (this.state.fullinfo) {
       this.getMilesInfo();
+      this.getRefundType();
     }
   },
 
@@ -47,6 +49,28 @@ var ResultItem = React.createClass({
     });
   },
 
+  getRefundType: function () {
+    var ResultItem = this;
+    $.ajax({
+      url: '/ac/getRefundType?id=' + this.state.sRes.id,
+      type: 'get',
+    }).done(function( msg ) {
+      if( msg.error ) {
+        ResultItem.setState({
+          refundType: null
+        });
+      } else {
+        ResultItem.setState({
+          refundType: msg.value
+        });
+      }
+    }).fail(function(err) {
+      ResultItem.setState({
+        refundType: null
+      });
+    });
+  },
+
   toggleFullInfo: function () {
     var itineraryId = this.state.sRes.id;
     return function() {
@@ -55,6 +79,7 @@ var ResultItem = React.createClass({
 
       if (newVal) {
         this.getMilesInfo();
+        this.getRefundType();
 
         logAction('on_itinerary_purchase', {
           action: 'itinerary_expanded',
@@ -146,7 +171,7 @@ var ResultItem = React.createClass({
     </div>
 
     { (this.state.fullinfo ?
-      <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information} miles={this.state.miles}/>
+      <Citypairs citypairs={this.state.sRes.citypairs} information={this.state.sRes.information} miles={this.state.miles} refundType={this.state.refundType} />
       : null
     )}
 

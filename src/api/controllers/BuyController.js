@@ -82,49 +82,26 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          var parseFareRules = function (err, result) {
-            if (err) {
-              sails.log.error("Itinerary ID= %s Fare Rules:", id, err);
-            } else {
-              sails.log.info("Itinerary ID= %s Fare Rules:", id, result);
-              if (result.SubSection && result.SubSection.Text) {
-                var _parts = result.SubSection.Text.split(/\.\n/);
-                if (_parts[0]) {
-                  var _part = _parts[0].replace(/^(.*\n\s*\n?)(.*)/g, '$2');
-                  logData.itinerary.RefundType = _part || '';
-                }
-              }
-            }
+          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
-            itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(req.user);
+          });
 
-            UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
-              User.publishCreate(req.user);
-            });
-
-            // Save for booking action
-            req.session.booking_itinerary = {
-              itinerary_id: id,
-              itinerary_data: logData.itinerary
-            };
-
-            return res.ok(
-              {
-                user: req.user,
-                reqParams: reqParams,
-                order:[logData.itinerary]
-              },
-              'order'
-            );
+          // Save for booking action
+          req.session.booking_itinerary = {
+            itinerary_id: id,
+            itinerary_data: logData.itinerary
           };
 
-          if (logData.itinerary.service == 'mondee') {
-            mondee.getFareRules(Search.getCurrentSearchGuid() + '-' + sails.config.flightapis.searchProvider, reqParams, parseFareRules);
-
-          }
-
-
-
+          return res.ok(
+            {
+              user: req.user,
+              reqParams: reqParams,
+              order:[logData.itinerary]
+            },
+            'order'
+          );
         }
         else {
           return onIllegalResult();

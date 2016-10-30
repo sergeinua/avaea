@@ -225,6 +225,58 @@ module.exports = {
       searchInfoByProviders : searchServicesData,
       searchInfoAirports   : (airportsStatistic.length ? _.sortBy(airportsStatistic, 'count').reverse() : [])
     };
+  },
+
+  getRefundType: function (params, callback) {
+    var guid = this.getCurrentSearchGuid();
+    var done = false;
+    var errorResult = (error) => {
+      sails.log.error(error);
+      var result = [];
+
+      result.guid = guid;
+      result.RefundType = '';
+      return callback(error, result);
+    };
+    // if no data in DB and APIs doesn't respond over 30 sec then stop searching
+    setTimeout(() => {
+      if (!done) {
+        done = true;
+        return errorResult('APIs does not respond over 30s');
+      }
+    }, 30000);
+
+    var errors = [], res = '';
+    if (params.service && _.indexOf(sails.config.flightapis.searchProvider, params.service) != -1) {
+      utils.timeLog('getRefundType_' + params.service);
+      // run async API search
+      global[params.service].getFareRules(guid, params, (err, result) => {
+        sails.log.info(params.service + ' get Fare Rules finished!');
+        if (err) {
+          errors.push(err);
+          res = null;
+          if (!done) {
+            done = true;
+            return errorResult(err);
+          } else {
+            sails.log.error(err);
+          }
+        } else {
+          if (result.SubSection && result.SubSection.Text) {
+            var _parts = result.SubSection.Text.split(/\.\n/);
+            if (_parts[0]) {
+              var _part = _parts[0].replace(/^(.*\n\s*\n?)(.*)/g, '$2');
+              res = _part || '';
+            }
+          }
+          if (!done) {
+            done = true;
+
+            return callback(null, res);
+          }
+        }
+      });
+    }
   }
 };
 

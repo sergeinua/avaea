@@ -550,5 +550,13 @@ module.exports = {
    */
   flightBooking: function(guid, params, callback) {
 
+  },
+
+  getFareRules: function (guid, params, callback) {
+    var _api_name = "fareRules";
+    sails.log.info('Farelogix '+_api_name+' API call started');
+    utils.timeLog('farelogix_FareRules');
+
+    return callback('Not implemented.', null);
   }
 };
