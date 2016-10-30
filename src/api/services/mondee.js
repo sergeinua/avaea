@@ -646,7 +646,7 @@ module.exports = {
   getFareRules: function (guid, params, callback) {
     var _api_name = "fareRules";
     sails.log.info('Mondee '+_api_name+' API call started');
-    utils.timeLog('mondee');
+    utils.timeLog('mondee_FareRules');
 
     var wsdlUrl = getWsdlUrl(_api_name);
     sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
@@ -666,17 +666,17 @@ module.exports = {
 
         return client.FareRules(req, function(err, result, raw, soapHeader) {
 
-          if (utils.timeLogGet('mondee') > 7000) {
-            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
+          if (utils.timeLogGet('mondee_FareRules') > 7000) {
+            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee_FareRules')/1000).toFixed(1)));
           }
-          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee'), JSON.stringify(req), raw);
+          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee_FareRules'), JSON.stringify(req), raw);
 
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.FareRulesResponse != "object") || lodash.isEmpty(result.FareRulesResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable To Get Fare Rules';
             }
             sails.log.error(err);
-            return callback(err, {});
+            return callback(err, null);
           }
           else {
             return callback(null, result.FareRulesResponse);

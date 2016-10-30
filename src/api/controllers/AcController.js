@@ -276,5 +276,20 @@ module.exports = {
       }
     });
   },
+
+  getRefundType: function (req, res) {
+    var reqParams = req.allParams();
+    var id = reqParams.id;
+    var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
+    memcache.get(cacheId, function(err, result) {
+      if (!err && !_.isEmpty(result)) {
+        Search.getRefundType(JSON.parse(result), function (err, results) {
+          return res.json({error: null, value: results});
+        });
+      } else {
+        return res.json({error: err, value: null});
+      }
+    });
+  }
 };
 

@@ -24,6 +24,15 @@ var Citypairs = React.createClass({
     return <div className="ff-miles none">No Frequent Flyer miles</div>
   },
 
+  showRefundType: function (refundType) {
+    $('input[name=refundType]').val(refundType);
+    if (refundType === false) {
+      return <div className="icon-spinner"></div>
+    } else {
+      return refundType;
+    }
+  },
+
   render: function() {
     return (
       <div className="row notable-area">
@@ -46,7 +55,10 @@ var Citypairs = React.createClass({
             </div>
           })}
         {this.showFMiles(this.props.miles)}
-        <div className="refundable">Refund Type: {ItineraryData.RefundType}</div>
+        <div className="refundable row">
+          <div className="col-xs-3 text-nowrap notable-text detail-col times">Refund Type:</div>
+          <div className="col-xs-8 text-left detail-col">{this.showRefundType(this.props.refundType)}</div>
+        </div>
       </div>
     )
   }
