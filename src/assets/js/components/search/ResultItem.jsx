@@ -50,6 +50,7 @@ var ResultItem = React.createClass({
   },
 
   getRefundType: function () {
+    if (this.state.refundType !== false) return;
     var ResultItem = this;
     $.ajax({
       url: '/ac/getRefundType?id=' + this.state.sRes.id,
