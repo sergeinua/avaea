@@ -283,7 +283,7 @@ var ResultPage = React.createClass({
                  <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
                  <ResultList InitResultData={this.state} />
                </span>)
-            : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} />
+            : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} errorType={this.props.InitResultData.errorType} />
         )}
 
       </div>

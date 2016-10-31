@@ -342,6 +342,22 @@ module.exports = {
         });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
 
+        var errType = '';
+        // Parse error and define error type
+        if (typeof itinerariesData.error == 'string') {
+          errType = '_system'; // as default
+          var no_flights_codes = [2002];
+          var no_flights_errors = [
+            'No Results Found',
+            'Departure Date should be greater than 3 days from the current date'
+          ];
+
+          if (itinerariesData.error.match(new RegExp('^\\(('+ no_flights_codes.join('|') +')\\)')) ||
+            itinerariesData.error.match(new RegExp('('+ no_flights_errors.join('|') +')','gi'))) {
+            errType = 'no_flights';
+          }
+        }
+
         return res.ok({
           user: req.user,
           title: title,
@@ -366,7 +382,8 @@ module.exports = {
           + (retDate ? ' and back on ' + sails.moment(retDate).format("DD MMM 'YY") : ''),
           iconSpriteMap: result.iconSpriteMap,
           departure: result.departure,
-          arrival: result.arrival
+          arrival: result.arrival,
+          errorType: errType
         }, 'search/result');
       });
     });
