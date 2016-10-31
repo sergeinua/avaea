@@ -737,7 +737,11 @@ module.exports = {
 
       sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
-      orderBy = 'price_tile';
+      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+        orderBy = 'smart';
+      } else {
+        orderBy = 'price_tile';
+      }
       switch (orderBy) {
         case 'price_tile':
           sails.log.info('Ordered by Price');
