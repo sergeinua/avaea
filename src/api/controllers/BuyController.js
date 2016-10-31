@@ -146,21 +146,29 @@ module.exports = {
       var tpl_vars = {
         reqParams: reqParams,
         order: order,
+        miles: { value: 0, name: ''},
         bookingRes: result,
         replyTo: sails.config.email.replyTo,
         callTo: sails.config.email.callTo,
       };
 
-      Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
-        .then(function (msgContent) {
-          Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
-            .then(function () {
-              sails.log.info('Mail was sent to '+ req.user.email);
-            })
-        })
-        .catch(function (error) {
-          sails.log.error(error);
-        });
+      ffmapi.milefy.Calculate(order, function (error, response, body) {
+        if (!error) {
+          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+          tpl_vars.miles.name = jdata.ProgramCodeName || '';
+          tpl_vars.miles.value = jdata.miles || 0;
+        }
+        Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+          .then(function (msgContent) {
+            Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
+              .then(function () {
+                sails.log.info('Mail was sent to '+ req.user.email);
+              })
+          })
+          .catch(function (error) {
+            sails.log.error(error);
+          });
+      });
 
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
