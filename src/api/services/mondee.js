@@ -665,12 +665,7 @@ module.exports = {
         }
 
         return client.FareRules(req, function(err, result, raw, soapHeader) {
-
-          if (utils.timeLogGet('mondee_FareRules') > 7000) {
-            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee_FareRules')/1000).toFixed(1)));
-          }
           sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee_FareRules'), JSON.stringify(req), raw);
-
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.FareRulesResponse != "object") || lodash.isEmpty(result.FareRulesResponse)) {
             if (!err) {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable To Get Fare Rules';
