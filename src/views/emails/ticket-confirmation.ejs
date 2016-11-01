@@ -184,7 +184,7 @@
                                 <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">E-Ticket Confirmation</td>
                             </tr>
                             <tr>
-                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<!-- dynamic --><%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
+                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
@@ -235,7 +235,7 @@
                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= bookingRes.PNR %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><%= bookingRes.PNR %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -270,7 +270,7 @@
                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= bookingRes.ReferenceNumber %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><%= bookingRes.ReferenceNumber %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -306,7 +306,7 @@
                                              <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><!-- dynamic --><%= (order.currency == 'USD') ? "$"+order.price : order.price +' '+ order.currency %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><%= (order.currency == 'USD') ? "$"+order.price : order.price +' '+ order.currency %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -331,87 +331,51 @@
             <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
                 <tr>
                     <td align="center" valign="top" width="500">
-            <![endif]-->
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
-                <tr>
-                    <td>
-                        <!-- TWO COLUMNS -->
-                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
-                            <tr>
-                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
-                                    <!-- LEFT COLUMN -->
-                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
-                                        <tr>
-                                            <td style="padding: 0 0 10px 0;">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                    <tr>
-                                                         <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Refund Type:</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                      </table>
-                                      <!-- RIGHT COLUMN -->
-                                      <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
-                                          <tr>
-                                              <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
-                                                  <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
-                                                      <tr>
-                                                          <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic add refundable --><%= reqParams.refundType || '' %></td>
-                                                      </tr>
-                                                  </table>
-                                              </td>
-                                          </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
+                      <![endif]-->
+                      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+                          <% if (miles.value > 0) {
+                          %>
+                          <tr>
+                              <td>
+                                  <!-- TWO COLUMNS -->
+                                  <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                                      <tr>
+                                          <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                              <!-- LEFT COLUMN -->
+                                              <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                                  <tr>
+                                                      <td style="padding: 0 0 10px 0;">
+                                                          <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                              <tr>
+                                                                  <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
+                                                              </tr>
+                                                          </table>
+                                                      </td>
+                                                  </tr>
+                                              </table>
+                                              <!-- RIGHT COLUMN -->
+                                              <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                                  <tr>
+                                                      <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
+                                                          <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
+                                                              <tr>
+                                                                  <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
+                                                              </tr>
+                                                          </table>
+                                                      </td>
+                                                  </tr>
+                                              </table>
+                                          </td>
+                                      </tr>
+                                  </table>
+                              </td>
+                          </tr>
+                          <%
+                          }%>
+                      </table>
+                      <!--[if (gte mso 9)|(IE)]>
                     </td>
                 </tr>
-
-                <% if (miles.value > 0) {
-                %>
-                <tr>
-                    <td>
-                        <!-- TWO COLUMNS -->
-                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
-                            <tr>
-                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
-                                    <!-- LEFT COLUMN -->
-                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
-                                        <tr>
-                                            <td style="padding: 0 0 10px 0;">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                    <tr>
-                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- RIGHT COLUMN -->
-                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
-                                        <tr>
-                                            <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
-                                                    <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <%
-                }%>
-            </table>
-            <!--[if (gte mso 9)|(IE)]>
-            </td>
-            </tr>
             </table>
             <![endif]-->
         </td>
@@ -445,14 +409,14 @@
                             </tr>
 
                             <!-- ---------- BEGIN loop "Depart" flights ----------- -->
-                            <% departData.flights.forEach(function (flight) { %>
+                            <% departData.flights.forEach(function (flight, count) { %>
 
                             <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') +', '+ flight.from.time %>
+                                      <%= sails.moment(flight.from.date).format('dddd, MMMM D') %>
                                     </td>
                                   </tr>
                                 </table>
@@ -464,7 +428,7 @@
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= flight.airline %> <%= flight.abbrNumber %>
+                                      <%= flight.airline %> <%= flight.abbrNumber %>
                                     </td>
                                   </tr>
                                 </table>
@@ -474,15 +438,34 @@
                              <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" >
+                                  <% if (count) { %>
+                                  <tr>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                      Change planes
+                                    </td>
+                                    <td align="center" colspan="2" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                      <%= order.citypairs[0].stops[count - 1].code %>
+                                    </td>
+                                    <td align="left" colspan="2" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                      <%= order.citypairs[0].stops[count - 1].duration %>
+                                    </td>
+                                  </tr>
+                                  <% } %>
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
-                                      <!-- dynamic Departure-airport-code --><%= flight.from.code %>
+                                      <%= flight.from.code %>
                                     </td>
                                     <td align="center" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
                                        &gt;
                                     </td>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
                                       <!-- dynamic Arrival-airport-code --><%= flight.to.code %>
+                                    </td>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                      <%= flight.from.time + '-' + flight.to.time %>
+                                    </td>
+                                    <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                      <%= flight.duration %>
                                     </td>
                                   </tr>
                                 </table>
@@ -511,14 +494,14 @@
                             </tr>
 
                             <!-- ---------- BEGIN loop "Return" flights ----------- -->
-                            <% returnData.flights.forEach(function (flight) { %>
+                            <% returnData.flights.forEach(function (flight, count) { %>
 
                             <tr>
                               <td style="padding: 0 0 10px 0;">
                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                   <tr>
                                     <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">
-                                      <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') +', '+ flight.from.time %>
+                                      <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') %>
                                     </td>
                                   </tr>
                                 </table>
@@ -541,6 +524,19 @@
                               <tr>
                                 <td style="padding: 0 0 10px 0;">
                                   <table cellpadding="0" cellspacing="0" border="0">
+                                    <% if (count) { %>
+                                    <tr>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                        Change planes
+                                      </td>
+                                      <td align="center" colspan="2" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                        <%= order.citypairs[1].stops[count - 1].code %>
+                                      </td>
+                                      <td align="left" colspan="2" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 10px 0;">
+                                        <%= order.citypairs[1].stops[count - 1].duration %>
+                                      </td>
+                                    </tr>
+                                    <% } %>
                                     <tr>
                                       <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 20px 0 0;">
                                         <!-- dynamic Departure-airport-code --><%= flight.from.code %>
@@ -550,6 +546,12 @@
                                       </td>
                                       <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
                                         <!-- dynamic Arrival-airport-code --><%= flight.to.code %>
+                                      </td>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                        <%= flight.from.time + '-' + flight.to.time %>
+                                      </td>
+                                      <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; padding: 0 0 0 20px;">
+                                        <%= flight.duration %>
                                       </td>
                                   </tr>
                                 </table>
