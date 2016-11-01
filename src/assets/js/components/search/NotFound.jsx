@@ -10,7 +10,7 @@ var NotFound = React.createClass({
     return (
       <div className="nothing-found">
           <div className="copy">
-            {user_messages.map((message, index) => <p key={'msg_'+index}>{message}</p>)}
+            {user_messages.map((message, index) => <div key={'msg_'+index}>{message}</div>)}
           </div>
           <div className="buttons">
             <a href="/search" className="big-button new-search-button" role="button">Try Again</a>
