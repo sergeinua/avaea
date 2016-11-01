@@ -4,7 +4,7 @@ var NotFound = React.createClass({
     if (this.props.errorType == 'no_flights') {
       user_messages = ['No flights are available for selected itinerary.','Please try different dates or airports'];
     } else {
-      user_messages = ['Your enquiry cannot be processed', 'at the moment due to technical problems.', 'Please try again later'];
+      user_messages = ['Your request cannot be processed', 'at the moment due to technical problems.', 'Please try again later'];
     }
 
     return (
