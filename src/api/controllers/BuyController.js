@@ -160,7 +160,7 @@ module.exports = {
         }
         Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
           .then(function (msgContent) {
-            Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
+            Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with '+tpl_vars.bookingRes.PNR}, msgContent)
               .then(function () {
                 sails.log.info('Mail was sent to '+ req.user.email);
               })
