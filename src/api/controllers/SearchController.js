@@ -346,16 +346,18 @@ module.exports = {
         // Parse error and define error type
         if (typeof itinerariesData.error == 'string') {
           errType = '_system'; // as default
-          var no_flights_codes = [2002];
+          var no_flights_codes = [2002, 9999];
           var no_flights_errors = [
             'No Results Found',
             'Departure Date should be greater than 3 days from the current date'
           ];
 
-          if (itinerariesData.error.match(new RegExp('^\\(('+ no_flights_codes.join('|') +')\\)')) ||
+          if (itinerariesData.error.match(new RegExp('\\(('+ no_flights_codes.join('|') +')\\)')) ||
             itinerariesData.error.match(new RegExp('('+ no_flights_errors.join('|') +')','gi'))) {
             errType = 'no_flights';
           }
+        } else if (itineraries && itineraries.length == 0) {
+          errType = 'no_flights';
         }
 
         return res.ok({
