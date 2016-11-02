@@ -3,6 +3,10 @@ var globalSelectionCount = 0;
 
 var ResultPage = React.createClass({
   getInitialState: function() {
+    var currentSort = {"name": "price", "order": "asc"};
+    if (this.props.InitResultData.searchParams.topSearchOnly == 1) {
+      currentSort = {"name": "smart", "order": "asc"};
+    }
     return {
       title: this.props.InitResultData.title,
       tiles: this.props.InitResultData.tiles,
@@ -11,7 +15,7 @@ var ResultPage = React.createClass({
       searchResult: this.props.InitResultData.searchResult,
       iconSpriteMap: this.props.InitResultData.iconSpriteMap,
       filter: [],
-      currentSort: {"name": "price", "order": "asc"}
+      currentSort: currentSort
     };
   },
 
@@ -283,7 +287,7 @@ var ResultPage = React.createClass({
                  <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
                  <ResultList InitResultData={this.state} />
                </span>)
-            : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} />
+            : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} errorType={this.props.InitResultData.errorType} />
         )}
 
       </div>

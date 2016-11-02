@@ -1,0 +1,42 @@
+/* ---------------
+   for-integration.css
+	 
+	 Engineers, please add
+	 styles you need here, not in the code
+	 Deborah will integrate into core.css
+	 during the next phase
+	 
+	 please be specific so new styles do not
+	 get picked up where they should not.
+	 
+	 thank you!
+	 
+	 --------------- */
+
+/* For react-select component - typeahead (auto-suggestion) for airline in user profile
+*  And please see react-select.css also
+*/
+.Select-control {
+    border: 0 !important;
+}
+.Select {
+    height: 48px !important;
+}
+
+
+
+
+
+
+
+
+
+
+/* end for-integration.css */
+
+
+
+
+
+
+

@@ -167,6 +167,9 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
       } catch(err) {
         return apiCb(err, {}, body);
       }
+      if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
+        throw api+" returned malformed result: "+body;
+      }
       if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
         throw err['faultstring'];
       }
@@ -311,7 +314,8 @@ var mapCitypairs = function(citypairs) {
     price: 0,
     durationMinutes: 0,
     citypairs: [],
-    key: ''
+    key: '',
+    fareRefKeys: []
   };
   for (var i=0; i < citypairs.length; i++) {
     var currentDurationArr = [];
@@ -328,6 +332,7 @@ var mapCitypairs = function(citypairs) {
       }
     }
     res.price += parseInt(pair.PriceGroup.PriceClass[0].Price.Total) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals));
+    res.fareRefKeys.push(pair.PriceGroup.PriceClass[0].FareRefKey);
     if (!lodash.isArray(pair.Segment)) {
       pair.Segment = [pair.Segment];
     }
@@ -407,7 +412,8 @@ var mapItinerary = function(itinerary) {
     duration: '',
     durationMinutes: 0,
     citypairs: [],
-    key: ''
+    key: '',
+    fareRefKeys: []
   };
 
   var mCitypairs = mapCitypairs(itinerary);
@@ -416,6 +422,7 @@ var mapItinerary = function(itinerary) {
   res.durationMinutes = mCitypairs.durationMinutes;
   res.citypairs = mCitypairs.citypairs;
   res.key = mCitypairs.key;
+  res.fareRefKeys = mCitypairs.fareRefKeys;
 
   // Merchandising Fake data Issue #39
   if (lodash.isArray(_keysMerchandisingWiFi) && lodash.indexOf(_keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
@@ -483,13 +490,23 @@ module.exports = {
             if (!result.FareGroup) {
               throw 'No results found';
             }
+            var isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
+            if (!isBrandedFareGroup) {
+              sails.log.warn(op + ': FareGroup is not branded!');
+            }
+
             if (!lodash.isArray(result.FareGroup)) {
               result.FareGroup = [result.FareGroup];
             }
-            var
-              flights = [];
+            var itineraries = [];
             // prepare data for mapping
             for (var fg = 0; fg < result.FareGroup.length; fg++) {
+              if (!isBrandedFareGroup) {
+                if (!lodash.isArray(result.FareGroup[fg].TravelerGroup.FareRules.FareInfo)) {
+                  result.FareGroup[fg].TravelerGroup.FareRules.FareInfo = [result.FareGroup[fg].TravelerGroup.FareRules.FareInfo];
+                }
+              }
+              var flights = [];
               if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
                 result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
               }
@@ -499,12 +516,25 @@ module.exports = {
                 }
                 for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
                   result.FareGroup[fg].OriginDestination[od].Flight[fl].CurrencyCode = result.FareGroup[fg].CurrencyCode;
+                  if (!isBrandedFareGroup) {
+                    result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup = {
+                      PriceClass: {
+                        Price: {
+                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total
+                        },
+                        PriceSegment: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment,
+                        FareRefKey: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareRefKey
+                      }
+                    };
+                    result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass.PriceSegment.FareRefKey = result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareRefKey;
+                  }
                 }
                 flights.push(result.FareGroup[fg].OriginDestination[od].Flight);
               }
+              // get all combination of flights for current group
+              var groupItineraries = utils.cartesianProductOf.apply(null, flights);
+              itineraries = lodash.concat(itineraries, groupItineraries);
             }
-            // get all combination of flights
-            var itineraries = utils.cartesianProductOf.apply(null, flights);
             // generate ItinerariesIds
             for (var it = 0; it < itineraries.length; it++) {
               itineraries[it].ItineraryId = guid + '-itin-' + (it+1);
@@ -547,5 +577,13 @@ module.exports = {
    */
   flightBooking: function(guid, params, callback) {
 
+  },
+
+  getFareRules: function (guid, params, callback) {
+    var _api_name = "fareRules";
+    sails.log.info('Farelogix '+_api_name+' API call started');
+    utils.timeLog('farelogix_FareRules');
+
+    return callback('Not implemented.', null);
   }
 };

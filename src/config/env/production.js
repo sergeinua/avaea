@@ -46,6 +46,19 @@ module.exports = {
     database: 'avaea'
   },
 
-  hookTimeout: 60000
+  hookTimeout: 60000,
+  segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
+  ffmapis: {
+    milefy: {
+      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
+      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
+      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+    },
+    wallet: {
+      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
+      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
+      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+    }
+  }
 
 };

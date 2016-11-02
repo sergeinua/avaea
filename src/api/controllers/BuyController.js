@@ -6,6 +6,7 @@
 /* global Order */
 var util = require('util');
 var url = require('url');
+var lodash = require('lodash');
 /**
  * BuyController
  */
@@ -22,6 +23,13 @@ module.exports = {
 
     // Get all params for redirect case
     var reqParams = req.allParams();
+
+    var onIllegalResult = function () {
+      delete req.session.booking_itinerary;
+      req.session.flash = 'Your search has expired. Try a new search.';
+      req.flash('errors', req.session.flash);
+      return res.redirect('/search');
+    };
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
 
@@ -61,6 +69,9 @@ module.exports = {
       }
 
       var id = req.param('id');
+      if (typeof id == 'undefined') {
+        return onIllegalResult();
+      }
 
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(err, result) {
@@ -69,6 +80,7 @@ module.exports = {
             action    : 'order',
             itinerary : JSON.parse(result)
           };
+          lodash.assignIn(logData.itinerary, {RefundType: ''});
 
           itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
@@ -86,17 +98,13 @@ module.exports = {
             {
               user: req.user,
               reqParams: reqParams,
-              head_content: Search.getHeadContent(req.param('searchId')),
               order:[logData.itinerary]
             },
             'order'
           );
         }
         else {
-          delete req.session.booking_itinerary;
-          req.session.flash = 'Your search has expired. Try a new search.';
-          req.flash('errors', req.session.flash);
-          res.redirect('/search');
+          return onIllegalResult();
 
           // For debug only
           //return res.view('order', {
@@ -109,7 +117,7 @@ module.exports = {
     });
   },
 
-  booking: function (req, res) {
+  booking_proc: function (req, res) {
     req.session.time_log = [];
 
     // for API argument
@@ -117,57 +125,93 @@ module.exports = {
     params.session = req.session;
 
     var parseFlightBooking = function (err, result) {
+      var reqParams = req.allParams();
 
       if (err) {
-        req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        segmentio.track(req.user.id, 'Booking Failed', {error: err, params: params});
+        // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
+        req.session.flash = 'Something went wrong. Your credit card wasn\'t charged. Please try again';
         // redirect to order action, i.e. repeat request
-        res.redirect(url.format({pathname: "/order", query: req.allParams()}));
+        res.redirect(url.format({pathname: "/order", query: reqParams}), 302);
         return;
       }
+      segmentio.track(req.user.id, 'Booking Succeeded', {params: params, result: result});
       sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';
 
-      // Save result to DB
-      Booking.saveBooking(req.user, result, req.session.booking_itinerary);
-
-      var order = _.clone(req.session.booking_itinerary.itinerary_data, true);
+      var order = (typeof req.session.booking_itinerary == 'object') ? _.clone(req.session.booking_itinerary.itinerary_data, true) : {};
 
       // E-mail notification
       var tpl_vars = {
-        reqParams: req.allParams(),
+        reqParams: reqParams,
         order: order,
+        miles: { value: 0, name: ''},
         bookingRes: result,
         replyTo: sails.config.email.replyTo,
         callTo: sails.config.email.callTo,
       };
 
-      Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
-        .then(function (msgContent) {
-          Mailer.sendMail({to: req.user.email, subject: 'Ticket confirmation with PNR '+tpl_vars.bookingRes.PNR}, msgContent)
-            .then(function () {
-              sails.log.info('Mail was sent to '+ req.user.email);
-            })
+      ffmapi.milefy.Calculate(order, function (error, response, body) {
+        if (!error) {
+          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+          tpl_vars.miles.name = jdata.ProgramCodeName || '';
+          tpl_vars.miles.value = jdata.miles || 0;
+        }
+        Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+          .then(function (msgContent) {
+            Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
+              .then(function () {
+                sails.log.info('Mail was sent to '+ req.user.email);
+              })
+          })
+          .catch(function (error) {
+            sails.log.error(error);
+          });
+      });
+
+      // Save result to DB
+      Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
+        .then(function (record) {
+          delete req.session.booking_itinerary;
+          // Redirec to result page
+          return res.redirect(url.format({pathname: "/booking", query: {bookingId: record.id}}));
         })
         .catch(function (error) {
           sails.log.error(error);
+          delete req.session.booking_itinerary;
+          return res.serverError();
         });
+    };
 
-      delete req.session.booking_itinerary;
+    mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
+  },
+
+  booking: function (req, res) {
+    Booking.findOne({
+      id: req.param('bookingId'),
+      user_id: req.user.id
+    }).exec(function (err, record){
+      if (err) {
+        sails.log.error(err);
+        return res.serverError();
+      }
+      if (!record) {
+        return res.notFound('Could not find your booked ticket');
+      }
 
       // Render view
       return res.ok(
         {
-          user: req.user,
-          reqParams: req.allParams(),
-          order: [order],
-          bookingRes: result
+          reqParams: record.req_params,
+          order: [record.itinerary_data],
+          bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
+          replyTo: sails.config.email.replyTo,
+          callTo: sails.config.email.callTo,
         },
         'booking'
       );
-    };
-
-    mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
+    });
   }
 
 };

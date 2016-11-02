@@ -5,6 +5,8 @@
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+var qpromice = require('q');
+
 module.exports = {
 
   attributes: {
@@ -36,6 +38,21 @@ module.exports = {
 
   findOneByUserId: function (id) {
     return this.findOne({user:id});
+  },
+
+  findOneByCriteria: function (criteria) {
+    var qdefer = qpromice.defer();
+
+    this.findOne(criteria).exec(function (err, record) {
+      if (err) {
+        sails.log.error(err);
+        qdefer.reject(err);
+      } else {
+        qdefer.resolve(record);
+      }
+    });
+
+    return qdefer.promise;
   },
 
   make: function (form, user, callback) {
@@ -76,28 +93,41 @@ module.exports = {
             jsonStruct.lounge_membership = [];
             jsonStruct.preferred_airlines = [];
 
-            for (var i = 0; i < form['miles_programs.airline_name'].length; i++) {
-              jsonStruct.miles_programs.push ({
-                airline_name: form['miles_programs.airline_name'][i],
-                account_number: form['miles_programs.account_number'][i],
-                flier_miles: form['miles_programs.flier_miles'][i],
-                expiration_date: form['miles_programs.expiration_date'][i]
-              });
+            if (form['miles_programs.airline_name']) {
+              for (var i = 0; i < form['miles_programs.airline_name'].length; i++) {
+                jsonStruct.miles_programs.push({
+                  airline_name: form['miles_programs.airline_name'][i],
+                  account_number: form['miles_programs.account_number'][i],
+                  flier_miles: form['miles_programs.flier_miles'][i],
+                  expiration_date: form['miles_programs.expiration_date'][i]
+                });
+              }
+            } else {
+              sails.log.warn('Got miles_programs.airline_name with type=' + (typeof form['miles_programs.airline_name']));
             }
 
-            for (var i = 0; i < form['lounge_membership.airline_name'].length; i++) {
-              jsonStruct.lounge_membership.push ({
-                airline_name: form['lounge_membership.airline_name'][i],
-                membership_number: form['lounge_membership.membership_number'][i],
-                expiration_date: form['lounge_membership.expiration_date'][i]
-              });
+            if (form['lounge_membership.airline_name']) {
+              for (var i = 0; i < form['lounge_membership.airline_name'].length; i++) {
+                jsonStruct.lounge_membership.push({
+                  airline_name: form['lounge_membership.airline_name'][i],
+                  membership_number: form['lounge_membership.membership_number'][i],
+                  expiration_date: form['lounge_membership.expiration_date'][i]
+                });
+              }
+            } else {
+              sails.log.warn('Got lounge_membership.airline_name with type=' + (typeof form['lounge_membership.airline_name']));
             }
 
-            for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
-              jsonStruct.preferred_airlines.push ({
-                travel_type: form['preferred_airlines.travel_type'][i],
-                airline_name: form['preferred_airlines.airline_name'][i]
-              });
+            if (form['preferred_airlines.travel_type'] && form['preferred_airlines.airline_name']) {
+              for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
+                jsonStruct.preferred_airlines.push({
+                  travel_type: form['preferred_airlines.travel_type'][i],
+                  airline_name: form['preferred_airlines.airline_name'][i]
+                });
+              }
+            } else {
+              sails.log.warn('Got preferred_airlines.travel_type with type=' + (typeof form['preferred_airlines.travel_type']) +
+                '; preferred_airlines.airline_name type=' + (typeof form['preferred_airlines.airline_name']));
             }
 
             return _cb(jsonStruct);

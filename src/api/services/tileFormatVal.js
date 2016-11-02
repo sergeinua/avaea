@@ -31,11 +31,17 @@ var roundTo30mins = function (durationMinutes, isTime) {
   var durationMinutesRounded = parseInt(durationMinutes/60) * 60;
   var _remain = durationMinutes % 60;
 
-  if (_remain > 45) {
-    if(!(isTime && durationMinutesRounded/60 >= 24))
-      durationMinutesRounded += 60;
-  }
-  else if (_remain > 15) {
+  //if (_remain > 45) {
+  //  if(!(isTime && durationMinutesRounded/60 >= 24))
+  //    durationMinutesRounded += 60;
+  //}
+  //else if (_remain > 15) {
+  //  durationMinutesRounded += 30;
+  //}
+
+  if (_remain > 30) {
+    durationMinutesRounded += 60;
+  } else {
     durationMinutesRounded += 30;
   }
   return durationMinutesRounded;
@@ -65,15 +71,15 @@ module.exports = {
     value1 = convertToHours(value1);
 
     // Only one fix value
-    if(res_type == 1) {
+    if (res_type == 1) {
       _res = value1;
-    }
-    else { // Two values or Range
+    } else { // Two values or Range
       _res = value1;
-      if(value2) {
+      if (value2) {
         value2 = convertToHours(value2);
-        if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : '&ndash;')+ value2;
+        if (value1 != value2) {
+          _res = _res + (res_type == 2 ? ', ' : '&ndash;') + value2;
+        }
       }
     }
 
@@ -99,11 +105,12 @@ module.exports = {
     // }
     else { // Range
       _res = '$' + value1;
-      if(value2) {
+      if (value2) {
         value2 = parseInt(value2);
-        if(value1 != value2)
-         // _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
-        	_res = _res +'&#65291;';
+        if (value1 != value2) {
+          // _res = _res +'<span class="visible-xs-inline">&#65291;</span><span class="hidden-xs">&ndash;$'+ value2 +'</span>';
+          _res = _res + '&#65291;';
+        }
       }
     }
 
@@ -115,18 +122,36 @@ module.exports = {
     value1 = formatMinutes(value1);
 
     // Only one fix value
-    if(res_type == 1) {
+    if (res_type == 1) {
       _res = value1;
-    }
-    else { // Two values or Range
+    } else { // Two values or Range
       _res = value1;
-      if(value2) {
+      if (value2) {
         value2 = formatMinutes(value2);
-        if(value1 != value2)
-          _res = _res +(res_type == 2 ? ', ' : ' &ndash; ')+ value2;
+        if (value1 != value2) {
+          _res = _res + (res_type == 2 ? ', ' : ' &ndash; ') + value2;
+        }
       }
     }
 
     return _res;
+  },
+
+  getStopsTitle: function (stops) {
+    var title = '';
+    switch (stops) {
+      case 1 :
+        title = '1 stop';
+        break;
+      case 2 :
+        title = '2 stops';
+        break;
+      case 3 :
+        title = '3+ stops';
+        break;
+      default:
+        title = 'non-stop';
+    }
+    return title;
   }
 };
