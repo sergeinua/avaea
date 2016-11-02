@@ -452,7 +452,7 @@ var getFlightBookingRq = function(id, params) {
         ExpiryDate: params.ExpiryDate
       },
       BillingAddress: {
-        Name: params.FirstName,
+        Name: params.FirstName+' '+params.LastName,
         Address1: params.Address1,
         City: params.City,
         State: params.State,
