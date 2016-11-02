@@ -18,7 +18,7 @@
 
   <div class="e-ticket confirmation">
     <div class="confirm-code">
-      <div class="success ti">E-Ticket</div>
+      <div class="success ti">Booking</div>
       <div class="wrapper">
         <span class="label-ti">Reservation Code:</span>
         <span class="number"><%= bookingRes.PNR %></span>
@@ -68,7 +68,7 @@
   <div class="help-contact">
     <span class="copy">
       <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
-      Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('E-Ticket Confirmation')%>'>Email Us</a>
+      Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Booking Confirmation')%>'>Email Us</a>
       or call&nbsp;<%= callTo %>
     </span>
 
