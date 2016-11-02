@@ -13,7 +13,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-  <title>E-Ticket Confirmed</title>
+  <title>Booking Confirmed</title>
 
 
 <style type="text/css">
@@ -181,7 +181,7 @@
                         <!-- COPY -->
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">E-Ticket Confirmation</td>
+                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Booking Confirmation</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
@@ -189,7 +189,7 @@
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
                                   Your reservation has been booked and confirmed.
-                                  This email can be used as an E-Ticket.
+                                  This email can be used as an booking.
                                 </td>
                             </tr>
                         </table>
@@ -576,7 +576,7 @@
                 <tr>
                     <td align="center" style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;">
                         <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
-                        Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('E-Ticket Confirmation')%>'>Email Us</a>
+                        Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Booking Confirmation')%>'>Email Us</a>
 
                         &nbsp;&nbsp; | &nbsp;&nbsp;Or call
                         <span style="font-size: 13px; line-height: 18px; font-family: Helvetica, Arial, sans-serif; color:#666666;"><%= callTo %></span>
