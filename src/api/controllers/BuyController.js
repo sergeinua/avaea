@@ -16,8 +16,8 @@ module.exports = {
   order: function (req, res) {
 
     // Flash errors
-    if (!_.isEmpty(req.session.flash)) {
-      res.locals.tmp_errors = [_.clone(req.session.flash)]; //will display by layout
+    if (!lodash.isEmpty(req.session.flash)) {
+      res.locals.tmp_errors = [lodash.clone(req.session.flash)]; //will display by layout
       req.session.flash = '';
     }
 
@@ -75,7 +75,7 @@ module.exports = {
 
       var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(err, result) {
-        if (!err && !_.isEmpty(result)) {
+        if (!err && !lodash.isEmpty(result)) {
           var logData = {
             action    : 'order',
             itinerary : JSON.parse(result)
@@ -118,11 +118,14 @@ module.exports = {
   },
 
   booking_proc: function (req, res) {
+    var service = req.session.booking_itinerary.itinerary_data.service;
+
     req.session.time_log = [];
 
     // for API argument
     var params = req.allParams();
     params.session = req.session;
+    params.user = req.user;
 
     var parseFlightBooking = function (err, result) {
       var reqParams = req.allParams();
@@ -140,7 +143,7 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      var order = (typeof req.session.booking_itinerary == 'object') ? _.clone(req.session.booking_itinerary.itinerary_data, true) : {};
+      var order = (typeof req.session.booking_itinerary == 'object') ? lodash.clone(req.session.booking_itinerary.itinerary_data, true) : {};
 
       // E-mail notification
       var tpl_vars = {
@@ -184,14 +187,14 @@ module.exports = {
         });
     };
 
-    mondee.flightBooking(Search.getCurrentSearchGuid() +'-'+ sails.config.flightapis.searchProvider, params, parseFlightBooking);
+    return global[service].flightBooking(Search.getCurrentSearchGuid() +'-'+ service, params, parseFlightBooking);
   },
 
   booking: function (req, res) {
     Booking.findOne({
       id: req.param('bookingId'),
       user_id: req.user.id
-    }).exec(function (err, record){
+    }).exec(function (err, record) {
       if (err) {
         sails.log.error(err);
         return res.serverError();
