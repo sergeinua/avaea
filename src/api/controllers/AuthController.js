@@ -163,6 +163,7 @@ var AuthController = {
 
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (err || !user) {
+        segmentio.track('', 'Login Failed', {error: err}, 'anonymous');
         sails.log.error(err);
         return tryAgain(challenges);
       }
@@ -176,6 +177,7 @@ var AuthController = {
         // Mark the session as authenticated to work with default Sails sessionAuth.js policy
         req.session.authenticated = true;
         req.session.showTiles = true;
+        segmentio.track(user.id, 'Login', {email: user.email});
 
         Profile.findOneByUserId(req.session.passport.user).exec(function (error, found) {
           if (found) {

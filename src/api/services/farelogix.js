@@ -99,6 +99,56 @@ var getSearchDestinations = function(params) {
   return destinations.join('');
 };
 
+var getPNRFlights = function(params) {
+  var template = '' +
+    '<Flight AssociationID="F<%=aid%>" OriginDestinationID="O<%=oid%>" Source="<%=source%>">\
+      <Departure>\
+          <AirportCode><%=departure.code%></AirportCode>\
+          <Date><%=departure.date%></Date>\
+          <Time><%=departure.time%></Time>\
+      </Departure>\
+      <Arrival>\
+          <AirportCode><%=arrival.code%></AirportCode>\
+          <Date><%=arrival.date%></Date>\
+          <Time><%=arrival.time%></Time>\
+      </Arrival>\
+    <Carrier>\
+      <AirlineCode><%=airline%></AirlineCode>\
+      <FlightNumber><%=flightNumber%></FlightNumber>\
+    </Carrier>\
+    <ClassOfService><%=cls%></ClassOfService>\
+    <NumberInParty>1</NumberInParty>\
+    <FareRefKey><%=fareKey%></FareRefKey>\
+  </Flight>';
+  var flights = [], aId = 1, oId = 1;
+  for (var cp = 0; cp < params.length; cp++) {
+    for (var fl = 0; fl < params[cp].flights.length; fl++) {
+      flights.push(ejs.render(template, {
+        departure: {
+          code: params[cp].flights[fl].from.code,
+          date: sails.moment(params[cp].flights[fl].from.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+          time: sails.moment(params[cp].flights[fl].from.time + 'm', 'hh:mma').format('HH:mm'),
+        },
+        arrival: {
+          code: params[cp].flights[fl].to.code,
+          date: sails.moment(params[cp].flights[fl].to.date, 'YYYY-MM-DD').format('YYYY-MM-DD'),
+          time: sails.moment(params[cp].flights[fl].to.time + 'm', 'hh:mma').format('HH:mm'),
+        },
+        airline: params[cp].flights[fl].airlineCode,
+        flightNumber: params[cp].flights[fl].number,
+        cls: params[cp].flights[fl].bookingClass,
+        fareKey: params[cp].flights[fl].fareRefKey,
+        aid: aId,
+        oid: oId,
+        source: params[cp].flights[fl].source
+      }));
+      aId++;
+    }
+    oId++;
+  }
+  return flights.join('');
+};
+
 var farelogixRqGetters = {
   getAirAvailabilityRq: function (guid, params) {
     var template = '' +
@@ -118,7 +168,7 @@ var farelogixRqGetters = {
   getFareSearchRq: function (guid, params) {
     // be careful with BrandedFareSupport attribute, another value will lead to changing response structure
     var template = '' +
-      '<FareSearchRQ BrandedFareSupport="Y" TransactionIdentifier="<%-guid%>">\
+      '<FareSearchRQ BrandedFareSupport="N" TransactionIdentifier="<%-guid%>">\
         <%-destinations%>\
         <TravelerInfo Type="ADT"><%=passengers%></TravelerInfo>\
         <% for (var i=1; i<=passengers; i++) { %><TravelerIDs PaxType="ADT" AssociationID="T<%=i%>"/><% } %>\
@@ -131,6 +181,69 @@ var farelogixRqGetters = {
       destinations: getSearchDestinations(params),
       passengers: params.passengers,
       currency: currency
+    }));
+    return req;
+  },
+
+  getPNRCreateRq: function (guid, params) {
+    // be careful with BrandedFareSupport attribute, another value will lead to changing response structure
+    var template = '' +
+      '<PNRCreateRQ TransactionIdentifier="<%-guid%>">\
+        <CompletePNRElements>\
+          <Itinerary>\
+            <%-flights%>\
+          </Itinerary>\
+          <Traveler AssociationID="T1" Type="ADT">\
+            <TravelerName>\
+              <Surname><%=lastName%></Surname>\
+              <GivenName><%=firstName%></GivenName>\
+              <DateOfBirth><%=birthday%></DateOfBirth>\
+              <Gender>M</Gender>\
+            </TravelerName>\
+          </Traveler>\
+        </CompletePNRElements>\
+        <OtherPNRElements>\
+          <EmailAddress>\
+            <Email><%=email%></Email>\
+          </EmailAddress>\
+          <BillingAndDeliveryData>\
+            <FormOfPayment>\
+            <CreditCard>\
+              <CCCode><%=cc.code%></CCCode>\
+              <CCNumber><%=cc.number%></CCNumber>\
+              <CCExpiration>\
+                <Month><%=cc.expiration.month%></Month>\
+                <Year><%=cc.expiration.year%></Year>\
+              </CCExpiration>\
+              <SecurityID><%=cc.cvv%></SecurityID>\
+              <CardholderFirstName><%=cc.firstName%></CardholderFirstName>\
+              <CardholderLastName><%=cc.lastName%></CardholderLastName>\
+              <CardholderFullName><%=cc.fullName%></CardholderFullName>\
+            </CreditCard>\
+            </FormOfPayment>\
+          </BillingAndDeliveryData>\
+        </OtherPNRElements>\
+        <EndTransaction IgnoreWarnings="Y" TransactionType="ER"/>\
+      </PNRCreateRQ>';
+    var req = getFullRq(ejs.render(template, {
+      guid: guid,
+      flights: getPNRFlights(params.session.booking_itinerary.itinerary_data.citypairs),
+      cc: {
+        code: params.CardType,
+        number: params.CardNumber,
+        expiration: {
+          month: params.ExpiryDate.split('/')[0],
+          year: params.ExpiryDate.split('/')[1]
+        },
+        cvv: params.CVV,
+        firstName: params.FirstName,
+        lastName: params.LastName,
+        fullName: params.FirstName + ' ' + params.LastName // TODO: not sure we don't need a separated field for it
+      },
+      firstName: params.FirstName,
+      lastName: params.LastName,
+      birthday: sails.moment(params.DateOfBirth).format('YYYY-MM-DD'),
+      email: params.user.email
     }));
     return req;
   }
@@ -148,6 +261,7 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
     throw 'callback required and should be a function';
   }
   var request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
+  // sails.log.info(request);
 
   var post_options = sails.config.flightapis.farelogix.post_options;
   post_options.headers['Content-Length'] = Buffer.byteLength(request);
@@ -167,8 +281,14 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
       } catch(err) {
         return apiCb(err, {}, body);
       }
+      if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
+        throw api+" returned malformed result: "+body;
+      }
       if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
         throw err['faultstring'];
+      }
+      if (api == 'PNRCreate') {
+        api = 'PNRView';
       }
       if (lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'])) {
         throw api + 'RS does not exist';
@@ -271,6 +391,9 @@ var mapFlights = function(flights, priceSettings) {
       duration: utils.minutesToDuration(_jorneyTimeToMinutes(flight.FlightDuration)),
       durationMinutes: _jorneyTimeToMinutes(flight.FlightDuration),
       bookingClass: priceSettings[j].ClassOfService,
+      fareRefKey: priceSettings[j].FareRefKey,
+      source: priceSettings[j].Source,
+      odId: priceSettings[j].OriginDestinationID,
       cabinClass: mapReverseClass[priceSettings[j].Cabin],
       airline: flight.Carrier.AirlineName,
       airlineCode: flight.Carrier.AirlineCode.toUpperCase(),
@@ -318,14 +441,6 @@ var mapCitypairs = function(citypairs) {
     var pair = citypairs[i];
     if (!pair.PriceGroup) {
       throw 'Wrong response format. No PriceGroup was found in flight';
-    }
-    if (!lodash.isArray(pair.PriceGroup.PriceClass)) {
-      pair.PriceGroup.PriceClass = [pair.PriceGroup.PriceClass];
-    }
-    for (var pc = 0; pc < pair.PriceGroup.PriceClass.length; pc++) {
-      if (!lodash.isArray(pair.PriceGroup.PriceClass[pc].PriceSegment)) {
-        pair.PriceGroup.PriceClass[pc].PriceSegment = [pair.PriceGroup.PriceClass[pc].PriceSegment];
-      }
     }
     res.price += parseInt(pair.PriceGroup.PriceClass[0].Price.Total) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals));
     if (!lodash.isArray(pair.Segment)) {
@@ -483,13 +598,20 @@ module.exports = {
             if (!result.FareGroup) {
               throw 'No results found';
             }
+            var isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
+
             if (!lodash.isArray(result.FareGroup)) {
               result.FareGroup = [result.FareGroup];
             }
-            var
-              flights = [];
+            var itineraries = [];
             // prepare data for mapping
             for (var fg = 0; fg < result.FareGroup.length; fg++) {
+              if (!isBrandedFareGroup) {
+                if (!lodash.isArray(result.FareGroup[fg].TravelerGroup.FareRules.FareInfo)) {
+                  result.FareGroup[fg].TravelerGroup.FareRules.FareInfo = [result.FareGroup[fg].TravelerGroup.FareRules.FareInfo];
+                }
+              }
+              var flights = [];
               if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
                 result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
               }
@@ -499,12 +621,44 @@ module.exports = {
                 }
                 for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
                   result.FareGroup[fg].OriginDestination[od].Flight[fl].CurrencyCode = result.FareGroup[fg].CurrencyCode;
+                  if (!isBrandedFareGroup) {
+                    if (!lodash.isArray(result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment)) {
+                      result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment = [result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment];
+                    }
+                    // add FareRefKey to RelatedSegments
+                    for (var rs = 0; rs < result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment.length; rs++) {
+                      result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment[rs].FareRefKey = result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareRefKey;
+                    }
+                    result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup = {
+                      PriceClass: {
+                        Price: {
+                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total
+                        },
+                        PriceSegment: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment
+                      }
+                    };
+                  }
+                  if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass)) {
+                    result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass = [result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass];
+                  }
+                  for (var pc = 0; pc < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass.length; pc++) {
+                    if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment)) {
+                      result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment = [result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment];
+                    }
+                    // add Source and OriginDestinationID to PriceSegment
+                    for (var ps = 0; ps < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment.length; ps++) {
+                      result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment[ps].Source = result.FareGroup[fg].Source;
+                      result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment[ps].OriginDestinationID = od+1;
+                    }
+                  }
+
                 }
                 flights.push(result.FareGroup[fg].OriginDestination[od].Flight);
               }
+              // get all combination of flights for current group
+              var groupItineraries = utils.cartesianProductOf.apply(null, flights);
+              itineraries = lodash.concat(itineraries, groupItineraries);
             }
-            // get all combination of flights
-            var itineraries = utils.cartesianProductOf.apply(null, flights);
             // generate ItinerariesIds
             for (var it = 0; it < itineraries.length; it++) {
               itineraries[it].ItineraryId = guid + '-itin-' + (it+1);
@@ -546,6 +700,65 @@ module.exports = {
    * @param {function} callback
    */
   flightBooking: function(guid, params, callback) {
+    var
+      _api_name = serviceName + '.flightBooking';
 
+    utils.timeLog(_api_name);
+    sails.log.info(_api_name + ' started');
+    // re-init callback for adding final measure of api processing time and show info in log
+    var _cb = callback;
+    callback = function (errors, result) {
+      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      return _cb(errors, result);
+    };
+
+    var endPoint = getEndPoint();
+    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    var farelogixApi = 'PNRCreate';
+    var op = _api_name + ': ' + farelogixApi;
+    utils.timeLog(op);
+    callFarelogixApi(farelogixApi, [guid, params], function (err, result, raw) {
+      try {
+        if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
+          if (!lodash.isArray(errors)) {
+            errors = [errors];
+          }
+          var errtxt = [];
+          for (var i = 0; i < errors.length; i++) {
+            errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
+          }
+          errors = errtxt.join('; ');
+          throw errors;
+        } else {
+          return callback(null, {
+            ReferenceNumber: '',
+            PNR: result.PNRIdentification.RecordLocator
+          });
+        }
+      } catch (e) {
+        sails.log.error(op + ': An error occurs: ' + e);
+        return callback(e, null);
+      }
+    });
+  },
+
+
+  /**
+   * Cancel booked itinerary by PNR
+   *
+   * @param {string} guid Own request id
+   * @param {object} params {PNR: value}. Corresponding to http://developer.trippro.com/xwiki/bin/view/Developer+Network/Cancel+PNR+API
+   * @param {function} callback
+   */
+  cancelPnr: function(guid, params, callback) {
+
+  },
+
+  getFareRules: function (guid, params, callback) {
+    var _api_name = "fareRules";
+    sails.log.info('Farelogix '+_api_name+' API call started');
+    utils.timeLog('farelogix_FareRules');
+
+    return callback('Not implemented.', null);
   }
 };

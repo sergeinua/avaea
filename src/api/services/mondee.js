@@ -452,7 +452,7 @@ var getFlightBookingRq = function(id, params) {
         ExpiryDate: params.ExpiryDate
       },
       BillingAddress: {
-        Name: params.FirstName,
+        Name: params.FirstName+' '+params.LastName,
         Address1: params.Address1,
         City: params.City,
         State: params.State,
@@ -469,6 +469,15 @@ var getCancelPnrRq = function(id, params) {
 
   req.CancelPNRRequest = {
     RecordLocator: params.PNR
+  };
+  return req;
+};
+
+var getFareRulesRq = function (id, params) {
+  var req = getBaseRq(id);
+
+  req.FareRulesRequest = {
+    ItineraryId: params.id
   };
   return req;
 };
@@ -628,6 +637,44 @@ module.exports = {
           }
           else {
             return callback(null, result.CancelPNRResponse);
+          }
+        });
+      }
+    });
+  },
+
+  getFareRules: function (guid, params, callback) {
+    var _api_name = "fareRules";
+    sails.log.info('Mondee '+_api_name+' API call started');
+    utils.timeLog('mondee_FareRules');
+
+    var wsdlUrl = getWsdlUrl(_api_name);
+    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+
+    soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
+
+      if (err) {
+        sails.log.error("SOAP: An error occurs:\n" + err);
+        return callback(err, {});
+      }
+      else {
+        var req = getFareRulesRq(guid, params);
+        sails.log.info("FareRules request:", util.inspect(req, {showHidden: true, depth: null}));
+        if(req instanceof Error) {
+          return callback(req, {});
+        }
+
+        return client.FareRules(req, function(err, result, raw, soapHeader) {
+          sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee_FareRules'), JSON.stringify(req), raw);
+          if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.FareRulesResponse != "object") || lodash.isEmpty(result.FareRulesResponse)) {
+            if (!err) {
+              err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable To Get Fare Rules';
+            }
+            sails.log.error(err);
+            return callback(err, null);
+          }
+          else {
+            return callback(null, result.FareRulesResponse);
           }
         });
       }

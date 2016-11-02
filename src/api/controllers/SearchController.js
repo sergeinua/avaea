@@ -166,20 +166,52 @@ module.exports = {
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
     }
+    segmentio.track(req.user.id, 'Keyboard Search', {Search: params});
+
     // title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
-    Profile.findOneByUserId( req.user.id ).exec(function findOneCB(err, found) {
-      if (!err && found && !_.isEmpty(found.preferred_airlines)) {
-        Tile.userPreferredAirlines = found.preferred_airlines.map(function (item) {
-          return item.airline_name;
-        });
-      } else {
+    Profile.findOneByCriteria({user: req.user.id})
+      .then(function (found) {
+        var _airline_name = [];
+        // Collect all airline names
+        if (found && !_.isEmpty(found.preferred_airlines)) {
+          found.preferred_airlines.forEach(function (curVal) {
+            _airline_name.push(curVal.airline_name);
+          });
+          return _airline_name;
+        }
+        else {
+          return _airline_name;
+        }
+      })
+      .then(function (airline_names) {
+        var _iata2codes = [];
+        // Fetch iata_2codes by airline names for ranking
+        return Airlines.findByCriteria({name: airline_names})
+          .then(function (records) {
+            if (records && records.length > 0) {
+              records.forEach(function (curAirline) {
+                if (curAirline.iata_2code && curAirline.iata_2code != '') {
+                  _iata2codes.push(curAirline.iata_2code);
+                }
+              });
+              return _iata2codes;
+            }
+            else {
+              return _iata2codes;
+            }
+          });
+      })
+      .then(function (iata2codes) {
+        Tile.userPreferredAirlines = iata2codes;
+        sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
+      })
+      .catch(function (error) {
         Tile.userPreferredAirlines = [];
-      }
-      sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
-    });
+        sails.log.info("Error was occurred. Preferred airlines not found: ");
+      });
 
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
@@ -310,6 +342,24 @@ module.exports = {
         });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
 
+        var errType = '';
+        // Parse error and define error type
+        if (typeof itinerariesData.error == 'string') {
+          errType = '_system'; // as default
+          var no_flights_codes = [2002, 9999];
+          var no_flights_errors = [
+            'No Results Found',
+            'Departure Date should be greater than 3 days from the current date'
+          ];
+
+          if (itinerariesData.error.match(new RegExp('\\(('+ no_flights_codes.join('|') +')\\)')) ||
+            itinerariesData.error.match(new RegExp('('+ no_flights_errors.join('|') +')','gi'))) {
+            errType = 'no_flights';
+          }
+        } else if (itineraries && itineraries.length == 0) {
+          errType = 'no_flights';
+        }
+
         return res.ok({
           user: req.user,
           title: title,
@@ -334,7 +384,8 @@ module.exports = {
           + (retDate ? ' and back on ' + sails.moment(retDate).format("DD MMM 'YY") : ''),
           iconSpriteMap: result.iconSpriteMap,
           departure: result.departure,
-          arrival: result.arrival
+          arrival: result.arrival,
+          errorType: errType
         }, 'search/result');
       });
     });

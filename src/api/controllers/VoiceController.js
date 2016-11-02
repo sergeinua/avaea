@@ -16,6 +16,8 @@ module.exports = {
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
+        segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
+
         return res.json(result); //200
       } else {
         return res.notFound(); //404

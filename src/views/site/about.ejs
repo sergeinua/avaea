@@ -1,7 +1,16 @@
 <%
-    /* global site_info */
-      var cur_year = new Date().getFullYear();
+  /* global site_info */
+  var cur_year = new Date().getFullYear();
 %>
+
+<% if (user) { %>
+<script type="text/javascript">
+  var NavBarInit = {
+    user: {email:"<%= user.email %>", id: <%= user.id %>}
+  };
+</script>
+<% } %>
+
 <div id="onlynavbar" page="about"></div>
 
 <div class="sitepage about">

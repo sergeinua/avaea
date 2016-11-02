@@ -135,15 +135,18 @@ passport.connect = function (req, query, profile, next) {
                   callback(err);
                   return;
                 }
+                segmentio.identify(user.id, user);
 
                 query.user = user.id;
 
                 Passport.create(query, function (err, passport) {
                   // If a passport wasn't created, bail out
                   if (err) {
+                    segmentio.track(user.id, 'Registration Failed', {error: err});
                     callback(err);
                     return;
                   }
+                  segmentio.track(user.id, 'Registration', {email: user.email});
 
                   callback(null, user);
                 });
@@ -188,9 +191,11 @@ passport.connect = function (req, query, profile, next) {
               Passport.create(query, function (err, passport) {
                 // If a passport wasn't created, bail out
                 if (err) {
+                  segmentio.track(user.id, 'Registration Failed', {error: err});
                   callback(err);
                   return;
                 }
+                segmentio.track(user.id, 'Registration', {email: user.email});
 
                 callback(null, req.user);
               });
@@ -229,10 +234,17 @@ passport.connect = function (req, query, profile, next) {
               _is_whitelist = 1;
             }
 
-            if (! _is_whitelist)
-              callback('Email ' + user.email + ' is not in the whitelist');
-            else
+            if (! _is_whitelist) {
+              if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
+                segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
+                callback('Email ' + user.email + ' is not in the whitelist');
+              } else {
+                segmentio.track(null, 'Login Failed', {error: 'Email ' + user.email + ' is not registered'}, 'anonymous');
+                callback('Email ' + user.email + ' is not registered');
+              }
+            } else {
               callback(null, genRes);
+            }
           });
       },
 
@@ -405,7 +417,7 @@ passport.loadStrategies = function () {
 
       Strategy = strategies[key].strategy;
 
-      var baseUrl = sails.getBaseurl();
+      var baseUrl = sails.config.proxyHost + (sails.config.proxyPort == 80 ? '': ':' + sails.config.proxyPort);
 
       switch (protocol) {
         case 'oauth':
