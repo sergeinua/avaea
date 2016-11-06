@@ -224,7 +224,7 @@ passport.connect = function (req, query, profile, next) {
             //sails.log.info("__err:", err);
             //sails.log.info("__result:", result);
             // Check by default value
-            if (err) {
+            if (err || !result) {
               var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
               if (_patt.exec(user.email)) {
                 _is_whitelist = 1;
