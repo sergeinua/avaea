@@ -1,41 +1,33 @@
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
-    //FIXME get rid from jquery
-    $('#search_form').data('flight-type', "round_trip");
+    localStorage.setItem('searchParams',  JSON.stringify(this.props.InitSearchFormData.searchParams));
     return {
       searchParams: this.props.InitSearchFormData.searchParams,
-      currentForm: "round_trip",
-      airportChoiceTarget: 'originAirport'
+      currentForm: this.props.InitSearchFormData.searchParams.flightType,
+      airportChoiceTarget: 'DepartureLocationCode'
     };
   },
 
   componentWillMount: function () {
     ActionsStore.changeForm = (form) => {
       this.setState({currentForm: form});
-      //FIXME get rid from jquery
+
       if (form == 'one_way' || form == 'round_trip') {
-        $('#search_form').data('flight-type', form);
+        ActionsStore.setFormValue('flightType', form);
       }
-      $('#flightType').val(form);
     };
 
     ActionsStore.updateFormValues = () => {
-      //FIXME get rid from jquery
-      let formValues = {
-        DepartureLocationCode: ($('#originAirport').length ? $('#originAirport').val():''),
-        departCity: ($('#originAirportCity').length ? $('#originAirportCity').val():''),
-        ArrivalLocationCode: ($('#destinationAirport').length ? $('#destinationAirport').val():''),
-        arrivCity: ($('#destinationAirportCity').length ? $('#destinationAirportCity').val():''),
-        departureDate: ($('#departureDate').length ? $('#departureDate').val():''),
-        returnDate: ($('#returnDate').length ? $('#returnDate').val():''),
-        preferedClass: ($('#preferedClass').length ? $('#preferedClass').val():''),
-        topSearchOnly: ($('#topSearchOnly').length ? $('#topSearchOnly').val():''),
-        passengers: ($('#passengers').length ? $('#passengers').val():''),
-        flightType: ($('#flightType').length ? $('#flightType').val():''),
-        voiceSearchQuery: ($('#voiceSearchQuery').length ? $('#voiceSearchQuery').val():'')
-      };
-      this.setState({searchParams: formValues});
+      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      this.setState({searchParams: searchParams});
+    };
+
+    ActionsStore.setFormValue = (target, value) => {
+      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      searchParams[target] = value;
+      localStorage.setItem('searchParams', JSON.stringify(searchParams));
+      ActionsStore.updateFormValues();
     };
 
     ActionsStore.setTarget = (target) => {
@@ -52,7 +44,6 @@ var SearchFormPage = React.createClass({
     return this.props.InitSearchFormData.user;
   },
   changeForm: function(form) {
-    // var component = this;
     return function () {
       ActionsStore.changeForm(form);
     }.bind(this);

@@ -91,8 +91,8 @@ module.exports = {
       // Final callback
       function(err, results) {
         if (!err) {
-          params.departCity = results.depart_city.city;
-          params.arrivCity = results.arriv_city.city;
+          params.DepartureLocationCodeCity = results.depart_city.city;
+          params.ArrivalLocationCodeCity = results.arriv_city.city;
         }
 
         return res.ok(
@@ -121,10 +121,7 @@ module.exports = {
       try {
         res.locals.searchId = req.param('s');
         var atob = require('atob');
-        var savedParamsTmp = JSON.parse(atob(req.param('s')));
-        _.forEach(savedParamsTmp, function (param) {
-          savedParams[param.name] = param.value.trim().toUpperCase();
-        });
+        savedParams = JSON.parse(atob(req.param('s')));
       } catch (e) {
         sails.log.info('Unable restore search parameters from encoded string');
       }
@@ -134,9 +131,9 @@ module.exports = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: !_.isEmpty(savedParams.originAirport)?savedParams.originAirport:req.param('originAirport').trim().toUpperCase(),
-          ArrivalLocationCode: !_.isEmpty(savedParams.destinationAirport)?savedParams.destinationAirport:req.param('destinationAirport').trim().toUpperCase(),
-          CabinClass: !_.isEmpty(savedParams.preferedClass)?savedParams.preferedClass:req.param('preferedClass').toUpperCase(),
+          DepartureLocationCode: !_.isEmpty(savedParams.DepartureLocationCode)?savedParams.DepartureLocationCode:req.param('DepartureLocationCode').trim().toUpperCase(),
+          ArrivalLocationCode: !_.isEmpty(savedParams.ArrivalLocationCode)?savedParams.ArrivalLocationCode:req.param('ArrivalLocationCode').trim().toUpperCase(),
+          CabinClass: !_.isEmpty(savedParams.CabinClass)?savedParams.CabinClass:req.param('CabinClass').toUpperCase(),
           passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
           topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),

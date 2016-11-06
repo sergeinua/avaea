@@ -49,17 +49,9 @@ var drawDateRange = function(datepicker, range) {
   });
 };
 
-// function setDisplayedDate(context_sel, dest_date) {
-//   var _moment = moment.isMoment(dest_date) ? dest_date : moment(dest_date || undefined);
-//
-//   $('.weekday', context_sel).text(_moment.format('dddd'));
-//   $('.tap-date', context_sel).text(_moment.format('DD'));
-//   $('.tap-month', context_sel).text(_moment.format('MMM'));
-//   $('.tap-year', context_sel).text(_moment.format('YYYY'));
-// }
-
 function finalizeValues() {
-  var flightType = $('#search_form').data('flight-type');
+  var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+  var flightType = searchParams.flightType || 'round_trip';
   var _isError = false;
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();
@@ -70,8 +62,8 @@ function finalizeValues() {
   }
 
   // cache values
-  $('#departureDate').data('date', moment_dp.format('YYYY-MM-DD'));
-  $('#returnDate').data('date', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
+  ActionsStore.setFormValue('departureDate', moment_dp.format('YYYY-MM-DD'));
+  ActionsStore.setFormValue('returnDate', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
 
   // Check depart date
   if (moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
@@ -97,43 +89,14 @@ function finalizeValues() {
   } else {
     $('.search-button').removeClass('disabled');
     $('.search-top-button').removeClass('disabled');
-
-    if ($('#departureDate').data('date')) {
-      $('#departureDate').val($('#departureDate').data('date'));
-    }
-    if ($('#returnDate').data('date')) {
-      $('#returnDate').val($('#returnDate').data('date'));
-    }
-
   }
 
-  // changeFlightTab($('#search_form').data('flight-type'));
-  ActionsStore.changeForm($('#search_form').data('flight-type'));
+  ActionsStore.changeForm(flightType);
 }
 
 
 var Calendar = React.createClass({
   componentDidMount: function () {
-    //FIXME get rid from jquery
-
-
-
-    if ($('#departureDate').data('date')) {
-      $('#departureDate').val($('#departureDate').data('date'));
-    }
-
-    if (!!$('#departureDate').val()) {
-      $('#departureDate').data('date', $('#departureDate').val());
-    }
-    if ($('#returnDate').data('date')) {
-      $('#returnDate').val($('#returnDate').data('date'));
-    }
-
-    if (!!$('#returnDate').val()) {
-      $('#returnDate').data('date', $('#returnDate').val());
-    }
-
-
 
     // init datetimepicker {{{
     if ($('#dr_picker').length) {
@@ -160,9 +123,10 @@ var Calendar = React.createClass({
     }
     // }}} init datetimepicker
 
+    var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
     $("#dr_picker").on("dp.change", function (e) {
       if (e.date) {
-        var flightType = $('#search_form').data('flight-type');
+        var flightType = searchParams.flightType || 'round_trip';
         // enable range functionality for round trip flight type
         if (flightType == 'round_trip') {
           // range manipulation {{{
@@ -199,10 +163,10 @@ var Calendar = React.createClass({
     });
     // force dp.change event hook {{{
     $('#dr_picker').data("DateTimePicker").clear();
-    var depDate = $('#departureDate').val() ? moment($('#departureDate').val(), 'YYYY-MM-DD') : moment();
+    var depDate = searchParams.departureDate ? moment(searchParams.departureDate, 'YYYY-MM-DD') : moment();
     $('#dr_picker').data("DateTimePicker").date(depDate);
-    if ($('#search_form').data('flight-type') == 'round_trip') {
-      var retDate = $('#returnDate').val() ? moment($('#returnDate').val(), 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
+    if (searchParams.flightType == 'round_trip') {
+      var retDate = searchParams.returnDate ? moment(searchParams.returnDate, 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
       if (retDate.isAfter($('#dr_picker').data("DateTimePicker").maxDate())) {
         retDate = $('#dr_picker').data("DateTimePicker").maxDate().clone();
       }

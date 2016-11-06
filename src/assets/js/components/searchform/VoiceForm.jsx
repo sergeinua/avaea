@@ -169,7 +169,7 @@ var VoiceForm = React.createClass({
       dataType: 'json'
     }).done(function( result ) {
 
-      var _airportsKeys = {origin_airport: 'originAirport', return_airport: 'destinationAirport'};
+      var _airportsKeys = {origin_airport: 'DepartureLocationCode', return_airport: 'ArrivalLocationCode'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
@@ -220,7 +220,7 @@ var VoiceForm = React.createClass({
               _day = result.origin_date.getDate();
             if (_month < 10) _month = '0' + _month;
             if (_day < 10) _day = '0' + _day;
-            $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+            ActionsStore.setFormValue('departureDate', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
             // picker.date(result.origin_date);
             leaving = result.origin_date.toDateString();
             // we can't set return date on search form without origin date
@@ -229,7 +229,7 @@ var VoiceForm = React.createClass({
                 _day = result.return_date.getDate();
               if (_month < 10) _month = '0' + _month;
               if (_day < 10) _day = '0' + _day;
-              $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+              ActionsStore.setFormValue('returnDate', result.return_date.getFullYear() + '-' + _month + '-' + _day);
               // picker.date(result.return_date);
               returning = result.return_date.toDateString();
             } else if (result.type == 'round_trip') {
@@ -239,11 +239,11 @@ var VoiceForm = React.createClass({
           }
           if (result.origin_date) {
             var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
-            $('#departureDate').val(origin_date.format('YYYY-MM-DD') || '');
+            ActionsStore.setFormValue('departureDate', origin_date.format('YYYY-MM-DD') || '');
           }
           if (result.return_date) {
             var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
-            $('#returnDate').val(return_date.format('YYYY-MM-DD') || '');
+            ActionsStore.setFormValue('returnDate', return_date.format('YYYY-MM-DD') || '');
           }
           //
           // if (leaving) {
@@ -259,26 +259,27 @@ var VoiceForm = React.createClass({
         } else {
           result.number_of_tickets = 1;
         }
-        $('#passengers').val(result.number_of_tickets);
+        ActionsStore.setFormValue('passengers', result.number_of_tickets);
 
         if( !result.class_of_service ) {
           result.class_of_service = 'E';
         }
 
         if (serviceClass && serviceClass[result.class_of_service]) {
-          $('#preferedClass').val(result.class_of_service);
+          ActionsStore.setFormValue('CabinClass', result.class_of_service);
         }
-        ActionsStore.updateFormValues();
-        ActionsStore.changeForm(result.type);
+        // ActionsStore.updateFormValues();
 
-        $('#voiceSearchQuery').val(JSON.stringify(result));
+        ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
         switch (result.action) {
           case 'top':
-            $('#topSearchOnly').val(1);
+            ActionsStore.setFormValue('topSearchOnly', 1);
           case 'all':
-            $('#search_form').submit();
+            ActionsStore.setFormValue('flightType', result.type);
+            ActionsStore.submitForm();
             break;
         }
+        ActionsStore.changeForm(result.type);
 
         return callback(true, result);
       }).fail(function(){
