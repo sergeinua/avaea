@@ -8,21 +8,20 @@
   var NavBarInit = {
     user: {email:"<%= user.email %>", id: <%= user.id %>}
   };
+
+  var cur_year = new Date().getFullYear();
+
+  var AboutPageData = {
+    cur_year: cur_year,
+    software_version: "<%= site_info.software_version %>",
+    contact_email: "<%= site_info.contact_email %>"
+  };
+
 </script>
 <% } %>
 
 <div id="onlynavbar" page="about"></div>
 
-<div class="sitepage about">
-  <div class="copyright">&copy;<%= cur_year %> AVAEA Inc., All Rights Reserved</div>
-
-  <div class="release-version">Avaea Agent <%= site_info.software_version %></div>
-
-  <div class="clickmail">
-    <a class="big-button" href="mailto:<%= site_info.contact_email %>">
-      <span class="fa fa-envelope-o"></span>
-      Contact Us
-    </a>
-  </div>
+<div id="aboutpage"></div>
 
 </div>
