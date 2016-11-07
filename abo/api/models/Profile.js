@@ -22,11 +22,6 @@ module.exports = {
     M: "Male",
     F: "Female"
   },
-  attr_pax_type : {
-    ADT: "Adult",
-    CHD: "Child",
-    INF: "Infant"
-  },
 
   findOneByUserId: function (id) {
     return this.findOne({user:id});
@@ -35,6 +30,11 @@ module.exports = {
   make: function (form, user) {
     var jsonStruct = form;
     jsonStruct.user = user.id;
+
+    if (form['birthday']) {
+      var years = sails.moment().diff(form['birthday'], 'years');
+      form['pax_type'] = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+    }
 
     jsonStruct.personal_info = {
       first_name  : form['first_name'],

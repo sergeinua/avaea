@@ -21,7 +21,6 @@ var UserProfile = React.createClass({
       {id:'last_name', required: true, title: 'Last Name', data: this.props.profileData.personal_info.last_name || ''},
       {id:'gender', title: 'Gender', data: this.props.profileData.personal_info.gender || ''},
       {id:'birthday', type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: this.props.profileData.personal_info.birthday || ''},
-      {id:'pax_type', title: 'Passenger Type', data: this.props.profileData.personal_info.pax_type || ''},
       {id:'street', title: 'Address', data: this.props.profileData.personal_info.address.street || ''},
       {id:'city', title: 'City', data: this.props.profileData.personal_info.address.city || ''},
       {id:'state', title: 'State', data: this.props.profileData.personal_info.address.state || ''},
