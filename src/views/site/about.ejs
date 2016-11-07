@@ -1,27 +1,12 @@
-<%
-  /* global site_info */
-  var cur_year = new Date().getFullYear();
-%>
-
-<% if (user) { %>
-<script type="text/javascript">
-  var NavBarInit = {
-    user: {email:"<%= user.email %>", id: <%= user.id %>}
-  };
-
-  var cur_year = new Date().getFullYear();
-
+<script>
   var AboutPageData = {
-    cur_year: cur_year,
+    user: {email:"<%= user.email %>", id: <%= user.id %>},
+    cur_year: new Date().getFullYear(),
     software_version: "<%= site_info.software_version %>",
     contact_email: "<%= site_info.contact_email %>"
   };
 
-</script>
-<% } %>
 
-<div id="onlynavbar" page="about"></div>
+</script>
 
 <div id="aboutpage"></div>
-
-</div>
