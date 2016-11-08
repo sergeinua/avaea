@@ -4,7 +4,16 @@ var Buckets = React.createClass({
       max_filter_items: this.props.max_filter_items || 0,
       searchResultLength: this.props.searchResultLength,
       tiles: this.props.tiles,
-      fullinfo: true,
+      fullinfo: !!this.props.tiles.length,
+    };
+  },
+
+  componentWillMount: function () {
+    ActionsStore.toggleFullInfo = (value) => {
+      if (!!this.props.tiles.length) {
+        var newVal = (typeof value != 'undefined') ? value : !this.state.fullinfo;
+        this.setState({fullinfo: newVal});
+      }
     };
   },
 
@@ -25,10 +34,6 @@ var Buckets = React.createClass({
   },
 
   toggleFullInfo: function () {
-    ActionsStore.toggleFullInfo = (value) => {
-      var newVal = (typeof value != 'undefined')?value:!this.state.fullinfo;
-      this.setState({fullinfo: newVal});
-    };
     return function() {
       ActionsStore.toggleFullInfo();
     }.bind(this);
@@ -50,11 +55,15 @@ var Buckets = React.createClass({
           <div className="bottom-nav-text">
           <span>Showing <span className='search_count' id='search_count'>{ this.props.searchResultLength }/{this.state.searchResultLength} </span>
           flights by</span> </div><Sorter current={this.props.currentSort}/>
-          <div className="clear-undo-buttons text-right">
-            <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
-            <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
-            <span id="filters-expander" className={this.state.fullinfo ?"icon-expander-up":"icon-expander-down"} onClick={this.toggleFullInfo()}></span>
-          </div>
+          { !!this.props.tiles.length ?
+            <div className="clear-undo-buttons text-right">
+              <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
+              <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
+              <span id="filters-expander"
+                className={this.state.fullinfo ? "icon-expander-up" : "icon-expander-down"}
+                onClick={this.toggleFullInfo()}> </span>
+            </div>:null
+          }
         </div>
       </div>
     </div>
