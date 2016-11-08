@@ -13,10 +13,15 @@
 	 
 	 --------------- */
 
-/* Deborah integrated the 2 styles here on Nov 7
-	 leaving the react-select CSS style sheet separate for now
+/* For react-select component - typeahead (auto-suggestion) for airline in user profile
+*  And please see react-select.css also
 */
-
+.Select-control {
+    border: 0 !important;
+}
+.Select {
+    height: 48px !important;
+}
 
 
 
