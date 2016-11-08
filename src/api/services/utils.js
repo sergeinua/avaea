@@ -22,14 +22,16 @@ module.exports = {
   minutesToDuration: function(minutes) {
     return utils.durationHr(minutes*60*1000, 'd', 'm', false, true);
   },
+
   durationHr: function(ms, top, bottom, zero, roundDayMin) {
     // available top, bottom: 'ms', 's', 'm', 'h', 'd'
     // zero: set to true if need to include, zeroes default false
     // roundDayMin: round day-minutes to 1/2hour or hour
     roundDayMin = roundDayMin && ms > 1500000*60; // actual for more then 1-day and 1-hour values
     ms = parseInt(ms);
-    if(roundDayMin)
-      ms = tileFormatVal.roundTo30mins(ms/60000)*60000;
+    if (roundDayMin) {
+      ms = tileFormatVal.roundTo30mins(ms / 60000) * 60000;
+    }
 
     var resFull = [];
     var res = [];
@@ -56,25 +58,32 @@ module.exports = {
       rem -= v;
       rem /= units[i].m;
       if (v || zero) {
-        if(roundDayMin && units[i].l == 'm' && v == 30)
+        if (roundDayMin && units[i].l == 'm' && v == 30) {
           hour_suffix = '&#189;';
-        else {
-          if(units[i].l == 'h' && hour_suffix != '') // add one-half hour suffix
+        } else {
+          if (units[i].l == 'h' && hour_suffix != '') { // add one-half hour suffix
             v += hour_suffix;
+          }
           resFull.push(v + units[i].l);
-          if (p) res.push(v + units[i].l);
+          if (p) {
+            res.push(v + units[i].l);
+          }
         }
       }
       if (!rem || top == units[i].l) {
         break;
       }
     }
-    if (!res.length) res = resFull;
+    if (!res.length) {
+      res = resFull;
+    }
     return res.reverse().join(' ');
   },
+
   timeLog: function(label) {
     timer[label] = Date.now();
   },
+
   timeLogGet: function(label) {
     if (timer[label]) {
       return Date.now() - timer[label];
@@ -82,9 +91,11 @@ module.exports = {
       return 0;
     }
   },
+
   timeLogGetHr: function(label) {
     return utils.durationHr(utils.timeLogGet(label)) || '0s';
   },
+
   cartesianProductOf: function () {
     return lodash.reduce(arguments, function(mtrx, vals) {
       return lodash.reduce(vals, function(array, val) {
@@ -93,5 +104,14 @@ module.exports = {
         );
       }, []);
     }, [[]]);
+  },
+
+  calculateDayTimeQuarter: function (date) {
+    var hour = parseInt(sails.moment(date).format('H'));
+    var quarter = Math.floor(hour/6) + 1;
+    if (hour < 8) {
+      quarter = 1;
+    }
+    return quarter;
   }
 };
