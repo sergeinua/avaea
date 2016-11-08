@@ -50,15 +50,14 @@ module.exports = {
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
   ffmapis: {
     milefy: {
-      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
-      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
-      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+      url:      'https://testingapi.30k.com/',
+      login:    'avaea',
+      password: '8ac8c8cae00e'
     },
     wallet: {
-      url:      'PUT_PRODUCTION_CREDENTIALS_HERE',
-      login:    'PUT_PRODUCTION_CREDENTIALS_HERE',
-      password: 'PUT_PRODUCTION_CREDENTIALS_HERE'
+      url:      'https://walletapi-testing.30k.com/',
+      login:    'avaea',
+      password: '8ac8c8cae00e'
     }
   }
-
 };
