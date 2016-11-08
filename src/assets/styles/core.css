@@ -20,7 +20,7 @@
 .search-result .long-wrapper,
 .booking .buy-button,
 .booking .long-wrapper,
-.booking-success .flight-unit .summary,
+.booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
 .flight-unit .itinerary-airline-icon,
 .flight-unit .itinerary-airline .itinerary-airline-icon,
@@ -387,6 +387,10 @@
 	border-bottom-right-radius: 6px;
 }
 
+.desktop .booking-success .row.notable-area {
+	margin-right: -40px;
+}
+
 .desktop .notable-area .details,
 .booking-success .notable-area .details,
 .desktop .booking-success .notable-area .refundable,
@@ -401,8 +405,28 @@
 
 .desktop .notable-area .ff-miles,
 .desktop .notable-area .ff-miles.no-value {
-    margin-left: -40px;
-		margin-right: -40px;
+	margin-top: 10px;
+	margin-right: -40px;
+}
+
+.desktop .booking .notable-area .ff-miles, 
+.desktop .booking .notable-area .ff-miles.no-value,
+.desktop .booking-success .notable-area .ff-miles {
+	text-align: center;
+	margin-right: 0;
+}
+
+.desktop .itinerary .section:first-child:after {
+	margin: 20px -40px 5px -40px;
+}
+
+.desktop .booking .itinerary .section:first-child:after {
+	margin-right: -40px;
+	margin-left: -40px;
+}
+
+.desktop .booking-success .itinerary .section:first-child:after {
+	margin-right: -20px;
 }
 
 .notable-area .details .col-xs-2.dest,
@@ -536,6 +560,10 @@
 	font-size: 16px;
 }
 
+.desktop .booking-success .flight-unit .summary {
+	padding-top: 15px;
+}
+
 .desktop .help-contact {
 	font-size: 14px;
 }
@@ -543,6 +571,8 @@
 .desktop .booking-success .notable-area .col-xs-3.direction {
 	width: 10%;
 }
+
+
 
 
 /* heredeb */
@@ -1051,6 +1081,17 @@ textarea {
 	color: rgba(0, 0, 0, 0.4);
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
+}
+
+/* the react select components for 
+	 user's airline selection in profile */
+
+.Select-control {
+    border: 0 !important;
+}
+
+.Select {
+    height: 48px !important;
 }
 
 /* header nav */
@@ -2294,9 +2335,20 @@ td[data-action*="selectDay"] {
   background: url('/images/airlines/avaea-airlines-sprite.png');
 }
 
-.itinerary .section:first-child {
-	padding-bottom: 10px;
+.itinerary .section:first-child:after {
+	content: '';
+	margin: 10px 0 0 -10px;
+	display: block;
   border-bottom: 1px dashed rgba(0, 0, 0, 0.25);
+}
+
+.booking .itinerary .section:first-child:after {
+	margin-left: -30px;
+}
+
+.booking-success .itinerary .section:first-child:after {
+	margin-right: -20px;
+	margin-left: -40px;
 }
 
 .itinerary-info {
@@ -2407,7 +2459,6 @@ td[data-action*="selectDay"] {
 .notable-area .ff-miles.no-value {
 	margin: -1px 0 0 -40px;
 	position: relative;
-	border-bottom: 1px dashed rgba(0, 0, 0, .2);
 }
 
 .notable-area .ff-miles {
