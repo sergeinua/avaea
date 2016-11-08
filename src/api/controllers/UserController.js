@@ -58,6 +58,10 @@ module.exports = {
         if (typeof profile_fields.birthday == 'object') {
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
         }
+        if (profile_fields.birthday) {
+          var years = sails.moment().diff(profile_fields.birthday, 'years');
+          profile_fields.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+        }
 
         return res.ok(
           {

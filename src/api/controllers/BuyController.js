@@ -54,18 +54,25 @@ module.exports = {
         if (found && found.personal_info) {
           // Apply DB values if form fields is not defined yet
           for (var prop in userData) {
-            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == ""))
+            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
               reqParams[prop] = found.personal_info[userData[prop]];
+            }
           }
           for (var prop in userAddress) {
-            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == ""))
+            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
               reqParams[prop] = found.personal_info.address[userAddress[prop]];
+            }
           }
         }
 
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
-        if(typeof reqParams.DateOfBirth == 'object')
+        if (typeof reqParams.DateOfBirth == 'object') {
           reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
+        }
+        if (reqParams.DateOfBirth) {
+          var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
+          reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+        }
       }
 
       var id = req.param('id');
