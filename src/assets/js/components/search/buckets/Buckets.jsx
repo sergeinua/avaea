@@ -19,7 +19,7 @@ var Buckets = React.createClass({
 
   handleUndo: function () {
     return function() {
-      if (this.props.searchResultLength != this.state.searchResultLength) {
+      if (this.props.filter.length) {
         ActionsStore.undoTiles();
       }
     }.bind(this);
@@ -27,7 +27,7 @@ var Buckets = React.createClass({
 
   handleClear: function () {
     return function() {
-      if (this.props.searchResultLength != this.state.searchResultLength) {
+      if (this.props.filter.length) {
         ActionsStore.clearTiles();
       }
     }.bind(this);
