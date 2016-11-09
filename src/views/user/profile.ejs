@@ -9,7 +9,7 @@
     <div id="UserProfile"></div>
 
     <div class="button-holder">
-      <button type="submit" class="big-button" >Update</button>
+      <button type="submit" class="big-button" ><%= (profile_fields !== null) ? 'Update' : 'Create' %></button>
     </div>
 
   </div>
@@ -17,7 +17,7 @@
 </form>
 
 <script type="text/javascript">
-    <% if (typeof profile_fields == 'object' ) {%>
+    <% if (profile_fields !== null) {%>
     UserProfileData = <%- JSON.stringify(profile_fields) %>;
     <% } else { %>
     UserProfileData = {};

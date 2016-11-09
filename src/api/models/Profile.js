@@ -66,7 +66,7 @@ module.exports = {
 
             var jsonStruct = {}, storedShowTiles;
             storedShowTiles = found ? found.personal_info.show_tiles : true;
-            jsonStruct.user = found ? found.user : user;
+            jsonStruct.user = found ? found.user : user.id;
 
             jsonStruct.personal_info = {
               first_name: form['first_name'],

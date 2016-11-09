@@ -13,21 +13,21 @@ module.exports = {
   /**
    * `UserController.login()`
    */
-  create: function (req, res) {
-    //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
-    if (!req.session.authenticated || !req.user) {
-      return res.redirect('/login');
-    }
-    //end of temp fix
-
-    return res.ok(
-      {
-        title:'Create profile',
-        user: req.user
-      },
-      'user/create'
-    );
-  },
+  // create: function (req, res) {
+  //   //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
+  //   if (!req.session.authenticated || !req.user) {
+  //     return res.redirect('/login');
+  //   }
+  //   //end of temp fix
+  //
+  //   return res.ok(
+  //     {
+  //       title:'Create profile',
+  //       user: req.user
+  //     },
+  //     'user/create'
+  //   );
+  // },
 
   /**
    * `UserController.profile()`
@@ -40,8 +40,11 @@ module.exports = {
     //end of temp fix
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
+      if (err) {
+        sails.log.error(err);
+      }
       if (!found) {
-        res.redirect('create');
+        var profile_fields = null;
       } else {
         // Assign fields for the view
         var profile_fields = {};
@@ -49,7 +52,7 @@ module.exports = {
           if (!found.hasOwnProperty(prop)) {
             continue;
           }
-          if (typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()=="")) {
+          if (typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim() == "")) {
             profile_fields[prop] = '';
           } else {
             profile_fields[prop] = found[prop];
@@ -58,16 +61,17 @@ module.exports = {
         if (typeof profile_fields.birthday == 'object') {
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
         }
-
-        return res.ok(
-          {
-            title:'Update profile',
-            user: req.user,
-            profile_fields: profile_fields
-          },
-          'user/profile'
-        );
       }
+
+      sails.log.warn('_profile_fields');
+      sails.log.warn(typeof profile_fields, profile_fields);
+      // req.wantsJSON = true;
+      return res.ok(
+        {
+          user: req.user,
+          profile_fields: profile_fields
+        }
+      );
     });
   },
 
@@ -84,7 +88,11 @@ module.exports = {
     Profile.make(req.body, req.user, function(profileFields) {
 
       Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
-        if (err || _.isEmpty(record)) {
+        if (err) {
+          sails.log.error(err);
+          res.redirect('/profile');
+        }
+        else if (_.isEmpty(record)) {
           Profile.create(profileFields).exec(function(err, record) {
             if (err) {
               sails.log.error(err);
@@ -92,7 +100,8 @@ module.exports = {
             res.redirect('/profile');
 
           });
-        } else {
+        }
+        else {
           var _user = req.user;
           _user.profileFields = profileFields;
           segmentio.identify(req.user.id, _user);

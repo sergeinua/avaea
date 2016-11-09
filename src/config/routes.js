@@ -50,7 +50,6 @@ module.exports.routes = {
   'get /result': 'SearchController.result',
 
   'get /profile': 'UserController.profile',
-  'get /create': 'UserController.create',
   'post /update': 'UserController.update',
 
   'post /prediction/order_tiles': 'PredictionController.order_tiles',

@@ -8,7 +8,10 @@ var UserProfile = React.createClass({
   profileStructure: null,
   programsStructure: null,
 
+  render_count: 1,
+
   componentWillMount: function() {
+    console.log('_PROPS_1', this.props);
 
     if ($.isEmptyObject(this.props.profileData)) {
       this.props.profileData.personal_info = {address: {}};
@@ -49,11 +52,61 @@ var UserProfile = React.createClass({
 
   },
 
+  getProfile: function() {
+    return fetch('/profile', {
+      credentials: 'same-origin' // required for including auth headers
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        return json;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+
+  componentDidMount: function() {
+    let unsubscribe = clientStore.subscribe(() =>
+      console.log('_store:', clientStore.getState())
+    );
+
+    this.getProfile()
+      .then(function (resData) {
+
+        this.profileData.personal[0].data = resData.profile_fields.personal_info.first_name + '_added';
+
+        clientStore.dispatch(actionLoadProfileSuccess(this.profileData));
+        console.log('_PROPS_2', this.props);
+      }
+      .bind(this))
+      .catch(function (error) {
+        console.log(error);
+      });
+  },
+
   render: function () {
-    return <div className="user-profile">
-        <UserProfilePanel type="personal" profileStructure={this.profileStructure} data={this.profileData.personal} id="One1" name="Personal information" key="One" />
-        <UserProfilePanel type="programs" programsStructure={this.programsStructure} data={this.profileData.programs} id="Two2" name="Airlines/Programs" key="Two" />
+    console.log('render'+(this.render_count++), this.props.profileDataOut);
+    if (this.props.profileDataOut.personal) {
+      return <div className="user-profile">
+        <UserProfilePanel type="personal" profileStructure={this.profileStructure} data={this.props.profileDataOut.personal} id="One1" name="Personal information" key="One"/>
+        <UserProfilePanel type="programs" programsStructure={this.programsStructure} data={this.props.profileDataOut.programs} id="Two2" name="Airlines/Programs" key="Two"/>
       </div>;
+    }
+
+    return <div className="user-profile">Loading..</div>
   }
 
 });
+
+const mapStateToProps = function(store) {
+  return {
+    profileDataOut: {
+      personal : store.profileData.personal,
+      programs : store.profileData.programs
+    }
+  };
+};
+
+var UserProfileContainer = ReactRedux.connect(mapStateToProps)(UserProfile);
