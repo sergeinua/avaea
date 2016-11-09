@@ -24,11 +24,6 @@ module.exports = {
     M: "Male",
     F: "Female"
   },
-  attr_pax_type : {
-    ADT: "Adult",
-    CHD: "Child",
-    INF: "Infant"
-  },
 
   attr_travel_type: {
     'Domestic Short Haul Trips': 'Domestic Short Haul Trips',
@@ -67,6 +62,10 @@ module.exports = {
             var jsonStruct = {}, storedShowTiles;
             storedShowTiles = found ? found.personal_info.show_tiles : true;
             jsonStruct.user = found ? found.user : user.id;
+            if (form['birthday']) {
+              var years = sails.moment().diff(form['birthday'], 'years');
+              form['pax_type'] = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+            }
 
             jsonStruct.personal_info = {
               first_name: form['first_name'],
