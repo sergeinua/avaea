@@ -20,7 +20,7 @@ exports.down = function(db, callback) {
     'BEGIN;',
       'DELETE FROM passport WHERE "user" = (SELECT id FROM "user" WHERE username =\'testing\');',
       'DELETE FROM profile WHERE "user" = (SELECT id FROM "user" WHERE username =\'testing\');',
-      'DELETE FROM "user" WHERE username =\'testing\');',
+      'DELETE FROM "user" WHERE username =\'testing\';',
     'COMMIT;'
   ];
   db.runSql(data.join("\n"), function(err) {
