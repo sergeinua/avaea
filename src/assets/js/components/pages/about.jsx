@@ -21,6 +21,7 @@ var AboutPage = React.createClass({
         this.setState({
           isLoading: false,
           aboutData: {
+            cur_year: this.state.aboutData.cur_year,
             software_version: json.software_version,
             contact_email: json.contact_email
           }
