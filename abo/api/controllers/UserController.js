@@ -66,15 +66,22 @@ module.exports = {
         // Assign fields for the view
         var profile_fields = {};
         for(var prop in found) {
-          if(!found.hasOwnProperty(prop))
+          if (!found.hasOwnProperty(prop)) {
             continue;
-          if(typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()==""))
+          }
+          if (typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()=="")) {
             profile_fields[prop] = '';
-          else
+          } else {
             profile_fields[prop] = found[prop];
+          }
         }
-        if(typeof profile_fields.birthday == 'object')
+        if (typeof profile_fields.birthday == 'object') {
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
+        }
+        if (profile_fields.birthday) {
+          var years = sails.moment().diff(profile_fields.birthday, 'years');
+          profile_fields.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+        }
 
         return res.view('user/profile', {
           selectedAirline: selectedAirline,
