@@ -901,7 +901,8 @@ module.exports = {
           tileArr['Stops'].filters.push({
             title: tileFormatVal.getStopsTitle(maxStops),
             id: 'stops_tile_' + maxStops,
-            count : 1
+            count : 1,
+            order: maxStops
           });
           filterClass = filterClass + ' ' + 'stops_tile_' + maxStops;
         } else {
