@@ -49,8 +49,8 @@ module.exports.routes = {
   'post /result': 'SearchController.result',
   'get /result': 'SearchController.result',
 
-  'get /profile': 'UserController.profile',
-  'post /update': 'UserController.update',
+  'get /profile/get': 'UserController.profile',
+  'post /profile/update': 'UserController.update',
 
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
   'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
