@@ -326,7 +326,7 @@ var mapCitypairs = function(citypairs) {
         code: from.DepartureLocationCode,
         date: sails.moment(from.DepartureDateTime).format('YYYY-MM-DD'),
         time: sails.moment(from.DepartureDateTime).format('hh:mma').slice(0, -1),
-        quarter: Math.floor(parseInt(sails.moment(from.DepartureDateTime).format('H'))/6)+1,
+        quarter: utils.calculateDayTimeQuarter(from.DepartureDateTime),
         airlineCode: from.MarketingAirline.toUpperCase(),
         airline: from.MarketingAirlineName,
         minutes: sails.moment.duration(
@@ -337,7 +337,7 @@ var mapCitypairs = function(citypairs) {
         code: to.ArrivalLocationCode,
         date: sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'),
         time: sails.moment(to.ArrivalDateTime).format('hh:mma').slice(0, -1),
-        quarter: Math.floor(parseInt(sails.moment(to.ArrivalDateTime).format('H'))/6)+1,
+        quarter: utils.calculateDayTimeQuarter(to.ArrivalDateTime),
         minutes: sails.moment.duration(
           sails.moment(to.ArrivalDateTime).diff(sails.moment(to.ArrivalDateTime).format('YYYY-MM-DD'))
         ).asMinutes()
