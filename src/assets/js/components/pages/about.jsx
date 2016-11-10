@@ -1,22 +1,50 @@
 var AboutPage = React.createClass({
 
-  getUser: function () {
-    return this.props.AboutPageData.user;
+  getInitialState: function () {
+    return {
+      isLoading: true,
+      aboutData: {
+        cur_year: new Date().getFullYear(),
+        software_version: '',
+        contact_email: ''
+      },
+    };
   },
 
-  getAboutData: function () {
-    return {
-      cur_year: this.props.AboutPageData.cur_year,
-      software_version: this.props.AboutPageData.software_version,
-      contact_email: this.props.AboutPageData.contact_email
-    }
+  componentWillMount: function () {
+
+    fetch('/site/about/info', {
+      credentials: 'same-origin' // required for including auth headers
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({
+          isLoading: false,
+          aboutData: {
+            software_version: json.software_version,
+            contact_email: json.contact_email
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  },
+
+  getUser: function () {
+    return this.props.AboutPageData.user;
   },
 
   render: function () {
     return (
       <div>
         <NavBar page="about" user={this.getUser()} InitResultData={{}}/>
-        <About AboutData={this.getAboutData()}/>
+        {
+          this.state.isLoading === true ?
+          <Loader size="medium"/>
+          : <About AboutData={this.state.aboutData}/>
+        }
+
       </div>
     )
   }
