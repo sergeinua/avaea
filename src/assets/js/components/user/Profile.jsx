@@ -7,8 +7,6 @@ var UserProfile = React.createClass({
     programsStructure: {}
   },
 
-  render_count: 1,
-
   makeProfileData: function(incData) {
 
     var profile_fields = incData.profile_fields;
@@ -63,7 +61,7 @@ var UserProfile = React.createClass({
         return json;
       })
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   },
 
@@ -83,7 +81,7 @@ var UserProfile = React.createClass({
         return json;
       })
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   },
 
@@ -94,24 +92,21 @@ var UserProfile = React.createClass({
         resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
       }.bind(this))
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   },
 
   componentDidMount: function() {
-    clientStore.subscribe(() => console.log('_store:', clientStore.getState()));
-
     this.getProfile()
       .then(function (resData) {
         resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
       }.bind(this))
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   },
 
   render: function () {
-    console.log('render'+(this.render_count++), this.profileData, this.profileData.personal.length);
     if (this.props.profileData.personal) {
       return <div>
         <div className="user-profile">

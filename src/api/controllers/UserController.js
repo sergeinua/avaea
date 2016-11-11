@@ -75,15 +75,8 @@ module.exports = {
         return res.ok({user: user_out, error: true});
       }
 
-      // Debug trick - will use for prod after tests
-      // makeProfileData(req, found).then(function (resData) {
-      //   return res.ok(resData);
-      // });
-      // Use now for tests:
       makeProfileData(req, found).then(function (resData) {
-        setTimeout(function () {
-          return res.ok(resData);
-        }, 500); // Delay for testing
+        return res.ok(resData);
       });
     });
   },
