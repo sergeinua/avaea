@@ -21,7 +21,11 @@ module.exports = {
         site_info: sails.config.globals.site_info,
         user: (req.user ? req.user : null)
       },
-      'site/'+page_name
+      'site/' + page_name
     );
+  },
+
+  about_info: function (req, res) {
+    return res.json(sails.config.globals.site_info);
   }
 };
