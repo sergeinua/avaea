@@ -1,11 +1,56 @@
 /* global Profile */
 /* global sails */
+var qpromice = require('q');
+
 /**
  * UserController
  *
  * @description :: Server-side logic for managing Users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+
+var makeProfileData = function (req, dataRec) {
+  var qdefer = qpromice.defer();
+  var profile_fields = {};
+  var user_out = {
+    id: req.user.id,
+    email: req.user.email,
+  };
+
+  if (dataRec) {
+    // Assign fields for the view
+    for (var prop in dataRec) {
+      if (!dataRec.hasOwnProperty(prop)) {
+        continue;
+      }
+      if (!dataRec[prop] || (typeof dataRec[prop] == 'string' && dataRec[prop].trim() == "")) {
+        profile_fields[prop] = '';
+      } else {
+        profile_fields[prop] = dataRec[prop];
+      }
+    }
+    if (typeof profile_fields.birthday == 'object') {
+      profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
+    }
+    if (profile_fields.birthday) {
+      var years = sails.moment().diff(profile_fields.birthday, 'years');
+      profile_fields.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+    }
+  }
+
+  qdefer.resolve({
+    user: user_out,
+    profile_fields: profile_fields,
+    profileStructure: {
+      'personal_info.gender': Profile.attr_gender
+    },
+    programsStructure: {
+      travel_type: Profile.attr_travel_type
+    }
+  });
+
+  return qdefer.promise;
+};
 
 module.exports = {
 
@@ -29,44 +74,17 @@ module.exports = {
         sails.log.error(err);
         return res.ok({user: user_out, error: true});
       }
-      if (!found) {
-        var profile_fields = {};
-      } else {
-        // Assign fields for the view
-        var profile_fields = {};
-        for (var prop in found) {
-          if (!found.hasOwnProperty(prop)) {
-            continue;
-          }
-          if (!found[prop] || (typeof found[prop] == 'string' && found[prop].trim() == "")) {
-            profile_fields[prop] = '';
-          } else {
-            profile_fields[prop] = found[prop];
-          }
-        }
-        if (typeof profile_fields.birthday == 'object') {
-          profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
-        }
-        if (profile_fields.birthday) {
-          var years = sails.moment().diff(profile_fields.birthday, 'years');
-          profile_fields.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
-        }
-      }
 
-      setTimeout(function () {
-        return res.ok(
-          {
-            user: user_out,
-            profile_fields: profile_fields,
-            profileStructure: {
-              'personal_info.gender': Profile.attr_gender
-            },
-            programsStructure: {
-              travel_type: Profile.attr_travel_type
-            }
-          }
-        );
-      }, 500); // Delay for testing
+      // Debug trick - will use for prod after tests
+      // makeProfileData(req, found).then(function (resData) {
+      //   return res.ok(resData);
+      // });
+      // Use now for tests:
+      makeProfileData(req, found).then(function (resData) {
+        setTimeout(function () {
+          return res.ok(resData);
+        }, 500); // Delay for testing
+      });
     });
   },
 
@@ -98,7 +116,11 @@ module.exports = {
               sails.log.error(err);
               return res.ok({user: user_out, error: true});
             }
-            res.redirect('/profile/get');
+            else {
+              makeProfileData(req, record).then(function (resData) {
+                return res.ok(resData);
+              });
+            }
 
           });
         }
@@ -106,7 +128,10 @@ module.exports = {
           var _user = req.user;
           _user.profileFields = profileFields;
           segmentio.identify(req.user.id, _user);
-          res.redirect('/profile/get');
+
+          makeProfileData(req, record[0]).then(function (resData) {
+            return res.ok(resData);
+          });
         }
       });
 

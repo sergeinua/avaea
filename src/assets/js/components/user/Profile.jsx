@@ -70,7 +70,10 @@ var UserProfile = React.createClass({
   postProfile: function() {
     return fetch('/profile/update', {
       method: 'POST',
-      body: JSON.stringify(this.props.profileData),
+      body: JSON.stringify({
+        personal: this.props.profileData.personal,
+        programs: this.props.profileData.programs,
+      }),
       credentials: 'same-origin' // required for including auth headers
     })
       .then((response) => {
