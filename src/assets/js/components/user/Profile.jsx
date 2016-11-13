@@ -10,9 +10,13 @@ var UserProfile = React.createClass({
   makeProfileData: function(incData) {
 
     var profile_fields = incData.profile_fields;
-
-    if ($.isEmptyObject(profile_fields)) {
-      profile_fields.personal_info = {address: {}};
+    if (!profile_fields || (typeof profile_fields != 'object')) {
+      profile_fields = {};
+    }
+    if (!profile_fields.personal_info) {
+      profile_fields.personal_info = {address: {}}
+    }
+    if (!profile_fields.notify_contact) {
       profile_fields.notify_contact = {};
     }
 

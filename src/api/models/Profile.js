@@ -133,7 +133,7 @@ module.exports = {
               var years = sails.moment().diff(jsonStruct.personal_info.birthday, 'years');
               jsonStruct.personal_info.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
             }
-            jsonStruct.personal_info.show_tiles = found ? found.personal_info.show_tiles : true;
+            jsonStruct.personal_info.show_tiles = (found && found.personal_info) ? Boolean(found.personal_info.show_tiles) : true;
 
             // Parse airlines programs panel
             if (_.isArray(form.programs)) {
