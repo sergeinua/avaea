@@ -180,7 +180,7 @@ var AuthController = {
         segmentio.track(user.id, 'Login', {email: user.email});
 
         Profile.findOneByUserId(req.session.passport.user).exec(function (error, found) {
-          if (found) {
+          if ( found && found.personal_info && typeof found.personal_info.show_tiles != 'undefined') {
             req.session.showTiles = found.personal_info.show_tiles;
           }
 

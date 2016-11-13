@@ -49,9 +49,8 @@ module.exports.routes = {
   'post /result': 'SearchController.result',
   'get /result': 'SearchController.result',
 
-  'get /profile': 'UserController.profile',
-  'get /create': 'UserController.create',
-  'post /update': 'UserController.update',
+  'get /profile/get': 'UserController.profile',
+  'post /profile/update': 'UserController.update',
 
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
   'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
@@ -63,6 +62,7 @@ module.exports.routes = {
   'get /voicesearch': 'VoicesearchController.index',
 
   'get /site/:page_name': 'SiteController.index', // For simple site pages
+  'get /site/about/info': 'SiteController.about_info', // For simple site pages
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',

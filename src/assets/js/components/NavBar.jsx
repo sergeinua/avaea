@@ -108,7 +108,7 @@ var NavBar = React.createClass({
                     <li><a href="http://www.avaea.com/">Main Search</a></li>
                     <li><a href="http://stage.avaea.com/">Test Search</a></li>
                     <li role="separator" className="divider"></li>
-                    <li><a href="/profile">Profile</a></li>
+                    <li><a href="/profile/get">Profile</a></li>
                     <li><a href="/site/about">About</a></li>
                     <li><a href="/logout">Log out <b>{ this.props.user.email }</b></a></li>
                   </ul>

@@ -1,5 +1,17 @@
 var UserProfilePanelElementDropdown = React.createClass({
 
+  handleChangeValue: function (event) {
+    if (this.props.panelType == 'programs') {
+      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, this.props.item.id, event.target.value));
+    }
+    else if (this.props.panelType == 'personal') {
+      clientStore.dispatch(actionSetPersonalVal(this.props.elemNum, event.target.value));
+    }
+    else {
+      console.error('Unknown panelType prop:', this.props.panelType);
+    }
+  },
+
   render: function () {
 
     var self = this,
@@ -24,7 +36,12 @@ var UserProfilePanelElementDropdown = React.createClass({
       _nodes.push(<option key={index} value={option.key}>{option.data}</option>);
     });
 
-    return <select name={this.props.item.id} className="form-control input-sm" defaultValue={self.props.item.data}>
+    return <select
+      name={this.props.item.id}
+      className="form-control input-sm"
+      defaultValue={self.props.item.data}
+      onBlur={this.handleChangeValue}
+    >
       <option value="">---</option>
       { _nodes }
     </select>

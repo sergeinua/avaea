@@ -589,6 +589,7 @@ module.exports = {
     //DEMO-285 temporary shrink result based on smart rank
     if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
       sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
       var tmp = [];
       for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
         tmp.push(itineraries[i]);
@@ -901,7 +902,8 @@ module.exports = {
           tileArr['Stops'].filters.push({
             title: tileFormatVal.getStopsTitle(maxStops),
             id: 'stops_tile_' + maxStops,
-            count : 1
+            count : 1,
+            order: maxStops
           });
           filterClass = filterClass + ' ' + 'stops_tile_' + maxStops;
         } else {

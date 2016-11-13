@@ -34,17 +34,17 @@ var UserProfilePanelBlock = React.createClass({
     if (this.props.item.id == 'preferred_airlines') {
 
       return <UserProfilePanelBlockAirlines item={this.state.item} programsStructure={this.props.programsStructure}
-        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset}/>;
+        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset} blockNum={this.props.blockNum}/>;
 
     } else if (this.props.item.id == 'miles_programs') {
 
       return <UserProfilePanelBlockPrograms item={this.state.item} programsStructure={this.props.programsStructure}
-        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset}/>;
+        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset} blockNum={this.props.blockNum}/>;
 
     } else if (this.props.item.id == 'lounge_membership') {
 
       return <UserProfilePanelBlockMembership item={this.state.item} programsStructure={this.props.programsStructure}
-        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset}/>;
+        onAddOneMore={this.onAddOneMore} onRemoveFieldset={this.onRemoveFieldset} blockNum={this.props.blockNum}/>;
 
     } else {
 

@@ -35,8 +35,6 @@ if (selectedAirline) { %>
     <%- _res = widgets.dropDownList(profile_fields.personal_info, "gender", Profile.attr_gender, {"class": "form-control input-sm"}) %>
     <label>Birthday</label>
     <input type="date" name="birthday" class="form-control input-sm" placeholder="YYYY-MM-DD"  value="<%= profile_fields.personal_info.birthday %>" />
-    <label>Passenger Type</label>
-    <%- _res = widgets.dropDownList(profile_fields.personal_info, "pax_type", Profile.attr_pax_type, {"class": "form-control input-sm"}) %>
     <label>Address</label>
     <input type="text" name="street" class="form-control input-sm" placeholder="Address"  value="<%= profile_fields.personal_info.address.street %>" />
     <label>City</label>

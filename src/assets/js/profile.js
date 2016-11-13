@@ -1,9 +1,8 @@
 /* global $ */
-var UserProfileData, UserProfileStructure, UserProgramsStructure;
-
+// <UserProfileContainer profileStructure={UserProfileStructure} programsStructure={UserProgramsStructure}/>
 $(document).ready(function() {
-  if (UserProfileData && UserProfileStructure && UserProgramsStructure) {
-    ReactContentRenderer.render(<UserProfile profileData={UserProfileData} profileStructure={UserProfileStructure}
-                                             programsStructure={UserProgramsStructure}/>, $('#UserProfile'));
-  }
+  ReactContentRenderer.render(
+    <ReactRedux.Provider store={clientStore}>
+      <UserProfileContainer />
+    </ReactRedux.Provider>, $('#UserProfile'));
 });
