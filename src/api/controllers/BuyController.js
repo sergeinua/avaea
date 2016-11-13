@@ -59,20 +59,12 @@ module.exports = {
             }
           }
           for (var prop in userAddress) {
-            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
+            if ((typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) && typeof found.personal_info.address != 'undefined') {
               reqParams[prop] = found.personal_info.address[userAddress[prop]];
             }
           }
         }
 
-        // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
-        if (typeof reqParams.DateOfBirth == 'object') {
-          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
-        }
-        if (reqParams.DateOfBirth) {
-          var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
-          reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
-        }
       }
 
       var id = req.param('id');
@@ -126,16 +118,28 @@ module.exports = {
 
   booking_proc: function (req, res) {
     var service = req.session.booking_itinerary.itinerary_data.service;
+    var reqParams = req.allParams();
+
+    // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
+    if (typeof reqParams.DateOfBirth == 'object') {
+      sails.log('reqParams.DateOfBirth == object');
+      reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
+    }
+    sails.log('reqParams.DateOfBirth',reqParams.DateOfBirth);
+    if (reqParams.DateOfBirth) {
+      var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
+      sails.log('years', years);
+      reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+    }
 
     req.session.time_log = [];
 
     // for API argument
-    var params = req.allParams();
+    var params = reqParams;
     params.session = req.session;
     params.user = req.user;
 
     var parseFlightBooking = function (err, result) {
-      var reqParams = req.allParams();
 
       if (err) {
         segmentio.track(req.user.id, 'Booking Failed', {error: err, params: params});
