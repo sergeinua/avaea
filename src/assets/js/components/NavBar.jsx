@@ -17,8 +17,8 @@ var NavBar = React.createClass({
   },
 
   flightTypeName: {
-    ROUND_TRIP: 'Round trip',
-    ONE_WAY: 'One way',
+    round_trip: 'Round trip',
+    one_way: 'One way',
   },
 
   componentDidUpdate: function () {

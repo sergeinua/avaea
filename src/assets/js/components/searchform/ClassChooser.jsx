@@ -1,8 +1,8 @@
 var ClassChooser = React.createClass({
   getInitialState: function() {
-    //FIXME get rid from jquery
+    var searchParams = ActionsStore.getSearchParams();
     return {
-      currentClass: this.props.classVal || $('#preferedClass').val(),
+      currentClass: this.props.classVal || searchParams.CabinClass || 'E',
     };
   },
 
@@ -32,8 +32,7 @@ var ClassChooser = React.createClass({
     this.setState({
       currentClass: newValue
     });
-    //FIXME get rid from jquery
-    $('#preferedClass').val(newValue);
+    ActionsStore.setFormValue('CabinClass', newValue);
   },
   render() {
     return (

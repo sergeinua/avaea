@@ -1,41 +1,43 @@
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
-    //FIXME get rid from jquery
-    $('#search_form').data('flight-type', "round_trip");
+    var searchParams;
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else {
+      //use data from server with default/session params if local storage is empty
+      searchParams = this.props.InitSearchFormData.searchParams;
+    }
     return {
-      searchParams: this.props.InitSearchFormData.searchParams,
-      currentForm: "round_trip",
-      airportChoiceTarget: 'originAirport'
+      searchParams: searchParams,
+      currentForm: searchParams.flightType,
+      airportChoiceTarget: 'DepartureLocationCode'
     };
   },
 
   componentWillMount: function () {
     ActionsStore.changeForm = (form) => {
-      this.setState({currentForm: form});
-      //FIXME get rid from jquery
+      this.setState({currentForm: form.toLowerCase()});
+
       if (form == 'one_way' || form == 'round_trip') {
-        $('#search_form').data('flight-type', form);
+        ActionsStore.setFormValue('flightType', form.toLowerCase());
       }
-      $('#flightType').val(form);
+    };
+
+    ActionsStore.getSearchParams = () => {
+      return this.state.searchParams;
     };
 
     ActionsStore.updateFormValues = () => {
-      //FIXME get rid from jquery
-      let formValues = {
-        DepartureLocationCode: ($('#originAirport').length ? $('#originAirport').val():''),
-        departCity: ($('#originAirportCity').length ? $('#originAirportCity').val():''),
-        ArrivalLocationCode: ($('#destinationAirport').length ? $('#destinationAirport').val():''),
-        arrivCity: ($('#destinationAirportCity').length ? $('#destinationAirportCity').val():''),
-        departureDate: ($('#departureDate').length ? $('#departureDate').val():''),
-        returnDate: ($('#returnDate').length ? $('#returnDate').val():''),
-        preferedClass: ($('#preferedClass').length ? $('#preferedClass').val():''),
-        topSearchOnly: ($('#topSearchOnly').length ? $('#topSearchOnly').val():''),
-        passengers: ($('#passengers').length ? $('#passengers').val():''),
-        flightType: ($('#flightType').length ? $('#flightType').val():''),
-        voiceSearchQuery: ($('#voiceSearchQuery').length ? $('#voiceSearchQuery').val():'')
-      };
-      this.setState({searchParams: formValues});
+      var searchParams = ActionsStore.getSearchParams();
+      this.setState({searchParams: searchParams});
+    };
+
+    ActionsStore.setFormValue = (target, value) => {
+      var searchParams = ActionsStore.getSearchParams();
+      searchParams[target] = value;
+      ActionsStore.updateFormValues();
     };
 
     ActionsStore.setTarget = (target) => {
@@ -52,7 +54,6 @@ var SearchFormPage = React.createClass({
     return this.props.InitSearchFormData.user;
   },
   changeForm: function(form) {
-    // var component = this;
     return function () {
       ActionsStore.changeForm(form);
     }.bind(this);

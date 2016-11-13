@@ -10,6 +10,7 @@ var setErrorElement = function (selector) {
     $(selector).removeClass('error-flash');
   }, flashErrorTimeout);
 };
+
 var unsetErrorElement = function (selector) {
   if($(selector).hasClass("error-elem")) {
     $(selector).removeClass("error-elem");
@@ -23,38 +24,48 @@ var TripSearchForm = React.createClass({
     }.bind(this);
   },
 
-  submitSearchForm: function (topSearchOnly) {
-    return function () {
-      $('#topSearchOnly').val(topSearchOnly);
-      ActionsStore.updateFormValues();
+  componentWillMount: function () {
+
+    ActionsStore.submitForm = () => {
       if (this.validateForm()) {
         $("#searchBanner").modal();
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
-          $('#returnDate').val('');
+          ActionsStore.setFormValue('returnDate', '');
         }
-        $('#search_form').attr('action', '/result?s=' + btoa(JSON.stringify($('#search_form').serializeArray())));
-        $('#search_form').submit();
+        var searchParams = ActionsStore.getSearchParams();
+        // save search params to local storage on request
+        localStorage.setItem('searchParams', JSON.stringify(searchParams));
+        window.location = '/result?s=' + btoa(JSON.stringify(searchParams));
       }
+    };
+
+  },
+
+  submitSearchForm: function (topSearchOnly) {
+    return function () {
+      ActionsStore.setFormValue('topSearchOnly', topSearchOnly);
+      ActionsStore.submitForm();
     }.bind(this);
   },
 
   validateForm: function () {
     var _isError = false;
+    var searchParams = ActionsStore.getSearchParams();
 
     if ($('.search-button').hasClass('disabled')) {
       _isError = true;
     }
 
     // Check airports selection
-    if ($('#originAirport').val() == '') {
+    if (searchParams.DepartureLocationCode == '') {
       setErrorElement('#from-area');
       _isError = true;
     }
-    if ($('#destinationAirport').val() == '') {
+    if (searchParams.ArrivalLocationCode == '') {
       setErrorElement('#to-area');
       _isError = true;
     }
-    if ($('#originAirport').val() == $('#destinationAirport').val()) {
+    if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
       setErrorElement('#from-area');
       setErrorElement('#from-area-selected');
       setErrorElement('#to-area');
@@ -63,17 +74,19 @@ var TripSearchForm = React.createClass({
     }
 
     // Check existence of the return date for the round trip
-    if ($('#returnDate').val() == '' && this.props.InitSearchFormData.currentForm == 'round_trip') {
+    if (searchParams.returnDate == '' && this.props.InitSearchFormData.currentForm == 'round_trip') {
       setErrorElement('.flight-date-info-item.ret');
       _isError = true;
     }
 
-    if ($('#departureDate').val() == '') {
+    if (searchParams.departureDate == '') {
       setErrorElement('.flight-date-info-item.dep');
       _isError = true;
     } else if (this.props.InitSearchFormData.currentForm == 'round_trip') {
-      let _momentRet = $('#returnDate').val() ? moment($('#returnDate').val()) : '';
-      let _momentDep = $('#departureDate').val() ? moment($('#departureDate').val()) : '';
+      var returnDate = searchParams.returnDate;
+      var departureDate = searchParams.departureDate;
+      let _momentRet = returnDate ? moment(returnDate) : '';
+      let _momentDep = departureDate ? moment(departureDate) : '';
       if (_momentRet.isBefore(_momentDep, 'day')) {
         setErrorElement('.flight-date-info-item.ret');
         _isError = true;
@@ -121,14 +134,14 @@ var TripSearchForm = React.createClass({
               <div className="col-xs-6">
                 <div id="from-area"
                      className={this.props.InitSearchFormData.searchParams.DepartureLocationCode?"flight-direction-item from sel":"flight-direction-item from"}
-                     onClick={this.handleAirportSearch('originAirport')}>
+                     onClick={this.handleAirportSearch('DepartureLocationCode')}>
                   <div className="flight-direction-item-from-to">From</div>
                   {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
                     <span className="plus">+</span>
                     :
                     <div className="search-from">
                       <span id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
-                      <div id="from-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.departCity}</div>
+                      <div id="from-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
                     </div>
                   }
                 </div>
@@ -137,14 +150,14 @@ var TripSearchForm = React.createClass({
               <div className="col-xs-6">
                 <div id="to-area"
                      className={this.props.InitSearchFormData.searchParams.ArrivalLocationCode?"flight-direction-item to sel":"flight-direction-item to"}
-                     onClick={this.handleAirportSearch('destinationAirport')}>
+                     onClick={this.handleAirportSearch('ArrivalLocationCode')}>
                   <div className="flight-direction-item-from-to">To</div>
                   {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
                     <span className="plus">+</span>
                     :
                     <div className="search-to">
                       <span id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
-                      <div  id="to-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.arrivCity}</div>
+                      <div  id="to-city-selected" className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
                     </div>
                   }
                 </div>
@@ -200,7 +213,7 @@ var TripSearchForm = React.createClass({
     <div className="flight-additional-info row">
       <div className="col-xs-12">
         <PassengerChooser passengerVal={this.props.InitSearchFormData.searchParams.passengers || 1}/>
-        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.preferedClass || 'E'}/>
+        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.CabinClass || 'E'}/>
       </div>
     </div>
 
