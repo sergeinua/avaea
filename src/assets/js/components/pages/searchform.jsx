@@ -1,32 +1,42 @@
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
-    localStorage.setItem('searchParams',  JSON.stringify(this.props.InitSearchFormData.searchParams));
+    var searchParams;
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else {
+      //use data from server with default/session params if local storage is empty
+      searchParams = this.props.InitSearchFormData.searchParams;
+    }
     return {
-      searchParams: this.props.InitSearchFormData.searchParams,
-      currentForm: this.props.InitSearchFormData.searchParams.flightType,
+      searchParams: searchParams,
+      currentForm: searchParams.flightType,
       airportChoiceTarget: 'DepartureLocationCode'
     };
   },
 
   componentWillMount: function () {
     ActionsStore.changeForm = (form) => {
-      this.setState({currentForm: form});
+      this.setState({currentForm: form.toLowerCase()});
 
       if (form == 'one_way' || form == 'round_trip') {
-        ActionsStore.setFormValue('flightType', form);
+        ActionsStore.setFormValue('flightType', form.toLowerCase());
       }
     };
 
+    ActionsStore.getSearchParams = () => {
+      return this.state.searchParams;
+    };
+
     ActionsStore.updateFormValues = () => {
-      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      var searchParams = ActionsStore.getSearchParams();
       this.setState({searchParams: searchParams});
     };
 
     ActionsStore.setFormValue = (target, value) => {
-      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      var searchParams = ActionsStore.getSearchParams();
       searchParams[target] = value;
-      localStorage.setItem('searchParams', JSON.stringify(searchParams));
       ActionsStore.updateFormValues();
     };
 

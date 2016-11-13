@@ -1,7 +1,7 @@
 
 var PassengerChooser = React.createClass({
   getInitialState: function() {
-    var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+    var searchParams = ActionsStore.getSearchParams();
     return {
       passengers_count: this.props.passengerVal || searchParams.passengers || 1,
       passengers_text: "Adult" + (this.props.passengerVal == 1? '':'s')

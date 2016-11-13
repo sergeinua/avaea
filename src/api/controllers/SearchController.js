@@ -43,7 +43,7 @@ module.exports = {
       departureDate: _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
       returnDate: _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
       passengers: _.isEmpty(req.session.passengers) ? '' : req.session.passengers,
-      flightType: _.isEmpty(req.session.flightType) ? '' : req.session.flightType
+      flightType: _.isEmpty(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
     var error;
     if (!_.isEmpty(req.session.flash)) {
@@ -131,12 +131,12 @@ module.exports = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: !_.isEmpty(savedParams.DepartureLocationCode)?savedParams.DepartureLocationCode:req.param('DepartureLocationCode').trim().toUpperCase(),
-          ArrivalLocationCode: !_.isEmpty(savedParams.ArrivalLocationCode)?savedParams.ArrivalLocationCode:req.param('ArrivalLocationCode').trim().toUpperCase(),
-          CabinClass: !_.isEmpty(savedParams.CabinClass)?savedParams.CabinClass:req.param('CabinClass').toUpperCase(),
-          passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
-          topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
-          flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
+          DepartureLocationCode: !_.isUndefined(savedParams.DepartureLocationCode)?savedParams.DepartureLocationCode:req.param('DepartureLocationCode').trim().toUpperCase(),
+          ArrivalLocationCode: !_.isUndefined(savedParams.ArrivalLocationCode)?savedParams.ArrivalLocationCode:req.param('ArrivalLocationCode').trim().toUpperCase(),
+          CabinClass: !_.isUndefined(savedParams.CabinClass)?savedParams.CabinClass:req.param('CabinClass').toUpperCase(),
+          passengers: !_.isUndefined(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
+          topSearchOnly: !_.isUndefined(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
+          flightType: !_.isUndefined(savedParams.flightType)?savedParams.flightType:req.param('flightType', 'round_trip').trim().toLowerCase(),
           returnDate: '',
           voiceSearchQuery: voiceSearchQuery ? JSON.parse(voiceSearchQuery) : ''
         }

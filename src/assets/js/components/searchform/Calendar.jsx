@@ -50,7 +50,7 @@ var drawDateRange = function(datepicker, range) {
 };
 
 function finalizeValues() {
-  var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+  var searchParams = ActionsStore.getSearchParams();
   var flightType = searchParams.flightType || 'round_trip';
   var _isError = false;
 
@@ -123,7 +123,7 @@ var Calendar = React.createClass({
     }
     // }}} init datetimepicker
 
-    var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+    var searchParams = ActionsStore.getSearchParams();
     $("#dr_picker").on("dp.change", function (e) {
       if (e.date) {
         var flightType = searchParams.flightType || 'round_trip';

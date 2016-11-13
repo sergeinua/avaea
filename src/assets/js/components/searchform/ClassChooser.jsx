@@ -1,6 +1,6 @@
 var ClassChooser = React.createClass({
   getInitialState: function() {
-    var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+    var searchParams = ActionsStore.getSearchParams();
     return {
       currentClass: this.props.classVal || searchParams.CabinClass || 'E',
     };

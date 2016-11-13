@@ -54,13 +54,13 @@ var Typeahead = React.createClass({
       }
     }).on('typeahead:selected', function (obj, datum) {
       setAirportData(target, datum);
-      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      var searchParams = ActionsStore.getSearchParams();
 
       ActionsStore.changeForm(searchParams.flightType || 'round_trip');
       ActionsStore.updateFormValues();
     });
 
-      var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+      var searchParams = ActionsStore.getSearchParams();
 
       var val = searchParams[this.props.target] || '';
       $('#airport-input').focus();

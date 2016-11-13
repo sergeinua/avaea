@@ -32,9 +32,10 @@ var TripSearchForm = React.createClass({
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        var searchParams = localStorage.getItem('searchParams');
-
-        window.location = '/result?s=' + btoa(searchParams);
+        var searchParams = ActionsStore.getSearchParams();
+        // save search params to local storage on request
+        localStorage.setItem('searchParams', JSON.stringify(searchParams));
+        window.location = '/result?s=' + btoa(JSON.stringify(searchParams));
       }
     };
 
@@ -49,7 +50,7 @@ var TripSearchForm = React.createClass({
 
   validateForm: function () {
     var _isError = false;
-    var searchParams = JSON.parse((localStorage.getItem('searchParams') || '{}'));
+    var searchParams = ActionsStore.getSearchParams();
 
     if ($('.search-button').hasClass('disabled')) {
       _isError = true;
@@ -212,7 +213,7 @@ var TripSearchForm = React.createClass({
     <div className="flight-additional-info row">
       <div className="col-xs-12">
         <PassengerChooser passengerVal={this.props.InitSearchFormData.searchParams.passengers || 1}/>
-        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.preferedClass || 'E'}/>
+        <ClassChooser classVal={this.props.InitSearchFormData.searchParams.CabinClass || 'E'}/>
       </div>
     </div>
 
