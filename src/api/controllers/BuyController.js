@@ -101,16 +101,8 @@ module.exports = {
             },
             'order'
           );
-        }
-        else {
+        } else {
           return onIllegalResult();
-
-          // For debug only
-          //return res.view('order', {
-          //  user: req.user,
-          //  reqParams: reqParams,
-          //  order:[]
-          //});
         }
       });
     });
@@ -122,13 +114,10 @@ module.exports = {
 
     // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
     if (typeof reqParams.DateOfBirth == 'object') {
-      sails.log('reqParams.DateOfBirth == object');
       reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
     }
-    sails.log('reqParams.DateOfBirth',reqParams.DateOfBirth);
     if (reqParams.DateOfBirth) {
       var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
-      sails.log('years', years);
       reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
     }
 
