@@ -120,38 +120,6 @@ $(document).ready(function() {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
 
-    // correctly initialize the swiper for desktop vs. touch
-    function isTouchDevice(){
-      return typeof window.ontouchstart !== 'undefined';
-    }
-
-    if (!uaMobile) {
-      // is desktop
-      swiper = new Swiper('.swiper-container', {
-        freeMode: true,
-        slidesPerView: '5.5'
-      });
-
-    } else {
-      // is touch
-      swiper = new Swiper('.swiper-container', {
-        freeMode: true,
-        slidesPerView: 'auto'
-      });
-    }
-
-
-  if ($(".swiper-container").length) {
-       $(".swiper-container").hammer();
-       $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-       $(".swiper-container").bind("swipeup", function (e) {
-         ActionsStore.toggleFullInfo(false);
-       }).bind("swipedown", function (e) {
-         ActionsStore.toggleFullInfo(true);
-       });
-  }
-
-
   var initScroll = 0;
   var scrollStarted = false;
   $('#searchResultData').scroll(function() {

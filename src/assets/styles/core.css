@@ -22,8 +22,8 @@
 .booking .long-wrapper,
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
-.flight-unit .itinerary-airline-icon,
-.flight-unit .itinerary-airline .itinerary-airline-icon,
+/*.flight-unit .itinerary-airline-icon,*/
+/*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
 .dimmer {
 	display: none;
@@ -409,7 +409,7 @@
 	margin-right: -40px;
 }
 
-.desktop .booking .notable-area .ff-miles, 
+.desktop .booking .notable-area .ff-miles,
 .desktop .booking .notable-area .ff-miles.no-value,
 .desktop .booking-success .notable-area .ff-miles {
 	text-align: center;
@@ -1083,7 +1083,7 @@ textarea {
 	text-transform: uppercase;
 }
 
-/* the react select components for 
+/* the react select components for
 	 user's airline selection in profile */
 
 .Select-control {

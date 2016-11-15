@@ -110,6 +110,30 @@ module.exports = {
     );
   },
 
+  // Temporary action to display search result page;
+  // FIXME: remove in DEMO-721
+  preresult: function (req, res) {
+    var savedParams = {}, errStat = null;
+    res.locals.searchId = null;
+    if (req.param('s')) {
+      try {
+        res.locals.searchId = req.param('s');
+        var atob = require('atob');
+        savedParams = JSON.parse(atob(req.param('s')));
+      } catch (e) {
+        sails.log.info('Unable restore search parameters from encoded string');
+      }
+    }
+    return res.ok({
+      searchParams: savedParams,
+      head_title: 'Flights from '
+      + savedParams.DepartureLocationCode
+      + ' to ' + savedParams.ArrivalLocationCode
+      + sails.moment(savedParams.departureDate).format(" on DD MMM 'YY")
+      + (savedParams.returnDate ? ' and back on ' + sails.moment(savedParams.returnDate).format("DD MMM 'YY") : ''),
+      serviceClass  : Search.serviceClass
+    }, 'search/result');
+  },
   /**
    * `SearchController.result()`
    */

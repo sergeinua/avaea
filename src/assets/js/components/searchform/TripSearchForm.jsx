@@ -32,10 +32,11 @@ var TripSearchForm = React.createClass({
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        var searchParams = ActionsStore.getSearchParams();
+        var searchParams = JSON.stringify(ActionsStore.getSearchParams());
         // save search params to local storage on request
-        localStorage.setItem('searchParams', JSON.stringify(searchParams));
-        window.location = '/result?s=' + btoa(JSON.stringify(searchParams));
+        localStorage.setItem('searchParams', searchParams);
+        sessionStorage.setItem('searchId', btoa(searchParams));
+        window.location = '/result?s=' + btoa(searchParams);
       }
     };
 

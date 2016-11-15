@@ -8,15 +8,98 @@ var ResultPage = React.createClass({
       currentSort = {"name": "smart", "order": "asc"};
     }
     return {
-      title: this.props.InitResultData.title,
-      tiles: this.props.InitResultData.tiles,
+      isLoading: true,
       searchParams: this.props.InitResultData.searchParams,
-      searchResultLength: this.props.InitResultData.searchResultLength,
-      searchResult: this.props.InitResultData.searchResult,
-      iconSpriteMap: this.props.InitResultData.iconSpriteMap,
       filter: [],
       currentSort: currentSort
     };
+  },
+
+  componentDidMount: function () {
+    var searchParams = this.state.searchParams;
+    var updateState = (json) => {
+      this.setState({
+        isLoading: false,
+        tiles: json.tiles,
+        searchResultLength: json.searchResult.length,
+        searchResult: json.searchResult,
+        errorType: json.errorType
+      }, function () {
+
+        //FIXME refactor code to use non jquery based swiper functionality
+        $("#searchBanner").modal('hide');
+
+        // correctly initialize the swiper for desktop vs. touch
+
+        if (!uaMobile) {
+          // is desktop
+          swiper = new Swiper('.swiper-container', {
+            freeMode: true,
+            slidesPerView: '5.5'
+          });
+
+        } else {
+          // is touch
+          swiper = new Swiper('.swiper-container', {
+            freeMode: true,
+            slidesPerView: 'auto'
+          });
+        }
+
+        if ($(".swiper-container").length) {
+          $(".swiper-container").hammer();
+          $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
+          $(".swiper-container").bind("swipeup", function (e) {
+            ActionsStore.toggleFullInfo(false);
+          }).bind("swipedown", function (e) {
+            ActionsStore.toggleFullInfo(true);
+          });
+        }
+
+      });
+    };
+    if (this.state.isLoading) {
+      var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
+
+      var now = moment.utc();
+      var duration = moment.duration(now.diff(moment(savedResult.time)));
+
+      if (
+        duration.asMinutes() < 20
+        && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+        && savedResult.searchResult.length
+      ) { //use cached result if params didn't change in 20 minutes
+        console.log('sessionStorage used');
+        updateState(savedResult);
+      } else {
+        $("#searchBanner").modal();
+        console.log('server request used');
+
+        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(searchParams),
+          credentials: 'same-origin' // required for including auth headers
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+            json.time = moment();
+            sessionStorage.setItem('savedResult', JSON.stringify(json));
+            updateState(json);
+          })
+          .catch((error) => {
+            this.setState({
+              isLoading: false,
+              errorType: error
+            });
+            console.log(error);
+          });
+      }
+    }
   },
 
   componentWillMount: function () {
@@ -280,16 +363,17 @@ var ResultPage = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="search-result">
         <NavBar page="result" user={this.getUser()} InitResultData={this.state}/>
-        {(this.props.InitResultData.searchResultLength
+        {this.state.isLoading === true ? null :
+          (this.state.searchResultLength
             ? (<span>
                  <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
                  <ResultList InitResultData={this.state} />
                </span>)
-            : <DisplayAlert departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} errorType={this.props.InitResultData.errorType} />
+            : <DisplayAlert errorType={this.state.errorType} />
         )}
-
+        <SearchBanner />
       </div>
     )
   }
