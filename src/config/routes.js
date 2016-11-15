@@ -47,7 +47,8 @@ module.exports.routes = {
   'get /booking': 'BuyController.booking', // Booking result page
   'get /search': 'SearchController.index',
   'post /result': 'SearchController.result',
-  'get /result': 'SearchController.result',
+  // 'get /result': 'SearchController.result',
+  'get /result': 'SearchController.preresult',
 
   'get /profile/get': 'UserController.profile',
   'post /profile/update': 'UserController.update',

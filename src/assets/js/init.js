@@ -1,5 +1,10 @@
 /* global $ */
-var ActionsStore = {}; //global object for communication with react components
+var ActionsStore = {
+  getIconSpriteMap: function () {
+    var iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
+    return JSON.parse(iconSpriteMap || '[]');
+  }
+}; //global object for communication with react components
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);

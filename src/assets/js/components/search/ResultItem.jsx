@@ -1,6 +1,6 @@
 var ResultItem = React.createClass({
   getInitialState: function() {
-    var searchId = $('#searchId').val();
+    var searchId = sessionStorage.getItem('searchId');
     return {
       sRes: this.props.itinerary,
       fullinfo: this.props.showFullInfo || false,
@@ -135,7 +135,7 @@ var ResultItem = React.createClass({
       <div className="row title">
         <div className="col-xs-12 itinerary-airline col-from-to">
           <span className="itinerary-airline-icon"
-                style={{backgroundPosition: "0 -" + InitResultData.iconSpriteMap[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}
+                style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.state.sRes.citypairs[0].from.airlineCode] * 15 + "px"}}
                 alt={ this.state.sRes.citypairs[0].from.airlineCode }
                 title={ this.state.sRes.citypairs[0].from.airline }>
           </span>

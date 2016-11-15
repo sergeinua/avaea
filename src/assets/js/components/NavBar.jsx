@@ -81,12 +81,12 @@ var NavBar = React.createClass({
                   {this.props.page == 'result'?
                     <div className="flight-info">
                       <div className="result-search-info-bar">
-                        <span className="requested-airports">{ this.state.title }</span>
+                        <span className="requested-airports">{ this.state.searchParams.DepartureLocationCode + '-' +  this.state.searchParams.ArrivalLocationCode}</span>
                         <span className="flight-date">
-                { this.state.searchParams.departureDate + (this.state.searchParams.returnDate?'-'+this.state.searchParams.returnDate:'') }
+                { moment(this.state.searchParams.departureDate).format('DD MMM') + (this.state.searchParams.returnDate?'-'+moment(this.state.searchParams.returnDate).format('DD MMM'):'') }
               </span>
                         <span className="seating-class">
-                { this.state.searchParams.CabinClass }
+                { serviceClass[this.state.searchParams.CabinClass] }
               </span>
                         <span className="flight-type">{ this.flightTypeName[this.state.searchParams.flightType] }</span>
                         <span className="passenger-count">{ this.state.searchParams.passengers }</span>
