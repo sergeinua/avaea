@@ -73,6 +73,13 @@ var TripSearchForm = React.createClass({
       _isError = true;
     }
 
+    if (!searchParams.passengers) {
+      ActionsStore.setFormValue('passengers', 1);
+    }
+
+    if (!searchParams.CabinClass) {
+      ActionsStore.setFormValue('CabinClass', 'E');
+    }
     // Check existence of the return date for the round trip
     if (searchParams.returnDate == '' && this.props.InitSearchFormData.currentForm == 'round_trip') {
       setErrorElement('.flight-date-info-item.ret');
