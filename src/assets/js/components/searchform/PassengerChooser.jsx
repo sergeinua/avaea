@@ -2,9 +2,10 @@
 var PassengerChooser = React.createClass({
   getInitialState: function() {
     var searchParams = ActionsStore.getSearchParams();
+    var passengers = this.props.passengerVal || searchParams.passengers || 1;
     return {
-      passengers_count: this.props.passengerVal || searchParams.passengers || 1,
-      passengers_text: "Adult" + (Math.max(this.props.passengerVal, searchParams.passengers, 1) == 1? '':'s')
+      passengers_count: passengers,
+      passengers_text: "Adult" + (passengers == 1? '':'s')
     };
   },
 
