@@ -39,10 +39,10 @@ module.exports = {
     var params = {
       DepartureLocationCode: _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
       ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
-      CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
+      CabinClass: _.isEmpty(req.session.CabinClass) ? 'E' : req.session.CabinClass,
       departureDate: _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
       returnDate: _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers: _.isEmpty(req.session.passengers) ? '' : req.session.passengers,
+      passengers: _.isEmpty(req.session.passengers) ? '1' : req.session.passengers,
       flightType: _.isEmpty(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
     var error;
