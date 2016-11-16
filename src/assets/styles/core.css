@@ -99,10 +99,6 @@
 	z-index: 0;
 }
 
-.desktop:not(.search-result) #main_title {
-	overflow: hidden;
-}
-
 .desktop .flight-direction-form {
 	padding-left: 0;
 	padding-right: 0;
@@ -267,7 +263,7 @@
 	width: 50%;
 }
 
-.desktop.search-result .flights {
+.desktop .search-result .flights {
 	margin-bottom: -70px;
 	padding-bottom: 70px;
 }
@@ -299,7 +295,7 @@
 	border-bottom: 1px solid rgba(0, 129, 201, .2);
 }
 
-.desktop.search-result .navbar-header:before {
+.desktop .search-result .navbar-header:before {
 	content: 'Avaea Agent';
   font-family: 'montserrat-semibold';
 	font-size: 19px;
@@ -357,13 +353,13 @@
 	padding: 20px;
 }
 
-.desktop.search-result .flights {
+.desktop .search-result .flights {
 	text-align: center;
 	padding: 5px 20px 40px 20px;
 	min-height: 388px;
 }
 
-.desktop.search-result .itinerary,
+.desktop .search-result .itinerary,
 .desktop .flight-unit .itinerary {
 	font-size: 14px;
 	margin: 5px auto;
@@ -618,7 +614,7 @@ body.desktop form.profile,
 .confirm-code:after,
 .long-wrapper:after,
 .flight-unit:after,
-.desktop.search-result .flights:after,
+.desktop .search-result .flights:after,
 .desktop:after,
 .flight-additional-info:after,
 #search_form:before,
@@ -967,7 +963,7 @@ form label.required:before,
 /* grays */
 
 .desktop .flight-info,
-.desktop.search-result .flights,
+.desktop .search-result .flights,
 .desktop .flight-unit {
 	background: #f3f3f3 url('/images/texture.gif');
 }
@@ -3424,7 +3420,7 @@ html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
 }
 
-html[data-useragent*='Trident'] .desktop.search-result .navbar-header:before {
+html[data-useragent*='Trident'] .desktop .search-result .navbar-header:before {
 	content: '';
 	margin-top: 15px;
 	padding: 0 0 0 0;
