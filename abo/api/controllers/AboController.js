@@ -54,7 +54,7 @@ module.exports = {
     }).exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
-            userActions: _.last(found,10)
+            userActions: _.takeRight(found,10)
           });
       } else {
         return res.json({
@@ -82,7 +82,7 @@ module.exports = {
     }).exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
-            userActions: _.last(found, 30)
+            userActions: _.takeRight(found, 30)
           });
       } else {
         return res.json({
