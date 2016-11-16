@@ -67,6 +67,7 @@ var ResultPage = React.createClass({
       if (
         duration.asMinutes() < 20
         && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+        && savedResult.searchResult
         && savedResult.searchResult.length
       ) { //use cached result if params didn't change in 20 minutes
         console.log('sessionStorage used');
