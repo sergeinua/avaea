@@ -19,7 +19,7 @@ var AboutPage = React.createClass({
       .then((response) => response.json())
       .then((json) => {
         this.setState({
-          isLoading: false,
+          isLoading: true,
           aboutData: {
             cur_year: this.state.aboutData.cur_year,
             software_version: json.software_version,
@@ -38,14 +38,13 @@ var AboutPage = React.createClass({
 
   render: function () {
     return (
-      <div>
+      <div className="about">
         <NavBar page="about" user={this.getUser()} InitResultData={{}}/>
         {
           this.state.isLoading === true ?
-          <Loader size="medium"/>
-          : <About AboutData={this.state.aboutData}/>
+            <Loader/>
+            : <About AboutData={this.state.aboutData}/>
         }
-
       </div>
     )
   }
