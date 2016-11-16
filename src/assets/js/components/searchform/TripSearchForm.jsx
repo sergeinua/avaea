@@ -35,7 +35,6 @@ var TripSearchForm = React.createClass({
         var searchParams = JSON.stringify(ActionsStore.getSearchParams());
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
-        sessionStorage.setItem('searchId', btoa(searchParams));
         window.location = '/result?s=' + btoa(searchParams);
       }
     };

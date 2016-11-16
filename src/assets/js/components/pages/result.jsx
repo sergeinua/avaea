@@ -70,7 +70,7 @@ var ResultPage = React.createClass({
         && savedResult.searchResult
         && savedResult.searchResult.length
       ) { //use cached result if params didn't change in 20 minutes
-        console.log('sessionStorage used');
+        console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
         updateState(savedResult);
       } else {
         $("#searchBanner").modal();
@@ -90,6 +90,7 @@ var ResultPage = React.createClass({
             sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
             json.time = moment();
             sessionStorage.setItem('savedResult', JSON.stringify(json));
+            sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
             updateState(json);
           })
           .catch((error) => {
