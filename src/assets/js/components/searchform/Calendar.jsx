@@ -1,4 +1,20 @@
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+// For elements with error
+var setErrorElement = function (selector) {
+  // Logic and animation
+  $(selector).addClass('error-elem error-flash');
+  // Animation
+  setTimeout(function() {
+    $(selector).removeClass('error-flash');
+  }, flashErrorTimeout);
+};
+
+var unsetErrorElement = function (selector) {
+  if($(selector).hasClass("error-elem")) {
+    $(selector).removeClass("error-elem");
+  }
+};
+
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {
   if (!range.start || !range.end) {
