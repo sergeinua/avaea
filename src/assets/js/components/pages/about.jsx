@@ -12,18 +12,20 @@ var AboutPage = React.createClass({
   },
 
   componentWillMount: function () {
+    ActionsStore.updateNavBarPage('about');
 
     fetch('/site/about/info', {
+      method: 'POST',
       credentials: 'same-origin' // required for including auth headers
     })
       .then((response) => response.json())
       .then((json) => {
         this.setState({
-          isLoading: true,
+          isLoading: false,
           aboutData: {
             cur_year: this.state.aboutData.cur_year,
-            software_version: json.software_version,
-            contact_email: json.contact_email
+            software_version: json.site_info.software_version,
+            contact_email: json.site_info.contact_email
           }
         });
       })
@@ -32,14 +34,10 @@ var AboutPage = React.createClass({
       })
   },
 
-  getUser: function () {
-    return this.props.AboutPageData.user;
-  },
 
   render: function () {
     return (
       <div className="about">
-        <NavBar page="about" user={this.getUser()} InitResultData={{}}/>
         {
           this.state.isLoading === true ?
             <Loader/>
@@ -52,7 +50,7 @@ var AboutPage = React.createClass({
 
 function renderAboutPage(AboutPageData) {
   if ($('#aboutpage').length) {
-    ReactContentRenderer.render(<AboutPage AboutPageData={AboutPageData}/>, $('#aboutpage'));
+    ReactContentRenderer.render(<AboutPage/>, $('#aboutpage'));
   }
 }
 

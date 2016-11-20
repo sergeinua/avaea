@@ -164,7 +164,7 @@ var VoiceForm = React.createClass({
 
     $.ajax({
       url: '/voice/parse',
-      type: 'get',
+      type: 'POST',
       data: {q: this.state.voiceSearchValue},
       dataType: 'json'
     }).done(function( result ) {
@@ -183,7 +183,7 @@ var VoiceForm = React.createClass({
           _airportsPromisesKeys.push(_k);
           _airportsPromises.push($.ajax({
             url: '/ac/airports',
-            type: 'get',
+            type: 'POST',
             data: {q: $.trim(result[_k]), l: 1},
             dataType: 'json'
           }));

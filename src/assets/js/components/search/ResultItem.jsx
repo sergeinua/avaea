@@ -21,7 +21,7 @@ var ResultItem = React.createClass({
     var ResultItem = this;
     $.ajax({
       url: '/ac/ffpcalculate?id=' + this.state.sRes.id,
-      type: 'get',
+      type: 'POST',
     }).done(function( msg ) {
       if( msg.error ) {
         console.log("Result of 30K api: " + JSON.stringify(msg));
@@ -55,7 +55,7 @@ var ResultItem = React.createClass({
     var ResultItem = this;
     $.ajax({
       url: '/ac/getRefundType?id=' + this.state.sRes.id,
-      type: 'get',
+      type: 'POST',
     }).done(function( msg ) {
       if( msg.error ) {
         ResultItem.setState({

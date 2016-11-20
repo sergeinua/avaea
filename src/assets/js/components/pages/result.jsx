@@ -3,13 +3,23 @@ var globalSelectionCount = 0;
 
 var ResultPage = React.createClass({
   getInitialState: function() {
+    var searchParams;
     var currentSort = {"name": "price", "order": "asc"};
-    if (this.props.InitResultData.searchParams.topSearchOnly == 1) {
+
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else {
+      //use data from server with default/session params if local storage is empty
+      searchParams = this.props.InitSearchFormData.searchParams;
+    }
+
+    if (searchParams.topSearchOnly == 1) {
       currentSort = {"name": "smart", "order": "asc"};
     }
     return {
       isLoading: true,
-      searchParams: this.props.InitResultData.searchParams,
+      searchParams: searchParams,
       filter: [],
       currentSort: currentSort
     };
@@ -17,6 +27,7 @@ var ResultPage = React.createClass({
 
   componentDidMount: function () {
     var searchParams = this.state.searchParams;
+    ActionsStore.updateNavBarSearchParams(searchParams);
     var updateState = (json) => {
       this.setState({
         isLoading: false,
@@ -105,6 +116,8 @@ var ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
+    ActionsStore.updateNavBarPage('result');
+
     ActionsStore.updateTiles = (filter) => {
 
       var tileId = filter.id.replace(/(tile).+/, '$1');
@@ -360,13 +373,10 @@ var ResultPage = React.createClass({
     });
     this.setState({searchResultLength: count});
   },
-  getUser: function () {
-    return this.props.InitResultData.user;
-  },
+
   render: function() {
     return (
       <div className="search-result">
-        <NavBar page="result" user={this.getUser()} InitResultData={this.state}/>
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>

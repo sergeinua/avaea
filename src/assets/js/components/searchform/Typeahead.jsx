@@ -9,7 +9,7 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
   return function (q, cb) {
     $.ajax({
       url: '/'+controllerName+'/'+actionName,
-      type: 'get',
+      type: 'POST',
       data: {q: q},
       dataType: 'json',
       async: false // required, because typehead doesn't work with ajax in async mode
@@ -24,7 +24,6 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
 };
 
 var setAirportData = function(target, data) {
-  //FIXME get rid from jquery
   ActionsStore.setFormValue(target, data.value);
   ActionsStore.setFormValue(target + 'City', data.city);
 };

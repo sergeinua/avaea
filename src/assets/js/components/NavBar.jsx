@@ -1,13 +1,16 @@
-var SearchResult = {};
+var Link = window.ReactRouter.Link;
 
 var NavBar = React.createClass({
   getInitialState: function() {
     return {
-      title: this.props.InitResultData.title,
-      tiles: this.props.InitResultData.tiles,
-      searchParams: this.props.InitResultData.searchParams,
-      searchResultLength: this.props.InitResultData.searchResultLength,
+      searchParams: {},
+      page: this.props.page || ''
     };
+  },
+
+  getUser: function () {
+    //FIXME get rid from global var
+    return this.props.user || InitData.user || false;
   },
 
   getDefaultProps: function() {
@@ -24,16 +27,26 @@ var NavBar = React.createClass({
   componentDidUpdate: function () {
     $('#nav_slide_menu').offcanvas({
       toggle: false,
-      placement: 'left'
+      placement: 'left',
+      autohide: true
     });
+    $('#nav_slide_menu a')
+      .click(function () {
+        $('#nav_slide_menu').offcanvas('hide');
+      });
   },
 
   componentWillMount: function () {
-    SearchResult.searchResultLength = (newCount) => {
+    ActionsStore.updateNavBarSearchParams = (searchParams) => {
       this.setState({
-        searchResultLength: newCount
+        searchParams: searchParams
       });
-    }
+    };
+    ActionsStore.updateNavBarPage = (page) => {
+      this.setState({
+        page: page
+      });
+    };
   },
 
   handleVoice: function () {
@@ -57,20 +70,19 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    history.back();
-    // window.location.href = '/result?s=' + searchId;
+    window.ReactRouter.browserHistory.push('/result');
   },
 
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
-        {  this.props.page != 'airport-search'
-        && this.props.page != 'order'
-        && this.props.page != 'calendar' ?
+        {  this.state.page != 'airport-search'
+        && this.state.page != 'order'
+        && this.state.page != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
-              {this.props.user && this.props.page == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
-              {this.props.page == 'calendar' || this.props.page == 'voice_search' ? null:
+              {this.getUser() && this.state.page == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.state.page == 'calendar' || this.state.page == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
                           data-target="#nav_slide_menu" data-canvas="body">
@@ -78,7 +90,7 @@ var NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  {this.props.page == 'result'?
+                  {this.state.page == 'result'?
                     <div className="flight-info">
                       <div className="result-search-info-bar">
                         <span className="requested-airports">{ this.state.searchParams.DepartureLocationCode + '-' +  this.state.searchParams.ArrivalLocationCode}</span>
@@ -95,22 +107,22 @@ var NavBar = React.createClass({
                   }
                 </span>
               }
-              {this.props.user && (this.props.page == 'round_trip' || this.props.page == 'one_way') ?
+              {this.getUser() && (this.state.page == 'round_trip' || this.state.page == 'one_way') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
-              {this.props.page == 'voice_search' ?
+              {this.state.page == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
-            <div id="nav_slide_menu" className={this.props.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}role="navigation">
-                {this.props.user.email ?
+            <div id="nav_slide_menu" className={this.state.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
+                {this.getUser().email ?
                   <ul className="nav navbar-nav">
                     <li><a href="http://www.avaea.com/">Main Search</a></li>
                     <li><a href="http://stage.avaea.com/">Test Search</a></li>
                     <li role="separator" className="divider"></li>
-                    <li><a href="/profile/get">Profile</a></li>
-                    <li><a href="/site/about">About</a></li>
-                    <li><a href="/logout">Log out <b>{ this.props.user.email }</b></a></li>
+                    <li><Link to="/profile">Profile</Link></li>
+                    <li><Link to="/about">About</Link></li>
+                    <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
                   </ul>
                   :
                   <ul className="nav navbar-nav">
@@ -123,7 +135,7 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.page == 'airport-search' ?
+        {this.state.page == 'airport-search' ?
           <div id="search_title" className="airport-search-panel">
             <div className="navbar-header">
               <div className="airport-search-header">
@@ -134,7 +146,7 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.page == 'calendar'?
+        {this.state.page == 'calendar'?
           <div id="date_select" className="calendar-header">
             <div className="navbar-header">
               <div className="container-fluid">
@@ -147,7 +159,7 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.page == 'order'?
+        {this.state.page == 'order'?
           <div className="booking-panel">
             <div className="navbar-header back-style">
               <div className="container-fluid">

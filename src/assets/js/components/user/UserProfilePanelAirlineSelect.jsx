@@ -22,6 +22,7 @@ var UserProfilePanelAirlineSelect = React.createClass({
     }
 
     return fetch('/ac/airlines?q='+input, {
+      method: 'POST',
       credentials: 'same-origin' // required for including auth headers
     })
       .then((response) => {

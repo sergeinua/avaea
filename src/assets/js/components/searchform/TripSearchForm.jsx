@@ -28,14 +28,13 @@ var TripSearchForm = React.createClass({
 
     ActionsStore.submitForm = () => {
       if (this.validateForm()) {
-        $("#searchBanner").modal();
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
         var searchParams = JSON.stringify(ActionsStore.getSearchParams());
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
-        window.location = '/result?s=' + btoa(searchParams);
+        window.ReactRouter.browserHistory.push('/result?s=' + btoa(searchParams));
       }
     };
 

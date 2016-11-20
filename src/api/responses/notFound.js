@@ -24,6 +24,9 @@ module.exports = function notFound (data, options) {
   var res = this.res;
   var sails = req._sails;
 
+  var ua = req.get('user-agent');
+  req.isMobile = res.locals.isMobile = /mobile/i.test(ua);
+
   // Set status code
   res.status(404);
 
