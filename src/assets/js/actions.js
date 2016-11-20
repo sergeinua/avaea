@@ -5,6 +5,12 @@ const actionTypesProfile = {
   SET_PERSONAL_VAL: 'SET_PERSONAL_VAL',
   SET_PROGRAMS_VAL: 'SET_PROGRAMS_VAL',
 };
+const actionTypesCommon = {
+  LOAD_SUCCESS: 'LOAD_SUCCESS',
+  LOAD_FAILED: 'LOAD_FAILED',
+  SET_FIELD_VAL: 'SET_FIELD_VAL',
+};
+////
 
 function actionLoadProfileSuccess (data) {
   return {
@@ -31,9 +37,32 @@ function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
   }
 }
 
-function actionLoadProfileFailed () { // @todo display error
+function actionLoadProfileFailed () {
   return {
     type: actionTypesProfile.LOAD_PROFILE_FAILED,
+    payload: {error: true}
+  }
+}
+////
+
+function actionLoadSuccess (data) {
+  return {
+    type: actionTypesCommon.LOAD_SUCCESS,
+    payload: data
+  }
+}
+
+function actionSetFieldVal (fieldName, fieldValue) {
+  return {
+    type: actionTypesCommon.SET_FIELD_VAL,
+    fieldName: fieldName,
+    fieldValue: fieldValue
+  }
+}
+
+function actionLoadFailed () {
+  return {
+    type: actionTypesCommon.LOAD_FAILED,
     payload: {error: true}
   }
 }

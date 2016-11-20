@@ -6,7 +6,7 @@ var UserProfilePanel = React.createClass({
     if (this.props.type == 'personal') {
 
       this.props.data.map(function (item, index) {
-        _panel.push(<UserProfilePanelElement profileStructure={self.props.profileStructure} item={item} key={index} elemNum={index}/>);
+        _panel.push(<UserProfilePanelElement profileStructure={self.props.profileStructure} item={item} key={index} elemNum={index} panelType="personal"/>);
       });
 
     } else if (this.props.type == 'programs') {

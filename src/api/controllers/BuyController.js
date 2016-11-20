@@ -16,13 +16,18 @@ module.exports = {
   order: function (req, res) {
 
     // Flash errors
+    var flashMsg = '';
     if (!lodash.isEmpty(req.session.flash)) {
-      res.locals.tmp_errors = [lodash.clone(req.session.flash)]; //will display by layout
+      flashMsg = lodash.clone(req.session.flash);
       req.session.flash = '';
     }
 
     // Get all params for redirect case
     var reqParams = req.allParams();
+    var user_out = {
+      id: req.user.id,
+      email: req.user.email,
+    };
 
     var onIllegalResult = function () {
       delete req.session.booking_itinerary;
@@ -32,6 +37,10 @@ module.exports = {
     };
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
+      if (err) {
+        sails.log.error(err);
+        return res.ok({user: user_out, error: true});
+      }
 
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
@@ -40,7 +49,6 @@ module.exports = {
           LastName: "last_name",
           Gender: "gender",
           DateOfBirth: "birthday",
-          PaxType: "pax_type"
         };
 
         var userAddress = {
@@ -51,28 +59,32 @@ module.exports = {
           ZipCode: "zip_code"
         };
 
-        if (found && found.personal_info) {
-          // Apply DB values if form fields is not defined yet
-          for (var prop in userData) {
-            if (typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
-              reqParams[prop] = found.personal_info[userData[prop]];
-            }
-          }
-          for (var prop in userAddress) {
-            if ((typeof reqParams[prop] == 'undefined' || reqParams[prop] === null || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) && typeof found.personal_info.address != 'undefined') {
-              reqParams[prop] = found.personal_info.address[userAddress[prop]];
-            }
+        // Set profile structure if data was not found
+        if (!found) {
+          found = {personal_info: {address: {}}}
+        }
+        else if (!found.address) {
+          found.address = {};
+        }
+        // Apply DB values if form fields is not defined yet
+        for (var prop in userData) {
+          if (!reqParams[prop] || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
+            reqParams[prop] = found.personal_info[userData[prop]] || '';
           }
         }
-
+        for (var prop in userAddress) {
+          if (!reqParams[prop] || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
+            reqParams[prop] = found.personal_info.address[userAddress[prop]] || '';
+          }
+        }
       }
 
-      var id = req.param('id');
-      if (typeof id == 'undefined') {
+      var itinerary_id = req.param('itineraryId');
+      if (typeof itinerary_id == 'undefined') {
         return onIllegalResult();
       }
 
-      var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
+      var cacheId = 'itinerary_' + itinerary_id.replace(/\W+/g, '_');
       memcache.get(cacheId, function(err, result) {
         if (!err && !lodash.isEmpty(result)) {
           var logData = {
@@ -89,15 +101,25 @@ module.exports = {
 
           // Save for booking action
           req.session.booking_itinerary = {
-            itinerary_id: id,
+            itinerary_id: itinerary_id,
             itinerary_data: logData.itinerary
           };
 
+          var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
+          itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
+          itinerary_data.orderPrice = (itinerary_data.currency == 'USD') ? '$'+itinerary_data.price : itinerary_data.price +' '+ itinerary_data.currency;
+
           return res.ok(
             {
-              user: req.user,
-              reqParams: reqParams,
-              order:[logData.itinerary]
+              user: user_out,
+              action: 'order',
+              fieldsData: reqParams,
+              itineraryData: itinerary_data,
+              profileStructure: {
+                Gender: Profile.attr_gender,
+                CardType: Order.CardType
+              },
+              flashMsg: flashMsg
             },
             'order'
           );
@@ -141,7 +163,7 @@ module.exports = {
         // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
         req.session.flash = 'Something went wrong. Your credit card wasn\'t charged. Please try again';
         // redirect to order action, i.e. repeat request
-        res.redirect(url.format({pathname: "/order", query: reqParams}), 302);
+        res.redirect(302, url.format({pathname: "/order", query: reqParams}));
         return;
       }
       segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
@@ -212,8 +234,9 @@ module.exports = {
       // Render view
       return res.ok(
         {
-          reqParams: record.req_params,
-          order: [record.itinerary_data],
+          action: 'booking',
+          fieldsData: record.req_params,
+          itineraryData: record.itinerary_data,
           bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
           replyTo: sails.config.email.replyTo,
           callTo: sails.config.email.callTo,

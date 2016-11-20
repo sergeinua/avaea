@@ -1,6 +1,7 @@
 
 const storeInitialState = {
-  profileData: {}
+  profileData: {},
+  orderData: {}
 };
 
 function profileReducer(state = storeInitialState, action) {
@@ -23,10 +24,26 @@ function profileReducer(state = storeInitialState, action) {
   }
 }
 
+function commonReducer(state = storeInitialState, action) {
+  switch (action.type) {
+
+    case actionTypesCommon.LOAD_SUCCESS:
+    case actionTypesCommon.LOAD_FAILED:
+      return Object.assign(... state, action.payload);
+
+    case actionTypesCommon.SET_FIELD_VAL:
+      var _immutable = Immutable.fromJS(state);
+      return _immutable.updateIn(['fieldsData', action.fieldName], () => action.fieldValue).toJS();
+
+    default:
+      return state
+  }
+}
 
 // Combine application reducers
 const appReducers = Redux.combineReducers({
   profileData: profileReducer,
+  orderData: commonReducer,
 });
 
 
