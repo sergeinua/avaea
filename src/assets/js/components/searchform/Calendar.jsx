@@ -1,19 +1,4 @@
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
-// For elements with error
-var setErrorElement = function (selector) {
-  // Logic and animation
-  $(selector).addClass('error-elem error-flash');
-  // Animation
-  setTimeout(function() {
-    $(selector).removeClass('error-flash');
-  }, flashErrorTimeout);
-};
-
-var unsetErrorElement = function (selector) {
-  if($(selector).hasClass("error-elem")) {
-    $(selector).removeClass("error-elem");
-  }
-};
 
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {
@@ -68,7 +53,6 @@ var drawDateRange = function(datepicker, range) {
 function finalizeValues() {
   var searchParams = ActionsStore.getSearchParams();
   var flightType = searchParams.flightType || 'round_trip';
-  var _isError = false;
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();
   var moment_rp = null;
@@ -80,32 +64,6 @@ function finalizeValues() {
   // cache values
   ActionsStore.setFormValue('departureDate', moment_dp.format('YYYY-MM-DD'));
   ActionsStore.setFormValue('returnDate', (flightType == 'round_trip' && moment_rp) ? moment_rp.format('YYYY-MM-DD') : null);
-
-  // Check depart date
-  if (moment_dp && moment_dp.diff(moment(), 'days') >= searchApiMaxDays-1) {
-    setErrorElement('.flight-date-info-item.dep');
-    _isError = true;
-  } else {
-    unsetErrorElement('.flight-date-info-item.dep');
-  }
-
-  // Check return date
-  if (flightType == 'round_trip') {
-    if (moment_rp && moment_rp.diff(moment(), 'days') >= searchApiMaxDays-1) {
-      setErrorElement('.flight-date-info-item.ret');
-      _isError = true;
-    } else {
-      unsetErrorElement('.flight-date-info-item.ret');
-    }
-  }
-
-  if (_isError) {
-    $('.search-button').addClass('disabled');
-    $('.search-top-button').addClass('disabled');
-  } else {
-    $('.search-button').removeClass('disabled');
-    $('.search-top-button').removeClass('disabled');
-  }
 
   ActionsStore.changeForm(flightType);
 }

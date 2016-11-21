@@ -23,6 +23,7 @@ var TripSearchForm = React.createClass({
 
   componentWillMount: function () {
 
+    ActionsStore.validateCalendar();
     ActionsStore.submitForm = () => {
       if (this.validateForm()) {
         $("#searchBanner").modal();
@@ -67,14 +68,10 @@ var TripSearchForm = React.createClass({
 
     var self = this;
     var removeFlashErrorCallback = function () {
-      console.log("1 this.state = ", self.state);
-
       var property = self.state[stateFieldName];
       if (property) {
         self.setState(createStateFieldsUpdate(self.state, stateFieldName, {isErrorFlash: false}));
       }
-
-      console.log("2 this.state = ", self.state);
     };
     setTimeout(function () {
       removeFlashErrorCallback();
@@ -82,6 +79,7 @@ var TripSearchForm = React.createClass({
 
   },
 
+  // not used currently, maybe it should be removed.
   unsetErrorElement: function (stateFieldName) {
     var property = this.state[stateFieldName];
     if (property) {
@@ -93,10 +91,12 @@ var TripSearchForm = React.createClass({
 
   validateForm: function () {
     var _isError = false;
+    ActionsStore.getSearchParams();
+    ActionsStore.validateCalendar();
+    var calendarErrors = ActionsStore.getCalendarErrors();
     var searchParams = ActionsStore.getSearchParams();
 
-    //@TODO: move this Jquery call to REDUX state
-    if ($('.search-button').hasClass('disabled')) {
+    if (calendarErrors.isError) {
       _isError = true;
     }
 
@@ -126,28 +126,15 @@ var TripSearchForm = React.createClass({
     if (!searchParams.CabinClass) {
       ActionsStore.setFormValue('CabinClass', 'E');
     }
-    // Check existence of the return date for the round trip
-    if (searchParams.returnDate == '' && this.props.InitSearchFormData.currentForm == 'round_trip') {
+
+    if (calendarErrors.returnDate) {
       this.setErrorElement('.flight-date-info-item.ret');
       _isError = true;
     }
 
-    if (!searchParams.departureDate) {
+    if (calendarErrors.departureDate) {
       this.setErrorElement('.flight-date-info-item.dep');
       _isError = true;
-    } else if (this.props.InitSearchFormData.currentForm == 'round_trip') {
-      if (!searchParams.returnDate) {
-        this.setErrorElement('.flight-date-info-item.ret');
-        _isError = true;
-      }
-      else {
-        let _momentRet = moment(searchParams.returnDate);
-        let _momentDep = moment(searchParams.departureDate);
-        if (_momentRet.isBefore(_momentDep, 'day')) {
-          this.setErrorElement('.flight-date-info-item.ret');
-          _isError = true;
-        }
-      }
     }
 
     return !_isError;
@@ -190,6 +177,11 @@ var TripSearchForm = React.createClass({
     return resultClass;
   },
 
+  getSubmitButtonDisabledClass: function () {
+    var calendarErrors = ActionsStore.getCalendarErrors();
+    return calendarErrors.isError ? 'disabled ': '';
+  },
+
   handleAirportSearch: function (target) {
     return function () {
       ActionsStore.changeForm('airport-search');
@@ -207,7 +199,7 @@ var TripSearchForm = React.createClass({
 
               <div className="col-xs-6">
                 <div id="from-area"
-                     className={this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from" + this.getErrorClass('#from-area')}
+                     className={this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from" + " " + this.getErrorClass('#from-area')}
                      onClick={this.handleAirportSearch('DepartureLocationCode')}>
                   <div className="flight-direction-item-from-to">From</div>
                   {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
@@ -226,7 +218,7 @@ var TripSearchForm = React.createClass({
               <div className="col-xs-6">
                 <div id="to-area "
                      className={this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to" +
-                     this.getErrorClass('#to-area')}
+                     " " + this.getErrorClass('#to-area')}
                      onClick={this.handleAirportSearch('ArrivalLocationCode')}>
                   <div className="flight-direction-item-from-to">To</div>
                   {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
@@ -276,7 +268,7 @@ var TripSearchForm = React.createClass({
           { this.props.InitSearchFormData.currentForm == 'round_trip' ?
             <div className={
               "flight-date-info-item ret col-xs-6 open-calendar" +
-              this.getErrorClass('.flight-date-info-item.ret')
+              " " + this.getErrorClass('.flight-date-info-item.ret')
             }
                  onClick={this.showCalendar('ret')}>
               <div className="row">
@@ -311,10 +303,11 @@ var TripSearchForm = React.createClass({
         </div>
 
         <div className="search-buttons">
-          <button type="submit" className="big-button secondary search-button" onClick={this.submitSearchForm(0)}>All
+          <button type="submit" className={
+            "big-button secondary search-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(0)}>All
             Flights
           </button>
-          <button type="submit" className="big-button search-top-button" onClick={this.submitSearchForm(1)}>Top
+          <button type="submit" className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>Top
             Flights
           </button>
         </div>
