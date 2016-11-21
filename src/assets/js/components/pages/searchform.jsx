@@ -1,3 +1,4 @@
+var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
@@ -13,6 +14,10 @@ var SearchFormPage = React.createClass({
     }
     return {
       searchParams: searchParams,
+      calendarErrors: {
+        departureDate: false,
+        returnDate: false
+      },
       currentForm: searchParams.flightType,
       airportChoiceTarget: 'DepartureLocationCode'
     };
@@ -27,6 +32,7 @@ var SearchFormPage = React.createClass({
       if (form == 'one_way' || form == 'round_trip') {
         ActionsStore.setFormValue('flightType', form.toLowerCase());
       }
+      ActionsStore.validateCalendar();
     };
 
     ActionsStore.getSearchParams = () => {
@@ -52,6 +58,61 @@ var SearchFormPage = React.createClass({
       finalizeValues();
       ActionsStore.updateFormValues();
     };
+
+    ActionsStore.validateCalendar = () => {
+      var calendarErrors = {
+        isError: false,
+        departureDate: false,
+        returnDate: false
+      };
+
+      var flightType = this.state.searchParams.flightType || 'round_trip';
+      var departureDate = this.state.searchParams.departureDate;
+      var moment_dp = moment(departureDate, "YYYY-MM-DD");
+      var returnDate = this.state.searchParams.returnDate;
+      var moment_rp = moment(returnDate, "YYYY-MM-DD");
+
+      var moment_now = moment();
+      // Check depart date
+      if (moment_dp && moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+        calendarErrors.departureDate = true;
+        calendarErrors.isError = true;
+      }
+
+      // Check return date
+      if (flightType == 'round_trip') {
+        if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+      }
+
+
+      if (!departureDate) {
+        calendarErrors.departureDate = true;
+        calendarErrors.isError = true;
+      }
+
+      // Check existence of the return date for the round trip
+      if (this.state.currentForm == 'round_trip') {
+        if (!returnDate) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+
+        if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+      }
+
+      this.setState({calendarErrors: calendarErrors});
+    };
+
+    ActionsStore.getCalendarErrors = () => {
+      return this.state.calendarErrors;
+    };
+
     ActionsStore.updateFormValues();
   },
 
