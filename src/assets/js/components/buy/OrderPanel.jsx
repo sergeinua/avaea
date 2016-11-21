@@ -62,6 +62,10 @@ var OrderPanel = React.createClass({
 
   render: function () {
 
+    if (this.props.orderData.error) {
+      return <DisplayAlert errorType={this.props.orderData.errorType}/>;
+    }
+
     if (this.props.orderData.action == 'order') {
       if (!this.props.orderData.itineraryData) {
         console.error('Undefined itineraryData');

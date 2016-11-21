@@ -31,15 +31,20 @@ module.exports = {
 
     var onIllegalResult = function () {
       delete req.session.booking_itinerary;
-      req.session.flash = 'Your search has expired. Try a new search.';
-      req.flash('errors', req.session.flash);
-      return res.redirect('/search');
+      if (req.wantsJSON) { // inside SPA
+        return res.ok({user: user_out, error: true, errorType: 'search_expired'});
+      }
+      else {
+        req.session.flash = 'Your search has expired. Try a new search.';
+        req.flash('errors', req.session.flash);
+        return res.redirect('/search');
+      }
     };
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (err) {
         sails.log.error(err);
-        return res.ok({user: user_out, error: true});
+        return req.wantsJSON ? res.ok({user: user_out, error: true}) : res.redirect('/search');
       }
 
       if (found) {
@@ -211,7 +216,7 @@ module.exports = {
         .catch(function (error) {
           sails.log.error(error);
           delete req.session.booking_itinerary;
-          return res.serverError();
+          return res.ok({error: true});
         });
     };
 
@@ -225,10 +230,11 @@ module.exports = {
     }).exec(function (err, record) {
       if (err) {
         sails.log.error(err);
-        return res.serverError();
+        return req.wantsJSON ? res.ok({error: true}) : res.redirect('/search');
       }
       if (!record) {
-        return res.notFound('Could not find your booked ticket');
+        sails.log.error('Could not find by bookingId:', req.param('bookingId'));
+        return req.wantsJSON ? res.ok({error: true, errorType: 'no_booking'}) : res.redirect('/search');
       }
 
       // Render view
