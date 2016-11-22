@@ -22,11 +22,7 @@ var UserProfilePanelBlock = React.createClass({
     state.item.data.splice(iterator, 1);
     this.setState(state);
 
-    $.ajax({
-      method: "POST",
-      url: "/user/removeFieldSet",
-      data: {fieldset: fieldset, iterator: iterator}
-    })
+    ClientApi.reqPost("/user/removeFieldSet", {fieldset: fieldset, iterator: iterator});
   },
 
   render: function() {

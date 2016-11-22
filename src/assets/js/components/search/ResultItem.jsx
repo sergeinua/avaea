@@ -19,58 +19,75 @@ var ResultItem = React.createClass({
 
   getMilesInfo: function () {
     var ResultItem = this;
-    $.ajax({
-      url: '/ac/ffpcalculate?id=' + this.state.sRes.id,
-      type: 'POST',
-    }).done(function( msg ) {
-      if( msg.error ) {
-        console.log("Result of 30K api: " + JSON.stringify(msg));
+
+    fetch('/ac/ffpcalculate?id=' + this.state.sRes.id, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin' // required for including auth headers
+    })
+      .then((response) => response.json())
+      .then((msg) => {
+        if( msg.error ) {
+          console.log("Result of 30K api: " + JSON.stringify(msg));
+          ResultItem.setState({
+            miles: {
+              value: 0,
+              name: ''
+            }
+          });
+        } else {
+          var miles = msg.miles || 0;
+          ResultItem.setState({miles: {
+            value: miles,
+            name: msg.ProgramCodeName
+          }});
+        }
+      })
+      .catch((error) => {
+        console.log("Result of 30K api: " + JSON.stringify(error));
         ResultItem.setState({
           miles: {
             value: 0,
             name: ''
           }
         });
-      } else {
-        var miles = msg.miles || 0;
-        ResultItem.setState({miles: {
-          value: miles,
-          name: msg.ProgramCodeName
-        }});
-      }
-    }).fail(function(err) {
-      console.log("Result of 30K api: " + JSON.stringify(err));
-      ResultItem.setState({
-        miles: {
-          value: 0,
-          name: ''
-        }
       });
-    });
+
   },
 
   getRefundType: function () {
     return null; // #DEMO-737
     if (this.state.refundType !== false) return;
     var ResultItem = this;
-    $.ajax({
-      url: '/ac/getRefundType?id=' + this.state.sRes.id,
-      type: 'POST',
-    }).done(function( msg ) {
-      if( msg.error ) {
+
+    fetch('/ac/getRefundType?id=' + this.state.sRes.id, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin' // required for including auth headers
+    })
+      .then((response) => response.json())
+      .then((msg) => {
+        if( msg.error ) {
+          ResultItem.setState({
+            refundType: null
+          });
+        } else {
+          ResultItem.setState({
+            refundType: msg.value
+          });
+        }
+      })
+      .catch((error) => {
         ResultItem.setState({
           refundType: null
         });
-      } else {
-        ResultItem.setState({
-          refundType: msg.value
-        });
-      }
-    }).fail(function(err) {
-      ResultItem.setState({
-        refundType: null
       });
-    });
   },
 
   toggleFullInfo: function () {

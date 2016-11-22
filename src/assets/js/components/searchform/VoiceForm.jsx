@@ -11,19 +11,28 @@ var cntWords = function (val) {
 };
 
 function loggerQuery(q, result) {
-  $.ajax({
-    url: '/voice/logger',
-    type: 'post',
-    data: {
+
+  fetch('/voice/logger', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: {
       q: q,
       result: result
     },
-    dataType: 'json'
-  }).done(function( msg ) {
-    if( !msg.success ) {
-      log("Result of logger query: " + JSON.stringify(msg));
-    }
-  });
+    credentials: 'same-origin' // required for including auth headers
+  })
+    .then((response) => response.json())
+    .then((msg) => {
+      if( !msg.success ) {
+        console.log("Result of logger query: " + JSON.stringify(msg));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 
@@ -162,20 +171,24 @@ var VoiceForm = React.createClass({
    */
   demo: function (callback) {
 
-    $.ajax({
-      url: '/voice/parse',
-      type: 'POST',
-      data: {q: this.state.voiceSearchValue},
-      dataType: 'json'
-    }).done(function( result ) {
-
+    fetch('/voice/parse', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({q: this.state.voiceSearchValue}),
+      credentials: 'same-origin' // required for including auth headers
+    })
+    .then((response) => response.json())
+    .then((result) => {
       var _airportsKeys = {origin_airport: 'DepartureLocationCode', return_airport: 'ArrivalLocationCode'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;
 
-      for(var _k in _airportsKeys) {
+      for (var _k in _airportsKeys) {
         // reset airport {{{
         setAirportData(_airportsKeys[_k], {value: '', city: ''});
         // }}} reset airport
@@ -285,7 +298,9 @@ var VoiceForm = React.createClass({
       }).fail(function(){
         return callback(false, result);
       });
-    }).fail(function (err) {
+    })
+    .catch((error) => {
+      console.log(error);
       return callback(false, result);
     });
   },
