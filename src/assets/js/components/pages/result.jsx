@@ -390,15 +390,3 @@ var ResultPage = React.createClass({
     )
   }
 });
-
-function renderResultPage(InitResultData) {
-  if ($('#resultpage').length) {
-    ReactContentRenderer.render(<ResultPage InitResultData = {InitResultData}/>, $('#resultpage'));
-  }
-}
-
-$(document).ready(function() {
-  if (typeof InitResultData != 'undefined') {
-    renderResultPage(InitResultData);
-  }
-});

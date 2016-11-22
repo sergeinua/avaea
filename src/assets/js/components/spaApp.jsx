@@ -21,8 +21,9 @@ $(document).ready(function() {
           <Route path="/about" component={AboutPage}/>
           <Route path="/profile" component={ProfilePage}/>
           <Route path="/search" component={SearchFormPage}/>
-          {/*<Route path="/" component={SearchFormPage}/>*/}
           <Route path="/result" component={ResultPage}/>
+          <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
+          <Route path="/booking/:bookingId" component={BookingPage}/>
           <Route path="*" component={DisplayAlert}/>
         </Route>
       </Router>

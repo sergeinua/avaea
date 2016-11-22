@@ -164,15 +164,3 @@ var SearchFormPage = React.createClass({
     )
   }
 });
-
-function renderSearchFormPage(InitSearchFormData) {
-  if ($('#searchformpage').length) {
-    ReactContentRenderer.render(<SearchFormPage InitSearchFormData = {InitSearchFormData}/>, $('#searchformpage'));
-  }
-}
-
-$(document).ready(function() {
-  if (typeof InitSearchFormData != 'undefined') {
-    renderSearchFormPage(InitSearchFormData);
-  }
-});

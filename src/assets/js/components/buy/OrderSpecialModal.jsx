@@ -1,5 +1,39 @@
 
 var OrderSpecialModal = React.createClass({
+  componentDidMount: function () {
+    $("#user-price-modal").modal();
+
+    $("#form_user_price").validate({
+      rules: {
+        user_timelimit: {
+          required: true,
+          digits: true,
+          minlength: 1,
+          maxlength: 2
+        },
+        user_price: {
+          required: true,
+          digits: true,
+          minlength: 2,
+          maxlength: 5
+        }
+      },
+      errorPlacement: function(error, element){}, // Skip error messages
+      highlight: function(input) {
+        $(input).parent().addClass('has-error');
+      },
+      unhighlight: function(input) {
+        $(input).parent().removeClass('has-error');
+      },
+      submitHandler: function(form) {
+        $('.itinerary-price').text('$' + $('#user_price').val() + '*');
+        $('#user-time-limit-target-div').removeClass('hidden');
+        $('#user-time-limit-target').text($('#user_timelimit').val());
+        $("#user-price-modal").modal("hide");
+        return false;
+      }
+    });
+  },
 
   render: function () {
 
@@ -9,7 +43,7 @@ var OrderSpecialModal = React.createClass({
           <div className="modal-content">
 
             <div className="title-bar">
-              <div className="close-x" onClick={() => {window.history.back();return false;}}></div>
+              <div className="close-x" onClick={() => {$("#user-price-modal").modal("hide");window.ReactRouter.browserHistory.push('/result');return false;}}></div>
               <div className="title">Choose Your Price zz</div>
             </div>
 
@@ -30,7 +64,7 @@ var OrderSpecialModal = React.createClass({
               </div>
 
               <div className="buttons-bar double">
-                <button type="button" className="big-button secondary" onClick={() => {window.history.back();return false;}}>Cancel</button>
+                <button type="button" className="big-button secondary" onClick={() => {$("#user-price-modal").modal("hide");window.ReactRouter.browserHistory.push('/result');return false;}}>Cancel</button>
                 <button type="submit" className="big-button" id="user-price-submit">Submit</button>
               </div>
 

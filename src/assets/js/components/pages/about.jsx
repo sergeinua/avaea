@@ -47,15 +47,3 @@ var AboutPage = React.createClass({
     )
   }
 });
-
-function renderAboutPage(AboutPageData) {
-  if ($('#aboutpage').length) {
-    ReactContentRenderer.render(<AboutPage/>, $('#aboutpage'));
-  }
-}
-
-$(document).ready(function () {
-  if (typeof AboutPageData != 'undefined') {
-    renderAboutPage(AboutPageData);
-  }
-});

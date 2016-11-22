@@ -1,6 +1,8 @@
 <script>
   var InitData = {
+    <% if (user) { %>
     user: {email:"<%= user.email %>", id: <%= user.id %>},
+    <% } %>
     page: "<%= page %>"
   };
   var serviceClass = <%- JSON.stringify(serviceClass) %>;

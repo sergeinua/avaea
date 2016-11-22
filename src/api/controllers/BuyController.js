@@ -31,14 +31,8 @@ module.exports = {
 
     var onIllegalResult = function () {
       delete req.session.booking_itinerary;
-      if (req.wantsJSON) { // inside SPA
-        return res.ok({user: user_out, error: true, errorType: 'search_expired'});
-      }
-      else {
-        req.session.flash = 'Your search has expired. Try a new search.';
-        req.flash('errors', req.session.flash);
-        return res.redirect('/search');
-      }
+      req.session.flash = '';
+      return res.ok({user: user_out, error: true, errorType: 'search_expired'});
     };
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
@@ -168,8 +162,8 @@ module.exports = {
         // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
         req.session.flash = 'Something went wrong. Your credit card wasn\'t charged. Please try again';
         // redirect to order action, i.e. repeat request
-        res.redirect(302, url.format({pathname: "/order", query: reqParams}));
-        return;
+        // res.redirect(302, url.format({pathname: "/order", query: reqParams}));
+        return res.ok({error: true});
       }
       segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
       sails.log.info("Itinerary booked successfully:", result);
@@ -211,7 +205,7 @@ module.exports = {
         .then(function (record) {
           delete req.session.booking_itinerary;
           // Redirec to result page
-          return res.redirect(url.format({pathname: "/booking", query: {bookingId: record.id}}));
+          return res.ok({bookingId: record.id});
         })
         .catch(function (error) {
           sails.log.error(error);
@@ -230,11 +224,11 @@ module.exports = {
     }).exec(function (err, record) {
       if (err) {
         sails.log.error(err);
-        return req.wantsJSON ? res.ok({error: true}) : res.redirect('/search');
+        return res.ok({error: true});
       }
       if (!record) {
         sails.log.error('Could not find by bookingId:', req.param('bookingId'));
-        return req.wantsJSON ? res.ok({error: true, errorType: 'no_booking'}) : res.redirect('/search');
+        return res.ok({error: true, errorType: 'no_booking'});
       }
 
       // Render view

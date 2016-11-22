@@ -135,11 +135,9 @@ var ResultItem = React.createClass({
     return <span className="arr-connects-none"></span>
   },
 
-  handleBuyButton: function(id, searchId, isSpecial) {
+  handleBuyButton: function(itineraryId, searchId, isSpecial) {
     return function() {
-      location.href = '/order?&itineraryId=' + id
-        + '&searchId='+ searchId
-        + (isSpecial?'&special=1':'');
+      window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 

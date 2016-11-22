@@ -1,20 +1,14 @@
+var OrderPage = React.createClass({
+  componentWillMount: function () {
+    ActionsStore.updateNavBarPage('order');
+  },
 
-$(document).ready(function() {
-
-  if ($('#OrderPanel').length) {
-    ReactContentRenderer.render(
+  render: function () {
+    var specialOrder = this.props.params['specialOrder'] !== 'false';
+    return (
       <ReactRedux.Provider store={clientStore}>
-        <OrderPanelContainer itineraryId={itineraryId} specialOrder={specialOrder} />
-      </ReactRedux.Provider>, $('#OrderPanel')
-    );
-
-    if ($('#OrderSpecialModal').length && specialOrder) {
-      ReactContentRenderer.render(
-        <ReactRedux.Provider store={clientStore}>
-          <OrderSpecialModal />
-        </ReactRedux.Provider>, $('#OrderSpecialModal')
-      );
-    }
+        <OrderPanelContainer itineraryId={this.props.params['itineraryId']} specialOrder={specialOrder} />
+      </ReactRedux.Provider>
+    )
   }
-
 });
