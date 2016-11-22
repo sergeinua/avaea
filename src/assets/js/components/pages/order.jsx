@@ -1,12 +1,20 @@
 
-
-
-
 $(document).ready(function() {
 
-  //this places the React flight unit
-  if (typeof ItineraryData != 'undefined' && $('#booking-flight-unit').length) {
-      ReactContentRenderer.render(<ResultItem itinerary={ItineraryData} showFullInfo={true}/>, $('#booking-flight-unit'));
+  if ($('#OrderPanel').length) {
+    ReactContentRenderer.render(
+      <ReactRedux.Provider store={clientStore}>
+        <OrderPanelContainer itineraryId={itineraryId} specialOrder={specialOrder} />
+      </ReactRedux.Provider>, $('#OrderPanel')
+    );
+
+    if ($('#OrderSpecialModal').length && specialOrder) {
+      ReactContentRenderer.render(
+        <ReactRedux.Provider store={clientStore}>
+          <OrderSpecialModal />
+        </ReactRedux.Provider>, $('#OrderSpecialModal')
+      );
+    }
   }
 
 });

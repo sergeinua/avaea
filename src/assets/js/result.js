@@ -57,12 +57,6 @@ $(document).ready(function() {
 
   // result page init
   {
-    // if ($('.flight-info').length) {
-    //   $('button', '#main_title').prependTo('.flight-info');
-    //   $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
-    //   $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
-    //   // horrible!!!! Deborah fix this later
-    // }
 
     var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
     if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
@@ -73,43 +67,6 @@ $(document).ready(function() {
       touchScrollStep: 30
     });
   }
-  /* ------------- LOGIC FOR THE DIMMER ------------------
-   1) don't show the dimmer if user already saw it
-   2) don't show the dimmer if results are fewer than 10
-   user should only see dimmer on first ever load of results that are > 10
-   ----------------------------------------------------- */
-
-  var displayDimmer = function () {
-
-    // get the cookie, was dimmer shown?
-    var showDimmer = getCookie('dimmer_was_showed');
-
-    if (showDimmer !=="true") {
-
-      // dimmer was not already shown
-      // check if search results are < 10
-      if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount < 10) {
-
-        // there were < 10 results, not enough to show the dimmer
-        $('.dimmer').attr('style', 'display: none;');
-
-      } else {
-
-        // there were > 10 results, so show it's ok to show the dimmer,
-        // on click anywhere, remove it and set the cookie to "dimmer was shown"
-        $('.dimmer').attr('style', 'display: inline-block;');
-        $('body').click(function(){
-          // user saw it so don't show it again for about 20 years
-          setCookie('dimmer_was_showed', "true", 10000);
-          $('.dimmer').attr('style', 'display: none;');
-        });
-      }
-
-    } else {
-      // dimmer shown was true
-    }
-  };
-  displayDimmer();
 
   //tiles
 
