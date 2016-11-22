@@ -7,6 +7,9 @@ var UserProfilePanelElementDropdown = React.createClass({
     else if (this.props.panelType == 'personal') {
       clientStore.dispatch(actionSetPersonalVal(this.props.elemNum, event.target.value));
     }
+    else if (this.props.panelType == 'fields') {
+      clientStore.dispatch(actionSetFieldVal(event.target.name, event.target.value));
+    }
     else {
       console.error('Unknown panelType prop:', this.props.panelType);
     }

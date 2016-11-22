@@ -1,5 +1,5 @@
 <%
-/* global reqParams */
+/* global fieldsData */
 /* global bookingRes */
 /* global callTo */
 /* global replyTo */
@@ -32,7 +32,7 @@
   </div>
 
   <div class="confirm-message">
-    <div class="name">Dear&nbsp;<%= reqParams.FirstName %> <%= reqParams.LastName %>,</div>
+    <div class="name">Dear&nbsp;<%= fieldsData.FirstName %> <%= fieldsData.LastName %>,</div>
     <div class="thanks">Thank you for choosing Avaea!</div>
     <div class="copy">
       You're all set for your next trip. Your ticket has been issued as an electronic ticket.
@@ -46,7 +46,7 @@
   <!-- script for the React flight unit -->
 
   <script>
-  var ItineraryData = <%- JSON.stringify(order[0]) %>;
+  var ItineraryData = <%- JSON.stringify(itineraryData) %>;
   var InitResultData = {
     iconSpriteMap: []
   };
@@ -76,7 +76,7 @@
 
   <!--
   <div class="buttons">
-    <button class="big-button" onclick="window.location.href='/order?id=<%= reqParams.id %>&searchId=<%= reqParams.searchId %>'">
+    <button class="big-button" onclick="window.location.href='/order?id=<%= fieldsData.id %>&searchId=<%= fieldsData.searchId %>'">
       Buy More
     </button>
   </div>

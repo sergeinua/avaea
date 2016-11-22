@@ -120,7 +120,7 @@ var ResultItem = React.createClass({
 
   handleBuyButton: function(id, searchId, isSpecial) {
     return function() {
-      location.href = '/order?&id=' + id
+      location.href = '/order?&itineraryId=' + id
         + '&searchId='+ searchId
         + (isSpecial?'&special=1':'');
     }.bind(this);

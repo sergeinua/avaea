@@ -9,7 +9,7 @@ var UserProfile = React.createClass({
 
   makeProfileData: function(incData) {
 
-    var profile_fields = incData.profile_fields;
+    var profile_fields = incData.profileFields;
     if (!profile_fields || (typeof profile_fields != 'object')) {
       profile_fields = {};
     }
@@ -55,39 +55,14 @@ var UserProfile = React.createClass({
   },
 
   getProfile: function() {
-    return fetch('/profile/get', {
-      method: 'POST',
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        return json;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    return ClientApi.reqPost('/profile/get');
   },
 
   postProfile: function() {
-    return fetch('/profile/update', {
-      method: 'POST',
-      body: JSON.stringify({
-        personal: this.props.profileData.personal,
-        programs: this.props.profileData.programs,
-      }),
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        return json;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+    return ClientApi.reqPost('/profile/update', {
+      personal: this.props.profileData.personal,
+      programs: this.props.profileData.programs,
+    });
   },
 
   execUpdate: function () {
@@ -146,13 +121,13 @@ var UserProfile = React.createClass({
 
 });
 
-const mapStateToProps = function(store) {
+const mapStateProfile = function(store) {
   return {
     profileData: store.profileData,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchProfile = (dispatch) => {
   return {
     loadProfileSuccess: (data) => {
       dispatch(actionLoadProfileSuccess(data))
@@ -163,4 +138,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-var UserProfileContainer = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(UserProfile);
+var UserProfileContainer = ReactRedux.connect(mapStateProfile, mapDispatchProfile)(UserProfile);

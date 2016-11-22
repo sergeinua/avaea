@@ -40,7 +40,7 @@ var makeProfileData = function (req, dataRec) {
 
   qdefer.resolve({
     user: user_out,
-    profile_fields: profile_fields,
+    profileFields: profile_fields,
     profileStructure: {
       'personal_info.gender': Profile.attr_gender
     },
