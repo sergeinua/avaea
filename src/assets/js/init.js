@@ -36,14 +36,7 @@ var isMobile = {
  *
  */
 var logAction = function (type, data) {
-  $.ajax({
-    method: "POST",
-    url: "/prediction/" + type,
-    data: data
-  })
-    .done(function( msg ) {
-      //console.log( "Data Saved: ",  type, msg );
-    });
+  ClientApi.reqPost("/prediction/" + type, data);
 };
 
 function getCookie(name) {

@@ -33,7 +33,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': 'AuthController.login',
-
+  'get /*': { controller: 'Site', action: 'index', skipAssets: true, skipRegex: /^\/(auth|login|logout|register).*$/ },
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
   'get /register': 'AuthController.register',
@@ -42,15 +42,13 @@ module.exports.routes = {
   'get /auth/:provider/callback': 'AuthController.callback',
   'get /auth/:provider/:action': 'AuthController.callback',
 
-  'get /order': 'BuyController.order',
+  'post /order': 'BuyController.order',
   'post /booking_proc': 'BuyController.booking_proc', // Booking processing
-  'get /booking': 'BuyController.booking', // Booking result page
-  'get /search': 'SearchController.index',
+  'post /booking': 'BuyController.booking', // Booking result page
+  'post /search': 'SearchController.index',
   'post /result': 'SearchController.result',
-  // 'get /result': 'SearchController.result',
-  'get /result': 'SearchController.preresult',
 
-  'get /profile/get': 'UserController.profile',
+  'post /profile/get': 'UserController.profile',
   'post /profile/update': 'UserController.update',
 
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
@@ -60,10 +58,9 @@ module.exports.routes = {
 
   'post /ac/airports': 'AcController.airports',
 
-  'get /voicesearch': 'VoicesearchController.index',
+  'post /voicesearch': 'VoicesearchController.index',
 
-  'get /site/:page_name': 'SiteController.index', // For simple site pages
-  'get /site/about/info': 'SiteController.about_info', // For simple site pages
+  'post /site/about/info': 'SiteController.about_info', // For simple site pages
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',

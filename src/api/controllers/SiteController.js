@@ -8,24 +8,26 @@
 module.exports = {
 
   index: function (req, res) {
-
-    var site_pages = ['about'];
-    var page_name = req.param('page_name');
-
-    if (site_pages.indexOf(page_name) == -1) {
-      return res.notFound();
+    sails.log.info('req.url', req.url);
+    //FIXME this is temporary fix. Needs to be refactored with auth SPA logic updates
+    if (req.url != '/about' && (!req.session.authenticated || !req.user)) {
+      return res.redirect('/login');
     }
 
     return res.ok(
       {
-        site_info: sails.config.globals.site_info,
-        user: (req.user ? req.user : null)
+        user          : req.user,
+        serviceClass  : Search.serviceClass,
+        head_title    : 'Search for flights with Avaea Agent',
+        page: req.url
       },
-      'site/' + page_name
+      'site/index'
     );
   },
 
   about_info: function (req, res) {
-    return res.json(sails.config.globals.site_info);
+    return res.json({
+      site_info:sails.config.globals.site_info
+    });
   }
 };

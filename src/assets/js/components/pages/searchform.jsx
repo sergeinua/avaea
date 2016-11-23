@@ -2,7 +2,9 @@ var searchApiMaxDays = 330; // Mondee API restriction for search dates at this m
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
-    var searchParams;
+    var searchParams = {
+      flightType : 'round_trip'
+    };
     if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
       searchParams = JSON.parse(localStorage.getItem('searchParams'));
@@ -22,8 +24,10 @@ var SearchFormPage = React.createClass({
   },
 
   componentWillMount: function () {
+    ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
       this.setState({currentForm: form.toLowerCase()});
+      ActionsStore.updateNavBarPage(form.toLowerCase());
 
       if (form == 'one_way' || form == 'round_trip') {
         ActionsStore.setFormValue('flightType', form.toLowerCase());
@@ -111,9 +115,7 @@ var SearchFormPage = React.createClass({
 
     ActionsStore.updateFormValues();
   },
-  getUser: function () {
-    return this.props.InitSearchFormData.user;
-  },
+
   changeForm: function(form) {
     return function () {
       ActionsStore.changeForm(form);
@@ -122,7 +124,6 @@ var SearchFormPage = React.createClass({
   render: function() {
     return (
       <div>
-        <NavBar page={this.state.currentForm} user={this.getUser()} InitResultData={this.state}/>
         { this.state.currentForm != 'voice_search' && this.state.currentForm != 'calendar'  && this.state.currentForm != 'airport-search' ?
         <nav className="navbar navbar-default searchform-top" >
           <div className="flight-type-form">
@@ -161,17 +162,5 @@ var SearchFormPage = React.createClass({
         <SearchBanner/>
       </div>
     )
-  }
-});
-
-function renderSearchFormPage(InitSearchFormData) {
-  if ($('#searchformpage').length) {
-    ReactContentRenderer.render(<SearchFormPage InitSearchFormData = {InitSearchFormData}/>, $('#searchformpage'));
-  }
-}
-
-$(document).ready(function() {
-  if (typeof InitSearchFormData != 'undefined') {
-    renderSearchFormPage(InitSearchFormData);
   }
 });

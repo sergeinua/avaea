@@ -22,7 +22,7 @@ var OrderPanel = React.createClass({
   },
 
   getOrder: function() {
-    return ClientApi.reqGet('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
+    return ClientApi.reqPost('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
   },
 
   postOrder: function() {
@@ -31,20 +31,130 @@ var OrderPanel = React.createClass({
 
   execReq: function (event) {
     event.preventDefault();
+    /**
+     * Added according to DEMO-707
+     * @link https://avaeaeng.atlassian.net/browse/DEMO-707
+     */
+    $.validator.addMethod("lettersonly", function(value, element) {
+      console.log(value, element);
+      return this.optional(element) || /^[a-z\s]+$/i.test(value);
+    }, "Please remove any non alphabetical characters from your name");
+
+    /**
+     * Client validation during booking of itinerary
+     */
+    $("#form_booking").validate({
+      rules: {
+        FirstName: {
+          required: true,
+          lettersonly: true
+        },
+        LastName: {
+          required: true,
+          lettersonly: true
+        },
+        Gender: {
+          required: true
+        },
+        DateOfBirth: {
+          required: true,
+          date: true,
+          minlength: 10,
+          maxlength: 10
+        },
+        Address1: {
+          required: true
+        },
+        City: {
+          required: true
+        },
+        State: {
+          required: true
+        },
+        Country: {
+          required: true
+        },
+        ZipCode: {
+          required: true
+        },
+        CardType: {
+          required: true
+        },
+        CardNumber: {
+          required: true,
+          digits: true,
+          minlength: 16,
+          maxlength: 16
+        },
+        ExpiryDate: {
+          required: true,
+          minlength: 7,
+          maxlength: 7
+        },
+        CVV: {
+          required: true,
+          digits: true,
+          minlength: 3,
+          maxlength: 3
+        }
+      },
+      errorPlacement: function(error, element) {
+        if (element.attr("name") == "FirstName" || element.attr("name") == "LastName" ) {
+          error.insertAfter(element);
+        }
+        // Skip other error messages
+      },
+      highlight: function(input) {
+        $(input).parent().addClass('has-error');
+      },
+      unhighlight: function(input) {
+        $(input).parent().removeClass('has-error');
+      },
+
+      // booking modal
+      submitHandler: function(form) {
+        var _isError = false;
+
+        if ($('.booking .form input').parent().hasClass('has-error')) {
+          _isError = true;
+          return false;
+        }  else {
+          $("#bookingModal").modal();
+          return true;
+        }
+      }
+    });
 
     if (!$("#form_booking").valid()) {
       return;
     }
-    $("#bookingModal").modal('show');
+    $("#bookingModal").modal();
 
     this.postOrder()
       .then(function (resData) {
         resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
+        //FIXME jquery mess
         $("#bookingModal").modal('hide');
+        $('.modal-backdrop').remove()
+        console.log(resData);
+        if (!resData.error && resData.bookingId) {
+          window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
+        } else {
+          this.getOrder()
+            .then(function (resData) {
+              resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
+            }.bind(this))
+            .catch(function (error) {
+              console.error(error);
+              this.props.loadFailed()
+            });
+        }
       }.bind(this))
       .catch(function (error) {
         console.error(error);
+        //FIXME jquery mess
         $("#bookingModal").modal('hide');
+        $('.modal-backdrop').remove();
       });
   },
 
@@ -73,6 +183,23 @@ var OrderPanel = React.createClass({
       }
 
       return (
+        <span>
+            <div id="bookingModal" className="modal fade bookingModal" role="dialog">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-body">
+                    <div className="copy">
+                      Booking your trip!
+                    </div>
+                    <div className="spinner-holder">
+                      <div className="icon-spinner"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        <form id="form_booking" className="booking">
         <div>
 
           <div className="flight-unit">
@@ -101,57 +228,19 @@ var OrderPanel = React.createClass({
           </div>
 
         </div>
+        </form>
+          {this.props.specialOrder ?
+            <OrderSpecialModal />:null
+          }
+        </span>
+
       );
-    }
-    if (this.props.orderData.action == 'booking') {
-      var _mailto = this.props.orderData.replyTo.match(/(.*)<(.+)>/);
-
-      return (
-        <div className="booking-success">
-
-          <div className="e-ticket confirmation">
-            <div className="confirm-code">
-              <div className="success ti">Booking</div>
-              <div className="wrapper">
-                <span className="label-ti">Reservation Code:</span>
-                <span className="number">{this.props.orderData.bookingRes.PNR}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="confirm-message">
-            <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
-            <div className="thanks">Thank you for choosing Avaea!</div>
-            <div className="copy">
-              You're all set for your next trip. Your ticket has been issued as an electronic ticket.
-              Please check your email for confirmation.
-            </div>
-          </div>
-
-          <div className="trip ti">Trip Details</div>
-          <div className="flight-unit">
-            <div id="booked-flight-unit" className="booked-flight-unit">
-              <ResultItem itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
-            </div>
-          </div>
-
-          <div className="help-contact">
-            <span className="copy">Need help?&nbsp;
-              <a href={'mailto:'+encodeURIComponent(_mailto[1])+_mailto[2]+'?subject='+encodeURIComponent('Booking Confirmation')}>Email Us</a>
-              or call&nbsp;{this.props.orderData.callTo}
-            </span>
-          </div>
-
-        </div>
-      );
-    }
-    else {
+    } else {
       if (this.props.orderData.action) {
         console.error('Unknown api action', this.props.orderData.action);
         return <DisplayAlert />;
-      }
-      else {
-        return <div className="nothing-found"><div className="copy">Loading..</div></div>
+      } else {
+        return <Loader/>
       }
     }
   }

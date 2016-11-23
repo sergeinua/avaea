@@ -55,7 +55,7 @@ var UserProfile = React.createClass({
   },
 
   getProfile: function() {
-    return ClientApi.reqGet('/profile/get');
+    return ClientApi.reqPost('/profile/get');
   },
 
   postProfile: function() {
@@ -113,10 +113,10 @@ var UserProfile = React.createClass({
       </div>;
     }
     else if (this.props.profileData.error) {
-      return <DisplayAlert tryUrl="/profile/get"/>;
+      return <DisplayAlert tryUrl="/profile"/>;
     }
 
-    return <div className="nothing-found"><div className="copy">Loading..</div></div>;
+    return <Loader/>;
   }
 
 });
