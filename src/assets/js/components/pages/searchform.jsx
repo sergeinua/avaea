@@ -8,9 +8,9 @@ var SearchFormPage = React.createClass({
     if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
       searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else {
+    } else if (InitData.defaultSearch) {
       //use data from server with default/session params if local storage is empty
-      // searchParams = this.props.InitSearchFormData.searchParams;
+      searchParams = InitData.defaultSearch;
     }
     return {
       searchParams: searchParams,
