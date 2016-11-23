@@ -10,7 +10,7 @@ var SearchFormPage = React.createClass({
       searchParams = JSON.parse(localStorage.getItem('searchParams'));
     } else {
       //use data from server with default/session params if local storage is empty
-      searchParams = this.props.InitSearchFormData.searchParams;
+      // searchParams = this.props.InitSearchFormData.searchParams;
     }
     return {
       searchParams: searchParams,
