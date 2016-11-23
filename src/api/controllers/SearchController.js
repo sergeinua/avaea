@@ -242,6 +242,8 @@ module.exports = {
     // Remember as previous user request for search/index view
     req.session.DepartureLocationCode = params.searchParams.DepartureLocationCode;
     req.session.ArrivalLocationCode = params.searchParams.ArrivalLocationCode;
+    req.session.DepartureLocationCodeCity = params.searchParams.DepartureLocationCodeCity;
+    req.session.ArrivalLocationCodeCity = params.searchParams.ArrivalLocationCodeCity;
     req.session.CabinClass = params.searchParams.CabinClass;
     req.session.passengers = params.searchParams.passengers;
     req.session.flightType = params.searchParams.flightType;

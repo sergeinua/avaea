@@ -3,7 +3,8 @@
     <% if (user) { %>
     user: {email:"<%= user.email %>", id: <%= user.id %>},
     <% } %>
-    page: "<%= page %>"
+    page: "<%= page %>",
+    defaultSearch: <%- JSON.stringify(defaultSearch) %>
   };
   var serviceClass = <%- JSON.stringify(serviceClass) %>;
 </script>
