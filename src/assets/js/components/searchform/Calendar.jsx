@@ -121,8 +121,8 @@ var Calendar = React.createClass({
           if (range.end) {
             // setDisplayedDate($('.flight-date-info-item.ret'), range.end);
           }
-        } else if (flightType == 'one_way'){
-            $('#date_select .info .dep').text(moment(e.date).format('DD MMM ddd'));
+        } else if (flightType == 'one_way') {
+          $('#date_select .info .dep').text(moment(e.date).format('DD MMM ddd'));
         } else {
           // setDisplayedDate($('.flight-date-info-item.dep'), e.date);
         }
