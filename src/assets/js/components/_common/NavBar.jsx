@@ -151,7 +151,13 @@ var NavBar = React.createClass({
             <div className="navbar-header">
               <div className="container-fluid">
                 <div className="row">
-                    <div className="info"><span className="dep"></span><span className="ret"></span></div>
+                    <div className="info">
+                      <span className="dep"></span>
+                      {
+                        this.state.searchParams.flightType === 'round_trip' ?
+                        <span className="ret"></span>  : ''
+                      }
+                      </div>
                     <button type="button" id="date_select_top" className="date_select-button small-button" onClick={this.handleCalendar}>Done</button>
                 </div>
               </div>
