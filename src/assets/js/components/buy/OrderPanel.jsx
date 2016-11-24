@@ -135,7 +135,8 @@ var OrderPanel = React.createClass({
         resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
-        $('.modal-backdrop').remove()
+        $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
         console.log(resData);
         if (!resData.error && resData.bookingId) {
           window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
@@ -155,6 +156,7 @@ var OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         $('.modal-backdrop').remove();
+        $('body').removeClass('modal-open');
       });
   },
 
