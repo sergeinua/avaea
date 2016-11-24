@@ -28,6 +28,7 @@ var SearchFormPage = React.createClass({
     ActionsStore.changeForm = (form) => {
       this.setState({currentForm: form.toLowerCase()});
       ActionsStore.updateNavBarPage(form.toLowerCase());
+      ActionsStore.updateNavBarSearchParams(this.state.searchParams);
 
       if (form == 'one_way' || form == 'round_trip') {
         ActionsStore.setFormValue('flightType', form.toLowerCase());
