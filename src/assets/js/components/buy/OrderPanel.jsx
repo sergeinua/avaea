@@ -157,6 +157,7 @@ var OrderPanel = React.createClass({
         $("#bookingModal").modal('hide');
         $('.modal-backdrop').remove();
         $('body').removeClass('modal-open');
+        this.props.loadFailed()
       });
   },
 

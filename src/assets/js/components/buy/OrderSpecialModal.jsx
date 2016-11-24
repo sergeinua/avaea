@@ -44,7 +44,7 @@ var OrderSpecialModal = React.createClass({
 
             <div className="title-bar">
               <div className="close-x" onClick={() => {$("#user-price-modal").modal("hide");window.ReactRouter.browserHistory.push('/result');return false;}}></div>
-              <div className="title">Choose Your Price zz</div>
+              <div className="title">Choose Your Price</div>
             </div>
 
             <form role="form" id="form_user_price">

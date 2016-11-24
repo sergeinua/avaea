@@ -109,7 +109,7 @@ var UserProfile = React.createClass({
             />
           </div>
           <div className="button-holder">
-            <button type="submit" className="big-button" onClick={this.execUpdate}>Save</button>
+            <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
           </div>
         </div>
       </form>;

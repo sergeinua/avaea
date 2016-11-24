@@ -34,7 +34,7 @@ var Booking = React.createClass({
         <div className="help-contact">
             <span className="copy">Need help?&nbsp;
               <a href={'mailto:'+encodeURIComponent(_mailto[1])+_mailto[2]+'?subject='+encodeURIComponent('Booking Confirmation')}>Email Us</a>
-              or call&nbsp;{this.props.orderData.callTo}
+              &nbsp;or call&nbsp;{this.props.orderData.callTo}
             </span>
         </div>
 
