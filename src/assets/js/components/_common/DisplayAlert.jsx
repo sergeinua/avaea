@@ -20,8 +20,8 @@ var DisplayAlert = React.createClass({
             {user_messages.map((message, index) => <div key={'msg_'+index}>{message}</div>)}
           </div>
           <div className="buttons">
-            <a href={this.props.tryUrl ? this.props.tryUrl : "/search"} className="big-button new-search-button" role="button">Try Again</a>
-          </div>  
+            <Link to={this.props.tryUrl ? this.props.tryUrl : "/search"} className="big-button new-search-button" role="button">Try Again</Link>
+          </div>
       </div>
     )
   }
