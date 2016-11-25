@@ -376,7 +376,7 @@ var ResultPage = React.createClass({
 
   render: function() {
     return (
-      <div className="search-result">
+      <div className="search-result results">
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>

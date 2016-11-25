@@ -159,11 +159,10 @@ module.exports = {
 
       if (err) {
         segmentio.track(req.user.id, 'Booking Failed', {error: err, params: _segmParams});
-        // req.session.flash = (err instanceof Error) ? (err.message || err.err) : err;
-        req.session.flash = 'Something went wrong. Your credit card wasn\'t charged. Please try again';
-        // redirect to order action, i.e. repeat request
-        // res.redirect(302, url.format({pathname: "/order", query: reqParams}));
-        return res.ok({error: true});
+        return res.ok({
+          error: true,
+          flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+        });
       }
       segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
       sails.log.info("Itinerary booked successfully:", result);
@@ -204,13 +203,15 @@ module.exports = {
       Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
         .then(function (record) {
           delete req.session.booking_itinerary;
-          // Redirec to result page
           return res.ok({bookingId: record.id});
         })
         .catch(function (error) {
           sails.log.error(error);
           delete req.session.booking_itinerary;
-          return res.ok({error: true});
+          return res.ok({
+            error: true,
+            flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+          });
         });
     };
 

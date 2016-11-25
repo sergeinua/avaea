@@ -88,29 +88,31 @@ var UserProfile = React.createClass({
 
   render: function () {
     if (this.props.profileData.personal) {
-      return <div>
-        <div className="user-profile">
-          <UserProfilePanel
-            type="personal"
-            profileStructure={this.props.profileData.profileStructure}
-            data={this.props.profileData.personal}
-            id="One1"
-            name="Personal information"
-            key="One"
-          />
-          <UserProfilePanel
-            type="programs"
-            programsStructure={this.props.profileData.programsStructure}
-            data={this.props.profileData.programs}
-            id="Two2"
-            name="Airlines/Programs"
-            key="Two"
-          />
+      return <form action="user/update" name="Profile" id="Profile" method="post" className="form profile">
+        <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+          <div className="user-profile">
+            <UserProfilePanel
+              type="personal"
+              profileStructure={this.props.profileData.profileStructure}
+              data={this.props.profileData.personal}
+              id="One1"
+              name="Personal information"
+              key="One"
+            />
+            <UserProfilePanel
+              type="programs"
+              programsStructure={this.props.profileData.programsStructure}
+              data={this.props.profileData.programs}
+              id="Two2"
+              name="Airlines/Programs"
+              key="Two"
+            />
+          </div>
+          <div className="button-holder">
+            <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
+          </div>
         </div>
-        <div className="button-holder">
-          <button type="submit" className="big-button" onClick={this.execUpdate}>Save</button>
-        </div>
-      </div>;
+      </form>;
     }
     else if (this.props.profileData.error) {
       return <DisplayAlert tryUrl="/profile"/>;
