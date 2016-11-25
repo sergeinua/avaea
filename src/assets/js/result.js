@@ -80,9 +80,6 @@ $(document).ready(function() {
   var initScroll = 0;
   var scrollStarted = false;
   $('#searchResultData').scroll(function() {
-    if ($(this).scrollTop() == 0 ) {
-      ActionsStore.toggleFullInfo(true);
-    }
     if (!scrollStarted) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
@@ -91,7 +88,6 @@ $(document).ready(function() {
 
     // Collapse
     if ( ($(this).scrollTop() - initScroll) >= 50 ) {
-      ActionsStore.toggleFullInfo(false);
       scrollStarted = false;
     }
   });
