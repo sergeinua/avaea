@@ -36,7 +36,6 @@ var OrderPanel = React.createClass({
      * @link https://avaeaeng.atlassian.net/browse/DEMO-707
      */
     $.validator.addMethod("lettersonly", function(value, element) {
-      console.log(value, element);
       return this.optional(element) || /^[a-z\s]+$/i.test(value);
     }, "Please remove any non alphabetical characters from your name");
 
@@ -130,12 +129,10 @@ var OrderPanel = React.createClass({
     }
     $("#bookingModal").modal();
     var savedData = JSON.parse(JSON.stringify(this.props));
-    console.log(JSON.stringify(savedData));
     this.postOrder()
       .then(function (resData) {
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
-        console.log(resData);
         if (!resData.error && resData.bookingId) {
           window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
