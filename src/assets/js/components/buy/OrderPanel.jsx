@@ -129,35 +129,26 @@ var OrderPanel = React.createClass({
       return;
     }
     $("#bookingModal").modal();
-
+    var savedData = JSON.parse(JSON.stringify(this.props));
+    console.log(JSON.stringify(savedData));
     this.postOrder()
       .then(function (resData) {
-        resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
         console.log(resData);
         if (!resData.error && resData.bookingId) {
           window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
-        } else {
-          this.getOrder()
-            .then(function (resData) {
-              resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
-            }.bind(this))
-            .catch(function (error) {
-              console.error(error);
-              this.props.loadFailed()
-            });
+        } else if (resData.flashMsg) {
+          savedData.orderData.flashMsg = resData.flashMsg;
+          //scroll to page top to show error message after components re-render
+          window.scrollTo(0, 0);
+          this.props.loadSuccess(savedData.orderData);
         }
       }.bind(this))
       .catch(function (error) {
         console.error(error);
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
-        $('.modal-backdrop').remove();
-        $('body').removeClass('modal-open');
-        this.props.loadFailed()
       });
   },
 
@@ -187,20 +178,7 @@ var OrderPanel = React.createClass({
 
       return (
         <span>
-            <div id="bookingModal" className="modal fade bookingModal" role="dialog">
-              <div className="modal-dialog">
-                <div className="modal-content">
-                  <div className="modal-body">
-                    <div className="copy">
-                      Booking your trip!
-                    </div>
-                    <div className="spinner-holder">
-                      <div className="icon-spinner"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <SearchBanner id="bookingModal" text="Booking your trip!"/>
 
         <form id="form_booking" className="booking">
         <div>
@@ -211,7 +189,7 @@ var OrderPanel = React.createClass({
             </div>
           </div>
 
-          <div className={this.props.orderData.flashMsg ? "warning" : ""} role="alert">{this.props.orderData.flashMsg}</div>
+          <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
 
           <div id="user-time-limit-target-div" className="time-limit message hidden">
             <div className="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
