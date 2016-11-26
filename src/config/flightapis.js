@@ -1,5 +1,6 @@
 /* global sails */
 module.exports.flightapis = {
+  searchApiMaxDays: 330,
   searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',

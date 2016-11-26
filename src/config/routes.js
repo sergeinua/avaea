@@ -45,7 +45,6 @@ module.exports.routes = {
   'post /order': 'BuyController.order',
   'post /booking_proc': 'BuyController.booking_proc', // Booking processing
   'post /booking': 'BuyController.booking', // Booking result page
-  'post /search': 'SearchController.index',
   'post /result': 'SearchController.result',
 
   'post /profile/get': 'UserController.profile',

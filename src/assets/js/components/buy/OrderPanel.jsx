@@ -154,7 +154,7 @@ var OrderPanel = React.createClass({
 
     this.getOrder()
       .then(function (resData) {
-        resData.error ? this.props.loadFailed() : this.props.loadSuccess(resData);
+        resData.error ? this.props.loadFailed(resData) : this.props.loadSuccess(resData);
       }.bind(this))
       .catch(function (error) {
         console.error(error);
@@ -164,7 +164,7 @@ var OrderPanel = React.createClass({
   render: function () {
 
     if (this.props.orderData.error) {
-      return <DisplayAlert errorType={this.props.orderData.errorType}/>;
+      return <DisplayAlert errorInfo={this.props.orderData.errorInfo}/>;
     }
 
     if (this.props.orderData.action == 'order') {
@@ -236,8 +236,8 @@ const mapDispatchOrder = (dispatch) => {
     loadSuccess: (data) => {
       dispatch(actionLoadSuccess(data))
     },
-    loadFailed: () => {
-      dispatch(actionLoadFailed())
+    loadFailed: (data) => {
+      dispatch(actionLoadFailed(data))
     },
   }
 };

@@ -14,31 +14,25 @@ var lodash = require('lodash');
 module.exports = {
 
   order: function (req, res) {
-
-    // Flash errors
-    var flashMsg = '';
-    if (!lodash.isEmpty(req.session.flash)) {
-      flashMsg = lodash.clone(req.session.flash);
-      req.session.flash = '';
-    }
-
     // Get all params for redirect case
     var reqParams = req.allParams();
-    var user_out = {
-      id: req.user.id,
-      email: req.user.email,
-    };
 
     var onIllegalResult = function () {
       delete req.session.booking_itinerary;
       req.session.flash = '';
-      return res.ok({user: user_out, error: true, errorType: 'search_expired'});
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.Search.Expired')
+      });
     };
 
     Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (err) {
         sails.log.error(err);
-        return req.wantsJSON ? res.ok({user: user_out, error: true}) : res.redirect('/search');
+        return res.ok({
+          error: true,
+          errorInfo: utils.showError('Error.Passport.User.Profile.NotFound')
+        });
       }
 
       if (found) {
@@ -110,7 +104,6 @@ module.exports = {
 
           return res.ok(
             {
-              user: user_out,
               action: 'order',
               fieldsData: reqParams,
               itineraryData: itinerary_data,
@@ -118,7 +111,7 @@ module.exports = {
                 Gender: Profile.attr_gender,
                 CardType: Order.CardType
               },
-              flashMsg: flashMsg
+              flashMsg: ''
             },
             'order'
           );
@@ -161,7 +154,7 @@ module.exports = {
         segmentio.track(req.user.id, 'Booking Failed', {error: err, params: _segmParams});
         return res.ok({
           error: true,
-          flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+          flashMsg: req.__('Error.Search.Booking.Failed')
         });
       }
       segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
@@ -210,7 +203,7 @@ module.exports = {
           delete req.session.booking_itinerary;
           return res.ok({
             error: true,
-            flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+            flashMsg: req.__('Error.Search.Booking.Failed')
           });
         });
     };
@@ -229,7 +222,10 @@ module.exports = {
       }
       if (!record) {
         sails.log.error('Could not find by bookingId:', req.param('bookingId'));
-        return res.ok({error: true, errorType: 'no_booking'});
+        return res.ok({
+          error: true,
+          errorInfo: utils.showError('Error.Search.Booking.NotFound')
+        });
       }
 
       // Render view
