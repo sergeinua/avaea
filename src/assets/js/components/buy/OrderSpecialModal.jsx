@@ -1,7 +1,10 @@
 
 var OrderSpecialModal = React.createClass({
   componentDidMount: function () {
-    $("#user-price-modal").modal();
+    $("#user-price-modal").modal({
+      backdrop: 'static',
+      keyboard: false
+    });
 
     $("#form_user_price").validate({
       rules: {
