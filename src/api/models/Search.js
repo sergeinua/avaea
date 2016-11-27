@@ -25,6 +25,64 @@ module.exports = {
     F:'First'
   },
 
+  validateSearchParams: function (searchParams) {
+    var _Error = false;
+    var searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
+
+    var departureDate = searchParams.departureDate;
+    var moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
+    var returnDate = searchParams.returnDate;
+    var moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
+
+    var moment_now = sails.moment();
+    // Check depart date
+    if (moment_dp && moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+      _Error = 'Error.Search.Validation.departureDate.MaxDays';
+    }
+
+    // Check return date
+    if (searchParams.flightType == 'round_trip') {
+      if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+        _Error = 'Error.Search.Validation.returnDate.MaxDays';
+      }
+    }
+
+    if (!searchParams.departureDate) {
+      _Error = 'Error.Search.Validation.departureDate.Empty';
+    }
+
+    // Check existence of the return date for the round trip
+    if (searchParams.flightType == 'round_trip') {
+      if (!searchParams.returnDate) {
+        _Error = 'Error.Search.Validation.returnDate.Empty';
+      }
+
+      if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
+        _Error = 'Error.Search.Validation.returnDate.Before';
+      }
+    }
+
+    // Check airports selection
+    if (!searchParams.DepartureLocationCode.trim()) {
+      _Error = 'Error.Search.Validation.DepartureLocationCode.Empty';
+    }
+    if (!searchParams.ArrivalLocationCode.trim()) {
+      _Error = 'Error.Search.Validation.ArrivalLocationCode.Empty';
+    }
+    if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
+      _Error = 'Error.Search.Validation.LocationCode.Same';
+    }
+
+    if (!searchParams.passengers) {
+      _Error = 'Error.Search.Validation.Passengers.Empty';
+    }
+
+    if (!searchParams.CabinClass || !Search.serviceClass[searchParams.CabinClass]) {
+      _Error = 'Error.Search.Validation.CabinClass.Empty';
+    }
+    return _Error;
+  },
+
   getCurrentSearchGuid: function () {
     var d = new Date().getTime();
     this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

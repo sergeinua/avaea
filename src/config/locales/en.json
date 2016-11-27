@@ -4,10 +4,28 @@
   "Error.Passport.Password.NotSet": "Oh no, you haven't set a password yet!",
   "Error.Passport.Username.NotFound": "Uhm, what's your name again?",
   "Error.Passport.User.Exists": "This username is already taken.",
+  "Error.Passport.User.Profile.NotFound": "User profile not found",
   "Error.Passport.Email.NotFound": "That email doesn't seem right",
   "Error.Passport.Email.Missing": "You need to supply an email-address for verification",
   "Error.Passport.Email.Exists": "This email already exists",
   "Error.Passport.Username.Missing": "You need to supply a username",
   "Error.Passport.Password.Missing": "Oh no, you haven't set a password yet!",
-  "Error.Passport.Generic": "Snap. Something went wrong with authorization."
+  "Error.Passport.Generic": "Snap. Something went wrong with authorization.",
+
+  "Error.Search.Validation.departureDate.MaxDays": ["Validation error. Search api max days reached"],
+  "Error.Search.Validation.returnDate.MaxDays": ["Validation error. Search api max days reached"],
+  "Error.Search.Validation.departureDate.Empty": ["Validation error. Wrong departure date"],
+  "Error.Search.Validation.returnDate.Empty": ["Validation error. Wrong return date"],
+  "Error.Search.Validation.returnDate.Before": ["Validation error. Return date is before departure date"],
+  "Error.Search.Validation.DepartureLocationCode.Empty": ["Validation error. Departure code is empty"],
+  "Error.Search.Validation.ArrivalLocationCode.Empty": ["Validation error. Arrival code is empty"],
+  "Error.Search.Validation.LocationCode.Same": ["Validation error. Departure and arrival are same"],
+  "Error.Search.Validation.Passengers.Empty": ["Validation error. Passengers empty"],
+  "Error.Search.Validation.CabinClass.Empty": ["Validation error. Wrong cabin class"],
+
+  "Error.Search.Generic": ["Your request cannot be processed", "at the moment due to technical problems.", "Please try again later"],
+  "Error.Search.NoFlights": ["No flights are available for selected itinerary.", "Please try different dates or airports"],
+  "Error.Search.Booking.NotFound": ["Could not find your booked ticket"],
+  "Error.Search.Booking.Failed": ["Something went wrong. Your credit card wasn't charged. Please try again"],
+  "Error.Search.Expired": ["Your search has expired.", "Try a new search."]
 }

@@ -20,6 +20,7 @@ var ResultPage = React.createClass({
     return {
       isLoading: true,
       searchParams: searchParams,
+      searchResultLength: 0,
       filter: [],
       currentSort: currentSort
     };
@@ -34,7 +35,7 @@ var ResultPage = React.createClass({
         tiles: json.tiles,
         searchResultLength: json.searchResult.length,
         searchResult: json.searchResult,
-        errorType: json.errorType
+        errorInfo: json.errorInfo
       }, function () {
 
         //FIXME refactor code to use non jquery based swiper functionality
@@ -88,16 +89,35 @@ var ResultPage = React.createClass({
         })
           .then((response) => response.json())
           .then((json) => {
-            sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
-            json.time = moment();
-            sessionStorage.setItem('savedResult', JSON.stringify(json));
-            sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
-            updateState(json);
+            if (json.errorInfo) {
+              console.log(json.errorInfo);
+              updateState({
+                isLoading: false,
+                tiles: [],
+                searchResult: [],
+                errorInfo: json.errorInfo
+              });
+            } else {
+              sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+              json.time = moment();
+              sessionStorage.setItem('savedResult', JSON.stringify(json));
+              sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
+              updateState(json);
+            }
           })
           .catch((error) => {
-            this.setState({
+            updateState({
               isLoading: false,
-              errorType: error
+              tiles: [],
+              searchResult: [],
+              errorInfo: {
+                type:'Error.Search.NoConnection',
+                messages: [
+                  "Your request cannot be processed",
+                  "at the moment due to technical problems.",
+                  "Please try again later"
+                ]
+              }
             });
             console.log(error);
           });
@@ -373,7 +393,7 @@ var ResultPage = React.createClass({
                  <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
                  <ResultList InitResultData={this.state} />
                </span>)
-            : <DisplayAlert errorType={this.state.errorType} />
+            : <DisplayAlert errorInfo={this.state.errorInfo} />
         )}
         <SearchBanner />
       </div>
