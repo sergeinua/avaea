@@ -30,9 +30,9 @@ module.exports = {
     var searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
 
     var departureDate = searchParams.departureDate;
-    var moment_dp = sails.moment(searchParams.departureDate, "YYYY-MM-DD");
+    var moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
     var returnDate = searchParams.returnDate;
-    var moment_rp = sails.moment(searchParams.returnDate, "YYYY-MM-DD");
+    var moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
 
     var moment_now = sails.moment();
     // Check depart date
