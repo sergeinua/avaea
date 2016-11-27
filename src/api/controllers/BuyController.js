@@ -123,6 +123,12 @@ module.exports = {
   },
 
   booking_proc: function (req, res) {
+    if (!req.session.booking_itinerary) {
+      return res.ok({
+        error: true,
+        flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+      });
+    }
     var service = req.session.booking_itinerary.itinerary_data.service;
     var reqParams = req.allParams();
 
@@ -195,12 +201,10 @@ module.exports = {
       // Save result to DB
       Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
         .then(function (record) {
-          delete req.session.booking_itinerary;
           return res.ok({bookingId: record.id});
         })
         .catch(function (error) {
           sails.log.error(error);
-          delete req.session.booking_itinerary;
           return res.ok({
             error: true,
             flashMsg: req.__('Error.Search.Booking.Failed')
