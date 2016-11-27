@@ -60,9 +60,13 @@ function actionSetFieldVal (fieldName, fieldValue) {
   }
 }
 
-function actionLoadFailed () {
+function actionLoadFailed (data) {
+  var result = {error: true};
+  if (data.errorInfo) {
+    result.errorInfo = data.errorInfo;
+  }
   return {
     type: actionTypesCommon.LOAD_FAILED,
-    payload: {error: true}
+    payload: result
   }
 }
