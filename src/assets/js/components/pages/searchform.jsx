@@ -24,6 +24,11 @@ var SearchFormPage = React.createClass({
   },
 
   componentWillMount: function () {
+    // DEMO-800 removed mess after not properly closed modal.
+    // FIXME remove this after removing jquery modal
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
+
     ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
       this.setState({currentForm: form.toLowerCase()});

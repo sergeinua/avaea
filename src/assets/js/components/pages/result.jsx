@@ -30,35 +30,37 @@ var ResultPage = React.createClass({
     var searchParams = this.state.searchParams;
     ActionsStore.updateNavBarSearchParams(searchParams);
     var updateState = (json) => {
-      this.setState({
-        isLoading: false,
-        tiles: json.tiles,
-        searchResultLength: json.searchResult.length,
-        searchResult: json.searchResult,
-        errorInfo: json.errorInfo
-      }, function () {
+      if (this.isMounted()) {
+        this.setState({
+          isLoading: false,
+          tiles: json.tiles,
+          searchResultLength: json.searchResult.length,
+          searchResult: json.searchResult,
+          errorInfo: json.errorInfo
+        }, function () {
 
-        //FIXME refactor code to use non jquery based swiper functionality
-        $("#searchBanner").modal('hide');
+          //FIXME refactor code to use non jquery based swiper functionality
+          $("#searchBanner").modal('hide');
 
-        // correctly initialize the swiper for desktop vs. touch
+          // correctly initialize the swiper for desktop vs. touch
 
-        if (!uaMobile) {
-          // is desktop
-          swiper = new Swiper('.swiper-container', {
-            freeMode: true,
-            slidesPerView: '5.5'
-          });
+          if (!uaMobile) {
+            // is desktop
+            swiper = new Swiper('.swiper-container', {
+              freeMode: true,
+              slidesPerView: '5.5'
+            });
 
-        } else {
-          // is touch
-          swiper = new Swiper('.swiper-container', {
-            freeMode: true,
-            slidesPerView: 'auto'
-          });
-        }
+          } else {
+            // is touch
+            swiper = new Swiper('.swiper-container', {
+              freeMode: true,
+              slidesPerView: 'auto'
+            });
+          }
 
-      });
+        });
+      }
     };
     if (this.state.isLoading) {
       var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
@@ -75,7 +77,10 @@ var ResultPage = React.createClass({
         console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
         updateState(savedResult);
       } else {
-        $("#searchBanner").modal();
+        $("#searchBanner").modal({
+          backdrop: 'static',
+          keyboard: false
+        });
         console.log('server request used');
 
         fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {

@@ -118,7 +118,10 @@ var OrderPanel = React.createClass({
           _isError = true;
           return false;
         }  else {
-          $("#bookingModal").modal();
+          $("#bookingModal").modal({
+            backdrop: 'static',
+            keyboard: false
+          });
           return true;
         }
       }
@@ -127,7 +130,10 @@ var OrderPanel = React.createClass({
     if (!$("#form_booking").valid()) {
       return;
     }
-    $("#bookingModal").modal();
+    $("#bookingModal").modal({
+      backdrop: 'static',
+      keyboard: false
+    });
     var savedData = JSON.parse(JSON.stringify(this.props));
     this.postOrder()
       .then(function (resData) {
