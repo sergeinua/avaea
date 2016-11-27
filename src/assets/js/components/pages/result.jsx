@@ -59,16 +59,6 @@ var ResultPage = React.createClass({
             });
           }
 
-          if ($(".swiper-container").length) {
-            $(".swiper-container").hammer();
-            $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-            $(".swiper-container").bind("swipeup", function (e) {
-              ActionsStore.toggleFullInfo(false);
-            }).bind("swipedown", function (e) {
-              ActionsStore.toggleFullInfo(true);
-            });
-          }
-
         });
       }
     };
