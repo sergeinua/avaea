@@ -18,16 +18,16 @@ function loggerQuery(q, result) {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
-    body: {
+    body: JSON.stringify({
       q: q,
       result: result
-    },
+    }),
     credentials: 'same-origin' // required for including auth headers
   })
     .then((response) => response.json())
     .then((msg) => {
       if( !msg.success ) {
-        console.log("Result of logger query: " + JSON.stringify(msg));
+        console.error("Result of logger query: " + JSON.stringify(msg));
       }
     })
     .catch((error) => {
