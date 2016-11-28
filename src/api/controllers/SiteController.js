@@ -10,7 +10,16 @@ module.exports = {
   index: function (req, res) {
     sails.log.info('req.url', req.url);
     //FIXME this is temporary fix. Needs to be refactored with auth SPA logic updates
-    if (req.url != '/about' && (!req.session.authenticated || !req.user)) {
+    var allowedRoutes = [
+      "/about","/about/",
+      "/home","/home/",
+      "/jobs","/jobs/",
+      "/news","/news/",
+      "/blog","/blog/",
+      "/terms","/terms/",
+      "/privacy","/privacy/"
+    ];
+    if (allowedRoutes.indexOf(req.url) == -1 && (!req.session.authenticated || !req.user)) {
       return res.redirect('/login');
     }
 
