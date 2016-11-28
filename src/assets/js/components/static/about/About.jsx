@@ -1,4 +1,4 @@
-var About = React.createClass({
+var StaticAbout = React.createClass({
   getInitialState: function () {
     return {
       cur_year: this.props.AboutData.cur_year,

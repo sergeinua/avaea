@@ -43,9 +43,11 @@ var NavBar = React.createClass({
       });
     };
     ActionsStore.updateNavBarPage = (page) => {
-      this.setState({
-        page: page
-      });
+      if (this.isMounted()) {
+        this.setState({
+          page: page
+        });
+      }
     };
   },
 
@@ -121,14 +123,12 @@ var NavBar = React.createClass({
                     <li><a href="http://stage.avaea.com/">Test Search</a></li>
                     <li role="separator" className="divider"></li>
                     <li><Link to="/profile">Profile</Link></li>
-                    <li><Link to="/about">About</Link></li>
                     <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
                   </ul>
                   :
                   <ul className="nav navbar-nav">
                     <li><a href="http://www.avaea.com/">Main Search</a></li>
                     <li><a href="http://stage.avaea.com/">Test Search</a></li>
-                    <li><a href="/site/about">About</a></li>
                   </ul>
                 }
             </div>
