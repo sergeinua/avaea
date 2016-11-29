@@ -1,30 +1,28 @@
 var StaticAbout = React.createClass({
-  getInitialState: function () {
-    return {
-      cur_year: this.props.AboutData.cur_year,
-      software_version: this.props.AboutData.software_version,
-      contact_email: this.props.AboutData.contact_email
-    };
-  },
 
   render: function () {
     return (
-      <div className="sitepage about">
-
-        <div className="copyright">&copy;{this.state.cur_year} AVAEA Inc., All Rights Reserved</div>
-
-        <div className="release-version">
-          Avaea Agent { this.state.software_version}
-        </div>
-
-        <div className="clickmail">
-          <a className="big-button" href={ "mailto:" + this.state.contact_email }>
-            <span className="fa fa-envelope-o"></span>
-            Contact Us
-          </a>
-        </div>
-
+      <div>
+        src/assets/js/components/static/about/About.jsx
+        <ul>
+          {this.props.user.email ?
+            <span>
+              <li><Link to="/search">Main Search Form</Link></li>
+              <li> <a href="/logout" > Log out <b>{ this.props.user.email }</b></a></li>
+            </span>
+            :
+            <li><a href="/login">Login</a></li>
+          }
+          <li><Link to="/about">About</Link></li>
+          <li><Link to="/home">Home</Link></li>
+          <li><Link to="/jobs">Jobs</Link></li>
+          <li><Link to="/news">News</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
+          <li><Link to="/terms">Terms</Link></li>
+          <li><Link to="/privacy">Privacy</Link></li>
+        </ul>
       </div>
     )
   }
 });
+
