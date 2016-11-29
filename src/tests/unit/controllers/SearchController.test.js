@@ -12,22 +12,20 @@ describe('SearchController', function() {
         .set('Accept', 'text/html')
         .set('Content-Type', 'text/html')
         .expect(200)
-        .expect('Content-Type', /html/)
+        .expect('Content-Type', /json/)
         .end(function(err, res) {
           if (err) {
             throw err;
           }
-          res.text.should.match(/<title>Search for flights with Avaea Agent<\/title>/);
-          res.text.should.match(/<form[^>]*id="search_form"/);
-          res.text.should.match(/<input[^>]*name="originAirport"/);
-          res.text.should.match(/<input[^>]*name="destinationAirport"/);
-          res.text.should.match(/<input[^>]*name="departureDate"/);
-          res.text.should.match(/<input[^>]*name="returnDate"/);
-          res.text.should.match(/<input[^>]*name="preferedClass"/);
-          res.text.should.match(/<input[^>]*name="topSearchOnly"/);
-          res.text.should.match(/<input[^>]*name="passengers"/);
-          res.text.should.match(/<input[^>]*name="flightType"/);
-          res.text.should.match(/<input[^>]*name="voiceSearchQuery"/);
+
+          res.body.should.have.properties('title', 'head_title', 'defaultParams', 'serviceClass');
+          res.body.title.should.be.eql('Search for flights');
+          res.body.head_title.should.be.eql('Search for flights with Avaea Agent');
+          res.body.defaultParams.should.have.properties([
+            'DepartureLocationCode', 'ArrivalLocationCode', 'CabinClass',
+            'departureDate', 'returnDate', 'passengers', 'flightType'
+          ]);
+
           done();
         });
     });
@@ -103,7 +101,7 @@ describe('SearchController', function() {
       var req = {
         param: function (name) {
           if (name == 's') {
-            return 'W3sibmFtZSI6Im9yaWdpbkFpcnBvcnQiLCJ2YWx1ZSI6IkxIUiJ9LHsibmFtZSI6ImRlc3RpbmF0aW9uQWlycG9ydCIsInZhbHVlIjoiU0ZPIn0seyJuYW1lIjoiZGVwYXJ0dXJlRGF0ZSIsInZhbHVlIjoiMjAxNi0wOC0wMSJ9LHsibmFtZSI6InJldHVybkRhdGUiLCJ2YWx1ZSI6IjIwMTYtMDgtMjIifSx7Im5hbWUiOiJwcmVmZXJlZENsYXNzIiwidmFsdWUiOiJFIn0seyJuYW1lIjoidG9wU2VhcmNoT25seSIsInZhbHVlIjoiMCJ9LHsibmFtZSI6InBhc3NlbmdlcnMiLCJ2YWx1ZSI6IjEifSx7Im5hbWUiOiJmbGlnaHRUeXBlIiwidmFsdWUiOiJyb3VuZF90cmlwIn0seyJuYW1lIjoidm9pY2VTZWFyY2hRdWVyeSIsInZhbHVlIjoiIn1d';
+            return 'eyJEZXBhcnR1cmVMb2NhdGlvbkNvZGUiOiJTRk8iLCJBcnJpdmFsTG9jYXRpb25Db2RlIjoiTEhSIiwiRGVwYXJ0dXJlTG9jYXRpb25Db2RlQ2l0eSI6IlNhbiBGcmFuY2lzY28iLCJBcnJpdmFsTG9jYXRpb25Db2RlQ2l0eSI6IkxvbmRvbiIsIkNhYmluQ2xhc3MiOiJFIiwiZGVwYXJ0dXJlRGF0ZSI6IjIwMTctMDgtMDEiLCJyZXR1cm5EYXRlIjoiMjAxNy0wOC0xNyIsInBhc3NlbmdlcnMiOjEsImZsaWdodFR5cGUiOiJyb3VuZF90cmlwIiwidm9pY2VTZWFyY2hRdWVyeSI6IntcInF1ZXJ5XCI6XCJSb3VuZC10cmlwIGZyb20gSXN0YW5idWwgdG8gSG9uZyBLb25nLCBBdWcgMjAsIDIwMTcgdGhyb3VnaCBTZXB0ZW1iZXIgMjNcIixcIm5vdF9wYXJzZWRcIjpcInJvdW5kLXRocm91Z2ggXCIsXCJvcmlnaW5fYWlycG9ydFwiOlwiSXN0YW5idWxcIixcInJldHVybl9haXJwb3J0XCI6XCJIb25nIEtvbmdcIixcIm9yaWdpbl9kYXRlXCI6XCIyMDE3LTA4LTE5VDIxOjAwOjAwLjAwMFpcIixcInJldHVybl9kYXRlXCI6XCIyMDE3LTA5LTIyVDIxOjAwOjAwLjAwMFpcIixcInR5cGVcIjpcInJvdW5kX3RyaXBcIixcIm51bWJlcl9vZl90aWNrZXRzXCI6MSxcImNsYXNzX29mX3NlcnZpY2VcIjpcIkVcIn0iLCJ0b3BTZWFyY2hPbmx5IjowfQ=='
           }
           return 'test'
         },
@@ -116,47 +114,49 @@ describe('SearchController', function() {
       assert(view.called);
       view.args[0].should.be.eql([{
         user: {id: 1},
-        title: 'LHR &#8644; SFO',
+        title: 'SFO-LHR',
         tiles: [],
         max_filter_items: 0,
         searchParams: {
-          DepartureLocationCode: 'LHR',
-          ArrivalLocationCode: 'SFO',
+          DepartureLocationCode: 'SFO',
+          ArrivalLocationCode: 'LHR',
           departureDate: '01 Aug',
-          returnDate: '22 Aug',
+          returnDate: '17 Aug',
           CabinClass: 'Economy',
-          passengers: '1',
-          topSearchOnly: '0',
-          flightType: 'ROUND_TRIP'
+          passengers: 1,
+          topSearchOnly: 0,
+          flightType: 'round_trip'
         },
         searchResult: [],
         timelog: '',
-        head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
+        head_title: 'Flights from SFO to LHR on 01 Aug \'17 and back on 17 Aug \'17',
         iconSpriteMap: {},
         departure: {},
-        arrival: {}
+        arrival: {},
+        errorType: "no_flights"
       }, 'search/result']);
       assert(view.calledWith({
         user: {id: 1},
-        title: 'LHR &#8644; SFO',
+        title: 'SFO-LHR',
         tiles: [],
         max_filter_items: 0,
         searchParams: {
-          DepartureLocationCode: 'LHR',
-          ArrivalLocationCode: 'SFO',
+          DepartureLocationCode: 'SFO',
+          ArrivalLocationCode: 'LHR',
           departureDate: '01 Aug',
-          returnDate: '22 Aug',
+          returnDate: '17 Aug',
           CabinClass: 'Economy',
-          passengers: '1',
-          topSearchOnly: '0',
-          flightType: 'ROUND_TRIP'
+          passengers: 1,
+          topSearchOnly: 0,
+          flightType: 'round_trip'
         },
         searchResult: [],
         timelog: '',
-        head_title: 'Flights from LHR to SFO on 01 Aug \'16 and back on 22 Aug \'16',
+        head_title: 'Flights from SFO to LHR on 01 Aug \'17 and back on 17 Aug \'17',
         iconSpriteMap: {},
         departure: {},
-        arrival: {}
+        arrival: {},
+        errorType: "no_flights"
       }, 'search/result'));
       view.reset();
       done();
@@ -204,7 +204,7 @@ describe('SearchController', function() {
       assert(view.called);
       view.args[0].should.be.eql([{
         user: {id: 1},
-        title: 'TEST &rarr; TEST',
+        title: 'TEST-TEST',
         tiles: [],
         max_filter_items: 0,
         searchParams: {
@@ -222,11 +222,12 @@ describe('SearchController', function() {
         head_title: 'Flights from TEST to TEST on 25 Jul \'16',
         iconSpriteMap: {},
         departure: {},
-        arrival: {}
+        arrival: {},
+        errorType: "no_flights"
       }, 'search/result']);
       assert(view.calledWith({
         user: {id: 1},
-        title: 'TEST &rarr; TEST',
+        title: 'TEST-TEST',
         tiles: [],
         max_filter_items: 0,
         searchParams: {
@@ -244,7 +245,8 @@ describe('SearchController', function() {
         head_title: 'Flights from TEST to TEST on 25 Jul \'16',
         iconSpriteMap: {},
         departure: {},
-        arrival: {}
+        arrival: {},
+        errorType: "no_flights"
       }, 'search/result'));
       view.reset();
       done();
