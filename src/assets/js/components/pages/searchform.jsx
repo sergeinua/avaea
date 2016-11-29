@@ -31,14 +31,17 @@ var SearchFormPage = React.createClass({
 
     ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
-      this.setState({currentForm: form.toLowerCase()});
+      this.setState(
+        {currentForm: form.toLowerCase()},
+        () => {
+          ActionsStore.updateNavBarSearchParams(this.state.searchParams);
+          ActionsStore.validateCalendar();
+        }
+      );
       ActionsStore.updateNavBarPage(form.toLowerCase());
-      ActionsStore.updateNavBarSearchParams(this.state.searchParams);
-
-      if (form == 'one_way' || form == 'round_trip') {
+      if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
         ActionsStore.setFormValue('flightType', form.toLowerCase());
       }
-      ActionsStore.validateCalendar();
     };
 
     ActionsStore.getSearchParams = () => {
