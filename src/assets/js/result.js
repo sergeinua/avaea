@@ -92,11 +92,6 @@ $(document).ready(function() {
     }
   });
 
-
-  $('.result-search-info-bar').click(function (event) {
-    location.href = '/search';
-  });
-
   //------------ IE have to FORCE Bootstrap menu to open ----------
   if (navigator.appVersion.indexOf("MSIE 10") !== -1) {
     $('.sort-button').click(function(){

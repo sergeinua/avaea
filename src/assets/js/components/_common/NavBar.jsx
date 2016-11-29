@@ -75,6 +75,10 @@ var NavBar = React.createClass({
     window.ReactRouter.browserHistory.push('/result');
   },
 
+  handleBackToSearchForm: function () {
+    window.ReactRouter.browserHistory.push('/search');
+  },
+
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -94,7 +98,7 @@ var NavBar = React.createClass({
                   </button>
                   {this.state.page == 'result'?
                     <div className="flight-info">
-                      <div className="result-search-info-bar">
+                      <div className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
                         <span className="requested-airports">{ this.state.searchParams.DepartureLocationCode + '-' +  this.state.searchParams.ArrivalLocationCode}</span>
                         <span className="flight-date">
                 { moment(this.state.searchParams.departureDate).format('DD MMM') + (this.state.searchParams.returnDate?'-'+moment(this.state.searchParams.returnDate).format('DD MMM'):'') }
