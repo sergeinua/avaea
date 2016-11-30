@@ -1,0 +1,226 @@
+/* ------------------------------
+  
+  Begin static/static.css
+  loads for static pages only
+  
+--------------------------------- */
+
+
+/* syntax
+   transition: all 0.1s ease-in-out;
+	 :not(.search-result) 
+*/
+
+.hide,
+.desktop .desktop-wrapper:after {
+	display: none;
+}
+
+h1.skeleton {
+	color: #ff0099;
+}
+
+
+
+/* take away app styles */
+
+.desktop {
+	text-align: center;
+	margin: 0;
+	padding: 0;
+	background: none;
+}
+
+.desktop:before {
+	display: none;
+}
+
+.desktop .desktop-wrapper {
+	margin: 0 auto;
+	padding: 0;
+	width: 100%;
+	background: #ffffff;
+	border-radius: 0;
+	box-shadow: none;
+}
+
+.desktop .desktop-inner {
+	border: none;
+}
+
+/* take away style from ABO bootstrap
+   glyphicons.less
+	 buttons.less
+*/
+
+ul {
+	margin-bottom: 0;
+}
+
+
+/* colors */
+
+footer.static {
+	background: #062868;
+}
+
+.nav > li > a:hover, 
+.nav > li > a:focus {
+	background-color: transparent;
+}
+
+
+/* header */
+
+header,
+footer {
+	padding: 20px;
+}
+
+header.static {
+	padding-left: 160px;
+	background: #062868 url(../images/static/logo1.svg) 15px 8px no-repeat;
+	background-size: 140px;
+}
+
+header nav {
+	width: 100%;
+}
+
+header.static ul {
+  list-style-type: none;
+	display: inline-block;
+}
+
+header.static ul.user {
+	float: right;
+}
+
+header.static li {
+	font-size: 14px;
+	display: inline-block;
+}
+
+header.static a, 
+header.static a:hover, 
+header.static a:visited {
+	color: #ffffff;
+	font-family: 'Open-Sans-Semibold';
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 5px 15px;
+	opacity: .5;
+}
+
+header.static a:hover {
+	opacity: .8;
+}
+
+header.static li.active a {
+	opacity: 1;
+}
+
+/* pages */
+
+.content.static {
+	display: block;
+}
+
+
+/* home */
+
+.home-top {
+  position: relative;
+}
+
+.home-top-copy {
+  color: #ffffff;
+  font-family: 'Open-Sans-Light';
+  font-size: 28px;
+  text-align: center;
+  padding: 50px 0;
+  width: 100%;
+  position: absolute;
+    top: 0;
+}
+
+.try-it {
+  width: 100%;
+  height: 275px;
+  background: url(../images/static/delme-tryit.png) center no-repeat;
+  position: absolute;
+    bottom: 110px;
+}
+
+.slogan.third {
+  font-size: 40px;
+  padding: 10px 0;
+  display: block;
+}
+
+.video-holder {
+  height: 600px;
+  position: relative;
+  overflow: hidden;
+}
+
+.overlay,
+video {
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  position: absolute;
+    top: 50%;
+    left: 50%;
+  background-size: cover;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.overlay {
+  background: rgba(0, 0, 0, .5);
+}
+
+video { 
+  z-index: -100;
+  background: url('../images/static/tarmac-placeholder.jpg') no-repeat;
+}
+
+div[data-slug="home"] .level {
+  text-align: center;
+  margin: 50px 0;
+}
+
+
+/* footer */
+
+footer.static {
+	text-align: center;
+	display: block;
+}
+
+footer.static span.copyright:before {
+	content: '\00A9 2017 Avaea, Inc., All Rights Reserved';
+	color: #ffffff;
+	padding: 0 20px 0 0;
+	opacity: .5;
+}
+
+footer.static a,
+footer.static a:hover,
+footer.static a:visited {
+	color: #3abbec;
+	padding: 0 10px;
+}
+
+
+
+
+
+
+
+/* ------------------------------ 
+  
+  ENDS static/static.css
+  
+--------------------------------- */

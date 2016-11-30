@@ -2,13 +2,9 @@
    avaea.css
 	 --------------- */
 
-/* todo
-	 ~ un-nest the accordion sections in profile
-	 ~ get profile and create to use the same code
-*/
-
 /* syntax
    transition: all 0.1s ease-in-out;
+	 :not(.search-result) 
 */
 
 
@@ -30,8 +26,6 @@
 }
 
 /* desktop */
-
-/* :not(.search-result) */
 
 .desktop {
 	text-align: center;
@@ -582,7 +576,7 @@
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 }
 
@@ -2842,6 +2836,11 @@ td[data-action*="selectDay"] {
 	margin-top: 50px;
   margin-bottom: -50px;
 	padding: 20px;
+}
+
+.warning-booking {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 

@@ -7,10 +7,10 @@ $(document).ready(function() {
     </div>;
 
     const StaticContainer = (props) => <div>
-      <link rel="stylesheet" href="/static/styles.css"/>
-      <StaticHeader user={InitData.user||{}}/>
+      <link rel="stylesheet" href="/static/static.css"/>
+      <StaticHeader {...props} user={InitData.user||{}}/>
       {props.children}
-      <StaticFooter user={InitData.user||{}}/>
+      <StaticFooter {...props} user={InitData.user||{}}/>
     </div>;
 
     var Router = window.ReactRouter.Router;
