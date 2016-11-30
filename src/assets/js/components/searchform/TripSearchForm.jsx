@@ -12,6 +12,14 @@ var TripSearchForm = React.createClass({
         isError: false,
         isErrorFlash: false
       },
+      '#from-area': {
+        isError: false,
+        isErrorFlash: false
+      },
+      '#to-area': {
+        isError: false,
+        isErrorFlash: false
+      }
     }
   },
 
@@ -205,7 +213,7 @@ var TripSearchForm = React.createClass({
 
               <div className="col-xs-6">
                 <div id="from-area"
-                     className={this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from" + " " + this.getErrorClass('#from-area')}
+                     className={(this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from") + " " + this.getErrorClass('#from-area')}
                      onClick={this.handleAirportSearch('DepartureLocationCode')}>
                   <div className="flight-direction-item-from-to">From</div>
                   {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
@@ -223,7 +231,7 @@ var TripSearchForm = React.createClass({
 
               <div className="col-xs-6">
                 <div id="to-area "
-                     className={this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to" +
+                     className={(this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to") +
                      " " + this.getErrorClass('#to-area')}
                      onClick={this.handleAirportSearch('ArrivalLocationCode')}>
                   <div className="flight-direction-item-from-to">To</div>
