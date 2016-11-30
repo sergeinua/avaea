@@ -18,6 +18,8 @@
 
 h1.skeleton {
 	color: #ff0099;
+	text-align: center;
+	margin: 5em 0 10em 0;
 }
 
 
@@ -80,6 +82,8 @@ footer {
 header.static {
 	padding-left: 160px;
 	background: #062868 url(../images/static/logo1.svg) 15px 8px no-repeat;
+	position: relative;
+	z-index: 5; /* get it above the video area */
 	background-size: 140px;
 }
 
