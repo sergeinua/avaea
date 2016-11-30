@@ -27,8 +27,8 @@ module.exports = {
       user_id          : user.id,
       pnr              : typeof booking_res == 'object' ? booking_res.PNR : null,
       reference_number : typeof booking_res == 'object' ? booking_res.ReferenceNumber : null,
-      itinerary_id     : typeof itinerary_res == 'object' ? itinerary_res.itinerary_id : null,
-      itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res.itinerary_data : null,
+      itinerary_id     : typeof itinerary_res == 'object' ? itinerary_res.id : null,
+      itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res : null,
       req_params       : req_params
     };
 
