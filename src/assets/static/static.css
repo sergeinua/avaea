@@ -129,7 +129,7 @@ header.static li.active a {
 
 /* home */
 
-.home-top {
+.home.level.top {
   position: relative;
 }
 
@@ -182,7 +182,6 @@ video {
 }
 
 video { 
-  z-index: -100;
   background: url('../images/static/tarmac-placeholder.jpg') no-repeat;
 }
 
