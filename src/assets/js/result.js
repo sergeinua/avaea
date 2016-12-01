@@ -1,7 +1,6 @@
 /* global $ */
 
 var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
-var filterItemHeight = 31.25; // pixels
 var bucketFilterItemHeigh = 34; // pixes
 var bucketAirlineScrollPos = 0;
 var heightNav = 0;
@@ -12,7 +11,9 @@ var heightNav = 0;
  * @returns {$}
  */
 $.fn.scrollTo = function(elem) {
-  if (!$(elem).offset()) return;
+  if (!$(elem).offset()) {
+    return this;
+  }
   $(this).slimScroll({scrollTo: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top});
   return this;
 };
@@ -54,19 +55,6 @@ var swiper;
 
 
 $(document).ready(function() {
-
-  // result page init
-  {
-
-    var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
-    if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
-      max_filter_items = maxBucketVisibleFilters;
-    }
-    $('.list-group').slimScroll({
-      height: parseInt(max_filter_items * filterItemHeight) +'px',
-      touchScrollStep: 30
-    });
-  }
 
   //tiles
 

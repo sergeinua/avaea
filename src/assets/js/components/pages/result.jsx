@@ -36,7 +36,8 @@ var ResultPage = React.createClass({
           tiles: json.tiles,
           searchResultLength: json.searchResult.length,
           searchResult: json.searchResult,
-          errorInfo: json.errorInfo
+          errorInfo: json.errorInfo,
+          max_filter_items: json.max_filter_items
         }, function () {
 
           //FIXME refactor code to use non jquery based swiper functionality
@@ -58,6 +59,16 @@ var ResultPage = React.createClass({
               slidesPerView: 'auto'
             });
           }
+
+          // Init slim scroll
+          var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+          if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
+            max_filter_items = maxBucketVisibleFilters;
+          }
+          $('.list-group').slimScroll({
+            height: parseInt(max_filter_items * bucketFilterItemHeigh)+2 +'px',
+            touchScrollStep: 30
+          });
 
         });
       }
@@ -341,8 +352,9 @@ var ResultPage = React.createClass({
         filter.count = count;
       });
     });
-    this.setState({tiles: tiles});
-    scrollAirlines();
+    this.setState({tiles: tiles}, function () {
+      scrollAirlines();
+    });
   },
 
   resetResultVisibility: function() {
@@ -395,7 +407,13 @@ var ResultPage = React.createClass({
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>
-                 <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
+                 <Buckets
+                   tiles={this.state.tiles}
+                   filter={this.state.filter}
+                   searchResultLength={this.state.searchResultLength}
+                   currentSort={this.state.currentSort}
+                   max_filter_items={this.state.max_filter_items}
+                 />
                  <ResultList InitResultData={this.state} />
                </span>)
             : <DisplayAlert errorInfo={this.state.errorInfo} />
