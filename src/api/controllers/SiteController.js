@@ -39,15 +39,15 @@ module.exports = {
     }
 
     var params = {
-      DepartureLocationCode     : _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
-      ArrivalLocationCode       : _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
-      DepartureLocationCodeCity : _.isEmpty(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
-      ArrivalLocationCodeCity   : _.isEmpty(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
-      CabinClass                : _.isEmpty(req.session.CabinClass) ? 'E' : req.session.CabinClass,
+      DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
+      ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
+      DepartureLocationCodeCity : !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
+      ArrivalLocationCodeCity   : !_.isString(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
+      CabinClass                : !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
       departureDate             : _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
       returnDate                : _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers                : _.isEmpty(req.session.passengers) ? '1' : req.session.passengers,
-      flightType                : _.isEmpty(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
+      passengers                : _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
+      flightType                : !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
 
     return res.ok(

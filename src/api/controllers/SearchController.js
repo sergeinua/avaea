@@ -195,7 +195,7 @@ module.exports = {
           }
           var algorithm = sails.config.globals.bucketizationFunction;
 
-          if (_.isEmpty(algorithm) || typeof Tile[algorithm] != 'function') {
+          if (!_.isString(algorithm) || typeof Tile[algorithm] != 'function') {
             algorithm = 'getTilesData';
           }
 

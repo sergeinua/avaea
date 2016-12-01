@@ -781,9 +781,9 @@ legend,
 .datepicker table td.day.active.new,
 .datepicker table td.day.active.old,
 .datepicker span.active,
-.bootstrap-datetimepicker-widget span.active:hover,
+.desktop .bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active,
-.bootstrap-datetimepicker-widget table td.active:hover {
+.desktop .bootstrap-datetimepicker-widget table td.active:hover {
 	background-color: #0081c9;
 }
 
@@ -1664,7 +1664,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
-.bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
+.bootstrap-datetimepicker-widget table td.disabled, .desktop .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
 }
