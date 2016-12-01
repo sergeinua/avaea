@@ -34,3 +34,5 @@ var ClientApi = {
   }
 
 };
+
+export default ClientApi;

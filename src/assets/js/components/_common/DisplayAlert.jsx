@@ -1,3 +1,5 @@
+import React from 'react';
+// import Link from ''
 var DisplayAlert = React.createClass({
   render() {
     return (
@@ -20,3 +22,5 @@ DisplayAlert.defaultProps = {
   },
   tryUrl: "/search"
 };
+
+export default DisplayAlert;

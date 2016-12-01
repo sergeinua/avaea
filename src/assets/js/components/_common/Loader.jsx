@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Loader = React.createClass({
 
   render: function () {
@@ -6,3 +8,5 @@ var Loader = React.createClass({
     </div>
   }
 });
+
+export default Loader;

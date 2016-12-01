@@ -1,3 +1,5 @@
+import React from 'react';
+
 var FormElement = React.createClass({
 
   render: function() {
@@ -35,3 +37,5 @@ var FormElement = React.createClass({
   }
 
 });
+
+export default FormElement;
