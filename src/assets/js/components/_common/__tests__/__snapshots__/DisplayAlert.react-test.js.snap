@@ -1,0 +1,27 @@
+exports[`test DisplayAlert component test 1`] = `
+<div
+  className="nothing-found">
+  <div
+    className="copy">
+    <div>
+      Your request cannot be processed
+    </div>
+    <div>
+      at the moment due to technical problems.
+    </div>
+    <div>
+      Please try again later
+    </div>
+  </div>
+  <div
+    className="buttons">
+    <a
+      className="big-button new-search-button"
+      onClick={[Function]}
+      role="button"
+      style={Object {}}>
+      Try Again
+    </a>
+  </div>
+</div>
+`;

@@ -1,5 +1,6 @@
 import React from 'react';
-// import Link from ''
+
+import {Link} from 'react-router';
 var DisplayAlert = React.createClass({
   render() {
     return (
