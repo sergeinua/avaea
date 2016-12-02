@@ -6,7 +6,9 @@ pipelines:
      script:
      - pwd 
      - ls -l
+     - cd src
      - npm build
+     
       - pwd 
      - ls -l
      - npm test
