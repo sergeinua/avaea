@@ -4,11 +4,7 @@ pipelines:
  default:
   - step:
      script:
-     - pwd 
-     - ls -l
      - cd src
      - npm install
-     - npm build     
-     - pwd 
-     - ls -l
-     - npm test
+     - make test-unit
+     - make test-integration
