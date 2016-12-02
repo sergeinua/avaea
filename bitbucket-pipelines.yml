@@ -1,0 +1,7 @@
+pipelines:
+ branches:
+ RC_20161102:
+  - step:
+          script:
+     - npm build
+     - npm test
