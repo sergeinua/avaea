@@ -21,6 +21,11 @@ $(document).ready(function() {
       browserHistory.push(InitData.page);
     }
 
+    //DEMO-796 fix for iOS10
+    browserHistory.listen( location =>  {
+      unfocusFormForIos();
+    });
+
     ReactDOM.render((
       <ReactRedux.Provider store={clientStore}>
         <Router history={browserHistory}>

@@ -36,7 +36,12 @@ module.exports = {
 
     var moment_now = sails.moment();
     // Check depart date
-    if (moment_dp && moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+    if (moment_dp &&
+        (
+          moment_dp.isBefore(moment_now, 'day') ||
+          moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+        )
+    ) {
       _Error = 'Error.Search.Validation.departureDate.MaxDays';
     }
 

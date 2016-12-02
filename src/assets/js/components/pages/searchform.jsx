@@ -31,6 +31,7 @@ var SearchFormPage = React.createClass({
 
     ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
+      unfocusFormForIos();
       this.setState(
         {currentForm: form.toLowerCase()},
         () => {
@@ -83,7 +84,12 @@ var SearchFormPage = React.createClass({
 
       var moment_now = moment();
       // Check depart date
-      if (moment_dp && moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+      if (moment_dp &&
+          (
+            moment_dp.isBefore(moment_now, 'day') ||
+            moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+          )
+      ) {
         calendarErrors.departureDate = true;
         calendarErrors.isError = true;
       }
