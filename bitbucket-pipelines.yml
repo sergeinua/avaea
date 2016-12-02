@@ -4,5 +4,9 @@ pipelines:
  default:
   - step:
      script:
+     - pwd 
+     - ls -l
      - npm build
+      - pwd 
+     - ls -l
      - npm test
