@@ -31,6 +31,7 @@ var SearchFormPage = React.createClass({
 
     ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
+      unfocusFormForIos();
       this.setState(
         {currentForm: form.toLowerCase()},
         () => {
