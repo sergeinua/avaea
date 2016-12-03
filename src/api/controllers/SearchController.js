@@ -44,7 +44,7 @@ module.exports = {
           topSearchOnly: !_.isUndefined(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
           flightType: !_.isUndefined(savedParams.flightType)?savedParams.flightType:req.param('flightType', 'round_trip').trim().toLowerCase(),
           returnDate: '',
-          voiceSearchQuery: voiceSearchQuery ? JSON.parse(voiceSearchQuery) : ''
+          voiceSearchQuery: (voiceSearchQuery && _.isObject(voiceSearchQuery)) ? JSON.parse(voiceSearchQuery) : ''
         }
       },
       depDate = new Date();
@@ -195,7 +195,7 @@ module.exports = {
           }
           var algorithm = sails.config.globals.bucketizationFunction;
 
-          if (_.isEmpty(algorithm) || typeof Tile[algorithm] != 'function') {
+          if (!_.isString(algorithm) || typeof Tile[algorithm] != 'function') {
             algorithm = 'getTilesData';
           }
 

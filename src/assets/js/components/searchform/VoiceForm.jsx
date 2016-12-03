@@ -159,6 +159,7 @@ var VoiceForm = React.createClass({
       recognition.stop();
     }
     this.demo(function(res, data) {
+      ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
     });

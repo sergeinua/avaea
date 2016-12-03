@@ -16,7 +16,8 @@ module.exports = {
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
-        segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
+        if (sails.config.environment !== 'test')
+          segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
 
         return res.json(result); //200
       } else {

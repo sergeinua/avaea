@@ -27,7 +27,7 @@ module.exports = {
   on_tile_choice: function (req, res) {
     var uuid = 'default';
     var search_params = {};
-    if (!_.isEmpty(req.session.search_params_hash)) {
+    if (_.isString(req.session.search_params_hash)) {
       uuid = req.session.search_params_hash;
       search_params = req.session.search_params_raw;
     }

@@ -7,6 +7,8 @@
 var util = require('util');
 var url = require('url');
 var lodash = require('lodash');
+var qpromice = require('q');
+
 /**
  * BuyController
  */
@@ -17,8 +19,7 @@ module.exports = {
     // Get all params for redirect case
     var reqParams = req.allParams();
 
-    var onIllegalResult = function () {
-      delete req.session.booking_itinerary;
+    let onIllegalResult = function () {
       req.session.flash = '';
       return res.ok({
         error: true,
@@ -77,12 +78,17 @@ module.exports = {
         return onIllegalResult();
       }
 
-      var cacheId = 'itinerary_' + itinerary_id.replace(/\W+/g, '_');
-      memcache.get(cacheId, function(err, result) {
-        if (!err && !lodash.isEmpty(result)) {
+      let cacheId = 'itinerary_' + itinerary_id.replace(/\W+/g, '_');
+      qpromice.nfbind(memcache.get)(cacheId)
+        .then((resItinerary) => {
+
+          if (lodash.isEmpty(resItinerary)) {
+            return Promise.reject('cacheId "'+cacheId+'" not found by order action');
+          }
+
           var logData = {
             action    : 'order',
-            itinerary : JSON.parse(result)
+            itinerary : JSON.parse(resItinerary)
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
@@ -91,12 +97,6 @@ module.exports = {
           UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
             User.publishCreate(req.user);
           });
-
-          // Save for booking action
-          req.session.booking_itinerary = {
-            itinerary_id: itinerary_id,
-            itinerary_data: logData.itinerary
-          };
 
           var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
           itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
@@ -115,42 +115,54 @@ module.exports = {
             },
             'order'
           );
-        } else {
+        })
+        .catch((error) => {
+          sails.log.error(error);
           return onIllegalResult();
-        }
-      });
+        });
     });
   },
 
   booking_proc: function (req, res) {
-    if (!req.session.booking_itinerary) {
-      return res.ok({
-        error: true,
-        flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
-      });
-    }
-    var service = req.session.booking_itinerary.itinerary_data.service;
+    var booking_itinerary = {};
     var reqParams = req.allParams();
+    let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
-    // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
-    if (typeof reqParams.DateOfBirth == 'object') {
-      reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
-    }
-    if (reqParams.DateOfBirth) {
-      var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
-      reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
-    }
+    qpromice.nfbind(memcache.get)(cacheId)
+      .then((resItinerary) => {
 
-    req.session.time_log = [];
+        if (lodash.isEmpty(resItinerary)) {
+          return Promise.reject('cacheId "' + cacheId + '" not found by booking_proc action');
+        }
+        booking_itinerary = JSON.parse(resItinerary);
 
-    // for API argument
-    var params = reqParams;
-    params.session = req.session;
-    params.user = req.user;
+        // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
+        if (typeof reqParams.DateOfBirth == 'object') {
+          reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
+        }
+        if (reqParams.DateOfBirth) {
+          var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
+          reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
+        }
+
+        req.session.time_log = [];
+
+        reqParams.session = req.session;
+        reqParams.user = req.user;
+
+        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParams, parseFlightBooking);
+      })
+      .catch((error) => {
+        sails.log.error(error);
+
+        return res.ok({
+          error: true,
+          flashMsg: 'Something went wrong. Your credit card wasn\'t charged. Please try again'
+        });
+      });
 
     var parseFlightBooking = function (err, result) {
-
-      var _segmParams = _.merge({}, params);
+      var _segmParams = _.merge({}, reqParams);
       _.forEach(_segmParams, function (item, key) {
         if (_.indexOf(['CardType','CardNumber','ExpiryDate','CVV'], key) != -1)
           delete _segmParams[key];
@@ -168,7 +180,7 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      var order = (typeof req.session.booking_itinerary == 'object') ? lodash.clone(req.session.booking_itinerary.itinerary_data, true) : {};
+      var order = lodash.clone(booking_itinerary, true);
 
       // E-mail notification
       var tpl_vars = {
@@ -199,7 +211,7 @@ module.exports = {
       });
 
       // Save result to DB
-      Booking.saveBooking(req.user, result, req.session.booking_itinerary, reqParams)
+      Booking.saveBooking(req.user, result, booking_itinerary, reqParams)
         .then(function (record) {
           return res.ok({bookingId: record.id});
         })
@@ -211,8 +223,6 @@ module.exports = {
           });
         });
     };
-
-    return global[service].flightBooking(Search.getCurrentSearchGuid() +'-'+ service, params, parseFlightBooking);
   },
 
   booking: function (req, res) {
