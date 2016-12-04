@@ -19,13 +19,6 @@ pipelines:
 #             - PGPASSWORD=
              - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
              - pwd
-            #- ping -c 3 kernel.org
-            #- ps aux
-            #- node -v
-            #- psql -V
-            #- netstat -anp
-            #- /sbin/ifconfig
-            #- df -h
-            - cd src
-            - npm install
-            - make test-unit
+             - cd src
+             - npm install
+             - make test-unit
