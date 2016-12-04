@@ -26,6 +26,6 @@ pipelines:
             #- netstat -anp
             #- /sbin/ifconfig
             #- df -h
- #           - cd src
- #           - npm install
- #           - make test-unit
+            - cd src
+            - npm install
+            - make test-unit
