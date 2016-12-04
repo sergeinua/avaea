@@ -1,5 +1,5 @@
-#image: node:5.11.0
-image: spittet/node-postgresql
+image: node:6.9.1
+#image: spittet/node-postgresql
 pipelines:
   default:
     - step:
