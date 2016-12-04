@@ -17,6 +17,7 @@ pipelines:
              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea_db to avaea;" 
              - npm install pg
              - cd src
+             - npm install
              - ls -la
 #             - iptable-save
 #             - PGPASSWORD=
