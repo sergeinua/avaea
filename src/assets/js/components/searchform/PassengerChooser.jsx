@@ -1,10 +1,11 @@
 
 var PassengerChooser = React.createClass({
   getInitialState: function() {
-    //FIXME get rid from jquery
+    var searchParams = ActionsStore.getSearchParams();
+    var passengers = this.props.passengerVal || searchParams.passengers || 1;
     return {
-      passengers_count: this.props.passengerVal || $('#passengers').val(),
-      passengers_text: "Adult" + (this.props.passengerVal == 1? '':'s')
+      passengers_count: passengers,
+      passengers_text: "Adult" + (passengers == 1? '':'s')
     };
   },
 
@@ -31,8 +32,7 @@ var PassengerChooser = React.createClass({
         passengers_text: "Adults"
       });
     }
-    //FIXME get rid from jquery
-    $('#passengers').val(passengerVal);
+    ActionsStore.setFormValue('passengers', passengerVal);
   },
 
   render: function () {

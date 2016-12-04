@@ -1,41 +1,63 @@
+var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
 var SearchFormPage = React.createClass({
   getInitialState: function() {
-    //FIXME get rid from jquery
-    $('#search_form').data('flight-type', "round_trip");
+    var searchParams = {
+      flightType : 'round_trip'
+    };
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else if (InitData.defaultSearch) {
+      //use data from server with default/session params if local storage is empty
+      searchParams = InitData.defaultSearch;
+    }
     return {
-      searchParams: this.props.InitSearchFormData.searchParams,
-      currentForm: "round_trip",
-      airportChoiceTarget: 'originAirport'
+      searchParams: searchParams,
+      calendarErrors: {
+        departureDate: false,
+        returnDate: false
+      },
+      currentForm: searchParams.flightType,
+      airportChoiceTarget: 'DepartureLocationCode'
     };
   },
 
   componentWillMount: function () {
+    // DEMO-800 removed mess after not properly closed modal.
+    // FIXME remove this after removing jquery modal
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
+
+    ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
-      this.setState({currentForm: form});
-      //FIXME get rid from jquery
-      if (form == 'one_way' || form == 'round_trip') {
-        $('#search_form').data('flight-type', form);
+      unfocusFormForIos();
+      this.setState(
+        {currentForm: form.toLowerCase()},
+        () => {
+          ActionsStore.updateNavBarSearchParams(this.state.searchParams);
+          ActionsStore.validateCalendar();
+        }
+      );
+      ActionsStore.updateNavBarPage(form.toLowerCase());
+      if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
+        ActionsStore.setFormValue('flightType', form.toLowerCase());
       }
-      $('#flightType').val(form);
+    };
+
+    ActionsStore.getSearchParams = () => {
+      return this.state.searchParams;
     };
 
     ActionsStore.updateFormValues = () => {
-      //FIXME get rid from jquery
-      let formValues = {
-        DepartureLocationCode: ($('#originAirport').length ? $('#originAirport').val():''),
-        departCity: ($('#originAirportCity').length ? $('#originAirportCity').val():''),
-        ArrivalLocationCode: ($('#destinationAirport').length ? $('#destinationAirport').val():''),
-        arrivCity: ($('#destinationAirportCity').length ? $('#destinationAirportCity').val():''),
-        departureDate: ($('#departureDate').length ? $('#departureDate').val():''),
-        returnDate: ($('#returnDate').length ? $('#returnDate').val():''),
-        preferedClass: ($('#preferedClass').length ? $('#preferedClass').val():''),
-        topSearchOnly: ($('#topSearchOnly').length ? $('#topSearchOnly').val():''),
-        passengers: ($('#passengers').length ? $('#passengers').val():''),
-        flightType: ($('#flightType').length ? $('#flightType').val():''),
-        voiceSearchQuery: ($('#voiceSearchQuery').length ? $('#voiceSearchQuery').val():'')
-      };
-      this.setState({searchParams: formValues});
+      var searchParams = ActionsStore.getSearchParams();
+      this.setState({searchParams: searchParams});
+    };
+
+    ActionsStore.setFormValue = (target, value) => {
+      var searchParams = ActionsStore.getSearchParams();
+      searchParams[target] = value;
+      ActionsStore.updateFormValues();
     };
 
     ActionsStore.setTarget = (target) => {
@@ -46,13 +68,70 @@ var SearchFormPage = React.createClass({
       finalizeValues();
       ActionsStore.updateFormValues();
     };
+
+    ActionsStore.validateCalendar = () => {
+      var calendarErrors = {
+        isError: false,
+        departureDate: false,
+        returnDate: false
+      };
+
+      var flightType = this.state.searchParams.flightType || 'round_trip';
+      var departureDate = this.state.searchParams.departureDate;
+      var moment_dp = moment(departureDate, "YYYY-MM-DD");
+      var returnDate = this.state.searchParams.returnDate;
+      var moment_rp = moment(returnDate, "YYYY-MM-DD");
+
+      var moment_now = moment();
+      // Check depart date
+      if (moment_dp &&
+          (
+            moment_dp.isBefore(moment_now, 'day') ||
+            moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+          )
+      ) {
+        calendarErrors.departureDate = true;
+        calendarErrors.isError = true;
+      }
+
+      // Check return date
+      if (flightType == 'round_trip') {
+        if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+      }
+
+
+      if (!departureDate) {
+        calendarErrors.departureDate = true;
+        calendarErrors.isError = true;
+      }
+
+      // Check existence of the return date for the round trip
+      if (this.state.currentForm == 'round_trip') {
+        if (!returnDate) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+
+        if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
+          calendarErrors.returnDate = true;
+          calendarErrors.isError = true;
+        }
+      }
+
+      this.setState({calendarErrors: calendarErrors});
+    };
+
+    ActionsStore.getCalendarErrors = () => {
+      return this.state.calendarErrors;
+    };
+
     ActionsStore.updateFormValues();
   },
-  getUser: function () {
-    return this.props.InitSearchFormData.user;
-  },
+
   changeForm: function(form) {
-    // var component = this;
     return function () {
       ActionsStore.changeForm(form);
     }.bind(this);
@@ -60,7 +139,6 @@ var SearchFormPage = React.createClass({
   render: function() {
     return (
       <div>
-        <NavBar page={this.state.currentForm} user={this.getUser()} InitResultData={this.state}/>
         { this.state.currentForm != 'voice_search' && this.state.currentForm != 'calendar'  && this.state.currentForm != 'airport-search' ?
         <nav className="navbar navbar-default searchform-top" >
           <div className="flight-type-form">
@@ -99,17 +177,5 @@ var SearchFormPage = React.createClass({
         <SearchBanner/>
       </div>
     )
-  }
-});
-
-function renderSearchFormPage(InitSearchFormData) {
-  if ($('#searchformpage').length) {
-    ReactContentRenderer.render(<SearchFormPage InitSearchFormData = {InitSearchFormData}/>, $('#searchformpage'));
-  }
-}
-
-$(document).ready(function() {
-  if (typeof InitSearchFormData != 'undefined') {
-    renderSearchFormPage(InitSearchFormData);
   }
 });

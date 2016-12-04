@@ -24,6 +24,10 @@ var UserProfilePanelBlockMembership = React.createClass({
     this.setState(state);
   },
 
+  handleChangeValue: function (event, elemNum, fieldName) {
+    clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, elemNum, fieldName, event.target.value));
+  },
+
   render: function() {
 
     var self = this;
@@ -40,13 +44,21 @@ var UserProfilePanelBlockMembership = React.createClass({
               <label>Airline Name</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                     data-fieldset="lounge_membership" onClick={self.props.onRemoveFieldset} >remove</span>
-              <UserProfilePanelAirlineSelect elem_name={"lounge_membership.airline_name["+index+"]"} elem_value={item.airline_name}/>
+              <UserProfilePanelAirlineSelect
+                elem_name={"lounge_membership.airline_name["+index+"]"}
+                elem_value={item.airline_name}
+                blockNum={self.props.blockNum}
+                elemNum={index}
+              />
+
 
               <label>Club Membership Number</label>
-              <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number} />
+              <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number}
+                     onBlur={(event) => self.handleChangeValue(event, index, 'membership_number')}/>
 
               <label>Expiration Date</label>
-              <input type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defaultValue={item.expiration_date} />
+              <input type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defaultValue={item.expiration_date}
+                     onBlur={(event) => self.handleChangeValue(event, index, 'expiration_date')}/>
 
             </div>
           })

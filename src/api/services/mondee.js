@@ -426,7 +426,7 @@ var getFlightBookingRq = function(id, params) {
   }
 
   req.BookItineraryRequest = {
-    ItineraryId: params.id,
+    ItineraryId: params.itineraryId,
     PaxDetails: {
       PaxType: params.PaxType,
       FirstName: params.FirstName,

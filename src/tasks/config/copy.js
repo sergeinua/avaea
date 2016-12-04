@@ -21,7 +21,10 @@ function getFileMasks(env) {
       '**/*.!(coffee|less)',
       '!**/*.jsx',
       '!**/dependencies/react.js',
-      '!**/dependencies/react-dom.js'
+      '!**/dependencies/react-dom.js',
+      '!**/dependencies/redux.js',
+      '!**/dependencies/react-redux.js',
+      '!**/dependencies/immutable.js'
     ]
   } else {
     console.log('!**/js/dependencies/react.min.js', env);
@@ -29,7 +32,10 @@ function getFileMasks(env) {
       '**/*.!(coffee|less)',
       '!**/*.jsx',
       '!**/dependencies/react.min.js',
-      '!**/dependencies/react-dom.min.js'
+      '!**/dependencies/react-dom.min.js',
+      '!**/dependencies/redux.min.js',
+      '!**/dependencies/react-redux.min.js',
+      '!**/dependencies/immutable.min.js'
     ]
   }
 }

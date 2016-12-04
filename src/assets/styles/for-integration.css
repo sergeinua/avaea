@@ -1,26 +1,25 @@
 /* ---------------
    for-integration.css
-	 
+
 	 Engineers, please add
 	 styles you need here, not in the code
 	 Deborah will integrate into core.css
 	 during the next phase
-	 
+
 	 please be specific so new styles do not
 	 get picked up where they should not.
-	 
+
 	 thank you!
-	 
+
 	 --------------- */
 
-/* For react-select component - typeahead (auto-suggestion) for airline in user profile
-*  And please see react-select.css also
+/* Deborah integrated the 2 styles here on Nov 7
+	 leaving the react-select CSS style sheet separate for now
 */
-.Select-control {
-    border: 0 !important;
-}
-.Select {
-    height: 48px !important;
+
+.warning-booking {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 

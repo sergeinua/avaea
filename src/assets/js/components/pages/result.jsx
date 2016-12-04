@@ -3,23 +3,147 @@ var globalSelectionCount = 0;
 
 var ResultPage = React.createClass({
   getInitialState: function() {
+    var searchParams;
     var currentSort = {"name": "price", "order": "asc"};
-    if (this.props.InitResultData.searchParams.topSearchOnly == 1) {
+
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else {
+      //use data from server with default/session params if local storage is empty
+      searchParams = this.props.InitSearchFormData.searchParams;
+    }
+
+    if (searchParams.topSearchOnly == 1) {
       currentSort = {"name": "smart", "order": "asc"};
     }
     return {
-      title: this.props.InitResultData.title,
-      tiles: this.props.InitResultData.tiles,
-      searchParams: this.props.InitResultData.searchParams,
-      searchResultLength: this.props.InitResultData.searchResultLength,
-      searchResult: this.props.InitResultData.searchResult,
-      iconSpriteMap: this.props.InitResultData.iconSpriteMap,
+      isLoading: true,
+      searchParams: searchParams,
+      searchResultLength: 0,
       filter: [],
       currentSort: currentSort
     };
   },
 
+  componentDidMount: function () {
+    var searchParams = this.state.searchParams;
+    ActionsStore.updateNavBarSearchParams(searchParams);
+    var updateState = (json) => {
+      if (this.isMounted()) {
+        this.setState({
+          isLoading: false,
+          tiles: json.tiles,
+          searchResultLength: json.searchResult.length,
+          searchResult: json.searchResult,
+          errorInfo: json.errorInfo,
+          max_filter_items: json.max_filter_items
+        }, function () {
+
+          //FIXME refactor code to use non jquery based swiper functionality
+          $("#searchBanner").modal('hide');
+
+          // correctly initialize the swiper for desktop vs. touch
+
+          if (!uaMobile) {
+            // is desktop
+            swiper = new Swiper('.swiper-container', {
+              freeMode: true,
+              slidesPerView: '5.5'
+            });
+
+          } else {
+            // is touch
+            swiper = new Swiper('.swiper-container', {
+              freeMode: true,
+              slidesPerView: 'auto'
+            });
+          }
+
+          // Init slim scroll
+          var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+          if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
+            max_filter_items = maxBucketVisibleFilters;
+          }
+          $('.list-group').slimScroll({
+            height: parseInt(max_filter_items * bucketFilterItemHeigh)+2 +'px',
+            touchScrollStep: 30
+          });
+
+        });
+      }
+    };
+    if (this.state.isLoading) {
+      var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
+
+      var now = moment.utc();
+      var duration = moment.duration(now.diff(moment(savedResult.time)));
+
+      if (
+        duration.asMinutes() < 20
+        && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+        && savedResult.searchResult
+        && savedResult.searchResult.length
+      ) { //use cached result if params didn't change in 20 minutes
+        console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
+        updateState(savedResult);
+      } else {
+        $("#searchBanner").modal({
+          backdrop: 'static',
+          keyboard: false
+        });
+        console.log('server request used');
+
+        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(searchParams),
+          credentials: 'same-origin' // required for including auth headers
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            if (json.errorInfo) {
+              console.log(json.errorInfo);
+              updateState({
+                isLoading: false,
+                tiles: [],
+                searchResult: [],
+                errorInfo: json.errorInfo
+              });
+            } else {
+              sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+              json.time = moment();
+              sessionStorage.setItem('savedResult', JSON.stringify(json));
+              sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
+              updateState(json);
+            }
+          })
+          .catch((error) => {
+            updateState({
+              isLoading: false,
+              tiles: [],
+              searchResult: [],
+              errorInfo: {
+                type:'Error.Search.NoConnection',
+                messages: [
+                  "Your request cannot be processed",
+                  "at the moment due to technical problems.",
+                  "Please try again later"
+                ]
+              }
+            });
+            console.log(error);
+          });
+      }
+    }
+  },
+
   componentWillMount: function () {
+    ActionsStore.updateNavBarPage('result');
+
     ActionsStore.updateTiles = (filter) => {
 
       var tileId = filter.id.replace(/(tile).+/, '$1');
@@ -228,8 +352,9 @@ var ResultPage = React.createClass({
         filter.count = count;
       });
     });
-    this.setState({tiles: tiles});
-    scrollAirlines();
+    this.setState({tiles: tiles}, function () {
+      scrollAirlines();
+    });
   },
 
   resetResultVisibility: function() {
@@ -275,34 +400,26 @@ var ResultPage = React.createClass({
     });
     this.setState({searchResultLength: count});
   },
-  getUser: function () {
-    return this.props.InitResultData.user;
-  },
+
   render: function() {
     return (
-      <div>
-        <NavBar page="result" user={this.getUser()} InitResultData={this.state}/>
-        {(this.props.InitResultData.searchResultLength
+      <div className="search-result">
+        {this.state.isLoading === true ? null :
+          (this.state.searchResultLength
             ? (<span>
-                 <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
+                 <Buckets
+                   tiles={this.state.tiles}
+                   filter={this.state.filter}
+                   searchResultLength={this.state.searchResultLength}
+                   currentSort={this.state.currentSort}
+                   max_filter_items={this.state.max_filter_items}
+                 />
                  <ResultList InitResultData={this.state} />
                </span>)
-            : <NotFound departure={this.props.InitResultData.departure} arrival={this.props.InitResultData.arrival} errorType={this.props.InitResultData.errorType} />
+            : <DisplayAlert errorInfo={this.state.errorInfo} />
         )}
-
+        <SearchBanner />
       </div>
     )
-  }
-});
-
-function renderResultPage(InitResultData) {
-  if ($('#resultpage').length) {
-    ReactContentRenderer.render(<ResultPage InitResultData = {InitResultData}/>, $('#resultpage'));
-  }
-}
-
-$(document).ready(function() {
-  if (typeof InitResultData != 'undefined') {
-    renderResultPage(InitResultData);
   }
 });

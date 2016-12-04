@@ -9,8 +9,9 @@ var UserProfilePanelAirlineSelect = React.createClass({
     this.setState({airlineName: this.props.elem_value});
   },
 
-  handleChange: function(incObj) {
+  handleChangeValue: function (incObj) {
     if (incObj) {
+      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
       this.setState({airlineName: incObj.value}); // Need to setup result value by self
     }
   },
@@ -21,6 +22,7 @@ var UserProfilePanelAirlineSelect = React.createClass({
     }
 
     return fetch('/ac/airlines?q='+input, {
+      method: 'POST',
       credentials: 'same-origin' // required for including auth headers
     })
       .then((response) => {
@@ -41,9 +43,9 @@ var UserProfilePanelAirlineSelect = React.createClass({
       name={this.props.elem_name} value={this.state.airlineName} className="form-control input-sm" placeholder="Airline Name"
       loadOptions={this.getSelectOptions}
       isLoading={true}
-      onChange={this.handleChange}
       clearable={false}
       cache={false}
+      onChange={this.handleChangeValue}
     />
   }
 

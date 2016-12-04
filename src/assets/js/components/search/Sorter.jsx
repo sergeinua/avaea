@@ -18,24 +18,29 @@ var Sorter = React.createClass({
         order: 'asc'
       }
     };
-    if (InitResultData.searchParams.returnDate) {
+    var searchParams = {};
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    }
+    if (searchParams.returnDate) {
       sortOptions.idepart = {
-        title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Departure',
+        title: searchParams.ArrivalLocationCode + ' ' + 'Departure',
         current: false,
         order: 'asc'
       };
       sortOptions.iarrival = {
-        title: InitResultData.searchParams.DepartureLocationCode + ' ' + 'Arrival',
+        title: searchParams.DepartureLocationCode + ' ' + 'Arrival',
         current: false,
         order: 'asc'
       };
       sortOptions.odepart = {
-        title: InitResultData.searchParams.DepartureLocationCode + ' ' + 'Departure',
+        title: searchParams.DepartureLocationCode + ' ' + 'Departure',
         current: false,
         order: 'asc'
       };
       sortOptions.oarrival = {
-        title: InitResultData.searchParams.ArrivalLocationCode + ' ' + 'Arrival',
+        title: searchParams.ArrivalLocationCode + ' ' + 'Arrival',
         current: false,
         order: 'asc'
       };

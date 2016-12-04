@@ -275,25 +275,26 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
     });
     response.on('end', function () {
       try {
-        bodyJson = x2j.toJson(body, {
+        var bodyJson = x2j.toJson(body, {
           object: true
         });
+        if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
+          throw api + " returned malformed result: " + body;
+        }
+        if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
+          throw err['faultstring'];
+        }
+        var apiRs = api;
+        if (api == 'PNRCreate') {
+          apiRs = 'PNRView';
+        }
+        if (lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][apiRs + 'RS'])) {
+          throw apiRs + 'RS does not exist';
+        }
+        return apiCb(null, bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][apiRs + 'RS'], body);
       } catch(err) {
         return apiCb(err, {}, body);
       }
-      if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
-        throw api+" returned malformed result: "+body;
-      }
-      if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
-        throw err['faultstring'];
-      }
-      if (api == 'PNRCreate') {
-        api = 'PNRView';
-      }
-      if (lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'])) {
-        throw api + 'RS does not exist';
-      }
-      return apiCb(null, bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:XXTransactionResponse']['RSP'][api + 'RS'], body);
     });
   });
 

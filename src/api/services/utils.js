@@ -113,5 +113,12 @@ module.exports = {
       quarter = 1;
     }
     return quarter;
+  },
+
+  showError: function (error) {
+    return {
+      type: error,
+      messages: sails.__(error) || []
+    };
   }
 };

@@ -11,19 +11,28 @@ var cntWords = function (val) {
 };
 
 function loggerQuery(q, result) {
-  $.ajax({
-    url: '/voice/logger',
-    type: 'post',
-    data: {
+
+  fetch('/voice/logger', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
       q: q,
       result: result
-    },
-    dataType: 'json'
-  }).done(function( msg ) {
-    if( !msg.success ) {
-      log("Result of logger query: " + JSON.stringify(msg));
-    }
-  });
+    }),
+    credentials: 'same-origin' // required for including auth headers
+  })
+    .then((response) => response.json())
+    .then((msg) => {
+      if( !msg.success ) {
+        console.error("Result of logger query: " + JSON.stringify(msg));
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 
@@ -150,6 +159,7 @@ var VoiceForm = React.createClass({
       recognition.stop();
     }
     this.demo(function(res, data) {
+      ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
     });
@@ -162,20 +172,24 @@ var VoiceForm = React.createClass({
    */
   demo: function (callback) {
 
-    $.ajax({
-      url: '/voice/parse',
-      type: 'get',
-      data: {q: this.state.voiceSearchValue},
-      dataType: 'json'
-    }).done(function( result ) {
-
-      var _airportsKeys = {origin_airport: 'originAirport', return_airport: 'destinationAirport'};
+    fetch('/voice/parse', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({q: this.state.voiceSearchValue}),
+      credentials: 'same-origin' // required for including auth headers
+    })
+    .then((response) => response.json())
+    .then((result) => {
+      var _airportsKeys = {origin_airport: 'DepartureLocationCode', return_airport: 'ArrivalLocationCode'};
       var _airportsPromises = [], _airportsPromisesKeys = [];
 
       result.origin_date = result.origin_date ? new Date(result.origin_date) : false;
       result.return_date = result.return_date ? new Date(result.return_date) : false;
 
-      for(var _k in _airportsKeys) {
+      for (var _k in _airportsKeys) {
         // reset airport {{{
         setAirportData(_airportsKeys[_k], {value: '', city: ''});
         // }}} reset airport
@@ -183,7 +197,7 @@ var VoiceForm = React.createClass({
           _airportsPromisesKeys.push(_k);
           _airportsPromises.push($.ajax({
             url: '/ac/airports',
-            type: 'get',
+            type: 'POST',
             data: {q: $.trim(result[_k]), l: 1},
             dataType: 'json'
           }));
@@ -220,7 +234,7 @@ var VoiceForm = React.createClass({
               _day = result.origin_date.getDate();
             if (_month < 10) _month = '0' + _month;
             if (_day < 10) _day = '0' + _day;
-            $('#departureDate').data('date', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+            ActionsStore.setFormValue('departureDate', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
             // picker.date(result.origin_date);
             leaving = result.origin_date.toDateString();
             // we can't set return date on search form without origin date
@@ -229,7 +243,7 @@ var VoiceForm = React.createClass({
                 _day = result.return_date.getDate();
               if (_month < 10) _month = '0' + _month;
               if (_day < 10) _day = '0' + _day;
-              $('#returnDate').data('date', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+              ActionsStore.setFormValue('returnDate', result.return_date.getFullYear() + '-' + _month + '-' + _day);
               // picker.date(result.return_date);
               returning = result.return_date.toDateString();
             } else if (result.type == 'round_trip') {
@@ -239,11 +253,11 @@ var VoiceForm = React.createClass({
           }
           if (result.origin_date) {
             var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
-            $('#departureDate').val(origin_date.format('YYYY-MM-DD') || '');
+            ActionsStore.setFormValue('departureDate', origin_date.format('YYYY-MM-DD') || '');
           }
           if (result.return_date) {
             var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
-            $('#returnDate').val(return_date.format('YYYY-MM-DD') || '');
+            ActionsStore.setFormValue('returnDate', return_date.format('YYYY-MM-DD') || '');
           }
           //
           // if (leaving) {
@@ -259,32 +273,35 @@ var VoiceForm = React.createClass({
         } else {
           result.number_of_tickets = 1;
         }
-        $('#passengers').val(result.number_of_tickets);
+        ActionsStore.setFormValue('passengers', result.number_of_tickets);
 
         if( !result.class_of_service ) {
           result.class_of_service = 'E';
         }
 
         if (serviceClass && serviceClass[result.class_of_service]) {
-          $('#preferedClass').val(result.class_of_service);
+          ActionsStore.setFormValue('CabinClass', result.class_of_service);
         }
-        ActionsStore.updateFormValues();
-        ActionsStore.changeForm(result.type);
+        // ActionsStore.updateFormValues();
 
-        $('#voiceSearchQuery').val(JSON.stringify(result));
+        ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
         switch (result.action) {
           case 'top':
-            $('#topSearchOnly').val(1);
+            ActionsStore.setFormValue('topSearchOnly', 1);
           case 'all':
-            $('#search_form').submit();
+            ActionsStore.setFormValue('flightType', result.type);
+            ActionsStore.submitForm();
             break;
         }
+        ActionsStore.changeForm(result.type);
 
         return callback(true, result);
       }).fail(function(){
         return callback(false, result);
       });
-    }).fail(function (err) {
+    })
+    .catch((error) => {
+      console.log(error);
       return callback(false, result);
     });
   },

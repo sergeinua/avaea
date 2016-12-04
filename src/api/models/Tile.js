@@ -567,10 +567,17 @@ module.exports = {
         }
       }
     } else {
-      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+          if (false) {
+            sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+            cicstanford.compute_departure_times_in_minutes(itineraries);
+            cicstanford.determine_airline(itineraries);
+            var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+          } else {
+            cicstanford.compute_departure_times_in_minutes(itineraries);
+            cicstanford.determine_airline(itineraries);
+            sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
+            var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+          }
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
@@ -587,8 +594,9 @@ module.exports = {
       }
     }
     //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+    if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
       sails.log.info('params.topSearchOnly', params.topSearchOnly);
+      itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
       var tmp = [];
       for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
         tmp.push(itineraries[i]);
@@ -597,7 +605,7 @@ module.exports = {
       itineraries = tmp;
       sails.log.info('after DEMO-285', itineraries.length);
     }
-    //cicstanford.print_many_itineraries(itineraries);
+
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
@@ -737,7 +745,7 @@ module.exports = {
 
       sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
-      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+      if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
         orderBy = 'smart';
       } else {
         orderBy = 'price_tile';

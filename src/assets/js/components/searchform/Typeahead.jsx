@@ -9,7 +9,7 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
   return function (q, cb) {
     $.ajax({
       url: '/'+controllerName+'/'+actionName,
-      type: 'get',
+      type: 'POST',
       data: {q: q},
       dataType: 'json',
       async: false // required, because typehead doesn't work with ajax in async mode
@@ -24,9 +24,8 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
 };
 
 var setAirportData = function(target, data) {
-  //FIXME get rid from jquery
-  $('#' + target).val(data.value);
-  $('#'+target+'City').val(data.city);
+  ActionsStore.setFormValue(target, data.value);
+  ActionsStore.setFormValue(target + 'City', data.city);
 };
 
 var Typeahead = React.createClass({
@@ -54,13 +53,15 @@ var Typeahead = React.createClass({
       }
     }).on('typeahead:selected', function (obj, datum) {
       setAirportData(target, datum);
-      ActionsStore.changeForm($('#search_form').data('flight-type') || 'round_trip');
+      var searchParams = ActionsStore.getSearchParams();
+
+      ActionsStore.changeForm(searchParams.flightType || 'round_trip');
       ActionsStore.updateFormValues();
     });
 
-    // if (this.props.target) {
-      // $('#airport-input').attr('target', this.props.target);
-      var val = $('#' + this.props.target).val();
+      var searchParams = ActionsStore.getSearchParams();
+
+      var val = searchParams[this.props.target] || '';
       $('#airport-input').focus();
       $('#airport-input').val(val);
       $('#airport-input').typeahead('val', val);

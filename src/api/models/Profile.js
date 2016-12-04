@@ -6,6 +6,45 @@
 */
 
 var qpromice = require('q');
+var _ = require('lodash');
+
+// Config for fields checking and future validation
+var confFields = {
+  personal_info: {
+    first_name: "",
+    middle_name: "",
+    last_name: "",
+    gender: "",
+    birthday: "",
+    pax_type: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      country_code: "",
+      zip_code: ""
+    },
+  },
+  notify_contact: {
+    name: "",
+    phone: ""
+  },
+  preferred_airlines: {
+    travel_type: "",
+    airline_name: ""
+  },
+  miles_programs: {
+    airline_name: "",
+    account_number: "",
+    expiration_date: "",
+    flier_miles: ""
+  },
+  lounge_membership: {
+    airline_name: "",
+    membership_number: "",
+    expiration_date: ""
+  }
+};
 
 module.exports = {
 
@@ -23,11 +62,6 @@ module.exports = {
   attr_gender: {
     M: "Male",
     F: "Female"
-  },
-  attr_pax_type : {
-    ADT: "Adult",
-    CHD: "Child",
-    INF: "Infant"
   },
 
   attr_travel_type: {
@@ -64,70 +98,72 @@ module.exports = {
 
           if (!error) {
 
-            var jsonStruct = {}, storedShowTiles;
-            storedShowTiles = found ? found.personal_info.show_tiles : true;
-            jsonStruct.user = found ? found.user : user;
-
-            jsonStruct.personal_info = {
-              first_name: form['first_name'],
-              middle_name: form['middle_name'],
-              last_name: form['last_name'],
-              gender: form['gender'],
-              birthday: form['birthday'],
-              pax_type: form['pax_type'],
-              address: {
-                street: form['street'],
-                city: form['city'],
-                state: form['state'],
-                country_code: form['country_code'],
-                zip_code: form['zip_code']
-              },
-              show_tiles: storedShowTiles
-            };
-
-            jsonStruct.notify_contact = {
-              name: form['notify_contact.name'],
-              phone: form['notify_contact.phone']
-            };
+            // Result skeleton
+            var jsonStruct = _.cloneDeep(confFields);
+            jsonStruct.preferred_airlines = [];
             jsonStruct.miles_programs = [];
             jsonStruct.lounge_membership = [];
-            jsonStruct.preferred_airlines = [];
+            jsonStruct.user = found ? found.user : user.id;
 
-            if (form['miles_programs.airline_name']) {
-              for (var i = 0; i < form['miles_programs.airline_name'].length; i++) {
-                jsonStruct.miles_programs.push({
-                  airline_name: form['miles_programs.airline_name'][i],
-                  account_number: form['miles_programs.account_number'][i],
-                  flier_miles: form['miles_programs.flier_miles'][i],
-                  expiration_date: form['miles_programs.expiration_date'][i]
-                });
+            // Parse personal info panel
+            if (_.isArray(form.personal)) {
+              for (var ii=0; ii < form.personal.length; ii++) {
+                if (typeof form.personal[ii].id != 'string') {
+                  continue;
+                }
+                var field = form.personal[ii].id.split('.');
+
+                // root field
+                if (!_.isObjectLike(confFields[field[0]])) {
+                  continue;
+                }
+
+                if (_.isObjectLike(confFields[field[0]][field[1]])) {
+                  if (typeof confFields[field[0]][field[1]][field[2]] != 'undefined' && form.personal[ii].data) {
+                    jsonStruct[field[0]][field[1]][field[2]] = form.personal[ii].data;
+                  }
+                }
+                else if (typeof confFields[field[0]][field[1]] != 'undefined' && form.personal[ii].data) {
+                  jsonStruct[field[0]][field[1]] = form.personal[ii].data;
+                }
               }
-            } else {
-              sails.log.warn('Got miles_programs.airline_name with type=' + (typeof form['miles_programs.airline_name']));
             }
-
-            if (form['lounge_membership.airline_name']) {
-              for (var i = 0; i < form['lounge_membership.airline_name'].length; i++) {
-                jsonStruct.lounge_membership.push({
-                  airline_name: form['lounge_membership.airline_name'][i],
-                  membership_number: form['lounge_membership.membership_number'][i],
-                  expiration_date: form['lounge_membership.expiration_date'][i]
-                });
-              }
-            } else {
-              sails.log.warn('Got lounge_membership.airline_name with type=' + (typeof form['lounge_membership.airline_name']));
+            // Calculate some personal fields
+            if (jsonStruct.personal_info.birthday) {
+              var years = sails.moment().diff(jsonStruct.personal_info.birthday, 'years');
+              jsonStruct.personal_info.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
             }
+            jsonStruct.personal_info.show_tiles = (found && found.personal_info) ? Boolean(found.personal_info.show_tiles) : true;
 
-            if (form['preferred_airlines.travel_type'] && form['preferred_airlines.airline_name']) {
-              for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
-                jsonStruct.preferred_airlines.push({
-                  travel_type: form['preferred_airlines.travel_type'][i],
-                  airline_name: form['preferred_airlines.airline_name'][i]
-                });
+            // Parse airlines programs panel
+            if (_.isArray(form.programs)) {
+              for (var ii=0; ii < form.programs.length; ii++) {
+
+                // root field
+                var root_field_name = form.programs[ii].id;
+                if (!_.isObjectLike(confFields[root_field_name])) {
+                  continue;
+                }
+                if (!_.isArray(form.programs[ii].data)) {
+                  continue;
+                }
+
+                for (var jj=0; jj < form.programs[ii].data.length; jj++) {
+                  if (!_.isObjectLike(form.programs[ii].data[jj])) {
+                    continue;
+                  }
+                  jsonStruct[root_field_name][jj] = _.cloneDeep(confFields[root_field_name]);
+
+                  for (var prop in form.programs[ii].data[jj]) {
+                    if (!form.programs[ii].data[jj].hasOwnProperty(prop)) {
+                      continue;
+                    }
+                    if (typeof confFields[root_field_name][prop] != 'undefined' && form.programs[ii].data[jj][prop]) {
+                      jsonStruct[root_field_name][jj][prop] = form.programs[ii].data[jj][prop];
+                    }
+                  }
+                }
               }
-            } else {
-              sails.log.warn('Got preferred_airlines.travel_type with type=' + (typeof form['preferred_airlines.travel_type']) +
-                '; preferred_airlines.airline_name type=' + (typeof form['preferred_airlines.airline_name']));
             }
 
             return _cb(jsonStruct);

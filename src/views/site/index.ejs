@@ -1,0 +1,11 @@
+<script>
+  var InitData = {
+    <% if (user) { %>
+    user: {email:"<%= user.email %>", id: <%= user.id %>},
+    <% } %>
+    page: "<%= page %>",
+    defaultSearch: <%- JSON.stringify(defaultSearch) %>
+  };
+  var serviceClass = <%- JSON.stringify(serviceClass) %>;
+</script>
+<div id="spa-app"></div>

@@ -17,100 +17,6 @@ var util = require('util');
 module.exports = {
 
   /**
-   * `SearchController.index()`
-   */
-  index: function (req, res) {
-
-    if (_.isEmpty(req.session)) {
-      req.session = {};
-    }
-    var tmpDefaultDepDate = sails.moment().add(2, 'w');
-    var tmpDefaultRetDate = sails.moment().add(4, 'w');
-    var nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
-
-    if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
-      tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
-    } else {
-      tmpDefaultDepDate = sails.moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
-    }
-
-    var params = {
-      DepartureLocationCode: _.isEmpty(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
-      ArrivalLocationCode: _.isEmpty(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
-      CabinClass: _.isEmpty(req.session.CabinClass) ? '' : req.session.CabinClass,
-      departureDate: _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
-      returnDate: _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers: _.isEmpty(req.session.passengers) ? '' : req.session.passengers,
-      flightType: _.isEmpty(req.session.flightType) ? '' : req.session.flightType
-    };
-    var error;
-    if (!_.isEmpty(req.session.flash)) {
-      error = [req.session.flash];
-      req.session.flash = '';
-    }
-
-    if (!_.isEmpty(req.session.tiles)) {
-      sails.log.info('New Default tile prediction set');
-      Tile.setTiles(null);
-      req.session.tiles = null;
-    }
-
-    // Fetch City names by location codes and put to the template
-    async.parallel({
-        depart_city: function(callback) {
-          if (_.isEmpty(params.DepartureLocationCode)) {
-            return callback(null, '');
-          }
-
-          Airports.findOne({iata_3code: params.DepartureLocationCode})
-            .exec(function (err, result) {
-              if (err) {
-                return callback(err);
-              }
-
-              callback(null, result);
-            });
-        },
-        arriv_city: function(callback) {
-          if (_.isEmpty(params.ArrivalLocationCode)) {
-            return callback(null, '');
-          }
-
-          Airports.findOne({iata_3code: params.ArrivalLocationCode})
-            .exec(function (err, result) {
-              if (err) {
-                return callback(err);
-              }
-
-              callback(null, result);
-            });
-        }
-      },
-      // Final callback
-      function(err, results) {
-        if (!err) {
-          params.departCity = results.depart_city.city;
-          params.arrivCity = results.arriv_city.city;
-        }
-
-        return res.ok(
-          {
-            title         : 'Search for flights',
-            user          : req.user,
-            defaultParams : params,
-            serviceClass  : Search.serviceClass,
-            errors        : error,
-            head_title    : 'Search for flights with Avaea Agent'
-          },
-          'search/index'
-        );
-      }
-    );
-  },
-
-  /**
    * `SearchController.result()`
    */
   result: function (req, res) {
@@ -121,10 +27,7 @@ module.exports = {
       try {
         res.locals.searchId = req.param('s');
         var atob = require('atob');
-        var savedParamsTmp = JSON.parse(atob(req.param('s')));
-        _.forEach(savedParamsTmp, function (param) {
-          savedParams[param.name] = param.value.trim().toUpperCase();
-        });
+        savedParams = JSON.parse(atob(req.param('s')));
       } catch (e) {
         sails.log.info('Unable restore search parameters from encoded string');
       }
@@ -134,14 +37,14 @@ module.exports = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: !_.isEmpty(savedParams.originAirport)?savedParams.originAirport:req.param('originAirport').trim().toUpperCase(),
-          ArrivalLocationCode: !_.isEmpty(savedParams.destinationAirport)?savedParams.destinationAirport:req.param('destinationAirport').trim().toUpperCase(),
-          CabinClass: !_.isEmpty(savedParams.preferedClass)?savedParams.preferedClass:req.param('preferedClass').toUpperCase(),
-          passengers: !_.isEmpty(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
-          topSearchOnly: !_.isEmpty(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
-          flightType: !_.isEmpty(savedParams.flightType)?savedParams.flightType:req.param('passengers', 'round_trip').trim().toLowerCase(),
+          DepartureLocationCode: !_.isUndefined(savedParams.DepartureLocationCode)?savedParams.DepartureLocationCode:req.param('DepartureLocationCode').trim().toUpperCase(),
+          ArrivalLocationCode: !_.isUndefined(savedParams.ArrivalLocationCode)?savedParams.ArrivalLocationCode:req.param('ArrivalLocationCode').trim().toUpperCase(),
+          CabinClass: !_.isUndefined(savedParams.CabinClass)?savedParams.CabinClass:req.param('CabinClass').toUpperCase(),
+          passengers: !_.isUndefined(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
+          topSearchOnly: !_.isUndefined(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
+          flightType: !_.isUndefined(savedParams.flightType)?savedParams.flightType:req.param('flightType', 'round_trip').trim().toLowerCase(),
           returnDate: '',
-          voiceSearchQuery: voiceSearchQuery ? JSON.parse(voiceSearchQuery) : ''
+          voiceSearchQuery: (voiceSearchQuery && _.isObject(voiceSearchQuery)) ? JSON.parse(voiceSearchQuery) : ''
         }
       },
       depDate = new Date();
@@ -166,9 +69,14 @@ module.exports = {
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
     }
+    var validationError = Search.validateSearchParams(params.searchParams);
+    if ( validationError ) {
+      return res.ok({
+        errorInfo: utils.showError(validationError)
+      }, 'search/result');
+    }
     segmentio.track(req.user.id, 'Keyboard Search', {Search: params});
 
-    // title = params.searchParams.DepartureLocationCode +' '+(params.searchParams.returnDate?'&#8644;':'&rarr;')+' '+ params.searchParams.ArrivalLocationCode;
     title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
     iPrediction.getUserRank(req.user.id, params.searchParams);
 
@@ -221,6 +129,8 @@ module.exports = {
     // Remember as previous user request for search/index view
     req.session.DepartureLocationCode = params.searchParams.DepartureLocationCode;
     req.session.ArrivalLocationCode = params.searchParams.ArrivalLocationCode;
+    req.session.DepartureLocationCodeCity = params.searchParams.DepartureLocationCodeCity;
+    req.session.ArrivalLocationCodeCity = params.searchParams.ArrivalLocationCodeCity;
     req.session.CabinClass = params.searchParams.CabinClass;
     req.session.passengers = params.searchParams.passengers;
     req.session.flightType = params.searchParams.flightType;
@@ -285,7 +195,7 @@ module.exports = {
           }
           var algorithm = sails.config.globals.bucketizationFunction;
 
-          if (_.isEmpty(algorithm) || typeof Tile[algorithm] != 'function') {
+          if (!_.isString(algorithm) || typeof Tile[algorithm] != 'function') {
             algorithm = 'getTilesData';
           }
 
@@ -345,7 +255,7 @@ module.exports = {
         var errType = '';
         // Parse error and define error type
         if (typeof itinerariesData.error == 'string') {
-          errType = '_system'; // as default
+          errType = 'Error.Search.Generic'; // as default
           var no_flights_codes = [2002, 9999];
           var no_flights_errors = [
             'No Results Found',
@@ -354,10 +264,10 @@ module.exports = {
 
           if (itinerariesData.error.match(new RegExp('\\(('+ no_flights_codes.join('|') +')\\)')) ||
             itinerariesData.error.match(new RegExp('('+ no_flights_errors.join('|') +')','gi'))) {
-            errType = 'no_flights';
+            errType = 'Error.Search.NoFlights';
           }
         } else if (itineraries && itineraries.length == 0) {
-          errType = 'no_flights';
+          errType = 'Error.Search.NoFlights';
         }
 
         return res.ok({
@@ -376,16 +286,8 @@ module.exports = {
             flightType: params.searchParams.flightType
           },
           searchResult: itineraries,
-          timelog: req.session.time_log.join('<br/>'),
-          head_title: 'Flights from '
-          + params.searchParams.DepartureLocationCode
-          + ' to ' + params.searchParams.ArrivalLocationCode
-          + sails.moment(depDate).format(" on DD MMM 'YY")
-          + (retDate ? ' and back on ' + sails.moment(retDate).format("DD MMM 'YY") : ''),
           iconSpriteMap: result.iconSpriteMap,
-          departure: result.departure,
-          arrival: result.arrival,
-          errorType: errType
+          errorInfo: errType?utils.showError(errType):false
         }, 'search/result');
       });
     });
