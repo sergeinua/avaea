@@ -19,7 +19,7 @@ module.exports = {
     host: '127.0.0.1',
     user: 'avaea',
     password: 'avaea',
-    database: 'avaea_db',
+    database: 'avaea',
     port: 5432
   },
 flightapis: {
