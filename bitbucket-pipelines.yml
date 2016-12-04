@@ -15,7 +15,8 @@ pipelines:
               - apt-get -y install net-tools
               - /etc/init.d/postgresql start
               - apt-get install --reinstall sudo
-              - sudo -u postgres sh -c 'createuser avaea & createdb avaea_db & createdb avaea' 
+              - sudo -u postgres sh -c 'createuser avaea & createdb avaea_db'
+              - sudo -u postgres sh -c 'createdb avaea'
               - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
               - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea_db to avaea;"
               - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea to avaea;"
