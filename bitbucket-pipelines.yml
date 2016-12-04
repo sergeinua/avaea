@@ -12,6 +12,7 @@ pipelines:
             # - npm install
             - pwd
             - ping -c 3 kernel.org
+            - ps aux
             #- netstat -anp
             #- /sbin/ifconfig
             - df -h
