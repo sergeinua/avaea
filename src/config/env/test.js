@@ -7,8 +7,8 @@ module.exports = {
   },
 
 
-  port: 80,
-  explicitHost: 'localhost',
+//  port: 80,
+//  explicitHost: 'localhost',
 
   log: {
     level: 'verbose',
