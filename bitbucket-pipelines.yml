@@ -9,20 +9,20 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-            - apt update
-            - apt-get -y install net-tools
-            - /etc/init.d/postgresql start
-            - sudo -u postgres sh -c 'createuser root & createdb testdb' # creating a root user 
-            - sudo -u postgres psql -c "ALTER USER root PASSWORD 'password';" # setting up the root password
-            - npm install pg
+            #- apt update
+            #- apt-get -y install net-tools
+            #- /etc/init.d/postgresql start
+            #- sudo -u postgres sh -c 'createuser root & createdb testdb' # creating a root user 
+            #- sudo -u postgres psql -c "ALTER USER root PASSWORD 'password';" # setting up the root password
+            #- npm install pg
             #- cd src
             #- pwd
             #- ping -c 3 kernel.org
             #- ps aux
             #- node -v
             #- psql -V
-            - netstat -anp
-            - /sbin/ifconfig
+            #- netstat -anp
+            #- /sbin/ifconfig
             #- df -h
             #  - npm install
             # - make test-unit
