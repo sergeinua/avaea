@@ -11,8 +11,8 @@ pipelines:
           script:
               - node -v
               - apt update
-              - sudo apt-get -y install postgresql postgresql-contrib
-#             - apt-get -y install net-tools
+              - apt-get -y install postgresql postgresql-contrib
+              - apt-get -y install net-tools
               - /etc/init.d/postgresql start
               - sudo -u postgres sh -c 'createuser avaea & createdb avaea_db' # creating a root user 
               - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" # setting up the root password
