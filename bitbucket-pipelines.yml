@@ -22,7 +22,7 @@ pipelines:
               - npm install pg
               - cd src
               - npm install
-              - ./node_modules/sails/bin/sails.js lift --verbose &
+#              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
 #             - pwd
