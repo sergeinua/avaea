@@ -14,8 +14,8 @@ pipelines:
             #- pwd
             #- ping -c 3 kernel.org
             #- ps aux
-            node -v
-            psql -V
+            - node -v
+            - psql -V
             #- netstat -anp
             #- /sbin/ifconfig
             #- df -h
