@@ -16,6 +16,8 @@ pipelines:
              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" # setting up the root password
              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea_db to avaea;" 
              - npm install pg
+             - cd src
+             - ls -la
 #             - iptable-save
 #             - PGPASSWORD=
 #             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
