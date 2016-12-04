@@ -9,6 +9,9 @@ pipelines:
       - step:
           script:
             - pwd
-            - cd src
-            - npm install
-            - make test-unit
+            - ifconfig
+            - ping kernel.org
+            - netstat -anp
+          #  - cd src
+          #  - npm install
+          #  - make test-unit
