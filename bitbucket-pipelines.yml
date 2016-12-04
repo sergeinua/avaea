@@ -14,14 +14,14 @@ pipelines:
              - /etc/init.d/postgresql start
              - sudo -u postgres sh -c 'createuser avaea & createdb avaea_db' # creating a root user 
              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" # setting up the root password
-             - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea_db to avaea;" 
+             - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea_db to avaea;"
+             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
              - npm install pg
              - cd src
              - npm install
              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
-             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
 #             - pwd
 #              - cd src
 #              - npm install
