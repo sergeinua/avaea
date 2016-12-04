@@ -4,8 +4,7 @@ pipelines:
  default:
   - step:
      script:
-         echo default script
-     
+         echo default script  
  branches:
   DEMO-806*:
   - step:
