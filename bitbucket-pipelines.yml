@@ -9,11 +9,12 @@ pipelines:
       - step:
           script:
             - cd src
-            - npm install
+            # - npm install
             - pwd
             - ping -c 3 kernel.org
-            - netstat -anp
-            - /sbin/ifconfig
+            #- netstat -anp
+            #- /sbin/ifconfig
+            df -h
           
           #  - npm install
           #  - make test-unit
