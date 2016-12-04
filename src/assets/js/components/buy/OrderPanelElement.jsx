@@ -2,7 +2,7 @@
 const mapDispatchOrderElem = (dispatch) => {
   return {
     handleChangeValue: (event) => {
-      dispatch(actionSetFieldVal(event.target.name, event.target.value));
+      dispatch(actionSetOrderFieldVal(event.target.name, event.target.value));
     },
   }
 };

@@ -8,7 +8,7 @@ var FormElement = React.createClass({
 
         return <div>
           <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
-          <UserProfilePanelElementDropdown
+          <FormElementDropdownContainer
             panelType={this.props.panelType}
             item={this.props.item }
             profileStructure={this.props.profileStructure[this.props.item.id]}

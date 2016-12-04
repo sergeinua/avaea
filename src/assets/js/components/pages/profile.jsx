@@ -5,9 +5,7 @@ var ProfilePage = React.createClass({
 
   render: function () {
     return (
-      <ReactRedux.Provider store={clientStore}>
-        <UserProfileContainer />
-      </ReactRedux.Provider>
+      <UserProfileContainer />
     )
   }
 });

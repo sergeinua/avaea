@@ -240,10 +240,10 @@ const mapStateOrder = function(store) {
 const mapDispatchOrder = (dispatch) => {
   return {
     loadSuccess: (data) => {
-      dispatch(actionLoadSuccess(data))
+      dispatch(actionLoadOrderSuccess(data))
     },
     loadFailed: (data) => {
-      dispatch(actionLoadFailed(data))
+      dispatch(actionLoadOrderFailed(data))
     },
   }
 };
