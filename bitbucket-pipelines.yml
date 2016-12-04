@@ -20,7 +20,7 @@ pipelines:
 #             - PGPASSWORD=
 #             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
 #             - pwd
-              - cd src
+#              - cd src
               - npm install
               - ls
 #             - export NODE_ENV="staging"
