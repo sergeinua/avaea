@@ -16,7 +16,7 @@ pipelines:
             #- sudo -u postgres psql -c "ALTER USER root PASSWORD 'password';" # setting up the root password
             #- npm install pg
             #- cd src
-            #- pwd
+            - pwd
             #- ping -c 3 kernel.org
             #- ps aux
             #- node -v
