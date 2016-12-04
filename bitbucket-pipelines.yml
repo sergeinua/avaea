@@ -9,16 +9,15 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-            - cd src
-            - npm install
+            - apt-get -y install net-tools
+            #- cd src
             #- pwd
             #- ping -c 3 kernel.org
             #- ps aux
-            - node -v
-            - psql -V
-            #- netstat -anp
-            #- /sbin/ifconfig
+            #- node -v
+            #- psql -V
+            - netstat -anp
+            - /sbin/ifconfig
             #- df -h
-          
-          #  - npm install
-            - make test-unit
+            #  - npm install
+            # - make test-unit
