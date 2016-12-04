@@ -21,7 +21,7 @@ pipelines:
              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
-#             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
+             - sudo -u postgres sh -c 'psql -d avaea_db  < avaea.sql'
 #             - pwd
 #              - cd src
 #              - npm install
