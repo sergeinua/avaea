@@ -8,11 +8,12 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-            #- npm install
+            - cd src
+            - npm install
             - pwd
-            #- ping kernel.org
+            - ping -c 3 kernel.org
             - netstat -anp
             - /sbin/ifconfig
-          #  - cd src
+          
           #  - npm install
           #  - make test-unit
