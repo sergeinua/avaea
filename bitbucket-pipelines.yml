@@ -9,8 +9,8 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-            #- cd src
-            # - npm install
+            - cd src
+            - npm install
             #- pwd
             #- ping -c 3 kernel.org
             #- ps aux
@@ -21,4 +21,4 @@ pipelines:
             #- df -h
           
           #  - npm install
-          #  - make test-unit
+            - make test-unit
