@@ -25,6 +25,69 @@ module.exports = {
     F:'First'
   },
 
+  validateSearchParams: function (searchParams) {
+    var _Error = false;
+    var searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
+
+    var departureDate = searchParams.departureDate;
+    var moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
+    var returnDate = searchParams.returnDate;
+    var moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
+
+    var moment_now = sails.moment();
+    // Check depart date
+    if (moment_dp &&
+        (
+          moment_dp.isBefore(moment_now, 'day') ||
+          moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+        )
+    ) {
+      _Error = 'Error.Search.Validation.departureDate.MaxDays';
+    }
+
+    // Check return date
+    if (searchParams.flightType == 'round_trip') {
+      if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+        _Error = 'Error.Search.Validation.returnDate.MaxDays';
+      }
+    }
+
+    if (!searchParams.departureDate) {
+      _Error = 'Error.Search.Validation.departureDate.Empty';
+    }
+
+    // Check existence of the return date for the round trip
+    if (searchParams.flightType == 'round_trip') {
+      if (!searchParams.returnDate) {
+        _Error = 'Error.Search.Validation.returnDate.Empty';
+      }
+
+      if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
+        _Error = 'Error.Search.Validation.returnDate.Before';
+      }
+    }
+
+    // Check airports selection
+    if (!searchParams.DepartureLocationCode.trim()) {
+      _Error = 'Error.Search.Validation.DepartureLocationCode.Empty';
+    }
+    if (!searchParams.ArrivalLocationCode.trim()) {
+      _Error = 'Error.Search.Validation.ArrivalLocationCode.Empty';
+    }
+    if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
+      _Error = 'Error.Search.Validation.LocationCode.Same';
+    }
+
+    if (!searchParams.passengers) {
+      _Error = 'Error.Search.Validation.Passengers.Empty';
+    }
+
+    if (!searchParams.CabinClass || !Search.serviceClass[searchParams.CabinClass]) {
+      _Error = 'Error.Search.Validation.CabinClass.Empty';
+    }
+    return _Error;
+  },
+
   getCurrentSearchGuid: function () {
     var d = new Date().getTime();
     this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -62,27 +125,18 @@ module.exports = {
 
   getResult: function (params, callback) {
     var guid = this.getCurrentSearchGuid();
-    var done = false;
-    var errorResult = (error) => {
-      sails.log.error(error);
-      var result = [];
-
-      result.guid = guid;
-      result.priceRange = { minPrice: 0, maxPrice: 0 };
-      result.durationRange = { minPrice: 0, maxPrice: 0 };
-      return callback(error, result);
-    };
-    // if no data in DB and APIs doesn't respond over 30 sec then stop searching
-    setTimeout(() => {
-      if (!done) {
-        done = true;
-        return errorResult('APIs does not respond over 30s');
-      }
-    }, 30000);
 
     var errors = [];
     async.map(sails.config.flightapis.searchProvider, (provider, doneCb) => {
       utils.timeLog('search_' + provider);
+      var done = false;
+      setTimeout(() => {
+        if (!done) {
+          done = true;
+          errors.push(provider + ' API does not respond over 30s');
+          return doneCb(null, []);
+        }
+      }, 30000);
       // run async API search
       global[provider].flightSearch(guid, params, (err, result) => {
         sails.log.info(provider + ' search finished!');
@@ -90,7 +144,10 @@ module.exports = {
           errors.push(err);
           result = [];
         }
-        return doneCb(null, result);
+        if (!done) {
+          done = true;
+          return doneCb(null, result);
+        }
       });
     }, (err, results) => {
       if (errors.length) {
@@ -151,39 +208,22 @@ module.exports = {
         };
         row.params = params;
 
-        if (!done) {
-          done = true;
-          sails.log.info('Get search data from API');
+        sails.log.info('Get search data from API');
 
-          this.cache(guid, row);
+        this.cache(guid, row);
 
-          resArr.guid = guid;
-          return callback(null, resArr);
-        }
+        resArr.guid = guid;
+        return callback(null, resArr);
       } else {
-        if (!done) {
-          done = true;
-          return errorResult(err);
-        } else {
-          sails.log.error(err);
-        }
+        sails.log.error(err);
+        var result = [];
+
+        result.guid = guid;
+        result.priceRange = { minPrice: 0, maxPrice: 0 };
+        result.durationRange = { minPrice: 0, maxPrice: 0 };
+        return callback(err, result);
       }
     });
-  },
-
-  saveResult: function (data) {
-    utils.timeLog('raw_db_save');
-    this.query(
-      'UPDATE ' + this.tableName + ' SET params = $1, result = $2 WHERE id = $3',
-      [data.params, data.result, data.id],
-      function(err) {
-        if (err) {
-          sails.log.error(err);
-        } else {
-          sails.log.info('store API search data in DB (raw query) time: %s', utils.timeLogGetHr('raw_db_save'));
-        }
-      }
-    );
   },
 
   getStatistics: function (itineraries) {

@@ -1,7 +1,6 @@
 /* global $ */
 
 var maxBucketVisibleFilters = 4; // amount visible filter-items per tile bucket
-var filterItemHeight = 31.25; // pixels
 var bucketFilterItemHeigh = 34; // pixes
 var bucketAirlineScrollPos = 0;
 var heightNav = 0;
@@ -12,7 +11,9 @@ var heightNav = 0;
  * @returns {$}
  */
 $.fn.scrollTo = function(elem) {
-  if (!$(elem).offset()) return;
+  if (!$(elem).offset()) {
+    return this;
+  }
   $(this).slimScroll({scrollTo: $(this).scrollTop() - $(this).offset().top + $(elem).offset().top});
   return this;
 };
@@ -55,62 +56,6 @@ var swiper;
 
 $(document).ready(function() {
 
-  // result page init
-  {
-    // if ($('.flight-info').length) {
-    //   $('button', '#main_title').prependTo('.flight-info');
-    //   $('#main_title > div.navbar-header').replaceWith($('.flight-info'));
-    //   $('.flight-info').removeClass('hide').wrap('<div class="navbar-header"/>');
-    //   // horrible!!!! Deborah fix this later
-    // }
-
-    var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
-    if (max_filter_items > maxBucketVisibleFilters || max_filter_items == 0) {
-      max_filter_items = maxBucketVisibleFilters;
-    }
-    $('.list-group').slimScroll({
-      height: parseInt(max_filter_items * filterItemHeight) +'px',
-      touchScrollStep: 30
-    });
-  }
-  /* ------------- LOGIC FOR THE DIMMER ------------------
-   1) don't show the dimmer if user already saw it
-   2) don't show the dimmer if results are fewer than 10
-   user should only see dimmer on first ever load of results that are > 10
-   ----------------------------------------------------- */
-
-  var displayDimmer = function () {
-
-    // get the cookie, was dimmer shown?
-    var showDimmer = getCookie('dimmer_was_showed');
-
-    if (showDimmer !=="true") {
-
-      // dimmer was not already shown
-      // check if search results are < 10
-      if (typeof GlobalSearchResultCount != 'undefined' && GlobalSearchResultCount < 10) {
-
-        // there were < 10 results, not enough to show the dimmer
-        $('.dimmer').attr('style', 'display: none;');
-
-      } else {
-
-        // there were > 10 results, so show it's ok to show the dimmer,
-        // on click anywhere, remove it and set the cookie to "dimmer was shown"
-        $('.dimmer').attr('style', 'display: inline-block;');
-        $('body').click(function(){
-          // user saw it so don't show it again for about 20 years
-          setCookie('dimmer_was_showed', "true", 10000);
-          $('.dimmer').attr('style', 'display: none;');
-        });
-      }
-
-    } else {
-      // dimmer shown was true
-    }
-  };
-  displayDimmer();
-
   //tiles
 
   var numberOfTiles = $('.mybucket').length;
@@ -120,44 +65,9 @@ $(document).ready(function() {
     bucketAirlineScrollPos = $(this).scrollTop();
   });
 
-    // correctly initialize the swiper for desktop vs. touch
-    function isTouchDevice(){
-      return typeof window.ontouchstart !== 'undefined';
-    }
-
-    if (!uaMobile) {
-      // is desktop
-      swiper = new Swiper('.swiper-container', {
-        freeMode: true,
-        slidesPerView: '5.5'
-      });
-
-    } else {
-      // is touch
-      swiper = new Swiper('.swiper-container', {
-        freeMode: true,
-        slidesPerView: 'auto'
-      });
-    }
-
-
-  if ($(".swiper-container").length) {
-       $(".swiper-container").hammer();
-       $(".swiper-container").data('hammer').get('swipe').set({direction: Hammer.DIRECTION_VERTICAL});
-       $(".swiper-container").bind("swipeup", function (e) {
-         ActionsStore.toggleFullInfo(false);
-       }).bind("swipedown", function (e) {
-         ActionsStore.toggleFullInfo(true);
-       });
-  }
-
-
   var initScroll = 0;
   var scrollStarted = false;
   $('#searchResultData').scroll(function() {
-    if ($(this).scrollTop() == 0 ) {
-      ActionsStore.toggleFullInfo(true);
-    }
     if (!scrollStarted) {
       initScroll = $(this).scrollTop();
       scrollStarted = true;
@@ -166,14 +76,8 @@ $(document).ready(function() {
 
     // Collapse
     if ( ($(this).scrollTop() - initScroll) >= 50 ) {
-      ActionsStore.toggleFullInfo(false);
       scrollStarted = false;
     }
-  });
-
-
-  $('.result-search-info-bar').click(function (event) {
-    location.href = '/search';
   });
 
   //------------ IE have to FORCE Bootstrap menu to open ----------

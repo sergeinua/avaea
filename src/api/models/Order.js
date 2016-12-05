@@ -18,6 +18,13 @@ var Order = {
     },
   },
 
+  CardType: {
+    VI : 'VISA',
+    CA : 'Master Card',
+    AX : 'American Express',
+    DS : 'Discover'
+  },
+
   getById: function (id) {
     return {
       originAirport: 'SGN',

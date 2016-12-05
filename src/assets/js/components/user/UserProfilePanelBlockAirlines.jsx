@@ -33,7 +33,7 @@ var UserProfilePanelBlockAirlines = React.createClass({
       <div className="panel-body">
         {
           this.state.item.data.map(function(item, index) {
-            var pseudoItem = {id: 'preferred_airlines.travel_type[]', data: item.travel_type};
+            var pseudoItem = {id: 'travel_type', data: item.travel_type};
 
             return <div id="preferred_airlines" data-fieldset-name="preferred_airlines" key={'preferred_airlines' + item.airline_name + index}>
               <hr className={index == 0 ? "hidden" : ""} />
@@ -41,10 +41,21 @@ var UserProfilePanelBlockAirlines = React.createClass({
               <label>Preferred Airlines type</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                      data-fieldset="preferred_airlines" onClick={self.props.onRemoveFieldset} >remove</span>
-              <UserProfilePanelElementDropdown item={pseudoItem} profileStructure={self.props.programsStructure.travel_type}/>
+              <FormElementDropdownContainer
+                panelType="programs"
+                item={pseudoItem}
+                profileStructure={self.props.programsStructure.travel_type}
+                blockNum={self.props.blockNum}
+                elemNum={index}
+              />
 
               <label>Airline Name</label>
-              <UserProfilePanelAirlineSelect elem_name={"preferred_airlines.airline_name["+index+"]"} elem_value={item.airline_name}/>
+              <UserProfilePanelAirlineSelect
+                elem_name={"preferred_airlines.airline_name["+index+"]"}
+                elem_value={item.airline_name}
+                blockNum={self.props.blockNum}
+                elemNum={index}
+              />
 
             </div>
 

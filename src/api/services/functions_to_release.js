@@ -440,14 +440,14 @@ module.exports = {
 
         return itins.filter( function(it){return(+it.price<=shortest_price)} )             // only keep the ones with +price <= shortest_price
                     .filter( function(it){return(it.durationMinutes<=cheapest_duration)} ) // only keep the ones with duration <= cheapest_duration
-                    .sort(this.compare_in_2D_first_by_price_then_by_duration)                   // sort by price and than by duration
-                    .filter(this.is_shorter_but_more_expensive_than_previous)                   // only keep the ones that are shorter and more expensive than the previous kept one
+                    .sort(this.compare_in_2D_first_by_price_then_by_duration)              // sort by price and then by duration
+                    .filter(this.is_shorter_but_more_expensive_than_previous)              // only keep the ones that are shorter and more expensive than the previous kept one
                     ;
     }, // end of function prune_itineraries_in_2D
 
     compare_in_2D_by_linear_combination: function (price_pref,duration_pref) // compare in 2D by linear combination of price and duration
-    // if price_preference < duration_preference, then low price is more important then low duration
-    // if price_preference > duration_preference, then low duration is more important then low price
+    // if price_preference < duration_preference, then low price is more important than low duration
+    // if price_preference > duration_preference, then low duration is more important than low price
     {
         return function(a, b)
         {
@@ -461,8 +461,8 @@ module.exports = {
     }, // end of function compare_in_2D_by_linear_combination
 
     compare_in_3D_by_linear_combination: function (price_pref, duration_pref, departure_pref) // compare in 2D by linear combination of price, duration, and departure
-    // if price_preference < duration_preference, then low price is more important then low duration
-    // if price_preference > duration_preference, then low duration is more important then low price
+    // if price_preference < duration_preference, then low price is more important than low duration
+    // if price_preference > duration_preference, then low duration is more important than low price
     {
         return function(a, b)
         {
@@ -480,8 +480,8 @@ module.exports = {
     }, // end of function compare_in_3D_by_linear_combination
 
     compare_in_4D_by_linear_combination: function (price_pref, duration_pref, departure_pref, airline_pref) // compare in 2D by linear combination of price, duration, departure, and airline
-    // if price_preference < duration_preference, then low price is more important then low duration
-    // if price_preference > duration_preference, then low duration is more important then low price
+    // if price_preference < duration_preference, then low price is more important than low duration
+    // if price_preference > duration_preference, then low duration is more important than low price
     {
         return function(a, b)
         {
@@ -504,7 +504,7 @@ module.exports = {
     // positive number means that lower values are preferred.
     // negative number means that higher values are preferred.
     {
-        // if price_preference < duration_preference, then low price is more important then low duration
+        // if price_preference < duration_preference, then low price is more important than low duration
         if(price_preference    === undefined) { price_preference    = 1.0; } // default value is 1
         if(duration_preference === undefined) { duration_preference = 1.0; } // default value is 1
 
@@ -523,8 +523,8 @@ module.exports = {
     {
         if (start_idx >  end_idx) return -1; // if empty, return NaN // TO DO: deal with NaNs
         if (start_idx == end_idx) return start_idx; // if single element, return this element
-        if (x <= a[start_idx]) return start_idx; // if x is smaller than anything, return the first element
-        if (x >= a[end_idx  ]) return end_idx  ; // if x is greater than anything, return the last element
+        if (x <= a[start_idx]) return start_idx; // if x is smaller than anything, then return the first element
+        if (x >= a[end_idx  ]) return end_idx  ; // if x is greater than anything, then return the last element
 
         var low_idx = start_idx;
         var high_idx = end_idx;
@@ -645,6 +645,7 @@ module.exports = {
         var heavy_output = false;
 
         if (itins.length == 0) return itins; // If empty, then nothing to prune
+        if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
         if (light_output) console.log("================  Output from prune_itineraries_in_3D(..)  ================");
 
@@ -658,19 +659,19 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-            console.log("Decoded departures in minutes, in the original order :");
+            console.log("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
             console.log(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted, permutation indices saved :");
+            console.log("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
             console.log(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-            console.log("Indices of the best departures, ordered by diversity :");
+            console.log("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
             console.log(preferred_departures_indices);
         }
         var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
@@ -776,7 +777,7 @@ module.exports = {
 
     rank_itineraries_in_3D: function (itins, price_preference, duration_preference, departure_preference)
     {
-        // if price_preference < duration_preference, then low price is more important then low duration
+        // if price_preference < duration_preference, then low price is more important than low duration
         if ( price_preference     === undefined ) { price_preference     = 1.0; } // default value is 1
         if ( duration_preference  === undefined ) { duration_preference  = 1.0; } // default value is 1
         if ( departure_preference === undefined ) { departure_preference = 1.0; } // default value is 1
@@ -799,6 +800,7 @@ module.exports = {
         var heavy_output = false;
 
         if (itins.length == 0) return itins; // If empty, then nothing to prune
+        if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
         if (light_output) console.log("================  Output from prune_itineraries_in_4D(..)  ================");
 
@@ -966,7 +968,7 @@ module.exports = {
 
     rank_itineraries_in_4D: function (itins, price_preference, duration_preference, departure_preference, airline_preference)
     {
-        // if price_preference < duration_preference, then low price is more important then low duration
+        // if price_preference < duration_preference, then low price is more important than low duration
         if ( price_preference     === undefined ) { price_preference     = 1.0; } // default value is 1
         if ( duration_preference  === undefined ) { duration_preference  = 1.0; } // default value is 1
         if ( departure_preference === undefined ) { departure_preference = 1.0; } // default value is 1

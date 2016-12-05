@@ -1,12 +1,12 @@
+var OrderPage = React.createClass({
+  componentWillMount: function () {
+    ActionsStore.updateNavBarPage('order');
+  },
 
-
-
-
-$(document).ready(function() {
-
-  //this places the React flight unit
-  if (typeof ItineraryData != 'undefined' && $('#booking-flight-unit').length) {
-      ReactContentRenderer.render(<ResultItem itinerary={ItineraryData} showFullInfo={true}/>, $('#booking-flight-unit'));
+  render: function () {
+    var specialOrder = this.props.params['specialOrder'] !== 'false';
+    return (
+      <OrderPanelContainer itineraryId={this.props.params['itineraryId']} specialOrder={specialOrder} />
+    )
   }
-
 });
