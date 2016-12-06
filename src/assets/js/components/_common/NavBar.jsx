@@ -1,6 +1,12 @@
 var Link = window.ReactRouter.Link;
 
 var NavBar = React.createClass({
+  getInitialState: function() {
+    return {
+      searchParams: {},
+      page: this.props.page || ''
+    };
+  },
 
   getUser: function () {
     //FIXME get rid from global var
