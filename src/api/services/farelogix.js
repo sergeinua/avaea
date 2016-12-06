@@ -687,7 +687,7 @@ module.exports = {
           }
         }
       } catch (e) {
-        sails.log.error(op + ': An error occurs: ' + e);
+        sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
         return callback(e, []);
       }
     });
