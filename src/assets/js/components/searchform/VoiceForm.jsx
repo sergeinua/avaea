@@ -162,6 +162,9 @@ var VoiceForm = React.createClass({
       ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
+      if (res && (data.action=='top' || data.action=='all')) {
+        ActionsStore.updateNavBarPage('result');
+      }
     });
   },
 
