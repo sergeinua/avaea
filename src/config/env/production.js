@@ -48,6 +48,9 @@ module.exports = {
 
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
+  flightapis: {
+    searchProvider: ['mondee'/*, 'farelogix', 'mystifly'*/]
+  },
   ffmapis: {
     milefy: {
       url:      'https://testingapi.30k.com/',
