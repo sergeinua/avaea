@@ -10,8 +10,8 @@ pipelines:
       - step:
           script:
 #              - node -v
-#              - apt update
-#              - apt-get -y install postgresql postgresql-contrib
+              - apt update
+              - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
 #              - /etc/init.d/postgresql start
 #              - apt-get install --reinstall sudo
