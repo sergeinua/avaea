@@ -50,35 +50,51 @@ h1.skeleton {
 	border: none;
 }
 
+input {
+	border-radius: 0;
+}
+
 /* take away style from ABO bootstrap
    glyphicons.less
 	 buttons.less
 */
-
-ul {
-	margin-bottom: 0;
-}
-
-
-/* colors */
-
-/* dark blue */
-footer.static {
-	background: #062868;
-}
 
 .nav > li > a:hover, 
 .nav > li > a:focus {
 	background-color: transparent;
 }
 
-/* bright blue */
+ul {
+	margin-bottom: 0;
+}
 
+
+/* ------- colors ------- */
+
+/* dark blue */
+input {
+	color: #062868;
+}
+
+footer.static {
+	background: #062868;
+}
+
+.overlay {
+  background: rgba(6, 40, 85, .5);
+}
+
+.try-it {
+  background: rgba(6, 40, 85, .9);
+}
+
+/* bright blue */
 header.static li.active a {
 	color: #00a9e7;
 }
 
 /* green */
+.buttonly,
 header.static li.flight-search {
 	background: #15cb61;
 }
@@ -97,6 +113,11 @@ header {
 
 
 /* everywhere parts */
+
+a.buttonly {
+	color: #ffffff;
+	padding: 15px 50px 15px 50px;
+}
 
 header.static li.flight-search {
 	border-radius: 15px;
@@ -163,7 +184,6 @@ header.static li.flight-search {
 header.static li.flight-search a,
 header.static li.flight-search a:hover {
 	color: #ffffff;
-	opacity: 1;
 }
 
 
@@ -195,14 +215,6 @@ header.static li.flight-search a:hover {
 	padding: 0 5px;
 }
 
-.try-it {
-  width: 100%;
-  height: 275px;
-  background: url(../images/static/delme-tryit.png) center no-repeat;
-  position: absolute;
-    bottom: 110px;
-}
-
 .slogan.third {
   font-size: 40px;
   padding: 10px 0;
@@ -228,17 +240,49 @@ video {
   transform: translateX(-50%) translateY(-50%);
 }
 
-.overlay {
-  background: rgba(6, 40, 85, .5);
-}
-
 video { 
   background: url('../images/static/tarmac-placeholder.jpg') no-repeat;
 }
 
-div[data-slug="home"] .level {
-  text-align: center;
-  margin: 50px 0;
+.try-it {
+	margin: 20px 0 0 0;
+	padding: 30px 20px 30px 20px;
+  width: 60%;
+	display: inline-block;
+  border-radius: 6px;
+}
+
+.try-it .ti {
+	font-size: 25px;
+}
+
+.try-it form {
+	display: inline-block;
+}
+
+.try-it form .wrapper {
+	text-align: left;
+	margin-bottom: 25px;
+}
+
+.try-it input {
+	font-size: 19px;
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+}
+
+.try-it .loc-holder {
+	margin-bottom: 15px;
+}
+
+.try-it .loc-holder input {
+	width: 195px;
+}
+
+.try-it span {
+	font-size: 19px;
+	padding: 0 18px;
 }
 
 

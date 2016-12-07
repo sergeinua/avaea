@@ -7,7 +7,7 @@ var StaticHome = React.createClass({
 	    	  	<div className="home level top">
 	    	  
 		    	    <div className="video-holder">   
-		    	      <video poster="../images/static/tarmac-placeholder.jpg" id="bgvid" playsinline autoPlay muted loop>
+		    	      <video poster="../images/static/tarmac-placeholder.jpg" id="bgvid" playsInline autoPlay muted loop>
 		    	        <source src="../images/static/Tarmac.mp4" type="video/mp4" />
 		    	        <source src="../images/static/Tarmac.mp4" type="video/ogg" />
 		    	      </video>
@@ -21,7 +21,20 @@ var StaticHome = React.createClass({
 			          	<span className="slogan third">Travel Intelligence for your journey.</span>
 			          </div>
 			    	    
-			    	    <div className="try-it"></div>
+			    	    <div className="try-it">
+			    	    	<form>
+			    	    		<div className="wrapper">
+					    	    	<div className="ti">Where I want to go</div>
+					    	    	<div className="loc-holder">
+					    	    		<input type="text" /><span>to</span><input type="text" />
+					    	    	</div>	
+					    	      <div className="ti">When</div>
+					    	    	<input type="text" />
+				    	    	</div>
+			    	    	  <a className="buttonly" href="#">Try it</a>
+				    	    </form>
+			    	    </div>{/* ends try-it form */}
+			    	    
 			    	  </div> {/* ends home-top-copy */}
 			    	    
 		    	  </div> {/* ends home level top */}
