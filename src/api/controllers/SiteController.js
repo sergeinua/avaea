@@ -17,6 +17,8 @@ module.exports = {
       "/news","/news/",
       "/blog","/blog/",
       "/terms","/terms/",
+      "/profile","/profile/",
+      "/search","/search/",
       "/privacy","/privacy/"
     ];
     if (allowedRoutes.indexOf(req.url) == -1 && (!req.session.authenticated || !req.user)) {
