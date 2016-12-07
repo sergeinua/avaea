@@ -54,10 +54,14 @@ input {
 	border-radius: 0;
 }
 
-/* take away style from ABO bootstrap
+/* overwrite undo style from ABO bootstrap
    glyphicons.less
 	 buttons.less
 */
+
+h1, h2, h3 {
+	margin: 0 0 0 0;
+}
 
 .nav > li > a:hover, 
 .nav > li > a:focus {
@@ -71,8 +75,15 @@ ul {
 
 /* ------- colors ------- */
 
+body,
+.static-features span {
+	color: #323232;
+}
+
 /* dark blue */
-input {
+input,
+h1,
+h2 {
 	color: #062868;
 }
 
@@ -94,12 +105,22 @@ header.static li.active a {
 }
 
 /* green */
+
+h3 {
+	color: #15cb61;
+}
+
 .buttonly,
 header.static li.flight-search {
 	background: #15cb61;
 }
 
 /* gray */
+
+body,
+.static-feature span {
+	color: #323232;
+}
 
 header.static a, 
 header.static a:hover, 
@@ -111,8 +132,24 @@ header {
 	border-bottom: 1px solid #d7d7d7;
 }
 
+.static-features .copy {
+	font-size: 16px;
+	color: #919191;
+}
+
 
 /* everywhere parts */
+
+h1,
+h2,
+.slogan.third {
+  font-size: 40px;
+}
+
+.content.static h2,
+.content.static h3 {
+	font-family: 'OpenSans-Light';
+}
 
 a.buttonly {
 	color: #ffffff;
@@ -249,7 +286,7 @@ video {
 	padding: 30px 20px 30px 20px;
   width: 60%;
 	display: inline-block;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 
 .try-it .ti {
@@ -284,6 +321,78 @@ video {
 	font-size: 19px;
 	padding: 0 18px;
 }
+
+.content.static.home h1 {
+	text-align: center;
+}
+
+.level {
+	margin-bottom: 70px;
+}
+
+.level.second:after,
+.level.third:after {
+	content: '';
+	display: block;
+	margin: 0 50px;
+	border-bottom: 1px solid #d7d7d7;
+}
+
+.home.second.level h1 {
+	margin: auto;
+	max-width: 675px;
+}
+
+.static-features {
+	font-family: 'OpenSans-Light';
+	padding: 0 50px;
+}
+
+.static-features > div {
+	padding: 40px 50px 50px 50px;
+	display: table-cell;
+	width: 32%;
+	min-width: 285px;
+}
+
+.static-features h2,
+.static-features h3 {
+	text-align: center;
+}
+
+.static-features h3 {
+	font-size: 20px;
+	line-height: 30px;
+}
+
+.static-features .graphic {
+	margin: 12px 0;
+	height: 130px;
+}
+
+.static-features .copy {
+	line-height: 30px;
+}
+
+.static-features span {
+	font-family: 'OpenSans';
+}
+
+.feature-voice .graphic {
+	background: url(../images/static/graphic-voice.svg) center no-repeat;
+}
+
+.feature-ff .graphic {
+	background: url(../images/static/graphic-ff.svg) center no-repeat;
+}
+
+.feature-price .graphic {
+	background: url(../images/static/graphic-price.svg) center no-repeat;
+}
+
+
+/* heredeb */
+
 
 
 /* footer */
