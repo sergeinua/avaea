@@ -31,13 +31,12 @@ var TripSearchForm = React.createClass({
 
   componentWillMount: function () {
 
-    ActionsStore.validateCalendar();
     ActionsStore.submitForm = () => {
       if (this.validateForm()) {
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        var searchParams = JSON.stringify(ActionsStore.getSearchParams());
+        var searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
         window.ReactRouter.browserHistory.push(
@@ -55,8 +54,10 @@ var TripSearchForm = React.createClass({
 
   submitSearchForm: function (topSearchOnly) {
     return function () {
-      ActionsStore.setFormValue('topSearchOnly', topSearchOnly);
-      ActionsStore.submitForm();
+      Promise.resolve( ActionsStore.setFormValue('topSearchOnly', topSearchOnly) )
+        .then(function () {
+          ActionsStore.submitForm();
+        });
     }.bind(this);
   },
 // For elements with error
@@ -105,10 +106,9 @@ var TripSearchForm = React.createClass({
 
   validateForm: function () {
     var _isError = false;
-    ActionsStore.getSearchParams();
     ActionsStore.validateCalendar();
-    var calendarErrors = ActionsStore.getCalendarErrors();
-    var searchParams = ActionsStore.getSearchParams();
+    var calendarErrors = this.props.InitSearchFormData.calendarErrors;
+    var searchParams = this.props.InitSearchFormData.searchParams;
 
     if (calendarErrors.isError) {
       _isError = true;
@@ -192,7 +192,7 @@ var TripSearchForm = React.createClass({
   },
 
   getSubmitButtonDisabledClass: function () {
-    var calendarErrors = ActionsStore.getCalendarErrors();
+    var calendarErrors = this.props.InitSearchFormData.calendarErrors;
     return calendarErrors.isError ? 'disabled ': '';
   },
 
@@ -311,8 +311,8 @@ var TripSearchForm = React.createClass({
 
         <div className="flight-additional-info row">
           <div className="col-xs-12">
-            <PassengerChooser passengerVal={this.props.InitSearchFormData.searchParams.passengers || 1}/>
-            <ClassChooser classVal={this.props.InitSearchFormData.searchParams.CabinClass || 'E'}/>
+            <PassengerChooser searchParams={this.props.InitSearchFormData.searchParams}/>
+            <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
           </div>
         </div>
 

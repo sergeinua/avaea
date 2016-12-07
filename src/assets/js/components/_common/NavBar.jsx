@@ -38,6 +38,10 @@ var NavBar = React.createClass({
 
   componentWillMount: function () {
     clientStore.subscribe(() => console.log('_storeNav:', clientStore.getState())); // Need !
+
+    ActionsStore.changeCalendarDate = () => {
+      finalizeValues(this.props.commonData.searchParams);
+    };
   },
 
   handleVoice: function () {
