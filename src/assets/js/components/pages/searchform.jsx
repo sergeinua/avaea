@@ -32,13 +32,15 @@ var SearchFormPage = React.createClass({
     ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
       unfocusFormForIos();
-      this.setState(
-        {currentForm: form.toLowerCase()},
-        () => {
-          ActionsStore.updateNavBarSearchParams(this.state.searchParams);
-          ActionsStore.validateCalendar();
-        }
-      );
+      if (this.isMounted()) {
+        this.setState(
+          {currentForm: form.toLowerCase()},
+          () => {
+            ActionsStore.updateNavBarSearchParams(this.state.searchParams);
+            ActionsStore.validateCalendar();
+          }
+        );
+      }
       ActionsStore.updateNavBarPage(form.toLowerCase());
       if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
         ActionsStore.setFormValue('flightType', form.toLowerCase());
@@ -51,7 +53,9 @@ var SearchFormPage = React.createClass({
 
     ActionsStore.updateFormValues = () => {
       var searchParams = ActionsStore.getSearchParams();
-      this.setState({searchParams: searchParams});
+      if (this.isMounted()) {
+        this.setState({searchParams: searchParams});
+      }
     };
 
     ActionsStore.setFormValue = (target, value) => {
@@ -121,7 +125,9 @@ var SearchFormPage = React.createClass({
         }
       }
 
-      this.setState({calendarErrors: calendarErrors});
+      if (this.isMounted()) {
+        this.setState({calendarErrors: calendarErrors});
+      }
     };
 
     ActionsStore.getCalendarErrors = () => {
