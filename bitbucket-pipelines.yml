@@ -9,7 +9,7 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-               - apt update
+              - apt update
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
               - /etc/init.d/postgresql start
