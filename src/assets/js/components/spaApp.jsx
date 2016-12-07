@@ -27,39 +27,17 @@ $(document).ready(function() {
     });
 
     ReactDOM.render((
-<<<<<<< HEAD
-      <Router history={browserHistory}>
-        <Route path="/" component={StaticContainer}>
-          <Route path="/home" component={HomePage}/>
-          <Route path="/about" component={AboutPage}/>
-          <Route path="/jobs" component={JobsPage}/>
-          <Route path="/news" component={NewsPage}/>
-          <Route path="/blog" component={BlogPage}/>
-          <Route path="/contact" component={ContactPage}/>
-          <Route path="/terms" component={TermsPage}/>
-          <Route path="/privacy" component={PrivacyPage}/>
-        </Route>
-        <Route path="/" component={Container}>
-          <IndexRoute component={SearchFormPage} />
-          <Route path="/profile" component={ProfilePage}/>
-          <Route path="/search" component={SearchFormPage}/>
-          <Route path="/result" component={ResultPage}/>
-          <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
-          <Route path="/booking/:bookingId" component={BookingPage}/>
-          <Route path="*" component={DisplayAlert}/>
-        </Route>
-      </Router>
-=======
       <ReactRedux.Provider store={clientStore}>
         <Router history={browserHistory}>
           <Route path="/" component={StaticContainer}>
-            <Route path="/home" component={HomePage}/>
-            <Route path="/about" component={AboutPage}/>
-            <Route path="/jobs" component={JobsPage}/>
-            <Route path="/news" component={NewsPage}/>
-            <Route path="/blog" component={BlogPage}/>
-            <Route path="/terms" component={TermsPage}/>
-            <Route path="/privacy" component={PrivacyPage}/>
+	          <Route path="/home" component={HomePage}/>
+	          <Route path="/about" component={AboutPage}/>
+	          <Route path="/jobs" component={JobsPage}/>
+	          <Route path="/news" component={NewsPage}/>
+	          <Route path="/blog" component={BlogPage}/>
+	          <Route path="/contact" component={ContactPage}/>
+	          <Route path="/terms" component={TermsPage}/>
+	          <Route path="/privacy" component={PrivacyPage}/>
           </Route>
           <Route path="/" component={Container}>
             <IndexRoute component={SearchFormPage} />
@@ -72,7 +50,6 @@ $(document).ready(function() {
           </Route>
         </Router>
       </ReactRedux.Provider>
->>>>>>> origin/RC_20161102
     ), document.getElementById('spa-app'));
   }
 });
