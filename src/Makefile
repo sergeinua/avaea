@@ -15,6 +15,15 @@ installdev:
 rundev:
 	@NODE_ENV=development sails lift --dev --verbose
 
+rundevlocalhost:
+	@NODE_ENV=localhost sails lift --localhost
+
+migratedevup:
+	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e dev
+
+migratedevlocalhostup:
+	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e localhost
+
 test-integration:
 	./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
 
