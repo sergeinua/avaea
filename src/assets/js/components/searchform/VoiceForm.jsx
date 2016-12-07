@@ -298,8 +298,8 @@ var VoiceForm = React.createClass({
         ActionsStore.changeForm(result.type);
 
         return callback(true, result);
-      }).fail(function(){
-        return callback(false, result);
+      }).fail(function(error){
+        return callback(false, error);
       });
     })
     .catch((error) => {
