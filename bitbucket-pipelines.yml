@@ -31,6 +31,3 @@ pipelines:
               - export GOOGLE_OAUTH_CLIENT_SECRET="wURGldrAW0CS1kS8PX1QJi1m" 
               - make test-unit
 #              - make test-integration
-#               - psql -V
-               - node -v
-               - npm -v
