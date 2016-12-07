@@ -12,7 +12,7 @@ pipelines:
 #               - apt update
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
-#              - /etc/init.d/postgresql start
+              - /etc/init.d/postgresql start
 #              - apt-get install --reinstall sudo
 #              - sudo -u postgres sh -c 'createuser avaea & createdb avaea'
 #              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
