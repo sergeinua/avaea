@@ -112,16 +112,23 @@ var NavBar = React.createClass({
             <div id="nav_slide_menu" className={this.props.commonData.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
                 {this.getUser().email ?
                   <ul className="nav navbar-nav">
-                    <li><a href="http://www.avaea.com/">Main Search</a></li>
-                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
-                    <li role="separator" className="divider"></li>
+                    <li><Link to="/search">Search</Link></li>
                     <li><Link to="/profile">Profile</Link></li>
+                    <li><Link to="/about">About</Link></li>
+                    <li><Link to="/terms">Terms of Use</Link></li>
+                    <li><Link to="/privacy">Privacy Policy </Link></li>
+                    <li role="separator" className="divider"></li>
                     <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
                   </ul>
                   :
                   <ul className="nav navbar-nav">
-                    <li><a href="http://www.avaea.com/">Main Search</a></li>
-                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
+                    <li><Link to="/search">Search</Link></li>
+                    <li><Link to="/profile">Profile</Link></li>
+                    <li><Link to="/about">About</Link></li>
+                    <li><Link to="/terms">Terms of Use</Link></li>
+                    <li><Link to="/privacy">Privacy Policy </Link></li>
+                    <li role="separator" className="divider"></li>
+                    <li><a href="/login">Log In</a></li>
                   </ul>
                 }
             </div>
