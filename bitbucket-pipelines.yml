@@ -1,4 +1,4 @@
-image: avaea/testimage
+image: avaea/demo
 #image: spittet/node-postgresql
 pipelines:
   default:
