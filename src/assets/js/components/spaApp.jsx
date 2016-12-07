@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   if (document.getElementById('spa-app')) {
     const Container = (props) => <div>
-      <NavBar />
+      <NavBarContainer />
       {props.children}
     </div>;
 
@@ -21,7 +21,13 @@ $(document).ready(function() {
       browserHistory.push(InitData.page);
     }
 
+    //DEMO-796 fix for iOS10
+    browserHistory.listen( location =>  {
+      unfocusFormForIos();
+    });
+
     ReactDOM.render((
+<<<<<<< HEAD
       <Router history={browserHistory}>
         <Route path="/" component={StaticContainer}>
           <Route path="/home" component={HomePage}/>
@@ -43,6 +49,30 @@ $(document).ready(function() {
           <Route path="*" component={DisplayAlert}/>
         </Route>
       </Router>
+=======
+      <ReactRedux.Provider store={clientStore}>
+        <Router history={browserHistory}>
+          <Route path="/" component={StaticContainer}>
+            <Route path="/home" component={HomePage}/>
+            <Route path="/about" component={AboutPage}/>
+            <Route path="/jobs" component={JobsPage}/>
+            <Route path="/news" component={NewsPage}/>
+            <Route path="/blog" component={BlogPage}/>
+            <Route path="/terms" component={TermsPage}/>
+            <Route path="/privacy" component={PrivacyPage}/>
+          </Route>
+          <Route path="/" component={Container}>
+            <IndexRoute component={SearchFormPage} />
+            <Route path="/profile" component={ProfilePage}/>
+            <Route path="/search" component={SearchFormPage}/>
+            <Route path="/result" component={ResultPage}/>
+            <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
+            <Route path="/booking/:bookingId" component={BookingPage}/>
+            <Route path="*" component={DisplayAlert}/>
+          </Route>
+        </Router>
+      </ReactRedux.Provider>
+>>>>>>> origin/RC_20161102
     ), document.getElementById('spa-app'));
   }
 });

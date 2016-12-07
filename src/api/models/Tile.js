@@ -587,7 +587,7 @@ module.exports = {
       }
     }
     //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+    if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
       sails.log.info('params.topSearchOnly', params.topSearchOnly);
       itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
       var tmp = [];
@@ -738,7 +738,7 @@ module.exports = {
 
       sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
-      if (!_.isEmpty(params.topSearchOnly) && params.topSearchOnly == 1) {
+      if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
         orderBy = 'smart';
       } else {
         orderBy = 'price_tile';

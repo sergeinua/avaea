@@ -2,7 +2,7 @@
   "user": {
     "id": 1
   },
-  "title": "TEST &rarr; TEST",
+  "title": "TEST-TEST",
   "tiles": [],
   "max_filter_items": 0,
   "searchParams": {
@@ -5424,5 +5424,6 @@
   "head_title": "Flights from TEST to TEST on 25 Jul '16",
   "iconSpriteMap": {},
   "departure": {},
-  "arrival": {}
+  "arrival": {},
+  "errorType": ""
 }

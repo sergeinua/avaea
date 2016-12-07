@@ -36,7 +36,7 @@ var Citypairs = React.createClass({
   render: function() {
     return (
       <div className="row notable-area">
-        {this.state.citypairs.map(function (pair, i) {
+        {this.props.citypairs.map(function (pair, i) {
             i++;
             return  <div className="section" key={i}><div className="row title">
 

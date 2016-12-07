@@ -1,49 +1,77 @@
 
 const storeInitialState = {
+  commonData: {
+    searchParams: {},
+    page: '', // NavBar page
+  },
   profileData: {},
   orderData: {}
 };
 
-function profileReducer(state = storeInitialState, action) {
+const storeAssignObj = (curState, objData) => {
+  return Object.assign(... curState, objData);
+};
+const storeSetFieldsDataVal = (curState, fieldName, fieldValue) => {
+  let _immutable = Immutable.fromJS(curState);
+  return _immutable.updateIn(['fieldsData', fieldName], () => fieldValue).toJS();
+};
+const storeSetVal = (curState, fieldName, fieldValue) => {
+  let _immutable = Immutable.fromJS(curState);
+  return _immutable.updateIn([fieldName], () => fieldValue).toJS();
+};
+
+
+function profileReducer(curState = storeInitialState.profileData, action) {
   switch (action.type) {
 
     case actionTypesProfile.LOAD_PROFILE_SUCCESS:
     case actionTypesProfile.LOAD_PROFILE_FAILED:
-      return Object.assign(... state, action.payload);
+      return storeAssignObj(curState, action.payload);
 
     case actionTypesProfile.SET_PERSONAL_VAL:
-      var _immutable = Immutable.fromJS(state);
+      var _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['personal', action.elemNum, 'data'], () => action.value).toJS();
 
     case actionTypesProfile.SET_PROGRAMS_VAL:
-      var _immutable = Immutable.fromJS(state);
+      var _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['programs', action.blockNum, 'data', action.elemNum, action.fieldName], () => action.value).toJS();
 
     default:
-      return state
+      return curState;
   }
 }
 
-function commonReducer(state = storeInitialState, action) {
+function orderReducer(curState = storeInitialState.orderData, action) {
   switch (action.type) {
 
-    case actionTypesCommon.LOAD_SUCCESS:
-    case actionTypesCommon.LOAD_FAILED:
-      return Object.assign(... state, action.payload);
+    case actionTypesOrder.LOAD_ORDER_SUCCESS:
+    case actionTypesOrder.LOAD_ORDER_FAILED:
+      return storeAssignObj(curState, action.payload);
 
-    case actionTypesCommon.SET_FIELD_VAL:
-      var _immutable = Immutable.fromJS(state);
-      return _immutable.updateIn(['fieldsData', action.fieldName], () => action.fieldValue).toJS();
+    case actionTypesOrder.SET_ORDER_FIELD_VAL:
+      return storeSetFieldsDataVal(curState, action.fieldName, action.fieldValue);
 
     default:
-      return state
+      return curState;
+  }
+}
+
+function commonReducer(curState = storeInitialState.commonData, action) {
+  switch (action.type) {
+
+    case actionTypesCommon.SET_COMMON_VAL:
+      return storeSetVal(curState, action.fieldName, action.fieldValue);
+
+    default:
+      return curState;
   }
 }
 
 // Combine application reducers
 const appReducers = Redux.combineReducers({
+  commonData: commonReducer,
   profileData: profileReducer,
-  orderData: commonReducer,
+  orderData: orderReducer,
 });
 
 

@@ -1,10 +1,23 @@
 /* global $ */
+
+//global object for communication with react components
 var ActionsStore = {
   getIconSpriteMap: function () {
     var iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
     return JSON.parse(iconSpriteMap || '[]');
+  },
+
+  updateNavBarSearchParams: (searchParams) => {
+    clientStore.dispatch(actionSetCommonVal('searchParams', searchParams));
+  },
+
+  updateNavBarPage: (page) => {
+    if (page) {
+      clientStore.dispatch(actionSetCommonVal('page', page));
+    }
   }
-}; //global object for communication with react components
+};
+
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);
@@ -90,6 +103,23 @@ $(document).ready(function() {
 });
 // ends dom ready
 
+// DEMO-796 fix for iOS10
+let unfocusFormForIos;
+unfocusFormForIos = function () {
+  let index;
+  let inputs = document.getElementsByTagName('input');
+  for (index = 0; index < inputs.length; ++index) {
+    inputs[index].blur();
+  }
+  let selects = document.getElementsByTagName('select');
+  for (index = 0; index < selects.length; ++index) {
+    selects[index].blur();
+  }
+  let textareas = document.getElementsByTagName('textarea');
+  for (index = 0; index < textareas.length; ++index) {
+    textareas[index].blur();
+  }
+};
 
 let nodes = [];
 
