@@ -32,3 +32,5 @@ pipelines:
 #              - make test-unit
 #              - make test-integration
                - psql -V
+               - node -v
+               - npm -v
