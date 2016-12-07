@@ -9,18 +9,20 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-#               - apt update
+               - apt update
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
               - /etc/init.d/postgresql start
-#              - apt-get install --reinstall sudo
-#              - sudo -u postgres sh -c 'createuser avaea & createdb avaea'
-#              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
-#              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea to avaea;"
-#              - sudo -u postgres sh -c 'psql -d avaea  < avaea.sql'
-#              - npm install pg
+              - apt-get install --reinstall sudo
+              - sudo -u postgres sh -c 'createuser avaea & createdb avaea'
+              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
+              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea to avaea;"
+              - sudo -u postgres sh -c 'psql -d avaea  < avaea.sql'
+              - npm install pg
               - cd src
               - npm install
+              - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
+              - apt-get -y install nodejs
 #              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
