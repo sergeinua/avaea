@@ -167,6 +167,7 @@ var StaticHome = React.createClass({
 			  	  </div> {/* ends home third level */}
 		    	  
 	    	</div> {/* ends content */}
+	    	<div className="home graphic"></div>
 	    	
 	   </div> 	
     )
