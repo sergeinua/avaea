@@ -120,6 +120,12 @@ header.static li.flight-search {
 	border: 1px solid #15cb61;
 }
 
+a.buttonly:hover,
+header.static li.flight-search:hover {
+	background: #00a93f;
+}
+
+
 /* gray */
 
 body,
@@ -132,6 +138,10 @@ header.static a:hover,
 header.static a:visited,
 .about .person .ti {
 	color: #919191;
+}
+
+header.static .left a:hover {
+	color: #666666;
 }
 
 header,
@@ -153,7 +163,7 @@ header,
 }
 
 
-/* everywhere parts */
+/* ------- everywhere parts ------- */
 
 h1,
 h2,
@@ -178,7 +188,7 @@ header.static li.flight-search {
 }
 
 
-/* header */
+/* ------- header ------- */
 
 header,
 footer {
@@ -241,7 +251,7 @@ header.static li.flight-search a:hover {
 }
 
 
-/* pages */
+/* ------- pages ------- */
 
 .content.static {
 	display: block;
@@ -411,7 +421,7 @@ video {
 }
 
 .home.third {
-	padding-bottom: 270px;
+	padding-bottom: 290px;
 }
 
 .home.third .wrapper {
@@ -450,10 +460,10 @@ video {
 
 .home.graphic {
 	width: 100%;
-	height: 460px;
+	height: 480px;
 	position: absolute;
 	bottom: 0;
-	background: url(../images/static/world.gif) center top no-repeat;
+	background: url(../images/static/world-alt.gif) center top no-repeat;
 }
 
 /* about */
@@ -522,7 +532,7 @@ video {
 	vertical-align: top;
 }
 
-.about .person .image {
+.person .image {
 	margin: 0 auto;
 	display: inline-block;
 	width: 155px;
@@ -530,17 +540,17 @@ video {
 	border-radius: 50%;
 }
 
-.about .person .ti {
+.about .person .ti,
+.about .person .bio {
 	font-family: 'OpenSans-Light';
 }
 
 .about .person .bio {
-	font-size: 14px;
 	line-height: 24px;
 	margin: 10px 40px 60px 40px;
 }
 
-.jafri .image {
+.person.jafri .image {
 	background: url(../images/static/team-jafri-lo.gif) no-repeat;
 }
 
@@ -558,7 +568,7 @@ video {
 
 
 
-/* footer */
+/* ------- footer ------- */
 
 footer.static {
 	text-align: center;
