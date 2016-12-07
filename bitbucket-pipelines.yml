@@ -9,8 +9,6 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-              - node -v
-              - npm -v
 #               - apt update
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
