@@ -196,6 +196,9 @@ $(document).ready(function() {
   var NavBarData = $('#onlynavbar').attr('page');
   if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
     var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
-    ReactContentRenderer.render(<NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/>, $('#onlynavbar'));
+    ReactContentRenderer.render(
+      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
+      $('#onlynavbar')
+    );
   }
 });
