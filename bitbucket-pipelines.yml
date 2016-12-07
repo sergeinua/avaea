@@ -23,7 +23,7 @@ pipelines:
               - npm install
               - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
               - apt-get -y install nodejs
-#              - ./node_modules/sails/bin/sails.js lift --verbose &
+              #              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
 #             - pwd
