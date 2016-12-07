@@ -1,4 +1,4 @@
-image: node:6.9.1
+image: avaea/testimage
 #image: spittet/node-postgresql
 pipelines:
   default:
@@ -9,9 +9,10 @@ pipelines:
     DEMO-806*:
       - step:
           script:
-#              - node -v
-               - apt update
-               - apt-get -y install postgresql postgresql-contrib
+              - node -v
+              - npm -v
+#               - apt update
+#               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
 #              - /etc/init.d/postgresql start
 #              - apt-get install --reinstall sudo
