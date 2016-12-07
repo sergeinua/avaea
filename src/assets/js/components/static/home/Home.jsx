@@ -2,7 +2,7 @@ var StaticHome = React.createClass({
   render: function () {
     return (
     		<div>
-	    		<div className="content static">
+	    		<div className="content static home">
 	
 	    	  	<div className="home level top">
 	    	  
@@ -17,7 +17,7 @@ var StaticHome = React.createClass({
 	    	    	<div className="home-top-copy">
 			          <div className="slogan">
 			          	<span className="slogan first">Best price.</span> 
-			          	<span className="slogan second">Personalized agent.</span> 
+			          	<span className="slogan second">Best choice.</span> 
 			          	<span className="slogan third">Travel Intelligence for your journey.</span>
 			          </div>
 			    	    

@@ -62,6 +62,7 @@ ul {
 
 /* colors */
 
+/* dark blue */
 footer.static {
 	background: #062868;
 }
@@ -69,6 +70,36 @@ footer.static {
 .nav > li > a:hover, 
 .nav > li > a:focus {
 	background-color: transparent;
+}
+
+/* bright blue */
+
+header.static li.active a {
+	color: #00a9e7;
+}
+
+/* green */
+header.static li.flight-search {
+	background: #15cb61;
+}
+
+/* gray */
+
+header.static a, 
+header.static a:hover, 
+header.static a:visited {
+	color: #919191;
+}
+
+header {
+	border-bottom: 1px solid #d7d7d7;
+}
+
+
+/* everywhere parts */
+
+header.static li.flight-search {
+	border-radius: 15px;
 }
 
 
@@ -80,24 +111,35 @@ footer {
 }
 
 header.static {
-	padding-left: 160px;
-	background: #062868 url(../images/static/logo1.svg) 15px 8px no-repeat;
+	padding-left: 230px;
 	position: relative;
+	background: #ffffff url(../images/static/logo-beta.svg) 12px 8px no-repeat;
+	background-size: 230px;
 	z-index: 5; /* get it above the video area */
-	background-size: 140px;
 }
 
 header nav {
 	width: 100%;
+	display: table;
+}
+
+header nav .left,
+header nav .right {
+	display: table-cell;
+}
+
+header nav .left {
+	text-align: center;
+}
+
+header nav .right {
+	width: 245px;
+	text-align: right;
 }
 
 header.static ul {
   list-style-type: none;
 	display: inline-block;
-}
-
-header.static ul.user {
-	float: right;
 }
 
 header.static li {
@@ -108,21 +150,22 @@ header.static li {
 header.static a, 
 header.static a:hover, 
 header.static a:visited {
-	color: #ffffff;
 	font-family: 'Open-Sans-Semibold';
 	text-decoration: none;
 	text-transform: uppercase;
 	padding: 5px 15px;
-	opacity: .5;
 }
 
-header.static a:hover {
-	opacity: .8;
+header.static li.flight-search {
+	margin-right: 10px;
 }
 
-header.static li.active a {
+header.static li.flight-search a,
+header.static li.flight-search a:hover {
+	color: #ffffff;
 	opacity: 1;
 }
+
 
 /* pages */
 
@@ -146,6 +189,10 @@ header.static li.active a {
   width: 100%;
   position: absolute;
     top: 0;
+}
+
+.slogan {
+	padding: 0 5px;
 }
 
 .try-it {
@@ -182,7 +229,7 @@ video {
 }
 
 .overlay {
-  background: rgba(0, 0, 0, .5);
+  background: rgba(6, 40, 85, .5);
 }
 
 video { 
@@ -202,8 +249,7 @@ footer.static {
 	display: block;
 }
 
-footer.static span.copyright:before {
-	content: '\00A9 2017 Avaea, Inc., All Rights Reserved';
+footer.static span.copyright {
 	color: #ffffff;
 	padding: 0 20px 0 0;
 	opacity: .5;
