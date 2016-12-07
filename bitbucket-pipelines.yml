@@ -1,5 +1,5 @@
-#image: avaea/testimage
-image: spittet/node-postgresql
+image: avaea/testimage
+#image: spittet/node-postgresql
 pipelines:
   default:
     - step:
@@ -19,18 +19,18 @@ pipelines:
 #              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea to avaea;"
 #              - sudo -u postgres sh -c 'psql -d avaea  < avaea.sql'
 #              - npm install pg
-#              - cd src
-#              - npm install
+              - cd src
+              - npm install
 #              - ./node_modules/sails/bin/sails.js lift --verbose &
 #             - iptable-save
 #             - PGPASSWORD=
 #             - pwd
 #              - ls
-#              - export NODE_ENV="staging"
-#              - export GOOGLE_OAUTH_CLIENT_ID="353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com"
-#              - export GOOGLE_OAUTH_CLIENT_SECRET="wURGldrAW0CS1kS8PX1QJi1m" 
-#              - make test-unit
+              - export NODE_ENV="staging"
+              - export GOOGLE_OAUTH_CLIENT_ID="353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com"
+              - export GOOGLE_OAUTH_CLIENT_SECRET="wURGldrAW0CS1kS8PX1QJi1m" 
+              - make test-unit
 #              - make test-integration
-               - psql -V
+#               - psql -V
                - node -v
                - npm -v
