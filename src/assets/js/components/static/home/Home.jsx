@@ -84,12 +84,87 @@ var StaticHome = React.createClass({
 		    	  </div> {/* ends home second level */}
 		    	  
 		    	  <div className="home third level">
-			  	  	<p>Here is home third level content.</p>
-			  	  </div>
-			  	
-		    	  <div className="home bottom level">
-		    	  	<p>Here is home bottom level content.</p>
-		    	  </div>
+			  	  	<h1>And this is only Beta.</h1>
+			  	  	
+			  	  	<div className="copy">
+			  	  		Today, we’re focused on air travel.  Tomorrow we’ll tackle 
+			  	  		hotels, rental cars, Uber, Airbnb… the entire world of 
+			  	  		travel. Here are features we’re developing now.
+			  	  	</div>
+			  	  		
+			  	  	<div className="wrapper">
+			  	  	
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Agent experience</div>
+			  	  			<div className="copy">
+			  	  				Your travel preferences remembered and calculated, 
+			  	  				so you see the tickets you’ll love first.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Full voice experience</div>
+			  	  			<div className="copy">
+			  	  				Never touch your keyboard. Book easily on the go, 
+			  	  				while you walk to lunch or wait for the elevator.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Refundable tickets</div>
+			  	  			<div className="copy">
+			  	  				Visibility into refunds and penalties.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Watch ticket price</div>
+			  	  			<div className="copy">
+				  	  			Choose your price. If your chosen ticket meets 
+				  	  			your price, it’s bought.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Customized settings</div>
+			  	  			<div className="copy">
+			  	  				You know you best. Tell us what you like and we’ll search for that.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Your travel history</div>
+			  	  			<div className="copy">
+				  	  			See all of your itineraries and easily re-book repeat trips 
+				  	  			with the tickets that worked best for you.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Notifications</div>
+			  	  			<div className="copy">
+			  	  				Set how you want to receive updates for booked travel. Add 
+			  	  				other people who you want to receive notifications.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Hotels, Cars and more</div>
+			  	  			<div className="copy">
+			  	  				Leverage our agent to provide full travel support.
+			  	  			</div>
+			  	  		</div>
+			  	  		
+			  	  		<div className="upcoming">
+			  	  			<div className="ti">Smart Watch integration</div>
+			  	  			<div className="copy">
+				  	  			Tell it to the hand. Your watch can book your travel 
+				  	  			and notify you of updates anywhere you go.
+			  	  			</div>
+			  	  		</div>
+		    	  	
+			  	  	</div> {/* ends wrapper */}
+			  	  </div> {/* ends home third level */}
 		    	  
 	    	</div> {/* ends content */}
 	    	

@@ -47,6 +47,7 @@ h1.skeleton {
 }
 
 .desktop .desktop-inner {
+	padding-bottom: 0;
 	border: none;
 }
 
@@ -115,6 +116,10 @@ header.static li.flight-search {
 	background: #15cb61;
 }
 
+.upcoming {
+	border: 1px solid #15cb61;
+}
+
 /* gray */
 
 body,
@@ -132,8 +137,8 @@ header {
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.static-features .copy {
-	font-size: 16px;
+.static-features .copy,
+.upcoming .copy {
 	color: #919191;
 }
 
@@ -233,7 +238,7 @@ header.static li.flight-search a:hover {
 
 /* home */
 
-.home.level.top {
+.home.top {
   position: relative;
 }
 
@@ -330,21 +335,20 @@ video {
 	margin-bottom: 70px;
 }
 
-.level.second:after,
-.level.third:after {
+.level.second:after {
 	content: '';
 	display: block;
 	margin: 0 50px;
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.home.second.level h1 {
+.home.second.level h1,
+.home.third > copy {
 	margin: auto;
 	max-width: 675px;
 }
 
 .static-features {
-	font-family: 'OpenSans-Light';
 	padding: 0 50px;
 }
 
@@ -357,6 +361,7 @@ video {
 
 .static-features h2,
 .static-features h3 {
+	font-family: 'OpenSans-Light';
 	text-align: center;
 }
 
@@ -368,9 +373,13 @@ video {
 .static-features .graphic {
 	margin: 12px 0;
 	height: 130px;
+	width: 275px;
 }
 
-.static-features .copy {
+.static-features .copy,
+.upcoming .copy {
+	font-family: 'OpenSans-Light';
+  font-size: 16px;
 	line-height: 30px;
 }
 
@@ -390,6 +399,39 @@ video {
 	background: url(../images/static/graphic-price.svg) center no-repeat;
 }
 
+.home.third .wrapper {
+	text-align: center;
+	margin: 20px auto 40px;
+	display: inline-block;
+}
+
+.home.third > .copy,
+.home .upcoming .ti {
+	font-family: 'OpenSans-Light';
+	font-size: 22px;
+	line-height: 32px;
+}
+
+.home .upcoming .ti {
+	margin-bottom: 10px;
+}
+
+.home.third > .copy {
+	margin: 20px auto;
+	text-align: center;
+	width: 700px;
+}
+
+.home .upcoming {
+	margin: 15px;
+	text-align: left;
+	padding: 30px;
+	width: 340px;
+	height: 200px;
+	display: inline-block;
+	vertical-align: top;
+}
+
 
 /* heredeb */
 
@@ -399,6 +441,7 @@ video {
 
 footer.static {
 	text-align: center;
+	padding-bottom: 30px;
 	display: block;
 }
 
