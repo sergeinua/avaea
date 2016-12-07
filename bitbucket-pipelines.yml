@@ -1,5 +1,5 @@
-image: avaea/demo
-#image: spittet/node-postgresql
+#image: avaea/demo
+image: spittet/node-postgresql
 pipelines:
   default:
     - step:
