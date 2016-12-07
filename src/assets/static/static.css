@@ -129,17 +129,27 @@ body,
 
 header.static a, 
 header.static a:hover, 
-header.static a:visited {
+header.static a:visited,
+.about .person .ti {
 	color: #919191;
 }
 
-header {
+header,
+.home.level.second:after {
 	border-bottom: 1px solid #d7d7d7;
 }
 
 .static-features .copy,
 .upcoming .copy {
 	color: #919191;
+}
+
+.about.second {
+	background: #f7f7f9;
+}
+
+.about .person .image {
+	background: #efeff3;
 }
 
 
@@ -158,6 +168,8 @@ h2,
 
 a.buttonly {
 	color: #ffffff;
+	font-size: 28px;
+	font-family: 'OpenSans-Light';
 	padding: 15px 50px 15px 50px;
 }
 
@@ -335,11 +347,10 @@ video {
 	margin-bottom: 70px;
 }
 
-.level.second:after {
+.home.level.second:after {
 	content: '';
 	display: block;
 	margin: 0 50px;
-	border-bottom: 1px solid #d7d7d7;
 }
 
 .home.second.level h1,
@@ -410,7 +421,8 @@ video {
 }
 
 .home.third > .copy,
-.home .upcoming .ti {
+.home .upcoming .ti,
+.about.top .copy {
 	font-family: 'OpenSans-Light';
 	font-size: 22px;
 	line-height: 32px;
@@ -442,6 +454,103 @@ video {
 	position: absolute;
 	bottom: 0;
 	background: url(../images/static/world.gif) center top no-repeat;
+}
+
+/* about */
+
+.about.top {
+	padding-top: 35px;
+	padding-right: 420px;
+	position: relative;
+}
+
+.about.top .wrapper {
+	margin: 80px 0 90px 110px;
+}
+
+.about.top .copy {
+	margin: 20px 0 70px 0;
+}
+
+.about.top:after {
+	content: '';
+	width: 375px;
+	height: 485px;
+	display: inline-block;
+	position: absolute;
+		right: 0;
+		bottom: -90px; 
+	background: url(../images/static/globe-about.svg) 15px 0px no-repeat;
+}
+
+.about.second:before {
+	content: '';
+	width: 120px;
+	height: 200px;
+	display: inline-block;
+	position: absolute;
+		top: -120px;
+		right: -20px;
+	background: url(../images/static/passport.svg) 0px 0px no-repeat;
+}
+
+.about.second:after {
+	content: '';
+	width: 90px;
+	height: 75px;
+	display: inline-block;
+	position: absolute;
+		bottom: -40px;
+	background: url(../images/static/tickets.svg) 0px 0px no-repeat;
+}
+
+.about.second {
+	text-align: center;
+	position: relative;
+	padding-bottom: 100px;
+}
+
+.about.second h2 {
+	padding: 50px 0;
+}
+
+.about .person {
+	font-size: 16px;
+	line-height: 28px;
+	display: inline-block;
+	width: 30%;
+	vertical-align: top;
+}
+
+.about .person .image {
+	margin: 0 auto;
+	display: inline-block;
+	width: 155px;
+	height: 155px;
+	border-radius: 50%;
+}
+
+.about .person .ti {
+	font-family: 'OpenSans-Light';
+}
+
+.about .person .bio {
+	font-size: 14px;
+	line-height: 24px;
+	margin: 10px 40px 60px 40px;
+}
+
+.jafri .image {
+	background: url(../images/static/team-jafri-lo.gif) no-repeat;
+}
+
+.person.blank .image {
+	background: transparent;
+}
+
+.about .button-holder {
+	text-align: center;
+	margin-bottom: 70px;
 }
 
 
