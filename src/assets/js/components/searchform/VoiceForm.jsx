@@ -305,7 +305,7 @@ var VoiceForm = React.createClass({
     })
     .catch((error) => {
       console.log(error);
-      return callback(false, result);
+      return callback(false, error);
     });
   },
 
