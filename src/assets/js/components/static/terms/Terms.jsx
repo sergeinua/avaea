@@ -360,6 +360,9 @@ var StaticTerms = React.createClass({
 	      	at the Notice Address.) The arbitration will be governed by the Commercial Arbitration Rules and the 
 	      	Supplementary Procedures for Consumer Related Disputes (collectively, "AAA Rules") of the American 
 	      	Arbitration Association ("AAA"), as modified by this Agreement, and will be administered by the AAA. 
+      	</div>
+
+      	<div className="sub-copy">
 	      	The AAA Rules are available online at www.adr.org, by calling the AAA at 1-800-778-7879, or by 
 	      	writing to the Notice Address. The arbitrator is bound by the terms of this Agreement. All issues are 
 	      	for the arbitrator to decide, including issues relating to the scope and enforceability of this arbitration 
@@ -371,7 +374,11 @@ var StaticTerms = React.createClass({
 	      	in which the arbitration is conducted, the arbitrator shall issue a reasoned written decision sufficient to 
 	      	explain the essential findings and conclusions on which the award is based. Except as otherwise provided 
 	      	for herein, Avaea will pay all AAA filing, administration, and arbitrator fees for any arbitration initiated in 
-	      	accordance with the notice requirements above. If, however, the arbitrator finds in favor of Avaea as to 
+	      	accordance with the notice requirements above. 
+      	</div>
+
+      	<div className="sub-copy">
+	      	If, however, the arbitrator finds in favor of Avaea as to 
 	      	the substance of your claim or the relief sought, you will reimburse Avaea for your portion of the filing fee. 
 	      	If the arbitrator finds that either the substance of your claim or the relief sought in the Demand is frivolous 
 	      	or brought for an improper purpose (as measured by the standards set forth in Federal Rule of Civil 
@@ -380,8 +387,11 @@ var StaticTerms = React.createClass({
 	      	are otherwise your obligation to pay under the AAA Rules. In addition, if you initiate an arbitration in which 
 	      	you seek more than $10,000 in damages, the payment of these fees will be governed by the AAA rules.
 	      	The arbitrator may award declaratory or injunctive relief only in favor of the individual party seeking relief 
-	      	and only to the extent necessary to provide relief warranted by that party's individual claim. YOU AND 
-	      	AVAEA AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN YOUR OR ITS INDIVIDUAL 
+	      	and only to the extent necessary to provide relief warranted by that party's individual claim. 
+      	</div>
+
+      	<div className="sub-copy">
+	      	YOU AND AVAEA AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY IN YOUR OR ITS INDIVIDUAL 
 	      	CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS OR REPRESENTATIVE 
 	      	PROCEEDING. Further, unless both you and Avaea agree otherwise, the arbitrator may not consolidate more 
 	      	than one person's claims with your claims, and may not otherwise preside over any form of a representative 

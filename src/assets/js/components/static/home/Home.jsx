@@ -26,7 +26,7 @@ var StaticHome = React.createClass({
 			    	    		<div className="wrapper">
 					    	    	<div className="ti">Where I want to go</div>
 					    	    	<div className="loc-holder">
-					    	    		<input type="text" /><span>to</span><input type="text" value="SJC" />
+					    	    		<input type="text"  value="SJC" /><span>to</span><input type="text" />
 					    	    	</div>	
 					    	      <div className="ti">When</div>
 					    	    	<input type="text" value="December 15 - December 22" />
