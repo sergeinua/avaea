@@ -2,7 +2,7 @@ $(document).ready(function() {
 
   if (document.getElementById('spa-app')) {
     const Container = (props) => <div>
-      <NavBarContainer />
+      <NavBarContainer {...props} />
       {props.children}
     </div>;
 
