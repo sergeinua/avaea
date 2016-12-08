@@ -285,7 +285,6 @@ var VoiceForm = React.createClass({
         if (serviceClass && serviceClass[result.class_of_service]) {
           ActionsStore.setFormValue('CabinClass', result.class_of_service);
         }
-        // ActionsStore.updateFormValues();
 
         ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
         switch (result.action) {

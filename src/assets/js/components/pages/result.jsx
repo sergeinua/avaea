@@ -2,33 +2,18 @@ var firstSelectionCount = {};
 var globalSelectionCount = 0;
 
 var ResultPage = React.createClass({
+
   getInitialState: function() {
-    var searchParams;
-    var currentSort = {"name": "price", "order": "asc"};
-
-    if (localStorage.getItem('searchParams')) {
-      //use data from local storage if exists
-      searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else {
-      //use data from server with default/session params if local storage is empty
-      searchParams = this.props.InitSearchFormData.searchParams;
-    }
-
-    if (searchParams.topSearchOnly == 1) {
-      currentSort = {"name": "smart", "order": "asc"};
-    }
     return {
       isLoading: true,
-      searchParams: searchParams,
       searchResultLength: 0,
       filter: [],
-      currentSort: currentSort
     };
   },
 
   componentDidMount: function () {
-    var searchParams = this.state.searchParams;
-    ActionsStore.updateNavBarSearchParams(searchParams);
+    var searchParams = this.props.commonData.searchParams;
+
     var updateState = (json) => {
       if (this.isMounted()) {
         this.setState({
@@ -73,6 +58,7 @@ var ResultPage = React.createClass({
         });
       }
     };
+
     if (this.state.isLoading) {
       var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
 
@@ -94,16 +80,7 @@ var ResultPage = React.createClass({
         });
         console.log('server request used');
 
-        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(searchParams),
-          credentials: 'same-origin' // required for including auth headers
-        })
-          .then((response) => response.json())
+        ClientApi.reqPost('/result?s=' + btoa(JSON.stringify(searchParams)), searchParams, true)
           .then((json) => {
             if (json.errorInfo) {
               console.log(json.errorInfo);
@@ -135,7 +112,7 @@ var ResultPage = React.createClass({
                 ]
               }
             });
-            console.log(error);
+            console.error(error);
           });
       }
     }
@@ -214,6 +191,19 @@ var ResultPage = React.createClass({
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
     };
+
+    var _searchParams = this.props.commonData.searchParams;
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      _searchParams = JSON.parse(localStorage.getItem('searchParams'));
+      this.props.actionSetCommonVal('searchParams', _searchParams);
+    }
+
+    var currentSort = {"name": "price", "order": "asc"};
+    if (_searchParams.topSearchOnly == 1) {
+      currentSort = {"name": "smart", "order": "asc"};
+    }
+    this.props.actionSetCommonVal('currentSort', currentSort);
   },
 
   sortItineraries: function (option, direction) {
@@ -260,7 +250,7 @@ var ResultPage = React.createClass({
     });
 
     this.setState({searchResult: itineraries});
-    this.setState({currentSort: {"name": option, "order": direction}});
+    this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
   clearTiles: function () {
@@ -411,7 +401,7 @@ var ResultPage = React.createClass({
                    tiles={this.state.tiles}
                    filter={this.state.filter}
                    searchResultLength={this.state.searchResultLength}
-                   currentSort={this.state.currentSort}
+                   currentSort={this.props.commonData.currentSort}
                    max_filter_items={this.state.max_filter_items}
                  />
                  <ResultList InitResultData={this.state} />
@@ -423,3 +413,19 @@ var ResultPage = React.createClass({
     )
   }
 });
+
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const mapDispatchCommon = (dispatch) => {
+  return {
+    actionSetCommonVal: (fieldName, fieldValue) => {
+      return dispatch(actionSetCommonVal(fieldName, fieldValue));
+    }
+  }
+};
+
+const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);

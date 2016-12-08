@@ -7,10 +7,6 @@ var ActionsStore = {
     return JSON.parse(iconSpriteMap || '[]');
   },
 
-  updateNavBarSearchParams: (searchParams) => {
-    clientStore.dispatch(actionSetCommonVal('searchParams', searchParams));
-  },
-
   updateNavBarPage: (page) => {
     if (page) {
       clientStore.dispatch(actionSetCommonVal('page', page));

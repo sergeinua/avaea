@@ -1,10 +1,4 @@
 var Citypairs = React.createClass({
-  getInitialState: function() {
-    return {
-      citypairs: this.props.citypairs,
-      information: this.props.information
-    };
-  },
 
   showFMiles: function(miles) {
     if( miles === false ) {

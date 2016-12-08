@@ -39,10 +39,10 @@ $(document).ready(function() {
             <Route path="/privacy" component={PrivacyPage}/>
           </Route>
           <Route path="/" component={Container}>
-            <IndexRoute component={SearchFormPage} />
+            <IndexRoute component={SearchFormPageContainer} />
             <Route path="/profile" component={ProfilePage}/>
-            <Route path="/search" component={SearchFormPage}/>
-            <Route path="/result" component={ResultPage}/>
+            <Route path="/search" component={SearchFormPageContainer}/>
+            <Route path="/result" component={ResultPageContainer}/>
             <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
             <Route path="/booking/:bookingId" component={BookingPage}/>
             <Route path="*" component={DisplayAlert}/>

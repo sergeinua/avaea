@@ -1,27 +1,6 @@
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
 var SearchFormPage = React.createClass({
-  getInitialState: function() {
-    var searchParams = {
-      flightType : 'round_trip'
-    };
-    if (localStorage.getItem('searchParams')) {
-      //use data from local storage if exists
-      searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else if (InitData.defaultSearch) {
-      //use data from server with default/session params if local storage is empty
-      searchParams = InitData.defaultSearch;
-    }
-    return {
-      searchParams: searchParams,
-      calendarErrors: {
-        departureDate: false,
-        returnDate: false
-      },
-      currentForm: searchParams.flightType,
-      airportChoiceTarget: 'DepartureLocationCode'
-    };
-  },
 
   componentWillMount: function () {
     // DEMO-800 removed mess after not properly closed modal.
@@ -29,48 +8,31 @@ var SearchFormPage = React.createClass({
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
 
-    ActionsStore.updateNavBarPage(this.state.currentForm);
     ActionsStore.changeForm = (form) => {
       unfocusFormForIos();
-      if (this.isMounted()) {
-        this.setState(
-          {currentForm: form.toLowerCase()},
-          () => {
-            ActionsStore.updateNavBarSearchParams(this.state.searchParams);
-            ActionsStore.validateCalendar();
+
+      Promise.resolve( this.props.actionSetCommonVal('currentForm', form.toLowerCase()) )
+        .then(function () {
+          if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
+            Promise.resolve( ActionsStore.setFormValue('flightType', form.toLowerCase()) );
           }
-        );
-      }
+          else {
+            return true;
+          }
+        })
+        .then(function () {
+          ActionsStore.validateCalendar();
+        });
+
       ActionsStore.updateNavBarPage(form.toLowerCase());
-      if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
-        ActionsStore.setFormValue('flightType', form.toLowerCase());
-      }
-    };
-
-    ActionsStore.getSearchParams = () => {
-      return this.state.searchParams;
-    };
-
-    ActionsStore.updateFormValues = () => {
-      var searchParams = ActionsStore.getSearchParams();
-      if (this.isMounted()) {
-        this.setState({searchParams: searchParams});
-      }
     };
 
     ActionsStore.setFormValue = (target, value) => {
-      var searchParams = ActionsStore.getSearchParams();
-      searchParams[target] = value;
-      ActionsStore.updateFormValues();
+      return this.props.actionSetCommonVal(['searchParams', target], value);
     };
 
     ActionsStore.setTarget = (target) => {
-      this.setState({airportChoiceTarget: target});
-    };
-
-    ActionsStore.changeCalendarDate = () => {
-      finalizeValues();
-      ActionsStore.updateFormValues();
+      this.props.actionSetCommonVal('airportChoiceTarget', target);
     };
 
     ActionsStore.validateCalendar = () => {
@@ -80,10 +42,10 @@ var SearchFormPage = React.createClass({
         returnDate: false
       };
 
-      var flightType = this.state.searchParams.flightType || 'round_trip';
-      var departureDate = this.state.searchParams.departureDate;
+      var flightType = this.props.commonData.searchParams.flightType || 'round_trip';
+      var departureDate = this.props.commonData.searchParams.departureDate;
       var moment_dp = moment(departureDate, "YYYY-MM-DD");
-      var returnDate = this.state.searchParams.returnDate;
+      var returnDate = this.props.commonData.searchParams.returnDate;
       var moment_rp = moment(returnDate, "YYYY-MM-DD");
 
       var moment_now = moment();
@@ -113,7 +75,7 @@ var SearchFormPage = React.createClass({
       }
 
       // Check existence of the return date for the round trip
-      if (this.state.currentForm == 'round_trip') {
+      if (this.props.commonData.currentForm == 'round_trip') {
         if (!returnDate) {
           calendarErrors.returnDate = true;
           calendarErrors.isError = true;
@@ -125,16 +87,43 @@ var SearchFormPage = React.createClass({
         }
       }
 
-      if (this.isMounted()) {
-        this.setState({calendarErrors: calendarErrors});
+      this.props.actionSetCommonVal('calendarErrors', calendarErrors);
+    };
+
+    // Get and apply search params from local storage
+    let _searchParams;
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      _searchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else if (InitData.defaultSearch) {
+      //use data from server with default/session params if local storage is empty
+      _searchParams = InitData.defaultSearch;
+    }
+
+    if (_searchParams) {
+      Promise.resolve( this.props.actionSetCommonVal('searchParams', _searchParams) )
+        .then(function () {
+          if (_searchParams.flightType != this.props.commonData.currentForm) {
+            ActionsStore.changeForm(_searchParams.flightType);
+            return false;
+          }
+          else {
+            ActionsStore.updateNavBarPage(this.props.commonData.currentForm);
+            return true;
+          }
+        }.bind(this))
+        .then(function (isValidateCalendar) {
+          if (isValidateCalendar && (this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip')) {
+            ActionsStore.validateCalendar();
+          }
+        }.bind(this));
+    }
+    else {
+      ActionsStore.updateNavBarPage(this.props.commonData.currentForm);
+      if (this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip') {
+        ActionsStore.validateCalendar();
       }
-    };
-
-    ActionsStore.getCalendarErrors = () => {
-      return this.state.calendarErrors;
-    };
-
-    ActionsStore.updateFormValues();
+    }
   },
 
   changeForm: function(form) {
@@ -145,39 +134,39 @@ var SearchFormPage = React.createClass({
   render: function() {
     return (
       <div>
-        { this.state.currentForm != 'voice_search' && this.state.currentForm != 'calendar'  && this.state.currentForm != 'airport-search' ?
+        { this.props.commonData.currentForm != 'voice_search' && this.props.commonData.currentForm != 'calendar'  && this.props.commonData.currentForm != 'airport-search' ?
         <nav className="navbar navbar-default searchform-top" >
           <div className="flight-type-form">
             <div id="one_way"
-                 className={ this.state.currentForm == 'one_way' ? "flight-type-item one-way active-choice":"flight-type-item one-way"}
+                 className={ this.props.commonData.currentForm == 'one_way' ? "flight-type-item one-way active-choice":"flight-type-item one-way"}
                  onClick={this.changeForm('one_way')}>One way</div>
             <div id="round_trip"
-                 className={ this.state.currentForm == 'round_trip' ? "flight-type-item active-choice":"flight-type-item"}
+                 className={ this.props.commonData.currentForm == 'round_trip' ? "flight-type-item active-choice":"flight-type-item"}
                  onClick={this.changeForm('round_trip')}>Round trip</div>
             <div id="multi_city"
-                 className={ this.state.currentForm == 'multi_city' ? "flight-type-item multi-city active-choice":"flight-type-item multi-city"}
+                 className={ this.props.commonData.currentForm == 'multi_city' ? "flight-type-item multi-city active-choice":"flight-type-item multi-city"}
                  onClick={this.changeForm('multi_city')}>Multi city</div>
           </div>
         </nav>:null
         }
-        { this.state.currentForm == 'multi_city' ?
+        { this.props.commonData.currentForm == 'multi_city' ?
           <MultiCityForm />
           : null
         }
-        { this.state.currentForm == 'one_way' || this.state.currentForm == 'round_trip' ?
-          <TripSearchForm InitSearchFormData={this.state} />
+        { this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip' ?
+          <TripSearchForm InitSearchFormData={this.props.commonData} />
           : null
         }
-        { this.state.currentForm == 'voice_search' ?
+        { this.props.commonData.currentForm == 'voice_search' ?
           <VoiceForm />
           : null
         }
-        { this.state.currentForm == 'calendar' ?
-          <Calendar />
+        { this.props.commonData.currentForm == 'calendar' ?
+          <Calendar searchParams={this.props.commonData.searchParams}/>
           : null
         }
-        { this.state.currentForm == 'airport-search' ?
-          <Typeahead target={this.state.airportChoiceTarget}/>
+        { this.props.commonData.currentForm == 'airport-search' ?
+          <Typeahead target={this.props.commonData.airportChoiceTarget} searchParams={this.props.commonData.searchParams}/>
           : null
         }
         <SearchBanner/>
@@ -185,3 +174,20 @@ var SearchFormPage = React.createClass({
     )
   }
 });
+
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const mapDispatchCommon = (dispatch) => {
+  return {
+    actionSetCommonVal: (fieldName, fieldValue) => {
+      return dispatch(actionSetCommonVal(fieldName, fieldValue));
+    }
+  }
+};
+
+const SearchFormPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(SearchFormPage);
+
