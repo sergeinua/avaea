@@ -10,7 +10,7 @@ var PassengerChooser = React.createClass({
   },
 
   updateCount: function(passengerVal) {
-    if (!passengerVal || passengerVal > 4 || passengerVal < 0) {
+    if (!passengerVal || passengerVal > 4) {
       passengerVal = 1;
     }
     ActionsStore.setFormValue('passengers', passengerVal);

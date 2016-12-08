@@ -90,7 +90,7 @@ var SearchFormPage = React.createClass({
       this.props.actionSetCommonVal('calendarErrors', calendarErrors);
     };
 
-    // Get and applay search params from local storage
+    // Get and apply search params from local storage
     let _searchParams;
     if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
@@ -99,17 +99,30 @@ var SearchFormPage = React.createClass({
       //use data from server with default/session params if local storage is empty
       _searchParams = InitData.defaultSearch;
     }
+
     if (_searchParams) {
-      this.props.actionSetCommonVal('searchParams', _searchParams);
-      if (_searchParams.flightType != this.props.commonData.currentForm) {
-        ActionsStore.changeForm(_searchParams.flightType);
-      }
-      else {
-        ActionsStore.updateNavBarPage(this.props.commonData.currentForm);
-      }
+      Promise.resolve( this.props.actionSetCommonVal('searchParams', _searchParams) )
+        .then(function () {
+          if (_searchParams.flightType != this.props.commonData.currentForm) {
+            ActionsStore.changeForm(_searchParams.flightType);
+            return false;
+          }
+          else {
+            ActionsStore.updateNavBarPage(this.props.commonData.currentForm);
+            return true;
+          }
+        }.bind(this))
+        .then(function (isValidateCalendar) {
+          if (isValidateCalendar && (this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip')) {
+            ActionsStore.validateCalendar();
+          }
+        }.bind(this));
     }
     else {
       ActionsStore.updateNavBarPage(this.props.commonData.currentForm);
+      if (this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip') {
+        ActionsStore.validateCalendar();
+      }
     }
   },
 
