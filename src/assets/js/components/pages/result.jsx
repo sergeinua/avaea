@@ -65,7 +65,6 @@ var ResultPage = React.createClass({
       var duration = moment.duration(now.diff(moment(savedResult.time)));
 
       let searchParams = this.props.commonData.searchParams;
-      console.warn('searchParams_before_store', searchParams);
       let _localSearchParams = localStorage.getItem('searchParams');
 
       Promise.resolve( _localSearchParams ? _localSearchParams : false)
@@ -73,7 +72,6 @@ var ResultPage = React.createClass({
           if (localData!==false) {
             searchParams = JSON.parse(localData);
             Promise.resolve(this.props.actionSetCommonVal('searchParams', searchParams));
-            console.warn('searchParams_after_store', searchParams);
           } else {
             return true;
           }
@@ -101,7 +99,6 @@ var ResultPage = React.createClass({
             });
             console.log('server request used');
 
-            console.warn('_reqPost1', searchParams);
             ClientApi.reqPost('/result?s=' + btoa(JSON.stringify(searchParams)), searchParams, true)
               .then((json) => {
                 if (json.errorInfo) {
