@@ -84,7 +84,8 @@ body,
 /* dark blue */
 input,
 h1,
-h2 {
+h2,
+.textly .subti {
 	color: #062868;
 }
 
@@ -173,13 +174,13 @@ h2,
 
 .content.static h2,
 .content.static h3 {
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
 }
 
 a.buttonly {
 	color: #ffffff;
 	font-size: 28px;
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
 	padding: 15px 50px 15px 50px;
 }
 
@@ -382,7 +383,7 @@ video {
 
 .static-features h2,
 .static-features h3 {
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
 	text-align: center;
 }
 
@@ -399,13 +400,13 @@ video {
 
 .static-features .copy,
 .upcoming .copy {
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
   font-size: 16px;
 	line-height: 30px;
 }
 
 .static-features span {
-	font-family: 'OpenSans';
+	font-family: 'Open-Sans';
 }
 
 .feature-voice .graphic {
@@ -433,7 +434,7 @@ video {
 .home.third > .copy,
 .home .upcoming .ti,
 .about.top .copy {
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
 	font-size: 22px;
 	line-height: 32px;
 }
@@ -542,7 +543,7 @@ video {
 
 .about .person .ti,
 .about .person .bio {
-	font-family: 'OpenSans-Light';
+	font-family: 'Open-Sans-Light';
 }
 
 .about .person .bio {
@@ -562,6 +563,52 @@ video {
 	text-align: center;
 	margin-bottom: 70px;
 }
+
+/* privacy, terms */
+
+.textly {
+	margin: 0 15%;
+	padding-bottom: 70px;
+}
+
+.textly h1 {
+	text-align: center;
+	margin: 50px 20px 0 20px;
+}
+
+.textly .updated {
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.textly .intro {
+	font-family: 'Open-Sans-Light';
+	font-size: 16px;
+	line-height: 24px;
+	margin-bottom: 20px;
+}
+
+.textly .subti {
+	font-size: 16px;
+	font-family: 'Open-Sans-Semibold';
+	margin: 15px 0;
+}
+
+.textly strong {
+	font-family: 'Open-Sans-Bold';
+}
+
+.textly ul {
+	margin: 15px 0 15px 15px;
+}
+
+.textly li,
+.textly .sub-copy {
+	margin: 8px 0;
+}
+
+
 
 
 /* heredeb */
