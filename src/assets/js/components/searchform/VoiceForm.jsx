@@ -162,6 +162,9 @@ var VoiceForm = React.createClass({
       ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
+      if (res && (data.action=='top' || data.action=='all')) {
+        ActionsStore.updateNavBarPage('result');
+      }
     });
   },
 
@@ -296,8 +299,8 @@ var VoiceForm = React.createClass({
         ActionsStore.changeForm(result.type);
 
         return callback(true, result);
-      }).fail(function(){
-        return callback(false, result);
+      }).fail(function(error){
+        return callback(false, error);
       });
     })
     .catch((error) => {
