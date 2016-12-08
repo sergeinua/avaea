@@ -1,10 +1,23 @@
 /* global $ */
+
+//global object for communication with react components
 var ActionsStore = {
   getIconSpriteMap: function () {
     var iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
     return JSON.parse(iconSpriteMap || '[]');
+  },
+
+  updateNavBarSearchParams: (searchParams) => {
+    clientStore.dispatch(actionSetCommonVal('searchParams', searchParams));
+  },
+
+  updateNavBarPage: (page) => {
+    if (page) {
+      clientStore.dispatch(actionSetCommonVal('page', page));
+    }
   }
-}; //global object for communication with react components
+};
+
 var isMobile = {
   Android: function() {
     return navigator.userAgent.match(/Android/i);

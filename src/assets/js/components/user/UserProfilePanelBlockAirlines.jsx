@@ -41,7 +41,7 @@ var UserProfilePanelBlockAirlines = React.createClass({
               <label>Preferred Airlines type</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                      data-fieldset="preferred_airlines" onClick={self.props.onRemoveFieldset} >remove</span>
-              <UserProfilePanelElementDropdown
+              <FormElementDropdownContainer
                 panelType="programs"
                 item={pseudoItem}
                 profileStructure={self.props.programsStructure.travel_type}
