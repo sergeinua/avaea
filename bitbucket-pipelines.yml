@@ -19,9 +19,9 @@ pipelines:
 #              - sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE avaea to avaea;"
 #              - sudo -u postgres sh -c 'psql -d avaea  < avaea.sql'
 #              - npm install pg
-              #- node -v
-              #- npm -v
-              #- psql -V
+              - node -v
+              - npm -v
+              - psql -V
               - cd src
               - npm install
 #              - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
