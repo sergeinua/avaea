@@ -33,6 +33,9 @@ module.exports.policies = {
   'user': {
     '*': ['passport']
   },
+  'ac': {
+    '*': ['passport']
+  },
   'site': {
     '*': ['passport']
   }

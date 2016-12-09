@@ -73,6 +73,11 @@ var NavBar = React.createClass({
   },
 
   render: function() {
+    if (!this.props.location) {
+      Link = (props) => {
+        return <a href={props.to}>{props.children}</a>
+      }
+    }
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         {  this.props.commonData.page != 'airport-search'
