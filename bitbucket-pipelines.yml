@@ -20,8 +20,8 @@ pipelines:
 #              - sudo -u postgres sh -c 'psql -d avaea  < avaea.sql'
 #              - npm install pg
               #- node -v
-              - npm -v
-              - psql -V
+              #- npm -v
+              #- psql -V
               - cd src
               - npm install
 #              - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
