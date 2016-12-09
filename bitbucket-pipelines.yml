@@ -21,7 +21,7 @@ pipelines:
 #              - npm install pg
               - node -v
               #- npm -v
-              #- psql -V
+              - psql -V
               - cd src
               - npm install
 #              - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
