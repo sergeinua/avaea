@@ -1,3 +1,7 @@
+import * as Redux from 'redux';
+import * as Immutable from 'immutable';
+import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from 'actions.js';
+// require('actions.js');
 
 const storeInitialState = {
   commonData: {
@@ -84,4 +88,6 @@ const appReducers = Redux.combineReducers({
 
 
 // Create store
-const clientStore = Redux.createStore(appReducers);
+export const clientStore = Redux.createStore(appReducers);
+
+// export default clientStore;

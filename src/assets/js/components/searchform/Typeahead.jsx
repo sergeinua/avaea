@@ -1,3 +1,5 @@
+import React from 'react';
+
 /**
  * Make request to the remote server and fetch data for the typehead rendering
  *
@@ -78,3 +80,5 @@ var Typeahead = React.createClass({
   }
 
 });
+
+export default Typeahead;

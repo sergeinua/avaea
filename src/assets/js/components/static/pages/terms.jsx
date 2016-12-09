@@ -1,3 +1,5 @@
+import React from 'react';
+
 var TermsPage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var TermsPage = React.createClass({
     )
   }
 });
+
+export default TermsPage;

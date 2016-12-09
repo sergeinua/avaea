@@ -1,3 +1,5 @@
+import React from 'react';
+
 var AboutPage = React.createClass({
 
   getInitialState: function () {
@@ -49,3 +51,5 @@ var AboutPage = React.createClass({
     )
   }
 });
+
+export default AboutPage;

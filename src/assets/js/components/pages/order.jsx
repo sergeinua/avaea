@@ -1,3 +1,5 @@
+import React from 'react';
+
 var OrderPage = React.createClass({
   componentWillMount: function () {
     ActionsStore.updateNavBarPage('order');
@@ -10,3 +12,5 @@ var OrderPage = React.createClass({
     )
   }
 });
+
+export default OrderPage;

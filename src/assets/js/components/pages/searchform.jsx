@@ -1,3 +1,14 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { actionSetCommonVal } from '../../actions.js';
+import { unfocusFormForIos, ActionsStore } from '../../functions.js';
+import TripSearchForm from '../searchform/TripSearchForm.jsx';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import Calendar from '../searchform/Calendar.jsx';
+import MultiCityForm from '../searchform/MultiCityForm.jsx';
+import VoiceForm from '../searchform/VoiceForm.jsx';
+import Typeahead from '../searchform/Typeahead.jsx';
+
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
 var SearchFormPage = React.createClass({
@@ -191,3 +202,4 @@ const mapDispatchCommon = (dispatch) => {
 
 const SearchFormPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(SearchFormPage);
 
+export default SearchFormPageContainer;

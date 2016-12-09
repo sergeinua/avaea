@@ -1,3 +1,5 @@
+import React from 'react';
+
 var ProfilePage = React.createClass({
   componentWillMount: function () {
     ActionsStore.updateNavBarPage('profile');
@@ -9,3 +11,5 @@ var ProfilePage = React.createClass({
     )
   }
 });
+
+export default ProfilePage;

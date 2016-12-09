@@ -1,3 +1,5 @@
+import React from 'react';
+
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
@@ -335,3 +337,5 @@ var VoiceForm = React.createClass({
     )
   }
 });
+
+export default VoiceForm;

@@ -1,28 +1,28 @@
 
-const actionTypesProfile = {
+export const actionTypesProfile = {
   LOAD_PROFILE_SUCCESS: 'LOAD_PROFILE_SUCCESS',
   LOAD_PROFILE_FAILED: 'LOAD_PROFILE_FAILED',
   SET_PERSONAL_VAL: 'SET_PERSONAL_VAL',
   SET_PROGRAMS_VAL: 'SET_PROGRAMS_VAL',
 };
-const actionTypesOrder = {
+export const actionTypesOrder = {
   LOAD_ORDER_SUCCESS: 'LOAD_ORDER_SUCCESS',
   LOAD_ORDER_FAILED: 'LOAD_ORDER_FAILED',
   SET_ORDER_FIELD_VAL: 'SET_ORDER_FIELD_VAL',
 };
-const actionTypesCommon = {
+export const actionTypesCommon = {
   SET_COMMON_VAL: 'SET_COMMON_VAL',
 };
 
 //// Profile
-function actionLoadProfileSuccess (data) {
+export function actionLoadProfileSuccess (data) {
   return {
     type: actionTypesProfile.LOAD_PROFILE_SUCCESS,
     payload: data
   }
 }
 
-function actionSetPersonalVal (elemNum, value) {
+export function actionSetPersonalVal (elemNum, value) {
   return {
     type: actionTypesProfile.SET_PERSONAL_VAL,
     elemNum: elemNum,
@@ -30,7 +30,7 @@ function actionSetPersonalVal (elemNum, value) {
   }
 }
 
-function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
+export function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
   return {
     type: actionTypesProfile.SET_PROGRAMS_VAL,
     blockNum: blockNum,
@@ -40,7 +40,7 @@ function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
   }
 }
 
-function actionLoadProfileFailed () {
+export function actionLoadProfileFailed () {
   return {
     type: actionTypesProfile.LOAD_PROFILE_FAILED,
     payload: {error: true}
@@ -48,14 +48,14 @@ function actionLoadProfileFailed () {
 }
 
 //// Order
-function actionLoadOrderSuccess (data) {
+export function actionLoadOrderSuccess (data) {
   return {
     type: actionTypesOrder.LOAD_ORDER_SUCCESS,
     payload: data
   }
 }
 
-function actionSetOrderFieldVal (fieldName, fieldValue) {
+export function actionSetOrderFieldVal (fieldName, fieldValue) {
   return {
     type: actionTypesOrder.SET_ORDER_FIELD_VAL,
     fieldName: fieldName,
@@ -63,7 +63,7 @@ function actionSetOrderFieldVal (fieldName, fieldValue) {
   }
 }
 
-function actionLoadOrderFailed (data) {
+export function actionLoadOrderFailed (data) {
   var result = {error: true};
   if (data.errorInfo) {
     result.errorInfo = data.errorInfo;
@@ -75,7 +75,7 @@ function actionLoadOrderFailed (data) {
 }
 
 //// Common
-function actionSetCommonVal (fieldName, fieldValue) {
+export function actionSetCommonVal (fieldName, fieldValue) {
   return {
     type: actionTypesCommon.SET_COMMON_VAL,
     fieldName: fieldName,

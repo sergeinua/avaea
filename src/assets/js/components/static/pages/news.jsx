@@ -1,3 +1,5 @@
+import React from 'react';
+
 var NewsPage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var NewsPage = React.createClass({
     )
   }
 });
+
+export default NewsPage;

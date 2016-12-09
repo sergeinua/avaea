@@ -1,3 +1,5 @@
+import React from 'react';
+
 var BookingPage = React.createClass({
 
   getInitialState: function () {
@@ -40,3 +42,5 @@ var BookingPage = React.createClass({
     )
   }
 });
+
+export default BookingPage;

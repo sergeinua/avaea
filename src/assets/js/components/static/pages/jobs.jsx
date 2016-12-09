@@ -1,3 +1,5 @@
+import React from 'react';
+
 var JobsPage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var JobsPage = React.createClass({
     )
   }
 });
+
+export default JobsPage;

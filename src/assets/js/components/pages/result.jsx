@@ -1,3 +1,6 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+
 var firstSelectionCount = {};
 var globalSelectionCount = 0;
 
@@ -436,3 +439,5 @@ const mapDispatchCommon = (dispatch) => {
 };
 
 const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

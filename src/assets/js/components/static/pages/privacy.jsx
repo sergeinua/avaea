@@ -1,3 +1,5 @@
+import React from 'react';
+
 var PrivacyPage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var PrivacyPage = React.createClass({
     )
   }
 });
+
+export default PrivacyPage;

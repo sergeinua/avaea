@@ -1,3 +1,5 @@
+import React from 'react';
+
 var BlogPage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var BlogPage = React.createClass({
     )
   }
 });
+
+export default BlogPage;

@@ -1,3 +1,8 @@
+import React from 'react';
+import ClassChooser from './ClassChooser.jsx';
+import PassengerChooser from './PassengerChooser.jsx';
+import { ActionsStore } from '../../functions.js';
+
 // Vars
 var flashErrorTimeout = 1000;
 
@@ -330,3 +335,5 @@ var TripSearchForm = React.createClass({
     )
   }
 });
+
+export default TripSearchForm;

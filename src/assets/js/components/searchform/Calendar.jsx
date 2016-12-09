@@ -1,3 +1,5 @@
+import React from 'react';
+
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
 //FIXME get rid from jquery
@@ -170,3 +172,5 @@ var Calendar = React.createClass({
     )
   }
 });
+
+export default Calendar;

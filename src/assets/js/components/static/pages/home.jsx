@@ -1,3 +1,5 @@
+import React from 'react';
+
 var HomePage = React.createClass({
 
   getInitialState: function () {
@@ -24,3 +26,5 @@ var HomePage = React.createClass({
     )
   }
 });
+
+export default HomePage;
