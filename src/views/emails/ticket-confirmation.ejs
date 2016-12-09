@@ -294,51 +294,87 @@
             <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
                 <tr>
                     <td align="center" valign="top" width="500">
-                      <![endif]-->
-                      <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
-                          <% if (miles.value > 0) {
-                          %>
-                          <tr>
-                              <td>
-                                  <!-- TWO COLUMNS -->
-                                  <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
-                                      <tr>
-                                          <td valign="top" style="padding: 0;" class="mobile-wrapper">
-                                              <!-- LEFT COLUMN -->
-                                              <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
-                                                  <tr>
-                                                      <td style="padding: 0 0 10px 0;">
-                                                          <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                              <tr>
-                                                                  <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
-                                                              </tr>
-                                                          </table>
-                                                      </td>
-                                                  </tr>
-                                              </table>
-                                              <!-- RIGHT COLUMN -->
-                                              <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
-                                                  <tr>
-                                                      <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
-                                                          <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
-                                                              <tr>
-                                                                  <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
-                                                              </tr>
-                                                          </table>
-                                                      </td>
-                                                  </tr>
-                                              </table>
-                                          </td>
-                                      </tr>
-                                  </table>
-                              </td>
-                          </tr>
-                          <%
-                          }%>
-                      </table>
-                      <!--[if (gte mso 9)|(IE)]>
+            <![endif]-->
+            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+                <tr>
+                    <td>
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                         <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Refund Type:</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                      </table>
+                                      <!-- RIGHT COLUMN -->
+                                      <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                          <tr>
+                                              <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
+                                                  <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
+                                                      <tr>
+                                                          <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic add refundable --><%= reqParams.refundType || '' %></td>
+                                                      </tr>
+                                                  </table>
+                                              </td>
+                                          </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
+
+                <% if (miles.value > 0) {
+                %>
+                <tr>
+                    <td>
+                        <!-- TWO COLUMNS -->
+                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                            <tr>
+                                <td valign="top" style="padding: 0;" class="mobile-wrapper">
+                                    <!-- LEFT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 0;">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- RIGHT COLUMN -->
+                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                        <tr>
+                                            <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
+                                                    <tr>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <%
+                }%>
+            </table>
+            <!--[if (gte mso 9)|(IE)]>
+            </td>
+            </tr>
             </table>
             <![endif]-->
         </td>
