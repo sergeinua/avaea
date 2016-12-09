@@ -25,6 +25,7 @@ before(function(done) {
       '*' : true
     },
     hookTimeout: 40000,
+    segmentio_key: 'dTKBLO5w1lHx5o9HPLIwTQCzomWJOUN5',
     hooks: {
       session: false,
       grunt: false
