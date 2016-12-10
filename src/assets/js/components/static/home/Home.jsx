@@ -85,7 +85,7 @@ var StaticHome = React.createClass({
 		    	  <div className="home compare level">
 			    	  
 			    	  <div className="wrapper">
-			    	  	<h1>By comparing extras a flight has to offer, our PriceLens<span>&trade;</span> technology helps you choose the best flight.</h1>
+			    	  	<h1>By comparing flight extras, our PriceLens<span>&trade;</span> technology helps you choose the best flight.</h1>
 			      		<div className="copy">
 			      			<ul>
 			      				<li>Wireless</li>

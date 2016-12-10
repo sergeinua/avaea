@@ -383,7 +383,7 @@ video {
 }
 
 .static .home.compare .wrapper {
-	margin: 80px 0 100px 100px;
+	margin: 80px 0 80px 100px;
 }
 
 .static .home.compare h1 {
@@ -400,7 +400,7 @@ video {
 
 .static .home.compare ul {
 	font-family: 'Open-Sans-Light';
-	margin: 20px 0;
+	margin: 40px 0 0px 30px;
 }
 
 .static .home.compare li {
