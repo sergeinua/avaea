@@ -1,17 +1,106 @@
 /* global $ */
 
-//global object for communication with react components
+//global object for communication with react components and dispatching redux actions
 var ActionsStore = {
   getIconSpriteMap: function () {
-    var iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
-    return JSON.parse(iconSpriteMap || '[]');
+    return clientStore.getState().commonData.iconSpriteMap;
   },
 
-  updateNavBarPage: (page) => {
-    if (page) {
-      clientStore.dispatch(actionSetCommonVal('page', page));
+  changeForm: (form, isUnfocusForIos=true) => {
+    if (isUnfocusForIos) {
+      unfocusFormForIos();
+    }
+    form = form.toLowerCase();
+
+    if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
+      let items_data = [
+        ['currentForm', form],
+        [['searchParams','flightType'], form]
+      ];
+      clientStore.dispatch(actionMergeCommonVal(items_data));
+    }
+    else {
+      clientStore.dispatch(actionSetCommonVal('currentForm', form));
+    }
+  },
+
+  setFormValue: (target, value) => {
+    return clientStore.dispatch(actionSetCommonVal(['searchParams', target], value));
+  },
+
+  setTarget: (target) => {
+    clientStore.dispatch(actionSetCommonVal('airportChoiceTarget', target));
+  },
+
+  submitTripSearchForm: () => {
+    clientStore.dispatch(actionUpdateCommonByVal('formSubmitCount', 1));
+  }
+};
+
+let handleChangeTripSearchForm = (searchParams) => {
+  let formErrors = {
+    isError: false,
+    departureDate: false,
+    returnDate: false,
+    fromArea: false,
+    toArea: false,
+  };
+
+  let flightType = searchParams.flightType || 'round_trip';
+  let departureDate = searchParams.departureDate;
+  let moment_dp = moment(departureDate, "YYYY-MM-DD");
+  let returnDate = searchParams.returnDate;
+  let moment_rp = moment(returnDate, "YYYY-MM-DD");
+
+  let moment_now = moment();
+  // Check depart date
+  if (moment_dp &&
+    (
+      moment_dp.isBefore(moment_now, 'day') ||
+      moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+    )
+  ) {
+    formErrors.departureDate = true;
+    formErrors.isError = true;
+  }
+
+  // Check return date
+  if (flightType == 'round_trip') {
+    if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+      formErrors.returnDate = true;
+      formErrors.isError = true;
+    }
+    if (!returnDate) {
+      formErrors.returnDate = true;
+      formErrors.isError = true;
+    }
+    if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
+      formErrors.returnDate = true;
+      formErrors.isError = true;
     }
   }
+
+  if (!departureDate) {
+    formErrors.departureDate = true;
+    formErrors.isError = true;
+  }
+
+  // Check airports selection
+  if (searchParams.DepartureLocationCode == '') {
+    formErrors.fromArea = true;
+    formErrors.isError = true;
+  }
+  if (searchParams.ArrivalLocationCode == '') {
+    formErrors.toArea = true;
+    formErrors.isError = true;
+  }
+  if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
+    formErrors.fromArea = true;
+    formErrors.toArea = true;
+    formErrors.isError = true;
+  }
+
+  clientStore.dispatch(actionSetCommonVal('formErrors', formErrors));
 };
 
 var isMobile = {
