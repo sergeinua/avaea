@@ -378,21 +378,29 @@ video {
 	display: inline-block;
 	position: absolute;
 	right: 0;
-	top: 40px;
-	background: url(../images/static/tickets-compare.svg) 40px 0px no-repeat;
+	top: 0;
+	background: url(../images/static/tickets-compare.svg) 40px 10px no-repeat;
 }
 
 .static .home.compare .wrapper {
-	margin: 80px 0 80px 100px;
+	margin: 60px 0 70px 100px;
 }
 
 .static .home.compare h1 {
+	font-family: 'Open-Sans-Light';
+	font-size: 36px;
+	line-height: 44px;
 	text-align: left;
 	position: relative;
 }
 
+.static .home.compare strong,
 .static .home.compare span {
-	font-family: 'Open-Sans-Light';
+	font-family: 'Open-Sans';
+	font-weight: normal;
+}
+
+.static .home.compare span {
 	font-size: 26px;
 	position: relative;
 		top: -10px;
@@ -400,7 +408,7 @@ video {
 
 .static .home.compare ul {
 	font-family: 'Open-Sans-Light';
-	margin: 40px 0 0px 30px;
+	margin: 30px 0 0px 30px;
 }
 
 .static .home.compare li {
@@ -412,8 +420,7 @@ video {
 
 .home.second.level h1,
 .home.third > copy {
-	margin: auto;
-	max-width: 675px;
+	margin: 0 40px;
 }
 
 .static-features {
@@ -512,7 +519,7 @@ video {
 	position: absolute;
 	bottom: 0;
 	background: url(../images/static/world.svg) center top no-repeat;
-	background-size: 88%
+	background-size: 98%
 }
 
 /* about */
