@@ -122,7 +122,6 @@ const appReducers = Redux.combineReducers({
 // Create store
 const clientStore = Redux.createStore(appReducers);
 
-// let observe_searchParams, observe_formSubmitCount;
 
 // global, because subscribers can be re-mounted many times
 let observeStoreFields = {};
@@ -140,7 +139,6 @@ const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
   let is_need_call;
 
   function handleChangeStore() {
-    // cur_val = cur_field == 'formSubmitCount' ? observe_formSubmitCount : observe_searchParams;
     cur_val = observeStoreFields[cur_field];
     let next_val = handleGetVal(clientStore.getState(), cur_field);
 
@@ -153,14 +151,6 @@ const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
     }
 
     if (is_need_call) {
-      // console.log('_nextVal,cur', cur_field, typeof next_val, next_val, cur_val, observe_formSubmitCount, observe_searchParams);
-      console.log('_nextVal,cur', cur_field, typeof next_val, next_val, cur_val, observeStoreFields);
-      // if (cur_field == 'formSubmitCount') {
-      //   call_val = observe_formSubmitCount = next_val;
-      // }
-      // else {
-      //   call_val = observe_searchParams = next_val;
-      // }
       observeStoreFields[cur_field] = next_val;
       handleOnChangeStore(observeStoreFields[cur_field]);
     }
@@ -168,70 +158,5 @@ const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
 
   observeUnsubscribers[cur_field] = clientStore.subscribe(handleChangeStore);
   handleChangeStore();
-  console.log('run observeStore');
   return observeUnsubscribers[cur_field];
 };
-
-// 2nd variant - via fields array iterating
-// let observeStoreHandlers = [];
-// const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
-//
-//   let cur_val, cur_field, cur_handler, call_val;
-//   let is_need_call;
-//   let observe_fields = ['formSubmitCount','searchParams'];
-//   observeStoreHandlers[fieldName] = handleOnChangeStore;
-//
-//   function listenStore() {
-//
-//     for (var ii=0; ii < observe_fields.length; ii++) {
-//       cur_field = observe_fields[ii];
-//
-//       cur_val = cur_field == 'formSubmitCount' ? observe_formSubmitCount : observe_searchParams;
-//       let next_val = handleGetVal(clientStore.getState(), cur_field);
-//
-//       is_need_call = false;
-//       if (typeof next_val == 'object') {
-//         is_need_call = JSON.stringify(next_val) != JSON.stringify(cur_val);
-//       }
-//       else {
-//         is_need_call = next_val != cur_val;
-//       }
-//
-//       if (is_need_call) {
-//         console.log('_nextVal,cur', cur_handler, cur_field, typeof next_val, next_val, cur_val, observe_formSubmitCount, observe_searchParams);
-//         if (cur_field == 'formSubmitCount') {
-//           call_val = observe_formSubmitCount = next_val;
-//         }
-//         else {
-//           call_val = observe_searchParams = next_val;
-//         }
-//
-//         cur_handler = observeStoreHandlers[cur_field];
-//         if (typeof cur_handler == 'function') {
-//           cur_handler(call_val);
-//         }
-//       }
-//     }
-//   }
-//
-//   let unsubscribe = clientStore.subscribe(listenStore);
-//   listenStore();
-//   console.log('run observeStore');
-//   return unsubscribe;
-// };
-
-// function observeStore(store, select, onChange) {
-//   let currentState;
-//
-//   function handleChange() {
-//     let nextState = select(store.getState());
-//     if (nextState !== currentState) {
-//       currentState = nextState;
-//       onChange(currentState);
-//     }
-//   }
-//
-//   let unsubscribe = store.subscribe(handleChange);
-//   handleChange();
-//   return unsubscribe;
-// }
