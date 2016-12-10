@@ -2,33 +2,17 @@ var firstSelectionCount = {};
 var globalSelectionCount = 0;
 
 var ResultPage = React.createClass({
+
   getInitialState: function() {
-    var searchParams;
-    var currentSort = {"name": "price", "order": "asc"};
-
-    if (localStorage.getItem('searchParams')) {
-      //use data from local storage if exists
-      searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else {
-      //use data from server with default/session params if local storage is empty
-      searchParams = this.props.InitSearchFormData.searchParams;
-    }
-
-    if (searchParams.topSearchOnly == 1) {
-      currentSort = {"name": "smart", "order": "asc"};
-    }
     return {
       isLoading: true,
-      searchParams: searchParams,
       searchResultLength: 0,
       filter: [],
-      currentSort: currentSort
     };
   },
 
   componentDidMount: function () {
-    var searchParams = this.state.searchParams;
-    ActionsStore.updateNavBarSearchParams(searchParams);
+
     var updateState = (json) => {
       if (this.isMounted()) {
         this.setState({
@@ -73,72 +57,85 @@ var ResultPage = React.createClass({
         });
       }
     };
+
     if (this.state.isLoading) {
       var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
 
       var now = moment.utc();
       var duration = moment.duration(now.diff(moment(savedResult.time)));
 
-      if (
-        duration.asMinutes() < 20
-        && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
-        && savedResult.searchResult
-        && savedResult.searchResult.length
-      ) { //use cached result if params didn't change in 20 minutes
-        console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
-        updateState(savedResult);
-      } else {
-        $("#searchBanner").modal({
-          backdrop: 'static',
-          keyboard: false
-        });
-        console.log('server request used');
+      let searchParams = this.props.commonData.searchParams;
+      let _localSearchParams = localStorage.getItem('searchParams');
 
-        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(searchParams),
-          credentials: 'same-origin' // required for including auth headers
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.errorInfo) {
-              console.log(json.errorInfo);
-              updateState({
-                isLoading: false,
-                tiles: [],
-                searchResult: [],
-                errorInfo: json.errorInfo
-              });
-            } else {
-              sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
-              json.time = moment();
-              sessionStorage.setItem('savedResult', JSON.stringify(json));
-              sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
-              updateState(json);
-            }
-          })
-          .catch((error) => {
-            updateState({
-              isLoading: false,
-              tiles: [],
-              searchResult: [],
-              errorInfo: {
-                type:'Error.Search.NoConnection',
-                messages: [
-                  "Your request cannot be processed",
-                  "at the moment due to technical problems.",
-                  "Please try again later"
-                ]
-              }
+      Promise.resolve( _localSearchParams ? _localSearchParams : false)
+        .then(function (localData) {
+          if (localData!==false) {
+            searchParams = JSON.parse(localData);
+            Promise.resolve(this.props.actionSetCommonVal('searchParams', searchParams));
+          } else {
+            return true;
+          }
+        }.bind(this))
+        .then(function () {
+          let currentSort = {"name": "price", "order": "asc"};
+          if (searchParams.topSearchOnly == 1) {
+            currentSort = {"name": "smart", "order": "asc"};
+          }
+          Promise.resolve(this.props.actionSetCommonVal('currentSort', currentSort));
+        }.bind(this))
+        .then(function () {
+          if (
+            duration.asMinutes() < 20
+            && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+            && savedResult.searchResult
+            && savedResult.searchResult.length
+          ) { //use cached result if params didn't change in 20 minutes
+            console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
+            updateState(savedResult);
+          } else {
+            $("#searchBanner").modal({
+              backdrop: 'static',
+              keyboard: false
             });
-            console.log(error);
-          });
+            console.log('server request used');
+
+            ClientApi.reqPost('/result?s=' + btoa(JSON.stringify(searchParams)), searchParams, true)
+              .then((json) => {
+                if (json.errorInfo) {
+                  console.log(json.errorInfo);
+                  updateState({
+                    isLoading: false,
+                    tiles: [],
+                    searchResult: [],
+                    errorInfo: json.errorInfo
+                  });
+                } else {
+                  sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+                  json.time = moment();
+                  sessionStorage.setItem('savedResult', JSON.stringify(json));
+                  sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
+                  updateState(json);
+                }
+              })
+              .catch((error) => {
+                updateState({
+                  isLoading: false,
+                  tiles: [],
+                  searchResult: [],
+                  errorInfo: {
+                    type:'Error.Search.NoConnection',
+                    messages: [
+                      "Your request cannot be processed",
+                      "at the moment due to technical problems.",
+                      "Please try again later"
+                    ]
+                  }
+                });
+                console.error(error);
+              });
+          }
+        });
       }
-    }
   },
 
   componentWillMount: function () {
@@ -260,7 +257,7 @@ var ResultPage = React.createClass({
     });
 
     this.setState({searchResult: itineraries});
-    this.setState({currentSort: {"name": option, "order": direction}});
+    this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
   clearTiles: function () {
@@ -411,7 +408,7 @@ var ResultPage = React.createClass({
                    tiles={this.state.tiles}
                    filter={this.state.filter}
                    searchResultLength={this.state.searchResultLength}
-                   currentSort={this.state.currentSort}
+                   currentSort={this.props.commonData.currentSort}
                    max_filter_items={this.state.max_filter_items}
                  />
                  <ResultList InitResultData={this.state} />
@@ -423,3 +420,19 @@ var ResultPage = React.createClass({
     )
   }
 });
+
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const mapDispatchCommon = (dispatch) => {
+  return {
+    actionSetCommonVal: (fieldName, fieldValue) => {
+      return dispatch(actionSetCommonVal(fieldName, fieldValue));
+    }
+  }
+};
+
+const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);

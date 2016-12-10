@@ -156,8 +156,6 @@ var OrderPanel = React.createClass({
   },
 
   componentDidMount: function() {
-    clientStore.subscribe(() => console.log('_store:', clientStore.getState()));
-
     this.getOrder()
       .then(function (resData) {
         resData.error ? this.props.loadFailed(resData) : this.props.loadSuccess(resData);

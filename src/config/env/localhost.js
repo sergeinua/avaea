@@ -1,7 +1,7 @@
 /**
- * Production environment settings
+ * Localhost development environment settings
  *
- * This file can include shared settings for a production environment,
+ * This file can include shared settings for a development team,
  * such as API keys or remote database passwords.  If you're using
  * a version control solution for your Sails app, this file will
  * be committed to your repository unless you add it to your .gitignore
@@ -13,21 +13,30 @@
 module.exports = {
 
   /***************************************************************************
-   * Set the default database connection for models in the production        *
+   * Set the default database connection for models in the development       *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
+  connections: {
+    localhostPostgresqlServer: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'avaea',
+      database: 'avaea'
+    },
 
+  },
   models: {
-    connection: 'productionPostgresqlServer'
+    connection: 'localhostPostgresqlServer'
   },
 
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 8000,
-  proxyHost: 'http://stage.avaea.com',
-  proxyPort: 80,
+  proxyHost: 'http://localhost',
+  proxyPort: 1337,
+  port: 1337,
   explicitHost: 'localhost',
 
   /***************************************************************************
@@ -40,17 +49,18 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
+    password: 'avaea',
+    database: 'avaea',
+    port: 5432
   },
 
   flightapis: {
-    searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
+    searchProvider: ['mondee'/*, 'farelogix'*//*, 'mystifly'*/],
     mondee: {
-      baseEndPoint: 'http://sandbox.trippro.com/api/v2',
-      // clientId: 'CFS1017' temporary disabled bc of error from mondee "Please Provide Valid ClientId"
+      baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
+      clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
     },
     farelogix: {
       post_options: {
@@ -70,7 +80,20 @@ module.exports = {
     }
   },
 
-  hookTimeout: 90000,
-  segmentio_key: 'dTKBLO5w1lHx5o9HPLIwTQCzomWJOUN5'
-
+  hookTimeout: 120000,
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
+  //test account set up to http://localhost:1337
+  passport: {
+    google: {
+      name: 'Google',
+      protocol: 'oauth2',
+      strategy: require('passport-google-oauth').OAuth2Strategy,
+      options: {
+        clientID: '964565280166-e77at51l90hu9a4q41kmbhdc1tbnnlmd.apps.googleusercontent.com',
+        clientSecret: 'C4oFObpXseTuTZdHbEE97wLV',
+        prompt: 'select_account',
+        scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read']
+      }
+    }
+  }
 };

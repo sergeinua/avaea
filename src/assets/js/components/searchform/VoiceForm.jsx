@@ -162,6 +162,9 @@ var VoiceForm = React.createClass({
       ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
+      if (res && (data.action=='top' || data.action=='all')) {
+        ActionsStore.updateNavBarPage('result');
+      }
     });
   },
 
@@ -282,7 +285,6 @@ var VoiceForm = React.createClass({
         if (serviceClass && serviceClass[result.class_of_service]) {
           ActionsStore.setFormValue('CabinClass', result.class_of_service);
         }
-        // ActionsStore.updateFormValues();
 
         ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
         switch (result.action) {
@@ -296,8 +298,8 @@ var VoiceForm = React.createClass({
         ActionsStore.changeForm(result.type);
 
         return callback(true, result);
-      }).fail(function(){
-        return callback(false, result);
+      }).fail(function(error){
+        return callback(false, error);
       });
     })
     .catch((error) => {

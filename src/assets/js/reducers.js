@@ -1,7 +1,15 @@
 
 const storeInitialState = {
   commonData: {
-    searchParams: {},
+    searchParams: {
+      flightType: 'round_trip'
+    },
+    calendarErrors: {
+      departureDate: false,
+      returnDate: false
+    },
+    currentForm: 'round_trip',
+    airportChoiceTarget: 'DepartureLocationCode',
     page: '', // NavBar page
   },
   profileData: {},
@@ -17,7 +25,7 @@ const storeSetFieldsDataVal = (curState, fieldName, fieldValue) => {
 };
 const storeSetVal = (curState, fieldName, fieldValue) => {
   let _immutable = Immutable.fromJS(curState);
-  return _immutable.updateIn([fieldName], () => fieldValue).toJS();
+  return _immutable.updateIn(typeof fieldName == 'string' ? [fieldName] : fieldName, () => fieldValue).toJS();
 };
 
 
