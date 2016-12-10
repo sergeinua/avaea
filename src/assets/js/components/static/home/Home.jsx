@@ -26,10 +26,10 @@ var StaticHome = React.createClass({
 			    	    		<div className="wrapper">
 					    	    	<div className="ti">Where I want to go</div>
 					    	    	<div className="loc-holder">
-					    	    		<input type="text"  value="SJC" /><span>to</span><input type="text" />
+					    	    		<input type="text" /><span>to</span><input type="text" />
 					    	    	</div>	
 					    	      <div className="ti">When</div>
-					    	    	<input type="text" value="December 15 - December 22" />
+					    	    	<input type="text" />
 				    	    	</div>
 			    	    	  <a className="buttonly" href="#">Try it</a>
 				    	    </form>
@@ -40,7 +40,7 @@ var StaticHome = React.createClass({
 		    	  
 		    	  
 		    	  <div className="home second level">
-			    	  <h1>It's time technology made booking travel easier.</h1>
+			    	  <h1>Finally, tech that makes travel easier.</h1>
 			    	  <div className="static-features">
 			    	  
 			    	  	<div className="feature-voice">
@@ -84,7 +84,7 @@ var StaticHome = React.createClass({
 		    	  </div> {/* ends home second level */}
 		    	  
 		    	  <div className="home third level">
-			  	  	<h1>And this is only Beta.</h1>
+			  	  	<h1>And, this is only Beta. See what's next!</h1>
 			  	  	
 			  	  	<div className="copy">
 			  	  		Today, we’re focused on air travel.  Tomorrow we’ll tackle 

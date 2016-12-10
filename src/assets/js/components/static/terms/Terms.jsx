@@ -4,7 +4,7 @@ var StaticTerms = React.createClass({
       <div>
       	<div className="content static terms textly">
       		
-      	<h1>Privacy Policy</h1>
+      	<h1>Terms & Conditions</h1>
       	<div className="updated">Terms of Service</div>
 
       	<div className="copy intro">
