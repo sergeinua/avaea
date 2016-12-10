@@ -106,6 +106,18 @@ header.static li.active a {
 	color: #00a9e7;
 }
 
+/* light blue bg */
+
+.about.second,
+.static .home.compare {
+	background: #f9fafe;
+}
+
+.about .person .image {
+	background: #eff0f4;
+}
+
+
 /* green */
 
 h3 {
@@ -146,21 +158,17 @@ header.static .left a:hover {
 }
 
 header,
-.home.level.second:after {
+.home.level.compare {
 	border-bottom: 1px solid #d7d7d7;
+}
+
+.home.level.compare {
+	border-top: 1px solid #d7d7d7;
 }
 
 .static-features .copy,
 .upcoming .copy {
 	color: #919191;
-}
-
-.about.second {
-	background: #f7f7f9;
-}
-
-.about .person .image {
-	background: #efeff3;
 }
 
 
@@ -199,7 +207,7 @@ footer {
 header.static {
 	padding-left: 230px;
 	position: relative;
-	background: #ffffff url(../images/static/logo-beta.svg) 12px 8px no-repeat;
+	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
 	background-size: 230px;
 	z-index: 5; /* get it above the video area */
 }
@@ -358,10 +366,48 @@ video {
 	margin-bottom: 70px;
 }
 
-.home.level.second:after {
+.static .home.compare {
+	padding: 0 530px 0 0;
+	position: relative;
+}
+
+.static .home.compare:after {
 	content: '';
-	display: block;
-	margin: 0 50px;
+	width: 575px;
+	height: 485px;
+	display: inline-block;
+	position: absolute;
+	right: 0;
+	top: 40px;
+	background: url(../images/static/tickets-compare.svg) 40px 0px no-repeat;
+}
+
+.static .home.compare .wrapper {
+	margin: 80px 0 100px 100px;
+}
+
+.static .home.compare h1 {
+	text-align: left;
+	position: relative;
+}
+
+.static .home.compare span {
+	font-family: 'Open-Sans-Light';
+	font-size: 26px;
+	position: relative;
+		top: -10px;
+}
+
+.static .home.compare ul {
+	font-family: 'Open-Sans-Light';
+	margin: 20px 0;
+}
+
+.static .home.compare li {
+	padding: 0 0 5px 40px;
+	list-style-type: none;
+	position: relative;
+	background: url(../images/static/checkmark-static.svg) 0 2px no-repeat;
 }
 
 .home.second.level h1,
@@ -375,7 +421,7 @@ video {
 }
 
 .static-features > div {
-	padding: 40px 50px 50px 50px;
+	padding: 40px 50px 20px 50px;
 	display: table-cell;
 	width: 32%;
 	min-width: 285px;
@@ -387,7 +433,8 @@ video {
 	text-align: center;
 }
 
-.static-features h3 {
+.static-features h3,
+.static .home.compare ul {
 	font-size: 20px;
 	line-height: 30px;
 }
@@ -422,7 +469,7 @@ video {
 }
 
 .home.third {
-	padding-bottom: 290px;
+	padding-bottom: 320px;
 }
 
 .home.third .wrapper {
@@ -461,10 +508,11 @@ video {
 
 .home.graphic {
 	width: 100%;
-	height: 480px;
+	height: 500px;
 	position: absolute;
 	bottom: 0;
-	background: url(../images/static/world-alt.gif) center top no-repeat;
+	background: url(../images/static/world.svg) center top no-repeat;
+	background-size: 88%
 }
 
 /* about */

@@ -79,9 +79,25 @@ var StaticHome = React.createClass({
 			    	  		</div>
 				    	  </div>
 				    	  
-				    	  
 				    	</div>{/* ends features */}  
 		    	  </div> {/* ends home second level */}
+		    	  
+		    	  <div className="home compare level">
+			    	  
+			    	  <div className="wrapper">
+			    	  	<h1>By comparing extras a flight has to offer, our PriceLens<span>&trade;</span> technology helps you choose the best flight.</h1>
+			      		<div className="copy">
+			      			<ul>
+			      				<li>Wireless</li>
+			      				<li>Frequent Flyer Miles</li>
+			      				<li>Baggage discounts</li>
+			      				<li>Lounge access</li>
+			      				<li>Priority seat</li>
+			      			</ul>
+			      		</div>
+	      		</div>
+				    	  
+	    	  </div> {/* ends home compare level */}
 		    	  
 		    	  <div className="home third level">
 			  	  	<h1>And, this is only Beta. See what's next!</h1>
@@ -94,14 +110,14 @@ var StaticHome = React.createClass({
 			  	  		
 			  	  	<div className="wrapper">
 			  	  	
-			  	  		<div className="upcoming">
-			  	  			<div className="ti">Agent experience</div>
+				  	  	<div className="upcoming">
+			  	  			<div className="ti">Watch ticket price</div>
 			  	  			<div className="copy">
-			  	  				Your travel preferences remembered and calculated, 
-			  	  				so you see the tickets you’ll love first.
+				  	  			Choose your price. If your chosen ticket meets 
+				  	  			your price, it’s bought.
 			  	  			</div>
 			  	  		</div>
-			  	  		
+			  	  	
 			  	  		<div className="upcoming">
 			  	  			<div className="ti">Full voice experience</div>
 			  	  			<div className="copy">
@@ -118,10 +134,10 @@ var StaticHome = React.createClass({
 			  	  		</div>
 			  	  		
 			  	  		<div className="upcoming">
-			  	  			<div className="ti">Watch ticket price</div>
+			  	  			<div className="ti">Agent experience</div>
 			  	  			<div className="copy">
-				  	  			Choose your price. If your chosen ticket meets 
-				  	  			your price, it’s bought.
+			  	  				Your travel preferences remembered and calculated, 
+			  	  				so you see the tickets you’ll love first.
 			  	  			</div>
 			  	  		</div>
 			  	  		
