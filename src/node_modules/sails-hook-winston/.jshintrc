@@ -1,0 +1,14 @@
+{
+  "evil": true,
+  "regexdash": true,
+  "browser": true,
+  "wsh": true,
+  "sub": true,
+  "smarttabs": true,
+  "trailing": false,
+  "expr": true,
+  "loopfunc": true,
+  "boss": true,
+  "supernew": true,
+  "laxcomma": true
+}
