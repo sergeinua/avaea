@@ -51,7 +51,6 @@ var ResultItem = React.createClass({
   },
 
   getRefundType: function () {
-    return null; // #DEMO-737
     if (this.state.refundType !== false) return;
     var ResultItem = this;
 
