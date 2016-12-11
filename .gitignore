@@ -1,6 +1,5 @@
 .idea
 .vscode/*
-singlepage/node_modules
 singlepage/server_logs
 singlepage/public/bower_components
 *.retry
@@ -8,7 +7,6 @@ npm-debug.log
 deploy/playbooks/keys
 migrations.lock
 **/.DS_Store
-**/node_modules
 src/assets/rev.txt
 abo/assets/rev.txt
 
