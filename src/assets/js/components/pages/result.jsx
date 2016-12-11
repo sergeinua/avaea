@@ -65,24 +65,12 @@ var ResultPage = React.createClass({
       var duration = moment.duration(now.diff(moment(savedResult.time)));
 
       let searchParams = this.props.commonData.searchParams;
-      let _localSearchParams = localStorage.getItem('searchParams');
+      let currentSort = {"name": "price", "order": "asc"};
+      if (searchParams.topSearchOnly == 1) {
+        currentSort = {"name": "smart", "order": "asc"};
+      }
 
-      Promise.resolve( _localSearchParams ? _localSearchParams : false)
-        .then(function (localData) {
-          if (localData!==false) {
-            searchParams = JSON.parse(localData);
-            Promise.resolve(this.props.actionSetCommonVal('searchParams', searchParams));
-          } else {
-            return true;
-          }
-        }.bind(this))
-        .then(function () {
-          let currentSort = {"name": "price", "order": "asc"};
-          if (searchParams.topSearchOnly == 1) {
-            currentSort = {"name": "smart", "order": "asc"};
-          }
-          Promise.resolve(this.props.actionSetCommonVal('currentSort', currentSort));
-        }.bind(this))
+      Promise.resolve(this.props.actionSetCommonVal('currentSort', currentSort))
         .then(function () {
           if (
             duration.asMinutes() < 20
@@ -111,6 +99,7 @@ var ResultPage = React.createClass({
                   });
                 } else {
                   sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+                  clientStore.dispatch(actionSetCommonVal('iconSpriteMap', json.iconSpriteMap));
                   json.time = moment();
                   sessionStorage.setItem('savedResult', JSON.stringify(json));
                   sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
@@ -139,7 +128,7 @@ var ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('result');
+    ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
 
