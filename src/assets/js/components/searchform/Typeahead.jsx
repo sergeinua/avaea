@@ -9,7 +9,7 @@ import React from 'react';
  */
 var fetchTypeheadSrc = function(controllerName, actionName) {
   return function (q, cb) {
-    $.ajax({
+    jQuery.ajax({
       url: '/'+controllerName+'/'+actionName,
       type: 'POST',
       data: {q: q},
@@ -36,7 +36,7 @@ var Typeahead = React.createClass({
     let _self = this;
 
     //FIXME get rid from jquery
-    $('#airport-input').typeahead({
+    jQuery('#airport-input').typeahead({
       hint: true,
       highlight: true,
       minLength: 2
@@ -61,15 +61,14 @@ var Typeahead = React.createClass({
       ActionsStore.changeForm(_self.props.searchParams.flightType || 'round_trip');
     });
 
-      var val = this.props.searchParams[this.props.target] || '';
-      $('#airport-input').focus();
-      $('#airport-input').val(val);
-      $('#airport-input').typeahead('val', val);
-      $('#airport-input').typeahead('open');
-    // }
+    var val = this.props.searchParams[this.props.target] || '';
+    jQuery('#airport-input').focus();
+    jQuery('#airport-input').val(val);
+    jQuery('#airport-input').typeahead('val', val);
+    jQuery('#airport-input').typeahead('open');
 
     //FIXME what is it?
-    $('.tt-hint').addClass('form-control');
+    jQuery('.tt-hint').addClass('form-control');
 
   },
   render() {

@@ -1,3 +1,5 @@
+import React from 'react';
+
 var Flight = React.createClass({
 
   showNoStops: function(flight) {
@@ -53,3 +55,5 @@ var Flight = React.createClass({
     )
   }
 });
+
+export default Flight;

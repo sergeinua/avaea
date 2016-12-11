@@ -1,3 +1,6 @@
+import React from 'react';
+import Citypairs from './Citypairs.jsx';
+
 var ResultItem = React.createClass({
   getInitialState: function() {
     return {
@@ -179,3 +182,5 @@ var ResultItem = React.createClass({
   }
 
 });
+
+export default ResultItem;

@@ -1,5 +1,6 @@
+// import fetch from 'fetch';
 
-var ClientApi = {
+let ClientApi = {
 
   reqPost: function (reqUrl, reqData, isDispatchError) {
     return fetch(reqUrl, {
@@ -23,3 +24,5 @@ var ClientApi = {
   }
 
 };
+
+export default ClientApi;

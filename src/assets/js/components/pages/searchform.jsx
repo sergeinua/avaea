@@ -3,7 +3,6 @@ import * as ReactRedux from 'react-redux';
 import { actionSetCommonVal } from '../../actions.js';
 import { unfocusFormForIos, ActionsStore } from '../../functions.js';
 import TripSearchForm from '../searchform/TripSearchForm.jsx';
-import SearchBanner from '../searchform/SearchBanner.jsx';
 import Calendar from '../searchform/Calendar.jsx';
 import MultiCityForm from '../searchform/MultiCityForm.jsx';
 import VoiceForm from '../searchform/VoiceForm.jsx';
@@ -16,8 +15,8 @@ var SearchFormPage = React.createClass({
   componentWillMount: function () {
     // DEMO-800 removed mess after not properly closed modal.
     // FIXME remove this after removing jquery modal
-    $('.modal-backdrop').remove();
-    $('body').removeClass('modal-open');
+    jQuery('.modal-backdrop').remove();
+    jQuery('body').removeClass('modal-open');
 
     ActionsStore.changeForm = (form) => {
       unfocusFormForIos();
@@ -180,7 +179,6 @@ var SearchFormPage = React.createClass({
           <Typeahead target={this.props.commonData.airportChoiceTarget} searchParams={this.props.commonData.searchParams}/>
           : null
         }
-        <SearchBanner/>
       </div>
     )
   }

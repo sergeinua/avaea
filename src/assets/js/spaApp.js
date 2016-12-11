@@ -23,7 +23,10 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-// require('reducers.js');
+import { unfocusFormForIos } from './functions.js';
+
+//load all of Bootstrap's jQuery plugins onto the jQuery object.
+require('bootstrap');
 require('legacyJquery.js');
 
 $(document).ready(function() {

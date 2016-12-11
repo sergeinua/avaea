@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActionsStore } from '../../functions.js';
 
 var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
 
@@ -52,7 +53,7 @@ var drawDateRange = function(datepicker, range) {
   });
 };
 
-function finalizeValues(searchParams) {
+export function finalizeValues(searchParams) {
   var flightType = searchParams.flightType || 'round_trip';
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();

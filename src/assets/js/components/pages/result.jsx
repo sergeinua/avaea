@@ -1,5 +1,16 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
+import { ActionsStore } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+
+import { maxBucketVisibleFilters, bucketFilterItemHeigh } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
 
 var firstSelectionCount = {};
 var globalSelectionCount = 0;
@@ -28,31 +39,31 @@ var ResultPage = React.createClass({
         }, function () {
 
           //FIXME refactor code to use non jquery based swiper functionality
-          $("#searchBanner").modal('hide');
+          jQuery("#searchBanner").modal('hide');
 
           // correctly initialize the swiper for desktop vs. touch
 
           if (!uaMobile) {
             // is desktop
-            swiper = new Swiper('.swiper-container', {
+            let swiper = new Swiper('.swiper-container', {
               freeMode: true,
               slidesPerView: '5.5'
             });
 
           } else {
             // is touch
-            swiper = new Swiper('.swiper-container', {
+            let swiper = new Swiper('.swiper-container', {
               freeMode: true,
               slidesPerView: 'auto'
             });
           }
 
           // Init slim scroll
-          var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+          var max_filter_items = parseInt(jQuery('#tiles').data('max_filter_items'));
           if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
             max_filter_items = maxBucketVisibleFilters;
           }
-          $('.list-group').slimScroll({
+          jQuery('.list-group').slimScroll({
             height: parseInt(max_filter_items * bucketFilterItemHeigh)+2 +'px',
             touchScrollStep: 30
           });
@@ -96,7 +107,8 @@ var ResultPage = React.createClass({
             console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
             updateState(savedResult);
           } else {
-            $("#searchBanner").modal({
+            console.log(jQuery);
+            jQuery("#searchBanner").modal({
               backdrop: 'static',
               keyboard: false
             });
@@ -274,7 +286,7 @@ var ResultPage = React.createClass({
     var filters = this.state.filter;
     var lastFilter = filters[filters.length - 1];
     if (lastFilter) {
-      swiper.slideTo($('#' + lastFilter.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
+      swiper.slideTo(jQuery('#' + lastFilter.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
     }
     filters = filters.splice(0, filters.length-1);
     this.setState({filter: filters}, function() {
@@ -295,7 +307,7 @@ var ResultPage = React.createClass({
       } else {
         filters.push(filterNew.id);
       }
-      swiper.slideTo($('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
+      swiper.slideTo(jQuery('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
       this.setState({filter: filters});
     }
     this.resetResultVisibility();

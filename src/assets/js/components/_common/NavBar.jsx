@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import * as ReactRedux from 'react-redux';
 import { clientStore } from '../../reducers.js';
 import { ActionsStore } from '../../functions.js';
+import { finalizeValues } from '../searchform/Calendar.jsx';
 
 var NavBar = React.createClass({
   getInitialState: function() {

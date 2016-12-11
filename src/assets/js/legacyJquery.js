@@ -122,10 +122,10 @@ export function  scrollAirlines() {
     $(_parentElem).scrollTo(_scrollItem);
   }
 };
-export let swiper;
 
 $(document).ready(function() {
 
+  console.log('leacyJquery run');
   $('#nav_slide_menu').offcanvas({
     toggle: false,
     placement: 'left'

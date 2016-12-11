@@ -1,3 +1,7 @@
+import React from 'react';
+import { ActionsStore } from '../../../functions.js';
+
+
 var Buckets = React.createClass({
   getInitialState: function() {
     return {
@@ -68,3 +72,5 @@ var Buckets = React.createClass({
     )
   }
 });
+
+export default Buckets;
