@@ -7,10 +7,10 @@ $(document).ready(function() {
     </div>;
 
     const StaticContainer = (props) => <div>
-      <link rel="stylesheet" href="/static/styles.css"/>
-      <StaticHeader user={InitData.user||{}}/>
+      <link rel="stylesheet" href="/static/static.css"/>
+      <StaticHeader {...props} user={InitData.user||{}}/>
       {props.children}
-      <StaticFooter user={InitData.user||{}}/>
+      <StaticFooter {...props} user={InitData.user||{}}/>
     </div>;
 
     var Router = window.ReactRouter.Router;
@@ -35,10 +35,6 @@ $(document).ready(function() {
       _localSearchParams = InitData.defaultSearch;
     }
 
-    // if (_localSearchParams) {
-    //   clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams));
-    // }
-
     Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
       .then(function () {
         ReactDOM.render((
@@ -50,6 +46,7 @@ $(document).ready(function() {
                 <Route path="/jobs" component={JobsPage}/>
                 <Route path="/news" component={NewsPage}/>
                 <Route path="/blog" component={BlogPage}/>
+                <Route path="/contact" component={ContactPage}/>
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>
               </Route>
