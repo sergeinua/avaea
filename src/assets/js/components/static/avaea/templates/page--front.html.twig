@@ -1,0 +1,44 @@
+<div class="page home" data-template="page--front.html.twig" data-slug="home">
+
+<header>
+    {{ page.header }}
+</header>
+
+<div class="content">
+
+  <div class="home-top">
+  
+    <div class="video-holder">   
+      <video poster="/{{ directory }}/images/tarmac-placeholder.jpg" id="bgvid" playsinline autoplay muted loop>
+        <source src="/{{ directory }}/images/Tarmac.mp4" type="video/mp4">
+      </video>
+      <div class="overlay"></div>
+    </div>   
+      
+    <div class="level home-top-copy">
+      {{ page.Home_top }}
+    </div>
+    
+    <div class="try-it"></div>
+  </div>
+  
+  <div class="level home-2">
+  {{ page.Home_level_2 }}
+  </div>
+  
+  <div class="level home-3">
+  {{ page.Home_level_3 }}
+  </div>
+  
+  <div class="level home-bottom">
+  {{ page.Home_bottom }}
+  </div>
+
+</div>
+
+<footer>
+    {{ page.footer }}
+</footer>
+
+</div> 
+
