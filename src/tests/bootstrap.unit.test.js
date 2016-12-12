@@ -4,7 +4,7 @@ var Sails = require('sails'),
 
 before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift.
-  this.timeout(40000);
+  this.timeout(512000);
 
   Sails.lift({
     // configuration for testing purposes
@@ -24,7 +24,7 @@ before(function(done) {
     policies: {
       '*' : true
     },
-    hookTimeout: 40000,
+    hookTimeout: 512000,
     segmentio_key: 'dTKBLO5w1lHx5o9HPLIwTQCzomWJOUN5',
     hooks: {
       session: false,
