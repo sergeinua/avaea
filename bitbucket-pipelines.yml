@@ -13,7 +13,7 @@ pipelines:
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
               - /etc/init.d/postgresql start
-              - sleep 120
+#              - sleep 120
 #              - apt-get install --reinstall sudo
 #              - sudo -u postgres sh -c 'createuser avaea & createdb avaea'
 #              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
@@ -22,6 +22,9 @@ pipelines:
 #              - npm install pg
               #- node -v
               #- npm -v
+              - pwd
+              - ls -l /
+              - df -h
               - psql -V
               - cd src
 #              - npm install
