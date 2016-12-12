@@ -12,12 +12,43 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 
 const extractCSS = new ExtractTextPlugin('styles.css');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+// const PurifyCSSPlugin = require('purifycss-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const plugins = [
   definePlugin,
   commonsPlugin,
   extractCSS,
-  new webpack.HotModuleReplacementPlugin()
+  new webpack.HotModuleReplacementPlugin(),
+  new CleanWebpackPlugin(path.resolve(__dirname, '../.tmp/public/'), {
+    // Without `root` CleanWebpackPlugin won't point to our
+    // project and will fail to work.
+    root: process.cwd()
+  }),
+  new CopyWebpackPlugin([
+    {
+      from: path.resolve(__dirname, '../assets/images/'),
+      to: path.resolve(__dirname, '../.tmp/public/images/')
+    },
+    {
+      from: path.resolve(__dirname, '../assets/images/'),
+      to: path.resolve(__dirname, '../.tmp/public/images/')
+    },
+    {
+      from: path.resolve(__dirname, '../assets/js/dependencies/'),
+      to: path.resolve(__dirname, '../.tmp/public/js/dependencies/')
+    }
+  ])
+/*
+  new PurifyCSSPlugin({
+    basePath: process.cwd(),
+    // `paths` is used to point PurifyCSS to files not
+    // visible to Webpack. You can pass glob patterns
+    // to it.
+    // paths: path.resolve(__dirname, '../assets/')
+  }),
+*/
 ];
 
 if (process.env.NODE_ENV == 'production') {
@@ -37,7 +68,7 @@ module.exports.webpack = {
       main: path.resolve(__dirname, '../assets/js/spaApp.js'),
     },
     output: {
-      path: path.resolve(__dirname, '../.tmp/public/js/app'),
+      path: path.resolve(__dirname, '../.tmp/public/js/'),
       filename: 'bundle.js'
     },
     module: {
@@ -51,31 +82,37 @@ module.exports.webpack = {
           test: /\.css$/,
           loader: extractCSS.extract(['css'])
         },
+        // {
+        //   test: /\.woff(\?.+)?$/,
+        //   // Inline small woff files and output them below font/.
+        //   // Set mimetype just in case.
+        //   loader: 'url-loader',
+        //   query: {
+        //     name: 'fonts/[name].[ext]',
+        //     limit: 5000,
+        //     mimetype: 'application/font-woff'
+        //   },
+        //   include: path.resolve(__dirname, '../assets/fonts/')
+        // },
         {
-          test: /\.woff$/,
-          // Inline small woff files and output them below font/.
-          // Set mimetype just in case.
-          loader: 'url',
+          test: /\.(woff2?|otf|ttf|eot|svg)(\?.+)?$/,
+          loader: 'file-loader',
           query: {
-            name: 'fonts/[hash].[ext]',
-            limit: 5000,
-            mimetype: 'application/font-woff'
+            name: 'fonts/[name].[ext]'
           },
           include: path.resolve(__dirname, '../assets/fonts/')
         },
-        {
-          test: /\.ttf$|\.eot$/,
-          loader: 'file',
-          query: {
-            name: 'fonts/[hash].[ext]'
-          },
-          include: path.resolve(__dirname, '../assets/fonts/')
-        }
+        // {
+        //   test: /\.(jpg|png|svg|mp4|gif)$/,
+        //   loader: 'file',
+        //   include: path.resolve(__dirname, '../assets/images/')
+        // }
       ]
     },
     resolve: {
       root: path.resolve(__dirname, '../assets/js'),
       alias: {
+        '~': path.resolve(__dirname, '../assets/js/components'),
         containers: 'containers',
         components: 'components',
         actions: 'actions',

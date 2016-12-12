@@ -6,8 +6,8 @@ import AppContainer from 'containers/AppContainer.jsx';
 import StaticContainer from 'containers/StaticContainer.jsx';
 import { clientStore } from 'reducers.js';
 
-import NavBarContainer from 'components/_common/NavBar.jsx'
-import DisplayAlert from 'components/_common/DisplayAlert.jsx';
+import NavBarContainer from '~/_common/NavBar'
+import DisplayAlert from '~/_common/DisplayAlert';
 
 import HomePage from 'components/static/pages/home.jsx';
 import AboutPage from 'components/static/pages/about.jsx';

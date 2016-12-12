@@ -1,4 +1,6 @@
 import React from 'react';
+// import '../../dependencies/typeahead.bundle.min';
+import { ActionsStore, setAirportData } from '../../functions.js';
 
 /**
  * Make request to the remote server and fetch data for the typehead rendering
@@ -25,18 +27,13 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
   };
 };
 
-var setAirportData = function(target, data) {
-  ActionsStore.setFormValue(target, data.value);
-  ActionsStore.setFormValue(target + 'City', data.city);
-};
-
-var Typeahead = React.createClass({
+let Typeahead = React.createClass({
 
   componentDidMount: function () {
     let _self = this;
 
     //FIXME get rid from jquery
-    jQuery('#airport-input').typeahead({
+    $('#airport-input').typeahead({
       hint: true,
       highlight: true,
       minLength: 2
@@ -62,13 +59,14 @@ var Typeahead = React.createClass({
     });
 
     var val = this.props.searchParams[this.props.target] || '';
-    jQuery('#airport-input').focus();
-    jQuery('#airport-input').val(val);
-    jQuery('#airport-input').typeahead('val', val);
-    jQuery('#airport-input').typeahead('open');
+    var inputEl = $('#airport-input');
+    inputEl.focus();
+    inputEl.val(val);
+    inputEl.typeahead('val', val);
+    inputEl.typeahead('open');
 
     //FIXME what is it?
-    jQuery('.tt-hint').addClass('form-control');
+    $('.tt-hint').addClass('form-control');
 
   },
   render() {

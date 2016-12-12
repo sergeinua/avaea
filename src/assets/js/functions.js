@@ -31,3 +31,8 @@ export function unfocusFormForIos() {
     textareas[index].blur();
   }
 }
+
+export function setAirportData(target, data) {
+  ActionsStore.setFormValue(target, data.value);
+  ActionsStore.setFormValue(target + 'City', data.city);
+}

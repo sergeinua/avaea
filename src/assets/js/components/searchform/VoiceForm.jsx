@@ -1,6 +1,7 @@
 import React from 'react';
 import 'whatwg-fetch';
 import 'promise-polyfill';
+import { ActionsStore, setAirportData } from '../../functions.js';
 
 var final_transcript = '';
 var recognizing = false;
@@ -308,7 +309,7 @@ var VoiceForm = React.createClass({
     })
     .catch((error) => {
       console.log(error);
-      return callback(false, result);
+      return callback(false, {});
     });
   },
 

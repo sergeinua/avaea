@@ -86,9 +86,11 @@ const appReducers = Redux.combineReducers({
   orderData: orderReducer,
 });
 
-
+export let clientStore;
 // Create store
-export const clientStore = Redux.createStore(appReducers);
-
+if (__DEV__ == true) {
 //for test env only
-//export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+  clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+} else {
+  clientStore = Redux.createStore(appReducers);
+}
