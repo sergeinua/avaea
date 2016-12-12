@@ -1,6 +1,8 @@
 import React from 'react';
+import StaticHome from '../home/Home.jsx';
+import Loader from '../../_common/Loader.jsx';
 
-var HomePage = React.createClass({
+let HomePage = React.createClass({
 
   getInitialState: function () {
     return {

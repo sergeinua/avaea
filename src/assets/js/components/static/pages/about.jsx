@@ -1,6 +1,8 @@
 import React from 'react';
+import StaticAbout from '../about/About.jsx';
+import Loader from '../../_common/Loader.jsx';
 
-var AboutPage = React.createClass({
+let AboutPage = React.createClass({
 
   getInitialState: function () {
     return {

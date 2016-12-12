@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-var DisplayAlert = React.createClass({
+let DisplayAlert = React.createClass({
   render() {
     return (
       <div className="nothing-found">

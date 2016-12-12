@@ -1,4 +1,12 @@
-var UserProfile = React.createClass({
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import Loader from '../_common/Loader.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import ClientApi from '../_common/api.js';
+import UserProfilePanel from './UserProfilePanel.jsx';
+import { actionLoadProfileSuccess, actionLoadProfileFailed } from '../../actions.js';
+
+let UserProfile = React.createClass({
 
   profileData: {
     personal: [],
@@ -140,4 +148,6 @@ const mapDispatchProfile = (dispatch) => {
   }
 };
 
-var UserProfileContainer = ReactRedux.connect(mapStateProfile, mapDispatchProfile)(UserProfile);
+let UserProfileContainer = ReactRedux.connect(mapStateProfile, mapDispatchProfile)(UserProfile);
+
+export default UserProfileContainer;

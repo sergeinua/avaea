@@ -1,6 +1,8 @@
 import React from 'react';
+import { ActionsStore } from '../../functions.js';
+import UserProfileContainer from '../user/Profile.jsx';
 
-var ProfilePage = React.createClass({
+let ProfilePage = React.createClass({
   componentWillMount: function () {
     ActionsStore.updateNavBarPage('profile');
   },

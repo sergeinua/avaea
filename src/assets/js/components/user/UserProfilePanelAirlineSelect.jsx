@@ -1,5 +1,11 @@
+import React from 'react';
+import Select from 'react-select';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { clientStore } from '../../reducers.js';
+import { actionSetProgramsVal } from '../../actions.js';
 
-var UserProfilePanelAirlineSelect = React.createClass({
+let UserProfilePanelAirlineSelect = React.createClass({
 
   getInitialState: function() {
     return {airlineName: ''};
@@ -50,3 +56,5 @@ var UserProfilePanelAirlineSelect = React.createClass({
   }
 
 });
+
+export default UserProfilePanelAirlineSelect;

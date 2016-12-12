@@ -30,14 +30,14 @@ $(document).ready(function() {
       <ReactRedux.Provider store={clientStore}>
         <Router history={browserHistory}>
           <Route path="/" component={StaticContainer}>
-	          <Route path="/home" component={HomePage}/>
-	          <Route path="/about" component={AboutPage}/>
-	          <Route path="/jobs" component={JobsPage}/>
-	          <Route path="/news" component={NewsPage}/>
-	          <Route path="/blog" component={BlogPage}/>
-	          <Route path="/contact" component={ContactPage}/>
-	          <Route path="/terms" component={TermsPage}/>
-	          <Route path="/privacy" component={PrivacyPage}/>
+            <Route path="/home" component={HomePage}/>
+            <Route path="/about" component={AboutPage}/>
+            <Route path="/jobs" component={JobsPage}/>
+            <Route path="/news" component={NewsPage}/>
+            <Route path="/blog" component={BlogPage}/>
+            <Route path="/contact" component={ContactPage}/>
+            <Route path="/terms" component={TermsPage}/>
+            <Route path="/privacy" component={PrivacyPage}/>
           </Route>
           <Route path="/" component={Container}>
             <IndexRoute component={SearchFormPageContainer} />

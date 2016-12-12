@@ -1,3 +1,5 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
 
 class FormElementDropdown extends React.Component {
 
@@ -58,4 +60,6 @@ const mapDispatchElemDropdown = (dispatch, ownProps) => {
   }
 };
 
-var FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);
+let FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);
+
+export default FormElementDropdownContainer;

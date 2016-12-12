@@ -1,6 +1,8 @@
 import React from 'react';
+import StaticBlog from '../blog/Blog.jsx';
+import Loader from '../../_common/Loader.jsx';
 
-var BlogPage = React.createClass({
+let BlogPage = React.createClass({
 
   getInitialState: function () {
     return {

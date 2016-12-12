@@ -12,10 +12,10 @@ import { maxBucketVisibleFilters, bucketFilterItemHeigh } from '../../legacyJque
 require('swiper');
 require('jquery-slimscroll');
 
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
 
-var ResultPage = React.createClass({
+let ResultPage = React.createClass({
 
   getInitialState: function() {
     return {

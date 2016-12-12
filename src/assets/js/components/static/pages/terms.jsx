@@ -1,6 +1,8 @@
 import React from 'react';
+import StaticTerms from '../terms/Terms.jsx';
+import Loader from '../../_common/Loader.jsx';
 
-var TermsPage = React.createClass({
+let TermsPage = React.createClass({
 
   getInitialState: function () {
     return {
