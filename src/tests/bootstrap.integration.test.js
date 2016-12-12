@@ -34,7 +34,7 @@ before(function(done) {
     policies: {
       '*' : true
     },
-    hookTimeout: 120000,
+    hookTimeout: 512000,
     hooks: {
       session: false,
       grunt: false

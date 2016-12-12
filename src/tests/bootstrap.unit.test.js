@@ -4,7 +4,7 @@ var Sails = require('sails'),
 
 before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift.
-  this.timeout(20000);
+  this.timeout(40000);
 
   Sails.lift({
     // configuration for testing purposes
