@@ -78,7 +78,8 @@ $(document).ready(function() {
       })
       .then(function () {
         if (_localSearchParams && _localSearchParams.flightType != storeInitialState.commonData.searchParams.flightType
-          && (_localSearchParams.flightType == 'one_way' || _localSearchParams.flightType == 'round_trip' || _localSearchParams.flightType == 'multi_city')
+          && (confTripSearchForms.indexOf(_localSearchParams.flightType) != -1)
+          && (confTripSearchForms.indexOf(clientStore.getState().commonData.currentForm) != -1)
         ) {
           console.log('bootstrap form', _localSearchParams.flightType);
           ActionsStore.changeForm(_localSearchParams.flightType);
