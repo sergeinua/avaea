@@ -1,4 +1,5 @@
 /* global $ */
+const confTripSearchForms = ['one_way','round_trip','multi_city'];
 
 //global object for communication with react components and dispatching redux actions
 var ActionsStore = {
@@ -12,7 +13,7 @@ var ActionsStore = {
     }
     form = form.toLowerCase();
 
-    if (form == 'one_way' || form == 'round_trip' || form == 'multi_city') {
+    if (confTripSearchForms.indexOf(form) != -1) {
       let items_data = [
         ['currentForm', form],
         [['searchParams','flightType'], form]
