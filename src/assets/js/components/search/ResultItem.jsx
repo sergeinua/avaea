@@ -1,5 +1,6 @@
 import React from 'react';
 import Citypairs from './Citypairs.jsx';
+import { browserHistory } from 'react-router';
 
 var ResultItem = React.createClass({
   getInitialState: function() {
@@ -121,7 +122,7 @@ var ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 

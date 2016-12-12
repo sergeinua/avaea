@@ -90,4 +90,5 @@ const appReducers = Redux.combineReducers({
 // Create store
 export const clientStore = Redux.createStore(appReducers);
 
-// export default clientStore;
+//for test env only
+//export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());

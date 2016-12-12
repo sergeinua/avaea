@@ -1,4 +1,6 @@
 import React from 'react';
+import 'whatwg-fetch';
+import 'promise-polyfill';
 
 var final_transcript = '';
 var recognizing = false;

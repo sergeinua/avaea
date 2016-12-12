@@ -4,8 +4,9 @@ import * as ReactRedux from 'react-redux';
 import { clientStore } from '../../reducers.js';
 import { ActionsStore } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
+import { browserHistory } from 'react-router';
 
-var NavBar = React.createClass({
+let NavBar = React.createClass({
   getInitialState: function() {
     return {
       searchParams: {},
@@ -42,8 +43,6 @@ var NavBar = React.createClass({
   },
 
   componentWillMount: function () {
-    clientStore.subscribe(() => console.log('_storeNav:', clientStore.getState())); // Need !
-
     ActionsStore.changeCalendarDate = () => {
       finalizeValues(this.props.commonData.searchParams);
     };
@@ -70,11 +69,11 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    window.ReactRouter.browserHistory.push('/result');
+    browserHistory.push('/result');
   },
 
   handleBackToSearchForm: function () {
-    window.ReactRouter.browserHistory.push('/search');
+    browserHistory.push('/search');
   },
 
   showLink: function (to, text) {

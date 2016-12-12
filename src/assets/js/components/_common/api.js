@@ -1,4 +1,5 @@
-// import fetch from 'fetch';
+import 'whatwg-fetch';
+import 'promise-polyfill';
 
 let ClientApi = {
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { ActionsStore } from '../../functions.js';
+import OrderPanelContainer from '../buy/OrderPanel.jsx';
 
 var OrderPage = React.createClass({
   componentWillMount: function () {
