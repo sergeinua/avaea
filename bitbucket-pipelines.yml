@@ -24,6 +24,7 @@ pipelines:
               #- npm -v
               - pwd
               - ls -l /
+              - ls -l
               - df -h
               - psql -V
               - cd src
