@@ -47,6 +47,6 @@ flightapis: {
 
 
 
-  hookTimeout: 120000,
+  hookTimeout: 512000,
   segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
 };
