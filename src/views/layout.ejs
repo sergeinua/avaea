@@ -64,7 +64,7 @@
             analytics.page()
 
           }}();
-          <% if ( user ) { %>
+          <% if ( (typeof user != 'undefined') && user ) { %>
           analytics.identify( <%= user.id %>, {email: '<%= user.email %>'} );
           <% } %>
         </script>
