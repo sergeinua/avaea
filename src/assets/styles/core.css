@@ -21,7 +21,8 @@
 /*.flight-unit .itinerary-airline-icon,*/
 /*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
-.dimmer {
+.dimmer,
+.touch > .copyright {
 	display: none;
 }
 
@@ -56,12 +57,12 @@
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
 }
 
-.desktop .desktop-wrapper:after {
-	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
+.desktop > .copyright {
+	/* not static copyright */
 	font-size: 13px;
-	padding: 20px 0;
-	display: inline-block;
-	float: left;
+	text-align: center;
+	padding: 10px 0;
+	opacity: .5;
 }
 
 .desktop .desktop-wrapper,

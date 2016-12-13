@@ -79,7 +79,7 @@ var StaticHome = React.createClass({
 			    	  		</div>
 				    	  </div>
 				    	  
-				    	</div>{/* ends features */}  /
+				    	</div>{/* ends features */} 
 		    	  </div> {/* ends home second level */}
 		    	  
 		    	  <div className="home compare level">

@@ -476,7 +476,7 @@ video {
 }
 
 .home.third {
-	padding-bottom: 360px;
+	padding-bottom: 32vw;
 }
 
 .home.third .wrapper {
@@ -515,10 +515,10 @@ video {
 
 .home.graphic {
 	width: 100%;
-	height: 530px;
+	height: 40vw;
 	position: absolute;
-	bottom: 0;
-	background: url(../images/static/world.svg) center top no-repeat;
+	bottom: 20px;
+	background: url(../images/static/world.svg) center bottom no-repeat;
 	background-size: 98%
 }
 

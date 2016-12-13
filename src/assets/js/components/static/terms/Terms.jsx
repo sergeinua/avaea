@@ -186,26 +186,20 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	Avaea offers users the ability to book travel with some of our third-party travel partners through the Avaea 
-	      	Service. We may require you to create a Avaea account or connect to the Avaea Service through your 
-	      	Facebook or Google account in order to book travel through one of our travel partners. If you use a booking 
+	      	Service. We may require you to create an Avaea account or connect to the Avaea Service through your 
+	      	Facebook, Google or Twitter account in order to book travel through one of our travel partners. If you use a booking 
 	      	feature that's powered by one of our travel partners, we collect your payment information and pass it on 
 	      	to the travel partner to process the transaction, consistent with our Privacy Policy. We don't complete the 
 	      	transaction or process your payment—the travel partner does. You understand and agree that if you 
 	      	encounter any problems with the transaction or with the reservation you book in that transaction, you 
 	      	must resolve your dispute with the travel partner, not with Avaea, and your sole remedy, including any 
 	      	refund, lies with the travel partner, not with Avaea.  However, if you cannot reach a satisfactory resolution 
-	      	with one of our travel partners, we want to know and we may, in our sole discretion, intervene on your behalf.
+	      	with one of our travel partners, we want to know and we may, at our sole discretion, intervene on your behalf.
       	</div>
 
       	<div className="sub-copy">
 	      	Additional terms, provided by the travel partner, apply to your transaction or other use of the booking 
 	      	feature powered by that partner, and you acknowledge and agree to be bound by those additional terms. 
-	      	Please carefully read the applicable terms here:
-      	</div>
-
-
-      	<div className="sub-copy">
-      		www.XYZ.com  (mondee?)
       	</div>
 
       	<div className="sub-copy">
@@ -233,7 +227,7 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	If you have any problems using the Avaea service, we're sorry! Our customer support representatives at 
-	      	customerservice@Avaea.com are ready to assist you. To help resolve your issue, the customer service 
+	      	<strong>support@Avaea.com</strong> are ready to assist you. To help resolve your issue, the customer service 
 	      	representative who's assisting you may log in to the Avaea service under your username, but only with 
 	      	your permission and only for the duration of the customer service session. Customer service representatives 
 	      	don't know your account password, and you don't need to provide it in order for them to help you.
@@ -241,12 +235,11 @@ var StaticTerms = React.createClass({
 	      	receive immediate responses to your questions from our Virtual Travel Agent.
       	</div>
 
-      	<div className="subti">Privacy Policy</div>
+      	<div className="subti">Your Privacy</div>
 
       	<div className="sub-copy">
 	      	We may collect registration, payment, and other information about you through the Avaea Service. Our 
-	      	collection and use of this information is described in the Avaea Privacy Policy. Our Privacy Policy is 
-	      	incorporated into these Terms of Service.
+	      	collection and use of this information is described in the Avaea <Link to="/privacy"><u>Privacy Policy</u></Link>. 
       	</div>
 
       	<div className="subti">Ability to Accept Terms of Service</div>
@@ -265,10 +258,10 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	These Terms of Service will continue to apply to you until either you or Avaea terminates this Agreement. 
-	      	If you connect to the Avaea Service using your Facebook or Google account, you may terminate this 
+	      	If you connect to the Avaea Service using your Facebook, Google or Twitter account, you may terminate this 
 	      	Agreement at any time by disconnecting your account from the Avaea Service and no longer using the 
 	      	Service thereafter. If you have created a Avaea account, you may terminate this Agreement at any time 
-	      	by sending a notice confirming such termination to Avaea by email at contact@Avaea.com.
+	      	by sending a notice confirming such termination to Avaea by email to <strong>contacts@Avaea.com.</strong>
       	</div>
 
       	<div className="sub-copy">
@@ -419,7 +412,7 @@ var StaticTerms = React.createClass({
 	      	By using the Mobile Service, you understand and agree that Avaea has no obligation to maintain, support, 
 	      	upgrade, or update the Mobile Service, or to provide all or any specific content through the Mobile Service. 
 	      	You further understand and agree that we may access, collect, and use information, which may include personally identifiable information, 
-	      	which your mobile device automatically makes available to our mobile app, consistent with our Privacy Policy.
+	      	which your mobile device automatically makes available to our mobile app, consistent with our <Link to="/privacy"><u>Privacy Policy</u></Link>.
       	</div>
 
 
