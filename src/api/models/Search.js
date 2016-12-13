@@ -303,9 +303,9 @@ module.exports = {
           }
         } else {
           if (result.SubSection && result.SubSection.Text) {
-            var _parts = result.SubSection.Text.split(/\.\n/);
-            if (_parts[0]) {
-              var _part = _parts[0].replace(/^(.*\n\s*\n?)(.*)/g, '$2');
+            var m = result.SubSection.Text.match(/\s*CANCELLATIONS\s+([\s\S]*?)\.\s+/);
+            if (m && m[1]) {
+              var _part = m[1].replace(/\r?\n+/g, '').replace(/\s+/g, ' ').trim();
               res = _part || '';
             }
           }

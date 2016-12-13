@@ -12,6 +12,8 @@ const actionTypesOrder = {
 };
 const actionTypesCommon = {
   SET_COMMON_VAL: 'SET_COMMON_VAL',
+  MERGE_COMMON_VAL: 'MERGE_COMMON_VAL',
+  UPDATE_COMMON_BY_VAL: 'UPDATE_COMMON_BY_VAL',
 };
 
 //// Profile
@@ -80,5 +82,20 @@ function actionSetCommonVal (fieldName, fieldValue) {
     type: actionTypesCommon.SET_COMMON_VAL,
     fieldName: fieldName,
     fieldValue: fieldValue
+  }
+}
+
+function actionMergeCommonVal (itemsData) {
+  return {
+    type: actionTypesCommon.MERGE_COMMON_VAL,
+    itemsData: itemsData,
+  }
+}
+
+function actionUpdateCommonByVal (fieldName, updateByVal) {
+  return {
+    type: actionTypesCommon.UPDATE_COMMON_BY_VAL,
+    fieldName: fieldName,
+    updateByVal: updateByVal
   }
 }
