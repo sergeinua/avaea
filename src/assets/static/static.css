@@ -209,6 +209,7 @@ a.buttonly {
 	font-size: 28px;
 	font-family: 'Open-Sans-Light';
 	padding: 15px 50px 15px 50px;
+	transition: all 0.1s ease-in-out;
 }
 
 header.static li.flight-search {
@@ -737,6 +738,27 @@ video {
 	height: 140px;
 }
 
+.static.contact a.buttonly {
+	position: relative;
+}
+
+.static.contact a.buttonly.sending {
+	padding-left: 70px;
+}
+
+.static.contact a.buttonly.sending:before {
+	content: '';
+	display: inline-block;
+	height: 42px;
+	width: 42px;
+	position: absolute;
+		top: 12px;
+		left: 20px;
+	background: url(../images/button-spinner.svg) no-repeat;
+	-webkit-animation: spin 1.5s infinite linear;
+	animation: spin 1.5s infinite linear;
+}
+
 .static .success {
 	margin: 40px 0;
 	padding: 60px 40px 55px 120px;
@@ -862,7 +884,16 @@ footer.static .copyright {
 	display: inline-block;
 }
 
+/* animations */
 
+
+@-webkit-keyframes spin {
+    to { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
 
 
 
