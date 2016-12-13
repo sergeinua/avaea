@@ -22,7 +22,7 @@ pipelines:
 #              - npm install pg
               #- node -v
               #- npm -v
-              - pwd
+ #             - pwd
               - ls -l /
               - ls -l
               - df -h
