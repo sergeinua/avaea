@@ -84,7 +84,8 @@ body,
 .static.home input,
 h1,
 h2,
-.textly .subti {
+.textly .subti,
+footer.static .copyright {
 	color: #062868;
 }
 
@@ -101,7 +102,9 @@ footer.static {
 }
 
 /* bright blue */
-header.static li.active a {
+header.static li.active a,
+header.static li.active a:active,
+header.static li.active a:visited {
 	color: #00a9e7;
 }
 
@@ -220,13 +223,8 @@ header.static li.flight-search {
 
 /* ------- header ------- */
 
-header,
-footer {
-	padding: 20px;
-}
-
 header.static {
-	padding-left: 230px;
+	padding: 20px 20px 20px 230px;
 	position: relative;
 	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
 	background-size: 230px;
@@ -252,19 +250,24 @@ header nav .right {
 	text-align: right;
 }
 
-header.static ul {
+header.static ul,
+footer.static ul {
   list-style-type: none;
 	display: inline-block;
 }
 
-header.static li {
+header.static li,
+footer.static li {
 	font-size: 14px;
 	display: inline-block;
 }
 
 header.static a, 
 header.static a:hover, 
-header.static a:visited {
+header.static a:visited,
+footer.static .top nav a,
+footer.static .top nav a:hover,
+footer.static .top nav a:visited {
 	font-family: 'Open-Sans-Semibold';
 	text-decoration: none;
 	text-transform: uppercase;
@@ -499,7 +502,7 @@ video {
 }
 
 .home.third {
-	padding-bottom: 32vw;
+	margin-bottom: 0;
 }
 
 .home.third .wrapper {
@@ -539,11 +542,11 @@ video {
 
 .home.graphic {
 	width: 100%;
-	height: 40vw;
-	position: absolute;
-	bottom: 20px;
+	height: calc(100vw * .42);
+	position: relative;
+	bottom: -55px;
 	background: url(../images/static/world.svg) center bottom no-repeat;
-	background-size: 98%
+	background-size: 104%
 }
 
 /* about */
@@ -640,7 +643,7 @@ video {
 
 .about .button-holder {
 	text-align: center;
-	margin-bottom: 70px;
+	margin-bottom: 120px;
 }
 
 /* privacy, terms */
@@ -763,24 +766,103 @@ video {
 
 footer.static {
 	text-align: center;
-	padding-bottom: 30px;
 	display: block;
 	position: relative;
 	z-index: 1;
 }
 
-footer.static span.copyright {
+footer.static .top a,
+footer.static .top a:hover,
+footer.static .top a:visited {
 	color: #ffffff;
-	padding: 0 20px 0 0;
 	opacity: .5;
 }
 
-footer.static a,
-footer.static a:hover,
-footer.static a:visited {
-	color: #3abbec;
-	padding: 0 10px;
+footer.static .top a:hover {
+	opacity: .75;
 }
+
+footer.static .top nav .active a,
+footer.static  .top nav .active a:hover,
+footer.static  .top nav .active a:visited {
+	opacity: 1;
+}
+
+footer.static .wrapper {
+	margin: 0 auto;
+	padding: 30px 0 20px 0;
+	display: inline-block;
+}
+
+footer.static .wrapper:after {
+	content: '';
+	display: table;
+	width: 100%;
+}
+
+footer.static .left,
+footer.static .right {
+	display: inline-block;
+	float: left;
+}
+
+footer.static .holder {
+	text-align: left;
+	padding: 10px 0
+}
+
+footer.static .holder a {
+	display: inline-block;
+	padding: 0 15px; 
+}
+
+footer.static .right {
+	margin: -12px 0 0 50px;
+}
+
+footer.static a.social,
+footer.static a.social:after {
+	height: 50px;
+	width: 50px;
+}
+
+footer.static a.social {
+	text-align: center;
+	margin: 0 10px;
+	display: inline-block;
+	position: relative;
+	background: rgba(255, 255, 255, 1);
+	border-radius: 50%;
+}
+
+footer.static a.social:after {
+	content:'';
+	display: inline-block;
+}
+
+footer.static a.fb:after {
+	background: url(../images/static/social-fb.svg) no-repeat;
+}
+
+footer.static a.twitter:after {
+	background: url(../images/static/social-twitter.svg) no-repeat;
+}
+
+footer.static a.instagram:after {
+	background: url(../images/static/social-instagram.svg) no-repeat;
+}
+
+footer.static .bottom {
+	text-align: center;
+	background: rgba(255, 255, 255, .5);
+}
+
+footer.static .copyright {
+	padding: 20px;
+	display: inline-block;
+}
+
+
 
 
 

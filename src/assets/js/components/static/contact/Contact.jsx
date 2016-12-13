@@ -40,6 +40,10 @@ var StaticContact = React.createClass({
 		    					<textarea name="comment" />
 		    				</div>
 		    			</div>
+		    			
+		    			<div className="line-item">
+		    			{/* --------- please integrate Google recaptcha here ----------- */} 
+		    			</div>
 	      			
 	      			<a className="buttonly" href="#">Send</a>
 	      		</form>
