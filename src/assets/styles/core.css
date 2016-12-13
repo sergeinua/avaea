@@ -57,14 +57,6 @@
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
 }
 
-.desktop > .copyright {
-	/* not static copyright */
-	font-size: 13px;
-	text-align: center;
-	padding: 10px 0;
-	opacity: .5;
-}
-
 .desktop .desktop-wrapper,
 .desktop .desktop-inner {
 	min-height: 684px;

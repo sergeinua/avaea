@@ -11,8 +11,7 @@
 	 :not(.search-result) 
 */
 
-.hide,
-.desktop .desktop-wrapper:after {
+.hide {
 	display: none;
 }
 
@@ -82,7 +81,7 @@ body,
 }
 
 /* dark blue */
-input,
+.static.home input,
 h1,
 h2,
 .textly .subti {
@@ -138,6 +137,18 @@ header.static li.flight-search:hover {
 	background: #00a93f;
 }
 
+.static .success {
+	background: #f4fdf0;
+}
+
+
+
+/* red */
+
+.static.contact .required:before {
+	color: #ed2741;
+}
+
 
 /* gray */
 
@@ -157,6 +168,10 @@ header.static .left a:hover {
 	color: #666666;
 }
 
+.static .success {
+	border: 1px solid #d7d7d7;
+}
+
 header,
 .home.level.compare {
 	border-bottom: 1px solid #d7d7d7;
@@ -167,7 +182,8 @@ header,
 }
 
 .static-features .copy,
-.upcoming .copy {
+.upcoming .copy,
+.static.contact .form-label {
 	color: #919191;
 }
 
@@ -194,6 +210,11 @@ a.buttonly {
 
 header.static li.flight-search {
 	border-radius: 15px;
+}
+
+.try-it,
+.static .success {
+  border-radius: 4px;
 }
 
 
@@ -453,7 +474,9 @@ video {
 }
 
 .static-features .copy,
-.upcoming .copy {
+.upcoming .copy,
+.static.contact .form-label,
+.static .success  {
 	font-family: 'Open-Sans-Light';
   font-size: 16px;
 	line-height: 30px;
@@ -487,7 +510,8 @@ video {
 
 .home.third > .copy,
 .home .upcoming .ti,
-.about.top .copy {
+.about.top .copy,
+.static.contact .copy {
 	font-family: 'Open-Sans-Light';
 	font-size: 22px;
 	line-height: 32px;
@@ -661,6 +685,71 @@ video {
 .textly li,
 .textly .sub-copy {
 	margin: 8px 0;
+}
+
+/* contact */
+
+.static.contact {
+	padding: 70px 70px 120px 70px;
+	position: relative; 
+}
+
+.static.contact .copy {
+	margin: 20px 0;
+	width: 70%;
+}
+
+.static.contact a.buttonly {
+	margin-top: 20px;
+}
+
+.static.contact .line-item {
+	padding-bottom: 10px;
+}
+
+.static.contact .required {
+	position: relative;
+}
+
+.static.contact .required:before {
+	content: '*';
+	font-size: 24px;
+	display: inline-block;
+	position: relative;
+		top: 5px;
+		left: -5px;
+}
+
+.static.contact input {
+	font-size: 14px;
+	padding: 8px 10px;
+}
+
+.static.contact input,
+.static.contact textarea {
+	width: 35%;
+}
+
+.static.contact textarea {
+	height: 140px;
+}
+
+.static .success {
+	margin: 40px 0;
+	padding: 60px 40px 55px 120px;
+	width: 50%;
+	position: relative;
+}
+
+.static .success:before {
+	content: '';
+	display: inline-block;
+	width: 76px;
+	height: 76px;
+	position: absolute;
+		top: 35px;
+		left: 30px;
+	background: url(../images/static/checkmark-success.svg)  0 0 no-repeat;
 }
 
 
