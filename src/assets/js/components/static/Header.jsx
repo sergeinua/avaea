@@ -8,7 +8,7 @@ var StaticHeader = React.createClass({
 		        <li className={this.props.location.pathname == '/home'? 'active':''}><Link to="/home">Home</Link></li>
 		        <li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about">About</Link></li>
 		        <li className={this.props.location.pathname == '/news'? 'active':''}><Link to="/news">News</Link></li>
-		        {/* add partner with us */}
+		        <li className={this.props.location.pathname == '/partner'? 'active':''}><Link to="/partner">Partner</Link></li>
 		        <li className={this.props.location.pathname == '/contact'? 'active':''}><Link to="/contact">Contact</Link></li>
 		      </ul>
 		      </div>

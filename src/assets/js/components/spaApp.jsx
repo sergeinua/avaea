@@ -34,7 +34,8 @@ $(document).ready(function() {
 	          <Route path="/about" component={AboutPage}/>
 	          <Route path="/jobs" component={JobsPage}/>
 	          <Route path="/news" component={NewsPage}/>
-	          <Route path="/blog" component={BlogPage}/>
+	          <Route path="/blog" component={BlogPage}/> 
+	          <Route path="/partner" component={PartnerPage}/>
 	          <Route path="/contact" component={ContactPage}/>
 	          <Route path="/terms" component={TermsPage}/>
 	          <Route path="/privacy" component={PrivacyPage}/>

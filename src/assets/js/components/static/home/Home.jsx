@@ -79,7 +79,7 @@ var StaticHome = React.createClass({
 			    	  		</div>
 				    	  </div>
 				    	  
-				    	</div>{/* ends features */}  
+				    	</div>{/* ends features */}  /
 		    	  </div> {/* ends home second level */}
 		    	  
 		    	  <div className="home compare level">
@@ -103,7 +103,7 @@ var StaticHome = React.createClass({
 			  	  	<h1>And, this is only Beta. See what's next!</h1>
 			  	  	
 			  	  	<div className="copy">
-			  	  		Today, we’re focused on air travel.  Tomorrow we’ll tackle 
+			  	  		Today, we’re focused on air travel. Tomorrow we’ll tackle 
 			  	  		hotels, rental cars, Uber, Airbnb… the entire world of 
 			  	  		travel. Here are features we’re developing now.
 			  	  	</div>
