@@ -16,7 +16,10 @@ var StaticContact = React.createClass({
 	      		<form className="contact">
 	      			<div className="line-item">
 	      				<div className="form-label required">
-	      					Your name
+	      					Your name 
+	      				</div>
+	      			  <div className="error-msg">
+	      					This field must have at least 3 characters. 
 	      				</div>
 	      				<div className="form-field">
 	      					<input name="name" />
@@ -27,6 +30,9 @@ var StaticContact = React.createClass({
 	      				<div className="form-label">
 	      					Your email address (required if you'd like a reply)
 	      				</div>
+	      				<div className="error-msg">
+	      					This does not seem to be a valid email address. 
+	      				</div>
 	      				<div className="form-field">
 	      					<input name="email" />
 	      				</div>
@@ -36,6 +42,9 @@ var StaticContact = React.createClass({
 		    				<div className="form-label required">
 		    					Your comment
 		    				</div>
+		    			  <div className="error-msg">
+	      					This field must have at least 3 characters. 
+	      				</div>
 		    				<div className="form-field">
 		    					<textarea name="comment" />
 		    				</div>

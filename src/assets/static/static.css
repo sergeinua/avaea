@@ -11,7 +11,8 @@
 	 :not(.search-result) 
 */
 
-.hide {
+.hide,
+.static.contact form .error-msg {
 	display: none;
 }
 
@@ -148,7 +149,8 @@ header.static li.flight-search:hover {
 
 /* red */
 
-.static.contact .required:before {
+.static.contact .required:before,
+.static.contact form .error-msg {
 	color: #ed2741;
 }
 
@@ -777,7 +779,9 @@ video {
 	background: url(../images/static/checkmark-success.svg)  0 0 no-repeat;
 }
 
-
+.static.contact form .line-item.error .error-msg {
+	display: block;
+}
 
 
 /* heredeb */
