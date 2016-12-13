@@ -156,8 +156,6 @@ var OrderPanel = React.createClass({
   },
 
   componentDidMount: function() {
-    clientStore.subscribe(() => console.log('_store:', clientStore.getState()));
-
     this.getOrder()
       .then(function (resData) {
         resData.error ? this.props.loadFailed(resData) : this.props.loadSuccess(resData);
@@ -240,10 +238,10 @@ const mapStateOrder = function(store) {
 const mapDispatchOrder = (dispatch) => {
   return {
     loadSuccess: (data) => {
-      dispatch(actionLoadSuccess(data))
+      dispatch(actionLoadOrderSuccess(data))
     },
     loadFailed: (data) => {
-      dispatch(actionLoadFailed(data))
+      dispatch(actionLoadOrderFailed(data))
     },
   }
 };

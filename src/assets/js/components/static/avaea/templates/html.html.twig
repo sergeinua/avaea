@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+
+<!-- Basic Page Needs
+================================================== -->
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+
+ 
+<!-- Device & Shortcut Icons
+================================================== -->
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+
+
+<!-- Global CSS and JS
+================================================== -->
+
+<link href="/core/themes/avaea/css/reset.css" media="screen" rel="stylesheet" />
+<link href="/core/themes/avaea/css/fonts.css" media="screen" rel="stylesheet" />
+<link href="/core/themes/avaea/css/avaea.css" media="screen" rel="stylesheet" />
+
+<script src="/core/themes/avaea/js/jquery-3.1.1.min.js"></script>
+<script src="/core/themes/avaea/js/avaea.js"></script>
+
+
+<!-- Manage IE
+================================================== -->
+
+<!--[if lte IE 9]>
+  <script type="text/javascript">
+      window.location="unsupported.html";
+  </script>
+<![endif]-->
+
+<!-- detect IE10 or IE11 and append string -->
+<script>
+  var doc = document.documentElement;
+  doc.setAttribute('data-useragent', navigator.userAgent);
+</script>
+
+
+</head>
+
+<!-- -----  end head --------- -->
+
+  <body>
+  
+    {{ page }}
+    
+  </body>
+  
+  
+</html>

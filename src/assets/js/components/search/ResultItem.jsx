@@ -1,10 +1,7 @@
 var ResultItem = React.createClass({
   getInitialState: function() {
-    var searchId = sessionStorage.getItem('searchId');
     return {
-      // sRes: this.props.itinerary,
       fullinfo: this.props.showFullInfo || false,
-      searchId: searchId,
       miles: false,
       refundType: false
     };
@@ -20,15 +17,7 @@ var ResultItem = React.createClass({
   getMilesInfo: function () {
     var ResultItem = this;
 
-    fetch('/ac/ffpcalculate?id=' + this.props.itinerary.id, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => response.json())
+    ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
         if( msg.error ) {
           console.log("Result of 30K api: " + JSON.stringify(msg));
@@ -59,19 +48,10 @@ var ResultItem = React.createClass({
   },
 
   getRefundType: function () {
-    return null; // #DEMO-737
     if (this.state.refundType !== false) return;
     var ResultItem = this;
 
-    fetch('/ac/getRefundType?id=' + this.props.itinerary.id, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => response.json())
+    ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
         if( msg.error ) {
           ResultItem.setState({
@@ -87,6 +67,7 @@ var ResultItem = React.createClass({
         ResultItem.setState({
           refundType: null
         });
+        console.error(error);
       });
   },
 
@@ -135,7 +116,7 @@ var ResultItem = React.createClass({
     return <span className="arr-connects-none"></span>
   },
 
-  handleBuyButton: function(itineraryId, searchId, isSpecial) {
+  handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
       window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
@@ -175,12 +156,12 @@ var ResultItem = React.createClass({
 
         <div className="col-xs-3 buy-button">
           <div className="btn-group text-nowrap buy-button-group">
-            <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, this.state.searchId, false)}>{this.showPrice()}</button>
+            <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
             <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span className="caret"></span>
             </button>
             <ul className="dropdown-menu">
-              <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.props.itinerary.id, this.state.searchId, true)} className="our-dropdown text-center">or better</a></li>
+              <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.props.itinerary.id, true)} className="our-dropdown text-center">or better</a></li>
             </ul>
           </div>
         </div>

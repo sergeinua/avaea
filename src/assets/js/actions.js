@@ -5,13 +5,18 @@ const actionTypesProfile = {
   SET_PERSONAL_VAL: 'SET_PERSONAL_VAL',
   SET_PROGRAMS_VAL: 'SET_PROGRAMS_VAL',
 };
-const actionTypesCommon = {
-  LOAD_SUCCESS: 'LOAD_SUCCESS',
-  LOAD_FAILED: 'LOAD_FAILED',
-  SET_FIELD_VAL: 'SET_FIELD_VAL',
+const actionTypesOrder = {
+  LOAD_ORDER_SUCCESS: 'LOAD_ORDER_SUCCESS',
+  LOAD_ORDER_FAILED: 'LOAD_ORDER_FAILED',
+  SET_ORDER_FIELD_VAL: 'SET_ORDER_FIELD_VAL',
 };
-////
+const actionTypesCommon = {
+  SET_COMMON_VAL: 'SET_COMMON_VAL',
+  MERGE_COMMON_VAL: 'MERGE_COMMON_VAL',
+  UPDATE_COMMON_BY_VAL: 'UPDATE_COMMON_BY_VAL',
+};
 
+//// Profile
 function actionLoadProfileSuccess (data) {
   return {
     type: actionTypesProfile.LOAD_PROFILE_SUCCESS,
@@ -43,30 +48,54 @@ function actionLoadProfileFailed () {
     payload: {error: true}
   }
 }
-////
 
-function actionLoadSuccess (data) {
+//// Order
+function actionLoadOrderSuccess (data) {
   return {
-    type: actionTypesCommon.LOAD_SUCCESS,
+    type: actionTypesOrder.LOAD_ORDER_SUCCESS,
     payload: data
   }
 }
 
-function actionSetFieldVal (fieldName, fieldValue) {
+function actionSetOrderFieldVal (fieldName, fieldValue) {
   return {
-    type: actionTypesCommon.SET_FIELD_VAL,
+    type: actionTypesOrder.SET_ORDER_FIELD_VAL,
     fieldName: fieldName,
     fieldValue: fieldValue
   }
 }
 
-function actionLoadFailed (data) {
+function actionLoadOrderFailed (data) {
   var result = {error: true};
   if (data.errorInfo) {
     result.errorInfo = data.errorInfo;
   }
   return {
-    type: actionTypesCommon.LOAD_FAILED,
+    type: actionTypesOrder.LOAD_ORDER_FAILED,
     payload: result
+  }
+}
+
+//// Common
+function actionSetCommonVal (fieldName, fieldValue) {
+  return {
+    type: actionTypesCommon.SET_COMMON_VAL,
+    fieldName: fieldName,
+    fieldValue: fieldValue
+  }
+}
+
+function actionMergeCommonVal (itemsData) {
+  return {
+    type: actionTypesCommon.MERGE_COMMON_VAL,
+    itemsData: itemsData,
+  }
+}
+
+function actionUpdateCommonByVal (fieldName, updateByVal) {
+  return {
+    type: actionTypesCommon.UPDATE_COMMON_BY_VAL,
+    fieldName: fieldName,
+    updateByVal: updateByVal
   }
 }

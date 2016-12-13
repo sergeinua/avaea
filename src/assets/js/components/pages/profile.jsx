@@ -1,13 +1,11 @@
 var ProfilePage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('profile');
+    ActionsStore.changeForm('profile', false);
   },
 
   render: function () {
     return (
-      <ReactRedux.Provider store={clientStore}>
-        <UserProfileContainer />
-      </ReactRedux.Provider>
+      <UserProfileContainer />
     )
   }
 });
