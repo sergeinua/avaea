@@ -12,8 +12,8 @@ pipelines:
 #              - apt update
 #               - apt-get -y install postgresql postgresql-contrib
 #              - apt-get -y install net-tools
- #             - /etc/init.d/postgresql start
- #             - sleep 120
+              - /etc/init.d/postgresql start
+              - sleep 120
 #              - apt-get install --reinstall sudo
 #              - sudo -u postgres sh -c 'createuser avaea & createdb avaea'
 #              - sudo -u postgres psql -c "ALTER USER avaea PASSWORD 'avaea';" 
@@ -28,7 +28,7 @@ pipelines:
               - df -h
               - psql -V
               - cd src
-  #            - mv /node_modules .
+              - mv /node_modules .
   #            - npm install
 #              - curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash
 #              - apt-get -y install nodejs
@@ -40,5 +40,5 @@ pipelines:
               - export NODE_ENV="staging"
               - export GOOGLE_OAUTH_CLIENT_ID="353849264959-s6n15fmj0s094hs95b46s5osuikm2agi.apps.googleusercontent.com"
               - export GOOGLE_OAUTH_CLIENT_SECRET="wURGldrAW0CS1kS8PX1QJi1m" 
-   #           - make test-unit
-    #          - make test-integration
+              - make test-unit
+              - make test-integration
