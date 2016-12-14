@@ -15,34 +15,40 @@ var ResultItem = React.createClass({
   },
 
   getMilesInfo: function () {
-    var ResultItem = this;
 
     ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
         if( msg.error ) {
           console.log("Result of 30K api: " + JSON.stringify(msg));
-          ResultItem.setState({
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: 0,
+                name: ''
+              }
+            });
+          }
+        } else {
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: msg.miles || 0,
+                name: msg.ProgramCodeName
+              }
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Result of 30K api: " + JSON.stringify(error));
+        if (this.isMounted()) {
+          this.setState({
             miles: {
               value: 0,
               name: ''
             }
           });
-        } else {
-          var miles = msg.miles || 0;
-          ResultItem.setState({miles: {
-            value: miles,
-            name: msg.ProgramCodeName
-          }});
         }
-      })
-      .catch((error) => {
-        console.log("Result of 30K api: " + JSON.stringify(error));
-        ResultItem.setState({
-          miles: {
-            value: 0,
-            name: ''
-          }
-        });
       });
 
   },
@@ -57,14 +63,19 @@ var ResultItem = React.createClass({
         if( !msg.error ) {
           refundType = msg.value;
         }
-        ResultItem.setState({
-          refundType: refundType
-        });
+        if (this.isMounted()) {
+          ResultItem.setState({
+            refundType: refundType
+          });
+        }
       })
       .catch((error) => {
-        ResultItem.setState({
-          refundType: refundType
-        });
+        if (this.isMounted()) {
+          this.setState({
+            refundType: refundType
+          });
+        }
+        console.error(error);
       });
   },
 
