@@ -287,7 +287,7 @@ module.exports = {
           return res.json({error: e, value: r});
         });
       } else {
-        return res.json({error: err, value: result});
+        return res.json({error: err, value: ''});
       }
     });
   }
