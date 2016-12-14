@@ -32,12 +32,16 @@ const plugins = [
       to: path.resolve(__dirname, '../.tmp/public/images/')
     },
     {
-      from: path.resolve(__dirname, '../assets/images/'),
-      to: path.resolve(__dirname, '../.tmp/public/images/')
+      from: path.resolve(__dirname, '../assets/favicon.ico'),
+      to: path.resolve(__dirname, '../.tmp/public/favicon.ico')
     },
     {
       from: path.resolve(__dirname, '../assets/js/dependencies/'),
       to: path.resolve(__dirname, '../.tmp/public/js/dependencies/')
+    },
+    {
+      from: path.resolve(__dirname, '../assets/static/'),
+      to: path.resolve(__dirname, '../.tmp/public/static/')
     }
   ])
 /*
