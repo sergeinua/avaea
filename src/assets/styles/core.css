@@ -81,6 +81,11 @@
 	background-size: 65%;
 }
 
+.desktop .login-holder {
+	margin: 0 auto;
+	max-width: 400px;
+}
+
 .desktop .main.container-fluid {
 	min-height: 561px;
 	height: auto;
@@ -1208,7 +1213,7 @@ textarea {
 
 .login-invite-only {
 	line-height: 20px;
-	margin: 10px 0;
+	margin: 120px 0 20px 0;
 }
 
 .login-invite-only a {
@@ -1216,12 +1221,27 @@ textarea {
 	display: block;
 }
 
-.form-signin-heading {
-	margin-top: 3em;
+.login-holder a.big-button:before {
+	content: 'Sign in with ';
 }
 
 .login-holder .big-button {
+	font-size: 19px;
+	text-align: left;
+	padding-left: 70px;
 	width: 280px;
+	position: relative;
+}
+
+.login-holder .big-button:after {
+	color: #ffffff;
+	font-size: 36px;
+	display: inline-block;
+	height: 45px;
+	width: 45px;
+	position: absolute;
+		top: 5px;
+		left: 15px;
 }
 
 
@@ -3078,6 +3098,10 @@ body.desktop form.profile {
 	.touch .login-invite-only {
 		position: relative;
     z-index: 2;
+	}
+	
+	.touch .login-invite-only {
+		margin: 70px 0 20px 0; 
 	}
 
 	.touch.android .form-signin-heading {
