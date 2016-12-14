@@ -216,6 +216,7 @@ a.buttonly {
 	color: #ffffff;
 	font-size: 28px;
 	font-family: 'Open-Sans-Light';
+	text-align: center;
 	padding: 15px 50px 15px 50px;
 	transition: all 0.1s ease-in-out;
 }
@@ -572,6 +573,7 @@ video {
 /* about */
 
 .about.top {
+	text-align: left;
 	padding-top: 35px;
 	padding-right: 420px;
 	position: relative;
@@ -1080,6 +1082,21 @@ footer.static .copyright {
 	.home.graphic {
     height: 500px;
     background-size: 1200px;
+	}
+	
+	.about.top {
+		padding-right: 300px;
+	}
+	
+	.about.top .wraper {
+		margin-top: 20px;
+		margin-left: 50px;
+	}
+	
+	.about.top:after {
+		width: 295px;
+		background: url(../images/static/globe-about.svg) 0px 80px no-repeat;
+		background-size: 450px;
 	}
 	
 }
