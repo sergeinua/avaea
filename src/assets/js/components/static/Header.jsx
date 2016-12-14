@@ -1,7 +1,13 @@
 var StaticHeader = React.createClass({
+	
+onItemClick: function (event) {
+	$("header.static nav").toggle();
+},
+	
   render: function () {
     return (
       <header className="static">
+      <div className="static-nav-button" onClick={this.onItemClick}></div>
         <nav>
         	<div className="left">
 	        <ul className="menu nav">

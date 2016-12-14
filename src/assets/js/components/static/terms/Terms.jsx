@@ -89,7 +89,7 @@ var StaticTerms = React.createClass({
       	<div className="subti">Disclaimer of Warranties</div>
 
       	<div className="sub-copy caps">
-	      	THE AVAEA SERVICE AND ANY PRE-RELEASE SERVICES ARE OFFERED "AS IS"—THAT MEANS WE DON'T 
+	      	THE AVAEA SERVICE AND ANY PRE-RELEASE SERVICES ARE OFFERED "AS IS". THAT MEANS WE DON'T 
 	      	GUARANTEE THE QUALITY, QUANTITY, COMPLETENESS, ACCURACY, AVAILABILITY, OR SPEED OF THE 
 	      	AVAEA SERVICE AND ANY PRE-RELEASE SERVICES, OR MAKE ANY OTHER REPRESENTATION ABOUT 
 	      	THE INFORMATION WE DISPLAY, INCLUDING BUT NOT LIMITED TO: PRICES, SCHEDULES, FARES, 
@@ -98,8 +98,8 @@ var StaticTerms = React.createClass({
       	</div>
 
       	<div className="sub-copy caps">
-	      	AVAEA AND ITS LICENSORS AND SUPPLIERS HEREBY DISCLAIM ALL WARRANTIES OF ANY KIND—EXPRESS 
-	      	OR IMPLIED—INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
+	      	AVAEA AND ITS LICENSORS AND SUPPLIERS HEREBY DISCLAIM ALL WARRANTIES OF ANY KIND&ndash;EXPRESS 
+	      	OR IMPLIED&ndash;INCLUDING, BUT NOT LIMITED TO, THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
 	      	PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. AVAEA DISCLAIMS ALL WARRANTIES AND 
 	      	CONDITIONS THAT THE SERVICE OR ANY EMAIL SENT FROM AVAEA IS FREE OF VIRUSES OR OTHER 
 	      	HARMFUL COMPONENTS.
@@ -117,8 +117,8 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy caps">
 	      	IN EXCHANGE FOR AVAEA'S PROVISION OF THE AVAEA SERVICE TO YOU, YOU AGREE THAT AVAEA IS 
-	      	ENTITLED TO A LIMITATION OF LIABILITY. WHAT THAT MEANS IS THAT IN NO EVENT WILL AVAEA—OR 
-	      	ITS LICENSORS OR SUPPLIERS—BE LIABLE ON ANY CLAIMS ARISING OUT OF OR RELATING TO YOUR 
+	      	ENTITLED TO A LIMITATION OF LIABILITY. WHAT THAT MEANS IS THAT IN NO EVENT WILL AVAEA, OR 
+	      	ITS LICENSORS OR SUPPLIERS, BE LIABLE ON ANY CLAIMS ARISING OUT OF OR RELATING TO YOUR 
 	      	USE OF OR INABILITY TO USE THE AVAEA SERVICE, ON ANY THEORY, INCLUDING BUT NOT LIMITED 
 	      	TO NEGLIGENCE, CONTRACT, TORT, STRICT LIABILITY, OR OTHERWISE. THIS LIMITATION OF LIABILITY 
 	      	APPLIES TO, BUT SHALL NOT BE LIMITED TO ANY CLAIM FOR: (I) DIRECT, INDIRECT, SPECIAL, INCIDENTAL, 
@@ -190,7 +190,7 @@ var StaticTerms = React.createClass({
 	      	Facebook, Google or Twitter account in order to book travel through one of our travel partners. If you use a booking 
 	      	feature that's powered by one of our travel partners, we collect your payment information and pass it on 
 	      	to the travel partner to process the transaction, consistent with our Privacy Policy. We don't complete the 
-	      	transaction or process your payment—the travel partner does. You understand and agree that if you 
+	      	transaction or process your payment&ndash;the travel partner does. You understand and agree that if you 
 	      	encounter any problems with the transaction or with the reservation you book in that transaction, you 
 	      	must resolve your dispute with the travel partner, not with Avaea, and your sole remedy, including any 
 	      	refund, lies with the travel partner, not with Avaea.  However, if you cannot reach a satisfactory resolution 

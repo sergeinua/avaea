@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.static-nav-button:before,
 .success.ti:before,
 .extras-flag:before,
 #accordion .panel-title a:after,
@@ -152,6 +153,7 @@
 .icon-map-pin:before {
   content: "\e90c";
 }
+.static-nav-button:before,
 .icon-menu:before {
   content: "\e90d";
 }

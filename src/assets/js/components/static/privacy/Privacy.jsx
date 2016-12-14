@@ -166,12 +166,12 @@ var StaticPrivacy = React.createClass({
 	      	updates and promotional materials and offers, either through links provided in the e-mail messages
 	      	we send to you or by updating your account preferences through the Service.
       	</li>
-      		 
+ 
       	<li>
       		We may communicate with you via e-mail or another form of electronic notification regarding
 	 		security, privacy, and administrative issues relating to your use of the Service.
 		</li>
-			 
+ 
       	<li>
 	      	If you are logged into your account and using the Service, we may
 	      	associate information regarding your usage of the Service with your account and with other
