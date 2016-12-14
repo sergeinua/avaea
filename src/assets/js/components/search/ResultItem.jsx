@@ -50,24 +50,21 @@ var ResultItem = React.createClass({
   getRefundType: function () {
     if (this.state.refundType !== false) return;
     var ResultItem = this;
+    var refundType = 'N/A';
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
-        if( msg.error ) {
-          ResultItem.setState({
-            refundType: null
-          });
-        } else {
-          ResultItem.setState({
-            refundType: msg.value
-          });
+        if( !msg.error ) {
+          refundType = msg.value;
         }
+        ResultItem.setState({
+          refundType: refundType
+        });
       })
       .catch((error) => {
         ResultItem.setState({
-          refundType: null
+          refundType: refundType
         });
-        console.error(error);
       });
   },
 

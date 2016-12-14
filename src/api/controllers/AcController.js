@@ -284,10 +284,10 @@ module.exports = {
     memcache.get(cacheId, function(err, result) {
       if (!err && !_.isEmpty(result)) {
         Search.getRefundType(JSON.parse(result), function (err, results) {
-          return res.json({error: null, value: results});
+          return res.json({error: err, value: results});
         });
       } else {
-        return res.json({error: err, value: null});
+        return res.json({error: err, value: result});
       }
     });
   }
