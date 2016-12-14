@@ -605,8 +605,8 @@ video {
 	display: inline-block;
 	position: absolute;
 		top: -120px;
-		right: -20px;
-	background: url(../images/static/passport.svg) 0px 0px no-repeat;
+		right: 0px;
+	background: url(../images/static/passport.svg) 20px 0px no-repeat;
 }
 
 .about.second:after {
@@ -671,6 +671,7 @@ video {
 /* privacy, terms */
 
 .textly {
+	text-align: left;
 	margin: 0 15%;
 	padding-bottom: 130px;
 }
@@ -715,6 +716,7 @@ video {
 /* contact */
 
 .static.contact {
+	text-align: left;
 	padding: 70px 70px 120px 70px;
 	position: relative; 
 }
@@ -782,7 +784,7 @@ video {
 
 .static .success {
 	margin: 40px 0;
-	padding: 60px 40px 60px 120px;
+	padding: 60px 60px 60px 120px;
 	width: 50%;
 	position: relative;
 }
@@ -919,18 +921,6 @@ footer.static .copyright {
 	
 }
 
-@media (max-width: 984px) {
-	
-	.static.contact .copy {
-    width: 1000%;
-	}
-	
-	.static .success {
-		display: inline-block;
-		width: auto;
-	}
-	
-}
 
 @media (max-width: 984px) {
 	
@@ -965,6 +955,20 @@ footer.static .copyright {
 	.home.graphic {
 		height: calc(100vw * .55);
 		background-size: 135%;
+	}
+	
+	.static.contact .copy {
+    width: 100%;
+	}
+	
+	.static.contact input, 
+	.static.contact textarea {
+    width: 65%;
+	}
+	
+	.static .success {
+		display: inline-block;
+		width: auto;
 	}
 	
 }
@@ -1090,13 +1094,22 @@ footer.static .copyright {
 	
 	.about.top .wraper {
 		margin-top: 20px;
-		margin-left: 50px;
+		margin-left: 40px;
 	}
 	
 	.about.top:after {
 		width: 295px;
 		background: url(../images/static/globe-about.svg) 0px 80px no-repeat;
 		background-size: 450px;
+	}
+	
+	.about .person {
+		width: 45%;
+	}
+	
+	.textly {
+		margin: 0 40px;
+		padding-bottom: 90px;
 	}
 	
 }
@@ -1121,6 +1134,22 @@ footer.static .copyright {
 	
 	footer.static .right {
     margin: 15px 0 15px 0;
+	}
+	
+	.about.top {
+		padding-bottom: 250px;
+		padding-right: 40px;
+	}
+	
+	.about.top .copy {
+		margin-bottom: 50px;
+	}
+	
+	.about.top:after {
+		width: 100%;
+		height: 385px;
+		background: url(../images/static/globe-about.svg) center 0px no-repeat;
+		background-size: 79%;
 	}
 	
 }
@@ -1174,6 +1203,50 @@ footer.static .copyright {
 	
 	.home .graphic {
 		bottom: -105px;
+	}
+	
+	.about.top:after {
+		width: 100%;
+		background: url(../images/static/globe-about.svg) 30px 0px no-repeat;
+		background-size: 100%;
+	}
+	
+	.static.contact,
+	.about .person {
+		padding-left: 40px;
+		padding-right: 40px;
+		width: 100%;
+	}
+	
+	about.person.blank {
+		display: none;
+	}
+	
+	.static.contact input, 
+	.static.contact textarea {
+    width: 100%;
+	}
+	
+	.static .success {
+		text-align: center;
+		padding: 20px 40px 30px 40px;
+	}
+	
+	.static .success:before {
+		display: block;
+		width: 100%;
+		height: 90px;
+		position: relative;
+		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
+	}
+	
+	
+}
+
+@media (max-width: 380px) {
+	
+	.about.top:after {
+		background-size: 120%;
 	}
 	
 }

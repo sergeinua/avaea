@@ -239,7 +239,7 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	We may collect registration, payment, and other information about you through the Avaea Service. Our 
-	      	collection and use of this information is described in the Avaea <Link to="/privacy"><u>Privacy Policy</u></Link>. 
+	      	collection and use of this information is described in the Avaea <Link to="/privacy"><u>Privacy Policy.</u></Link> 
       	</div>
 
       	<div className="subti">Ability to Accept Terms of Service</div>
