@@ -335,8 +335,8 @@ var StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	If you elect to seek arbitration, you must first send to Avaea, by certified mail, a written Notice of Dispute 
-	      	("Notice"). The Notice to Avaea should be addressed to: Avaea, Attn: Legal, 434 Brannan St., 1st Floor, 
-	      	San Francisco, CA 94107 ("Notice Address"). The Notice must (a) describe the nature and basis of the 
+	      	("Notice"). The Notice to Avaea should be addressed to: Avaea, Attn: Legal, 592 Dory Ln., Redwood Shores, 
+	      	CA 94065 ("Notice Address"). The Notice must (a) describe the nature and basis of the 
 	      	claim or dispute; and (b) set forth the specific relief sought ("Demand"). If Avaea and you do not reach an 
 	      	agreement to resolve the claim within 30 days after the Notice is received, you or Avaea may commence 
 	      	an arbitration proceeding or file a claim in small claims court. During the arbitration, the amount of any 

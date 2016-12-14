@@ -476,7 +476,7 @@ video {
 .static-features .graphic {
 	margin: 12px 0;
 	height: 130px;
-	width: 275px;
+	width: 100%;
 }
 
 .static-features .copy,
@@ -763,7 +763,7 @@ video {
 
 .static .success {
 	margin: 40px 0;
-	padding: 60px 40px 55px 120px;
+	padding: 60px 40px 60px 120px;
 	width: 50%;
 	position: relative;
 }
@@ -885,9 +885,43 @@ footer.static .copyright {
 }
 
 
-/* responsive */
+/* ------- responsive ------- */
+
+@media (min-width: 970px) and (max-width: 1185px) {
+	
+	.static-features > div {
+		padding-left: 25px;
+		padding-right: 25px;
+	}
+	
+	.static-features {
+		padding: 0 20px;
+	}
+	
+}
+
+@media (max-width: 984px) {
+	
+	.static.contact .copy {
+    width: 1000%;
+	}
+	
+	.static .success {
+		display: inline-block;
+		width: auto;
+	}
+	
+}
+
+@media (max-width: 984px) {
+	
+}
 
 
+
+/* landscape phone */
+
+@media screen and (min-aspect-ratio: 13/9) {
 
 
 
