@@ -39,7 +39,7 @@ $(document).ready(function() {
       .then(function () {
         ReactDOM.render((
           <ReactRedux.Provider store={clientStore}>
-            <Router history={browserHistory}>
+            <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
               <Route path="/" component={StaticContainer}>
                 <Route path="/home" component={HomePage}/>
                 <Route path="/about" component={AboutPage}/>
