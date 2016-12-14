@@ -56,6 +56,10 @@ input {
 	border-radius: 0;
 }
 
+header, footer, .content {
+	display: block;
+}
+
 /* overwrite undo style from ABO bootstrap
    glyphicons.less
 	 buttons.less
@@ -385,6 +389,7 @@ video {
 
 .try-it .loc-holder input {
 	width: 195px;
+	border: 0px solid transparent;
 }
 
 .try-it span {
@@ -401,6 +406,7 @@ video {
 }
 
 .static .home.compare {
+	text-align: left;
 	padding: 0 530px 0 0;
 	position: relative;
 }
@@ -466,6 +472,10 @@ video {
 	display: table-cell;
 	width: 32%;
 	min-width: 285px;
+}
+
+.static-features > div .copy {
+	text-align: left;
 }
 
 .static-features h2,
@@ -943,7 +953,7 @@ footer.static .copyright {
 	
 	.static .home.compare:after {
 		margin-bottom: -30px;
-		height: 465px;
+		height: calc(77vw * .72);
 		width: 100%;
 		position: relative;
 		background: url(../images/static/tickets-compare.svg) right 0 no-repeat;
@@ -958,17 +968,21 @@ footer.static .copyright {
 }
 
 
-@media (min-width: 825px) and (max-width: 920px) {
+@media (max-width: 920px) {
 	
 	header.static {
-		padding-left: 220px;
-		background-size: 200px;
+		padding-left: 230px;
+		background-size: 190px;
 		background: url(../images/static/logo-beta.svg) 5px 10px no-repeat;
 	}
 	
 	header.static a, header.static a:hover, header.static a:visited {
 		padding-left: 8px;
 		padding-right: 8px;
+	}
+	
+	header.static nav .right {
+		width: 235px;
 	}
 	
 }
@@ -980,6 +994,7 @@ footer.static .copyright {
 	}
 	
 	header.static {
+		text-align: left;
 		padding-left: 20px;
 		padding-right: 200px;
 		padding-bottom: 10px;
@@ -996,19 +1011,34 @@ footer.static .copyright {
 		background: #062868;
 	}
 	
+	header.static nav {
+		/* sets initial hidden state, but
+		   when it toggles it picks up
+			 'display: inline-block' above */
+		display: none;
+	}
+	
 	header.static a, 
 	header.static a:hover, 
 	header.static a:visited,
 	header.static li.active a, 
 	header.static li.active a:active, 
-	header.static li.active a:visited {
+	header.static li.active a:visited,
+	header.static .left a:hover {
 		color: #ffffff;
+		font-family: 'Open-Sans';
 		opacity: .5;
+	}
+	
+	header.static .left a:hover {
+		opacity: .75;
 	}
 	
 	header.static li.active a, 
 	header.static li.active a:active, 
-	header.static li.active a:visited {
+	header.static li.active a:visited,
+	header.static li.flight-search a, 
+	header.static li.flight-search a:hover {
 		opacity: 1;
 	}
 	
@@ -1034,6 +1064,101 @@ footer.static .copyright {
 		margin-bottom: 20px;
 	}
 	
+	.home.third h1,
+	.home.third > .copy {
+		width: 80%;
+	}
+	
+	.home.third h1 {
+		margin: 0 auto;
+	}
+	
+	.try-it {
+		width: 90%;
+	}
+	
+	.home.graphic {
+    height: 500px;
+    background-size: 1200px;
+	}
+	
+}
+
+@media (max-width: 675px) {
+	
+	slogan.third {
+		line-height: 50px;
+		padding-left: 40px;
+		padding-right: 40px;
+	}
+	
+	footer.static .left, footer.static .right {
+    display: block;
+    width: 100%;
+    float: none;
+	}
+	
+	footer.static .holder {
+		text-align: center;
+	}
+	
+	footer.static .right {
+    margin: 15px 0 15px 0;
+	}
+	
+}
+
+@media (max-width: 550px) {
+	
+	header.static nav {
+		width: 
+	}
+	
+	.try-it .loc-holder input {
+		width: 100%;
+		#ffffff url(../images/static/input-map-pin.svg) right 5px no-repeat;
+	}
+	
+	.static-features {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.static-features > div {
+		padding-left: 20px;
+		padding-right: 20px;
+		width: 85%;
+	}
+	
+	.static .home.compare .wrapper {
+		margin-left: 40px;
+    margin-right: 40px;
+	}
+	
+	.static .home.compare ul {
+		margin-left: 0;
+		margin-bottom: 20px;
+	}
+	
+	.static .home.compare:after {
+		height: 340px;
+		background: url(../images/static/tickets-compare.svg) -10px bottom no-repeat;
+		background-size: 120%;
+	}
+	
+	.home.third .wrapper {
+		margin-bottom: 0;
+	}
+	
+	.home .upcoming {
+		width: 90%;
+		height: auto;
+	}
+	
+	.home .graphic {
+		bottom: -105px;
+	}
+	
 }
 
 
@@ -1042,7 +1167,7 @@ footer.static .copyright {
 
 @media screen and (min-aspect-ratio: 13/9) {
 
-
+}
 
 
 /* heredeb */
