@@ -168,7 +168,7 @@ module.exports = {
             var isAA = false;
             itin.citypairs.map(function(pair) {
               pair.flights.map(function(flight) {
-                isAA = (flight.airlineCode == "AA");
+                isAA = isAA || (flight.airlineCode == "AA");
               });
             });
             // save itinerary with lowest price in filter
