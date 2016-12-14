@@ -285,7 +285,6 @@ module.exports = {
         'not_found': 'Cancelations were not found in Fare Rules'
       };
       sails.log.error(errors[error]);
-      result.RefundType = '';
       return callback(errors[error], res);
     };
     // if no data in DB and APIs doesn't respond over 30 sec then stop searching
