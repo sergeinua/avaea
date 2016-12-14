@@ -313,7 +313,7 @@ module.exports = {
             var m = result.SubSection.Text.match(/\s*CANCELLATIONS\s+([\s\S]*?)\.\s+/);
             if (m && m[1]) {
               var _part = m[1].replace(/\r?\n+/g, '').replace(/\s+/g, ' ').trim();
-              res = _part || '';
+              res = _part || 'N/A';
             }
           }
           if (!done) {
