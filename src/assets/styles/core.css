@@ -3100,12 +3100,12 @@ body.desktop form.profile {
     z-index: 2;
 	}
 	
-	.touch .login-invite-only {
-		margin: 70px 0 20px 0; 
+	.touch.android .login-invite-only {
+		margin: 70px 0 0 0; 
 	}
 
-	.touch.android .form-signin-heading {
-		margin: .5em auto 0 auto;
+	.touch.android .login-holder:after {
+		background-size: 50%;
 	}
 
 	.touch .navbar.searchform-top {
