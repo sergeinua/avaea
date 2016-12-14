@@ -164,8 +164,15 @@ module.exports = {
         var _filteredItins = {};
         results.forEach((provItins) => {
           provItins.forEach((itin) => {
+            //DEMO-850 Stop showing AA flights
+            var isAA = false;
+            itin.citypairs.map(function(pair) {
+              pair.flights.map(function(flight) {
+                isAA = isAA || (flight.airlineCode == "AA");
+              });
+            });
             // save itinerary with lowest price in filter
-            if (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price)) {
+            if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
               _filteredItins[itin.key] = itin;
             }
           });
