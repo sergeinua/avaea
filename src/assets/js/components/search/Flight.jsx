@@ -1,10 +1,4 @@
 var Flight = React.createClass({
-  getInitialState: function() {
-    return {
-      pair: this.props.pair,
-      flight: this.props.flight
-    };
-  },
 
   showNoStops: function(flight) {
     if (flight.noOfStops > 0) {

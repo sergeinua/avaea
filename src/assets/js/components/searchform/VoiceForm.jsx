@@ -159,12 +159,8 @@ var VoiceForm = React.createClass({
       recognition.stop();
     }
     this.demo(function(res, data) {
-      ActionsStore.validateCalendar();
       console.log("Result of demo: ", data);
       loggerQuery(data, (res ? 'success' : 'failed'));
-      if (res && (data.action=='top' || data.action=='all')) {
-        ActionsStore.updateNavBarPage('result');
-      }
     });
   },
 
@@ -285,18 +281,16 @@ var VoiceForm = React.createClass({
         if (serviceClass && serviceClass[result.class_of_service]) {
           ActionsStore.setFormValue('CabinClass', result.class_of_service);
         }
-        // ActionsStore.updateFormValues();
 
         ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
-        switch (result.action) {
-          case 'top':
-            ActionsStore.setFormValue('topSearchOnly', 1);
-          case 'all':
-            ActionsStore.setFormValue('flightType', result.type);
-            ActionsStore.submitForm();
-            break;
-        }
         ActionsStore.changeForm(result.type);
+
+        if (result.action == 'all' || result.action == 'top') {
+          Promise.resolve(ActionsStore.setFormValue('topSearchOnly', result.action == 'top' ? 1 : 0))
+            .then(function () {
+              ActionsStore.submitTripSearchForm();
+            });
+        }
 
         return callback(true, result);
       }).fail(function(error){

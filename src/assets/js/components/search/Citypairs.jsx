@@ -1,10 +1,4 @@
 var Citypairs = React.createClass({
-  getInitialState: function() {
-    return {
-      citypairs: this.props.citypairs,
-      information: this.props.information
-    };
-  },
 
   showFMiles: function(miles) {
     if( miles === false ) {
@@ -55,10 +49,10 @@ var Citypairs = React.createClass({
             </div>
           })}
         {this.showFMiles(this.props.miles)}
-        {/*<div className="refundable row">
+        <div className="refundable row">
           <div className="col-xs-4 text-nowrap notable-text detail-col times">Refund Type:</div>
           <div className="col-xs-8 text-left detail-col">{this.showRefundType(this.props.refundType)}</div>
-        </div>*/}
+        </div>
       </div>
     )
   }
