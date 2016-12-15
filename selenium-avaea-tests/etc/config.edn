@@ -2,7 +2,10 @@
 
  :server-root "http://stage.avaea.com"
  :pom {
-       :one-way {}
+       :one-way {
+                 :from-button "#from-area"
+                 :to-button "#to-button"
+                 }
        :round-way {}
        :general {}
        :dec_w1 {}

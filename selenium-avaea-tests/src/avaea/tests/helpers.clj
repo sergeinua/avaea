@@ -1,6 +1,7 @@
 (ns avaea.tests.helpers
   (:require [avaea.tests.webdriver :as webdriver]
-            [clj-webdriver.taxi :refer :all]))
+            [clj-webdriver.taxi :refer :all]
+            [midje.sweet :refer :all]))
 
 (defn open-browser
   "Открывает браузер по переданному url"
@@ -33,6 +34,9 @@
 
 (defn $ [^String selector]
   (find-element {:css selector}))
+
+(defmacro $$ [^String selector]
+  `(do ($ ~selector) =not=> nil))
 
 (defn x-path [^String selector]
   (find-element {:xpath selector}))

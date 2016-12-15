@@ -39,7 +39,9 @@
 
 (fact
  "Search of 'all flights' tickets using Mondee"
- (open-browser (-> config :server-root (str "/search")))
- (quit)
-)
+ ;; (open-browser (-> config :server-root (str "/search")))
+ (let [page-model  (-> config :pom :one-way)
+       from-button ($$ (:from-button page-model))]
+   ;; (click from-button)
+   #_(quit)))
 
