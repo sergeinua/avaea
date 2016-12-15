@@ -567,11 +567,18 @@ module.exports = {
         }
       }
     } else {
+      if (false) {
+        sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      } else {
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
+        var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+      }
       // append the default zero smartRank
-      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
       }
