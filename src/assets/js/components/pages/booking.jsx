@@ -16,7 +16,7 @@ let BookingPage = React.createClass({
   },
 
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('about');
+    ActionsStore.changeForm('about', false);
 
     fetch('/booking?bookingId=' + this.state.bookingId, {
       method: 'POST',

@@ -166,6 +166,10 @@ let OrderPanel = React.createClass({
       });
   },
 
+  componentWillMount: function () {
+    this.props.loadSuccess({});
+  },
+
   componentDidMount: function() {
     this.getOrder()
       .then(function (resData) {
@@ -197,7 +201,7 @@ let OrderPanel = React.createClass({
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
-              <ResultItem itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
             </div>
           </div>
 

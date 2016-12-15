@@ -4,7 +4,7 @@ import OrderPanelContainer from '../buy/OrderPanel.jsx';
 
 var OrderPage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('order');
+    ActionsStore.changeForm('order', false);
   },
 
   render: function () {

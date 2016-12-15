@@ -30,7 +30,7 @@ let Booking = React.createClass({
         <div className="trip ti">Trip Details</div>
         <div className="flight-unit">
           <div id="booked-flight-unit" className="booked-flight-unit">
-            <ResultItem itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+            <ResultItem key={this.props.orderData.itineraryData.id}  itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
           </div>
         </div>
 

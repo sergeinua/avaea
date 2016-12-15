@@ -54,7 +54,7 @@ var drawDateRange = function(datepicker, range) {
 };
 
 export function finalizeValues(searchParams) {
-  var flightType = searchParams.flightType || 'round_trip';
+  var flightType = searchParams.flightType;
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();
   var moment_rp = null;

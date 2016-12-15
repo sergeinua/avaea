@@ -1,7 +1,8 @@
 import React from 'react';
 import Flight from './Flight.jsx';
+import MerchandisingInfo from './MerchandisingInfo.jsx';
 
-var Citypairs = React.createClass({
+let Citypairs = React.createClass({
 
   showFMiles: function(miles) {
     if( miles === false ) {

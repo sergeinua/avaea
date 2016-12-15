@@ -8,7 +8,10 @@ import { browserHistory } from 'react-router';
 var flashErrorTimeout = 1000;
 
 var TripSearchForm = React.createClass({
+
   getInitialState: function () {
+    observeStore(storeGetCommonVal, 'formSubmitCount', this.handleSubmitForm);
+
     return {
       '.flight-date-info-item.dep': {
         isError: false,
@@ -35,14 +38,22 @@ var TripSearchForm = React.createClass({
     }.bind(this);
   },
 
-  componentWillMount: function () {
+  submitSearchForm: function (topSearchOnly) {
+    return function () {
+      Promise.resolve( ActionsStore.setFormValue('topSearchOnly', topSearchOnly) )
+        .then(function () {
+          ActionsStore.submitTripSearchForm();
+        });
+    }.bind(this);
+  },
 
-    ActionsStore.submitForm = () => {
-      if (this.validateForm()) {
+  handleSubmitForm: function (submitCounter) {
+    let _executeSubmit = function () {
+      if (submitCounter && this.validateForm()) {
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        var searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
+        let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
         browserHistory.push(
@@ -54,26 +65,18 @@ var TripSearchForm = React.createClass({
           }
         );
       }
-    };
+    }.bind(this); // Important to bind components properties
 
+    return _executeSubmit();
   },
 
-  submitSearchForm: function (topSearchOnly) {
-    return function () {
-      Promise.resolve( ActionsStore.setFormValue('topSearchOnly', topSearchOnly) )
-        .then(function () {
-          ActionsStore.submitForm();
-        });
-    }.bind(this);
-  },
 // For elements with error
 
   setErrorElement: function (stateFieldName) {
-    // Logic and animation
     function createStateFieldsUpdate(state, propertyName, toUpdate) {
       var newStateUpdate = {};
       newStateUpdate[propertyName] = {};
-      Object.keys(state[propertyName]).forEach(function (oldProperty){
+      Object.keys(state[propertyName]).forEach(function (oldProperty) {
         newStateUpdate[propertyName][oldProperty] = state[propertyName][oldProperty];
       });
 
@@ -83,14 +86,16 @@ var TripSearchForm = React.createClass({
       return newStateUpdate;
     }
 
-    this.setState(
-      createStateFieldsUpdate(this.state, stateFieldName, {isError: true, isErrorFlash: true})
-    );
+    if (this.isMounted()) {
+      this.setState(
+        createStateFieldsUpdate(this.state, stateFieldName, {isError: true, isErrorFlash: true})
+      );
+    }
 
     var self = this;
     var removeFlashErrorCallback = function () {
       var property = self.state[stateFieldName];
-      if (property) {
+      if (self.isMounted() && property) {
         self.setState(createStateFieldsUpdate(self.state, stateFieldName, {isErrorFlash: false}));
       }
     };
@@ -111,53 +116,47 @@ var TripSearchForm = React.createClass({
   },
 
   validateForm: function () {
-    var _isError = false;
-    ActionsStore.validateCalendar();
-    var calendarErrors = this.props.InitSearchFormData.calendarErrors;
-    var searchParams = this.props.InitSearchFormData.searchParams;
+    let _executeValidate = function () {
+      let _isError = false;
+      let formErrors = this.props.InitSearchFormData.formErrors;
+      let searchParams = this.props.InitSearchFormData.searchParams;
 
-    if (calendarErrors.isError) {
-      _isError = true;
-    }
+      if (formErrors.isError) {
+        _isError = true;
+      }
 
-    // Check airports selection
-    if (searchParams.DepartureLocationCode == '') {
-      this.setErrorElement('#from-area');
-      _isError = true;
-    }
-    if (searchParams.ArrivalLocationCode == '') {
-      this.setErrorElement('#to-area');
-      _isError = true;
-    }
-    if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
-      this.setErrorElement('#from-area');
-      //@TODO: find missed DOM element
-      // setErrorElement('#from-area-selected');
-      this.setErrorElement('#to-area');
-      //@TODO: find missed DOM element
-      // setErrorElement('#to-area-selected');
-      _isError = true;
-    }
+      // Check airports selection
+      if (formErrors.fromArea) {
+        this.setErrorElement('#from-area');
+        _isError = true;
+      }
+      if (formErrors.toArea) {
+        this.setErrorElement('#to-area');
+        _isError = true;
+      }
 
-    if (!searchParams.passengers) {
-      ActionsStore.setFormValue('passengers', 1);
-    }
+      if (!searchParams.passengers) {
+        ActionsStore.setFormValue('passengers', 1);
+      }
 
-    if (!searchParams.CabinClass) {
-      ActionsStore.setFormValue('CabinClass', 'E');
-    }
+      if (!searchParams.CabinClass) {
+        ActionsStore.setFormValue('CabinClass', 'E');
+      }
 
-    if (calendarErrors.returnDate) {
-      this.setErrorElement('.flight-date-info-item.ret');
-      _isError = true;
-    }
+      if (formErrors.returnDate) {
+        this.setErrorElement('.flight-date-info-item.ret');
+        _isError = true;
+      }
 
-    if (calendarErrors.departureDate) {
-      this.setErrorElement('.flight-date-info-item.dep');
-      _isError = true;
-    }
+      if (formErrors.departureDate) {
+        this.setErrorElement('.flight-date-info-item.dep');
+        _isError = true;
+      }
 
-    return !_isError;
+      return !_isError;
+    }.bind(this);
+
+    return _executeValidate();
   },
 
   getDatePart: function (type, date) {
@@ -198,8 +197,8 @@ var TripSearchForm = React.createClass({
   },
 
   getSubmitButtonDisabledClass: function () {
-    var calendarErrors = this.props.InitSearchFormData.calendarErrors;
-    return calendarErrors.isError ? 'disabled ': '';
+    let formErrors = this.props.InitSearchFormData.formErrors;
+    return formErrors.isError ? 'disabled ': '';
   },
 
   handleAirportSearch: function (target) {
@@ -207,6 +206,12 @@ var TripSearchForm = React.createClass({
       ActionsStore.changeForm('airport-search');
       ActionsStore.setTarget(target);
     }.bind(this);
+  },
+
+  componentWillUnmount: () => {
+    if (observeUnsubscribers['formSubmitCount']) {
+      observeUnsubscribers['formSubmitCount']();
+    }
   },
 
   render() {

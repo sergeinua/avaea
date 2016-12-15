@@ -1,9 +1,8 @@
-import { clientStore } from 'reducers.js';
-import { actionSetCommonVal } from 'actions.js';
+/* global $ */
 const confTripSearchForms = ['one_way','round_trip','multi_city'];
 
-//global object for communication with react components
-export let ActionsStore = {
+//global object for communication with react components and dispatching redux actions
+var ActionsStore = {
   getIconSpriteMap: function () {
     return clientStore.getState().commonData.iconSpriteMap;
   },
@@ -191,7 +190,8 @@ $(document).ready(function() {
 // ends dom ready
 
 // DEMO-796 fix for iOS10
-export function unfocusFormForIos() {
+let unfocusFormForIos;
+unfocusFormForIos = function () {
   let index;
   let inputs = document.getElementsByTagName('input');
   for (index = 0; index < inputs.length; ++index) {
@@ -205,9 +205,34 @@ export function unfocusFormForIos() {
   for (index = 0; index < textareas.length; ++index) {
     textareas[index].blur();
   }
-}
+};
 
-export function setAirportData(target, data) {
-  ActionsStore.setFormValue(target, data.value);
-  ActionsStore.setFormValue(target + 'City', data.city);
-}
+let nodes = [];
+
+const ReactContentRenderer = {
+  unmountAll() {
+    if (nodes.length === 0) {
+      return;
+    }
+    nodes.forEach(node => React.unmountComponentAtNode(node));
+    nodes = [];
+  },
+  render(element, container, callback) {
+    if (container instanceof jQuery) {
+      container = container.get(0);
+    }
+    ReactDOM.render(element, container, callback);
+    nodes.push(container);
+  }
+};
+
+$(function () {
+  $('#content')
+    .on('content-will-change', ReactContentRenderer.unmountAll);
+});
+
+
+
+
+
+

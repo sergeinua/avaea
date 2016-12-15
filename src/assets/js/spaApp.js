@@ -44,43 +44,64 @@ $(document).ready(function() {
       unfocusFormForIos();
     });
 
-    render((
-      <ReactRedux.Provider store={clientStore}>
-        <Router history={browserHistory}>
-          <Route path="/" component={StaticContainer}>
-            <Route path="/home" component={HomePage}/>
-            <Route path="/about" component={AboutPage}/>
-            <Route path="/jobs" component={JobsPage}/>
-            <Route path="/news" component={NewsPage}/>
-            <Route path="/blog" component={BlogPage}/>
-            <Route path="/contact" component={ContactPage}/>
-            <Route path="/terms" component={TermsPage}/>
-            <Route path="/privacy" component={PrivacyPage}/>
-          </Route>
-          <Route path="/" component={AppContainer}>
-            <IndexRoute component={SearchFormPageContainer} />
-            <Route path="/profile" component={ProfilePage}/>
-            <Route path="/search" component={SearchFormPageContainer}/>
-            <Route path="/result" component={ResultPageContainer}/>
-            <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
-            <Route path="/booking/:bookingId" component={BookingPage}/>
-            <Route path="*" component={DisplayAlert}/>
-          </Route>
-        </Router>
-      </ReactRedux.Provider>
-    ), document.getElementById('spa-app'));
-  }
-});
+    let _localSearchParams;
+    if (localStorage.getItem('searchParams')) {
+      //use data from local storage if exists
+      _localSearchParams = JSON.parse(localStorage.getItem('searchParams'));
+    } else if (InitData.defaultSearch) {
+      //use data from server with default/session params if local storage is empty
+      _localSearchParams = InitData.defaultSearch;
+    }
 
-//for login page
-
-$(document).ready(function() {
-  var NavBarData = $('#onlynavbar').attr('page');
-  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
-    render(
-      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
-      document.getElementById('onlynavbar')
-    );
+    Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
+      .then(function () {
+        ReactDOM.render((
+          <ReactRedux.Provider store={clientStore}>
+            <Router history={browserHistory}>
+              <Route path="/" component={StaticContainer}>
+                <Route path="/home" component={HomePage}/>
+                <Route path="/about" component={AboutPage}/>
+                <Route path="/jobs" component={JobsPage}/>
+                <Route path="/news" component={NewsPage}/>
+                <Route path="/blog" component={BlogPage}/>
+                <Route path="/contact" component={ContactPage}/>
+                <Route path="/terms" component={TermsPage}/>
+                <Route path="/privacy" component={PrivacyPage}/>
+              </Route>
+              <Route path="/" component={AppContainer}>
+                <IndexRoute component={SearchFormPageContainer} />
+                <Route path="/profile" component={ProfilePage}/>
+                <Route path="/search" component={SearchFormPageContainer}/>
+                <Route path="/result" component={ResultPageContainer}/>
+                <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
+                <Route path="/booking/:bookingId" component={BookingPage}/>
+                <Route path="*" component={DisplayAlert}/>
+              </Route>
+            </Router>
+          </ReactRedux.Provider>
+        ), document.getElementById('spa-app'));
+        return true;
+      })
+      .then(function () {
+        return observeStore(storeGetCommonVal, 'searchParams', handleChangeTripSearchForm); //
+      })
+      .then(function () {
+        let iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
+        if (iconSpriteMap) {
+          clientStore.dispatch(actionSetCommonVal('iconSpriteMap', JSON.parse(iconSpriteMap || '[]')));
+        }
+        else {
+          return true;
+        }
+      })
+      .then(function () {
+        if (_localSearchParams && _localSearchParams.flightType != storeInitialState.commonData.searchParams.flightType
+          && (confTripSearchForms.indexOf(_localSearchParams.flightType) != -1)
+          && (confTripSearchForms.indexOf(clientStore.getState().commonData.currentForm) != -1)
+        ) {
+          console.log('bootstrap form', _localSearchParams.flightType);
+          ActionsStore.changeForm(_localSearchParams.flightType);
+        }
+      });
   }
 });

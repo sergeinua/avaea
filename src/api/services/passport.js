@@ -212,25 +212,21 @@ passport.connect = function (req, query, profile, next) {
       /**
        * Check whitelist access
        *
-       * @param {object} genRes
+       * @param {object} user
        * @param {function} callback
        */
-      function(genRes, callback) {
+      function(user, callback) {
         User.findOne({email: user.email, is_whitelist: 1})
           .exec(function (err, result) {
             var _is_whitelist = 0;
 
-            //sails.log.info("__user:", user);
-            //sails.log.info("__err:", err);
-            //sails.log.info("__result:", result);
             // Check by default value
             if (err || !result) {
               var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
               if (_patt.exec(user.email)) {
                 _is_whitelist = 1;
               }
-            }
-            else if (result) {
+            } else if (result) {
               _is_whitelist = 1;
             }
 
@@ -243,7 +239,7 @@ passport.connect = function (req, query, profile, next) {
                 callback('Email ' + user.email + ' is not registered');
               }
             } else {
-              callback(null, genRes);
+              callback(null, user);
             }
           });
       },
@@ -251,30 +247,29 @@ passport.connect = function (req, query, profile, next) {
       /**
        * Check existence of the username and email
        *
-       * @param {object} genRes
+       * @param {object} user
        * @param {function} callback
        */
-      function(genRes, callback) {
+      function(user, callback) {
         if (!user.username && !user.email) {
           callback('Neither a username nor email was available');
+        } else {
+          callback(null, user);
         }
-        else
-          callback(null, genRes);
       }
     ],
 
     function(err, result) {
-      if(err) {
-        if(typeof err == "string") {
+      if (err) {
+        if (typeof err == "string") {
           req.flash('error', err);
           return next(new Error(err));
-        }
-        else
+        } else {
           return next(err);
-      }
-      else if (result)
+        }
+      } else if (result) {
         return next(null, result);
-      else {
+      } else {
         var _errstr = "Unknown result in the passport.connect";
         sails.log.error(_errstr);
         return next(new Error(_errstr));

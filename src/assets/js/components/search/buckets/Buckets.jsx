@@ -1,8 +1,8 @@
 import React from 'react';
 import { ActionsStore } from '../../../functions.js';
+import Tile from './tile/Tile';
 
-
-var Buckets = React.createClass({
+let Buckets = React.createClass({
   getInitialState: function() {
     return {
       max_filter_items: this.props.max_filter_items || 0,

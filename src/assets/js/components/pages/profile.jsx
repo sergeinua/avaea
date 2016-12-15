@@ -4,7 +4,7 @@ import UserProfileContainer from '../user/Profile.jsx';
 
 let ProfilePage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('profile');
+    ActionsStore.changeForm('profile', false);
   },
 
   render: function () {

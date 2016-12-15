@@ -1,3 +1,5 @@
+import React from 'react';
+
 var createMarkup = function(text) { return {__html: text}; };
 
 var Tile = React.createClass({
@@ -55,3 +57,5 @@ var Tile = React.createClass({
     )
   }
 });
+
+export default Tile;
