@@ -8,8 +8,6 @@ import MultiCityForm from '../searchform/MultiCityForm.jsx';
 import VoiceForm from '../searchform/VoiceForm.jsx';
 import Typeahead from '../searchform/Typeahead.jsx';
 
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
-
 var SearchFormPage = React.createClass({
 
   componentWillMount: function () {

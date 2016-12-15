@@ -1,7 +1,5 @@
 import React from 'react';
-import { ActionsStore } from '../../functions.js';
-
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+import { ActionsStore, searchApiMaxDays } from '../../functions.js';
 
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {

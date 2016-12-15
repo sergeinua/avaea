@@ -1,19 +1,21 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, logAction } from '../../functions.js';
 import SearchBanner from '../searchform/SearchBanner.jsx';
 import ResultList from '../search/ResultList.jsx';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import Buckets from '../search/buckets/Buckets.jsx';
 import { actionSetCommonVal } from '../../actions.js';
 import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
 
-import { maxBucketVisibleFilters, bucketFilterItemHeigh } from '../../legacyJquery.js';
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
 require('swiper');
 require('jquery-slimscroll');
 
 let firstSelectionCount = {};
 let globalSelectionCount = 0;
+let swiper;
 
 let ResultPage = React.createClass({
 
@@ -39,20 +41,20 @@ let ResultPage = React.createClass({
         }, function () {
 
           //FIXME refactor code to use non jquery based swiper functionality
-          jQuery("#searchBanner").modal('hide');
+          $("#searchBanner").modal('hide');
 
           // correctly initialize the swiper for desktop vs. touch
 
           if (!uaMobile) {
             // is desktop
-            let swiper = new Swiper('.swiper-container', {
+            swiper = new Swiper('.swiper-container', {
               freeMode: true,
               slidesPerView: '5.5'
             });
 
           } else {
             // is touch
-            let swiper = new Swiper('.swiper-container', {
+            swiper = new Swiper('.swiper-container', {
               freeMode: true,
               slidesPerView: 'auto'
             });
@@ -63,7 +65,7 @@ let ResultPage = React.createClass({
           if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
             max_filter_items = maxBucketVisibleFilters;
           }
-          jQuery('.list-group').slimScroll({
+          $('.list-group').slimScroll({
             height: parseInt(max_filter_items * bucketFilterItemHeigh)+2 +'px',
             touchScrollStep: 30
           });

@@ -1,7 +1,9 @@
 import React from 'react';
+import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
 import { ActionsStore } from '../../functions.js';
+import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory } from 'react-router';
 
 // Vars

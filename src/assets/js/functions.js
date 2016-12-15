@@ -1,6 +1,9 @@
 import { clientStore } from 'reducers.js';
-import { actionSetCommonVal } from 'actions.js';
+import { actionSetCommonVal, actionMergeCommonVal, actionUpdateCommonByVal } from 'actions.js';
+import ClientApi from 'components/_common/api.js';
 const confTripSearchForms = ['one_way','round_trip','multi_city'];
+
+export let createMarkup = function(text) { return {__html: text}; };
 
 //global object for communication with react components
 export let ActionsStore = {
@@ -39,7 +42,9 @@ export let ActionsStore = {
   }
 };
 
-let handleChangeTripSearchForm = (searchParams) => {
+export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+
+export let handleChangeTripSearchForm = (searchParams) => {
   let formErrors = {
     isError: false,
     departureDate: false,
@@ -135,7 +140,7 @@ var isMobile = {
  * on_tile_choice | on_itinerary_purchase etc...
  *
  */
-var logAction = function (type, data) {
+export let logAction = function (type, data) {
   ClientApi.reqPost("/prediction/" + type, data);
 };
 

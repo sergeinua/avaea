@@ -1,6 +1,7 @@
 import React from 'react';
 import { ActionsStore } from '../../../functions.js';
 import Tile from './tile/Tile';
+import Sorter from '~/search/Sorter.jsx';
 
 let Buckets = React.createClass({
   getInitialState: function() {

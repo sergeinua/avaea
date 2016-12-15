@@ -24,14 +24,14 @@ let NavBar = React.createClass({
   },
 
   componentDidUpdate: function () {
-    jQuery('#nav_slide_menu').offcanvas({
+    $('#nav_slide_menu').offcanvas({
       toggle: false,
       placement: 'left',
       autohide: true
     });
-    jQuery('#nav_slide_menu a')
+    $('#nav_slide_menu a')
       .click(function () {
-        jQuery('#nav_slide_menu').offcanvas('hide');
+        $('#nav_slide_menu').offcanvas('hide');
       });
   },
 

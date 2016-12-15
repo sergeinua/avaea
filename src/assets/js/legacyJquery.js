@@ -125,7 +125,6 @@ export function  scrollAirlines() {
 
 $(document).ready(function() {
 
-  console.log('leacyJquery run');
   $('#nav_slide_menu').offcanvas({
     toggle: false,
     placement: 'left'

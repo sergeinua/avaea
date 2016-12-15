@@ -1,6 +1,7 @@
 import React from 'react';
+import { ActionsStore, createMarkup } from '../../functions.js';
 
-var Flight = React.createClass({
+let Flight = React.createClass({
 
   showNoStops: function(flight) {
     if (flight.noOfStops > 0) {

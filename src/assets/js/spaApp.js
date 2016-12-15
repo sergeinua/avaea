@@ -4,7 +4,7 @@ import * as ReactRedux from 'react-redux';
 import { Router, browserHistory, IndexRoute, Route } from 'react-router';
 import AppContainer from 'containers/AppContainer.jsx';
 import StaticContainer from 'containers/StaticContainer.jsx';
-import { clientStore } from 'reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from 'reducers.js';
 
 import NavBarContainer from '~/_common/NavBar'
 import DisplayAlert from '~/_common/DisplayAlert';
@@ -24,7 +24,8 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-import { unfocusFormForIos } from './functions.js';
+import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm } from './functions.js';
+import { actionSetCommonVal } from './actions.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.
 require('bootstrap');
@@ -55,7 +56,7 @@ $(document).ready(function() {
 
     Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
       .then(function () {
-        ReactDOM.render((
+        render((
           <ReactRedux.Provider store={clientStore}>
             <Router history={browserHistory}>
               <Route path="/" component={StaticContainer}>
@@ -103,5 +104,18 @@ $(document).ready(function() {
           ActionsStore.changeForm(_localSearchParams.flightType);
         }
       });
+  }
+});
+
+//for login page
+
+$(document).ready(function() {
+  var NavBarData = $('#onlynavbar').attr('page');
+  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
+    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
+    render(
+      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
+      document.getElementById('onlynavbar')
+    );
   }
 });

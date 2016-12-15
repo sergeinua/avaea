@@ -1,6 +1,6 @@
 import React from 'react';
 
-var StaticPrivacy = React.createClass({
+let StaticPrivacy = React.createClass({
   render: function () {
     return (
       <div>
@@ -372,3 +372,5 @@ var StaticPrivacy = React.createClass({
     )
   }
 });
+
+export default StaticPrivacy;

@@ -66,7 +66,7 @@ export function actionSetOrderFieldVal (fieldName, fieldValue) {
 }
 
 export function actionLoadOrderFailed (data) {
-  var result = {error: true};
+  let result = {error: true};
   if (data.errorInfo) {
     result.errorInfo = data.errorInfo;
   }
@@ -85,14 +85,14 @@ export function actionSetCommonVal (fieldName, fieldValue) {
   }
 }
 
-function actionMergeCommonVal (itemsData) {
+export function actionMergeCommonVal (itemsData) {
   return {
     type: actionTypesCommon.MERGE_COMMON_VAL,
     itemsData: itemsData,
   }
 }
 
-function actionUpdateCommonByVal (fieldName, updateByVal) {
+export function actionUpdateCommonByVal (fieldName, updateByVal) {
   return {
     type: actionTypesCommon.UPDATE_COMMON_BY_VAL,
     fieldName: fieldName,
