@@ -164,8 +164,15 @@ module.exports = {
         var _filteredItins = {};
         results.forEach((provItins) => {
           provItins.forEach((itin) => {
+            //DEMO-850 Stop showing AA flights
+            var isAA = false;
+            itin.citypairs.map(function(pair) {
+              pair.flights.map(function(flight) {
+                isAA = isAA || (flight.airlineCode == "AA");
+              });
+            });
             // save itinerary with lowest price in filter
-            if (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price)) {
+            if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
               _filteredItins[itin.key] = itin;
             }
           });
@@ -270,34 +277,33 @@ module.exports = {
   getRefundType: function (params, callback) {
     var guid = this.getCurrentSearchGuid();
     var done = false;
-    var errorResult = (error) => {
-      sails.log.error(error);
-      var result = [];
-
-      result.guid = guid;
-      result.RefundType = '';
-      return callback(error, result);
+    var res = '';
+    var errorResult = (error, text) => {
+      var errors = {
+        'timeout': 'APIs does not respond over 30s',
+        'api': text || 'Undefined API error',
+        'not_found': 'Cancelations were not found in Fare Rules'
+      };
+      sails.log.error(errors[error]);
+      return callback(errors[error], res);
     };
     // if no data in DB and APIs doesn't respond over 30 sec then stop searching
     setTimeout(() => {
       if (!done) {
         done = true;
-        return errorResult('APIs does not respond over 30s');
+        return errorResult('timeout');
       }
     }, 30000);
 
-    var errors = [], res = '';
     if (params.service && _.indexOf(sails.config.flightapis.searchProvider, params.service) != -1) {
       utils.timeLog('getRefundType_' + params.service);
       // run async API search
       global[params.service].getFareRules(guid, params, (err, result) => {
         sails.log.info(params.service + ' get Fare Rules finished!');
         if (err) {
-          errors.push(err);
-          res = null;
           if (!done) {
             done = true;
-            return errorResult(err);
+            return errorResult('api', err);
           } else {
             sails.log.error(err);
           }
@@ -306,12 +312,14 @@ module.exports = {
             var m = result.SubSection.Text.match(/\s*CANCELLATIONS\s+([\s\S]*?)\.\s+/);
             if (m && m[1]) {
               var _part = m[1].replace(/\r?\n+/g, '').replace(/\s+/g, ' ').trim();
-              res = _part || '';
+              if (!_part) {
+                return errorResult('not_found');
+              }
+              res = _part;
             }
           }
           if (!done) {
             done = true;
-
             return callback(null, res);
           }
         }

@@ -15,34 +15,40 @@ var ResultItem = React.createClass({
   },
 
   getMilesInfo: function () {
-    var ResultItem = this;
 
     ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
         if( msg.error ) {
           console.log("Result of 30K api: " + JSON.stringify(msg));
-          ResultItem.setState({
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: 0,
+                name: ''
+              }
+            });
+          }
+        } else {
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: msg.miles || 0,
+                name: msg.ProgramCodeName
+              }
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Result of 30K api: " + JSON.stringify(error));
+        if (this.isMounted()) {
+          this.setState({
             miles: {
               value: 0,
               name: ''
             }
           });
-        } else {
-          var miles = msg.miles || 0;
-          ResultItem.setState({miles: {
-            value: miles,
-            name: msg.ProgramCodeName
-          }});
         }
-      })
-      .catch((error) => {
-        console.log("Result of 30K api: " + JSON.stringify(error));
-        ResultItem.setState({
-          miles: {
-            value: 0,
-            name: ''
-          }
-        });
       });
 
   },
@@ -50,23 +56,25 @@ var ResultItem = React.createClass({
   getRefundType: function () {
     if (this.state.refundType !== false) return;
     var ResultItem = this;
+    var refundType = 'N/A';
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
-        if( msg.error ) {
+        if( !msg.error ) {
+          refundType = msg.value;
+        }
+        if (this.isMounted()) {
           ResultItem.setState({
-            refundType: null
-          });
-        } else {
-          ResultItem.setState({
-            refundType: msg.value
+            refundType: refundType
           });
         }
       })
       .catch((error) => {
-        ResultItem.setState({
-          refundType: null
-        });
+        if (this.isMounted()) {
+          this.setState({
+            refundType: refundType
+          });
+        }
         console.error(error);
       });
   },
