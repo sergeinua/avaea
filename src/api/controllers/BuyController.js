@@ -186,29 +186,47 @@ module.exports = {
       var tpl_vars = {
         reqParams: reqParams,
         order: order,
-        miles: { value: 0, name: ''},
         bookingRes: result,
         replyTo: sails.config.email.replyTo,
         callTo: sails.config.email.callTo,
       };
-
-      ffmapi.milefy.Calculate(order, function (error, response, body) {
-        if (!error) {
-          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          tpl_vars.miles.name = jdata.ProgramCodeName || '';
-          tpl_vars.miles.value = jdata.miles || 0;
+      async.parallel(
+        {
+          miles: function (_cbDone) {
+            ffmapi.milefy.Calculate(order, function (error, response, body) {
+              var miles = {name: '', value: 0};
+              if (!error) {
+                var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+                miles = {
+                  name: jdata.ProgramCodeName || '',
+                  value: jdata.miles || 0
+                }
+              }
+              _cbDone(null, miles);
+            });
+          },
+          refundType: function (_cbDone) {
+            Search.getRefundType(order, function (error, response) {
+              _cbDone(null, response);
+            });
+          }
+        },
+        // main callback
+        function(err, result) {
+          tpl_vars.miles = result.miles;
+          tpl_vars.refundType = result.refundType;
+          Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+            .then(function (msgContent) {
+              Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
+                .then(function () {
+                  sails.log.info('Mail was sent to '+ req.user.email);
+                })
+            })
+            .catch(function (error) {
+              sails.log.error(error);
+            });
         }
-        Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
-          .then(function (msgContent) {
-            Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
-              .then(function () {
-                sails.log.info('Mail was sent to '+ req.user.email);
-              })
-          })
-          .catch(function (error) {
-            sails.log.error(error);
-          });
-      });
+      );
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)
