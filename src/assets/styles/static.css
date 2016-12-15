@@ -1116,6 +1116,11 @@ footer.static .copyright {
 
 @media (max-width: 675px) {
 	
+	header.static nav {
+		width: 250px;
+		min-width: 250px;
+	}
+	
 	slogan.third {
 		line-height: 50px;
 		padding-left: 40px;

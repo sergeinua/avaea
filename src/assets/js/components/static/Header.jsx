@@ -17,7 +17,6 @@ onPageClick: function (event) {
 	        <ul className="menu nav">
 		        <li className={this.props.location.pathname == '/home'? 'active':''}><Link to="/home" onClick={this.onItemClick}>Home</Link></li>
 		        <li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about" onClick={this.onItemClick}>About</Link></li>
-		        <li className={this.props.location.pathname == '/news'? 'active':''}><Link to="/news" onClick={this.onItemClick}>News</Link></li>
 		        <li className={this.props.location.pathname == '/partner'? 'active':''}><Link to="/partner" onClick={this.onItemClick}>Partner</Link></li>
 		        <li className={this.props.location.pathname == '/contact'? 'active':''}><Link to="/contact" onClick={this.onItemClick}>Contact</Link></li>
 		      </ul>
