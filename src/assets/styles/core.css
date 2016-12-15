@@ -82,7 +82,7 @@
 }
 
 .desktop .login-holder {
-	margin: 0 auto;
+	margin: 120px auto 0 auto;
 	max-width: 400px;
 }
 
@@ -993,6 +993,17 @@ form label.required:before,
 	background: #ffffe4;
 }
 
+/* social */
+
+.big-button.facebook {
+	background: #3b579d;
+}
+
+.big-button.google {
+	background: #dd4b3a;
+}
+
+
 
 /* form parts */
 
@@ -1198,6 +1209,7 @@ textarea {
 
 .login-holder {
 	text-align: center;
+	margin: 150px 0 20px 0;
 }
 
 .login-holder:after {
@@ -1209,16 +1221,6 @@ textarea {
 		left: 0;
 	background: url('/images/lil-plane.svg') center bottom no-repeat;
 	background-size: 110%;
-}
-
-.login-invite-only {
-	line-height: 20px;
-	margin: 120px 0 20px 0;
-}
-
-.login-invite-only a {
-	text-decoration: underline;
-	display: block;
 }
 
 .login-holder a.big-button:before {
@@ -3088,24 +3090,28 @@ body.desktop form.profile {
 	.touch .form-signin-heading {
 		margin: 70px auto 0 auto;
 	}
+	
+	.touch .login-holder {
+		margin: 80px auto 20px auto;
+    width: 300px;
+	}
+	
+	.touch.android .login-holder {
+		margin-top: 110px;
+	}
 
 	.touch .login-holder:after {
 		height: 120px;
 		background-size: 60%;
 	}
 
-	.touch .login-holder .big-button,
-	.touch .login-invite-only {
+	.touch .login-holder .big-button {
 		position: relative;
     z-index: 2;
 	}
 	
-	.touch.android .login-invite-only {
-		margin: 70px 0 0 0; 
-	}
-
-	.touch.android .login-holder:after {
-		background-size: 50%;
+	.touch.android .login-holder .big-button {
+		margin: 5px 5px 5px 5px;
 	}
 
 	.touch .navbar.searchform-top {

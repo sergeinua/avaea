@@ -3,12 +3,6 @@
 
   <div class="login-holder">
 
-    <div class="login-invite-only">
-      <div>Authorization to sign in is by invitation only.
-      <a class="mail-link" href="mailto:contacts@avaea.com?subject=Request%20authorization%20for%20avaea.com&body=I%20would%20like%20authorization%20to%20view%20avaea.com.">Request authorization</a></div>
-    </div>
-
-
     <% Object.keys(providers).forEach(function (key) { %>
       <% if (key !== 'bearer') { %>
         <a href="/auth/<%= providers[key].slug %>" class="big-button <%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
