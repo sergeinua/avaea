@@ -144,13 +144,22 @@ module.exports = {
           var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
-
-        req.session.time_log = [];
-
-        reqParams.session = req.session;
         reqParams.user = req.user;
 
-        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParams, parseFlightBooking);
+        // Clone and modify params for booking API
+        let reqParamsApi = Object.assign({}, reqParams);
+        reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
+        reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
+        // Save modified api params also
+        reqParams.paramsApi = {
+          FirstName: reqParamsApi.FirstName,
+          LastName: reqParamsApi.LastName
+        };
+
+        req.session.time_log = [];
+        reqParamsApi.session = reqParams.session = req.session;
+
+        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
       .catch((error) => {
         sails.log.error(error);
