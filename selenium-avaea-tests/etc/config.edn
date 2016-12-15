@@ -1,0 +1,11 @@
+{:test-all-drivers ["chrome"]
+
+ :server-root "http://stage.avaea.com"
+ :pom {
+       :one-way {}
+       :round-way {}
+       :general {}
+       :dec_w1 {}
+       :page {}
+       }
+ }
