@@ -8,6 +8,11 @@
 module.exports = {
 
   index: function (req, res) {
+    // global['mondee'].readEticket(Search.getCurrentSearchGuid() +'-'+ 'mondee', {pnr: '7CVW5M', reference_number: '13R09XEF7996'}, (err, result) => { // params from API descr
+    global['mondee'].readEticket(Search.getCurrentSearchGuid() +'-'+ 'mondee', {pnr: 'YOATCL', reference_number: '16O16JEF8107'}, (err, result) => {
+      sails.log.warn('__readEticket', err, result);
+    });
+
     sails.log.info('req.url', req.url);
     //FIXME this is temporary fix. Needs to be refactored with auth SPA logic updates
     var allowedRoutes = [
