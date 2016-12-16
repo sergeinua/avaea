@@ -14,7 +14,7 @@
   (case @profile-name
     "phantomjs" (import '(org.openqa.selenium.phantomjs PhantomJSDriver)
                         '(org.openqa.selenium.phantomjs PhantomJSDriverService))
-    "chrome" "nothing"))
+    "nothing"))
 
 (webdriver-import)
 
@@ -26,6 +26,9 @@
 (defmacro webdriver-select [url]
   (case @profile-name
     "chrome"  `(set-driver! {:browser :chrome} ~url)
+    "firefox"  `(set-driver! {:browser :firefox} ~url)
+    "ie"  `(set-driver! {:browser :ie} ~url)
+    "opera"  `(set-driver! {:browser :opera} ~url)
     "phantomjs" `(set-driver! (init-driver
                                {:webdriver
                                 (PhantomJSDriver.

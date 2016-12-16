@@ -50,7 +50,7 @@
  (fact "Open From Search"
        (click ($$ (:from-button page)))
 
-       (wait-element (:airport-input page))
+       ;; (wait-element (:airport-input page))
 
        (fact "Focus on input"
              (focused-element-id) => (:airport-input page))
@@ -66,7 +66,7 @@
              (click ($$ (:airport-list-element page)))))
 
  (fact "NYC displays in 'From'"
-       ($-text (:from-button page))) => #"NIC"
+       ($-text (:from-button page)) => #"NYC")
 
  (fact "Appear drop-down list and 'Cancel' button"
        (click ($$ (:from-button page)))
@@ -93,7 +93,7 @@
              (click ($$ (:airport-list-element page)))))
 
  (fact "KBP displays in 'From'"
-       ($-text (:from-button page))) => #"KBP"
+       ($-text (:to-button page)) => #"KBP")
 
  (fact "Tap the Calendar and choose any date"
        (click ($$ (:depart-button page)))

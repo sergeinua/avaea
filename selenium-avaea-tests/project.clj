@@ -34,4 +34,12 @@
                            :env          {:clj-env "phantom"}}
 
              :chrome       {:dependencies [[org.seleniumhq.selenium/selenium-java "2.47.1"]]
-                           :env          {:clj-env "chrome"}}})
+                            :env          {:clj-env "chrome"}}
+
+             :firefox       {:dependencies [[org.seleniumhq.selenium/selenium-java "2.47.1"]]
+                            :env          {:clj-env "firefox"}}
+             :ie            {:dependencies [[org.seleniumhq.selenium/selenium-java "2.47.1"]]
+                             :env          {:clj-env "ie"}}
+             :opera         {:dependencies [[org.seleniumhq.selenium/selenium-java "2.47.1"]]
+                             :env          {:clj-env "opera"}}}
+  )
