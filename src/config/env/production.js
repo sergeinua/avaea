@@ -53,7 +53,7 @@ module.exports = {
   },
   ffmapis: {
     milefy: {
-      url:      'https://liveapi.30k.com',
+      url:      'https://liveapi.30k.com/',
       login:    'avaea',
       password: '11c235eba9b7'
     },
