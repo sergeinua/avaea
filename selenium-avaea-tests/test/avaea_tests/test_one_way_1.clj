@@ -7,7 +7,6 @@
             [avaea.tests.config :refer :all]))
 
 (comment "
-
       Steps:
 
       Precondition: User is logged in and he is on 'One Way' tab
@@ -20,6 +19,10 @@
       7. Tap the Calendar and choose any date
       8. Tap the 'All flights'
       9. Check with different quantity of 'Class' and 'Passengers'
+
+")
+
+(comment "
 
       Expected:
 
@@ -39,22 +42,38 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :one-way))
 
-#_(fact
- "Search of 'all flights' tickets using Mondee"
+(fact
+ "Search of 'all flights' tickets"
  (open-browser page-url)
  (click ($$ (:from-button page)))
- (focused-element-id) => (:airport-input page)
+ (fact
+  "Focus on input"
+  (focused-element-id)) => (:airport-input page)
  (type-text "New York" (focused-element))
  (fact
   "Have NIC element"
-  (let [nic-element (some->
-                     (:airport-list page)
-                     (find-element-under #(do true))
-                     (first))]
-
-
-
-
-    ))
- (quit)
-)
+  ($-text (:airport-list-element page)) => #"NYC")
+ (click ($$ (:airport-list-element page)))
+ (fact
+  "NYC displays in 'From'"
+  ($-text (:from-button page))) => #"NIC"
+ (fact
+  "Appear drop-down list and 'Cancel' button"
+  (click ($$ (:from-button page)))
+  (fact
+   "Input have NIC text"
+   (-> (:airport-input page) $ (attribute "value")) => "NYC"
+   (click ($$ (:cancel-button page)))))
+ (click ($$ (:to-button page)))
+ (fact
+  "Focus on input"
+  (focused-element-id) => (:airport-input page))
+ (type-text "Kiev" (focused-element))
+ (fact
+  "Have KBP element"
+  ($-text (:airport-list-element page)) => #"KBP")
+ (click ($$ (:airport-list-element page)))
+ (fact
+  "KBP displays in 'From'"
+  ($-text (:from-button page))) => #"KBP"
+ (quit))

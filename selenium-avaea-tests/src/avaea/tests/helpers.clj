@@ -33,10 +33,37 @@
       (wait)
       (recur @(future (execute-script "return jQuery.active"))))))
 
-(defn $ [selector]
-  (find-element (if (string? selector)
-                  {:css selector}
-                  selector)))
+(defn $
+  ([selector] ($ :element selector))
+  ([request-type selector]
+   ((case request-type
+      :element find-element
+      :elements find-elements
+      :text text
+      ) (if (string? selector)
+                               {:css selector}
+                     selector))))
+
+(defmacro $$
+  [selector]
+  `(if (fact ~(str "Element with selector " selector " not null")
+             (exists? ~selector) => true)
+     ($ ~selector)
+     nil))
+
+(defmacro $-elements
+  [selector]
+  `(if (fact ~(str "Elements with selector " selector " not null")
+             (exists? ~selector) => true)
+     ($ :elements ~selector)
+     nil))
+
+(defmacro $-text
+  [selector]
+  `(if (fact ~(str "Element with selector " selector " not null")
+             (exists? ~selector) => true)
+     ($ :text ~selector)
+     nil))
 
 (defmacro $$ [selector]
   `(if (fact ~(str "Element with selector " selector " not null")

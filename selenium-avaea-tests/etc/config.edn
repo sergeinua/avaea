@@ -4,10 +4,11 @@
  :pom {
        :one-way {
                  :from-button "#from-area"
-                 :to-button "#to-button"
+                 :to-button "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_"#to-area"
                  :airport-input "#airport-input"
-                 :ariport-list ".tt-dataset-airport"
+                 :airport-list ".tt-dataset-airport"
                  :airport-list-element ".tt-suggestion"
+                 :cancel-button  "#search_button_top"
 
                  }
        :round-way {}
