@@ -44,36 +44,96 @@
 
 (fact
  "Search of 'all flights' tickets"
+
  (open-browser page-url)
- (click ($$ (:from-button page)))
- (fact
-  "Focus on input"
-  (focused-element-id)) => (:airport-input page)
+
+ (fact "Open From Search"
+       (click ($$ (:from-button page))))
+
+ (fact "Focus on input"
+       (focused-element-id)) => (:airport-input page)
+
  (type-text "New York" (focused-element))
- (fact
-  "Have NIC element"
-  ($-text (:airport-list-element page)) => #"NYC")
- (click ($$ (:airport-list-element page)))
- (fact
-  "NYC displays in 'From'"
-  ($-text (:from-button page))) => #"NIC"
- (fact
-  "Appear drop-down list and 'Cancel' button"
-  (click ($$ (:from-button page)))
-  (fact
-   "Input have NIC text"
-   (-> (:airport-input page) $ (attribute "value")) => "NYC"
-   (click ($$ (:cancel-button page)))))
- (click ($$ (:to-button page)))
- (fact
-  "Focus on input"
-  (focused-element-id) => (:airport-input page))
+
+ (fact "Have NIC element"
+       ($-text (:airport-list-element page)) => #"NYC")
+
+ (fact "Select first result and go home"
+       (click ($$ (:airport-list-element page))))
+
+ (fact "NYC displays in 'From'"
+       ($-text (:from-button page))) => #"NIC"
+
+ (fact "Appear drop-down list and 'Cancel' button"
+       (click ($$ (:from-button page)))
+       (fact "Input have NIC text"
+             (-> (:airport-input page) $ (attribute "value")) => "NYC"
+             (click ($$ (:cancel-button page)))))
+
+ (fact "Open Destination search"
+       (click ($$ (:to-button page))))
+
+ (fact "Focus on input"
+       (focused-element-id) => (:airport-input page))
+
  (type-text "Kiev" (focused-element))
- (fact
-  "Have KBP element"
-  ($-text (:airport-list-element page)) => #"KBP")
- (click ($$ (:airport-list-element page)))
- (fact
-  "KBP displays in 'From'"
-  ($-text (:from-button page))) => #"KBP"
+
+ (fact "Have KBP element"
+       ($-text (:airport-list-element page)) => #"KBP")
+
+ (fact "Select first result and go home"
+       (click ($$ (:airport-list-element page))))
+
+ (fact "KBP displays in 'From'"
+       ($-text (:from-button page))) => #"KBP"
+
+ (fact "Tap the Calendar and choose any date"
+       (click ($$ (:depart-button page)))
+       (click ($$ (:calendar-done-button page)))
+       (click ($$ (:return-button page)))
+       (click ($$ (:calendar-done-button page))))
+
+ (fact "Tap All Flights"
+       (click ($$ (:all-flights page)))
+       (when-let [try-again-btn ($$ (:try-again-button page))]
+         (click try-again-btn)))
+
+ (fact "Tap Top Flights"
+       (click ($$ (:top-flights page)))
+       (when-let [try-again-btn ($$ (:try-again-button page))]
+         (click try-again-btn)))
+
+ (fact "Tap Passengers"
+       ($-text (:passengers-button page)) => "One Adult"
+       (click ($$ (:passengers-button page)))
+
+       ($-text (:passengers-button page)) => "Two Adults"
+       (click ($$ (:passengers-button page)))
+
+       ($-text (:passengers-button page)) => "Three Adults"
+       (click ($$ (:passengers-button page)))
+
+       ($-text (:passengers-button page)) => "Four Adults"
+       (click ($$ (:passengers-button page)))
+
+       ($-text (:passengers-button page)) => "One Adult")
+
+
+ (fact "Tap Class"
+       ($-text (:class-button page)) => "Economy"
+       (click ($$ (:class-button page)))
+
+       ($-text (:class-button page)) => "Premium"
+       (click ($$ (:class-button page)))
+
+       ($-text (:class-button page)) => "Business"
+       (click ($$ (:class-button page)))
+
+       ($-text (:class-button page)) => "First"
+       (click ($$ (:class-button page)))
+
+       ($-text (:class-button page)) => "Economy")
+
  (quit))
+
+

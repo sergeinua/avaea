@@ -10,6 +10,21 @@
                  :airport-list-element ".tt-suggestion"
                  :cancel-button  "#search_button_top"
 
+                 :depart-button "div.flight-date-info-item.dep.col-xs-6.open-calendar > div.row.the-date"
+                 :return-button "div.flight-date-info-item.ret.col-xs-6.open-calendar > div.row.the-date"
+
+                 :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
+                 :class-button "div.chooser.flight-class-info-item.row > div.text-picker"
+
+                 :all-flights "div.search-buttons > button.big-button.secondary.search-button"
+                 :top-flights "div.search-buttons > button.big-button.search-top-button"
+
+                 :calendar-done-button "#date_select_top"
+                 :calendar-prev-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
+                 :calendar-next-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
+                 :calendar-20 "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
+
+                 :try-again-button "div.nothing-found > div.buttons > a"
                  }
        :round-way {}
        :general {}
