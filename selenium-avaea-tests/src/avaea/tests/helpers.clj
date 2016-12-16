@@ -1,7 +1,8 @@
 (ns avaea.tests.helpers
   (:require [avaea.tests.webdriver :as webdriver]
             [clj-webdriver.taxi :refer :all]
-            [midje.sweet :refer :all]))
+            [midje.sweet :refer :all]
+            [clojure.tools.logging :as log]))
 
 (defn open-browser
   "Открывает браузер по переданному url"
@@ -32,11 +33,16 @@
       (wait)
       (recur @(future (execute-script "return jQuery.active"))))))
 
-(defn $ [^String selector]
-  (find-element {:css selector}))
+(defn $ [selector]
+  (find-element (if (string? selector)
+                  {:css selector}
+                  selector)))
 
-(defmacro $$ [^String selector]
-  `(do ($ ~selector) =not=> nil))
+(defmacro $$ [selector]
+  `(if (fact ~(str "Element with selector " selector " not null")
+             (exists? ~selector) => true)
+     ($ ~selector)
+     nil))
 
 (defn x-path [^String selector]
   (find-element {:xpath selector}))
@@ -82,6 +88,23 @@
          (log/info (var ~name) "test-->fail" (.getMessage t#))
          (swap! tests-fail inc)
          (is false)))))
+
+(defmacro fact-web [legend & forms]
+  `(fact
+    ~legend
+    (try
+      ~@forms
+      true
+      (catch Throwable t#
+        (log/info "test-->fail" (.getMessage t#))
+        false
+        ))
+    ))
+
+(defmacro fact-web-2 [legend & forms]
+  `(fact
+    ~legend
+    (do ~@forms) =not=> (throws Throwable)))
 
 (defn focused-element-id
   "Get selected focused element id"

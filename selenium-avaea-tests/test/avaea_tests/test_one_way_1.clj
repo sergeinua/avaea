@@ -35,13 +35,26 @@
          and quantity of passengers. For the first class will display ('The first' class)
 ")
 
-(defonce config (read-config))
+(def config (read-config))
+(def page-url (-> config :server-root (str "/search")))
+(def page (-> config :pom :one-way))
 
-(fact
+#_(fact
  "Search of 'all flights' tickets using Mondee"
- ;; (open-browser (-> config :server-root (str "/search")))
- (let [page-model  (-> config :pom :one-way)
-       from-button ($$ (:from-button page-model))]
-   ;; (click from-button)
-   #_(quit)))
+ (open-browser page-url)
+ (click ($$ (:from-button page)))
+ (focused-element-id) => (:airport-input page)
+ (type-text "New York" (focused-element))
+ (fact
+  "Have NIC element"
+  (let [nic-element (some->
+                     (:airport-list page)
+                     (find-element-under #(do true))
+                     (first))]
 
+
+
+
+    ))
+ (quit)
+)

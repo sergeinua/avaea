@@ -5,6 +5,10 @@
        :one-way {
                  :from-button "#from-area"
                  :to-button "#to-button"
+                 :airport-input "#airport-input"
+                 :ariport-list ".tt-dataset-airport"
+                 :airport-list-element ".tt-suggestion"
+
                  }
        :round-way {}
        :general {}

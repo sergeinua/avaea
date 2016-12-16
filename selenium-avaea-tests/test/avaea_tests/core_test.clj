@@ -5,7 +5,7 @@
             [midje.sweet :refer :all]
             [clj-webdriver.taxi :refer :all]))
 
-(fact
+#_(fact
  "Open google page and search Petrovac city"
  (open-browser "http://google.com")
  (focused-element-id) => "#lst-ib"
