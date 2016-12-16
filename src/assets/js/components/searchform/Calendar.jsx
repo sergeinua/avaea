@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActionsStore, searchApiMaxDays } from '../../functions.js';
+import moment from 'moment';
 
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {

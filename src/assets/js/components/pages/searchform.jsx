@@ -13,8 +13,8 @@ var SearchFormPage = React.createClass({
   componentWillMount: function () {
     // DEMO-800 removed mess after not properly closed modal.
     // FIXME remove this after removing jquery modal
-    jQuery('.modal-backdrop').remove();
-    jQuery('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+    $('body').removeClass('modal-open');
 
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },

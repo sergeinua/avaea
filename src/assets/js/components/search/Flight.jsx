@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActionsStore, createMarkup } from '../../functions.js';
+import moment from 'moment';
 
 let Flight = React.createClass({
 

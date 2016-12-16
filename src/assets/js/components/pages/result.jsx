@@ -8,6 +8,7 @@ import Buckets from '../search/buckets/Buckets.jsx';
 import { actionSetCommonVal } from '../../actions.js';
 import ClientApi from '../_common/api.js';
 import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
 import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
 require('swiper');
@@ -61,7 +62,7 @@ let ResultPage = React.createClass({
           }
 
           // Init slim scroll
-          var max_filter_items = parseInt(jQuery('#tiles').data('max_filter_items'));
+          var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
           if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
             max_filter_items = maxBucketVisibleFilters;
           }
@@ -97,8 +98,7 @@ let ResultPage = React.createClass({
             console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
             updateState(savedResult);
           } else {
-            console.log(jQuery);
-            jQuery("#searchBanner").modal({
+            $("#searchBanner").modal({
               backdrop: 'static',
               keyboard: false
             });
@@ -277,7 +277,7 @@ let ResultPage = React.createClass({
     var filters = this.state.filter;
     var lastFilter = filters[filters.length - 1];
     if (lastFilter) {
-      swiper.slideTo(jQuery('#' + lastFilter.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
+      swiper.slideTo($('#' + lastFilter.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
     }
     filters = filters.splice(0, filters.length-1);
     this.setState({filter: filters}, function() {
@@ -298,7 +298,7 @@ let ResultPage = React.createClass({
       } else {
         filters.push(filterNew.id);
       }
-      swiper.slideTo(jQuery('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
+      swiper.slideTo($('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
       this.setState({filter: filters});
     }
     this.resetResultVisibility();

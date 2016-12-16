@@ -11,7 +11,7 @@ import { ActionsStore, setAirportData } from '../../functions.js';
  */
 var fetchTypeheadSrc = function(controllerName, actionName) {
   return function (q, cb) {
-    jQuery.ajax({
+    $.ajax({
       url: '/'+controllerName+'/'+actionName,
       type: 'POST',
       data: {q: q},

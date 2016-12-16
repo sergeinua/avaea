@@ -4,6 +4,7 @@ import * as ReactRedux from 'react-redux';
 import { ActionsStore } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 
 let NavBar = React.createClass({
 
@@ -24,6 +25,18 @@ let NavBar = React.createClass({
   },
 
   componentDidUpdate: function () {
+    $('#nav_slide_menu').offcanvas({
+      toggle: false,
+      placement: 'left',
+      autohide: true
+    });
+    $('#nav_slide_menu a')
+      .click(function () {
+        $('#nav_slide_menu').offcanvas('hide');
+      });
+  },
+
+  componentDidMount: function () {
     $('#nav_slide_menu').offcanvas({
       toggle: false,
       placement: 'left',
