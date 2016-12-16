@@ -48,18 +48,22 @@
  (open-browser page-url)
 
  (fact "Open From Search"
-       (click ($$ (:from-button page))))
+       (click ($$ (:from-button page)))
 
- (fact "Focus on input"
-       (focused-element-id)) => (:airport-input page)
+       (wait-element (:airport-input page))
 
- (type-text "New York" (focused-element))
+       (fact "Focus on input"
+             (focused-element-id) => (:airport-input page))
 
- (fact "Have NIC element"
-       ($-text (:airport-list-element page)) => #"NYC")
+       (type-text "New York" (focused-element))
 
- (fact "Select first result and go home"
-       (click ($$ (:airport-list-element page))))
+       (wait-elements (:airport-list-element page))
+
+       (fact "Have NIC element"
+             ($-text (:airport-list-element page)) => #"NYC")
+
+       (fact "Select first result and go home"
+             (click ($$ (:airport-list-element page)))))
 
  (fact "NYC displays in 'From'"
        ($-text (:from-button page))) => #"NIC"
@@ -71,18 +75,22 @@
              (click ($$ (:cancel-button page)))))
 
  (fact "Open Destination search"
-       (click ($$ (:to-button page))))
+       (click ($$ (:to-button page)))
 
- (fact "Focus on input"
-       (focused-element-id) => (:airport-input page))
+       (wait-element (:airport-input page))
 
- (type-text "Kiev" (focused-element))
+       (fact "Focus on input"
+             (focused-element-id) => (:airport-input page))
 
- (fact "Have KBP element"
-       ($-text (:airport-list-element page)) => #"KBP")
+       (type-text "Kiev" (focused-element))
 
- (fact "Select first result and go home"
-       (click ($$ (:airport-list-element page))))
+       (wait-elements (:airport-list-element page))
+
+       (fact "Have KBP element"
+             ($-text (:airport-list-element page)) => #"KBP")
+
+       (fact "Select first result and go home"
+             (click ($$ (:airport-list-element page)))))
 
  (fact "KBP displays in 'From'"
        ($-text (:from-button page))) => #"KBP"
@@ -93,12 +101,12 @@
        (click ($$ (:return-button page)))
        (click ($$ (:calendar-done-button page))))
 
- (fact "Tap All Flights"
+ #_(fact "Tap All Flights"
        (click ($$ (:all-flights page)))
        (when-let [try-again-btn ($$ (:try-again-button page))]
          (click try-again-btn)))
 
- (fact "Tap Top Flights"
+ #_(fact "Tap Top Flights"
        (click ($$ (:top-flights page)))
        (when-let [try-again-btn ($$ (:try-again-button page))]
          (click try-again-btn)))

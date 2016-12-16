@@ -71,6 +71,17 @@
      ($ ~selector)
      nil))
 
+(defn wait-element [selector]
+  (wait-until #(and
+                (-> selector displayed?)
+                (-> selector exists?))))
+
+(defn wait-elements [selector]
+  (wait-until #(and
+                (-> selector exists?)
+                (-> selector displayed?)
+                (-> selector elements empty? not))))
+
 (defn x-path [^String selector]
   (find-element {:xpath selector}))
 
