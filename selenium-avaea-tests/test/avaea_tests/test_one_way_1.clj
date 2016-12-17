@@ -48,8 +48,9 @@
 
  (open-browser page-url)
 
- (fact "Open From Search"
-       (click ($ (:one-way-button)))
+ (click ($ (:one-way-button page)))
+
+ (fact "Open 'From' Search"
 
        (click ($ (:from-button page)))
 
@@ -77,7 +78,7 @@
              (-> (:airport-input page) $ (attribute "value")) => "NYC"
              (click ($ (:cancel-button page)))))
 
- (fact "Open Destination search"
+ (fact "Open 'Destination' search"
        (click ($ (:to-button page)))
 
        (wait-element (:airport-input page))
@@ -106,11 +107,6 @@
 
  #_(fact "Tap All Flights"
        (click ($ (:all-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
-
- #_(fact "Tap Top Flights"
-       (click ($ (:top-flights page)))
        (when-let [try-again-btn ($ (:try-again-button page))]
          (click try-again-btn)))
 

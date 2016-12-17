@@ -1,4 +1,4 @@
-(ns avaea-tests.test-one-way-2
+(ns avaea-tests.test-round-trip-2
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [clojure.test :refer :all]
@@ -10,7 +10,7 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on "One Way" tab.
+      Precondition: User is logged in and he is on "Round Way" tab.
       Farelogix sells tickets only in Canada and some big airports of USA
 
       1. Tap the "From"
@@ -49,7 +49,7 @@
 
  (open-browser page-url)
 
- (click ($ (:one-way-button page)))
+ (click ($ (:round-trip-button page)))
 
  (fact "Open 'From' Search"
 
@@ -79,7 +79,7 @@
              (-> (:airport-input page) $ (attribute "value")) => "YTO"
              (click ($ (:cancel-button page)))))
 
- (fact "Open 'Destination' search"
+ (fact "Open Destination search"
        (click ($ (:to-button page)))
 
        (wait-element (:airport-input page))
