@@ -160,7 +160,6 @@
 	border: 0px solid transparent;
 }
 
-.desktop #nav-slide-menu .divider,
 .desktop .navmenu.offcanvas:before,
 .desktop .nav.navbar-nav > li > a > b {
 	display: none;
@@ -1164,11 +1163,6 @@ textarea {
   text-transform: lowercase;
 	font-weight: normal;
 	display: block;
-}
-
-.navbar-nav .divider {
-  border-bottom: 1px solid #ffffff;
-	opacity: .5;
 }
 
 .navmenu {

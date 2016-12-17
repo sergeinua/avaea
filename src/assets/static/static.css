@@ -984,6 +984,7 @@ footer.static .copyright {
 @media (max-width: 910px) {
 	
 	.static-nav-button {
+		cursor: pointer;
 		display: inline-block;
 	}
 	

@@ -113,23 +113,20 @@ var NavBar = React.createClass({
             </div>
 
             <div id="nav_slide_menu" className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
-                {this.getUser().email ?
-                  <ul className="nav navbar-nav">
-                		<li><Link to="/home">Home</Link></li>
-                    <li><Link to="/search">Search</Link></li>
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
-                  </ul>
-                  :
-                  <ul className="nav navbar-nav">
-                  	<li><Link to="/search">Home</Link></li>
-                    <li><Link to="/search">Search</Link></li>
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/login">Log In</a></li>
-                  </ul>
-                }
+                
+              <ul className="nav navbar-nav">
+            		<li><Link to="/home">Home</Link></li>
+                <li><Link to="/search">Search</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
+                <li>
+                  {this.getUser().email ?
+                		<a href="/logout">Log out <b>{ this.getUser().email }</b></a>
+                		:
+                		<a href="/login">Log In</a>
+                  }
+                </li>
+              </ul>
+                  
             </div>
           </div>:null
         }

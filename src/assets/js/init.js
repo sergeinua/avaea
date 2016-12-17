@@ -174,12 +174,9 @@ function setCookie(name, value, options) {
 
 $(document).ready(function() {
 
-  $('#nav_slide_menu').offcanvas({
-    toggle: false,
-    placement: 'left'
-  });
+  // app screens nav slide menu is in NavBar.jsx
   
-//***** detect IE10 or IE11 and append string  ***** //
+  // detect IE10 or IE11 and append string  
   var doc = document.documentElement;
   doc.setAttribute('data-useragent', navigator.userAgent);
   
