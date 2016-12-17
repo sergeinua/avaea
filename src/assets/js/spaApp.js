@@ -46,7 +46,18 @@ $(document).ready(function() {
     });
 
     let _localSearchParams;
-    if (localStorage.getItem('searchParams')) {
+
+    let hashedParams = (InitData.page ? decodeURIComponent(InitData.page).replace(/\/result\?s=/, ''):'');
+    try {
+      hashedParams = JSON.parse(atob(hashedParams));
+    } catch (e) {
+      hashedParams = false;
+    }
+
+    if (hashedParams) {
+      //use data from url if exists
+      _localSearchParams = hashedParams;
+    } else if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
       _localSearchParams = JSON.parse(localStorage.getItem('searchParams'));
     } else if (InitData.defaultSearch) {

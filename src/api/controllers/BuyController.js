@@ -144,13 +144,22 @@ module.exports = {
           var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
-
-        req.session.time_log = [];
-
-        reqParams.session = req.session;
         reqParams.user = req.user;
 
-        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParams, parseFlightBooking);
+        // Clone and modify params for booking API
+        let reqParamsApi = Object.assign({}, reqParams);
+        reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
+        reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
+        // Save modified api params also
+        reqParams.paramsApi = {
+          FirstName: reqParamsApi.FirstName,
+          LastName: reqParamsApi.LastName
+        };
+
+        req.session.time_log = [];
+        reqParamsApi.session = reqParams.session = req.session;
+
+        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
       .catch((error) => {
         sails.log.error(error);
@@ -186,29 +195,47 @@ module.exports = {
       var tpl_vars = {
         reqParams: reqParams,
         order: order,
-        miles: { value: 0, name: ''},
         bookingRes: result,
         replyTo: sails.config.email.replyTo,
         callTo: sails.config.email.callTo,
       };
-
-      ffmapi.milefy.Calculate(order, function (error, response, body) {
-        if (!error) {
-          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          tpl_vars.miles.name = jdata.ProgramCodeName || '';
-          tpl_vars.miles.value = jdata.miles || 0;
+      async.parallel(
+        {
+          miles: function (_cbDone) {
+            ffmapi.milefy.Calculate(order, function (error, response, body) {
+              var miles = {name: '', value: 0};
+              if (!error) {
+                var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+                miles = {
+                  name: jdata.ProgramCodeName || '',
+                  value: jdata.miles || 0
+                }
+              }
+              _cbDone(null, miles);
+            });
+          },
+          refundType: function (_cbDone) {
+            Search.getRefundType(order, function (error, response) {
+              _cbDone(null, response);
+            });
+          }
+        },
+        // main callback
+        function(err, result) {
+          tpl_vars.miles = result.miles;
+          tpl_vars.refundType = result.refundType;
+          Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+            .then(function (msgContent) {
+              Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
+                .then(function () {
+                  sails.log.info('Mail was sent to '+ req.user.email);
+                })
+            })
+            .catch(function (error) {
+              sails.log.error(error);
+            });
         }
-        Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
-          .then(function (msgContent) {
-            Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
-              .then(function () {
-                sails.log.info('Mail was sent to '+ req.user.email);
-              })
-          })
-          .catch(function (error) {
-            sails.log.error(error);
-          });
-      });
+      );
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)

@@ -42,13 +42,10 @@ let OrderPanel = React.createClass({
 
   execReq: function (event) {
     event.preventDefault();
-    /**
-     * Added according to DEMO-707
-     * @link https://avaeaeng.atlassian.net/browse/DEMO-707
-     */
-    $.validator.addMethod("lettersonly", function(value, element) {
-      return this.optional(element) || /^[a-z\s]+$/i.test(value);
-    }, "Please remove any non alphabetical characters from your name");
+
+    $.validator.addMethod("requiredAndTrim", function(value, element) {
+      return !!value.trim();
+    }, 'This field is required');
 
     /**
      * Client validation during booking of itinerary
@@ -56,12 +53,10 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate({
       rules: {
         FirstName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         LastName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         Gender: {
           required: true
@@ -73,19 +68,19 @@ let OrderPanel = React.createClass({
           maxlength: 10
         },
         Address1: {
-          required: true
+          requiredAndTrim: true
         },
         City: {
-          required: true
+          requiredAndTrim: true
         },
         State: {
-          required: true
+          requiredAndTrim: true
         },
         Country: {
-          required: true
+          requiredAndTrim: true
         },
         ZipCode: {
-          required: true
+          requiredAndTrim: true
         },
         CardType: {
           required: true
@@ -97,7 +92,7 @@ let OrderPanel = React.createClass({
           maxlength: 16
         },
         ExpiryDate: {
-          required: true,
+          requiredAndTrim: true,
           minlength: 7,
           maxlength: 7
         },
