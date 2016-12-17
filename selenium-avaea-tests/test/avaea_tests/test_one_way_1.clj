@@ -7,6 +7,7 @@
             [avaea.tests.config :refer :all]))
 
 (comment "
+
       Steps:
 
       Precondition: User is logged in and he is on 'One Way' tab
@@ -48,9 +49,9 @@
  (open-browser page-url)
 
  (fact "Open From Search"
-       (click ($$ (:from-button page)))
+       (click ($ (:from-button page)))
 
-       ;; (wait-element (:airport-input page))
+       (wait-element (:airport-input page))
 
        (fact "Focus on input"
              (focused-element-id) => (:airport-input page))
@@ -59,23 +60,23 @@
 
        (wait-elements (:airport-list-element page))
 
-       (fact "Have NIC element"
+       (fact "Have NYC element"
              ($-text (:airport-list-element page)) => #"NYC")
 
        (fact "Select first result and go home"
-             (click ($$ (:airport-list-element page)))))
+             (click ($ (:airport-list-element page)))))
 
  (fact "NYC displays in 'From'"
        ($-text (:from-button page)) => #"NYC")
 
  (fact "Appear drop-down list and 'Cancel' button"
-       (click ($$ (:from-button page)))
-       (fact "Input have NIC text"
+       (click ($ (:from-button page)))
+       (fact "Input have NYC text"
              (-> (:airport-input page) $ (attribute "value")) => "NYC"
-             (click ($$ (:cancel-button page)))))
+             (click ($ (:cancel-button page)))))
 
  (fact "Open Destination search"
-       (click ($$ (:to-button page)))
+       (click ($ (:to-button page)))
 
        (wait-element (:airport-input page))
 
@@ -90,56 +91,56 @@
              ($-text (:airport-list-element page)) => #"KBP")
 
        (fact "Select first result and go home"
-             (click ($$ (:airport-list-element page)))))
+             (click ($ (:airport-list-element page)))))
 
  (fact "KBP displays in 'From'"
        ($-text (:to-button page)) => #"KBP")
 
  (fact "Tap the Calendar and choose any date"
-       (click ($$ (:depart-button page)))
-       (click ($$ (:calendar-done-button page)))
-       (click ($$ (:return-button page)))
-       (click ($$ (:calendar-done-button page))))
+       (click ($ (:depart-button page)))
+       (click ($ (:calendar-done-button page)))
+       (click ($ (:return-button page)))
+       (click ($ (:calendar-done-button page))))
 
  #_(fact "Tap All Flights"
-       (click ($$ (:all-flights page)))
-       (when-let [try-again-btn ($$ (:try-again-button page))]
+       (click ($ (:all-flights page)))
+       (when-let [try-again-btn ($ (:try-again-button page))]
          (click try-again-btn)))
 
  #_(fact "Tap Top Flights"
-       (click ($$ (:top-flights page)))
-       (when-let [try-again-btn ($$ (:try-again-button page))]
+       (click ($ (:top-flights page)))
+       (when-let [try-again-btn ($ (:try-again-button page))]
          (click try-again-btn)))
 
  (fact "Tap Passengers"
        ($-text (:passengers-button page)) => "One Adult"
-       (click ($$ (:passengers-button page)))
 
+       (click ($ (:passengers-button page)))
        ($-text (:passengers-button page)) => "Two Adults"
-       (click ($$ (:passengers-button page)))
 
+       (click ($ (:passengers-button page)))
        ($-text (:passengers-button page)) => "Three Adults"
-       (click ($$ (:passengers-button page)))
 
+       (click ($ (:passengers-button page)))
        ($-text (:passengers-button page)) => "Four Adults"
-       (click ($$ (:passengers-button page)))
 
+       (click ($ (:passengers-button page)))
        ($-text (:passengers-button page)) => "One Adult")
 
 
  (fact "Tap Class"
        ($-text (:class-button page)) => "Economy"
-       (click ($$ (:class-button page)))
 
+       (click ($ (:class-button page)))
        ($-text (:class-button page)) => "Premium"
-       (click ($$ (:class-button page)))
 
+       (click ($ (:class-button page)))
        ($-text (:class-button page)) => "Business"
-       (click ($$ (:class-button page)))
 
+       (click ($ (:class-button page)))
        ($-text (:class-button page)) => "First"
-       (click ($$ (:class-button page)))
 
+       (click ($ (:class-button page)))
        ($-text (:class-button page)) => "Economy")
 
  (quit))
