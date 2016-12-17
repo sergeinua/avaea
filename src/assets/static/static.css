@@ -22,7 +22,7 @@ h1.skeleton {
 	text-align: center;
 	margin: 5em 0 10em 0;
 }
-
+resp
 body {
 	min-width: 340px;
 }
@@ -999,6 +999,8 @@ footer.static .copyright {
 	
 }
 
+
+/* triggers responsive nav */
 @media (max-width: 824px) {
 	
 	.static-nav-button {
@@ -1013,21 +1015,18 @@ footer.static .copyright {
 		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
 	}
 	
-	header.static nav {
+	header.static nav.respond {
 		display: inline-block;
+	}
+	
+	header.static nav {
+		display: none;
 		width: 280px;
 		position: absolute;
 			top: 73px;
 			left: 0;
 			padding: 20px 20px 50px 20px;
 		background: #062868;
-	}
-	
-	header.static nav {
-		/* sets initial hidden state, but
-		   when it toggles it picks up
-			 'display: inline-block' above */
-		display: none;
 	}
 	
 	header.static a, 

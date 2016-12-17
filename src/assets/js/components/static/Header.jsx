@@ -1,12 +1,11 @@
 var StaticHeader = React.createClass({
 	
-onItemClick: function (event) {
-	$("header.static nav").toggle();
-},
+	onItemClick: function (event) {
+		if ($(".static-nav-button").is(':visible')) {
+			$("header.static nav").toggleClass('respond');
+		}
+	},
 
-onPageClick: function (event) {
-	$("header.static nav").hide();
-},
 	
   render: function () {
     return (
