@@ -23,10 +23,6 @@ h1.skeleton {
 	margin: 5em 0 10em 0;
 }
 
-body {
-	min-width: 340px;
-}
-
 
 
 /* take away app styles */
@@ -240,8 +236,6 @@ header.static li.flight-search {
 header.static {
 	padding: 20px 20px 20px 230px;
 	position: relative;
-	min-height: 70px;
-	height: 70px;
 	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
 	background-size: 230px;
 	z-index: 5; /* get it above the video area */
@@ -1098,7 +1092,7 @@ footer.static .copyright {
 		padding-right: 300px;
 	}
 	
-	.about.top .wrapper {
+	.about.top .wraper {
 		margin-top: 20px;
 		margin-left: 40px;
 	}
@@ -1121,6 +1115,11 @@ footer.static .copyright {
 }
 
 @media (max-width: 675px) {
+	
+	header.static nav {
+		width: 250px;
+		min-width: 250px;
+	}
 	
 	slogan.third {
 		line-height: 50px;
@@ -1168,7 +1167,9 @@ footer.static .copyright {
 	
 	.try-it .loc-holder input {
 		width: 100%;
-		#ffffff url(../images/static/input-map-pin.svg) right 5px no-repeat;
+		#ffffff
+		url(../images/static/input-map-pin.svg) right 5px no-repeat;
+		background: #ffffff url(../images/static/input-map-pin.svg) right 5px no-repeat;
 	}
 	
 	.static-features {
@@ -1236,7 +1237,6 @@ footer.static .copyright {
 	.static .success {
 		text-align: center;
 		padding: 20px 40px 30px 40px;
-		width: 100%;
 	}
 	
 	.static .success:before {
@@ -1244,14 +1244,7 @@ footer.static .copyright {
 		width: 100%;
 		height: 90px;
 		position: relative;
-			top: 0;
-			left: 0;
 		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
-	}
-	
-	.about.top a.buttonly {
-		line-height: 30px;
-		padding: 25px 30px 25px 30px;
 	}
 	
 	

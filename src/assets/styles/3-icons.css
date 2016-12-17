@@ -40,6 +40,7 @@
 }
 
 .static-nav-button:before,
+.login-holder .big-button:after,
 .success.ti:before,
 .extras-flag:before,
 #accordion .panel-title a:after,
@@ -239,6 +240,17 @@
 .extras-flag:before,
 .icon-star:before {
   content: "\e92f";
+}
+.login-holder .big-button.facebook:after,
+.icon-social-fb:before {
+  content: "\e930";
+}
+.icon-social-twitter:before {
+  content: "\e931";
+}
+.login-holder .big-button.google:after,
+.icon-social-google:before {
+  content: "\e932";
 }
 
 /* end icons.css */
