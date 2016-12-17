@@ -1,5 +1,4 @@
 import React from 'react';
-// import '../../dependencies/typeahead.bundle.min';
 import { ActionsStore, setAirportData } from '../../functions.js';
 
 /**

@@ -1,8 +1,9 @@
 import { clientStore } from 'reducers.js';
 import { actionSetCommonVal, actionMergeCommonVal, actionUpdateCommonByVal } from 'actions.js';
 import ClientApi from 'components/_common/api.js';
-const confTripSearchForms = ['one_way','round_trip','multi_city'];
 import moment from 'moment';
+
+export const confTripSearchForms = ['one_way','round_trip','multi_city'];
 
 export let createMarkup = function(text) { return {__html: text}; };
 

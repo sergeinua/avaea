@@ -24,7 +24,7 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm } from './functions.js';
+import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms } from './functions.js';
 import { actionSetCommonVal } from './actions.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.

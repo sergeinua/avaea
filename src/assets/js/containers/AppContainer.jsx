@@ -1,5 +1,4 @@
 import React from 'react';
-// import { render } from 'react-dom';
 import NavBarContainer from '../components/_common/NavBar.jsx'
 
 export default function AppContainer(props) {
