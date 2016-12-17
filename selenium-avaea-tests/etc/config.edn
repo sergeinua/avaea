@@ -2,7 +2,11 @@
 
  :server-root "http://stage.avaea.com"
  :pom {
-       :one-way {
+       :search {
+                 :one-way-button "#one_way"
+                 :round-trip-button "#round_trip"
+                 :multi-city-button "#multi_city"
+
                  :from-button "#from-area"
                  :to-button "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_"#to-area"
                  :airport-input "#airport-input"
@@ -23,6 +27,7 @@
                  :calendar-prev-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
                  :calendar-next-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
                  :calendar-20 "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
+                 :calendar-30 "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
 
                  :try-again-button "div.nothing-found > div.buttons > a"
                  }

@@ -41,14 +41,16 @@
 
 (def config (read-config))
 (def page-url (-> config :server-root (str "/search")))
-(def page (-> config :pom :one-way))
+(def page (-> config :pom :search))
 
 (fact
- "Search of 'all flights' tickets"
+ "Search of 'all flights' tickets using Mondee"
 
  (open-browser page-url)
 
  (fact "Open From Search"
+       (click ($ (:one-way-button)))
+
        (click ($ (:from-button page)))
 
        (wait-element (:airport-input page))
@@ -144,5 +146,3 @@
        ($-text (:class-button page)) => "Economy")
 
  (quit))
-
-
