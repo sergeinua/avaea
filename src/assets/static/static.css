@@ -949,9 +949,13 @@ footer.static .copyright {
 		padding-right: 0;
 	}
 	
+	.static .home.compare ul {
+		margin-bottom: 20px;
+	}
+	
 	.static .home.compare:after {
 		margin-bottom: -30px;
-		height: calc(77vw * .72);
+		height: calc(77vw * .75);
 		width: 100%;
 		position: relative;
 		background: url(../images/static/tickets-compare.svg) right 0 no-repeat;
@@ -987,12 +991,20 @@ footer.static .copyright {
 		display: inline-block;
 	}
 	
+	.touch .static-nav-button {
+		margin-top: -5px;
+	}
+	
 	header.static {
 		text-align: left;
 		padding-left: 20px;
 		padding-right: 200px;
 		padding-bottom: 10px;
 		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
+	}
+	
+	.touch header.static {
+		padding-left: 0;
 	}
 	
 	header.static nav.respond {
@@ -1003,7 +1015,7 @@ footer.static .copyright {
 		display: none;
 		width: 280px;
 		position: absolute;
-			top: 73px;
+			top: 70px;
 			left: 0;
 			padding: 20px 20px 50px 20px;
 		background: #062868;
@@ -1172,8 +1184,8 @@ footer.static .copyright {
 	}
 	
 	.static .home.compare:after {
-		height: 340px;
-		background: url(../images/static/tickets-compare.svg) -10px bottom no-repeat;
+		height: calc(120vw * .75);
+		background: url(../images/static/tickets-compare.svg) -10px 10px no-repeat;
 		background-size: 120%;
 	}
 	

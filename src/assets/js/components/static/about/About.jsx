@@ -144,15 +144,6 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person blank">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name"> </div>
-		      				<div className="ti"> </div>
-		      				<div className="bio"></div>
-		      			</div>
-		      		</div>
-	      		
 	      		</div> {/* ends team wrapper */}
 	      	</div> {/* ends second level */}
 	      	
