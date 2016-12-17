@@ -238,12 +238,11 @@ header.static li.flight-search {
 /* ------- header ------- */
 
 header.static {
-	padding: 20px 20px 20px 230px;
+	padding: 20px 0px 20px 230px;
 	position: relative;
 	min-height: 70px;
 	height: 70px;
 	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
-	background-size: 230px;
 	z-index: 5; /* get it above the video area */
 }
 
@@ -267,8 +266,9 @@ header.static nav .left {
 }
 
 header.static nav .right {
+	text-align: center;
+	max-width: 245px;
 	width: 245px;
-	text-align: right;
 }
 
 header.static ul,
@@ -980,28 +980,8 @@ footer.static .copyright {
 }
 
 
-@media (max-width: 920px) {
-	
-	header.static {
-		padding-left: 230px;
-		background-size: 190px;
-		background: url(../images/static/logo-beta.svg) 5px 10px no-repeat;
-	}
-	
-	header.static a, header.static a:hover, header.static a:visited {
-		padding-left: 8px;
-		padding-right: 8px;
-	}
-	
-	header.static nav .right {
-		width: 235px;
-	}
-	
-}
-
-
 /* triggers responsive nav */
-@media (max-width: 824px) {
+@media (max-width: 910px) {
 	
 	.static-nav-button {
 		display: inline-block;
