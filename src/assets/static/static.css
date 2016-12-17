@@ -665,10 +665,6 @@ video {
 	background: url(../images/static/team-jafri-lo.gif) no-repeat;
 }
 
-.person.blank .image {
-	background: transparent;
-}
-
 .about .button-holder {
 	text-align: center;
 	margin-bottom: 120px;
@@ -1151,11 +1147,54 @@ footer.static .copyright {
 	
 }
 
+
+/* iPhone and Android landscape */
+@media (min-aspect-ratio: 13/9) {
+	
+	.touch .static-features {
+		padding: 0 20px;
+	}
+	
+	.touch .static-features > div {
+		padding: 20px 20px 20px 20px;
+		display: table-cell;
+	}
+	
+	.touch .static-features .graphic { 
+		height: 110px;
+		background-size: 110px;
+	}
+	
+	.touch .static-features > div:last-child:before {
+		content: '';
+		margin: 0 -30px 30px -30px;
+    display: block;
+    border-top: 1px solid #d7d7d7;
+	}
+	
+	.touch .static-features > div:last-child {
+		display: block;
+		width: 80%;
+	}
+	
+	.touch .static-features > div .copy {
+		font-size: 18px;
+	}
+	
+	.touch .home .upcoming {
+		width: 270px;
+		height: 250px;
+	}
+	
+	.touch .upcoming .copy {
+		line-height: 28px;
+	}
+	
+}
+
+
 @media (max-width: 550px) {
 	
-	header.static nav {
-		width: 
-	}
 	
 	.try-it .loc-holder input {
 		width: 100%;
@@ -1213,10 +1252,6 @@ footer.static .copyright {
 		padding-left: 40px;
 		padding-right: 40px;
 		width: 100%;
-	}
-	
-	about.person.blank {
-		display: none;
 	}
 	
 	.static.contact input, 
