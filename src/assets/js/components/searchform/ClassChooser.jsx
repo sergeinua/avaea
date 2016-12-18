@@ -1,3 +1,5 @@
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
 
 var ClassChooser = React.createClass({
 
@@ -30,3 +32,5 @@ var ClassChooser = React.createClass({
     )
   }
 });
+
+export default ClassChooser;

@@ -1,4 +1,6 @@
-var MerchandisingInfo = React.createClass({
+import React from 'react';
+
+let MerchandisingInfo = React.createClass({
   getInitialState: function() {
     var merch = [];
     this.props.flights.map(function (flight) {
@@ -34,3 +36,5 @@ var MerchandisingInfo = React.createClass({
     )
   }
 });
+
+export default MerchandisingInfo;

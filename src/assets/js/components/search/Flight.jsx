@@ -1,4 +1,8 @@
-var Flight = React.createClass({
+import React from 'react';
+import { ActionsStore, createMarkup } from '../../functions.js';
+import moment from 'moment';
+
+let Flight = React.createClass({
 
   showNoStops: function(flight) {
     if (flight.noOfStops > 0) {
@@ -53,3 +57,5 @@ var Flight = React.createClass({
     )
   }
 });
+
+export default Flight;

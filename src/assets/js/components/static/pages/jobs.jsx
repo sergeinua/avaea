@@ -1,4 +1,8 @@
-var JobsPage = React.createClass({
+import React from 'react';
+import StaticJobs from '../jobs/Jobs.jsx';
+import Loader from '../../_common/Loader.jsx';
+
+let JobsPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -24,3 +28,5 @@ var JobsPage = React.createClass({
     )
   }
 });
+
+export default JobsPage;
