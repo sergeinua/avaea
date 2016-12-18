@@ -1,6 +1,7 @@
 (ns avaea-tests.test-one-way-5
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
+            [avaea.tests.test-util :refer :all]
             [clojure.test :refer :all]
             [midje.sweet :refer :all]
             [clj-webdriver.taxi :refer :all]
@@ -29,7 +30,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(fact
+#_(facts
  "The same airport"
 
  (open-browser page-url)
@@ -78,8 +79,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (click ($ (:calendar-done-button page)))
-       (click ($ (:return-button page)))
+       (random-select-date)
        (click ($ (:calendar-done-button page))))
 
  #_(fact "Tap Top Flights"

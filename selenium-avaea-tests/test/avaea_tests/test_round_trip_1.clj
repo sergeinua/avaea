@@ -1,6 +1,7 @@
 (ns avaea-tests.test-one-way-1
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
+            [avaea.tests.test-util :refer :all]
             [clojure.test :refer :all]
             [midje.sweet :refer :all]
             [clj-webdriver.taxi :refer :all]
@@ -43,7 +44,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(fact
+#_(facts
  "Search of 'all flights' tickets using Mondee"
 
  (open-browser page-url)
@@ -101,8 +102,10 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
+       (random-select-date)
        (click ($ (:calendar-done-button page)))
        (click ($ (:return-button page)))
+       (random-select-date)
        (click ($ (:calendar-done-button page))))
 
  #_(fact "Tap All Flights"
@@ -110,35 +113,7 @@
        (when-let [try-again-btn ($ (:try-again-button page))]
          (click try-again-btn)))
 
- (fact "Tap Passengers"
-       ($-text (:passengers-button page)) => "One Adult"
-
-       (click ($ (:passengers-button page)))
-       ($-text (:passengers-button page)) => "Two Adults"
-
-       (click ($ (:passengers-button page)))
-       ($-text (:passengers-button page)) => "Three Adults"
-
-       (click ($ (:passengers-button page)))
-       ($-text (:passengers-button page)) => "Four Adults"
-
-       (click ($ (:passengers-button page)))
-       ($-text (:passengers-button page)) => "One Adult")
-
-
- (fact "Tap Class"
-       ($-text (:class-button page)) => "Economy"
-
-       (click ($ (:class-button page)))
-       ($-text (:class-button page)) => "Premium"
-
-       (click ($ (:class-button page)))
-       ($-text (:class-button page)) => "Business"
-
-       (click ($ (:class-button page)))
-       ($-text (:class-button page)) => "First"
-
-       (click ($ (:class-button page)))
-       ($-text (:class-button page)) => "Economy")
+ (test-class-buttons)
+ (test-passengers-buttons)
 
  (quit))

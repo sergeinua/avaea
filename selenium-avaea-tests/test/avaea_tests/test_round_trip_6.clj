@@ -1,6 +1,7 @@
-(ns avaea-tests.test-one-way-6
+(ns avaea-tests.test-round-trip-6
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
+            [avaea.tests.test-util :refer :all]
             [clojure.test :refer :all]
             [midje.sweet :refer :all]
             [clj-webdriver.taxi :refer :all]
@@ -32,7 +33,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(fact
+#_(facts
  "The same day with possible day return"
 
  (open-browser page-url)
@@ -84,10 +85,10 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (click ($ (:calendar-30 page)))
+       (click (-> (calendar-dates) (nth 3)))
        (click ($ (:calendar-done-button page)))
        (click ($ (:return-button page)))
-       (click ($ (:calendar-30 page)))
+       (click (-> (calendar-dates) (nth 3)))
        (click ($ (:calendar-done-button page))))
 
  #_(fact "Tap All Flights"

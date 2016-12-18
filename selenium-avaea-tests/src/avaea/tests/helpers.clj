@@ -76,6 +76,16 @@
                 (-> selector displayed?)
                 (-> selector elements empty? not))))
 
+(defn wait-any-element [& selector]
+  (wait-until (fn [e]
+                (reduce
+                 (fn [a b]
+                   (or a
+                       (and
+                        (-> b displayed?)
+                        (-> b exists?))))
+                 selector false))))
+
 (defn x-path [^String selector]
   (find-element {:xpath selector}))
 

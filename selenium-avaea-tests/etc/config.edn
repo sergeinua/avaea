@@ -28,6 +28,7 @@
                  :calendar-next-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
                  :calendar-20 "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
                  :calendar-30 "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
+                 :calendar-day-elements "td.day"
 
                  :try-again-button "div.nothing-found > div.buttons > a"
                  }
