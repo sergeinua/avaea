@@ -148,6 +148,23 @@ passport.connect = function (req, query, profile, next) {
                   }
                   segmentio.track(user.id, 'Registration', {email: user.email});
 
+                  // E-mail notification
+                  var tpl_vars = {
+                    user: user,
+                    replyTo: sails.config.email.replyTo,
+                    callTo: sails.config.email.callTo
+                  };
+                  Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars)
+                    .then(function (msgContent) {
+                      Mailer.sendMail({to: user.email, subject: 'Welcome to Avaea'}, msgContent)
+                        .then(function () {
+                          sails.log.info('Mail was sent to '+ user.email);
+                        })
+                    })
+                    .catch(function (error) {
+                      sails.log.error(error);
+                    });
+
                   callback(null, user);
                 });
               });
