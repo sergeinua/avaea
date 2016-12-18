@@ -71,7 +71,7 @@
       </div>
     </div>
 
-      <% if ( showUnsupportedAlert ) { %>
+      <% if ( (typeof showUnsupportedAlert != 'undefined') && showUnsupportedAlert ) { %>
       <div id="unsupportedAlert" class="modal" role="dialog">
         <div class="modal-dialog">
           <div class="modal-content">
