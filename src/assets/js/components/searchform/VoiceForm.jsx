@@ -1,3 +1,9 @@
+import React from 'react';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { ActionsStore, setAirportData } from '../../functions.js';
+import moment from 'moment';
+
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
@@ -330,3 +336,5 @@ var VoiceForm = React.createClass({
     )
   }
 });
+
+export default VoiceForm;

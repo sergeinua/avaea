@@ -1,3 +1,7 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import {actionSetOrderFieldVal} from '../../actions.js';
+import FormElement from '../_common/FormElement.jsx';
 
 const mapDispatchOrderElem = (dispatch) => {
   return {
@@ -7,4 +11,6 @@ const mapDispatchOrderElem = (dispatch) => {
   }
 };
 
-var OrderPanelElement = ReactRedux.connect(null, mapDispatchOrderElem)(FormElement);
+let OrderPanelElement = ReactRedux.connect(null, mapDispatchOrderElem)(FormElement);
+
+export default OrderPanelElement;

@@ -1,4 +1,11 @@
-var ResultItem = React.createClass({
+import React from 'react';
+import Citypairs from './Citypairs.jsx';
+import ModalFlightInfo from './ModalFlightInfo.jsx';
+import { browserHistory } from 'react-router';
+import { ActionsStore, logAction, createMarkup } from '../../functions.js';
+import ClientApi from '../_common/api.js';
+
+let ResultItem = React.createClass({
   getInitialState: function() {
     return {
       fullinfo: this.props.showFullInfo || false,
@@ -15,34 +22,40 @@ var ResultItem = React.createClass({
   },
 
   getMilesInfo: function () {
-    var ResultItem = this;
 
     ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
         if( msg.error ) {
           console.log("Result of 30K api: " + JSON.stringify(msg));
-          ResultItem.setState({
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: 0,
+                name: ''
+              }
+            });
+          }
+        } else {
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: msg.miles || 0,
+                name: msg.ProgramCodeName
+              }
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Result of 30K api: " + JSON.stringify(error));
+        if (this.isMounted()) {
+          this.setState({
             miles: {
               value: 0,
               name: ''
             }
           });
-        } else {
-          var miles = msg.miles || 0;
-          ResultItem.setState({miles: {
-            value: miles,
-            name: msg.ProgramCodeName
-          }});
         }
-      })
-      .catch((error) => {
-        console.log("Result of 30K api: " + JSON.stringify(error));
-        ResultItem.setState({
-          miles: {
-            value: 0,
-            name: ''
-          }
-        });
       });
 
   },
@@ -50,23 +63,25 @@ var ResultItem = React.createClass({
   getRefundType: function () {
     if (this.state.refundType !== false) return;
     var ResultItem = this;
+    var refundType = 'N/A';
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
-        if( msg.error ) {
+        if( !msg.error ) {
+          refundType = msg.value;
+        }
+        if (this.isMounted()) {
           ResultItem.setState({
-            refundType: null
-          });
-        } else {
-          ResultItem.setState({
-            refundType: msg.value
+            refundType: refundType
           });
         }
       })
       .catch((error) => {
-        ResultItem.setState({
-          refundType: null
-        });
+        if (this.isMounted()) {
+          this.setState({
+            refundType: refundType
+          });
+        }
         console.error(error);
       });
   },
@@ -118,7 +133,7 @@ var ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 
@@ -178,3 +193,5 @@ var ResultItem = React.createClass({
   }
 
 });
+
+export default ResultItem;

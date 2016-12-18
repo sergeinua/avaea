@@ -49,18 +49,18 @@ module.exports = {
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
   flightapis: {
-    searchProvider: ['mondee'/*, 'farelogix', 'mystifly'*/]
+    searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/]
   },
   ffmapis: {
     milefy: {
-      url:      'https://testingapi.30k.com/',
+      url:      'https://liveapi.30k.com/',
       login:    'avaea',
-      password: '8ac8c8cae00e'
+      password: '11c235eba9b7'
     },
     wallet: {
-      url:      'https://walletapi-testing.30k.com/',
+      url:      'https://walletapi.30k.com/',
       login:    'avaea',
-      password: '8ac8c8cae00e'
+      password: '11c235eba9b7'
     }
   }
 };

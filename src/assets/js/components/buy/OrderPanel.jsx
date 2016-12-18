@@ -1,5 +1,16 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import ClientApi from '../_common/api.js';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultItem from '../search/ResultItem.jsx';
+import OrderSpecialModal from './OrderSpecialModal.jsx';
+import OrderPanelElement from './OrderPanelElement.jsx';
+import Loader from '../_common/Loader.jsx';
+import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
+import { browserHistory } from 'react-router';
 
-var OrderPanel = React.createClass({
+let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
     var fields_data = incData.fieldsData ? incData.fieldsData : {};
@@ -31,13 +42,10 @@ var OrderPanel = React.createClass({
 
   execReq: function (event) {
     event.preventDefault();
-    /**
-     * Added according to DEMO-707
-     * @link https://avaeaeng.atlassian.net/browse/DEMO-707
-     */
-    $.validator.addMethod("lettersonly", function(value, element) {
-      return this.optional(element) || /^[a-z\s]+$/i.test(value);
-    }, "Please remove any non alphabetical characters from your name");
+
+    $.validator.addMethod("requiredAndTrim", function(value, element) {
+      return !!value.trim();
+    }, 'This field is required');
 
     /**
      * Client validation during booking of itinerary
@@ -45,12 +53,10 @@ var OrderPanel = React.createClass({
     $("#form_booking").validate({
       rules: {
         FirstName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         LastName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         Gender: {
           required: true
@@ -62,19 +68,19 @@ var OrderPanel = React.createClass({
           maxlength: 10
         },
         Address1: {
-          required: true
+          requiredAndTrim: true
         },
         City: {
-          required: true
+          requiredAndTrim: true
         },
         State: {
-          required: true
+          requiredAndTrim: true
         },
         Country: {
-          required: true
+          requiredAndTrim: true
         },
         ZipCode: {
-          required: true
+          requiredAndTrim: true
         },
         CardType: {
           required: true
@@ -86,7 +92,7 @@ var OrderPanel = React.createClass({
           maxlength: 16
         },
         ExpiryDate: {
-          required: true,
+          requiredAndTrim: true,
           minlength: 7,
           maxlength: 7
         },
@@ -140,7 +146,7 @@ var OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         if (!resData.error && resData.bookingId) {
-          window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
+          browserHistory.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
           savedData.orderData.flashMsg = resData.flashMsg;
           //scroll to page top to show error message after components re-render
@@ -153,6 +159,10 @@ var OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
       });
+  },
+
+  componentWillMount: function () {
+    this.props.loadSuccess({});
   },
 
   componentDidMount: function() {
@@ -186,7 +196,7 @@ var OrderPanel = React.createClass({
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
-              <ResultItem itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
             </div>
           </div>
 
@@ -246,4 +256,6 @@ const mapDispatchOrder = (dispatch) => {
   }
 };
 
-var OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+let OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+
+export default OrderPanelContainer;
