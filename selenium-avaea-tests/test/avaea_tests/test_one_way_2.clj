@@ -104,9 +104,6 @@
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
        (random-select-date)
-       (click ($ (:calendar-done-button page)))
-       (click ($ (:return-button page)))
-       (random-select-date)
        (click ($ (:calendar-done-button page))))
 
  #_(fact "Tap All Flights"
