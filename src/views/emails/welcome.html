@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<!-- handles Outlook 2016 bg image issues -->
+<html xmlns:v="urn:schemas-microsoft-com:vml">
 
 <head>
   <meta charset="utf-8">
@@ -10,19 +12,18 @@
 
 <style type="text/css">
 
+		a, a:hover {
+			cursor: pointer;
+		}
+
     /* CLIENT-SPECIFIC STYLES */
     body, table, td, a {
       -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
       } /* Prevent WebKit and Windows mobile changing default text sizes */
 
-    table, td {
-      mso-table-lspace: 0pt;
-      mso-table-rspace: 0pt;
-    } /* Remove spacing between tables in Outlook 2007 and up */
-
     img {
-    -ms-interpolation-mode: bicubic;
+    	-ms-interpolation-mode: bicubic;
     } /* Allow smoother rendering of resized image in Internet Explorer */
 
     /* RESET STYLES */
@@ -116,15 +117,44 @@
         }
 				
 				.padding-subheader {
-					padding: 25px 50px 50px 50px !important;
+					padding: 25px 50px 0px 50px !important;
 				}
 				
 				.padding-big-copy {
-					padding: 70px 50px 0px 50px !important;
+					padding: 60px 50px 0px 50px !important;
 				}
 				
 				.padding-normal-copy {
-					padding: 40px 50px 0px 50px !important;
+					padding: 30px 50px 0px 50px !important;
+				}
+				
+				.padding-button-holder {
+					padding: 70px 50px 0px 50px !important;
+				}
+				
+				.padding-footer {
+					padding: 10px 20px 10px 40px !important;
+				}
+				
+				
+				@font-face {
+					font-family: 'Open-Sans';
+					font-style: normal;
+					src: 	local('Open Sans Regular'),
+								url('https://www.avaea.com/fonts/opensans-regular.woff') format('woff'),
+								url('https://www.avaea.com/fonts/opensans-regular.woff2') format('woff2');
+					font-style: normal;
+					font-weight: normal !important;
+				}
+				
+				@font-face {
+					font-family: 'Open-Sans-Light';
+					font-style: normal;
+					src: 	local('Open Sans Light'),
+								url('https://www.avaea.com/fonts/opensans-light.woff') format('woff'),
+								url('https://www.avaea.com/fonts/opensans-light.woff2') format('woff2');
+					font-style: normal;
+					font-weight: normal !important;			
 				}
 				
 
@@ -135,9 +165,9 @@
         }
 
         .mobile-button {
-            padding: 15px !important;
+            padding: 22px 40px !important;
             border: 0 !important;
-            font-size: 16px !important;
+            font-size: 26px !important;
             display: block !important;
         }
 
@@ -150,13 +180,31 @@
 
 </style>
 
+<!--[if gte mso 9]>
+  <style type="text/css">
+    table, td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      mso-line-height-rule:exactly;
+      
+    } 
+    
+    v\:* { 
+    	behavior: url(#default#VML); 
+      display: inline-block; 
+    }
+    /* Correct spacing in Outlook 2007 and up */
+  </style>
+<![endif]-->
 
 </head>
+
+
 
 <body style="margin: 0 !important; padding: 0 !important; background: #f9fafe;" bgcolor="#f9fafe">
 
 <!-- HIDDEN PREHEADER TEXT -->
-<div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+<div style="display: none; font-size: 1px; color: #fefefe;  mso-line-height-rule: exactly; line-height: 1px; font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
     Welcome to Avaea!
 </div>
 
@@ -166,13 +214,13 @@
     <tr>
       <td bgcolor="#f9fafe" align="center" style="background: #f9fafe; padding: 70px 15px 70px 15px;" class="section-padding">
         <!--[if (gte mso 9)|(IE)]>
-        <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+        <table align="center" border="0" cellspacing="0" cellpadding="0" width="550">
         <tr>
-        <td align="center" valign="top" width="500">
+        <td align="center" valign="top" width="550">
         <![endif]-->
         
         <!-- ------------ STARTS RESPONSIVE WRAPPER TABLE -------------- -->
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px;" class="responsive-table">
           <tr>
             <td>
             
@@ -182,13 +230,13 @@
               
                 <tr><!-- ----  logo ---- -->
                   <td align="left">
-                  	<img src="../../assets/images/email/logo.png" height="50" width="213" />
+                  	<img border="0" src="../../assets/images/email/logo.png" height="50" width="213" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
                   </td>
                 </tr>
                   
                   
                   <tr><!-- ----  blue bar ---- -->
-                    <td align="center" style="height: 7px; font-size: 1px; line-height: 7px; mso-line-height-rule: exactly; background: #001588; border-top: 1px solid #001588;" bgcolor="#001588">&nbsp;
+                    <td align="center" style="height: 7px; font-size: 1px;  mso-line-height-rule: exactly; line-height: 7px; background: #001588; border-top: 1px solid #001588;" bgcolor="#001588">&nbsp;
                     </td>
                   </tr>
                   
@@ -199,76 +247,101 @@
                       <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background: #ffffff;">                    
                       
                         <tr><!-- ----  title ---- -->
-                          <td align="center" style="font-size: 36px; font-family: Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px !important;" class="padding-header">
+                          <td align="center" style="font-size: 36px;  mso-line-height-rule: exactly; line-height: 40px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px !important;" class="padding-header">
                           
                           Welcome aboard,
-                          
+                          <div><%= user.username || user.email %>!</div>
                           
                           </td>
                         </tr>
                       
                       
                         <tr><!-- ----  subtitle ---- -->
-                          <td align="center" style="font-size: 25px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 25px; padding: 25px 15px 50px 15px;" class="padding-subheader">
+                          <td align="center" style="font-size: 20px; font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; color: #14ca60;  mso-line-height-rule:exactly; line-height: 27px; padding: 25px 15px 0px 15px;" class="padding-subheader">
                           
-                          deborah thank you for joining subtitle
+                          Thank you for joining Avaea, your dedicated, personal travel assistant.
                           
                           </td>
                         </tr>
                         
                         
                         <tr><!-- ----  button ---- -->
-                          <td align="left" style="padding: 70px 50px 0px 50px; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-big-copy">
+                        
+                        
+                        
+                          <td align="center" style="padding: 70px 50px 0px 50px;" class="padding-button-holder">
                           
-                                		<!-- BULLETPROOF BUTTON --> 
-                                    <table width="100%" border="0" cellspacing="0" cellpadding="0"> 
-                                        <tr> 
-                                            <td align="center" style="padding-top: 25px;" class="padding"> 
-                                                <table border="0" cellspacing="0" cellpadding="0" class="mobile-button-container"> 
-                                                    <tr> 
-                                                        <td align="center" style="border-radius: 3px;" bgcolor="#256F9C"><a href="https://litmus.com" target="_blank" style="font-size: 16px; font-family: Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none; color: #ffffff; text-decoration: none; border-radius: 3px; padding: 15px 25px; border: 1px solid #256F9C; display: inline-block;" class="mobile-button">Watch Now &rarr;</a></td> 
-                                                    </tr> 
-                                                </table> 
-                                            </td> 
-                                        </tr> 
-                                    </table> 
-
+                            <div style="text-align: center; display: inline-block; margin: 0 auto; cursor: pointer;" >
+                            
+                            <!--[if mso]>
+                              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://www.Avaea.com/search" style="height: 70px; v-text-anchor:middle; width: 270px;" stroke="f" fillcolor="#14ca60">
+                                <w:anchorlock/>
+                                <center style="color: #ffffff; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; font-size: 26px;">
+                                  Button Text Here!
+                                </center>
+                              </v:roundrect>
+                              <![endif]-->
+                              
+                              
+                              <![if !mso]>
+                              <table cellspacing="0" cellpadding="0">
+                              	<tr> 
+                              		<td align="center" width="270" height="70" bgcolor="#14ca60" style="color: #ffffff; display: block;">
+                                		<a href="http://www.avaea.com" style="font-size: 26px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; text-decoration: none;  mso-line-height-rule: exactly; line-height: 70px; width:100%; display:inline-block">
+                                		<span style="color: #ffffff;">
+                                  		Search for fares
+                                		</span>
+                                  </a>
+                                </td> 
+                              </tr>
+                            </table> 
+                          <![endif]>
+                              
+                          </div>
                           
                           </td>
-                        </tr>
+                          
+                          
+                          
+                        </tr><!-- ----  END button ---- -->
                      
                       
                         <tr><!-- ----  big copy ---- -->
-                          <td align="left" style="padding: 70px 50px 0px 50px; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-big-copy">
+                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 60px 50px 0px 50px; font-size: 18px; mso-line-height-rule: exactly; line-height: 27px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #323232;" class="padding-big-copy">
                           
-                          deborah we're looking forward
+                          We’re looking forward to finding tickets for you that are easy on your wallet, 
+                          and good for your spirits.
                           
                           </td>
                         </tr>
                       
                         
                         <tr><!-- ----  copy 1 ---- -->
-                          <td align="left" style="padding: 40px 50px 0px 50px; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          deborah use our voice command
+                          Use our voice command tool. <span style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #919191;">Walk, talk, and get your tickets. 
+                          Our voice agent hears and searches - you don’t need to touch the keyboard.</span>
                           
                           </td>
                         </tr>
                       
                       
                         <tr><!-- ----  copy 2 ---- -->
-                          <td align="left" style="padding: 40px 50px 0px 50px; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          deborah find the ticket
+                          Find the ticket you want, at a great price. <span style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #919191;">Walk, talk, and get your tickets. 
+                          Your free time will love how much faster it is to identify the ticket you wanted without 
+                          requiring a Ph.D in filtering. Booking is easy now.</span>
                           
                           </td>
                         </tr>
                       
                       
                         <tr><!-- ----  copy 3 ---- -->
-                          <td align="left" style="padding: 40px 50px 0px 50px; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #919191;" class="padding-normal-copy">
                           
-                          deborah thanks for joining
+                          Thanks for joining!  Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
+                          <a style="color: #919191 !important; text-decoration: underline;" href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.
                           
                           </td>
                         </tr>
@@ -276,49 +349,76 @@
                       
                       
                         <tr><!-- ----  bgimage ---- -->
-                          <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                          <td background="../../assets/images/email/graphic-main.png" width="550" height="300" valign="top" style="background: #ffffff url(../../assets/images/email/graphic-main.png) center top no-repeat; background-size: 550px;"> 
+                            <!--[if gte mso 9]> 
+                            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 300px;"> 
+                              <v:fill type="true" src="../../assets/images/email/graphic-main.png" color="#ffffff" /> 
+                              <v:textbox style="mso-fit-shape-to-text: true" inset="0,0,0,0">
+                            <![endif]--> 
+                            <div>
                           
-                          deborah bgimage
+                          &nbsp; 
                           
-                          </td>
+                            </div> 
+                            <!--[if gte mso 9]> 
+                              </v:textbox> 
+                            </v:rect> 
+                            <![endif]--> 
+                          </td> 
+
                         </tr>
                       
                         <tr><!-- ------------ starts footer --------- -->
                         
-                        	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        	<table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#385386" style="background-color: #385386;">
                           	<tr>
+                            	<td style="padding:10px 20px 10px 40px;" class="padding-footer">
+                              
+                              	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                	<tr>
+                            		
                                 <!-- ----  www ---- -->
-                                <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                                <td align="left">
                                 
-                                www.Avaea.com
+                                	<a style="font-size: 14px; mso-line-height-rule: exactly; line-height: 25px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none;" href="http://www.avaea.com" target="_blank">www.Avaea.com</a>
                                 
                                 </td>
                                 
                                 
                                 <!-- ----  facebook ---- -->
-                                <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
-                                
-                                fb
+                                <td align="center" width="55" style="width: 55px;">
+                              
+                              		<a href="https://www.facebook.com/avaeatravel/" target="_blank">
+                                  	<img border="0" src="../../assets/images/email/social-fb.png" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                                  </a>
                                 
                                 </td>
                         
                         
                                 <!-- ----  twitter ---- -->
-                                <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
-                                
-                                twitter
-                                
+                                <td align="center" width="55" style="width: 55px;">
+                              		
+                                  <a href="https://www.twitter.com/avaeatravel/" target="_blank">
+	                              		<img border="0" src="../../assets/images/email/social-twitter.png" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                                	</a>
+                                  
                                 </td>
                         
                         
                               <!-- ----  instagram ---- -->
-                              <td align="center" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding">
+                              <td align="center" width="55" style="width: 55px;">
                               
-                              instagram
+                              	<a href="https://www.instagram.com/avaeatravel/" target="_blank">
+                              		<img border="0" src="../../assets/images/email/social-instagram.png" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                                </a>
                               
                               </td>
                             </tr>
                           </table>
+                          
+                          </td>
+                        </tr>
+                      </table>
                       
                       
                       </tr><!-- ------------ ends footer --------- -->

@@ -7,6 +7,8 @@
 /* global callTo */
 %>
 <!DOCTYPE html>
+<!-- handles Outlook 2016 bg image issues -->
+<html xmlns:v="urn:schemas-microsoft-com:vml">
 
 <head>
   <meta charset="utf-8">
@@ -138,6 +140,23 @@
 
 </style>
 
+<!--[if gte mso 9]>
+  <style type="text/css">
+    table, td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+      mso-line-height-rule:exactly;
+      
+    } 
+    
+    v\:* { 
+    	behavior: url(#default#VML); 
+      display: inline-block; 
+    }
+    /* Correct spacing in Outlook 2007 and up */
+  </style>
+<![endif]-->
+
 
 </head>
 
@@ -181,13 +200,13 @@
                         <!-- COPY -->
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="center" style="font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Booking Confirmation</td>
+                                <td align="center" style="word-break:break-all; font-size: 32px; font-family: Helvetica, Arial, sans-serif; color: #333333; padding-top: 30px;" class="padding-copy">Booking Confirmation</td>
                             </tr>
                             <tr>
                                 <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">Dear&nbsp;<%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
                             </tr>
                             <tr>
-                                <td align="left" style="padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
+                                <td align="left" style="word-break:break-all; padding: 20px 0 0 0; font-size: 16px; line-height: 25px; font-family: Helvetica, Arial, sans-serif; color: #666666;" class="padding-copy">
                                   Your reservation has been booked and confirmed.
                                 </td>
                             </tr>
