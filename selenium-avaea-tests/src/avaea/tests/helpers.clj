@@ -39,10 +39,9 @@
    ((case request-type
       :element find-element
       :elements find-elements
-      :text text
-      ) (if (string? selector)
-                               {:css selector}
-                     selector))))
+      :text text) (if (string? selector)
+                    {:css selector}
+                    selector))))
 
 (defmacro $
   [selector]
@@ -143,9 +142,7 @@
       true
       (catch Throwable t#
         (log/info "test-->fail" (.getMessage t#))
-        false
-        ))
-    ))
+        false))))
 
 (defmacro fact-web-2 [legend & forms]
   `(fact
