@@ -1,4 +1,8 @@
-var UserProfilePanelBlockAirlines = React.createClass({
+import React from 'react';
+import UserProfilePanelAirlineSelect from './UserProfilePanelAirlineSelect.jsx';
+import FormElementDropdownContainer from '../_common/FormElementDropdown.jsx';
+
+let UserProfilePanelBlockAirlines = React.createClass({
 
   getInitialState: function() {
     return {item: {}};
@@ -71,3 +75,5 @@ var UserProfilePanelBlockAirlines = React.createClass({
   }
 
 });
+
+export default UserProfilePanelBlockAirlines;

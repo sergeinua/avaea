@@ -1,4 +1,8 @@
-var PrivacyPage = React.createClass({
+import React from 'react';
+import StaticPrivacy from '../privacy/Privacy.jsx';
+import Loader from '../../_common/Loader.jsx';
+
+let PrivacyPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -24,3 +28,5 @@ var PrivacyPage = React.createClass({
     )
   }
 });
+
+export default PrivacyPage;

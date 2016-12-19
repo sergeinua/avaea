@@ -1,3 +1,11 @@
+import React from 'react';
+import moment from 'moment';
+import ClassChooser from './ClassChooser.jsx';
+import PassengerChooser from './PassengerChooser.jsx';
+import { ActionsStore } from '../../functions.js';
+import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
+import { browserHistory } from 'react-router';
+
 // Vars
 var flashErrorTimeout = 1000;
 
@@ -50,7 +58,7 @@ var TripSearchForm = React.createClass({
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
-        window.ReactRouter.browserHistory.push(
+        browserHistory.push(
           {
             pathname: '/result',
             query: {
@@ -335,3 +343,5 @@ var TripSearchForm = React.createClass({
     )
   }
 });
+
+export default TripSearchForm;

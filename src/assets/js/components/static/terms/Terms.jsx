@@ -1,7 +1,9 @@
-var StaticTerms = React.createClass({
+import React from 'react';
+
+let StaticTerms = React.createClass({
   render: function () {
     return (
-      <div>
+        <div>
       	<div className="content static terms textly">
       		
       	<h1>Terms & Conditions</h1>
@@ -422,3 +424,5 @@ var StaticTerms = React.createClass({
     )
   }
 });
+
+export default StaticTerms;

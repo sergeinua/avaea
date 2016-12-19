@@ -1,8 +1,10 @@
+import React from 'react';
+
 var StaticAbout = React.createClass({
 
   render: function () {
     return (
-      <div>
+    		<div>
 	      <div className="content static about">
 	      	<div className="about top level">
 	      		<div className="wrapper">
@@ -157,3 +159,4 @@ var StaticAbout = React.createClass({
   }
 });
 
+export default StaticAbout;

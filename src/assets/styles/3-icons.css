@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.icon-social-instagram:before,
 .static-nav-button:before,
 .login-holder .big-button:after,
 .success.ti:before,
@@ -251,6 +252,9 @@
 .login-holder .big-button.google:after,
 .icon-social-google:before {
   content: "\e932";
+}
+.icon-social-instagram:before {
+  content: "\e933";
 }
 
 /* end icons.css */
