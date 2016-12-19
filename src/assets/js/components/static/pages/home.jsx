@@ -1,4 +1,8 @@
-var HomePage = React.createClass({
+import React from 'react';
+import StaticHome from '../home/Home.jsx';
+import Loader from '../../_common/Loader.jsx';
+
+let HomePage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -24,3 +28,5 @@ var HomePage = React.createClass({
     )
   }
 });
+
+export default HomePage;

@@ -1,4 +1,10 @@
-var UserProfilePanelBlock = React.createClass({
+import React from 'react';
+import ClientApi from '../_common/api.js';
+import UserProfilePanelBlockAirlines from './UserProfilePanelBlockAirlines.jsx';
+import UserProfilePanelBlockPrograms from './UserProfilePanelBlockPrograms.jsx';
+import UserProfilePanelBlockMembership from './UserProfilePanelBlockMembership.jsx';
+
+let UserProfilePanelBlock = React.createClass({
 
   getInitialState: function() {
     return {item: this.props.item};
@@ -51,3 +57,5 @@ var UserProfilePanelBlock = React.createClass({
   }
 
 });
+
+export default UserProfilePanelBlock;

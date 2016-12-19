@@ -1,5 +1,11 @@
+import React from 'react';
+import Select from 'react-select';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { clientStore } from '../../reducers.js';
+import { actionSetProgramsVal } from '../../actions.js';
 
-var UserProfilePanelAirlineSelect = React.createClass({
+let UserProfilePanelAirlineSelect = React.createClass({
 
   getInitialState: function() {
     return {airlineName: ''};
@@ -29,7 +35,6 @@ var UserProfilePanelAirlineSelect = React.createClass({
         return response.json();
       })
       .then((json) => {
-        console.log('_airlines:'+ JSON.stringify(json));
         return {options: json};
       })
       .catch(function (error) {
@@ -50,3 +55,5 @@ var UserProfilePanelAirlineSelect = React.createClass({
   }
 
 });
+
+export default UserProfilePanelAirlineSelect;

@@ -1,4 +1,9 @@
-var UserProfilePanelBlockPrograms = React.createClass({
+import React from 'react';
+import UserProfilePanelAirlineSelect from './UserProfilePanelAirlineSelect.jsx';
+import { clientStore } from '../../reducers.js';
+import { actionSetProgramsVal } from '../../actions.js';
+
+let UserProfilePanelBlockPrograms = React.createClass({
 
   getInitialState: function() {
     return {item: {}};
@@ -76,3 +81,5 @@ var UserProfilePanelBlockPrograms = React.createClass({
   }
 
 });
+
+export default UserProfilePanelBlockPrograms;
