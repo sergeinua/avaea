@@ -8,12 +8,23 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
   <title>Welcome</title>
+  
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400" rel="stylesheet">
+	
 
-
-<style type="text/css">
+	<style type="text/css">
 
 		a, a:hover {
 			cursor: pointer;
+		}
+		
+					
+		.light {
+			font-weight: 300;
+		}
+		
+		.regular {
+			font-weight: 400;
 		}
 
     /* CLIENT-SPECIFIC STYLES */
@@ -136,27 +147,6 @@
 					padding: 10px 20px 10px 40px !important;
 				}
 				
-				
-				@font-face {
-					font-family: 'Open-Sans';
-					font-style: normal;
-					src: 	local('Open Sans Regular'),
-								url('https://www.avaea.com/fonts/opensans-regular.woff') format('woff'),
-								url('https://www.avaea.com/fonts/opensans-regular.woff2') format('woff2');
-					font-style: normal;
-					font-weight: normal !important;
-				}
-				
-				@font-face {
-					font-family: 'Open-Sans-Light';
-					font-style: normal;
-					src: 	local('Open Sans Light'),
-								url('https://www.avaea.com/fonts/opensans-light.woff') format('woff'),
-								url('https://www.avaea.com/fonts/opensans-light.woff2') format('woff2');
-					font-style: normal;
-					font-weight: normal !important;			
-				}
-				
 
         /* ADJUST BUTTONS ON MOBILE */
         .mobile-button-container {
@@ -178,7 +168,7 @@
       margin: 0 !important;
     }
 
-</style>
+	</style>
 
 <!--[if gte mso 9]>
   <style type="text/css">
@@ -204,7 +194,7 @@
 <body style="margin: 0 !important; padding: 0 !important; background: #f9fafe;" bgcolor="#f9fafe">
 
 <!-- HIDDEN PREHEADER TEXT -->
-<div style="display: none; font-size: 1px; color: #fefefe;  mso-line-height-rule: exactly; line-height: 1px; font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+<div style="display: none; font-size: 1px; color: #fefefe;  mso-line-height-rule: exactly; line-height: 1px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
     Welcome to Avaea!
 </div>
 
@@ -247,19 +237,19 @@
                       <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background: #ffffff;">                    
                       
                         <tr><!-- ----  title ---- -->
-                          <td align="center" style="font-size: 36px;  mso-line-height-rule: exactly; line-height: 40px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px !important;" class="padding-header">
+                          <td align="center" style="font-size: 36px;  mso-line-height-rule: exactly; line-height: 40px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px !important;" class="padding-header">
                           
-                          Welcome aboard,
-                          <div><%= user.username || user.email %>!</div>
+                          <span class="regular">Welcome aboard,</span>
+                          <div><span class="regular"><%= user.username || user.email %>!</span></div>
                           
                           </td>
                         </tr>
                       
                       
                         <tr><!-- ----  subtitle ---- -->
-                          <td align="center" style="font-size: 20px; font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; color: #14ca60;  mso-line-height-rule:exactly; line-height: 27px; padding: 25px 15px 0px 15px;" class="padding-subheader">
+                          <td align="center" style="font-size: 20px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #14ca60;  mso-line-height-rule:exactly; line-height: 27px; padding: 25px 15px 0px 15px;" class="padding-subheader">
                           
-                          Thank you for joining Avaea, your dedicated, personal travel assistant.
+                          <span class="light">Thank you for joining Avaea, your dedicated, personal travel assistant.</span>
                           
                           </td>
                         </tr>
@@ -276,8 +266,8 @@
                             <!--[if mso]>
                               <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://www.Avaea.com/search" style="height: 70px; v-text-anchor:middle; width: 270px;" stroke="f" fillcolor="#14ca60">
                                 <w:anchorlock/>
-                                <center style="color: #ffffff; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; font-size: 26px;">
-                                  Button Text Here!
+                                <center style="color: #ffffff; font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 26px;" class="regular">
+                                  Search for fares
                                 </center>
                               </v:roundrect>
                               <![endif]-->
@@ -287,8 +277,8 @@
                               <table cellspacing="0" cellpadding="0">
                               	<tr> 
                               		<td align="center" width="270" height="70" bgcolor="#14ca60" style="color: #ffffff; display: block;">
-                                		<a href="http://www.avaea.com" style="font-size: 26px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; text-decoration: none;  mso-line-height-rule: exactly; line-height: 70px; width:100%; display:inline-block">
-                                		<span style="color: #ffffff;">
+                                		<a href="http://www.avaea.com" style="font-size: 26px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; text-decoration: none;  mso-line-height-rule: exactly; line-height: 70px; width:100%; display:inline-block">
+                                		<span style="color: #ffffff;" class="light">
                                   		Search for fares
                                 		</span>
                                   </a>
@@ -307,29 +297,30 @@
                      
                       
                         <tr><!-- ----  big copy ---- -->
-                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 60px 50px 0px 50px; font-size: 18px; mso-line-height-rule: exactly; line-height: 27px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #323232;" class="padding-big-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 60px 50px 0px 50px; font-size: 18px; mso-line-height-rule: exactly; line-height: 27px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232;" class="padding-big-copy">
                           
-                          We’re looking forward to finding tickets for you that are easy on your wallet, 
-                          and good for your spirits.
+                          <span class="regular">We’re looking forward to finding tickets for you that are easy on your wallet, 
+                          and good for your spirits.</span>
                           
                           </td>
                         </tr>
                       
                         
                         <tr><!-- ----  copy 1 ---- -->
-                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          Use our voice command tool. <span style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #919191;">Walk, talk, and get your tickets. 
-                          Our voice agent hears and searches - you don’t need to touch the keyboard.</span>
+                          <span class="regular">Use our voice command tool.</span> <span class="light"  style="color: #919191; font-family: 'Open Sans'; font-weight: 300;">
+                          Walk, talk, and get your tickets. Our voice agent hears and searches - 
+                          you don’t need to touch the keyboard.</span>
                           
                           </td>
                         </tr>
                       
                       
                         <tr><!-- ----  copy 2 ---- -->
-                          <td align="left" style="font-family: 'Open-Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          Find the ticket you want, at a great price. <span style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #919191;">Walk, talk, and get your tickets. 
+                          <span class="regular">Find the tickets you want, at a great price. </span><span class="light"  style="color: #919191; font-family: 'Open Sans'; font-weight: 300;">
                           Your free time will love how much faster it is to identify the ticket you wanted without 
                           requiring a Ph.D in filtering. Booking is easy now.</span>
                           
@@ -338,10 +329,10 @@
                       
                       
                         <tr><!-- ----  copy 3 ---- -->
-                          <td align="left" style="font-family: 'Open-Sans-Light', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #919191;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #919191;" class="padding-normal-copy">
                           
-                          Thanks for joining!  Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
-                          <a style="color: #919191 !important; text-decoration: underline;" href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.
+                          <span class="light">Thanks for joining!  Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
+                          <a style="color: #919191 !important; text-decoration: underline;" href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.</span>
                           
                           </td>
                         </tr>
@@ -349,7 +340,7 @@
                       
                       
                         <tr><!-- ----  bgimage ---- -->
-                          <td background="../../assets/images/email/graphic-main.png" width="550" height="300" valign="top" style="background: #ffffff url(../../assets/images/email/graphic-main.png) center top no-repeat; background-size: 550px;"> 
+                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px;"> 
                             <!--[if gte mso 9]> 
                             <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 300px;"> 
                               <v:fill type="true" src="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" color="#ffffff" /> 
@@ -380,7 +371,7 @@
                                 <!-- ----  www ---- -->
                                 <td align="left">
                                 
-                                	<a style="font-size: 14px; mso-line-height-rule: exactly; line-height: 25px; font-family: 'Open-Sans', Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none;" href="http://www.avaea.com" target="_blank">www.Avaea.com</a>
+                                	<a style="font-size: 14px; mso-line-height-rule: exactly; line-height: 25px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none;" href="http://www.avaea.com" class="regular" target="_blank">www.Avaea.com</a>
                                 
                                 </td>
                                 
