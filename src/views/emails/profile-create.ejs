@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- handles Outlook 2016 bg image issues -->
+<!-- handles Outlook 2016 image issues -->
 <html xmlns="http://www.w3.org/1999/xhtml"
  xmlns:v="urn:schemas-microsoft-com:vml"
  xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -39,8 +39,15 @@
     	-ms-interpolation-mode: bicubic;
     } /* Allow smoother rendering of resized image in Internet Explorer */
 		
-		.main-image {
-			background-size: 550px 300px;
+		.main-img img,
+		.hotmail-ugh {
+			display: none !important;
+		}
+		
+		/* hotmail image only */
+		.rps_1dcf .x_main-image img
+		.rps_1dcf .x_hotmail-ugh {
+			display: block !important;
 		}
 
     /* RESET STYLES */
@@ -54,7 +61,7 @@
 
     table {
       border-collapse: collapse !important;
-      }
+    }
 
     body {
       height: 100% !important;
@@ -150,6 +157,11 @@
       
     } 
     
+    .main-img img,
+		.hotmail-ugh {
+			display: block !important;
+		}
+    
     v\:* { 
     	behavior: url(#default#VML); 
       display: inline-block; 
@@ -158,9 +170,16 @@
   </style>
 <![endif]-->
 
+<!--[if gte mso 9]><xml>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+  <o:PixelsPerInch>96</o:PixelsPerInch>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+
 </head>
 
-
+ 
 
 <body style="margin: 0 !important; padding: 0 !important; background: #f9fafe;" bgcolor="#f9fafe">
 
@@ -311,13 +330,11 @@
                       
                       
                         <tr><!-- ----  bgimage ---- -->
-                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px 300px;" class="main-image"> 
+                          <td bgcolor="#ffffff" background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px 300px;" class="main-image"> 
                           
-                            <!--[if mso]>
                           
-                          <img border="0" src="https://dl.dropboxusercontent.com/s/5h6giukv4er4l35/graphic-main-mso.png?dl=0" height="300" width="550" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                          <img border="0" src="https://dl.dropboxusercontent.com/s/5h6giukv4er4l35/graphic-main-mso.png?dl=0" height="300" width="550" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; margin: 0; margin-top: 0 !important; background-size: 550px 300px;" class="hotmail-ugh" />
                              
-                            <![endif]-->
                             
                           </td> 
 
