@@ -60,7 +60,7 @@ var ResultItem = React.createClass({
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
-        if( !msg.error ) {
+        if( !msg.error && msg.value ) {
           refundType = msg.value;
         }
         if (this.isMounted()) {
