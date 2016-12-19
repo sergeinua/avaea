@@ -1,7 +1,24 @@
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore, logAction } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
-var ResultPage = React.createClass({
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
+
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
+let swiper;
+
+let ResultPage = React.createClass({
 
   getInitialState: function() {
     return {
@@ -425,3 +442,5 @@ const mapDispatchCommon = (dispatch) => {
 };
 
 const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

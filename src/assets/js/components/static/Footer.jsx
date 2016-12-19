@@ -1,6 +1,10 @@
-var StaticFooter = React.createClass({
-	
-	render: function () {
+
+import React from 'react';
+import { Link } from 'react-router';
+
+let StaticFooter = React.createClass({
+  render: function () {
+
     let d = new Date();
     return (
       <footer className="static">
@@ -42,6 +46,7 @@ var StaticFooter = React.createClass({
 
 });
 
+export default StaticFooter;
 
 
 

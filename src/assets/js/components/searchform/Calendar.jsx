@@ -1,4 +1,6 @@
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+import React from 'react';
+import { ActionsStore, searchApiMaxDays } from '../../functions.js';
+import moment from 'moment';
 
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {
@@ -50,7 +52,7 @@ var drawDateRange = function(datepicker, range) {
   });
 };
 
-function finalizeValues(searchParams) {
+export function finalizeValues(searchParams) {
   var flightType = searchParams.flightType;
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();
@@ -170,3 +172,5 @@ var Calendar = React.createClass({
     )
   }
 });
+
+export default Calendar;

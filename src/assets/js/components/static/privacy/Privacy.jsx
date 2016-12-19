@@ -1,7 +1,9 @@
-var StaticPrivacy = React.createClass({
+import React from 'react';
+
+let StaticPrivacy = React.createClass({
   render: function () {
     return (
-      <div>
+    	<div>
       	<div className="content static privacy textly">
 
       	<h1>Privacy Policy</h1>
@@ -366,3 +368,5 @@ var StaticPrivacy = React.createClass({
     )
   }
 });
+
+export default StaticPrivacy;

@@ -25,10 +25,8 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 80,
-  proxyHost: 'http://stage.avaea.com/',
-  proxyPort: 80,
-  explicitHost: 'localhost',
+  proxyHost: 'http://localhost',
+  proxyPort: 1337,
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
