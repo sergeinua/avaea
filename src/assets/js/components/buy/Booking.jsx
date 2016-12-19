@@ -1,4 +1,7 @@
-var Booking = React.createClass({
+import React from 'react';
+import ResultItem from '../search/ResultItem';
+
+let Booking = React.createClass({
   render: function () {
     var _mailto = this.props.orderData.replyTo.match(/(.*)<(.+)>/);
 
@@ -42,3 +45,5 @@ var Booking = React.createClass({
     );
   }
 });
+
+export default Booking;

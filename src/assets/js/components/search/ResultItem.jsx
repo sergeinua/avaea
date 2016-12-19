@@ -1,4 +1,11 @@
-var ResultItem = React.createClass({
+import React from 'react';
+import Citypairs from './Citypairs.jsx';
+import ModalFlightInfo from './ModalFlightInfo.jsx';
+import { browserHistory } from 'react-router';
+import { ActionsStore, logAction, createMarkup } from '../../functions.js';
+import ClientApi from '../_common/api.js';
+
+let ResultItem = React.createClass({
   getInitialState: function() {
     return {
       fullinfo: this.props.showFullInfo || false,
@@ -126,7 +133,7 @@ var ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 
@@ -186,3 +193,5 @@ var ResultItem = React.createClass({
   }
 
 });
+
+export default ResultItem;

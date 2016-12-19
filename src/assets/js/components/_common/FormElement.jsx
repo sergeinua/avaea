@@ -1,4 +1,7 @@
-var FormElement = React.createClass({
+import React from 'react';
+import FormElementDropdownContainer from './FormElementDropdown';
+
+let FormElement = React.createClass({
 
   render: function() {
 
@@ -35,3 +38,5 @@ var FormElement = React.createClass({
   }
 
 });
+
+export default FormElement;

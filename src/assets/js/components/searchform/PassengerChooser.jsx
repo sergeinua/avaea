@@ -1,3 +1,5 @@
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
 
 var PassengerChooser = React.createClass({
 
@@ -30,3 +32,5 @@ var PassengerChooser = React.createClass({
     )
   }
 });
+
+export default PassengerChooser;
