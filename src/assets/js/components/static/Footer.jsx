@@ -15,16 +15,16 @@ let StaticFooter = React.createClass({
 	      		<div className="left">
 	      			<nav>
 			      			<ul className="menu nav">
-						        <li className={this.props.location.pathname == '/home'? 'active':''}><Link to="/home">Home</Link></li>
-						        <li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about">About</Link></li>
-						        <li className={this.props.location.pathname == '/partner'? 'active':''}><Link to="/partner">Partner</Link></li>
-						        <li className={this.props.location.pathname == '/contact'? 'active':''}><Link to="/contact">Contact</Link></li>
+						        <li className={this.props.location.pathname == '/home'? 'active':''}>{this.showLink("/home","Home")}</li>
+						        <li className={this.props.location.pathname == '/about'? 'active':''}>{this.showLink("/about","About")}</li>
+						        <li className={this.props.location.pathname == '/partner'? 'active':''}>{this.showLink("/partner","Partner")}</li>
+						        <li className={this.props.location.pathname == '/contact'? 'active':''}>{this.showLink("/contact","Contact")}</li>
 						      </ul>
 	      			</nav>
 	      			
 	      			<div className="holder">
-		      			<Link to="/terms">Terms & Conditions</Link>
-			          <Link to="/privacy">Privacy</Link>
+	      				<li >{this.showLink("/terms","Terms")}</li>
+	      				<li >{this.showLink("/privacy","Privacy")}</li>
 	      			</div>
 	      		</div>{/* ends left */}
 	      		
