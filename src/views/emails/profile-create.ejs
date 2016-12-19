@@ -69,17 +69,12 @@
     }
 
     /* MOBILE STYLES */
-    @media screen and (max-width: 525px) {
+    @media screen and (max-width: 640px) {
 
         /* ALLOWS FOR FLUID TABLES */
         .wrapper {
           width: 100% !important;
           max-width: 100% !important;
-        }
-
-        /* ADJUSTS LAYOUT OF LOGO IMAGE */
-        .logo img {
-          margin: 0 auto !important;
         }
 
         /* USE THESE CLASSES TO HIDE CONTENT ON MOBILE */
@@ -99,9 +94,6 @@
         }
 
         /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
-        .padding {
-          padding: 10px 5% 15px 5% !important;
-        }
 
         .padding-meta {
           padding: 30px 5% 0px 5% !important;
@@ -118,7 +110,7 @@
         }
 
         .section-padding {
-          padding: 50px 15px 50px 15px !important;
+          padding: 50px 0 50px 0 !important;
         }
 				
 				/* start deborah styles */
@@ -128,19 +120,19 @@
         }
 				
 				.padding-subheader {
-					padding: 25px 50px 0px 50px !important;
+					padding: 25px 25px 0px 25px !important;
 				}
 				
 				.padding-big-copy {
-					padding: 60px 50px 0px 50px !important;
+					padding: 60px 25px 0px 25px !important;
 				}
 				
 				.padding-normal-copy {
-					padding: 30px 50px 0px 50px !important;
+					padding: 30px 25px 0px 25px !important;
 				}
 				
 				.padding-button-holder {
-					padding: 70px 50px 0px 50px !important;
+					padding: 70px 25px 0px 25px !important;
 				}
 				
 				.padding-footer {
@@ -237,7 +229,7 @@
                       <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="background: #ffffff;">                    
                       
                         <tr><!-- ----  title ---- -->
-                          <td align="center" style="font-size: 36px;  mso-line-height-rule: exactly; line-height: 40px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px !important;" class="padding-header">
+                          <td align="center" style="font-size: 36px;  mso-line-height-rule: exactly; line-height: 40px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #062868; padding: 40px 15px 0px 15px;" class="padding-header">
                           
                           <span class="regular">Welcome aboard,</span>
                           <div><span class="regular"><%= user.username || user.email %>!</span></div>
@@ -309,7 +301,7 @@
                         <tr><!-- ----  copy 1 ---- -->
                           <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          <span class="regular">Use our voice command tool.</span> <span class="light"  style="color: #919191; font-family: 'Open Sans'; font-weight: 300;">
+                          <span class="regular">Use our voice command tool.</span> <span class="light"  style="color: #919191;">
                           Walk, talk, and get your tickets. Our voice agent hears and searches - 
                           you don’t need to touch the keyboard.</span>
                           
@@ -320,7 +312,7 @@
                         <tr><!-- ----  copy 2 ---- -->
                           <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
                           
-                          <span class="regular">Find the tickets you want, at a great price. </span><span class="light"  style="color: #919191; font-family: 'Open Sans'; font-weight: 300;">
+                          <span class="regular">Find the tickets you want, at a great price. </span><span class="light"  style="color: #919191;">
                           Your free time will love how much faster it is to identify the ticket you wanted without 
                           requiring a Ph.D in filtering. Booking is easy now.</span>
                           
@@ -331,7 +323,7 @@
                         <tr><!-- ----  copy 3 ---- -->
                           <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #919191;" class="padding-normal-copy">
                           
-                          <span class="light">Thanks for joining!  Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
+                          <span class="light">Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
                           <a style="color: #919191 !important; text-decoration: underline;" href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.</span>
                           
                           </td>
@@ -340,10 +332,10 @@
                       
                       
                         <tr><!-- ----  bgimage ---- -->
-                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px;"> 
+                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px 300px;"> 
                             <!--[if gte mso 9]> 
                             <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 300px;"> 
-                              <v:fill type="true" src="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" color="#ffffff" /> 
+                              <v:fill type="true" src="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" color="#ffffff" size="300pt,550pt" /> 
                               <v:textbox style="mso-fit-shape-to-text: true" inset="0,0,0,0">
                             <![endif]--> 
                             <div>
