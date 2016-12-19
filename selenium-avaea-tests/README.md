@@ -28,7 +28,7 @@
 
 #### Specific browser
 
-    $ lein with-profile ie midje
+    $ lein with-profile firefox midje
 
 #### Specific browser (windows)
 
