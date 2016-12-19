@@ -10,4 +10,10 @@ pom.xml.asc
 .hgignore
 .hg/
 chromedriver
+iedriver
+geckodriver
 phantomjs
+chromedriver.exe
+iedriver.exe
+geckodriver.exe
+phantomjs.exe

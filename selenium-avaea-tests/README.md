@@ -1,32 +1,38 @@
 # Selenium Avaea Tests
 
-### Install Drivers
+### Install 
+
+#### Drivers
 
     http://www.seleniumhq.org/download/
 
-#### windows
+#### Windows
 
     Copy drivers to test project root
 
-#### macos
+#### Mac Os
     
     $ brew install chromedriver
     $ brew install geckodriver
+
+#### Safari
+
+    http://selenium-release.storage.googleapis.com/index.html?path=2.48/
 
 ### Run Tests
 
 #### Default (chrome)
 
     $ lein midje
-    $ lein midje +windows
+    $ lein with-profile +windows midje
 
 #### Specific browser
 
     $ lein with-profile ie midje
 
-#### Specific browser
+#### Specific browser (windows)
 
-    $ lein with-profile ie midje
+    $ lein with-profile windows,ie midje
 
 #### Specific test (namespace)
 

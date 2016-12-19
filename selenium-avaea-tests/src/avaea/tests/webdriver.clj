@@ -2,34 +2,36 @@
   (:use [clj-webdriver.driver :only [init-driver]])
   (:require [clojure.test :refer :all]
             [clj-webdriver.taxi :refer :all]
-            [environ.core :as environ])
+            [environ.core :as environ]
+            [clojure.tools.logging :as log])
   (:import (java.util.concurrent TimeUnit)
            (org.openqa.selenium.remote DesiredCapabilities)))
 
-(def profile-name (atom (environ/env :clj-env)))
-(defonce driver (atom nil))
+(def profile-name (environ/env :clj-env))
+(def os-name (environ/env :clj-env-os))
 
 ;; PhantomJS and selenium-java java classes conflit resolve
 (defmacro webdriver-import []
-  (case @profile-name
+  (case profile-name
     "phantomjs" (import '(org.openqa.selenium.phantomjs PhantomJSDriver)
                         '(org.openqa.selenium.phantomjs PhantomJSDriverService))
-    "nothing"
-    ))
+    "nothing"))
 
 (webdriver-import)
 
-(case (environ/env :clj-env-os)
-  "windows" (case @profile-name
+(case os-name
+  "windows" (case profile-name
               "chrome" (System/setProperty "webdriver.chrome.driver" "chromedriver.exe")
-              "phantomjs" (System/setProperty "phantomjs.binary.path" "phantomjs.exe")) nil)
+              "phantomjs" (System/setProperty "phantomjs.binary.path" "phantomjs.exe")
+              "nothing") nil)
 
 (defmacro webdriver-select [url]
-  (case @profile-name
-    "chrome"  `(set-driver! {:browser :chrome} ~url)
-    "firefox"  `(set-driver! {:browser :firefox} ~url)
-    "ie"  `(set-driver! {:browser :ie} ~url)
-    "opera"  `(set-driver! {:browser :opera} ~url)
+  (case profile-name
+    "chrome"    `(set-driver! {:browser :chrome} ~url)
+    "firefox"   `(set-driver! {:browser :firefox} ~url)
+    "safari"    `(set-driver! {:browser :safari} ~url)
+    "ie"        `(set-driver! {:browser :ie} ~url)
+    "opera"     `(set-driver! {:browser :opera} ~url)
     "phantomjs" `(set-driver! (init-driver
                                {:webdriver
                                 (PhantomJSDriver.
