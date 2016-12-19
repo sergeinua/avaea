@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <!-- handles Outlook 2016 bg image issues -->
-<html xmlns:v="urn:schemas-microsoft-com:vml">
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:v="urn:schemas-microsoft-com:vml"
+ xmlns:o="urn:schemas-microsoft-com:office:office">
 
 <head>
   <meta charset="utf-8">
@@ -36,6 +38,10 @@
     img {
     	-ms-interpolation-mode: bicubic;
     } /* Allow smoother rendering of resized image in Internet Explorer */
+		
+		.main-image {
+			background-size: 550px 300px;
+		}
 
     /* RESET STYLES */
     img {
@@ -91,23 +97,10 @@
         /* FULL-WIDTH TABLES */
         .responsive-table {
           width: 100% !important;
+					margin: 0 auto;
         }
 
         /* UTILITY CLASSES FOR ADJUSTING PADDING ON MOBILE */
-
-        .padding-meta {
-          padding: 30px 5% 0px 5% !important;
-          text-align: center;
-        }
-
-        .padding-copy {
-          padding: 10px 5% 10px 5% !important;
-          text-align: center;
-        }
-
-        .no-padding {
-          padding: 0 !important;
-        }
 
         .section-padding {
           padding: 50px 0 50px 0 !important;
@@ -138,20 +131,6 @@
 				.padding-footer {
 					padding: 10px 20px 10px 40px !important;
 				}
-				
-
-        /* ADJUST BUTTONS ON MOBILE */
-        .mobile-button-container {
-            margin: 0 auto;
-            width: 100% !important;
-        }
-
-        .mobile-button {
-            padding: 22px 40px !important;
-            border: 0 !important;
-            font-size: 26px !important;
-            display: block !important;
-        }
 
     }
 
@@ -194,7 +173,7 @@
   <!-- ------------ STARTS BACKGROUND TABLE -------------- -->
   <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background: #f9fafe; text-align: center;" bgcolor="#f9fafe">
     <tr>
-      <td bgcolor="#f9fafe" align="center" style="background: #f9fafe; padding: 70px 15px 70px 15px;" class="section-padding">
+      <td bgcolor="#f9fafe" align="center" style="background: #f9fafe; padding: 70px 15px 70px 15px; text-align: center;" class="section-padding">
         <!--[if (gte mso 9)|(IE)]>
         <table align="center" border="0" cellspacing="0" cellpadding="0" width="550">
         <tr>
@@ -202,7 +181,7 @@
         <![endif]-->
         
         <!-- ------------ STARTS RESPONSIVE WRAPPER TABLE -------------- -->
-        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px;" class="responsive-table">
+        <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px; text-align: center;" class="responsive-table">
           <tr>
             <td>
             
@@ -212,7 +191,7 @@
               
                 <tr><!-- ----  logo ---- -->
                   <td align="left">
-                  	<img border="0" src="https://dl.dropboxusercontent.com/s/yg04al79iixotc0/logo.png?dl=0/logo.png" height="50" width="213" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                  	<img border="0" src="https://dl.dropboxusercontent.com/s/yg04al79iixotc0/logo.png?dl=0" height="55" width="213" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
                   </td>
                 </tr>
                   
@@ -299,9 +278,9 @@
                       
                         
                         <tr><!-- ----  copy 1 ---- -->
-                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #323232;" class="padding-normal-copy">
                           
-                          <span class="regular">Use our voice command tool.</span> <span class="light"  style="color: #919191;">
+                          <span class="regular">Use our voice command tool.</span> <span class="light" style="color: #919191;">
                           Walk, talk, and get your tickets. Our voice agent hears and searches - 
                           you don’t need to touch the keyboard.</span>
                           
@@ -310,9 +289,9 @@
                       
                       
                         <tr><!-- ----  copy 2 ---- -->
-                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; font-family: Helvetica, Arial, sans-serif; color: #323232;" class="padding-normal-copy">
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 50px 0px 50px; font-size: 16px; mso-line-height-rule: exactly; line-height: 30px; color: #323232;" class="padding-normal-copy">
                           
-                          <span class="regular">Find the tickets you want, at a great price. </span><span class="light"  style="color: #919191;">
+                          <span class="regular">Find the tickets you want, at a great price. </span><span class="light" style="color: #919191;">
                           Your free time will love how much faster it is to identify the ticket you wanted without 
                           requiring a Ph.D in filtering. Booking is easy now.</span>
                           
@@ -332,21 +311,14 @@
                       
                       
                         <tr><!-- ----  bgimage ---- -->
-                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px 300px;"> 
-                            <!--[if gte mso 9]> 
-                            <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 300px;"> 
-                              <v:fill type="true" src="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" color="#ffffff" size="300pt,550pt" /> 
-                              <v:textbox style="mso-fit-shape-to-text: true" inset="0,0,0,0">
-                            <![endif]--> 
-                            <div>
+                          <td background="https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0" width="550" height="300" valign="top" style="background: #ffffff url(https://dl.dropboxusercontent.com/s/2ev2zehz2xipdpg/graphic-main.png?dl=0) center top no-repeat; background-size: 550px 300px;" class="main-image"> 
                           
-                          &nbsp; 
+                            <!--[if mso]>
                           
-                            </div> 
-                            <!--[if gte mso 9]> 
-                              </v:textbox> 
-                            </v:rect> 
-                            <![endif]--> 
+                          <img border="0" src="https://dl.dropboxusercontent.com/s/5h6giukv4er4l35/graphic-main-mso.png?dl=0" height="300" width="550" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
+                             
+                            <![endif]-->
+                            
                           </td> 
 
                         </tr>
