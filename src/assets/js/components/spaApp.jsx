@@ -1,42 +1,22 @@
-import React from 'react';
-import { render } from 'react-dom';
-import * as ReactRedux from 'react-redux';
-import { Router, browserHistory, IndexRoute, Route } from 'react-router';
-import AppContainer from 'containers/AppContainer.jsx';
-import StaticContainer from 'containers/StaticContainer.jsx';
-import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from 'reducers.js';
-
-import NavBarContainer from '~/_common/NavBar'
-import DisplayAlert from '~/_common/DisplayAlert';
-
-import HomePage from 'components/static/pages/home.jsx';
-import AboutPage from 'components/static/pages/about.jsx';
-import PartnerPage from 'components/static/pages/partner.jsx';
-import JobsPage from 'components/static/pages/jobs.jsx';
-import NewsPage from 'components/static/pages/news.jsx';
-import ContactPage from 'components/static/pages/contact.jsx';
-import BlogPage from 'components/static/pages/blog.jsx';
-import TermsPage from 'components/static/pages/terms.jsx';
-import PrivacyPage from 'components/static/pages/privacy.jsx';
-
-import ProfilePage from 'components/pages/profile.jsx';
-import SearchFormPageContainer from 'components/pages/searchform.jsx';
-import ResultPageContainer from 'components/pages/result.jsx';
-import OrderPage from 'components/pages/order.jsx';
-import BookingPage from 'components/pages/booking.jsx';
-
-import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms } from './functions.js';
-import { actionSetCommonVal } from './actions.js';
-
-//load all of Bootstrap's jQuery plugins onto the jQuery object.
-require('bootstrap');
-require('legacyJquery.js');
-
 $(document).ready(function() {
 
   if (document.getElementById('spa-app')) {
+    const Container = (props) => <div>
+      <NavBarContainer {...props} />
+      {props.children}
+    </div>;
 
+    const StaticContainer = (props) => <div>
+      <link rel="stylesheet" href="/static/static.css"/>
+      <StaticHeader {...props} user={InitData.user||{}}/>
+      {props.children}
+      <StaticFooter {...props} user={InitData.user||{}}/>
+    </div>;
 
+    var Router = window.ReactRouter.Router;
+    var browserHistory = window.ReactRouter.browserHistory;
+    var IndexRoute = window.ReactRouter.IndexRoute;
+    var Route = window.ReactRouter.Route;
     if ( InitData.page ) {
       browserHistory.push(InitData.page);
     }
@@ -47,18 +27,7 @@ $(document).ready(function() {
     });
 
     let _localSearchParams;
-
-    let hashedParams = (InitData.page ? decodeURIComponent(InitData.page).replace(/\/result\?s=/, ''):'');
-    try {
-      hashedParams = JSON.parse(atob(hashedParams));
-    } catch (e) {
-      hashedParams = false;
-    }
-
-    if (hashedParams) {
-      //use data from url if exists
-      _localSearchParams = hashedParams;
-    } else if (localStorage.getItem('searchParams')) {
+    if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
       _localSearchParams = JSON.parse(localStorage.getItem('searchParams'));
     } else if (InitData.defaultSearch) {
@@ -68,7 +37,7 @@ $(document).ready(function() {
 
     Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
       .then(function () {
-        render((
+        ReactDOM.render((
           <ReactRedux.Provider store={clientStore}>
             <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
               <Route path="/" component={StaticContainer}>
@@ -82,7 +51,7 @@ $(document).ready(function() {
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>
               </Route>
-              <Route path="/" component={AppContainer}>
+              <Route path="/" component={Container}>
                 <IndexRoute component={SearchFormPageContainer} />
                 <Route path="/profile" component={ProfilePage}/>
                 <Route path="/search" component={SearchFormPageContainer}/>
@@ -117,18 +86,5 @@ $(document).ready(function() {
           ActionsStore.changeForm(_localSearchParams.flightType);
         }
       });
-  }
-});
-
-//for login page
-
-$(document).ready(function() {
-  var NavBarData = $('#onlynavbar').attr('page');
-  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
-    render(
-      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
-      document.getElementById('onlynavbar')
-    );
   }
 });

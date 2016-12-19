@@ -1,7 +1,5 @@
-import React from 'react';
-import { browserHistory } from 'react-router';
 
-let OrderSpecialModal = React.createClass({
+var OrderSpecialModal = React.createClass({
   componentDidMount: function () {
     $("#user-price-modal").modal({
       backdrop: 'static',
@@ -48,7 +46,7 @@ let OrderSpecialModal = React.createClass({
           <div className="modal-content">
 
             <div className="title-bar">
-              <div className="close-x" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}></div>
+              <div className="close-x" onClick={() => {$("#user-price-modal").modal("hide");window.ReactRouter.browserHistory.push('/result');return false;}}></div>
               <div className="title">Choose Your Price</div>
             </div>
 
@@ -69,7 +67,7 @@ let OrderSpecialModal = React.createClass({
               </div>
 
               <div className="buttons-bar double">
-                <button type="button" className="big-button secondary" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}>Cancel</button>
+                <button type="button" className="big-button secondary" onClick={() => {$("#user-price-modal").modal("hide");window.ReactRouter.browserHistory.push('/result');return false;}}>Cancel</button>
                 <button type="submit" className="big-button" id="user-price-submit">Submit</button>
               </div>
 
@@ -82,5 +80,3 @@ let OrderSpecialModal = React.createClass({
   }
 
 });
-
-export default OrderSpecialModal;

@@ -21,5 +21,4 @@ module.exports.email = {
   replyTo: '"Avaea Customer Support" <support@avea.com>',
   callTo: '510-249-9333',
   tpl_ticket_confirm: "ticket-confirmation",
-  tpl_profile_create: "profile-create"
 };

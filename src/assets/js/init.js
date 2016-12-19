@@ -1,14 +1,8 @@
-import { clientStore } from 'reducers.js';
-import { actionSetCommonVal, actionMergeCommonVal, actionUpdateCommonByVal } from 'actions.js';
-import ClientApi from 'components/_common/api.js';
-import moment from 'moment';
+/* global $ */
+const confTripSearchForms = ['one_way','round_trip','multi_city'];
 
-export const confTripSearchForms = ['one_way','round_trip','multi_city'];
-
-export let createMarkup = function(text) { return {__html: text}; };
-
-//global object for communication with react components
-export let ActionsStore = {
+//global object for communication with react components and dispatching redux actions
+var ActionsStore = {
   getIconSpriteMap: function () {
     return clientStore.getState().commonData.iconSpriteMap;
   },
@@ -44,9 +38,7 @@ export let ActionsStore = {
   }
 };
 
-export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
-
-export let handleChangeTripSearchForm = (searchParams) => {
+let handleChangeTripSearchForm = (searchParams) => {
   let formErrors = {
     isError: false,
     departureDate: false,
@@ -140,7 +132,7 @@ var isMobile = {
  * on_tile_choice | on_itinerary_purchase etc...
  *
  */
-export let logAction = function (type, data) {
+var logAction = function (type, data) {
   ClientApi.reqPost("/prediction/" + type, data);
 };
 
@@ -192,7 +184,8 @@ $(document).ready(function() {
 // ends dom ready
 
 // DEMO-796 fix for iOS10
-export function unfocusFormForIos() {
+let unfocusFormForIos;
+unfocusFormForIos = function () {
   let index;
   let inputs = document.getElementsByTagName('input');
   for (index = 0; index < inputs.length; ++index) {
@@ -206,9 +199,34 @@ export function unfocusFormForIos() {
   for (index = 0; index < textareas.length; ++index) {
     textareas[index].blur();
   }
-}
+};
 
-export function setAirportData(target, data) {
-  ActionsStore.setFormValue(target, data.value);
-  ActionsStore.setFormValue(target + 'City', data.city);
-}
+let nodes = [];
+
+const ReactContentRenderer = {
+  unmountAll() {
+    if (nodes.length === 0) {
+      return;
+    }
+    nodes.forEach(node => React.unmountComponentAtNode(node));
+    nodes = [];
+  },
+  render(element, container, callback) {
+    if (container instanceof jQuery) {
+      container = container.get(0);
+    }
+    ReactDOM.render(element, container, callback);
+    nodes.push(container);
+  }
+};
+
+$(function () {
+  $('#content')
+    .on('content-will-change', ReactContentRenderer.unmountAll);
+});
+
+
+
+
+
+

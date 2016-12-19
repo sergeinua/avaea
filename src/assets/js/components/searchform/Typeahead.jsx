@@ -1,6 +1,3 @@
-import React from 'react';
-import { ActionsStore, setAirportData } from '../../functions.js';
-
 /**
  * Make request to the remote server and fetch data for the typehead rendering
  *
@@ -26,7 +23,12 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
   };
 };
 
-let Typeahead = React.createClass({
+var setAirportData = function(target, data) {
+  ActionsStore.setFormValue(target, data.value);
+  ActionsStore.setFormValue(target + 'City', data.city);
+};
+
+var Typeahead = React.createClass({
 
   componentDidMount: function () {
     let _self = this;
@@ -57,12 +59,12 @@ let Typeahead = React.createClass({
       ActionsStore.changeForm(_self.props.searchParams.flightType || 'round_trip');
     });
 
-    var val = this.props.searchParams[this.props.target] || '';
-    var inputEl = $('#airport-input');
-    inputEl.focus();
-    inputEl.val(val);
-    inputEl.typeahead('val', val);
-    inputEl.typeahead('open');
+      var val = this.props.searchParams[this.props.target] || '';
+      $('#airport-input').focus();
+      $('#airport-input').val(val);
+      $('#airport-input').typeahead('val', val);
+      $('#airport-input').typeahead('open');
+    // }
 
     //FIXME what is it?
     $('.tt-hint').addClass('form-control');
@@ -76,5 +78,3 @@ let Typeahead = React.createClass({
   }
 
 });
-
-export default Typeahead;

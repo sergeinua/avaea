@@ -1,13 +1,4 @@
 <div id="onlynavbar" page="login"></div>
-
-<%
-if (typeof errors != 'undefined') {  %>
-<% errors.forEach(function (error) { %>
-<div class="warning" role="alert"><%= __(error) %></div>
-<% }); %>
-<% } %>
-
-
 <% if (Object.keys(providers).length) {%>
 
   <div class="login-holder">

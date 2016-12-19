@@ -1,8 +1,5 @@
-import * as Redux from 'redux';
-import * as Immutable from 'immutable';
-import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from 'actions.js';
 
-export const storeInitialState = {
+const storeInitialState = {
   commonData: {
     searchParams: {
       flightType: 'round_trip'
@@ -23,7 +20,7 @@ export const storeInitialState = {
   orderData: {}
 };
 
-export const storeGetCommonVal = (curState, fieldName) => {
+const storeGetCommonVal = (curState, fieldName) => {
   return curState.commonData[fieldName];
 };
 
@@ -121,18 +118,18 @@ const appReducers = Redux.combineReducers({
   orderData: orderReducer,
 });
 
-export const clientStore = Redux.createStore(appReducers);
-//for test env only
-// export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+
+// Create store
+const clientStore = Redux.createStore(appReducers);
 
 
 // global, because subscribers can be re-mounted many times
 let observeStoreFields = {};
-export let observeUnsubscribers = {};
+let observeUnsubscribers = {};
 
 // Observe store for changed values. And call handler if need
 // Be careful with this code and code of the calling handlers. Because if handler dispatch the same data again then you can make eternal races
-export const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
+const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
   let cur_val;
   if (['formSubmitCount','searchParams'].indexOf(fieldName) == -1) {
     console.error('Unknown observed field:', fieldName);

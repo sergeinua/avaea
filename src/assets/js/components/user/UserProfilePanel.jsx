@@ -1,8 +1,4 @@
-import React from 'react';
-import UserProfilePanelElement from './UserProfilePanelElement.jsx';
-import UserProfilePanelBlock from './UserProfilePanelBlock.jsx';
-
-let UserProfilePanel = React.createClass({
+var UserProfilePanel = React.createClass({
 
   render: function() {
     var self = this, _panel = [];
@@ -39,5 +35,3 @@ let UserProfilePanel = React.createClass({
     </div>
   }
 });
-
-export default UserProfilePanel;

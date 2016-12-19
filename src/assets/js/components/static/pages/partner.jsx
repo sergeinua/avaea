@@ -1,8 +1,4 @@
-import React from 'react';
-import StaticPartner from '../partner/Partner.jsx';
-import Loader from '../../_common/Loader.jsx';
-
-let PartnerPage = React.createClass({
+var PartnerPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -28,5 +24,3 @@ let PartnerPage = React.createClass({
     )
   }
 });
-
-export default PartnerPage;

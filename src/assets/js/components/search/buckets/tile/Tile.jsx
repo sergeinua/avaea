@@ -1,7 +1,6 @@
-import React from 'react';
-import { ActionsStore, createMarkup } from '../../../../functions.js';
+var createMarkup = function(text) { return {__html: text}; };
 
-let Tile = React.createClass({
+var Tile = React.createClass({
   getInitialState: function() {
     return {
       tile: this.props.info
@@ -56,5 +55,3 @@ let Tile = React.createClass({
     )
   }
 });
-
-export default Tile;

@@ -1,5 +1,3 @@
-import React from 'react';
-
 var SearchBanner = React.createClass({
   render() {
     return (
@@ -25,5 +23,3 @@ SearchBanner.defaultProps = {
   id: 'searchBanner',
   text: 'We are searching best priced flights and constructing smart filters to help you select your perfect flight.'
 };
-
-export default SearchBanner;

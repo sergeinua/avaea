@@ -1,10 +1,7 @@
-import React from 'react';
-
-let StaticContact = React.createClass({
+var StaticContact = React.createClass({
   render: function () {
     return (
       <div>
- 
       	<div className="content static contact">
       		<div className="wrapper">
 	      		<h1>Say Hello</h1>
@@ -66,10 +63,7 @@ let StaticContact = React.createClass({
 	      		
 	      	</div>{/* ends wrapper */} 
       	</div>{/* ends content */} 
- 
       </div>
     )
   }
 });
-
-export default StaticContact;

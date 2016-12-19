@@ -1,7 +1,3 @@
-import React from 'react';
-import StaticNews from '../news/News.jsx';
-import Loader from '../../_common/Loader.jsx';
-
 var NewsPage = React.createClass({
 
   getInitialState: function () {
@@ -28,5 +24,3 @@ var NewsPage = React.createClass({
     )
   }
 });
-
-export default NewsPage;

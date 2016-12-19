@@ -1,11 +1,4 @@
-import React from 'react';
-import Citypairs from './Citypairs.jsx';
-import ModalFlightInfo from './ModalFlightInfo.jsx';
-import { browserHistory } from 'react-router';
-import { ActionsStore, logAction, createMarkup } from '../../functions.js';
-import ClientApi from '../_common/api.js';
-
-let ResultItem = React.createClass({
+var ResultItem = React.createClass({
   getInitialState: function() {
     return {
       fullinfo: this.props.showFullInfo || false,
@@ -67,7 +60,7 @@ let ResultItem = React.createClass({
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
       .then((msg) => {
-        if( !msg.error && msg.value ) {
+        if( !msg.error ) {
           refundType = msg.value;
         }
         if (this.isMounted()) {
@@ -133,7 +126,7 @@ let ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      window.ReactRouter.browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 
@@ -193,5 +186,3 @@ let ResultItem = React.createClass({
   }
 
 });
-
-export default ResultItem;

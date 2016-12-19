@@ -1,7 +1,4 @@
-import React from 'react';
-import { ActionsStore } from '../../functions.js';
-
-let Sorter = React.createClass({
+var Sorter = React.createClass({
   getInitialState: function() {
 
     var sortOptions = {
@@ -103,5 +100,3 @@ let Sorter = React.createClass({
     )
   }
 });
-
-export default Sorter;

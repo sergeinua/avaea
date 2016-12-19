@@ -1,8 +1,4 @@
-import React from 'react';
-import StaticContact from '../contact/Contact.jsx';
-import Loader from '../../_common/Loader.jsx';
-
-let ContactPage = React.createClass({
+var ContactPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -28,5 +24,3 @@ let ContactPage = React.createClass({
     )
   }
 });
-
-export default ContactPage;

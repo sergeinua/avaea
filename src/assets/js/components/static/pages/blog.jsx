@@ -1,8 +1,4 @@
-import React from 'react';
-import StaticBlog from '../blog/Blog.jsx';
-import Loader from '../../_common/Loader.jsx';
-
-let BlogPage = React.createClass({
+var BlogPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -28,5 +24,3 @@ let BlogPage = React.createClass({
     )
   }
 });
-
-export default BlogPage;

@@ -1,6 +1,3 @@
-import React from 'react';
-import * as ReactRedux from 'react-redux';
-import { actionSetProgramsVal, actionSetPersonalVal, actionSetOrderFieldVal } from '../../actions.js';
 
 class FormElementDropdown extends React.Component {
 
@@ -61,6 +58,4 @@ const mapDispatchElemDropdown = (dispatch, ownProps) => {
   }
 };
 
-let FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);
-
-export default FormElementDropdownContainer;
+var FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);

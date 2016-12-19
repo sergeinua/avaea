@@ -1,12 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router';
-import * as ReactRedux from 'react-redux';
-import { ActionsStore } from '../../functions.js';
-import { finalizeValues } from '../searchform/Calendar.jsx';
-import { browserHistory } from 'react-router';
-import moment from 'moment';
+var Link = window.ReactRouter.Link;
 
-let NavBar = React.createClass({
+var NavBar = React.createClass({
 
   getUser: function () {
     //FIXME get rid from global var
@@ -36,19 +30,9 @@ let NavBar = React.createClass({
       });
   },
 
-  componentDidMount: function () {
-    $('#nav_slide_menu').offcanvas({
-      toggle: false,
-      placement: 'left',
-      autohide: true
-    });
-    $('#nav_slide_menu a')
-      .click(function () {
-        $('#nav_slide_menu').offcanvas('hide');
-      });
-  },
-
   componentWillMount: function () {
+    clientStore.subscribe(() => console.log('_storeNav:', clientStore.getState())); // Need !
+
     ActionsStore.changeCalendarDate = () => {
       finalizeValues(this.props.commonData.searchParams);
     };
@@ -75,22 +59,19 @@ let NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    browserHistory.push('/result');
+    window.ReactRouter.browserHistory.push('/result');
   },
 
   handleBackToSearchForm: function () {
-    browserHistory.push('/search');
-  },
-
-  showLink: function (to, text) {
-    if (!this.props.location) {
-      return <a href={to}>{text}</a>
-    } else {
-      return <Link to={to}>{text}</Link>
-    }
+    window.ReactRouter.browserHistory.push('/search');
   },
 
   render: function() {
+    if (!this.props.location) {
+      Link = (props) => {
+        return <a href={props.to}>{props.children}</a>
+      }
+    }
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
         {  this.props.commonData.currentForm != 'airport-search'
@@ -132,12 +113,11 @@ let NavBar = React.createClass({
             </div>
 
             <div id="nav_slide_menu" className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
- 
                 
               <ul className="nav navbar-nav">
-								<li>{this.showLink("/home","Home")}</li>
-            		<li>{this.showLink("/search","Search")}</li>
-            		<li>{this.showLink("/profile", "Profile")}</li>
+            		<li><Link to="/home">Home</Link></li>
+                <li><Link to="/search">Search</Link></li>
+                <li><Link to="/profile">Profile</Link></li>
                 <li>
                   {this.getUser().email ?
                 		<a href="/logout">Log out <b>{ this.getUser().email }</b></a>
@@ -207,4 +187,14 @@ const mapStateCommon = function(store) {
 
 const NavBarContainer = ReactRedux.connect(mapStateCommon)(NavBar);
 
-export default NavBarContainer;
+
+$(document).ready(function() {
+  var NavBarData = $('#onlynavbar').attr('page');
+  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
+    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
+    ReactContentRenderer.render(
+      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
+      $('#onlynavbar')
+    );
+  }
+});

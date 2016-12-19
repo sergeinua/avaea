@@ -1,6 +1,3 @@
-import * as ReactRedux from 'react-redux';
-import FormElement from '../_common/FormElement.jsx';
-import { actionSetPersonalVal } from '../../actions.js';
 
 const mapDispatchPanelElem = (dispatch, ownProps) => {
   return {
@@ -10,6 +7,4 @@ const mapDispatchPanelElem = (dispatch, ownProps) => {
   }
 };
 
-let UserProfilePanelElement = ReactRedux.connect(null, mapDispatchPanelElem)(FormElement);
-
-export default UserProfilePanelElement;
+var UserProfilePanelElement = ReactRedux.connect(null, mapDispatchPanelElem)(FormElement);

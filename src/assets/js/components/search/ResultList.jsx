@@ -1,5 +1,3 @@
-import React from 'react';
-import ResultItem from './ResultItem.jsx';
 
 var ResultList = React.createClass({
 
@@ -21,5 +19,3 @@ var ResultList = React.createClass({
     )
   }
 });
-
-export default ResultList;

@@ -17,7 +17,7 @@ module.exports = {
   session: {
     host: '127.0.0.1',
     user: 'avaea',
-    password: 'a1v2a3e4a5',
+    password: 'avaea',
     database: 'avaea',
     port: 5432
   },

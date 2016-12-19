@@ -1,11 +1,4 @@
-import React from 'react';
-import 'whatwg-fetch';
-import 'promise-polyfill';
-import { ActionsStore } from '../../functions.js';
-import Loader from '../_common/Loader.jsx';
-import Booking from '../buy/Booking.jsx';
-
-let BookingPage = React.createClass({
+var BookingPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -47,5 +40,3 @@ let BookingPage = React.createClass({
     )
   }
 });
-
-export default BookingPage;

@@ -1,6 +1,4 @@
-import React from 'react';
-
-let Loader = React.createClass({
+var Loader = React.createClass({
 
   render: function () {
     return <div className="spinner-holder">
@@ -8,5 +6,3 @@ let Loader = React.createClass({
     </div>
   }
 });
-
-export default Loader;

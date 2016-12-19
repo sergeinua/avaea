@@ -1,6 +1,4 @@
-import React from 'react';
-
-let StaticPartner = React.createClass({
+var StaticPartner = React.createClass({
   render: function () {
     return (
       <div>
@@ -11,5 +9,3 @@ let StaticPartner = React.createClass({
     )
   }
 });
-
-export default StaticPartner;

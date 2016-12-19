@@ -53,14 +53,14 @@ module.exports = {
   },
   ffmapis: {
     milefy: {
-      url:      'https://liveapi.30k.com/',
+      url:      'https://testingapi.30k.com/',
       login:    'avaea',
-      password: '11c235eba9b7'
+      password: '8ac8c8cae00e'
     },
     wallet: {
-      url:      'https://walletapi.30k.com/',
+      url:      'https://walletapi-testing.30k.com/',
       login:    'avaea',
-      password: '11c235eba9b7'
+      password: '8ac8c8cae00e'
     }
   }
 };

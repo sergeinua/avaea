@@ -1,9 +1,4 @@
-import React from 'react';
-import { ActionsStore } from '../../../functions.js';
-import Tile from './tile/Tile';
-import Sorter from '~/search/Sorter.jsx';
-
-let Buckets = React.createClass({
+var Buckets = React.createClass({
   getInitialState: function() {
     return {
       max_filter_items: this.props.max_filter_items || 0,
@@ -73,5 +68,3 @@ let Buckets = React.createClass({
     )
   }
 });
-
-export default Buckets;

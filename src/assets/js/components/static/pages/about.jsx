@@ -1,8 +1,4 @@
-import React from 'react';
-import StaticAbout from '../about/About.jsx';
-import Loader from '../../_common/Loader.jsx';
-
-let AboutPage = React.createClass({
+var AboutPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -28,5 +24,3 @@ let AboutPage = React.createClass({
     )
   }
 });
-
-export default AboutPage;
