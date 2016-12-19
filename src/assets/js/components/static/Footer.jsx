@@ -15,16 +15,16 @@ let StaticFooter = React.createClass({
 	      		<div className="left">
 	      			<nav>
 			      			<ul className="menu nav">
-						        <li className={this.props.location.pathname == '/home'? 'active':''}>{this.showLink("/home","Home")}</li>
-						        <li className={this.props.location.pathname == '/about'? 'active':''}>{this.showLink("/about","About")}</li>
-						        <li className={this.props.location.pathname == '/partner'? 'active':''}>{this.showLink("/partner","Partner")}</li>
-						        <li className={this.props.location.pathname == '/contact'? 'active':''}>{this.showLink("/contact","Contact")}</li>
+				      			<li className={this.props.location.pathname == '/home'? 'active':''}><Link to="/home" onClick={this.onItemClick}>Home</Link></li>
+		  			        <li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about" onClick={this.onItemClick}>About</Link></li>
+		  			        <li className={this.props.location.pathname == '/partner'? 'active':''}><Link to="/partner" onClick={this.onItemClick}>Partner</Link></li>
+		  			        <li className={this.props.location.pathname == '/contact'? 'active':''}><Link to="/contact" onClick={this.onItemClick}>Contact</Link></li>
 						      </ul>
 	      			</nav>
 	      			
 	      			<div className="holder">
-	      				<li >{this.showLink("/terms","Terms")}</li>
-	      				<li >{this.showLink("/privacy","Privacy")}</li>
+	      				<li><Link to="/terms" onClick={this.onItemClick}>Terms and Conditions</Link></li>
+	      				<li><Link to="/privacy" onClick={this.onItemClick}>Privacy</Link></li>
 	      			</div>
 	      		</div>{/* ends left */}
 	      		
