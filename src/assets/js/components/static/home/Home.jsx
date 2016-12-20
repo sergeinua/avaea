@@ -1,4 +1,5 @@
 import React from 'react';
+import SimpleSearchForm from './SimpleSearchForm';
 
 let StaticHome = React.createClass({
   render: function () {
@@ -24,17 +25,7 @@ let StaticHome = React.createClass({
                 </div>
 
                 <div className="try-it">
-                  <form>
-                    <div className="wrapper">
-                      <div className="ti">Where I want to go</div>
-                      <div className="loc-holder">
-                        <input type="text" /><span>to</span><input type="text" />
-                      </div>
-                      <div className="ti">When</div>
-                      <input type="text" />
-                    </div>
-                    <a className="buttonly" href="#">Try it</a>
-                  </form>
+                  <SimpleSearchForm/>
                 </div>{/* ends try-it form */}
 
               </div> {/* ends home-top-copy */}
