@@ -510,20 +510,19 @@
 	height: 51px;
 }
 
+.desktop .refundable.row {
+	text-align: center;
+}
+
 .desktop .booking .buttons {
 	text-align: left;
-	padding-left: 20px;
+	padding-left: 30px;
 	position: relative;
 	border-top: 0px solid transparent;
 }
 
 .desktop .booking .form {
 	padding-bottom: 45px;
-}
-
-.desktop .booking .ti {
-	font-size: 26px;
-	padding-left: 40px;
 }
 
 .desktop .ti:before {
@@ -2801,8 +2800,9 @@ td[data-action*="selectDay"] {
 
 /* flight unit */
 
-.flight-unit {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+.flight-unit,
+.booking-confirmation {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .flight-unit .col-xs-9 {
