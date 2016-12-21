@@ -44,6 +44,7 @@
 .extras-flag:before,
 #accordion .panel-title a:after,
 .page-ti:before,
+.which-passenger:before,
 .arr-connects:before,
 .arr-connects:after,
 .arr-connects-none:before,
@@ -172,6 +173,7 @@
 .icon-start-over:before {
   content: "\e91d";
 }
+.which-passenger:before,
 .icon-ticket:before {
   content: "\e91e";
 }
@@ -181,7 +183,7 @@
 .icon-credit-card-outline:before {
   content: "\e913";
 }
-.page-ti:before,
+.page-ti.billing:before,
 .icon-credit-card:before {
   content: "\e914";
 }

@@ -17,6 +17,7 @@ let OrderPanel = React.createClass({
 
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
+      {id:'MiddleName', required: false, title: 'Middle Name', data: fields_data.MiddleName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
       {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},
       {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},
@@ -30,6 +31,27 @@ let OrderPanel = React.createClass({
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
     ];
+  },
+  
+  // Eugene I took a guess at how additional passenger fields would be handled 		
+  makePassengerData: function(incData) {		
+    var fields_data = incData.fieldsData ? incData.fieldsData : {};		
+    return [		
+            		
+      // Eugene if user clicks "its-me" button, populate the first passenger's name fields and DOB from billing data      		
+      {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},		
+      {id:'MiddleName', required: false, title: 'Middle Name', data: fields_data.MiddleName || ''},		
+      {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},		
+      		
+      {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},		
+      		
+      // Eugene if user clicks "its-me" button, populate the first passenger's DOB from billing data  		
+      {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},		
+      		
+      // Eugene Ajax detect if ticket is for child or infant from DOB, drop down an optional checkbox - I could not make it a checkbox 		
+      {id:'Lap', required: false, title: 'Lap infant', data: fields_data.Lap || ''},		
+      		
+    ];		
   },
 
   getOrder: function() {
@@ -46,6 +68,10 @@ let OrderPanel = React.createClass({
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
     }, 'This field is required');
+    
+    $.validator.addMethod("Trim", function(value, element) {		
+      return value.trim();		
+    });
 
     /**
      * Client validation during booking of itinerary
@@ -54,6 +80,9 @@ let OrderPanel = React.createClass({
       rules: {
         FirstName: {
           requiredAndTrim: true
+        },
+        MiddleName: {		
+          Trim: true		
         },
         LastName: {
           requiredAndTrim: true
@@ -192,43 +221,53 @@ let OrderPanel = React.createClass({
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
 
         <form id="form_booking" className="booking">
-        <div>
-          
-          {/* Eugene */}
-          <div className="confirmation persons-class-price">
-          	<div className="wrapper">
-	          	<div className="people">1</div>
-	          	<div className="class">First Class</div>
-	          	<div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
-          	</div>
-          </div>
-
-          <div className="flight-unit">
-            <div className="booking-flight-unit">
-              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
-            </div>
-          </div>
-
-          <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
-
-          <div id="user-time-limit-target-div" className="time-limit message hidden">
-            <div className="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
-          </div>
-
-          <div className="form">
-            <div className="page-ti">Billing</div>
-            {this.makeOrderData(this.props.orderData).map(
-              (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
-            )}
-          </div>
-
-          <div className="buttons">
-            <button id="booking_button" className="big-button" onClick={this.execReq}>
-              {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
-            </button>
-          </div>
-
-        </div>
+	        <div>
+	          
+	          <div className="confirmation persons-class-price">
+		        	<div className="wrapper">
+		          	<div className="people">1</div>
+		          	<div className="class">First Class</div>
+		          	<div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+		        	</div>
+		        </div>
+		        <div className="flight-unit">
+		          <div className="booking-flight-unit">
+		            <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+		          </div>
+		        </div>
+		        
+		        <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
+		        
+		        <div className="form">
+		        
+			      	<div className="page-ti billing">Billing</div>
+			          {this.makeOrderData(this.props.orderData).map(
+			            (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+			          )}
+			          
+		          <div className="page-ti people">Travellers</div>
+		          
+		          {/* Eugene :) generate first set no matter what, following sets according to additional passengers 	*/}	  
+		          <div className="which-passenger">Passenger N</div>
+		          
+		          {/* Eugene First set gets an "it's me" button, if clicked populate with billing data */}		
+							<div className="its-me">		
+								<div className="tertiary-button">It's me</div>		
+								<div className="hint">Tap if traveller is the person being billed</div>		
+							</div>
+		          
+						 {this.makePassengerData(this.props.orderData).map(
+	              (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+	            )}
+		         
+						 <div className="buttons">
+							 <button id="booking_button" className="big-button" onClick={this.execReq}>
+		             {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+		           </button>
+	           </div>
+	          
+						 </div>{/* ends div.form */}	
+	        </div>
         </form>
           {this.props.specialOrder ?
             <OrderSpecialModal />:null
