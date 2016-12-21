@@ -609,6 +609,8 @@ footer,
 }
 
 .clear-it,
+.clearit,
+.booking .confirmation:after,
 body.desktop form.profile,
 .confirm-code:after,
 .long-wrapper:after,
@@ -925,6 +927,14 @@ a:focus,
 .flight-extras .total-value,
 .icon-spinner {
 	color: #37d016;
+}
+
+.confirmation {
+	background-color: #def7ec;
+}
+
+.confirmation {
+	color: #00a93f;
 }
 
 /* red */
@@ -2625,6 +2635,33 @@ td[data-action*="selectDay"] {
     left: -2px;
 }
 
+.booking .confirmation {
+	font-family: 'Open-Sans-Light';
+	font-size: 20px;
+	padding: 15px; 
+}
+
+.booking .confirmation:after {
+	content: '';
+	display: table;
+	width: 100%;
+	clear: both;
+}
+
+.booking .confirmation .wrapper {
+	margin: 0 auto;
+	display: inline-block;
+}
+
+.booking .confirmation div {
+	padding-right: 20px;
+	display: inline-block;
+}
+
+.booking .confirmation div:last-child {
+	padding-right: 0;
+}
+
 .booking-success {
 	margin-top: 70px;
 }
@@ -2869,12 +2906,9 @@ td[data-action*="selectDay"] {
 
 
 .booking .buttons {
-	position: fixed;
-	bottom: 0;
 	text-align: center;
 	background: #fff;
 	width: 100%;
-	border-top: 1px solid rgba(0, 0, 0, .15);
 }
 
 .warning {
@@ -2989,10 +3023,6 @@ td[data-action*="selectDay"] {
 .panel-body,
 .booking .form {
 	padding: 15px 25px 15px 35px;
-}
-
-.booking .form {
-	padding-bottom: 85px;
 }
 
 .panel-body .panel-body {

@@ -193,6 +193,15 @@ let OrderPanel = React.createClass({
 
         <form id="form_booking" className="booking">
         <div>
+          
+          {/* Eugene */}
+          <div className="confirmation persons-class-price">
+          	<div className="wrapper">
+	          	<div className="people">1</div>
+	          	<div className="class">First Class</div>
+	          	<div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+          	</div>
+          </div>
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
