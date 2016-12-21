@@ -32,33 +32,12 @@ let readEticketQueueCounter = 0;
 module.exports = {
 
   execReadEticket: function () {
-    // sails.log.warn('I am triggering when time is come: '+ new Date().toLocaleString());
     sails.log.verbose('Start execReadEticket job');
     if (readEticketQueueCounter > 0) {
       sails.log.warn(`readEticket queue did not spooled by previous job. Queue counter=${readEticketQueueCounter}. Stop current job`);
       return;
     }
     readEticketQueueCounter = 1; // Up queue flag for concurrent jobs
-
-    // Booking.find(
-    //   {
-    //     status_eticket: 1,
-    //     createdAt: {'>=': sails.moment().subtract(sails.config.flightapis.execReadEticketPeriod, 'seconds').format('YYYY-MM-DD HH:mm:ss')}
-    //   })
-    //   .then(function (records){
-    //     if (records.length == 0) {
-    //       return Promise.reject(false); // break chain wo error
-    //     }
-    //
-    //     for (let ii=0; ii < records.length; ii++) {
-    //       sails.log.warn('__rec:', records[ii]);
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     if (error) {
-    //       sails.log.error(error);
-    //     }
-    //   });
 
     let eticketNumbersStore = {};
     qpromice.nfbind(Booking.query)(
