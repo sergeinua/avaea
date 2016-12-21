@@ -55,6 +55,13 @@ module.exports.connections = {
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
+  stagePostgresqlServer: {
+    adapter: 'sails-postgresql',
+    host: '127.0.0.1',
+    user: 'avaea',
+    password: 'a1v2a3e4a5',
+    database: 'avaea'
+  },
   dockerPostgresqlServer: {
     adapter: 'sails-postgresql',
     host: 'postgres',
