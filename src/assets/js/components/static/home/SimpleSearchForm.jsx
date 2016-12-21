@@ -1,7 +1,11 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import Autosuggest from 'react-autosuggest';
 import { DateRange } from 'react-date-range';
 import ClientApi from '~/_common/api';
+import { clientStore } from '../../../reducers.js';
+import { actionSetCommonVal } from '../../../actions.js';
+
 import moment from 'moment';
 
 const getSuggestionValue = suggestion => suggestion.value;
@@ -58,7 +62,6 @@ let SimpleSearchForm = React.createClass({
   setDefaultAirport: function () {
     ClientApi.reqPost('/ac/getNearestAirport', {}, false)
     .then((json) => {
-      console.log(json);
       if (json.airport) {
         let searchParams = this.state.searchParams;
         searchParams.DepartureLocationCode = json.airport;
@@ -85,7 +88,9 @@ let SimpleSearchForm = React.createClass({
     }).then((options) => {
       let change = {};
       change[target] = options;
-      this.setState(change);
+      if(this.isMounted()) {
+        this.setState(change);
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -94,7 +99,7 @@ let SimpleSearchForm = React.createClass({
 
   handleChangeFromValue: function (e, item) {
     let searchParams = this.state.searchParams;
-    searchParams.DepartureLocationCode = item.newValue.toUpperCase() || '';
+    searchParams.DepartureLocationCode = item.newValue || '';
     this.setState({searchParams:searchParams}, function () {
       this.getSelectOptions(this.state.searchParams.DepartureLocationCode, 'DepartureOptions');
     });
@@ -102,7 +107,7 @@ let SimpleSearchForm = React.createClass({
 
   handleChangeToValue: function (e, item) {
     let searchParams = this.state.searchParams;
-    searchParams.ArrivalLocationCode = item.newValue.toUpperCase() || '';
+    searchParams.ArrivalLocationCode = item.newValue || '';
     this.setState({searchParams:searchParams}, function () {
       this.getSelectOptions(this.state.searchParams.ArrivalLocationCode, 'ArrivalOptions');
     });
@@ -137,6 +142,27 @@ let SimpleSearchForm = React.createClass({
         + ' - '
         + this.state.searchParams.returnDate.format(format).toString();
     }
+  },
+
+  submitForm: function () {
+    let searchParams = this.state.searchParams;
+
+    searchParams.departureDate = searchParams.departureDate.format('YYYY-MM-DD').toString();
+    searchParams.returnDate = searchParams.returnDate.format('YYYY-MM-DD').toString();
+    searchParams.DepartureLocationCode = searchParams.DepartureLocationCode.toUpperCase();
+    searchParams.ArrivalLocationCode = searchParams.ArrivalLocationCode.toUpperCase();
+
+    localStorage.setItem('searchParams', JSON.stringify(searchParams));
+    clientStore.dispatch(actionSetCommonVal('searchParams', searchParams));
+
+    browserHistory.push(
+      {
+        pathname: '/result',
+        query: {
+          s: btoa(JSON.stringify(searchParams))
+        }
+      }
+    );
   },
 
   render: function () {
@@ -194,7 +220,7 @@ let SimpleSearchForm = React.createClass({
             <span onClick={this.hideCalendar} className="calendar-close-button">Close</span>
           </div>
         </div>
-        <a className="buttonly" href="#">Try it</a>
+        <a className="buttonly" onClick={this.submitForm}>Try it</a>
       </form>
     )
   }
