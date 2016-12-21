@@ -547,6 +547,10 @@
 	font-size: 16px;
 }
 
+.desktop .booking-success .trip.ti {
+	margin-bottom: 0;
+}
+
 .desktop .booking-success .flight-unit .summary {
 	padding-top: 15px;
 }
@@ -924,11 +928,11 @@ a:focus,
 	color: #15cb61;
 }
 
-.confirmation {
+.booking .confirmation {
 	background-color: #def7ec;
 }
 
-.confirmation {
+.booking .confirmation {
 	color: #00a93f;
 }
 
@@ -1130,7 +1134,7 @@ textarea {
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 8px 0 8px 0;
+	margin: 11px 0 5px 0;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -2484,7 +2488,7 @@ td[data-action*="selectDay"] {
 }
 
 .notable-area .refundable {
-	margin: 15px 0 0 -20px;
+	margin: 10px 0 0 -20px;
 }
 
 .notable-area .ff-miles,
@@ -2766,6 +2770,7 @@ td[data-action*="selectDay"] {
 .booking-success .trip.ti {
 	line-height: 1em;
 	text-align: left;
+	margin-bottom: 15px;
 	padding: 10px 40px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
@@ -2810,6 +2815,20 @@ td[data-action*="selectDay"] {
 .booking-success .notable-area .col-xs-3.direction {
 	text-transform: uppercase;
 	width: 21%;
+}
+
+.booking-success .refundable.row .ti {
+	padding-right: 5px;
+	display: inline-block;
+}
+
+.booking-success .refundable.row .copy {
+	display: inline-block;
+}
+
+.booking-success .notable-area .ff-miles, 
+.booking-success .notable-area .ff-miles.no-value {
+    margin-left: -20px;
 }
 
 .help-contact {

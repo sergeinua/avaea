@@ -10,7 +10,7 @@ let Booking = React.createClass({
 
         <div className="e-ticket confirmation">
           <div className="confirm-code">
-            <div className="success ti">Booking</div>
+            <div className="success ti">Booked</div>
             <div className="wrapper">
               <span className="label-ti">Reservation Code:</span>
               <span className="number">{this.props.orderData.bookingRes.PNR}</span>
