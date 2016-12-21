@@ -1180,6 +1180,7 @@ textarea {
 
 .navmenu {
 	margin-top: 50px;
+	width: 200px;
 }
 
 .navmenu.offcanvas:before {
@@ -1886,8 +1887,6 @@ td[data-action*="selectDay"] {
 	position: relative;
 	  right: 1px;
     top: 1px;
-	-webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
 }
 
 
@@ -2457,6 +2456,7 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
+	margin: -10px 0 5px 0;
   padding: 0 0 0 0;
 }
 
@@ -2497,8 +2497,15 @@ td[data-action*="selectDay"] {
 
 .notable-area .icon-spinner {
 	font-size: 24px;
-		top: 5px;
-    left: 5px;
+		right: 0;
+		top: 0;
+	-webkit-transform: none;
+	transform: none;
+}
+
+.notable-area .icon-spinner:before {
+		right: 0;
+		top: 0;
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2773,6 +2780,10 @@ td[data-action*="selectDay"] {
 	width: 82%;
 	float: none;
 	border-bottom: 0px solid transparent;
+}
+
+.booking-flight-unit .itinerary {
+	width: 92%;
 }
 
 .flight-unit .itinerary-airline.col-from-to {

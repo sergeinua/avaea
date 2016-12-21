@@ -20,11 +20,11 @@ let LoginModal = React.createClass({
 	          
 	            <div className="modal-body">
 	
-		              <div class="login-holder">
+		              <div className="login-holder">
 		              
-			              <a href="/auth/facebook" class="big-button facebook" role="button">Facebook</a>
+			              <a href="/auth/facebook" className="big-button facebook" role="button">Facebook</a>
 			            
-			              <a href="/auth/google" class="big-button google" role="button">Google</a>
+			              <a href="/auth/google" className="big-button google" role="button">Google</a>
 		          
 		              </div>
 	              
