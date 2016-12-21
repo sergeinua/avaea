@@ -1223,6 +1223,20 @@ textarea {
 	background-size: 110%;
 }
 
+.modal-content .login-holder:after {
+	display: none;
+}
+
+.modal-content .login-holder {
+	margin: 0 0 0 0;
+	padding: 20px 0 30px 0;
+}
+
+.login-modal .modal-body {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 .login-holder a.big-button:before {
 	content: 'Sign in with ';
 }
