@@ -40,7 +40,7 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: 'db1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
