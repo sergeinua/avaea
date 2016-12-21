@@ -19,8 +19,6 @@ let OrderPanel = React.createClass({
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
       {id:'MiddleName', required: false, title: 'Middle Name', data: fields_data.MiddleName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
-      {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},
-      {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
       {id:'State', required: true, title: 'State', data: fields_data.State || ''},
