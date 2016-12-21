@@ -614,11 +614,11 @@ module.exports = {
    */
   readEticket: function(guid, params, callback) {
 
-    var _api_name = "readEticket";
+    let _api_name = "readEticket";
     sails.log.info('Mondee '+_api_name+' API call started');
     utils.timeLog('mondee');
 
-    var wsdlUrl = getWsdlUrl(_api_name);
+    let wsdlUrl = getWsdlUrl(_api_name);
     sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
 
     soap.createClient(wsdlUrl, {endpoint: getEndPointUrl(_api_name)}, function(err, client) {
@@ -628,17 +628,13 @@ module.exports = {
         return callback(err, {});
       }
       else {
-        var req = getReadEticketRq(guid, params);
+        let req = getReadEticketRq(guid, params);
         sails.log.info("readEticket request:", util.inspect(req, {showHidden: true, depth: null}));
         if(req instanceof Error) {
           return callback(req, {});
         }
 
         return client.ReadETicket(req, function(err, result, raw, soapHeader) {
-
-          if (utils.timeLogGet('mondee') > 7000) {
-            params.session.time_log.push(util.format('Mondee took %ss to respond', (utils.timeLogGet('mondee')/1000).toFixed(1)));
-          }
           sails.log.info('Mondee '+_api_name+' request time: %s, request=%s, response=%s', utils.timeLogGetHr('mondee'), JSON.stringify(req), raw);
 
           if (err || ('TPErrorList' in result && result.TPErrorList) || (typeof result.ReadETicketResponse != "object") || lodash.isEmpty(result.ReadETicketResponse)) {
@@ -646,10 +642,11 @@ module.exports = {
               err = (result.TPErrorList && result.TPErrorList.TPError.errorText) ? result.TPErrorList.TPError.errorText : 'Unable to readEticket';
             }
             sails.log.error(err);
-            return callback(err, {});
+            return callback(null, params.reference_number); // Temporary fake - return reference_number as e-ticket number. Because this action does not work on the mondee side at this moment
+            return callback(err, '');
           }
           else {
-            return callback(null, result.ReadETicketResponse);
+            return callback(null, result.ReadETicketResponse.ETicketNumber);
           }
         });
       }

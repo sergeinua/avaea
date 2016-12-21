@@ -11,7 +11,10 @@ module.exports = {
     reference_number : { type: 'string' },
     itinerary_id     : { type: 'string' },
     itinerary_data   : { type: 'json' },
-    req_params       : { type: 'json' }
+    req_params       : { type: 'json' },
+    status_eticket   : { type: 'integer'},
+    id_pub           : { type: 'text', index: true}, // index is important: to prevent lower(id_pub) usage by waterline
+    eticket_number   : { type: 'string'},
   },
 
   saveBooking: function (user, booking_res, itinerary_res, req_params) {
