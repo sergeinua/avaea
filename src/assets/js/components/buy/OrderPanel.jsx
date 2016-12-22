@@ -17,7 +17,6 @@ let OrderPanel = React.createClass({
 
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
-      {id:'MiddleName', required: false, title: 'Middle Name', data: fields_data.MiddleName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
@@ -31,22 +30,21 @@ let OrderPanel = React.createClass({
     ];
   },
   
-  // Eugene I took a guess at how additional passenger fields would be handled 		
+  // Vlad I took a guess at how additional passenger fields would be handled 		
   makePassengerData: function(incData) {		
     var fields_data = incData.fieldsData ? incData.fieldsData : {};		
     return [		
             		
-      // Eugene if user clicks "its-me" button, populate the first passenger's name fields and DOB from billing data      		
+      // Vlad if user clicks "its-me" button, populate the first passenger's name fields and DOB from billing data      		
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},		
-      {id:'MiddleName', required: false, title: 'Middle Name', data: fields_data.MiddleName || ''},		
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},		
       		
       {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},		
       		
-      // Eugene if user clicks "its-me" button, populate the first passenger's DOB from billing data  		
+      // Vlad if user clicks "its-me" button, populate the first passenger's DOB from billing data  		
       {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},		
       		
-      // Eugene Ajax detect if ticket is for child or infant from DOB, drop down an optional checkbox - I could not make it a checkbox 		
+      // Vlad Ajax detect if ticket is for child or infant from DOB, drop down an optional checkbox - I could not make it a checkbox 		
       {id:'Lap', required: false, title: 'Lap infant', data: fields_data.Lap || ''},		
       		
     ];		
@@ -78,9 +76,6 @@ let OrderPanel = React.createClass({
       rules: {
         FirstName: {
           requiredAndTrim: true
-        },
-        MiddleName: {		
-          Trim: true		
         },
         LastName: {
           requiredAndTrim: true
@@ -245,10 +240,10 @@ let OrderPanel = React.createClass({
 			          
 		          <div className="page-ti people">Travellers</div>
 		          
-		          {/* Eugene :) generate first set no matter what, following sets according to additional passengers 	*/}	  
+		          {/* Vlad :) generate first set no matter what, following sets according to number of additional passengers selected in search 	*/}	  
 		          <div className="which-passenger">Passenger N</div>
 		          
-		          {/* Eugene First set gets an "it's me" button, if clicked populate with billing data */}		
+		          {/* Vlad First set gets an "it's me" button, if clicked populate with billing data */}		
 							<div className="its-me">		
 								<div className="tertiary-button">It's me</div>		
 								<div className="hint">Tap if traveller is the person being billed</div>		

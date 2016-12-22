@@ -383,7 +383,7 @@
 }
 
 .desktop .booking-success .row.notable-area {
-	margin-right: -40px;
+	margin-left: -20px;
 }
 
 .desktop .notable-area .details,
@@ -533,8 +533,12 @@
 	margin-top: 20px;
 }
 
+.desktop .booking-success .passengers {
+	margin-bottom: 25px;
+}
+
 .desktop .booking-success .confirm-message {
-	padding-bottom: 40px;
+	padding-bottom: 30px;
 	border-top: 0px solid transparent;
 }
 
@@ -549,6 +553,10 @@
 
 .desktop .booking-success .trip.ti {
 	margin-bottom: 0;
+}
+
+.booking-success .passengers .wrapper {
+	margin-top: 15px;
 }
 
 .desktop .booking-success .flight-unit .summary {
@@ -2691,10 +2699,12 @@ td[data-action*="selectDay"] {
 	margin-top: 70px;
 }
 
+.booking-success .confirm-code,
 .booking-success .confirm-message,
 .booking-success .flight-unit .itinerary,
-.booking-success .trip.ti {
-	padding: 0 40px;
+.booking-success .trip.ti,
+.booking-success .passengers {
+	padding: 0 20px 0 25px;
 }
 
 .success.ti {
@@ -2702,7 +2712,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 	float: left;
 	position: relative;
-		left: 19px;
+		left: 28px;
 }
 
 .booking-success .refundable,
@@ -2711,10 +2721,14 @@ td[data-action*="selectDay"] {
 }
 
 .booking-success .success.ti:before {
-	font-size: 24px;
+	font-size: 38px;
 	position: absolute;
-    top: -1px;
-    left: -28px;
+    top: -8px;
+    left: -36px;
+}
+
+.booking-success .success.ti .label-ti {
+	padding-left: 8px;
 }
 
 .booking-success .confirm-code .wrapper {
@@ -2735,22 +2749,12 @@ td[data-action*="selectDay"] {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	border-top: 1px solid rgba(0, 0, 0, 0.3);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.booking-success .confirm-message .copy,
-.booking-success .confirm-message .thanks {
-	font-size: 13px;
 }
 
 .booking-success .confirm-code,
 .booking-success .confirm-message .name,
 .booking-success .trip.ti {
 	font-size: 16px;
-}
-
-.booking-success .confirm-code {
-	padding: 0 20px;
 }
 
 .booking-success .confirm-message .thanks {
@@ -2762,6 +2766,20 @@ td[data-action*="selectDay"] {
 	padding-left: 3px;
 }
 
+.booking-success .passengers {
+	text-align: left;
+}
+
+.booking-success .passengers .wrapper {
+	font-family: 'Open-Sans-Bold';
+	font-size: 13px;
+	margin-bottom: 5px;
+}
+
+.booking-success .passengers .wrapper span:first-child {
+	padding-right: 10px;
+}
+
 .booking-success .flight-unit .itinerary {
 	font-size: 14px;
 	width: 100%;
@@ -2770,8 +2788,10 @@ td[data-action*="selectDay"] {
 .booking-success .trip.ti {
 	line-height: 1em;
 	text-align: left;
-	margin-bottom: 15px;
-	padding: 10px 40px;
+	margin: 15px 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -2796,6 +2816,10 @@ td[data-action*="selectDay"] {
 	float: left;
 }
 
+.booking-success .flight-unit .notable-area .details .col-xs-2.length {
+	text-align: left;
+}
+
 .booking-success .flight-unit .notable-area .details .col-xs-3.flight-no {
 	width: 22%;
 }
@@ -2805,7 +2829,7 @@ td[data-action*="selectDay"] {
 }
 
 .booking-success .flight-unit .notable-area .details .col-xs-3.times {
-	width: 37%;
+	width: 32%;
 }
 
 .booking-success .change-planes {
