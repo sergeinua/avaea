@@ -55,19 +55,6 @@ module.exports = {
         qdefer.resolve(record);
       }
     });
-    // Booking.query(
-    //   `INSERT INTO ${Booking.tableName} (user_id,pnr,reference_number,itinerary_id,itinerary_data,req_params,status_eticket,id_pub) `+
-    //   'VALUES ($1, $2, $3, $4, $5, $6, 1, gen_random_uuid())',
-    //   Object.keys(_dbFields).map(key => _dbFields[key]),
-    //   function (err, dbResults) {
-    //     if (err) {
-    //       sails.log.error('saveBooking:', err);
-    //       qdefer.reject(err);
-    //     } else {
-    //       sails.log.warn('__DBres', dbResults);
-    //       qdefer.resolve(dbResults);
-    //     }
-    //   });
 
     return qdefer.promise;
   }

@@ -8,7 +8,6 @@
 module.exports = {
 
   index: function (req, res) {
-
     sails.log.info('req.url', req.url);
     //FIXME this is temporary fix. Needs to be refactored with auth SPA logic updates
     var allowedRoutes = [
