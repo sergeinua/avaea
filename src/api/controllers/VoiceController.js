@@ -6,7 +6,7 @@
  */
 
 var _ = require('lodash');
-var ApiAiParser = require('./ApiAiParser.js');
+var ApiAiParser = require('../services/ApiAiParser.js');
 
 module.exports = {
   parse: function (req, res) {
@@ -29,14 +29,18 @@ module.exports = {
 
   parseApiAi: function (req, res) {
     var _query = _.trim(req.param('q'));
-    new ApiAiParser().parse(_query, req.sessionId).then(function(result){
-    if (req.wantsJSON) {
-      if (sails.config.environment !== 'test')
-        segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
-      return res.json(result); //200
-    } else {
-      return res.notFound(); //404
-    }
+    new ApiAiParser().parse(_query, req.sessionId, function(err, result){
+      if (err) {
+        sails.log.error(err);
+        return res.serverError(); //500
+      }
+      if (req.wantsJSON) {
+        if (sails.config.environment !== 'test')
+          segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
+        return res.json(result); //200
+      } else {
+        return res.notFound(); //404
+      }
     });
   },
 

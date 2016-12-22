@@ -59,6 +59,8 @@ module.exports.routes = {
 
   'post /voicesearch': 'VoicesearchController.index',
 
+  'post /voice/parse_api_ai': 'VoiceController.parseApiAi',
+
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
 //  'post /abo/gettilesbyuser/:user_id': 'AboController.getTilesByUser',

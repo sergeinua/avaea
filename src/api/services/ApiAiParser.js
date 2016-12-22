@@ -1,4 +1,4 @@
-import moment from 'moment';
+let moment = sails.moment;
 
 const parserKeys = [
   'origin_date',
@@ -11,11 +11,10 @@ const parserKeys = [
 ];
 
 const parser = new require('./AvaeaTextParser.js');
+let _ = require('lodash');
+let fetch = require('whatwg-fetch');
 
-export default class ApiAiParser {
-  getParserKeys(){
-    return parserKeys;
-  }
+class ApiAiParser {
   correctData(data) {
     const correctClass = (c) => {
       if (!c) return 'E';
@@ -41,7 +40,6 @@ export default class ApiAiParser {
       if(t == 'round_trip')return "round_trip";
       if ((!t && !data.return_date) || t == 'one' || t == 'one_way') return 'one_way';
       if(data.return_date == 'none'){
-        // console.log(">>!>> one_way");
         return 'one_way';
       }
       return 'round_trip';
@@ -54,14 +52,13 @@ export default class ApiAiParser {
       }
       return obj;
     };
-    return {
-      ...removeNulls(data),
+    return _.merge({}, removeNulls(data), {
       origin_date: correctDate(data.origin_date),
       return_date: correctDate(data.return_date),
       class_of_service: correctClass(data.class_of_service),
       type: correctType(data.type),
       number_of_tickets: correctTickets(data.number_of_tickets)
-    };
+    });
   }
   convertApiAiData(data) {
     var result = {};
@@ -108,8 +105,6 @@ export default class ApiAiParser {
       let returnStr = (nullSafe('return_date.original') || nullSafe('return_date_period.original'));
       let durationStr = nullSafe('trip_duration.original');
 
-      console.log(">>!", {departStr, returnStr, durationStr});
-
       let dateString = "";
       // let hasReturn = returnStr || durationStr;
       let hasReturn = true;
@@ -133,28 +128,29 @@ export default class ApiAiParser {
       return result;
     }
   }
-  async parse(text, sessionId) {
+  parse(text, sessionId, callback) {
     const accessToken = '6fe9c8eda7644993ab56ff8b5fa1b33a';
     const url = 'https://api.api.ai/v1/query?v=20150910';
-    try {
-      let response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Authorization': 'Bearer ' + accessToken,
-          'Content-Type': 'application/json; charset=utf-8'
-        },
-        body: JSON.stringify({
-          query: text,
-          lang: "en",
-          sessionId: sessionId
-        })
-      });
-      let responseJson = await response.json();
-      return this.convertApiAiData(responseJson);
-    } catch (error) {
-      console.error(error);
-      return error;
-    }
+    const options = {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + accessToken,
+        'Content-Type': 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({
+        query: text,
+        lang: "en",
+        sessionId: sessionId
+      })
+    };
+
+    fetch(url, options)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(convertApiAiData)
+      .then((data) => callback(null, data))
+      .catch((err) => callback(err, null));
   }
   getParserDataByKey(key) {
     if (parser[key] && parser[key].value) {
@@ -164,15 +160,6 @@ export default class ApiAiParser {
     }
     return '';
   }
-  regexpParse(text) {
-    const result = {};
-    let notParsed = parser.run(text);
-    parserKeys.forEach(key => {
-      result[key] = this.getParserDataByKey(key);
-    });
-    result.type = result.return_date ? 'round_trip' : 'one_way';
-    result.source_json = {...result
-                         };
-    return this.correctData(result);
-  }
 }
+
+module.exports = ApiAiParser;
