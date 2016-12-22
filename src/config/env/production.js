@@ -26,9 +26,9 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'http://www.avaea.com',
+  proxyHost: 'https://www.avaea.com',
   proxyPort: 80,
-  explicitHost: 'localhost',
+  explicitHost: 'www1',
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -40,12 +40,18 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: 'db1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
-
+  connections: {
+    memcacheConf: {
+    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
+  },
+},
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
   flightapis: {
