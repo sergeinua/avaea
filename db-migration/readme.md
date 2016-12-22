@@ -31,12 +31,12 @@ how to
     
 2. run migration up (basic usage)
     a. go to <repo root>/db-migration
-    b. node_modules/db-migrate/bin/db-migrate up -c <count> -e <dev|prod|...>
+    b. node_modules/db-migrate/bin/db-migrate up [-c <count>] [-e <dev|prod|...>]
     
 
 3. run migration down (basic usage)
     a. go to <repo root>/db-migration
-    b. node_modules/db-migrate/bin/db-migrate down -c <step count> -e <dev|prod|...>
+    b. node_modules/db-migrate/bin/db-migrate down [-c <step count>] [-e <dev|prod|...>]
 
 
 detailed info about db-migration: 
