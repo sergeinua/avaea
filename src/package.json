@@ -73,6 +73,7 @@
     "strip-bom": "^2.0.0",
     "swiper": "^3.4.0",
     "url-loader": "^0.5.7",
+    "uuid": "^3.0.1",
     "validator": "^4.1.0",
     "whatwg-fetch": "^2.0.1",
     "xml2json": "^0.10.0"

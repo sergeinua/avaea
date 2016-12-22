@@ -41,7 +41,7 @@ module.exports = {
 
     let eticketNumbersStore = {};
     qpromice.nfbind(Booking.query)(
-      'SELECT b.*, u.email FROM booking b, "user" u WHERE b.user_id=u.id AND b.status_eticket=1 AND b."createdAt" >= $1 ORDER BY b.id',
+      `SELECT b.*, u.email FROM ${Booking.tableName} b, "${User.tableName}" u WHERE b.user_id=u.id AND b.status_eticket=1 AND b."createdAt" >= $1 ORDER BY b.id`,
       [sails.moment().subtract(sails.config.flightapis.execReadEticketPeriod, 'seconds').format('YYYY-MM-DD HH:mm:ss')]
     )
       .then(function (dbResults) {

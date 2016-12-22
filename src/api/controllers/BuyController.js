@@ -209,35 +209,43 @@ module.exports = {
   },
 
   booking: function (req, res) {
-    Booking.findOne({
-      id_pub: req.param('bookingId'),
-      user_id: req.user.id
-    }).exec(function (err, record) {
-      if (err) {
-        sails.log.error('Booking.findOne: '+ req.param('bookingId'), err);
-        return res.ok({error: true});
-      }
-      if (!record) {
-        sails.log.error('Could not find by bookingId:', req.param('bookingId'));
-        return res.ok({
-          error: true,
-          errorInfo: utils.showError('Error.Search.Booking.NotFound')
-        });
-      }
+    if (! /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(req.param('bookingId'))) {
+      sails.log.error('Invalid bookingId format:', req.param('bookingId'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.Search.Booking.NotFound')
+      });
+    }
 
-      // Render view
-      return res.ok(
-        {
-          action: 'booking',
-          fieldsData: record.req_params,
-          itineraryData: record.itinerary_data,
-          bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
-          replyTo: sails.config.email.replyTo,
-          callTo: sails.config.email.callTo,
-        },
-        'booking'
-      );
-    });
+    // Sails work with ORM in case-insensitive mode only. In this case we need query method
+    Booking.query(
+      `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 AND user_id=$2`, [req.param('bookingId'), req.user.id], function (err, dbResults) {
+        if (err) {
+          sails.log.error('Booking.query: '+ req.param('bookingId'), err);
+          return res.ok({error: true});
+        }
+        if (dbResults.rows.length == 0) {
+          sails.log.error('Could not find by bookingId:', req.param('bookingId'));
+          return res.ok({
+            error: true,
+            errorInfo: utils.showError('Error.Search.Booking.NotFound')
+          });
+        }
+        let record = dbResults.rows[0];
+
+        // Render view
+        return res.ok(
+          {
+            action: 'booking',
+            fieldsData: record.req_params,
+            itineraryData: record.itinerary_data,
+            bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
+            replyTo: sails.config.email.replyTo,
+            callTo: sails.config.email.callTo,
+          },
+          'booking'
+        );
+      });
   }
 
 };
