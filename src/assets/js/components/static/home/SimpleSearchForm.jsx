@@ -205,7 +205,7 @@ let SimpleSearchForm = React.createClass({
 
           </div>
           <div className="ti">When</div>
-          <div className="holder">
+          <div className="date-holder">
 	          <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
 	          <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>
 	            <DateRange

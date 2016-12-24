@@ -27,7 +27,7 @@
 
 /* simple static search locations and calendar */
 
-.home .try-it .holder {
+.home .try-it .date-holder {
 	position: relative;
 }
 
@@ -189,14 +189,17 @@
 
 /* new styles */
 
+.try-it form {
+	width: 100%; /* deborah add this to existing */
+}
 
 .simple-cal {
 	padding: 40px 0 10px 0;
   display: inline-block;
 	width: 570px;
   position: absolute;
-		top: 42px;
-		left: 0px;
+		top: 41px;
+		left: 0;
 	background: #ffffff;	
   z-index: 2;
 	transition: all 0.1s ease-in-out;
@@ -215,11 +218,10 @@
     right: 10px;
 }
 
+
 @media (max-width: 730px) {
 	
-	.simple-cal {
-		left: -60px;
-	}
+	
 	
 }
 
@@ -228,7 +230,6 @@
 	.simple-cal {
 		width: 285px;
 			left: 0px;
-			top:  46px;
 	}
 	
 	.simple-cal span.close-x {
@@ -242,12 +243,6 @@
 }
 
 /* locations */
-
-
-.react-autosuggest__container {
-  position: relative;
-  float: left;
-}
 
 .react-autosuggest__suggestions-list {
   list-style-type: none;
