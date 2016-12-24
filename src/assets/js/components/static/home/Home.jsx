@@ -42,7 +42,7 @@ let StaticHome = React.createClass({
                   <div className="copy">
                     <span>Book your travel using your voice instead of your thumbs. </span>
                     Walk, talk, and get your tickets. Our voice agent hears and
-                    searches - you don’t need to touch the keyboard.
+                    searches - you don't need to touch the keyboard.
                   </div>
                 </div>
 
@@ -95,9 +95,9 @@ let StaticHome = React.createClass({
               <h1>And, this is only Beta. See what's next!</h1>
 
               <div className="copy">
-                Today, we’re focused on air travel.  Tomorrow we’ll tackle
-                hotels, rental cars, Uber, Airbnb… the entire world of
-                travel. Here are features we’re developing now.
+                Today, we're focused on air travel.  Tomorrow we'll tackle
+                hotels, rental cars, Uber, Airbnb and the entire world of
+                travel. Here are features we're developing now.
               </div>
 
               <div className="wrapper">
@@ -106,7 +106,7 @@ let StaticHome = React.createClass({
                   <div className="ti">Watch ticket price</div>
                   <div className="copy">
                     Choose your price. If your chosen ticket meets
-                    your price, it’s bought.
+                    your price, it's bought.
                   </div>
                 </div>
 
@@ -129,14 +129,14 @@ let StaticHome = React.createClass({
                   <div className="ti">Agent experience</div>
                   <div className="copy">
                     Your travel preferences remembered and calculated,
-                    so you see the tickets you’ll love first.
+                    so you see the tickets you'll love first.
                   </div>
                 </div>
 
                 <div className="upcoming">
                   <div className="ti">Customized settings</div>
                   <div className="copy">
-                    You know you best. Tell us what you like and we’ll search for that.
+                    You know you best. Tell us what you like and we'll search for that.
                   </div>
                 </div>
 

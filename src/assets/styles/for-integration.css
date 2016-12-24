@@ -20,9 +20,229 @@
 
 
 
-.navmenu {
-  width: 200px;
+
+
+
+
+
+/* simple static search locations and calendar */
+
+.home .try-it .holder {
+	position: relative;
 }
+
+/* colors */
+
+
+
+.suggest-container, .saggest-item {
+	color: #004c9c;
+}
+
+.rdr-Day.is-selected.is-inRange {
+	color: #222222 !important;
+}
+
+.rdr-MonthAndYear-button i:after {
+	color: #0081c9
+}
+
+
+.rdr-Day.is-selected,
+.rdr-Day.is-selected.is-inRange,
+.rdr-Day.is-selected:hover,
+.rdr-Day.is-selected.is-inRange:hover {
+	background: #0081c9 !important;
+}
+
+.rdr-Day.is-inRange,
+.rdr-Day.is-inRange:hover,
+.rdr-MonthAndYear-button {
+	background: #deeef7 !important;
+}
+
+.react-autosuggest__suggestion--focused {
+  background-color: #f7f7f7;
+}
+
+.simple-cal,
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion:last-child {
+	border-bottom: 0px solid transparent;
+}
+
+.rdr-Day.is-passive {
+	color: #bebebe;
+}
+
+.rdr-Day:hover {
+	background: #eeeeee !important;
+}
+
+
+
+
+/* calendar */
+
+/* overwrite plugin */
+
+#rdr-DateRange {
+	border-radius: 0px !important;
+}
+
+.rdr-MonthAndYear-divider {
+	display: none;
+}
+
+.rdr-MonthAndYear-month:after {
+	content: '';
+	display: inline;
+	padding: 0 5px;
+}
+
+.rdr-Day.is-passive,
+.rdr-Day.is-passive:hover {
+	background: #fafafa url('/images/ydiag_light.png') !important;
+}
+
+.rdr-WeekDays, 
+.rdr-Days {
+	font-family: 'Open-Sans';
+}
+
+.try-it .rdr-Day,
+.try-it .rdr-WeekDay {
+	font-size: 13px !important;
+}
+
+.try-it .rdr-WeekDay {
+	font-family: 'Open-Sans-Semibold';
+}
+
+.try-it .rdr-Day {
+	font-size: 13px !important;
+	line-height: 42px !important;
+	height: 42px !important;
+	width: 40px !important; 
+	transition: none !important;
+}
+
+.rdr-Day.is-passive {
+	opacity: 1 !important;
+}
+
+.rdr-Day.is-selected,
+.rdr-Day.is-selected.is-inRange {
+	color: #ffffff !important;
+}
+
+.rdr-DateRange,
+.rdr-MonthAndYear,
+.rdr-MonthAndYear-innerWrapper {
+	position: relative;
+}
+
+.rdr-MonthAndYear-button {
+	height: 35px !important;
+	width: 35px !important;
+	position: absolute;
+		top: 0px; 
+}
+
+.rdr-MonthAndYear-button.prev {
+	left: -10px;
+}
+
+.rdr-MonthAndYear-button.next {
+	right: -10px;
+}
+
+.rdr-MonthAndYear-button i:after {
+	font-family: 'icomoon';
+	font-size: 14px;
+	position: absolute;
+	  top: 12px;
+    left: 10px;
+}
+
+.rdr-MonthAndYear-button i {
+	border-width: 0px !important;
+	border-color: transparent !important;
+	border-style: none !important;
+}
+
+.rdr-MonthAndYear-button.prev i:after {
+	content: "\e925";
+}
+
+.rdr-MonthAndYear-button.next i:after {
+	content: "\e926";
+}
+
+
+/* new styles */
+
+
+.simple-cal {
+	padding: 40px 0 10px 0;
+  display: inline-block;
+	width: 570px;
+  position: absolute;
+		top: 42px;
+		left: 0px;
+	background: #ffffff;	
+  z-index: 2;
+	transition: all 0.1s ease-in-out;
+}
+
+.try-it .simple-cal span {
+	padding: 0 0 0 0;
+}
+
+.simple-cal span.close-x {
+	color: #323232;
+	font-size: 22px;
+	padding: 15px;
+	position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+@media (max-width: 730px) {
+	
+	.simple-cal {
+		left: -60px;
+	}
+	
+}
+
+@media (max-width: 600px) {
+	
+	.simple-cal {
+		width: 285px;
+			left: 0px;
+			top:  46px;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+	
+	.rdr-Calendar:first-child {
+		margin-bottom: 15px;
+	}
+	
+}
+
+/* locations */
+
 
 .react-autosuggest__container {
   position: relative;
@@ -31,11 +251,6 @@
 
 .react-autosuggest__suggestions-list {
   list-style-type: none;
-}
-
-.suggest-container, .saggest-item {
-  background-color: white;
-  color: #0f0f0f;
 }
 
 .react-autosuggest__container--open .react-autosuggest__input {
@@ -48,17 +263,12 @@
 }
 
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	font-size: 16px;
   display: block;
+	width: 280px;
   position: absolute;
-  top: 42px;
-  width: 280px;
-  border: 1px solid #aaa;
-  background-color: #fff;
-  font-family: Helvetica, sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
+  	top: 42px;
+	background-color: #fff;
   z-index: 2;
 }
 
@@ -73,35 +283,8 @@
   padding: 10px 20px;
 }
 
-.react-autosuggest__suggestion--focused {
-  background-color: #ddd;
-}
 
-.simple-cal {
-  display: block;
-  position: absolute;
-  top: 370px;
-  background-color: white;
-  color: #0f0f0f;
-  width: 600px;
-  font-size: 12px !important;
-  padding: 10px 0 !important;
-  border: 1px solid #aaa;
-  z-index: 2;
-}
-
-.try-it .simple-cal span {
-  font-size: 12px !important;
-  padding: 0 0 !important;
-}
-
-.calendar-close-button {
-  font-size: 19px;
-  font-weight: bold;
-  color: red;
-  cursor: pointer;
-  margin-left: 20px;
-}
+/* END static search locations and calendar */
 
 /* end for-integration.css */
 

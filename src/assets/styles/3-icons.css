@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.rdr-MonthAndYear-button i:after,
 .login-holder .big-button:after,
 .success.ti:before,
 .extras-flag:before,

@@ -205,20 +205,22 @@ let SimpleSearchForm = React.createClass({
 
           </div>
           <div className="ti">When</div>
-          <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
-          <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>
-            <DateRange
-              linkedCalendars={ true }
-              startDate={ this.state.searchParams.departureDate }
-              endDate={ this.state.searchParams.returnDate }
-              shownDate={moment()}
-              offsetPositive={true}
-              disableDaysBeforeToday={true}
-              onInit={this.handleDateSelect}
-              onChange={this.handleDateSelect}
-            />
-            <span onClick={this.hideCalendar} className="calendar-close-button">Close</span>
-          </div>
+          <div className="holder">
+	          <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
+	          <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>
+	            <DateRange
+	              linkedCalendars={ true }
+	              startDate={ this.state.searchParams.departureDate }
+	              endDate={ this.state.searchParams.returnDate }
+	              shownDate={moment()}
+	              offsetPositive={true}
+	              disableDaysBeforeToday={true}
+	              onInit={this.handleDateSelect}
+	              onChange={this.handleDateSelect}
+	            />
+	            <span onClick={this.hideCalendar} className="close-x"></span>
+	          </div>
+	        </div>  
         </div>
         <a className="buttonly" onClick={this.submitForm}>Try it</a>
       </form>
