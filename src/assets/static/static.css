@@ -242,7 +242,8 @@ header.static {
 	position: relative;
 	min-height: 70px;
 	height: 70px;
-	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
+	background: #ffffff url(../images/static/logo-beta.svg) 5px 5px no-repeat;
+	background-size: 275px;
 	z-index: 5; /* get it above the video area */
 }
 
@@ -997,7 +998,8 @@ footer.static .copyright {
 		padding-left: 20px;
 		padding-right: 200px;
 		padding-bottom: 10px;
-		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
+		background: url(../images/static/logo-beta.svg) right 5px no-repeat;
+    background-size: 275px;
 	}
 	
 	.touch header.static {
