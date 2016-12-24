@@ -389,6 +389,7 @@ video {
 	text-align: center;
 	padding: 5px;
 	width: 100%;
+	border: 0px solid transparent;
 }
 
 .try-it .loc-holder {

@@ -714,7 +714,7 @@ body.desktop form.profile,
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
 .form-control {
-	color: #000000;
+	color: #222222;
 }
 
 /* dark blue */
@@ -1008,7 +1008,7 @@ button:active {
 
 input,
 textarea {
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
@@ -1620,6 +1620,10 @@ strong.tt-highlight {
 
 /* calendar */
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1667,6 +1671,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
+.desktop .bootstrap-datetimepicker-widget table td.disabled:hover,
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
