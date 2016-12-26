@@ -10,7 +10,7 @@ let NavBar = React.createClass({
 
   getUser: function () {
     //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+    return InitData.user || false;
   },
 
   getDefaultProps: function() {
