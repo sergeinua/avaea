@@ -16,8 +16,10 @@ module.exports = {
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
-        if (sails.config.environment !== 'test')
-          segmentio.track(req.user.id, 'Voice Search', {query: _query, result: result});
+        if (sails.config.environment !== 'test') {
+          let userId = utils.getUser(req);
+          segmentio.track(userId, 'Voice Search', {query: _query, result: result});
+        }
 
         return res.json(result); //200
       } else {
@@ -35,8 +37,9 @@ module.exports = {
         queryResult: queryResult
       };
       sails.log.info('Search Voice Params:', params);
-      UserAction.saveAction(req.user, 'voice_search', params, function () {
-        User.publishCreate(req.user);
+      let userId = utils.getUser(req);
+      UserAction.saveAction(userId, 'voice_search', params, function () {
+        User.publishCreate(userId);
       });
       return res.json({'success': true});
     }
