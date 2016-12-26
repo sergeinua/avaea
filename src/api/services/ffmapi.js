@@ -47,6 +47,7 @@ module.exports = {
       url: sails.config.ffmapis[api].url + url,
       method: method,
       json: params,
+      timeout: 20000,
       auth: {
         'user': sails.config.ffmapis[api].login,
         'pass': sails.config.ffmapis[api].password
@@ -75,7 +76,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculate/
      *
      * */
-    Calculate: function (params, cb) {
+    Calculate: function (params, callback) {
       var apiUrl = 'api/miles/calculate';
 
       // map itinerary to 30K request
@@ -112,12 +113,12 @@ module.exports = {
       ffmapi.get('milefy', apiUrl, 'POST', _30kparams, function (error, response, body) {
         if (error) {
           sails.log.error('30K api', error);
-          return cb(error, response, body);
+          return callback(error, body);
         }
-        var result = (typeof body == 'object') ? body : JSON.parse(body);
+        var result = (typeof body == 'object') ? body : JSON.parse(body || '{}');
         if (result.Success == false) {
           sails.log.error('30K api', body);
-          return cb({msg: result.Status.Message}, response, body);
+          return callback({msg: result.Status.Message}, body);
         }
         sails.log.info('Response 30K api:', JSON.stringify(body));
         // return only one result
@@ -127,7 +128,7 @@ module.exports = {
           ProgramCode:'',
           ProgramCodeName:''
         };
-        if (!lodash.isEmpty(result.Value.flts) && !lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
+        if (result.Value && !lodash.isEmpty(result.Value.flts) && !lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
           result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
             if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
               filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
@@ -141,13 +142,13 @@ module.exports = {
           FFMPrograms.findOne({program_code: filteredResult.ProgramCode}).exec(function findOneCB(err, found) {
               if (found) {
                 filteredResult.ProgramCodeName = found.program_name;
-                return cb(null, response, filteredResult);
               }
+              return callback(null, filteredResult);
             }
           );
 
         } else {
-          return cb(null, response, filteredResult);
+          return callback(null, filteredResult);
         }
       });
     },

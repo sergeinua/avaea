@@ -229,7 +229,7 @@ module.exports = {
     var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
     memcache.get(cacheId, function(err, result) {
       if (!err && !_.isEmpty(result)) {
-        ffmapi.milefy.Calculate(JSON.parse(result), function (error, response, body) {
+        ffmapi.milefy.Calculate(JSON.parse(result), function (error, body) {
           if (error) {
             return res.json({error: error, body: body});
           }
