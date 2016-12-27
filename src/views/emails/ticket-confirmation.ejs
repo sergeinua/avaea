@@ -194,7 +194,7 @@
 
 <!-- HIDDEN PREHEADER TEXT -->
 <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-    Ticket booking confirmation and E-ticket. Thank you for booking with Avaea!
+    Ticket booking confirmation and E-ticket. Thank you for booking with Onvoya!
 </div>
 
 
@@ -245,21 +245,125 @@
                         </tr>
                         
                         <tr>
-                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 30px 0px 30px; font-size: 17px; mso-line-height-rule: exactly; line-height: 26px; color: #323232;" class="padding-normal-confirm">Dear&nbsp;<%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 30px 0px 30px; font-size: 14px; mso-line-height-rule: exactly; line-height: 22px; color: #323232;" class="padding-normal-confirm">Dear&nbsp;<%= reqParams.FirstName %>&nbsp;<%= reqParams.LastName %>,</td>
                       </tr>
                       <tr>
-                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 15px 30px 0px 30px; font-size: 17px; mso-line-height-rule: exactly; line-height: 26px; color: #323232;" class="padding-normal-confirm">
-                            Your reservation has been booked and confirmed.
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 15px 30px 0px 30px; font-size: 14px; mso-line-height-rule: exactly; line-height: 22px; color: #323232;" class="padding-normal-confirm">
+                          
+                          	<!-- ONV-818 hook up provider link and name -->
+                            Your flight has been booked through <!-- provider link and name --><a href="PUT THE LINK HERE" target="_blank" style="text-decoration: underline; color: ##00a9e7;">Provider Name</a><!-- -->.
                           </td>
                       </tr>
+                      
+                      <tr>
+                          <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 15px 30px 0px 30px; font-size: 14px; mso-line-height-rule: exactly; line-height: 22px; color: #323232;" class="padding-normal-confirm">
+                          
+                          	<!-- ONV-818 hook up provider name and phone number -->
+                            <!-- provider link and name -->Provider Name<!-- --> is your primary customer service contact and can be reached at <!-- provider phone number -->Provider phone number here<!-- -->.
+                          </td>
+                      </tr>
+                      
+                      <tr><!-- ------------ starts passengers area --------- -->
+											
+													<td bgcolor="#ffffff" align="center" style="padding: 30px 30px 0px 30px;" class="padding-normal-confirm">
+                            <!--[if (gte mso 9)|(IE)]>
+                            <table align="center" border="0" cellspacing="0" cellpadding="0" width="550">
+                            <tr>
+                            <td align="center" valign="top" width="550">
+                            <![endif]-->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px;" class="responsive-table">
+                               
+                                <tr>
+                                    <td style="padding: 10px 0 0 0; border-top: 1px dashed #aaaaaa;">
+                                        <!-- THREE COLUMNS -->
+                                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                                            <tr>
+                                                <td valign="top" class="mobile-wrapper">
+                                                    <!-- LEFT COLUMN -->
+                                                  <table cellpadding="0" cellspacing="0" border="0" width="40%" style="width: 40%;" align="left">
+                                                        <tr>
+                                                            <td style="padding: 0 0 10px 0;">
+                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                    <tr>
+                                                                        
+                                                                     <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 0;"><strong>Passenger(s)</strong></td>
+                                                                    </tr>
+                                                                    
+                                                                    <!-- ONV-818 LOOP EACH PASSENGER -->
+                                                                    <tr>
+                                                                        
+                                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 0;"><!-- ONV-818 plug in name -->Firstname Lastname<!-- --></td>
+                                                                    </tr>
+                                                                    <!-- END LOOP FOR EACH PASSENGER -->
+                                                                    
+                                                                    
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!-- MIDDLE COLUMN -->
+                                                    <table cellpadding="0" cellspacing="0" border="0" width="40%" style="width: 40%;" align="left">
+                                                        <tr>
+                                                            <td>
+                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                                    <tr>
+                                                                        
+                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 10px;"><strong>Travel Dates</strong></td>
+                                                                    </tr>
+                                                                    
+                                                                    <tr>
+                                                                        
+                                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 10px;"><!-- ONV-818 plug in dates -->Aug 17, 2016 - Aug 29, 2016<!-- --></td>
+                                                                    </tr>
+                                                                    
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <!-- RIGHT COLUMN -->
+                                                    <table cellpadding="0" cellspacing="0" border="0" width="18%" style="width: 18%;" align="left">
+                                                      <tr>
+                                                        <td>
+                                                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                          <tr>
+                                                            <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 10px;"><strong>Class</strong></td>
+                                                          </tr>
+                                                          <tr>
+                                                                        
+                                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 10px 10px;"><!-- ONV-818 plug in class -->Business<!-- --></td>
+                                                                    </tr>
+                                                        </table>
+                                                        </td>
+                                                      </tr>
+                                                    </table></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                 
+                                <tr>
+                                    <td style="padding: 10px 0 0 0; border-top: 1px dashed #aaaaaa;">
+                                        <!-- TWO COLUMNS -->
+                                    </td>
+                                </tr>
+                            </table>
+                            <!--[if (gte mso 9)|(IE)]>
+                            </td>
+                            </tr>
+                            </table>
+                            <![endif]-->
+                        </td>
+
+												</tr><!-- ENDS passengers area -->
+                      
 
                         <tr><!-- ------------ starts ticket area --------- -->
 											
 													<td bgcolor="#ffffff" align="center" style="padding: 30px 30px 0px 30px;" class="padding-normal-confirm">
                             <!--[if (gte mso 9)|(IE)]>
-                            <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+                            <table align="center" border="0" cellspacing="0" cellpadding="0" width="550">
                             <tr>
-                            <td align="center" valign="top" width="500">
+                            <td align="center" valign="top" width="550">
                             <![endif]-->
                             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px;" class="responsive-table">
                                 <% if (eticketNumber) { %>
@@ -275,7 +379,7 @@
                                                             <td style="padding: 0 0 10px 0;">
                                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                                     <tr>
-                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">Ticket #:</td>
+                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">Ticket #:</td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -287,7 +391,7 @@
                                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                                     <tr>
-                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; text-align: right;"><%= eticketNumber %></td>
+                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; text-align: right;"><%= eticketNumber %></td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -311,7 +415,7 @@
                                                             <td style="padding: 0 0 10px 0;">
                                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                                     <tr>
-                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">Confirmation #:</td>
+                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">Confirmation #:</td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -323,7 +427,7 @@
                                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                                     <tr>
-                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif;; color: #323232; font-size: 16px; text-align: right;"><%= bookingRes.PNR %></td>
+                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif;; color: #323232; font-size: 14px; text-align: right;"><%= bookingRes.PNR %></td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -338,36 +442,41 @@
                                     <td style="padding: 10px 0 0px 0; border-bottom: 1px dashed #aaaaaa;">
                                         <!-- TWO COLUMNS -->
                                         <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
-                                            <tr>
-                                                <td valign="top" class="mobile-wrapper">
-                                                    <!-- LEFT COLUMN -->
-                                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
+                                        <tr>
+                                          <td valign="top" class="mobile-wrapper"><table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 100%;" align="left">
+                                          <tr>
+                                            <td style="padding: 0 0 10px 0;"><table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                              <tr>
+                                                <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;"><table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
+                                                  <tr>
+                                                    <td valign="top" class="mobile-wrapper"><!-- LEFT COLUMN -->
+                                                      <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
                                                         <tr>
-                                                            <td style="padding: 0 0 10px 0;">
-                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                                    <tr>
-                                                                        <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;"><strong>Total:</strong></td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
+                                                          <td style="padding: 0 0 10px 0;"><table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                            <tr>
+                                                              <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;"><strong>Total:</strong></td>
+                                                            </tr>
+                                                          </table></td>
                                                         </tr>
-                                                    </table>
-                                                    <!-- RIGHT COLUMN -->
-                                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
+                                                      </table>
+                                                      <!-- RIGHT COLUMN -->
+                                                      <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
                                                         <tr>
-                                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
-                                                                <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
-                                                                    <tr>
-                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #37d016; font-size: 16px; font-weight: bold; text-align: right;"><%= (order.currency == 'USD') ? "$"+order.price : order.price +' '+ order.currency %></td>
-                                                                    </tr>
-                                                                </table>
-                                                            </td>
+                                                          <td style="padding: 0 0 10px 20px; text-align: right;" align="right"><table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
+                                                            <tr>
+                                                              <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #37d016; font-size: 14px; font-weight: bold; text-align: right;"><%= (order.currency == 'USD') ? "$"+order.price : order.price +' '+ order.currency %></td>
+                                                            </tr>
+                                                          </table></td>
                                                         </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </td>
+                                                      </table></td>
+                                                  </tr>
+                                                </table></td>
+                                              </tr>
+                                            </table></td>
+                                          </tr>
+                                          </table></td>
+                                        </tr>
+                                    </table></td>
                                 </tr>
                             </table>
                             <!--[if (gte mso 9)|(IE)]>
@@ -385,9 +494,9 @@
                         
                         <td bgcolor="#ffffff" align="center" style="padding: 30px 30px 0px 30px;" class="padding-normal-confirm">
                           <!--[if (gte mso 9)|(IE)]>
-                          <table align="center" border="0" cellspacing="0" cellpadding="0" width="500">
+                          <table align="center" border="0" cellspacing="0" cellpadding="0" width="550">
                               <tr>
-                                  <td align="center" valign="top" width="500">
+                                  <td align="center" valign="top" width="550">
                           <![endif]-->
                           <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 550px;" class="responsive-table">
                               <tr>
@@ -402,7 +511,7 @@
                                                           <td style="padding: 0 0 10px 0;">
                                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                                   <tr>
-                                                                       <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">Refund Type:</td>
+                                                                       <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">Refund Type:</td>
                                                                   </tr>
                                                               </table>
                                                           </td>
@@ -414,7 +523,7 @@
                                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                                     <tr>
-                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; text-align: right;"><!-- dynamic add refundable --><%= refundType || 'N/A' %></td>
+                                                                        <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; text-align: right;"><!-- dynamic add refundable --><%= refundType || 'N/A' %></td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -440,7 +549,7 @@
                                                           <td style="padding: 0 0 10px 0;">
                                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                                   <tr>
-                                                                      <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
+                                                                      <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;"><!-- dynamic --><%= miles.name || '' %> Award Miles</td>
                                                                   </tr>
                                                               </table>
                                                           </td>
@@ -452,7 +561,7 @@
                                                           <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                               <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                                   <tr>
-                                                                      <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
+                                                                      <td align="right" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; text-align: right;"><!-- dynamic --><%= miles.value || 0 %></td>
                                                                   </tr>
                                                               </table>
                                                           </td>
@@ -502,7 +611,7 @@
                                             <td style="padding: 20px 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;  border-top: 1px solid #eaeaea; padding: 20px 0 10px 0;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;  border-top: 1px solid #eaeaea; padding: 20px 0 10px 0;">
                                                     <strong>Depart</strong>
                                                   </td>
                                                 </tr>
@@ -518,13 +627,13 @@
                                             <td style="padding: 0 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 20px 0 0;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 20px 0 0;">
                                                     Change planes
                                                   </td>
-                                                  <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                  <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                     <%= order.citypairs[0].stops[count - 1].code %>
                                                   </td>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                     <%= order.citypairs[0].stops[count - 1].duration %>
                                                   </td>
                                                 </tr>
@@ -537,7 +646,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                     <%= sails.moment(flight.from.date).format('dddd, MMMM D') %>
                                                   </td>
                                                 </tr>
@@ -549,7 +658,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                     <%= flight.airline %> <%= flight.abbrNumber %>
                                                   </td>
                                                 </tr>
@@ -561,19 +670,19 @@
                                             <td style="padding: 0 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" >
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 20px 0 0;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 20px 0 0;">
                                                     <%= flight.from.code %>
                                                   </td>
-                                                  <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                  <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                      &gt;
                                                   </td>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                     <!-- dynamic Arrival-airport-code --><%= flight.to.code %>
                                                   </td>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                     <%= flight.from.time + '-' + flight.to.time %>
                                                   </td>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                     <%= flight.duration %>
                                                   </td>
                                                 </tr>
@@ -594,7 +703,7 @@
                                             <td style="padding: 30px 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="padding: 20px 0 0px 0; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;  border-top: 1px solid #eaeaea;">
+                                                  <td align="left" style="padding: 20px 0 0px 0; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;  border-top: 1px solid #eaeaea;">
                                                     <strong>Return</strong>
                                                   </td>
                                                 </tr>
@@ -610,13 +719,13 @@
                                           <td style="padding: 0 0 10px 0;">
                                             <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                               <tr>
-                                                <td align="left" colspan="3" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 20px 0 0;">
+                                                <td align="left" colspan="3" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 20px 0 0;">
                                                   Change planes
                                                 </td>
-                                                <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                   <%= order.citypairs[1].stops[count - 1].code %>
                                                 </td>
-                                                <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                   <%= order.citypairs[1].stops[count - 1].duration %>
                                                 </td>
                                               </tr>
@@ -629,7 +738,7 @@
                                             <td style="padding: 0 0 10px 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                  <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                     <!-- dynamic --><%= sails.moment(flight.from.date).format('dddd, MMMM D') %>
                                                   </td>
                                                 </tr>
@@ -642,7 +751,7 @@
                                               <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                   <tr>
-                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                       <!-- dynamic --><%= flight.airline %> <%= flight.abbrNumber %>
                                                     </td>
                                                   </tr>
@@ -654,19 +763,19 @@
                                               <td style="padding: 0 0 10px 0;">
                                                 <table cellpadding="0" cellspacing="0" border="0">
                                                   <tr>
-                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 20px 0 0;">
+                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 20px 0 0;">
                                                       <%= flight.from.code %>
                                                     </td>
-                                                    <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px;">
+                                                    <td align="center" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px;">
                                                        &gt;
                                                     </td>
-                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                       <%= flight.to.code %>
                                                     </td>
-                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                       <%= flight.from.time + '-' + flight.to.time %>
                                                     </td>
-                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 16px; padding: 0 0 0 20px;">
+                                                    <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #323232; font-size: 14px; padding: 0 0 0 20px;">
                                                       <%= flight.duration %>
                                                     </td>
                                                 </tr>
@@ -685,15 +794,15 @@
                                             <td style="padding: 20px 0 0 0;">
                                               <table cellpadding="0" cellspacing="0" border="0" width="100%">
                                                 <tr>
-                                                    <td align="center" style="padding: 30px 0 15px 0; font-size: 14px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #aaaaaa; font-style: italic; text-align: center;  border-top: 1px solid #eaeaea;" class="padding-copy">Thank you for booking your trip with Avaea.</td>
+                                                    <td align="center" style="padding: 30px 0 15px 0; font-size: 14px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #aaaaaa; font-style: italic; text-align: center;  border-top: 1px solid #eaeaea;" class="padding-copy">Thank you for booking your trip with Onvoya.</td>
                                                 </tr>
                                                 <tr>
-                                                <td align="center" style="padding: 0 0 25px 0; font-size: 14px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color:323232;">
+                                                <td align="center" style="padding: 0 0 25px 0; font-size: 13px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color:323232;">
                                                     <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
                                                     Need help?&nbsp; <a href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Booking Confirmation')%>'>Email Us</a>
                             
                                                     &nbsp;&nbsp; | &nbsp;&nbsp;Or call
-                                                    <span style="font-size: 14px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color:#323232;"><%= callTo %></span>
+                                                    <span style="font-size: 13px; line-height: 18px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color:#323232;"><%= callTo %></span>
                             
                                                 </td>
                                             </tr>
@@ -727,7 +836,7 @@
                                 <!-- ----  www ---- -->
                                 <td align="left">
 
-                                	<a style="font-size: 14px; mso-line-height-rule: exactly; line-height: 25px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none;" href="http://www.avaea.com" class="regular" target="_blank">www.Avaea.com</a>
+                                	<a style="font-size: 14px; mso-line-height-rule: exactly; line-height: 25px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #ffffff; text-decoration: none;" href="http://www.onvoya.com" class="regular" target="_blank">www.Onvoya.com</a>
 
                                 </td>
 
@@ -735,7 +844,7 @@
                                 <!-- ----  facebook ---- -->
                                 <td align="center" width="55" style="width: 55px;">
 
-                              		<a href="https://www.facebook.com/avaeatravel/" target="_blank">
+                              		<a href="https://www.facebook.com/onvoyatravel/" target="_blank">
                                   	<img border="0" src="https://dl.dropboxusercontent.com/s/jfq2n6ceh4opm8e/social-fb.png?dl=0" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
                                   </a>
 
@@ -745,7 +854,7 @@
                                 <!-- ----  twitter ---- -->
                                 <td align="center" width="55" style="width: 55px;">
 
-                                  <a href="https://www.twitter.com/avaeatravel/" target="_blank">
+                                  <a href="https://www.twitter.com/onvoyatravel/" target="_blank">
 	                              		<img border="0" src="https://dl.dropboxusercontent.com/s/ubvi4t2d0yw5jui/social-twitter.png?dl=0" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
                                 	</a>
 
@@ -755,7 +864,7 @@
                               <!-- ----  instagram ---- -->
                               <td align="center" width="55" style="width: 55px;">
 
-                              	<a href="https://www.instagram.com/avaeatravel/" target="_blank">
+                              	<a href="https://www.instagram.com/onvoyatravel/" target="_blank">
                               		<img border="0" src="https://dl.dropboxusercontent.com/s/jwan7fbwvci6w9a/social-instagram.png?dl=0" height="45" width="55" style="-ms-interpolation-mode: bicubic; margin-bottom: 0 !important; display: block; margin: 0; margin-top: 0 !important;" />
                                 </a>
 
