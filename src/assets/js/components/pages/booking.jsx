@@ -4,6 +4,7 @@ import 'promise-polyfill';
 import { ActionsStore } from '../../functions.js';
 import Loader from '../_common/Loader.jsx';
 import Booking from '../buy/Booking.jsx';
+import { setCookie } from '../../legacyJquery.js';
 
 let BookingPage = React.createClass({
 
@@ -15,7 +16,15 @@ let BookingPage = React.createClass({
     };
   },
 
+  getUser: function () {
+    return InitData.user || false;
+  },
+
   componentWillMount: function () {
+    if (!this.getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    }
     ActionsStore.changeForm('about', false);
 
     fetch('/booking?bookingId=' + this.state.bookingId, {
