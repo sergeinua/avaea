@@ -1,34 +1,37 @@
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore, logAction } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
-var ResultPage = React.createClass({
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
+
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
+let swiper;
+
+let ResultPage = React.createClass({
+
   getInitialState: function() {
-    var searchParams;
-    var currentSort = {"name": "price", "order": "asc"};
-
-    if (localStorage.getItem('searchParams')) {
-      //use data from local storage if exists
-      searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else {
-      //use data from server with default/session params if local storage is empty
-      searchParams = this.props.InitSearchFormData.searchParams;
-    }
-
-    if (searchParams.topSearchOnly == 1) {
-      currentSort = {"name": "smart", "order": "asc"};
-    }
     return {
       isLoading: true,
-      searchParams: searchParams,
+      isLoadingMilesInfo: false,
       searchResultLength: 0,
+      milesInfosObject: {},
       filter: [],
-      currentSort: currentSort
     };
   },
 
   componentDidMount: function () {
-    var searchParams = this.state.searchParams;
-    ActionsStore.updateNavBarSearchParams(searchParams);
+
     var updateState = (json) => {
       if (this.isMounted()) {
         this.setState({
@@ -73,76 +76,78 @@ var ResultPage = React.createClass({
         });
       }
     };
+
     if (this.state.isLoading) {
       var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
 
       var now = moment.utc();
       var duration = moment.duration(now.diff(moment(savedResult.time)));
 
-      if (
-        duration.asMinutes() < 20
-        && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
-        && savedResult.searchResult
-        && savedResult.searchResult.length
-      ) { //use cached result if params didn't change in 20 minutes
-        console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
-        updateState(savedResult);
-      } else {
-        $("#searchBanner").modal({
-          backdrop: 'static',
-          keyboard: false
-        });
-        console.log('server request used');
-
-        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(searchParams),
-          credentials: 'same-origin' // required for including auth headers
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.errorInfo) {
-              console.log(json.errorInfo);
-              updateState({
-                isLoading: false,
-                tiles: [],
-                searchResult: [],
-                errorInfo: json.errorInfo
-              });
-            } else {
-              sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
-              json.time = moment();
-              sessionStorage.setItem('savedResult', JSON.stringify(json));
-              sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
-              updateState(json);
-            }
-          })
-          .catch((error) => {
-            updateState({
-              isLoading: false,
-              tiles: [],
-              searchResult: [],
-              errorInfo: {
-                type:'Error.Search.NoConnection',
-                messages: [
-                  "Your request cannot be processed",
-                  "at the moment due to technical problems.",
-                  "Please try again later"
-                ]
-              }
-            });
-            console.log(error);
-          });
+      let searchParams = this.props.commonData.searchParams;
+      let currentSort = {"name": "price", "order": "asc"};
+      if (searchParams.topSearchOnly == 1) {
+        currentSort = {"name": "smart", "order": "asc"};
       }
-    }
+
+      Promise.resolve(this.props.actionSetCommonVal('currentSort', currentSort))
+        .then(function () {
+          if (
+            duration.asMinutes() < 20
+            && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+            && savedResult.searchResult
+            && savedResult.searchResult.length
+          ) { //use cached result if params didn't change in 20 minutes
+            console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
+            updateState(savedResult);
+          } else {
+            $("#searchBanner").modal({
+              backdrop: 'static',
+              keyboard: false
+            });
+            console.log('server request used');
+
+            ClientApi.reqPost('/result?s=' + btoa(JSON.stringify(searchParams)), searchParams, true)
+              .then((json) => {
+                if (json.errorInfo) {
+                  console.log(json.errorInfo);
+                  updateState({
+                    isLoading: false,
+                    tiles: [],
+                    searchResult: [],
+                    errorInfo: json.errorInfo
+                  });
+                } else {
+                  sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+                  clientStore.dispatch(actionSetCommonVal('iconSpriteMap', json.iconSpriteMap));
+                  json.time = moment();
+                  sessionStorage.setItem('savedResult', JSON.stringify(json));
+                  sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
+                  updateState(json);
+                }
+              })
+              .catch((error) => {
+                updateState({
+                  isLoading: false,
+                  tiles: [],
+                  searchResult: [],
+                  errorInfo: {
+                    type:'Error.Search.NoConnection',
+                    messages: [
+                      "Your request cannot be processed",
+                      "at the moment due to technical problems.",
+                      "Please try again later"
+                    ]
+                  }
+                });
+                console.error(error);
+              });
+          }
+        });
+      }
   },
 
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('result');
+    ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
 
@@ -214,6 +219,76 @@ var ResultPage = React.createClass({
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
     };
+
+    ActionsStore.getMilesInfoAllItineraries = () => {
+      if (!this.state.isLoadingMilesInfo && this.state.searchResult && this.state.searchResult.length > 0) {
+        let ids = this.state.searchResult.map((itinerary) => itinerary.id);
+
+        let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
+          // miles value meaning:
+          // miles === false // loading started
+          // miles === undefined // not loaded
+          // typeof miles === object // loaded
+          let miles = this.state.milesInfosObject[id];
+          if (miles === undefined) {
+            return true;
+          }
+          return false;
+        });
+        if (idsLoadingNotStartedAndNotLoaded.length > 0) {
+          let mutatedMilesInfosObject = Object.assign({}, this.state.milesInfosObject);
+
+          idsLoadingNotStartedAndNotLoaded.forEach((id) => {
+            mutatedMilesInfosObject[id] = false;
+          });
+
+          this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
+            .then((msg) => {
+              if( msg.error ) {
+                console.log("Result of 30K api: " + JSON.stringify(msg));
+                if (this.isMounted()) {
+                  this.setState({
+                    isLoadingMilesInfo: false
+                  });
+                }
+              } else {
+                if (this.isMounted()) {
+                  let milesInfosObject = {};
+                  let idsLoadedObject = {};
+                  msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
+                    idsLoadedObject[id] = true;
+                    milesInfosObject[id] = {
+                      value: miles || 0,
+                      name: ProgramCodeName
+                    }
+                  });
+                  let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
+                  idsFailedToLoad.forEach((id) => {
+                    milesInfosObject[id] = {
+                      value: 0,
+                      name: ''
+                    }
+                  });
+
+                  this.setState({
+                    isLoadingMilesInfo: false,
+                    milesInfosObject: milesInfosObject
+                  });
+                }
+              }
+            })
+            .catch((error) => {
+              console.log("Result of 30K api: " + JSON.stringify(error));
+              if (this.isMounted()) {
+                this.setState({
+                  isLoadingMilesInfo: false
+                });
+              }
+            });
+        }
+      }
+    };
   },
 
   sortItineraries: function (option, direction) {
@@ -260,7 +335,7 @@ var ResultPage = React.createClass({
     });
 
     this.setState({searchResult: itineraries});
-    this.setState({currentSort: {"name": option, "order": direction}});
+    this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
   clearTiles: function () {
@@ -411,7 +486,7 @@ var ResultPage = React.createClass({
                    tiles={this.state.tiles}
                    filter={this.state.filter}
                    searchResultLength={this.state.searchResultLength}
-                   currentSort={this.state.currentSort}
+                   currentSort={this.props.commonData.currentSort}
                    max_filter_items={this.state.max_filter_items}
                  />
                  <ResultList InitResultData={this.state} />
@@ -423,3 +498,21 @@ var ResultPage = React.createClass({
     )
   }
 });
+
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const mapDispatchCommon = (dispatch) => {
+  return {
+    actionSetCommonVal: (fieldName, fieldValue) => {
+      return dispatch(actionSetCommonVal(fieldName, fieldValue));
+    }
+  }
+};
+
+const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

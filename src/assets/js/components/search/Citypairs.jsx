@@ -7,7 +7,7 @@ var Citypairs = React.createClass({
   },
 
   showFMiles: function(miles) {
-    if( miles === false ) {
+    if( miles === false || miles === undefined) {
       // spinner here
       return <div className="ff-miles no-value">
         Frequent Flyer miles
