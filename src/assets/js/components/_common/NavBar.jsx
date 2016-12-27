@@ -10,7 +10,7 @@ let NavBar = React.createClass({
 
   getUser: function () {
     //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+    return InitData.user || false;
   },
 
   getDefaultProps: function() {
@@ -124,7 +124,7 @@ let NavBar = React.createClass({
                   }
                 </span>
               }
-              {(this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
+              {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') && this.props.page != 'login') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.commonData.currentForm == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
