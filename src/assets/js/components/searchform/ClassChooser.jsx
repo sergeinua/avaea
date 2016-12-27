@@ -1,16 +1,7 @@
-var ClassChooser = React.createClass({
-  getInitialState: function() {
-    var searchParams = ActionsStore.getSearchParams();
-    return {
-      currentClass: this.props.classVal || searchParams.CabinClass || 'E',
-    };
-  },
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
 
-  componentWillMount: function () {
-    ActionsStore.updateCurrentClass = () => {
-      this.updateCurrentClass();
-    }
-  },
+var ClassChooser = React.createClass({
 
   changeClass: function() {
     this.updateCurrentClass();
@@ -25,21 +16,21 @@ var ClassChooser = React.createClass({
         newValue = idx;
         break;
       }
-      if (idx == this.state.currentClass) {
+      if (idx == this.props.searchParams.CabinClass) {
         flagNext = true;
       }
     }
-    this.setState({
-      currentClass: newValue
-    });
     ActionsStore.setFormValue('CabinClass', newValue);
   },
+
   render() {
     return (
       <div className="chooser flight-class-info-item row">
         <div className="label-d col-xs-6">Class</div>
-        <div className="text-picker col-xs-6" onClick={this.changeClass}>{serviceClass[this.state.currentClass]}</div>
+        <div className="text-picker col-xs-6" onClick={this.changeClass}>{serviceClass[this.props.searchParams.CabinClass]}</div>
       </div>
     )
   }
 });
+
+export default ClassChooser;

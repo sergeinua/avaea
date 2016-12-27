@@ -1,3 +1,6 @@
+import React from 'react';
+import { ActionsStore, setAirportData } from '../../functions.js';
+
 /**
  * Make request to the remote server and fetch data for the typehead rendering
  *
@@ -23,14 +26,11 @@ var fetchTypeheadSrc = function(controllerName, actionName) {
   };
 };
 
-var setAirportData = function(target, data) {
-  ActionsStore.setFormValue(target, data.value);
-  ActionsStore.setFormValue(target + 'City', data.city);
-};
+let Typeahead = React.createClass({
 
-var Typeahead = React.createClass({
   componentDidMount: function () {
-    let target = this.props.target;
+    let _self = this;
+
     //FIXME get rid from jquery
     $('#airport-input').typeahead({
       hint: true,
@@ -52,21 +52,17 @@ var Typeahead = React.createClass({
         }
       }
     }).on('typeahead:selected', function (obj, datum) {
-      setAirportData(target, datum);
-      var searchParams = ActionsStore.getSearchParams();
+      setAirportData(_self.props.target, datum);
 
-      ActionsStore.changeForm(searchParams.flightType || 'round_trip');
-      ActionsStore.updateFormValues();
+      ActionsStore.changeForm(_self.props.searchParams.flightType || 'round_trip');
     });
 
-      var searchParams = ActionsStore.getSearchParams();
-
-      var val = searchParams[this.props.target] || '';
-      $('#airport-input').focus();
-      $('#airport-input').val(val);
-      $('#airport-input').typeahead('val', val);
-      $('#airport-input').typeahead('open');
-    // }
+    var val = this.props.searchParams[this.props.target] || '';
+    var inputEl = $('#airport-input');
+    inputEl.focus();
+    inputEl.val(val);
+    inputEl.typeahead('val', val);
+    inputEl.typeahead('open');
 
     //FIXME what is it?
     $('.tt-hint').addClass('form-control');
@@ -80,3 +76,5 @@ var Typeahead = React.createClass({
   }
 
 });
+
+export default Typeahead;

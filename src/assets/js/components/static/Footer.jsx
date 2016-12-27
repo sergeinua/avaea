@@ -1,10 +1,16 @@
-var StaticFooter = React.createClass({
+import React from 'react';
+import { Link } from 'react-router';
 
+let StaticFooter = React.createClass({
   render: function () {
     return (
-      <div>
-        src/assets/js/components/static/Footer.jsx
-      </div>
+      <footer className="static">
+        <span className="copyright"></span>
+        <Link to="/terms">Terms & Conditions</Link>
+        <Link to="/privacy">Privacy</Link>
+      </footer>
     )
   }
 });
+
+export default StaticFooter;

@@ -1,4 +1,7 @@
-var DisplayAlert = React.createClass({
+import React from 'react';
+import { Link } from 'react-router';
+
+let DisplayAlert = React.createClass({
   render() {
     return (
       <div className="nothing-found">
@@ -20,3 +23,5 @@ DisplayAlert.defaultProps = {
   },
   tryUrl: "/search"
 };
+
+export default DisplayAlert;

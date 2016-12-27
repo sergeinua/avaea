@@ -1,6 +1,12 @@
-var Link = window.ReactRouter.Link;
+import React from 'react';
+import { Link } from 'react-router';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore } from '../../functions.js';
+import { finalizeValues } from '../searchform/Calendar.jsx';
+import { browserHistory } from 'react-router';
+import moment from 'moment';
 
-var NavBar = React.createClass({
+let NavBar = React.createClass({
 
   getUser: function () {
     //FIXME get rid from global var
@@ -30,8 +36,22 @@ var NavBar = React.createClass({
       });
   },
 
+  componentDidMount: function () {
+    $('#nav_slide_menu').offcanvas({
+      toggle: false,
+      placement: 'left',
+      autohide: true
+    });
+    $('#nav_slide_menu a')
+      .click(function () {
+        $('#nav_slide_menu').offcanvas('hide');
+      });
+  },
+
   componentWillMount: function () {
-    clientStore.subscribe(() => console.log('_storeNav:', clientStore.getState())); // Need !
+    ActionsStore.changeCalendarDate = () => {
+      finalizeValues(this.props.commonData.searchParams);
+    };
   },
 
   handleVoice: function () {
@@ -55,23 +75,31 @@ var NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    window.ReactRouter.browserHistory.push('/result');
+    browserHistory.push('/result');
   },
 
   handleBackToSearchForm: function () {
-    window.ReactRouter.browserHistory.push('/search');
+    browserHistory.push('/search');
+  },
+
+  showLink: function (to, text) {
+    if (!this.props.location) {
+      return <a href={to}>{text}</a>
+    } else {
+      return <Link to={to}>{text}</Link>
+    }
   },
 
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
-        {  this.props.commonData.page != 'airport-search'
-        && this.props.commonData.page != 'order'
-        && this.props.commonData.page != 'calendar' ?
+        {  this.props.commonData.currentForm != 'airport-search'
+        && this.props.commonData.currentForm != 'order'
+        && this.props.commonData.currentForm != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
-              {this.getUser() && this.props.commonData.page == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
-              {this.props.commonData.page == 'calendar' || this.props.commonData.page == 'voice_search' ? null:
+              {this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.props.commonData.currentForm == 'calendar' || this.props.commonData.currentForm == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
                           data-target="#nav_slide_menu" data-canvas="body">
@@ -79,7 +107,7 @@ var NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  {this.props.commonData.page == 'result'?
+                  {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
                       <div className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
                         <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
@@ -96,33 +124,34 @@ var NavBar = React.createClass({
                   }
                 </span>
               }
-              {this.getUser() && (this.props.commonData.page == 'round_trip' || this.props.commonData.page == 'one_way') ?
+              {(this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
-              {this.props.commonData.page == 'voice_search' ?
+              {this.props.commonData.currentForm == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
-            <div id="nav_slide_menu" className={this.props.commonData.page == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
-                {this.getUser().email ?
-                  <ul className="nav navbar-nav">
-                    <li><a href="http://www.avaea.com/">Main Search</a></li>
-                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
-                    <li role="separator" className="divider"></li>
-                    <li><Link to="/profile">Profile</Link></li>
-                    <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
-                  </ul>
+            <div id="nav_slide_menu"
+                 className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+                 role="navigation">
+              <ul className="nav navbar-nav">
+                <li>{this.showLink("/search","Search")}</li>
+                <li>{this.showLink("/profile", "Profile")}</li>
+                <li>{this.showLink("/about", "About")}</li>
+                <li>{this.showLink("/terms", "Terms of Use")}</li>
+                <li>{this.showLink("/privacy", "Privacy Policy")}</li>
+                <li role="separator" className="divider"></li>
+                <li>{ this.getUser().email ?
+                  <a href="/logout">Log out <b>{ this.getUser().email }</b></a>
                   :
-                  <ul className="nav navbar-nav">
-                    <li><a href="http://www.avaea.com/">Main Search</a></li>
-                    <li><a href="http://stage.avaea.com/">Test Search</a></li>
-                  </ul>
-                }
+                  <a href="/login">Log In</a>
+                }</li>
+              </ul>
             </div>
           </div>:null
         }
 
-        {this.props.commonData.page == 'airport-search' ?
+        {this.props.commonData.currentForm == 'airport-search' ?
           <div id="search_title" className="airport-search-panel">
             <div className="navbar-header">
               <div className="airport-search-header">
@@ -133,7 +162,7 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.commonData.page == 'calendar'?
+        {this.props.commonData.currentForm == 'calendar'?
           <div id="date_select" className="calendar-header">
             <div className="navbar-header">
               <div className="container-fluid">
@@ -152,7 +181,7 @@ var NavBar = React.createClass({
           </div>:null
         }
 
-        {this.props.commonData.page == 'order'?
+        {this.props.commonData.currentForm == 'order'?
           <div className="booking-panel">
             <div className="navbar-header back-style">
               <div className="container-fluid">
@@ -178,11 +207,4 @@ const mapStateCommon = function(store) {
 
 const NavBarContainer = ReactRedux.connect(mapStateCommon)(NavBar);
 
-
-$(document).ready(function() {
-  var NavBarData = $('#onlynavbar').attr('page');
-  if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
-    ReactContentRenderer.render(<NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/>, $('#onlynavbar'));
-  }
-});
+export default NavBarContainer;

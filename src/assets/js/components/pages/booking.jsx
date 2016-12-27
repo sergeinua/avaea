@@ -1,4 +1,12 @@
-var BookingPage = React.createClass({
+import React from 'react';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { ActionsStore } from '../../functions.js';
+import Loader from '../_common/Loader.jsx';
+import Booking from '../buy/Booking.jsx';
+import { setCookie } from '../../legacyJquery.js';
+
+let BookingPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -8,8 +16,16 @@ var BookingPage = React.createClass({
     };
   },
 
+  getUser: function () {
+    return InitData.user || false;
+  },
+
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('about');
+    if (!this.getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    }
+    ActionsStore.changeForm('about', false);
 
     fetch('/booking?bookingId=' + this.state.bookingId, {
       method: 'POST',
@@ -40,3 +56,5 @@ var BookingPage = React.createClass({
     )
   }
 });
+
+export default BookingPage;

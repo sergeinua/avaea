@@ -1,4 +1,8 @@
-var TermsPage = React.createClass({
+import React from 'react';
+import StaticTerms from '../terms/Terms.jsx';
+import Loader from '../../_common/Loader.jsx';
+
+let TermsPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -24,3 +28,5 @@ var TermsPage = React.createClass({
     )
   }
 });
+
+export default TermsPage;

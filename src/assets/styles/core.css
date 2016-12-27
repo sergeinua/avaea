@@ -2,13 +2,9 @@
    avaea.css
 	 --------------- */
 
-/* todo
-	 ~ un-nest the accordion sections in profile
-	 ~ get profile and create to use the same code
-*/
-
 /* syntax
    transition: all 0.1s ease-in-out;
+	 :not(.search-result) 
 */
 
 
@@ -30,8 +26,6 @@
 }
 
 /* desktop */
-
-/* :not(.search-result) */
 
 .desktop {
 	text-align: center;
@@ -85,6 +79,11 @@
 .desktop .login-holder:after {
 	bottom: -1px;
 	background-size: 65%;
+}
+
+.desktop .login-holder {
+	margin: 120px auto 0 auto;
+	max-width: 400px;
 }
 
 .desktop .main.container-fluid {
@@ -582,7 +581,7 @@
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 }
 
@@ -781,9 +780,9 @@ legend,
 .datepicker table td.day.active.new,
 .datepicker table td.day.active.old,
 .datepicker span.active,
-.desktop .bootstrap-datetimepicker-widget span.active:hover,
+.bootstrap-datetimepicker-widget span.active:hover,
 .datepicker table td.active,
-.desktop .bootstrap-datetimepicker-widget table td.active:hover {
+.bootstrap-datetimepicker-widget table td.active:hover {
 	background-color: #0081c9;
 }
 
@@ -994,6 +993,17 @@ form label.required:before,
 	background: #ffffe4;
 }
 
+/* social */
+
+.big-button.facebook {
+	background: #3b579d;
+}
+
+.big-button.google {
+	background: #dd4b3a;
+}
+
+
 
 /* form parts */
 
@@ -1199,6 +1209,7 @@ textarea {
 
 .login-holder {
 	text-align: center;
+	margin: 150px 0 20px 0;
 }
 
 .login-holder:after {
@@ -1212,22 +1223,27 @@ textarea {
 	background-size: 110%;
 }
 
-.login-invite-only {
-	line-height: 20px;
-	margin: 10px 0;
-}
-
-.login-invite-only a {
-	text-decoration: underline;
-	display: block;
-}
-
-.form-signin-heading {
-	margin-top: 3em;
+.login-holder a.big-button:before {
+	content: 'Sign in with ';
 }
 
 .login-holder .big-button {
+	font-size: 19px;
+	text-align: left;
+	padding-left: 70px;
 	width: 280px;
+	position: relative;
+}
+
+.login-holder .big-button:after {
+	color: #ffffff;
+	font-size: 36px;
+	display: inline-block;
+	height: 45px;
+	width: 45px;
+	position: absolute;
+		top: 5px;
+		left: 15px;
 }
 
 
@@ -1664,7 +1680,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
-.bootstrap-datetimepicker-widget table td.disabled, .desktop .bootstrap-datetimepicker-widget table td.disabled:hover {
+.bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
 }
@@ -2844,6 +2860,11 @@ td[data-action*="selectDay"] {
 	padding: 20px;
 }
 
+.warning-booking {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 
 /* dimmer */
 
@@ -3069,20 +3090,28 @@ body.desktop form.profile {
 	.touch .form-signin-heading {
 		margin: 70px auto 0 auto;
 	}
+	
+	.touch .login-holder {
+		margin: 80px auto 20px auto;
+    width: 300px;
+	}
+	
+	.touch.android .login-holder {
+		margin-top: 110px;
+	}
 
 	.touch .login-holder:after {
 		height: 120px;
 		background-size: 60%;
 	}
 
-	.touch .login-holder .big-button,
-	.touch .login-invite-only {
+	.touch .login-holder .big-button {
 		position: relative;
     z-index: 2;
 	}
-
-	.touch.android .form-signin-heading {
-		margin: .5em auto 0 auto;
+	
+	.touch.android .login-holder .big-button {
+		margin: 5px 5px 5px 5px;
 	}
 
 	.touch .navbar.searchform-top {

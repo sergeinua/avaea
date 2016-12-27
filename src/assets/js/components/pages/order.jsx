@@ -1,6 +1,19 @@
-var OrderPage = React.createClass({
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
+import OrderPanelContainer from '../buy/OrderPanel.jsx';
+import { setCookie } from '../../legacyJquery.js';
+
+let OrderPage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('order');
+    if (!this.getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    }
+    ActionsStore.changeForm('order', false);
+  },
+
+  getUser: function () {
+    return InitData.user || false;
   },
 
   render: function () {
@@ -10,3 +23,5 @@ var OrderPage = React.createClass({
     )
   }
 });
+
+export default OrderPage;

@@ -1,4 +1,6 @@
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+import React from 'react';
+import { ActionsStore, searchApiMaxDays } from '../../functions.js';
+import moment from 'moment';
 
 //FIXME get rid from jquery
 var drawDateRange = function(datepicker, range) {
@@ -50,9 +52,8 @@ var drawDateRange = function(datepicker, range) {
   });
 };
 
-function finalizeValues() {
-  var searchParams = ActionsStore.getSearchParams();
-  var flightType = searchParams.flightType || 'round_trip';
+export function finalizeValues(searchParams) {
+  var flightType = searchParams.flightType;
 
   var moment_dp = $('#dr_picker').data("DateTimePicker").date();
   var moment_rp = null;
@@ -97,10 +98,10 @@ var Calendar = React.createClass({
     }
     // }}} init datetimepicker
 
-    var searchParams = ActionsStore.getSearchParams();
+    var _self = this;
     $("#dr_picker").on("dp.change", function (e) {
       if (e.date) {
-        var flightType = searchParams.flightType || 'round_trip';
+        var flightType = _self.props.searchParams.flightType || 'round_trip';
         // enable range functionality for round trip flight type
         if (flightType == 'round_trip') {
           // range manipulation {{{
@@ -128,21 +129,25 @@ var Calendar = React.createClass({
         }
       }
     });
+
     $("#dr_picker").on("dp.update", function (e) {
       // redraw date range on each picker update
       drawDateRange(this, $(this).data("DateTimePicker").range);
     });
+
     $("#dr_picker").hammer().bind("swipeleft", function (e) {
       $(this).data("DateTimePicker").next();
     }).bind("swiperight", function (e) {
       $(this).data("DateTimePicker").previous();
     });
+
     // force dp.change event hook {{{
     $('#dr_picker').data("DateTimePicker").clear();
-    var depDate = searchParams.departureDate ? moment(searchParams.departureDate, 'YYYY-MM-DD') : moment();
+    var depDate = this.props.searchParams.departureDate ? moment(this.props.searchParams.departureDate, 'YYYY-MM-DD') : moment();
     $('#dr_picker').data("DateTimePicker").date(depDate);
-    if (searchParams.flightType == 'round_trip') {
-      var retDate = searchParams.returnDate ? moment(searchParams.returnDate, 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
+
+    if (this.props.searchParams.flightType == 'round_trip') {
+      var retDate = this.props.searchParams.returnDate ? moment(this.props.searchParams.returnDate, 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
       if (retDate.isAfter($('#dr_picker').data("DateTimePicker").maxDate())) {
         retDate = $('#dr_picker').data("DateTimePicker").maxDate().clone();
       }
@@ -154,6 +159,7 @@ var Calendar = React.createClass({
     }
     // }}} force dp.change event hook
   },
+
   render() {
     return (
       <div id="date_select_main" className="clearfix calendar-panel">
@@ -166,3 +172,5 @@ var Calendar = React.createClass({
     )
   }
 });
+
+export default Calendar;
