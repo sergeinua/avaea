@@ -99,7 +99,7 @@ $(document).ready(function() {
       })
       .then(function () {
         let iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
-        if (iconSpriteMap) {
+        if (iconSpriteMap && iconSpriteMap != 'undefined') {
           clientStore.dispatch(actionSetCommonVal('iconSpriteMap', JSON.parse(iconSpriteMap || '[]')));
         }
         else {
@@ -111,7 +111,6 @@ $(document).ready(function() {
           && (confTripSearchForms.indexOf(_localSearchParams.flightType) != -1)
           && (confTripSearchForms.indexOf(clientStore.getState().commonData.currentForm) != -1)
         ) {
-          console.log('bootstrap form', _localSearchParams.flightType);
           ActionsStore.changeForm(_localSearchParams.flightType);
         }
       });

@@ -98,7 +98,7 @@ let NavBar = React.createClass({
         && this.props.commonData.currentForm != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
-              {this.getUser() && this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
               {this.props.commonData.currentForm == 'calendar' || this.props.commonData.currentForm == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
@@ -124,35 +124,29 @@ let NavBar = React.createClass({
                   }
                 </span>
               }
-              {this.getUser() && (this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
+              {(this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.commonData.currentForm == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
-            <div id="nav_slide_menu" className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
-                {this.getUser().email ?
-                  <ul className="nav navbar-nav">
-                    <li>{this.showLink("/search","Search")}</li>
-                    <li>{this.showLink("/profile", "Profile")}</li>
-                    <li>{this.showLink("/about", "About")}</li>
-                    <li>{this.showLink("/terms", "Terms of Use")}</li>
-                    <li>{this.showLink("/privacy", "Privacy Policy")}</li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
-                  </ul>
+            <div id="nav_slide_menu"
+                 className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+                 role="navigation">
+              <ul className="nav navbar-nav">
+                <li>{this.showLink("/search","Search")}</li>
+                <li>{this.showLink("/profile", "Profile")}</li>
+                <li>{this.showLink("/about", "About")}</li>
+                <li>{this.showLink("/terms", "Terms of Use")}</li>
+                <li>{this.showLink("/privacy", "Privacy Policy")}</li>
+                <li role="separator" className="divider"></li>
+                <li>{ this.getUser().email ?
+                  <a href="/logout">Log out <b>{ this.getUser().email }</b></a>
                   :
-                  <ul className="nav navbar-nav">
-                    <li>{this.showLink("/search", "Search")}</li>
-                    <li>{this.showLink("/profile", "Profile")}</li>
-                    <li>{this.showLink("/about", "About")}</li>
-                    <li>{this.showLink("/terms", "Terms of Use")}</li>
-                    <li>{this.showLink("/privacy", "Privacy Policy")}</li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/login">Log In</a></li>
-                  </ul>
-                }
+                  <a href="/login">Log In</a>
+                }</li>
+              </ul>
             </div>
           </div>:null
         }
