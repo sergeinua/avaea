@@ -27,7 +27,9 @@ module.exports = {
       });
     };
 
-    Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
+    let userId = utils.getUser(req);
+
+    Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
       if (err) {
         sails.log.error(err);
         return res.ok({
@@ -92,10 +94,11 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
+          let userId = utils.getUser(req);
+          itineraryPrediction.updateRank(userId, logData.itinerary.searchId, logData.itinerary.price);
 
-          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(req.user);
+          UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(userId);
           });
 
           var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
