@@ -84,23 +84,6 @@ let StaticHome = React.createClass({
 				    	</div>{/* ends features */} 
 		    	  </div> {/* ends home second level */}
 		    	  
-		    	  <div className="home compare level">
-			    	  
-			    	  <div className="wrapper">
-			    	  	<h1>By comparing extras, our <strong>PriceLens</strong><span>&trade;</span> technology helps you choose the best flight.</h1>
-			      		<div className="copy">
-			      			<ul>
-			      				<li>Wireless</li>
-			      				<li>Frequent Flyer Miles</li>
-			      				<li>Baggage discounts</li>
-			      				<li>Lounge access</li>
-			      				<li>Priority seat</li>
-			      			</ul>
-			      		</div>
-	      		</div>
-				    	  
-	    	  </div> {/* ends home compare level */}
-		    	  
 		    	  <div className="home third level">
 			  	  	<h1>And, this is only Beta. See what's next!</h1>
 			  	  	
@@ -129,9 +112,9 @@ let StaticHome = React.createClass({
 			  	  		</div>
 			  	  		
 			  	  		<div className="upcoming">
-			  	  			<div className="ti">Refundable tickets</div>
+			  	  			<div className="ti">Seat choice</div>
 			  	  			<div className="copy">
-			  	  				Visibility into refunds and penalties.
+			  	  				Choose the seat you like best from a seat map.
 			  	  			</div>
 			  	  		</div>
 			  	  		
