@@ -131,7 +131,6 @@ let NavBar = React.createClass({
               }
             </div>
 
-<<<<<<< HEAD
 							<div id="nav_slide_menu"
 							  className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
 							  role="navigation">
