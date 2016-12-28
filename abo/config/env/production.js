@@ -47,6 +47,13 @@ module.exports = {
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
+   connections: {
+    memcacheConf: {
+    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
+  },
+},
 
   flightapis: {
     searchProvider: 'mondee' // 'mystifly'
