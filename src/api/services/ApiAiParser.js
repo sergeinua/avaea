@@ -10,9 +10,10 @@ const parserKeys = [
   'number_of_tickets'
 ];
 
-const parser = new require('./AvaeaTextParser.js');
+const parser = new require('./AvaeaTextParser.js').parser;
 let _ = require('lodash');
-let fetch = require('whatwg-fetch');
+
+let fetch = require('node-fetch');
 
 class ApiAiParser {
   correctData(data) {
@@ -32,9 +33,11 @@ class ApiAiParser {
     };
     const correctDate = (d) => {
       if (!d) return '';
-      if(d == 'ERROR') return d;
-      if(!moment(d).isValid()) return '';
-      return moment(d).format('YYYY-MM-DD');
+      if(d == 'ERROR') return '';
+      return d;
+
+      // if(!moment(d).isValid()) return '';
+      // return moment(d).format('YYYY-MM-DD');
     };
     const correctType = (t) => {
       if(t == 'round_trip')return "round_trip";
@@ -63,7 +66,7 @@ class ApiAiParser {
   convertApiAiData(data) {
     var result = {};
     result.source_json = data;
-    if (data.status.code == 200) {
+    if (data.status.code == 200 && data.result.contexts.length) {
       const parameters = data.result.contexts[0].parameters;
       parserKeys.forEach(e => {
         result[e] = parameters[e];
@@ -76,11 +79,19 @@ class ApiAiParser {
         }
         return obj ? obj : '';
       };
+      const getParserDataByKey = (key) => {
+        if (parser[key] && parser[key].value) {
+          const value = (typeof(parser[key].value.toDateString) == "function") ?
+                parser[key].value.toDateString() : parser[key].value;
+          return value || '';
+        }
+        return '';
+      };
       const parseDate = (dateString) => {
         parser.run(dateString);
         return {
-          origin_date: this.getParserDataByKey('origin_date'),
-          return_date: this.getParserDataByKey('return_date')
+          origin_date: getParserDataByKey('origin_date'),
+          return_date: getParserDataByKey('return_date')
         };
       };
 
@@ -148,17 +159,9 @@ class ApiAiParser {
       .then(function(response) {
         return response.json();
       })
-      .then(convertApiAiData)
+      .then((data) => this.convertApiAiData(data))
       .then((data) => callback(null, data))
       .catch((err) => callback(err, null));
-  }
-  getParserDataByKey(key) {
-    if (parser[key] && parser[key].value) {
-      const value = (typeof(parser[key].value.toDateString) == "function") ?
-            parser[key].value.toDateString() : parser[key].value;
-      return value || '';
-    }
-    return '';
   }
 }
 

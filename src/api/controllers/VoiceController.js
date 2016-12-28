@@ -31,7 +31,7 @@ module.exports = {
 
   parseApiAi: function (req, res) {
     var _query = _.trim(req.param('q'));
-    new ApiAiParser().parse(_query, req.sessionId, function(err, result){
+    new ApiAiParser().parse(_query, req.sessionID, function(err, result){
       if (err) {
         sails.log.error(err);
         return res.serverError(); //500
