@@ -32,7 +32,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': 'AuthController.login',
+  // '/': 'AuthController.login',
   'get /*': { controller: 'Site', action: 'index', skipAssets: true, skipRegex: /^\/(auth|login|logout|register).*$/ },
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
