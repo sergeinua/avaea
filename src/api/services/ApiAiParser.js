@@ -65,7 +65,7 @@ class ApiAiParser {
   }
   convertApiAiData(data) {
     var result = {};
-    result.source_json = data;
+    // result.source_json = data;
     if (data.status.code == 200 && data.result.contexts.length) {
       const parameters = data.result.contexts[0].parameters;
       parserKeys.forEach(e => {
