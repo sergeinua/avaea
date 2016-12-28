@@ -37,8 +37,13 @@ var AuthController = {
     var strategies = sails.config.passport
       , providers  = {};
 
+
     if (req.session.authenticated == true) {
-      return res.redirect('/search');
+      let redirectTo = '/search';
+      redirectTo = req.cookies.redirectTo || req.session.redirectTo || redirectTo;
+      delete req.session.redirectTo;
+      res.clearCookie('redirectTo');
+      return res.redirect(redirectTo);
     }
 
     // Get a list of available providers for use in your templates.
@@ -186,7 +191,11 @@ var AuthController = {
 
           // Upon successful login, send the user to the homepage were req.user
           // will be available.
-          return res.redirect('/search');
+          let redirectTo = '/search';
+          redirectTo = req.cookies.redirectTo || req.session.redirectTo || redirectTo;
+          res.clearCookie('redirectTo');
+          delete req.session.redirectTo;
+          return res.redirect(redirectTo);
 
         });
       });

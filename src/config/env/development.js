@@ -25,10 +25,8 @@ module.exports = {
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
 
-  port: 80,
-  proxyHost: 'http://stage.avaea.com/',
-  proxyPort: 80,
-  explicitHost: 'localhost',
+  proxyHost: 'http://localhost',
+  proxyPort: 1337,
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -50,7 +48,7 @@ module.exports = {
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
-      baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
+    	baseEndPoint: 'http://localhost:34567/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
       clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
     },
     farelogix: {
@@ -72,9 +70,5 @@ module.exports = {
   },
 
   hookTimeout: 120000,
-  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
-
-  cron: {
-    readEticket: {schedule: '*/20 * * * * *'}
-  }
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
 };

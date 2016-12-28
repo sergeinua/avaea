@@ -23,7 +23,9 @@ let ResultPage = React.createClass({
   getInitialState: function() {
     return {
       isLoading: true,
+      isLoadingMilesInfo: false,
       searchResultLength: 0,
+      milesInfosObject: {},
       filter: [],
     };
   },
@@ -216,6 +218,76 @@ let ResultPage = React.createClass({
     };
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
+    };
+
+    ActionsStore.getMilesInfoAllItineraries = () => {
+      if (!this.state.isLoadingMilesInfo && this.state.searchResult && this.state.searchResult.length > 0) {
+        let ids = this.state.searchResult.map((itinerary) => itinerary.id);
+
+        let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
+          // miles value meaning:
+          // miles === false // loading started
+          // miles === undefined // not loaded
+          // typeof miles === object // loaded
+          let miles = this.state.milesInfosObject[id];
+          if (miles === undefined) {
+            return true;
+          }
+          return false;
+        });
+        if (idsLoadingNotStartedAndNotLoaded.length > 0) {
+          let mutatedMilesInfosObject = Object.assign({}, this.state.milesInfosObject);
+
+          idsLoadingNotStartedAndNotLoaded.forEach((id) => {
+            mutatedMilesInfosObject[id] = false;
+          });
+
+          this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
+            .then((msg) => {
+              if( msg.error ) {
+                console.log("Result of 30K api: " + JSON.stringify(msg));
+                if (this.isMounted()) {
+                  this.setState({
+                    isLoadingMilesInfo: false
+                  });
+                }
+              } else {
+                if (this.isMounted()) {
+                  let milesInfosObject = {};
+                  let idsLoadedObject = {};
+                  msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
+                    idsLoadedObject[id] = true;
+                    milesInfosObject[id] = {
+                      value: miles || 0,
+                      name: ProgramCodeName
+                    }
+                  });
+                  let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
+                  idsFailedToLoad.forEach((id) => {
+                    milesInfosObject[id] = {
+                      value: 0,
+                      name: ''
+                    }
+                  });
+
+                  this.setState({
+                    isLoadingMilesInfo: false,
+                    milesInfosObject: milesInfosObject
+                  });
+                }
+              }
+            })
+            .catch((error) => {
+              console.log("Result of 30K api: " + JSON.stringify(error));
+              if (this.isMounted()) {
+                this.setState({
+                  isLoadingMilesInfo: false
+                });
+              }
+            });
+        }
+      }
     };
   },
 
