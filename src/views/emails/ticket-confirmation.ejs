@@ -4,7 +4,6 @@
 /* global eticketNumber */
 /* global order */
 /* global miles */
-/* global refundType */
 /* global replyTo */
 /* global callTo */
 %>
@@ -13,7 +12,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
  xmlns:v="urn:schemas-microsoft-com:vml"
  xmlns:o="urn:schemas-microsoft-com:office:office">
-
+ 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -150,17 +149,17 @@
       mso-table-lspace: 0pt;
       mso-table-rspace: 0pt;
       mso-line-height-rule:exactly;
-
-    }
-
+      
+    } 
+    
     .main-img img,
     .hotmail-ugh {
       display: block !important;
     }
-
-    v\:* {
-      behavior: url(#default#VML);
-      display: inline-block;
+    
+    v\:* { 
+      behavior: url(#default#VML); 
+      display: inline-block; 
     }
     /* Correct spacing in Outlook 2007 and up */
   </style>
@@ -245,7 +244,6 @@
             <td align="center" valign="top" width="500">
             <![endif]-->
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 500px;" class="responsive-table">
-                <% if (eticketNumber) { %>
                 <tr>
                     <td style="padding: 10px 0 0 0; border-top: 1px dashed #aaaaaa;">
                         <!-- TWO COLUMNS -->
@@ -270,43 +268,7 @@
                                             <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                 <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                     <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><%= eticketNumber %></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <% } %>
-                <tr>
-                    <td style="padding: 10px 0 0 0; border-top: 1px dashed #aaaaaa;">
-                        <!-- TWO COLUMNS -->
-                        <table cellspacing="0" cellpadding="0" border="0" width="100%" style="width: 100%;">
-                            <tr>
-                                <td valign="top" class="mobile-wrapper">
-                                    <!-- LEFT COLUMN -->
-                                    <table cellpadding="0" cellspacing="0" border="0" width="57%" style="width: 57%;" align="left">
-                                        <tr>
-                                            <td style="padding: 0 0 10px 0;">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
-                                                    <tr>
-                                                        <td align="left" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px;">Confirmation #:</td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <!-- RIGHT COLUMN -->
-                                    <table cellpadding="0" cellspacing="0" border="0" width="37%" style="width: 37%; text-align: right;" align="right">
-                                        <tr>
-                                            <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
-                                                <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
-                                                    <tr>
-                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><%= bookingRes.PNR %></td>
+                                                        <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><%= eticketNumber/*bookingRes.PNR*/ %></td>
                                                     </tr>
                                                 </table>
                                             </td>
@@ -392,7 +354,7 @@
                                               <td style="padding: 0 0 10px 20px; text-align: right;" align="right">
                                                   <table cellpadding="0" cellspacing="0" border="0" width="100%" align="right" style="text-align: right;">
                                                       <tr>
-                                                          <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic add refundable --><%= refundType || 'N/A' %></td>
+                                                          <td align="right" style="font-family: Arial, sans-serif; color: #333333; font-size: 16px; text-align: right;"><!-- dynamic add refundable --><%= reqParams.refundType || '' %></td>
                                                       </tr>
                                                   </table>
                                               </td>

@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': ['passport'],
+  '*': ['passport', 'bearerAuth'],
   'auth': {
     '*': ['passport']
   },

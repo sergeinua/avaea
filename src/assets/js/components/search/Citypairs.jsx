@@ -5,7 +5,7 @@ import MerchandisingInfo from './MerchandisingInfo.jsx';
 let Citypairs = React.createClass({
 
   showFMiles: function(miles) {
-    if( miles === false || miles === undefined) {
+    if( miles === false ) {
       // spinner here
       return <div className="ff-miles no-value">
         Frequent Flyer miles

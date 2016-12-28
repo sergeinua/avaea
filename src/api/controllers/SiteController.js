@@ -8,22 +8,29 @@
 module.exports = {
 
   index: function (req, res) {
-    if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
-      req.session.redirectTo = req.url;
+    sails.log.info('req.url', req.url);
+    //FIXME this is temporary fix. Needs to be refactored with auth SPA logic updates
+    var allowedRoutes = [
+      "/about","/about/",
+      "/home","/home/",
+      "/jobs","/jobs/",
+      "/news","/news/",
+      "/blog","/blog/",
+      "/terms","/terms/",
+      "/profile","/profile/",
+      "/search","/search/",
+      "/privacy","/privacy/"
+    ];
+    if (allowedRoutes.indexOf(req.url) == -1 && (!req.session.authenticated || !req.user)) {
       return res.redirect('/login');
-    }
-    let page = req.url;
-
-    if (!req.url || req.url.trim() == '/') {
-      page = '/search'
     }
 
     if (_.isEmpty(req.session)) {
       req.session = {};
     }
-    let tmpDefaultDepDate = sails.moment().add(2, 'w');
-    let tmpDefaultRetDate = sails.moment().add(4, 'w');
-    let nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
+    var tmpDefaultDepDate = sails.moment().add(2, 'w');
+    var tmpDefaultRetDate = sails.moment().add(4, 'w');
+    var nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
 
     if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
       tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
@@ -33,7 +40,7 @@ module.exports = {
       tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
     }
 
-    let params = {
+    var params = {
       DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
       ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
       DepartureLocationCodeCity : !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
@@ -47,10 +54,10 @@ module.exports = {
 
     return res.ok(
       {
-        user         : req.user || '',
+        user         : req.user,
         serviceClass : Search.serviceClass,
         head_title   : 'Search for flights with Avaea Agent',
-        page         : page,
+        page         : req.url,
         defaultSearch: params
       },
       'site/index'

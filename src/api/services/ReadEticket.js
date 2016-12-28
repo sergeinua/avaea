@@ -1,35 +1,35 @@
 
 let qpromice = require('q');
 
+let procUserPrograms = (dataRec) => {
+  // Returns array of fulfilled promises only - wo rejected. Else you must to parse by allSettled() in the parent caller
+  return [
+    qpromice.nfbind(ffmapi.milefy.Calculate)(dataRec.itinerary_data)
+      .then(function (body) {
+        let jdata = (typeof body == 'object') ? body : JSON.parse(body);
+        return Promise.resolve({
+          miles: {name: jdata.ProgramCodeName || '', value: jdata.miles || 0}
+        });
+      })
+      .catch(function () {
+        return Promise.resolve({
+          miles: {name: '', value: 0}
+        });
+      }),
+
+    qpromice.nfbind(Search.getRefundType)(dataRec.itinerary_data)
+      .then(function (response) {
+        return Promise.resolve({refundType: response});
+      })
+      .catch(function () {
+        return Promise.resolve({refundType: ''});
+      })
+  ];
+};
+
 let readEticketQueueCounter = 0;
 
 module.exports = {
-
-  procUserPrograms: (dataRec) => {
-    // Returns array of fulfilled promises only - wo rejected. Else you must to parse by allSettled() in the parent caller
-    return [
-      qpromice.nfbind(ffmapi.milefy.Calculate)(dataRec.itinerary_data)
-        .then(function (body) {
-          let jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          return Promise.resolve({
-            miles: {name: jdata.ProgramCodeName || '', value: jdata.miles || 0}
-          });
-        })
-        .catch(function () {
-          return Promise.resolve({
-            miles: {name: '', value: 0}
-          });
-        }),
-
-      qpromice.nfbind(Search.getRefundType)(dataRec.itinerary_data)
-        .then(function (response) {
-          return Promise.resolve({refundType: response});
-        })
-        .catch(function () {
-          return Promise.resolve({refundType: ''});
-        })
-    ];
-  },
 
   execReadEticket: function () {
     sails.log.verbose('Start execReadEticket job');
@@ -38,7 +38,6 @@ module.exports = {
       return;
     }
     readEticketQueueCounter = 1; // Up queue flag for concurrent jobs
-    let _self = this;
 
     let eticketNumbersStore = {};
     qpromice.nfbind(Booking.query)(
@@ -66,7 +65,7 @@ module.exports = {
               }
               eticketNumbersStore[ii] = eticketNumber; // remember
 
-              return qpromice.all(_self.procUserPrograms(_cur_rec));
+              return qpromice.all(procUserPrograms(_cur_rec));
             })
 
             .then(function (programsResults) {
@@ -86,11 +85,11 @@ module.exports = {
             })
 
             .then(function (msgContent) {
-              return Mailer.sendMail({to: _cur_rec.email, subject: 'Confirmation for the E-Ticket number '+eticketNumbersStore[ii]}, msgContent);
+              return Mailer.sendMail({to: _cur_rec.email, subject: 'Booking with ETicket number '+eticketNumbersStore[ii]}, msgContent);
             })
 
             .then(function () {
-              sails.log.info('Mail with e-ticket confirmation was sent to '+ _cur_rec.email);
+              sails.log.info('Mail was sent to '+ _cur_rec.email);
               return Booking.update(
                 {id: _cur_rec.id},
                 {

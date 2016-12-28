@@ -9,20 +9,17 @@
 
 module.exports = {
   order_tiles: function (req, res) {
-    let userId = utils.getUser(req);
-
     //( array_of_tiles )
-    UserAction.saveAction(userId, 'order_tiles', req.allParams(), function () {
-      User.publishCreate(userId);
+    UserAction.saveAction(req.user, 'order_tiles', req.allParams(), function () {
+      User.publishCreate(req.user);
     });
     return res.json(req.allParams());
   },
 
   order_itineraries: function (req, res) {
-    let userId = utils.getUser(req);
     //( array_of_itineraries )
-    UserAction.saveAction(userId, 'search', req.allParams(), function () {
-      User.publishCreate(userId);
+    UserAction.saveAction(req.user, 'search', req.allParams(), function () {
+      User.publishCreate(req.user);
     });
     return res.json(req.allParams());
   },
@@ -43,19 +40,18 @@ module.exports = {
         recalculateTiles = true;
       }
     }
-    let userId = utils.getUser(req);
     //( tile )
     if (recalculateTiles) {
       tilePrediction.recalculate(
-        userId,
+        req.user.id,
         uuid,
         search_params,
         req.param('tileName', 'default'),
         req.param('sample')
       );
     }
-    UserAction.saveAction(userId, 'on_tile_choice', req.allParams(), function () {
-      User.publishCreate(userId);
+    UserAction.saveAction(req.user, 'on_tile_choice', req.allParams(), function () {
+      User.publishCreate(req.user);
     });
     return res.json(req.allParams());
   },
@@ -75,9 +71,8 @@ module.exports = {
             itinerary : JSON.parse(result)
           };
 
-          let userId = utils.getUser(req);
-          UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(userId);
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(req.user);
           });
         } else {
           sails.log.error('Something wrong. Can not find itinerary');

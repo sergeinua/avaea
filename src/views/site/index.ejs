@@ -2,8 +2,6 @@
   var InitData = {
     <% if (user) { %>
     user: {email:"<%= user.email %>", id: <%= user.id %>},
-    <% } else { %>
-    user: false,
     <% } %>
     page: "<%= page %>",
     defaultSearch: <%- JSON.stringify(defaultSearch) %>

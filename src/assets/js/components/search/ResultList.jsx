@@ -10,12 +10,10 @@ var ResultList = React.createClass({
       <div id="searchResultData" className="flights">
         {this.props.InitResultData.searchResult.map(function(itinerary) {
           if (!itinerary.is_hidden) {
-            return <ResultItem key={itinerary.id}
-                               itinerary={itinerary}
-                               miles={this.props.InitResultData.milesInfosObject[itinerary.id]} />
+            return <ResultItem key={itinerary.id} itinerary={itinerary}/>
           }
           return null;
-        }.bind(this))}
+        })}
       </div>
         : null
       )}

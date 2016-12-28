@@ -71,64 +71,56 @@ module.exports = {
     }
     var validationError = Search.validateSearchParams(params.searchParams);
     if ( validationError ) {
-      sails.log.info('Validation error. Input params are wrong', params.searchParams);
       return res.ok({
         errorInfo: utils.showError(validationError)
       }, 'search/result');
     }
-    let userId = utils.getUser(req);
-
-    if (userId) {
-      segmentio.track(userId, 'Keyboard Search', {Search: params});
-    }
+    segmentio.track(req.user.id, 'Keyboard Search', {Search: params});
 
     title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
-    iPrediction.getUserRank(userId, params.searchParams);
+    iPrediction.getUserRank(req.user.id, params.searchParams);
 
-    if (req.user && req.user.id) {
-      Profile.findOneByCriteria({user: req.user.id})
-        .then(function (found) {
-          var _airline_name = [];
-          // Collect all airline names
-          if (found && !_.isEmpty(found.preferred_airlines)) {
-            found.preferred_airlines.forEach(function (curVal) {
-              _airline_name.push(curVal.airline_name);
-            });
-            return _airline_name;
-          }
-          else {
-            return _airline_name;
-          }
-        })
-        .then(function (airline_names) {
-          var _iata2codes = [];
-          // Fetch iata_2codes by airline names for ranking
-          return Airlines.findByCriteria({name: airline_names})
-            .then(function (records) {
-              if (records && records.length > 0) {
-                records.forEach(function (curAirline) {
-                  if (curAirline.iata_2code && curAirline.iata_2code != '') {
-                    _iata2codes.push(curAirline.iata_2code);
-                  }
-                });
-                return _iata2codes;
-              }
-              else {
-                return _iata2codes;
-              }
-            });
-        })
-        .then(function (iata2codes) {
-          Tile.userPreferredAirlines = iata2codes;
-          sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
-        })
-        .catch(function (error) {
-          Tile.userPreferredAirlines = [];
-          sails.log.info("Error was occurred. Preferred airlines not found: ");
-        });
-    } else {
-      Tile.userPreferredAirlines = [];
-    }
+    Profile.findOneByCriteria({user: req.user.id})
+      .then(function (found) {
+        var _airline_name = [];
+        // Collect all airline names
+        if (found && !_.isEmpty(found.preferred_airlines)) {
+          found.preferred_airlines.forEach(function (curVal) {
+            _airline_name.push(curVal.airline_name);
+          });
+          return _airline_name;
+        }
+        else {
+          return _airline_name;
+        }
+      })
+      .then(function (airline_names) {
+        var _iata2codes = [];
+        // Fetch iata_2codes by airline names for ranking
+        return Airlines.findByCriteria({name: airline_names})
+          .then(function (records) {
+            if (records && records.length > 0) {
+              records.forEach(function (curAirline) {
+                if (curAirline.iata_2code && curAirline.iata_2code != '') {
+                  _iata2codes.push(curAirline.iata_2code);
+                }
+              });
+              return _iata2codes;
+            }
+            else {
+              return _iata2codes;
+            }
+          });
+      })
+      .then(function (iata2codes) {
+        Tile.userPreferredAirlines = iata2codes;
+        sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
+      })
+      .catch(function (error) {
+        Tile.userPreferredAirlines = [];
+        sails.log.info("Error was occurred. Preferred airlines not found: ");
+      });
+
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_hash = params.searchParams.CabinClass;
@@ -206,10 +198,10 @@ module.exports = {
           if (!_.isString(algorithm) || typeof Tile[algorithm] != 'function') {
             algorithm = 'getTilesData';
           }
-          //disabled in ONV-846
-          // if (!req.session.showTiles) {
-          //   algorithm = 'getTilesDataEmpty';
-          // }
+
+          if (!req.session.showTiles) {
+            algorithm = 'getTilesDataEmpty';
+          }
           Tile[algorithm](itineraries, params.searchParams, function (_err, _itineraries, _tiles) {
             if (_err) {
               sails.log.error(_err);
@@ -220,7 +212,7 @@ module.exports = {
               _tiles = [];
             } else {
               itineraries = _itineraries;
-              UserAction.saveAction(userId, 'order_tiles', _tiles);
+              UserAction.saveAction(req.user, 'order_tiles', _tiles);
             }
             sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
             return doneCb(_err, _tiles);
@@ -255,8 +247,8 @@ module.exports = {
           timeWork      : utils.timeLogGet('search_result'),
           error         : err || errStat
         }, Search.getStatistics(itineraries));
-        UserAction.saveAction(userId, 'search', itinerariesData, function () {
-          User.publishCreate(userId);
+        UserAction.saveAction(req.user, 'search', itinerariesData, function () {
+          User.publishCreate(req.user);
         });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
 
@@ -279,7 +271,7 @@ module.exports = {
         }
 
         return res.ok({
-          // user: req.user || false,
+          user: req.user,
           title: title,
           tiles: result.tiles,
           max_filter_items: max_filter_items,

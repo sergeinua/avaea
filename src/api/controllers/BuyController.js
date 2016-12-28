@@ -27,9 +27,7 @@ module.exports = {
       });
     };
 
-    let userId = utils.getUser(req);
-
-    Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
+    Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
       if (err) {
         sails.log.error(err);
         return res.ok({
@@ -94,11 +92,10 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          let userId = utils.getUser(req);
-          itineraryPrediction.updateRank(userId, logData.itinerary.searchId, logData.itinerary.price);
+          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
 
-          UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(userId);
+          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(req.user);
           });
 
           var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
@@ -195,35 +192,6 @@ module.exports = {
       sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';
-
-      // Make and send booking confirmation
-      let _itinerary_data = _.cloneDeep(booking_itinerary);
-      let tpl_vars = {};
-      qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data}))
-        .then(function (programsResults) {
-          let _programs_res = Object.assign(...programsResults);
-          // E-mail notification
-          tpl_vars = {
-            reqParams: reqParams,
-            order: _itinerary_data,
-            bookingRes: result,
-            replyTo: sails.config.email.replyTo,
-            callTo: sails.config.email.callTo,
-            miles: _programs_res.miles,
-            refundType: _programs_res.refundType,
-            eticketNumber: null, // Is not defined yet
-          };
-          return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
-        })
-        .then(function (msgContent) {
-          return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
-        })
-        .then(function () {
-          sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
-        })
-        .catch(function (error) {
-          sails.log.error('in booking sendMail chain:', error);
-        });
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)

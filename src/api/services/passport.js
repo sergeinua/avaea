@@ -233,10 +233,21 @@ passport.connect = function (req, query, profile, next) {
        * @param {function} callback
        */
       function(user, callback) {
-        User.findOne({email: user.email})
+        User.findOne({email: user.email, is_whitelist: 1})
           .exec(function (err, result) {
+            var _is_whitelist = 0;
 
+            // Check by default value
             if (err || !result) {
+              var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
+              if (_patt.exec(user.email)) {
+                _is_whitelist = 1;
+              }
+            } else if (result) {
+              _is_whitelist = 1;
+            }
+
+            if (! _is_whitelist) {
               if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
                 segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
                 callback('Email ' + user.email + ' is not in the whitelist');

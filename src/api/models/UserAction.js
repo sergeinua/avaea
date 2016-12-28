@@ -5,19 +5,14 @@ var UserAction = {
   schema: true,
   attributes: {
     user       : {
-      model: 'User'
+      model: 'User',
+      required: true
     },
     actionType : { type: 'string' },
-    logInfo    : { type: 'json' },
-    anonymous_id : { type: 'string' }
+    logInfo    : { type: 'json' }
   },
 
   saveAction: function (user, actionType, data, callback) {
-    let anonymous_id = '';
-
-    if (user != parseInt(user)) {
-      anonymous_id = user;
-    }
     async.parallel({user: (doneCb) => {
       // this is hook for auto tests
       if (!user && sails.config.environment =='test') {
@@ -38,10 +33,6 @@ var UserAction = {
         actionType : actionType,
         logInfo    : data
       };
-      if (anonymous_id) {
-        uaFields.anonymous_id = anonymous_id;
-        uaFields.user = null;
-      }
       this.create(uaFields, function(err, record) {
         if (err) {
           sails.log.error(err);

@@ -9,6 +9,7 @@ let ResultItem = React.createClass({
   getInitialState: function() {
     return {
       fullinfo: this.props.showFullInfo || false,
+      miles: false,
       refundType: false
     };
   },
@@ -21,11 +22,47 @@ let ResultItem = React.createClass({
   },
 
   getMilesInfo: function () {
-    ActionsStore.getMilesInfoAllItineraries();
+
+    ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
+      .then((msg) => {
+        if( msg.error ) {
+          console.log("Result of 30K api: " + JSON.stringify(msg));
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: 0,
+                name: ''
+              }
+            });
+          }
+        } else {
+          if (this.isMounted()) {
+            this.setState({
+              miles: {
+                value: msg.miles || 0,
+                name: msg.ProgramCodeName
+              }
+            });
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Result of 30K api: " + JSON.stringify(error));
+        if (this.isMounted()) {
+          this.setState({
+            miles: {
+              value: 0,
+              name: ''
+            }
+          });
+        }
+      });
+
   },
 
   getRefundType: function () {
     if (this.state.refundType !== false) return;
+    var ResultItem = this;
     var refundType = 'N/A';
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
@@ -34,7 +71,7 @@ let ResultItem = React.createClass({
           refundType = msg.value;
         }
         if (this.isMounted()) {
-          this.setState({
+          ResultItem.setState({
             refundType: refundType
           });
         }
@@ -147,10 +184,7 @@ let ResultItem = React.createClass({
     </div>
 
     { (this.state.fullinfo ?
-      <Citypairs citypairs={this.props.itinerary.citypairs}
-                 information={this.props.itinerary.information}
-                 miles={this.props.miles}
-                 refundType={this.state.refundType} />
+      <Citypairs citypairs={this.props.itinerary.citypairs} information={this.props.itinerary.information} miles={this.state.miles} refundType={this.state.refundType} />
       : null
     )}
 
