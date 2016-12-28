@@ -82,6 +82,7 @@ module.exports = {
                 refundType: _programs_res.refundType,
                 eticketNumber: eticketNumbersStore[ii],
               };
+              segmentio.track(_cur_rec.user_id, 'Confirmation for the E-Ticket number', {params: tpl_vars});
               return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
             })
 

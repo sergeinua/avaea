@@ -26,7 +26,7 @@ let BookingPage = React.createClass({
       window.location = '/login';
     }
     ActionsStore.changeForm('about', false);
-
+    analytics.page(this.props.location.pathname);
     fetch('/booking?bookingId=' + this.state.bookingId, {
       method: 'POST',
       credentials: 'same-origin' // required for including auth headers

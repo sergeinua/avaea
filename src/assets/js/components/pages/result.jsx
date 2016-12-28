@@ -147,6 +147,7 @@ let ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
     ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
