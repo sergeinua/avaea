@@ -10,7 +10,7 @@ let NavBar = React.createClass({
 
   getUser: function () {
     //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+    return InitData.user || false;
   },
 
   getDefaultProps: function() {
@@ -98,7 +98,7 @@ let NavBar = React.createClass({
         && this.props.commonData.currentForm != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
-              {this.getUser() && this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
               {this.props.commonData.currentForm == 'calendar' || this.props.commonData.currentForm == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
@@ -124,16 +124,17 @@ let NavBar = React.createClass({
                   }
                 </span>
               }
-              {this.getUser() && (this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
+              {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') && this.props.page != 'login') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.commonData.currentForm == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
-            <div id="nav_slide_menu" className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
- 
-                
+<<<<<<< HEAD
+							<div id="nav_slide_menu"
+							  className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+							  role="navigation">
               <ul className="nav navbar-nav">
 								<li>{this.showLink("/home","Home")}</li>
             		<li>{this.showLink("/search","Search")}</li>
@@ -146,7 +147,6 @@ let NavBar = React.createClass({
                   }
                 </li>
               </ul>
-                  
             </div>
           </div>:null
         }

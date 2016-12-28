@@ -22,7 +22,7 @@ module.exports = {
       host: '127.0.0.1',
       user: 'avaea',
       password: 'avaea',
-      database: 'avaea'
+      database: 'avaea_db'
     },
 
   },
@@ -52,7 +52,7 @@ module.exports = {
     host: '127.0.0.1',
     user: 'avaea',
     password: 'avaea',
-    database: 'avaea',
+    database: 'avaea_db',
     port: 5432
   },
 

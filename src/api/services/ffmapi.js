@@ -84,30 +84,17 @@ module.exports = {
         flts: []
       };
 
-      //Mapping our structure to 30K api request
-      var RequestFlight = {
-        fid: params.id,
-        lg: []
-      };
-      params.citypairs.forEach(function (citypair) {
-        var FlightLeg = {
-          sg: []
-        };
-        citypair.flights.forEach(function (flight) {
-          var FlightSegment = {
-            mac: flight.airlineCode,
-            oac: flight.airlineCode,
-            dac: flight.from.code,
-            aac: flight.to.code,
-            dd:  flight.from.date,
-            fc:  flight.bookingClass,
-            fn:  flight.number
-          };
-          FlightLeg.sg.push(FlightSegment);
-        });
-        RequestFlight.lg.push(FlightLeg)
+      var itineraries = [];
+
+      if (params.itineraries) {
+        itineraries = params.itineraries;
+      } else {
+        itineraries.push(params);
+      }
+
+      itineraries.forEach((itinerary) => {
+        _30kparams.flts.push(convertItineraryTo30kFlightFormat(itinerary));
       });
-      _30kparams.flts.push(RequestFlight);
 
       sails.log.info('Request to 30K api: ', JSON.stringify(_30kparams));
       ffmapi.get('milefy', apiUrl, 'POST', _30kparams, function (error, response, body) {
@@ -122,35 +109,95 @@ module.exports = {
         }
         sails.log.info('Response 30K api:', JSON.stringify(body));
         // return only one result
-        var filteredResult = {
-          AccrualType: ffmapi.AccrualTypes[0],
-          miles: 0,
-          ProgramCode:'',
-          ProgramCodeName:''
-        };
-        if (result.Value && !lodash.isEmpty(result.Value.flts) && !lodash.isEmpty(result.Value.flts[0].aprg[0].mi)) {
-          result.Value.flts[0].aprg[0].mi.forEach (function (miles, i) {
-            if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
-              filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
-              filteredResult.miles = miles.val;
-              filteredResult.ProgramCode = result.Value.flts[0].aprg[0].pc;
-            }
+
+        var filteredResults = [];
+        var programCodesAsObject = {};
+
+        if (result.Value && !lodash.isEmpty(result.Value.flts)) {
+
+          let nonEmptyFlights = result.Value.flts.filter((flight) => !lodash.isEmpty(flight.aprg[0].mi));
+          filteredResults = nonEmptyFlights.map(function (flight) {
+            var filteredResult = {
+              AccrualType: ffmapi.AccrualTypes[0],
+              miles: 0,
+              ProgramCode:'',
+              ProgramCodeName:''
+            };
+
+            flight.aprg[0].mi.forEach(function (miles, i) {
+              if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
+                filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
+                filteredResult.miles = miles.val;
+                filteredResult.ProgramCode = flight.aprg[0].pc;
+                programCodesAsObject[filteredResult.ProgramCode] = true;
+              }
+            });
+            return {
+              id: flight.fid,
+              ffmiles: filteredResult
+            };
           });
         }
-        if (filteredResult.ProgramCode) {
+        var programCodesAsArray = Object.keys(programCodesAsObject);
+        if (programCodesAsArray.length) {
 
-          FFMPrograms.findOne({program_code: filteredResult.ProgramCode}).exec(function findOneCB(err, found) {
-              if (found) {
-                filteredResult.ProgramCodeName = found.program_name;
+          var queryArray = programCodesAsArray.map((code) => ({program_code: code}));
+          FFMPrograms.find(queryArray).exec(function findCB(err, foundPrograms) {
+              if (foundPrograms && foundPrograms.length) {
+                foundPrograms.forEach((foundItem) => {
+                  programCodesAsObject[foundItem.program_code] = foundItem.program_name;
+                });
+
+                let definedProgramCodesAsObject = {};
+                Object.keys(programCodesAsObject)
+                  .filter((program) => programCodesAsObject[program] !== true)
+                  .forEach((program) => { definedProgramCodesAsObject[program] = programCodesAsObject[program] });
+
+                filteredResults.forEach((flight) => {
+                  if (definedProgramCodesAsObject[flight.ProgramCode]) {
+                    flight.ProgramCodeName = definedProgramCodesAsObject[flight.ProgramCode];
+                  }
+                });
               }
-              return callback(null, filteredResult);
+              return callback(null, filteredResults);
+
             }
           );
 
         } else {
-          return callback(null, filteredResult);
+          return callback(null, filteredResults);
         }
       });
+
+      function convertItineraryTo30kFlightFormat(itinerary) {
+        //Mapping our structure to 30K api request
+        var RequestFlight = {
+          fid: itinerary.id,
+          lg: []
+        };
+        if (itinerary.citypairs) {
+          itinerary.citypairs.forEach(function (citypair) {
+            var FlightLeg = {
+              sg: []
+            };
+            citypair.flights.forEach(function (flight) {
+              var FlightSegment = {
+                mac: flight.airlineCode,
+                oac: flight.airlineCode,
+                dac: flight.from.code,
+                aac: flight.to.code,
+                dd:  flight.from.date,
+                fc:  flight.bookingClass,
+                fn:  flight.number
+              };
+              FlightLeg.sg.push(FlightSegment);
+            });
+            RequestFlight.lg.push(FlightLeg)
+          });
+        }
+
+        return RequestFlight;
+      }
     },
 
     /**
