@@ -81,7 +81,8 @@ let ResultItem = React.createClass({
   showThumbsUp: function() {
     if (this.props.itinerary.smartRank <= 3 && this.props.itinerary.information && this.props.itinerary.information.length) {
       return <span data-toggle="modal" data-target={'[data-id=' + this.props.itinerary.id + ']'}><ModalFlightInfo id={this.props.itinerary.id} info={this.props.itinerary}/>
-        <span className="extras-flag"></span>
+	      {/* remove extras until we have real ones to show */}  
+	      {/* <span className="extras-flag"></span> */}
       </span>
     }
     return null;
@@ -114,7 +115,8 @@ let ResultItem = React.createClass({
                 title={ this.props.itinerary.citypairs[0].from.airline }>
           </span>
           <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-          {this.showThumbsUp()}
+          {/* remove extras until we have real ones to show */}
+          {/* {this.showThumbsUp()} */}
           <span className="static-price">{this.showPrice()}</span>
         </div>
       </div>
