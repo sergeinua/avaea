@@ -156,6 +156,7 @@ module.exports = {
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
         reqParams.user = req.user;
+        reqParams.price = booking_itinerary.price;
 
         // Clone and modify params for booking API
         let reqParamsApi = Object.assign({}, reqParams);
