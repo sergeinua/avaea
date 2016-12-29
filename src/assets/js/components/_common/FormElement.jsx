@@ -12,6 +12,7 @@ let FormElement = React.createClass({
         return <div>
           <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
           <FormElementDropdownContainer
+            id={this.props.item.id}
             panelType={this.props.panelType}
             item={this.props.item }
             profileStructure={this.props.profileStructure[this.props.item.id]}
@@ -26,6 +27,7 @@ let FormElement = React.createClass({
         <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
         <input
           type={this.props.item.type ? this.props.item.type : "text"}
+          id={this.props.item.id}
           name={this.props.item.id}
           className="form-control input-sm"
           placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title}

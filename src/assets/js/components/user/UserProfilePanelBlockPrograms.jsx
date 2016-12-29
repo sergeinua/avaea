@@ -43,13 +43,14 @@ let UserProfilePanelBlockPrograms = React.createClass({
         {
           this.state.item.data.map(function (item, index) {
 
-            return <div id="miles_programs" data-fieldset-name="miles_programs" key={'miles_programs' + item.airline_name + index}>
+            return <div id={"miles_programs" + index} data-fieldset-name="miles_programs" key={'miles_programs' + item.airline_name + index}>
               <hr className={index == 0 ? "hidden" : ""} />
 
               <label>Airline Name</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                     data-fieldset="miles_programs" onClick={self.props.onRemoveFieldset} >remove</span>
               <UserProfilePanelAirlineSelect
+                id={"miles_programs.airline_name-" + index}
                 elem_name={"miles_programs.airline_name["+index+"]"}
                 elem_value={item.airline_name}
                 blockNum={self.props.blockNum}
@@ -57,15 +58,15 @@ let UserProfilePanelBlockPrograms = React.createClass({
               />
 
               <label>Account Number</label>
-              <input type="text" name="miles_programs.account_number[]" className="form-control input-sm" placeholder="Account Number" defaultValue={item.account_number}
+              <input id={"miles_programs.account_number-" + index} type="text" name="miles_programs.account_number[]" className="form-control input-sm" placeholder="Account Number" defaultValue={item.account_number}
                      onBlur={(event) => self.handleChangeValue(event, index, 'account_number')}/>
 
               <label>Frequent Flier Miles</label>
-              <input type="text" name="miles_programs.flier_miles[]" className="form-control input-sm" placeholder="Frequent Flier Miles" defaultValue={item.flier_miles}
+              <input id={"miles_programs.flier_miles" + index} type="text" name="miles_programs.flier_miles[]" className="form-control input-sm" placeholder="Frequent Flier Miles" defaultValue={item.flier_miles}
                      onBlur={(event) => self.handleChangeValue(event, index, 'flier_miles')}/>
 
               <label>Expiration Date</label>
-              <input type="date" name="miles_programs.expiration_date[]" className="form-control input-sm" placeholder="Expiration Date" defaultValue={item.expiration_date}
+              <input id={"miles_programs.expiration_date" + index} type="date" name="miles_programs.expiration_date[]" className="form-control input-sm" placeholder="Expiration Date" defaultValue={item.expiration_date}
                      onBlur={(event) => self.handleChangeValue(event, index, 'expiration_date')}/>
 
             </div>
@@ -74,7 +75,7 @@ let UserProfilePanelBlockPrograms = React.createClass({
       </div>
 
       <div className="panel-footer">
-        <button type="button" data-for="miles_programs" onClick={this.props.onAddOneMore}>One more</button>
+        <button id="miles-programs-one-more-button" type="button" data-for="miles_programs" onClick={this.props.onAddOneMore}>One more</button>
       </div>
 
     </fieldset>;
