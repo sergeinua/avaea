@@ -28,7 +28,7 @@ module.exports = {
   port: 8000,
   proxyHost: 'https://www.avaea.com',
   proxyPort: 80,
-  explicitHost: 'www1',
+  explicitHost: '0.0.0.0',
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *

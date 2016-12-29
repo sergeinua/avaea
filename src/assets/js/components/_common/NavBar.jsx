@@ -83,10 +83,11 @@ let NavBar = React.createClass({
   },
 
   showLink: function (to, text) {
+    let id = 'menu-link-' + text.replace(/\W+/g, '_').toLowerCase();
     if (!this.props.location) {
-      return <a href={to}>{text}</a>
+      return <a id={id} href={to}>{text}</a>
     } else {
-      return <Link to={to}>{text}</Link>
+      return <Link id={id} to={to}>{text}</Link>
     }
   },
 
@@ -109,7 +110,7 @@ let NavBar = React.createClass({
                   </button>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
-                      <div className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
+                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
                         <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
                         <span className="flight-date">
                 { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
@@ -185,7 +186,7 @@ let NavBar = React.createClass({
             <div className="navbar-header back-style">
               <div className="container-fluid">
                 <div className="row">
-                  <div className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
+                  <div id="order-page-back-button" className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
                 </div>
               </div>
             </div>
