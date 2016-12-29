@@ -112,7 +112,7 @@ var StaticAbout = React.createClass({
 		      			<div className="image"></div>
 		      			<div className="holder">
 		      				<div className="name">Constantin Chuyeshov</div>
-		      				<div className="ti">Algorithm Engineer</div>
+		      				<div className="ti">Algorithm Architect</div>
 		      				<div className="bio">
 		      					Algorithm architect with patented work, 
 		      					developing customized data strategies for superior 

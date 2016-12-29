@@ -897,6 +897,10 @@ footer.static .wrapper:after {
 	width: 100%;
 }
 
+footer.static .left nav {
+	text-align: left;	 
+}
+
 footer.static .left,
 footer.static .right {
 	display: inline-block;
@@ -958,6 +962,12 @@ footer.static .copyright {
 	padding: 20px;
 	display: inline-block;
 }
+
+footer.static .copyright:before {
+	content: '\00A9';
+}
+
+
 
 
 /* ------- responsive ------- */
@@ -1197,6 +1207,10 @@ footer.static .copyright {
 		height: 385px;
 		background: url(../images/static/globe-about.svg) center 0px no-repeat;
 		background-size: 79%;
+	}
+	
+	footer.static .left nav {
+		text-align: center;	 
 	}
 	
 }
