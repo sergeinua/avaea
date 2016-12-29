@@ -27,6 +27,14 @@ module.exports = {
       });
     };
 
+    if (!req.user) {
+      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.User.NotAuthorised')
+      });
+    }
+
     let userId = utils.getUser(req);
 
     Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
