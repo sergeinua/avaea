@@ -16,7 +16,7 @@ if (typeof errors != 'undefined') {  %>
 
     <% Object.keys(providers).forEach(function (key) { %>
       <% if (key !== 'bearer') { %>
-        <a href="/auth/<%= providers[key].slug %>" class="big-button <%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
+        <a id="auth-button-<%= providers[key].slug %>" href="/auth/<%= providers[key].slug %>" class="big-button <%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
       <% } %>
     <% }) %>
   </div>

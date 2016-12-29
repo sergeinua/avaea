@@ -273,7 +273,7 @@ var TripSearchForm = React.createClass({
             <div className="row">
               <div className="col-xs-12">
                 <div className="direction label-d">Depart</div>
-                <div
+                <div id="search-form-depart-date"
                   className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.departureDate)}</div>
               </div>
             </div>
@@ -301,7 +301,7 @@ var TripSearchForm = React.createClass({
               <div className="row">
                 <div className="col-xs-12">
                   <div className="direction label-d">Return</div>
-                  <div
+                  <div id="search-form-return-date"
                     className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.returnDate)}</div>
                 </div>
               </div>
@@ -330,11 +330,13 @@ var TripSearchForm = React.createClass({
         </div>
 
         <div className="search-buttons">
-          <button type="submit" className={
+          <button id="search-form-all-flights-button" type="submit" className={
             "big-button secondary search-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(0)}>All
             Flights
           </button>
-          <button type="submit" className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>Top
+          <button id="search-form-top-flights-button"
+            type="submit"
+            className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>Top
             Flights
           </button>
         </div>
