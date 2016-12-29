@@ -2,7 +2,7 @@ import React from 'react';
 
 var StaticAbout = React.createClass({
 
-  render: function () {
+  render: function () { 
     return (
     		<div>
 	      <div className="content static about">
