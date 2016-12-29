@@ -221,6 +221,8 @@ module.exports = {
             miles: _programs_res.miles,
             refundType: _programs_res.refundType,
             eticketNumber: null, // Is not defined yet
+            serviceClass: Search.serviceClass,
+            providerInfo: sails.config.flightapis[_itinerary_data.service].providerInfo
           };
           return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
         })
