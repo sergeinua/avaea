@@ -87,7 +87,9 @@ module.exports = {
       filters: [
       ]
     },
-    Merchandising: { // Merchandising Fake data Issue #39
+    // suppressing fake merchandising until we have real data
+    /* 
+      Merchandising: { // Merchandising Fake data Issue #39
       name: 'Merchandising',
       id: 'merchandising_tile',
       order: 99,
@@ -108,7 +110,8 @@ module.exports = {
           count: 0
         }
       ]
-    }
+    } 
+    */
   },
   getTilesData: function (itineraries, params, callback) {
     sails.log.info('Using default bucketization algorithm');
@@ -466,7 +469,9 @@ module.exports = {
           }
         }
 
+        // suppressing fake merchandising data until we have real data
         // Merchandising Fake data Issue #39
+        /*
         _.forEach(itinerary.citypairs, function (cityPair) {
           if (cityPair.flights.length) {
             _.forEach(cityPair.flights, function (flight) {
@@ -484,6 +489,7 @@ module.exports = {
             });
           }
         });
+        */
 
         if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
@@ -498,7 +504,8 @@ module.exports = {
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
-          tileArr['Merchandising'].order = -1;
+          // suppressing fake merchandising data until we have real data
+          // tileArr['Merchandising'].order = -1;
           tileArr = _.sortBy(tileArr, 'order').reverse();
         }
         return callback(err, itineraries, tileArr);
@@ -918,7 +925,9 @@ module.exports = {
           filterClass = filterClass + ' ' + tileArr['Stops'].filters[index].id;
         }
 
+        // suppressing fake merchandising data until we have real data
         // Merchandising Fake data Issue #39
+        /*
         _.forEach(itinerary.citypairs, function (cityPair) {
           if (cityPair.flights.length) {
             _.forEach(cityPair.flights, function (flight) {
@@ -936,6 +945,7 @@ module.exports = {
             });
           }
         });
+        */
 
         // Flight information popup Fake data Issue #255
         var additionalPrice = 0;
@@ -984,7 +994,10 @@ module.exports = {
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
-          tileArr['Merchandising'].order = 1000;
+          
+          // suppressing fake merchandising data until we have real data
+          //tileArr['Merchandising'].order = 1000;
+          
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
           tileArr.forEach(function (tile) {

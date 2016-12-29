@@ -27,5 +27,6 @@
   "Error.Search.NoFlights": ["No flights are available for selected itinerary.", "Please try different dates or airports"],
   "Error.Search.Booking.NotFound": ["Could not find your booked ticket"],
   "Error.Search.Booking.Failed": ["Something went wrong. Your credit card wasn't charged. Please try again"],
-  "Error.Search.Expired": ["Your search has expired.", "Try a new search."]
+  "Error.Search.Expired": ["Your search has expired.", "Try a new search."],
+  "Error.User.NotAuthorised": ["User is not authorised."]
 }

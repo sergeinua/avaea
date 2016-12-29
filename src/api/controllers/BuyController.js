@@ -27,6 +27,14 @@ module.exports = {
       });
     };
 
+    if (!req.user) {
+      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.User.NotAuthorised')
+      });
+    }
+
     let userId = utils.getUser(req);
 
     Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
@@ -148,6 +156,7 @@ module.exports = {
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
         reqParams.user = req.user;
+        reqParams.price = booking_itinerary.price;
 
         // Clone and modify params for booking API
         let reqParamsApi = Object.assign({}, reqParams);
