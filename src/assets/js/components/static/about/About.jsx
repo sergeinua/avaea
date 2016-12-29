@@ -15,7 +15,7 @@ var StaticAbout = React.createClass({
 		      			preferences and comparing everything a flight has to offer, 
 		      			we make picking the right flight a snap.
 		      		</div>
-		      		<a className="buttonly" href="#">Try a flight search</a>
+		      		<a className="buttonly" href="/search">Try a flight search</a>
 	      		</div>
 	      	</div> {/* ends about top */}
 	      	
@@ -36,106 +36,115 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person michael">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Michael McCabe</div>
+		      				<div className="ti">VP Human Resources</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Experienced solutions architect for start-up teams, 
+		      					executive team development and HR management.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person willg">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Will Gardenswartz</div>
+		      				<div className="ti">VP Marketing</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Patented high-growth marketer and business  
+		      					development strategist, specializing in consumer engagement. 
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person bills">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">William Spillman</div>
+		      				<div className="ti">VP Airline Partnerships</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Industry veteran of 20 years in delivering IT
+		      					solutions to airlines and travel industry. 
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person irina">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Irina Kuznetsova</div>
+		      				<div className="ti">VP Product</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Founder and PM of a portfolio of successful technology startups.
+		      					Executive liason between business goals and product execution.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person cf">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Constantine Filin</div>
+		      				<div className="ti">VP Engineering</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Proven delivery of complex applications using hybrid
+		      					and cutting-edge technologies. Key technology leader.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person alext">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Alex Tsyplikhin</div>
+		      				<div className="ti">Sr. Director Data Science</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Experienced data scientist across diverse data types.
+		      					Razor's-edge AI architecture and implementation. 
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person cc">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Constantin Chuyeshov</div>
+		      				<div className="ti">Algorithm Engineer</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Patented algorithm architect developing customized
+		      					data strategies for superior consumer experience.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person deborah">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Deborah Speece</div>
+		      				<div className="ti">Sr. Director UI/UX</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Specialist in leading consumer and business-facing 
+		      					UI/UX for successful high-technology start-ups.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		<div className="person aftab">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
+		      				<div className="name">Aftab Yaqub</div>
+		      				<div className="ti">Customer Service Advisor</div>
 		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
+		      					Successful travel business founder, bottom-line
+		      					deliverer of end-user satisfaction.
 		      				</div>
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person generic">
+		      		{/*<div className="person generic">
 		      			<div className="image"></div>
 		      			<div className="holder">
 		      				<div className="name">Name</div>
@@ -144,7 +153,7 @@ var StaticAbout = React.createClass({
 		      					Short impressive bio sentence here. Maybe two.
 		      				</div>
 		      			</div>
-		      		</div>
+		      		</div>*/}
 		      		
 	      		</div> {/* ends team wrapper */}
 	      	</div> {/* ends second level */}

@@ -664,7 +664,57 @@ video {
 }
 
 .person.jafri .image {
-	background: url(../images/static/team-jafri-lo.gif) no-repeat;
+	background: #ffffff url(../images/static/team-jafri-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.michael .image {
+	background: #ffffff url(../images/static/team-michael-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.willg .image {
+	background: #ffffff url(../images/static/team-willg-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.bills .image {
+	background: #ffffff url(../images/static/team-bills-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.irina .image {
+	background: #ffffff url(../images/static/team-irina-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.cf .image {
+	background: #ffffff url(../images/static/team-cf-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.alext .image {
+	background: #ffffff url(../images/static/team-alext-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.cc .image {
+	background: #ffffff url(../images/static/team-cc-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.deborah .image {
+	background: #ffffff url(../images/static/team-deborah-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.aftab .image {
+	background: #ffffff url(../images/static/team-aftab-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.bills {
+	display: none;
 }
 
 .about .button-holder {
