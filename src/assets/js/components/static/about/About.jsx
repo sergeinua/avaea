@@ -114,8 +114,9 @@ var StaticAbout = React.createClass({
 		      				<div className="name">Constantin Chuyeshov</div>
 		      				<div className="ti">Algorithm Engineer</div>
 		      				<div className="bio">
-		      					Patented algorithm architect developing customized
-		      					data strategies for superior consumer experience.
+		      					Algorithm architect with patented work, 
+		      					developing customized data strategies for superior 
+		      					consumer experience.
 		      				</div>
 		      			</div>
 		      		</div>

@@ -28,16 +28,16 @@ let StaticFooter = React.createClass({
 	      		</div>{/* ends left */}
 	      		
 	      		<div className="right">
-	      			<a className="social fb" href="http://www.facebook.com/avaeatravel" target="_blank"></a>
-	      			<a className="social twitter" href="http://www.twitter.com/avaeatravel" target="_blank"></a>
-	      			<a className="social instagram" href="http://www.instagram.com/avaeatravel" target="_blank"></a>
+	      			<a className="social fb" href="http://www.facebook.com/onvoya" target="_blank"></a>
+	      			<a className="social twitter" href="http://www.twitter.com/onvoyatravel" target="_blank"></a>
+	      			<a className="social instagram" href="http://www.instagram.com/onvoya" target="_blank"></a>
 	      		</div>{/* ends right */}
 	      		
 	      	</div>{/* ends wrapper */}
       	</div>{/* ends top */}
       	
       	<div className="bottom">
-        	<span className="copyright">{(' ' + d.getFullYear() + ' Avaea.com')}</span>
+        	<span className="copyright">{(' ' + d.getFullYear() + ' Onvoya.com')}</span>
         </div>	
       </footer>
     )
