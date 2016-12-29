@@ -10,6 +10,10 @@ let HomePage = React.createClass({
     };
   },
 
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
+  },
+
   getUser: function () {
     //FIXME get rid from global var
     return this.props.user || InitData.user || false;
