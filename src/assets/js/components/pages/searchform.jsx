@@ -11,6 +11,7 @@ import Typeahead from '../searchform/Typeahead.jsx';
 var SearchFormPage = React.createClass({
 
   componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
     // DEMO-800 removed mess after not properly closed modal.
     // FIXME remove this after removing jquery modal
     $('.modal-backdrop').remove();

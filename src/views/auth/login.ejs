@@ -22,3 +22,18 @@ if (typeof errors != 'undefined') {  %>
   </div>
 
 <% } %>
+<script type="text/javascript">
+  function whenAvailable(name, callback) {
+    var interval = 10; // ms
+    window.setTimeout(function() {
+      if (window[name]) {
+        callback();
+      } else {
+        window.setTimeout(arguments.callee, interval);
+      }
+    }, interval);
+  }
+  whenAvailable("analytics", function() {
+    analytics.page();
+  });
+</script>

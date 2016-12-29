@@ -25,6 +25,7 @@ let BookingPage = React.createClass({
       setCookie('redirectTo', this.props.location.pathname, {expires: 300});
       window.location = '/login';
     } else {
+      analytics.page(this.props.location.pathname);
       ActionsStore.changeForm('about', false);
 
       fetch('/booking?bookingId=' + this.state.bookingId, {
