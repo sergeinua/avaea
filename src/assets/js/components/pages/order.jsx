@@ -8,9 +8,10 @@ let OrderPage = React.createClass({
     if (!this.getUser()) {
       setCookie('redirectTo', this.props.location.pathname, {expires: 300});
       window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('order', false);
     }
-    analytics.page(this.props.location.pathname);
-    ActionsStore.changeForm('order', false);
   },
 
   getUser: function () {

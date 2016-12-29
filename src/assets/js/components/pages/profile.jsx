@@ -8,9 +8,10 @@ let ProfilePage = React.createClass({
     if (!this.getUser()) {
       setCookie('redirectTo', this.props.location.pathname, {expires: 300});
       window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('profile', false);
     }
-    analytics.page(this.props.location.pathname);
-    ActionsStore.changeForm('profile', false);
   },
 
   getUser: function () {
