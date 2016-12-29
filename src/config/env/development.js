@@ -72,5 +72,9 @@ module.exports = {
   },
 
   hookTimeout: 120000,
-  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
+
+  cron: {
+    readEticket: {schedule: '*/20 * * * * *'}
+  }
 };
