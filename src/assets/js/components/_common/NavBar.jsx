@@ -121,7 +121,7 @@ let NavBar = React.createClass({
                         <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
                         <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
                       </div>
-                    </div>:<div className="navbar-brand">Avaea Agent</div>
+                    </div>:<div className="navbar-brand"></div>
                   }
                 </span>
               }
