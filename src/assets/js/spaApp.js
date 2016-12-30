@@ -11,6 +11,7 @@ import DisplayAlert from '~/_common/DisplayAlert';
 
 import HomePage from 'components/static/pages/home.jsx';
 import AboutPage from 'components/static/pages/about.jsx';
+import PartnerPage from 'components/static/pages/partner.jsx';
 import JobsPage from 'components/static/pages/jobs.jsx';
 import NewsPage from 'components/static/pages/news.jsx';
 import ContactPage from 'components/static/pages/contact.jsx';
@@ -69,13 +70,14 @@ $(document).ready(function() {
       .then(function () {
         render((
           <ReactRedux.Provider store={clientStore}>
-            <Router history={browserHistory}>
+            <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
               <Route path="/" component={StaticContainer}>
                 <Route path="/home" component={HomePage}/>
                 <Route path="/about" component={AboutPage}/>
                 <Route path="/jobs" component={JobsPage}/>
                 <Route path="/news" component={NewsPage}/>
                 <Route path="/blog" component={BlogPage}/>
+                <Route path="/partner" component={PartnerPage}/>
                 <Route path="/contact" component={ContactPage}/>
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>
