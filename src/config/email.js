@@ -18,7 +18,7 @@ module.exports.email = {
 
   // Default "from" field
   from: '"Avaea Customer Support" <support@avaea.com>',
-  replyTo: '<support@avaea.com>',
+  replyTo: '"Avaea Customer Support" <support@avaea.com>',
   callTo: '510-249-9333',
   tpl_ticket_confirm: "ticket-confirmation",
   tpl_profile_create: "profile-create"
