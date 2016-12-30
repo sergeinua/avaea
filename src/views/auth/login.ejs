@@ -1,3 +1,5 @@
+<script>var InitData = {user: false};</script>
+
 <div id="onlynavbar" page="login"></div>
 
 <%
@@ -14,9 +16,24 @@ if (typeof errors != 'undefined') {  %>
 
     <% Object.keys(providers).forEach(function (key) { %>
       <% if (key !== 'bearer') { %>
-        <a href="/auth/<%= providers[key].slug %>" class="big-button <%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
+        <a id="auth-button-<%= providers[key].slug %>" href="/auth/<%= providers[key].slug %>" class="big-button <%= providers[key].slug %>" role="button"><%= providers[key].name %></a>
       <% } %>
     <% }) %>
   </div>
 
 <% } %>
+<script type="text/javascript">
+  function whenAvailable(name, callback) {
+    var interval = 10; // ms
+    window.setTimeout(function() {
+      if (window[name]) {
+        callback();
+      } else {
+        window.setTimeout(arguments.callee, interval);
+      }
+    }, interval);
+  }
+  whenAvailable("analytics", function() {
+    analytics.page();
+  });
+</script>

@@ -39,13 +39,14 @@ let UserProfilePanelBlockAirlines = React.createClass({
           this.state.item.data.map(function(item, index) {
             var pseudoItem = {id: 'travel_type', data: item.travel_type};
 
-            return <div id="preferred_airlines" data-fieldset-name="preferred_airlines" key={'preferred_airlines' + item.airline_name + index}>
+            return <div id={"preferred_airlines" + index} data-fieldset-name="preferred_airlines" key={'preferred_airlines' + item.airline_name + index}>
               <hr className={index == 0 ? "hidden" : ""} />
 
               <label>Preferred Airlines type</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                      data-fieldset="preferred_airlines" onClick={self.props.onRemoveFieldset} >remove</span>
               <FormElementDropdownContainer
+                id={"preferred_airlines-" + index}
                 panelType="programs"
                 item={pseudoItem}
                 profileStructure={self.props.programsStructure.travel_type}
@@ -55,6 +56,7 @@ let UserProfilePanelBlockAirlines = React.createClass({
 
               <label>Airline Name</label>
               <UserProfilePanelAirlineSelect
+                id={"preferred_airlines.airline_name-" + index}
                 elem_name={"preferred_airlines.airline_name["+index+"]"}
                 elem_value={item.airline_name}
                 blockNum={self.props.blockNum}
@@ -68,7 +70,7 @@ let UserProfilePanelBlockAirlines = React.createClass({
       </div>
 
       <div className="panel-footer">
-        <button type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
+        <button id="preferred-airlines-one-more-button" type="button" data-for="preferred_airlines" onClick={this.props.onAddOneMore}>One more</button>
       </div>
 
     </fieldset>;

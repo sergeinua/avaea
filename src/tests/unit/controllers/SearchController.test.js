@@ -235,6 +235,7 @@ describe('SearchController', function() {
           };
         }
       };
+      sails.config.globals.bucketizationFunction = 'getTilesDataEmpty';
       Airlines.makeIconSpriteMap = function (cb) {return cb(false, {});};
       Search.getResult = function (params, cb) {
         var ititns = require('../../fixtures/itineraries.json');

@@ -4,6 +4,7 @@ import 'promise-polyfill';
 import { ActionsStore } from '../../functions.js';
 import Loader from '../_common/Loader.jsx';
 import Booking from '../buy/Booking.jsx';
+import { setCookie } from '../../legacyJquery.js';
 
 let BookingPage = React.createClass({
 
@@ -15,23 +16,33 @@ let BookingPage = React.createClass({
     };
   },
 
-  componentWillMount: function () {
-    ActionsStore.changeForm('about', false);
+  getUser: function () {
+    return InitData.user || false;
+  },
 
-    fetch('/booking?bookingId=' + this.state.bookingId, {
-      method: 'POST',
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        this.setState({
-          isLoading: false,
-          orderData: json
+  componentWillMount: function () {
+    if (!this.getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('about', false);
+
+      fetch('/booking?bookingId=' + this.state.bookingId, {
+        method: 'POST',
+        credentials: 'same-origin' // required for including auth headers
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          this.setState({
+            isLoading: false,
+            orderData: json
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    }
   },
 
 

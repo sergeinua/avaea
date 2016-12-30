@@ -99,7 +99,7 @@ $(document).ready(function() {
       })
       .then(function () {
         let iconSpriteMap = sessionStorage.getItem('iconSpriteMap');
-        if (iconSpriteMap) {
+        if (iconSpriteMap && iconSpriteMap != 'undefined') {
           clientStore.dispatch(actionSetCommonVal('iconSpriteMap', JSON.parse(iconSpriteMap || '[]')));
         }
         else {
@@ -111,7 +111,6 @@ $(document).ready(function() {
           && (confTripSearchForms.indexOf(_localSearchParams.flightType) != -1)
           && (confTripSearchForms.indexOf(clientStore.getState().commonData.currentForm) != -1)
         ) {
-          console.log('bootstrap form', _localSearchParams.flightType);
           ActionsStore.changeForm(_localSearchParams.flightType);
         }
       });
@@ -123,9 +122,8 @@ $(document).ready(function() {
 $(document).ready(function() {
   var NavBarData = $('#onlynavbar').attr('page');
   if (typeof NavBarData != 'undefined' && $('#onlynavbar').length) {
-    var userData = (typeof NavBarInit != 'undefined' && NavBarInit.user) ? NavBarInit.user : {};
     render(
-      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} user={userData} InitResultData={{}}/></ReactRedux.Provider>,
+      <ReactRedux.Provider store={clientStore}><NavBarContainer page={NavBarData} InitResultData={{}}/></ReactRedux.Provider>,
       document.getElementById('onlynavbar')
     );
   }

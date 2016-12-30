@@ -1,10 +1,21 @@
 import React from 'react';
 import { ActionsStore } from '../../functions.js';
 import OrderPanelContainer from '../buy/OrderPanel.jsx';
+import { setCookie } from '../../legacyJquery.js';
 
-var OrderPage = React.createClass({
+let OrderPage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.changeForm('order', false);
+    if (!this.getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('order', false);
+    }
+  },
+
+  getUser: function () {
+    return InitData.user || false;
   },
 
   render: function () {
