@@ -181,7 +181,8 @@ var VoiceForm = React.createClass({
    */
   demo: function (callback) {
 
-    fetch('/voice/parse', {
+    /* fetch('/voice/parse', {*/
+    fetch('/voice/parse_api_ai', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

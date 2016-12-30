@@ -57,7 +57,10 @@ module.exports.routes = {
 
   'post /ac/airports': 'AcController.airports',
 
-  'post /voicesearch': 'VoicesearchController.index',
+  // 'post /voicesearch': 'VoicesearchController.index',
+
+  'post /voice/parse': 'VoiceController.parse',
+  'post /voice/parse_api_ai': 'VoiceController.parseApiAi',
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
