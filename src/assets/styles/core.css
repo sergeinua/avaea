@@ -21,7 +21,8 @@
 /*.flight-unit .itinerary-airline-icon,*/
 /*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
-.dimmer {
+.dimmer,
+.touch > .copyright {
 	display: none;
 }
 
@@ -54,14 +55,6 @@
 	background: #ffffff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
-}
-
-.desktop .desktop-wrapper:after {
-	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
-	font-size: 13px;
-	padding: 20px 0;
-	display: inline-block;
-	float: left;
 }
 
 .desktop .desktop-wrapper,
@@ -162,12 +155,11 @@
 	display: inline-block;
 	position: relative;
 		top: -50px;
-    left: 200px;
+    left: 260px;
 	background: transparent;
 	border: 0px solid transparent;
 }
 
-.desktop #nav-slide-menu .divider,
 .desktop .navmenu.offcanvas:before,
 .desktop .nav.navbar-nav > li > a > b {
 	display: none;
@@ -202,7 +194,7 @@
 }
 
 .desktop .navbar-header:not(.back-style)	{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 .desktop .tt-menu {
@@ -730,7 +722,7 @@ body.desktop form.profile,
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
 .form-control {
-	color: #000000;
+	color: #222222;
 }
 
 /* dark blue */
@@ -759,7 +751,6 @@ body.desktop form.profile,
 .tt-highlight,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-.desktop .desktop-wrapper:after,
 legend,
 .dimmer .copy {
 	color: #004c9c;
@@ -1033,7 +1024,7 @@ button:active {
 
 input,
 textarea {
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
@@ -1132,10 +1123,11 @@ textarea {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:hover {
-	font-family: 'montserrat-semibold';
-  font-size: 19px;
-  color: #ffffff;
-  text-transform: uppercase;
+	padding: 18px 5px 14px 5px;
+	width: 200px;
+	position: relative;
+	background: url('/images/logo-onvoya-app-2x.png') 0 5px no-repeat;
+	background-size: 185px;
 }
 
 .navbar-default .navbar-toggle,
@@ -1153,13 +1145,10 @@ textarea {
 	text-align: left;
 }
 
-.navbar-brand {
-	padding: 18px 5px 14px 5px;
-}
-
 .navbar-header {
 	min-height: 51px;
 	width: 100%;
+	position: relative;
 }
 
 .navbar-header .small-button {
@@ -1189,11 +1178,6 @@ textarea {
   text-transform: lowercase;
 	font-weight: normal;
 	display: block;
-}
-
-.navbar-nav .divider {
-  border-bottom: 1px solid #ffffff;
-	opacity: .5;
 }
 
 .navmenu {
@@ -1666,6 +1650,10 @@ strong.tt-highlight {
 
 /* calendar */
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1713,6 +1701,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
+.desktop .bootstrap-datetimepicker-widget table td.disabled:hover,
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
@@ -3209,6 +3198,27 @@ body.desktop form.profile {
 
 /* ------- responsive ------- */
 
+@media (min-width: 767px) {
+
+.navbar-brand {
+	display: block;
+}
+
+.touch .navbar-brand {
+	left: 12px;
+}
+
+}
+
+@media (max-width: 766px) {
+
+.navbar-brand {
+	display: none;
+}
+
+}
+
+
 /* landscape phone */
 
 @media screen and (min-aspect-ratio: 13/9) {
@@ -3575,15 +3585,6 @@ html[data-useragent*='Trident'] .ie-fixer.placeholder {
 
 html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
-}
-
-html[data-useragent*='Trident'] .desktop .search-result .navbar-header:before {
-	content: '';
-	margin-top: 15px;
-	padding: 0 0 0 0;
-	height: 40px;
-	width: 150px;
-	background: url('/images/avaea-ie.svg') left top no-repeat;
 }
 
 html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {

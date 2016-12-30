@@ -118,27 +118,5 @@
         "id": "arrival_tile",
         "name": "Arrival",
         "order": 99
-    },
-    {
-        "filters": [
-            {
-                "count": 16,
-                "id": "merchandising_tile_wifi",
-                "title": "WiFi"
-            },
-            {
-                "count": 23,
-                "id": "merchandising_tile_1st_bag_free",
-                "title": "1st bag free"
-            },
-            {
-                "count": 8,
-                "id": "merchandising_tile_priority_seat",
-                "title": "Priority seat"
-            }
-        ],
-        "id": "merchandising_tile",
-        "name": "Merchandising",
-        "order": 1000
     }
 ]

@@ -36,6 +36,7 @@
     "lodash": "^4.15.0",
     "mc": "^1.0.6",
     "moment": "^2.10.6",
+    "node-fetch": "^1.6.3",
     "nodemailer": "^2.6.0",
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",

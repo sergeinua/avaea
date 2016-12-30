@@ -1,6 +1,7 @@
 import React from 'react';
 import Flight from './Flight.jsx';
-import MerchandisingInfo from './MerchandisingInfo.jsx';
+{/* suppressing fake merchandising data until we have real data */}
+{/* import MerchandisingInfo from './MerchandisingInfo.jsx'; */}
 
 let Citypairs = React.createClass({
 
@@ -42,9 +43,11 @@ let Citypairs = React.createClass({
                 { pair.direction }
               </div>
 
+              {/*
               <div className="col-xs-9 extras">
                 <MerchandisingInfo flights={pair.flights}/>
               </div>
+              */}
 
             </div>
             { pair.flights.map(function (flight, j) {

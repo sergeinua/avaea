@@ -23,7 +23,7 @@ var UserAction = {
       if (!user && sails.config.environment =='test') {
         var uFields = {
           username: 'test',
-          email: 'test@avaea.com',
+          email: 'test@onvoya.com',
           is_whitelist: 1
         };
         User.findOrCreate(uFields).exec((err, row) => {
