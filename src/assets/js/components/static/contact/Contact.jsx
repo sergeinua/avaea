@@ -12,6 +12,8 @@ let StaticContact = React.createClass({
 
       isFormSending: false,
       isFormSend: false,
+      isFormSendError: false,
+      formSendError: '',
 
       name: "",
       isNameErrorVisible: false,
@@ -92,25 +94,38 @@ let StaticContact = React.createClass({
   },
 
   send: function () {
-    return ClientApi.reqPost('/recaptcha/verify', {
+    return ClientApi.reqPost('/feedback/verify', {
       recaptcha: this.state.recaptcha,
       name: this.state.name,
       email: this.state.email,
       comment: this.state.comment
-    }).then(function (resp) {
-      this.setState({
-        isFormSending: false,
-        isFormSend: true
-      });
-    }.bind(this)).catch(function (err) {
-      this.setState({
-        isFormSending: false,
-        isFormSend: false,
-        isFormSendError: true,
-        formSendError: err
-      });
+    })
+      .then(function (resp) {
+        var responseObject = typeof resp === "object" ? resp: JSON.parse(resp);
+        if (responseObject.error) {
+          this.setState({
+            isFormSending: false,
+            isFormSend: false,
+            isFormSendError: true,
+            formSendError: responseObject.errorMsg
+          });
+        } else {
+          this.setState({
+            isFormSending: false,
+            isFormSend: true
+          });
+        }
+      }.bind(this))
 
-    }.bind(this));
+      .catch(function (err) {
+        this.setState({
+          isFormSending: false,
+          isFormSend: false,
+          isFormSendError: true,
+          formSendError: err
+        });
+      }.bind(this));
+
   },
 
   render: function () {
@@ -199,6 +214,15 @@ let StaticContact = React.createClass({
                     onChange={this.onRecaptchaChange}
                   />
                 </div>
+
+                {
+                  (!this.state.isFormSending && this.state.isFormSendError) ?
+                  <div className="line-item error">
+                    <div className="error-msg">
+                      {this.state.formSendError}
+                    </div>
+                  </div>: null
+                }
 
                 <a className={"buttonly" + (this.state.isFormSending ? " sending" : "")}
                    href="#"
