@@ -57,7 +57,7 @@
 }
 
 .desktop .desktop-wrapper:after {
-	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
+	content: '\00A9 2017 Onvoya, Inc., All Rights Reserved';
 	font-size: 13px;
 	padding: 20px 0;
 	display: inline-block;
@@ -202,7 +202,7 @@
 }
 
 .desktop .navbar-header:not(.back-style)	{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 .desktop .tt-menu {
@@ -1114,10 +1114,11 @@ textarea {
 .navbar-default .navbar-brand,
 .navbar-default .navbar-brand:focus,
 .navbar-default .navbar-brand:hover {
-	font-family: 'montserrat-semibold';
-  font-size: 19px;
-  color: #ffffff;
-  text-transform: uppercase;
+	padding: 18px 5px 14px 5px;
+	width: 200px;
+	position: relative;
+	background: url('/images/logo-onvoya-app-2x.png') 0 5px no-repeat;
+	background-size: 185px;
 }
 
 .navbar-default .navbar-toggle,
@@ -1135,13 +1136,10 @@ textarea {
 	text-align: left;
 }
 
-.navbar-brand {
-	padding: 18px 5px 14px 5px;
-}
-
 .navbar-header {
 	min-height: 51px;
 	width: 100%;
+	position: relative;
 }
 
 .navbar-header .small-button {
@@ -3081,6 +3079,27 @@ body.desktop form.profile {
 
 /* ------- responsive ------- */
 
+@media (min-width: 767px) {
+
+.navbar-brand {
+	display: block;
+}
+
+.touch .navbar-brand {
+	left: 12px;
+}
+
+}
+
+@media (max-width: 766px) {
+
+.navbar-brand {
+	display: none;
+}
+
+}
+
+
 /* landscape phone */
 
 @media screen and (min-aspect-ratio: 13/9) {
@@ -3455,7 +3474,7 @@ html[data-useragent*='Trident'] .desktop .search-result .navbar-header:before {
 	padding: 0 0 0 0;
 	height: 40px;
 	width: 150px;
-	background: url('/images/avaea-ie.svg') left top no-repeat;
+	background: url('/images/onvoya-ie.svg') left top no-repeat;
 }
 
 html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {

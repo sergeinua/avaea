@@ -66,7 +66,7 @@ $(document).ready(function() {
   
   $( ".copyright" ).html(function() {
     var d = new Date();
-    var writedate = ('&copy;' + d.getFullYear() + ' Avaea.com');
+    var writedate = ('&copy;' + d.getFullYear() + ' Onvoya.com');
     return writedate;
   });
   
