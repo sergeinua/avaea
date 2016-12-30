@@ -60,7 +60,7 @@ module.exports.connections = {
     host: '127.0.0.1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
-    database: 'avaea_db'
+    database: 'avaea'
   },
   dockerPostgresqlServer: {
     adapter: 'sails-postgresql',
