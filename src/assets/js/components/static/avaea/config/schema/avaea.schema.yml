@@ -1,5 +1,0 @@
-# Schema for the configuration files of the Avaea theme.
-
-avaea.settings:
-  type: theme_settings
-  label: 'Avaea settings'

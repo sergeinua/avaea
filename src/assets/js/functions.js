@@ -134,8 +134,6 @@ var isMobile = {
   }
 };
 
-// Deborah removed landscape function
-// in order to control landscape view with responsive CSS
 
 /**
  * Possible types
@@ -182,18 +180,14 @@ function setCookie(name, value, options) {
   document.cookie = updatedCookie;
 }
 
-
 $(document).ready(function() {
 
-  $('#nav_slide_menu').offcanvas({
-    toggle: false,
-    placement: 'left'
-  });
-
-//***** detect IE10 or IE11 and append string  ***** //
+  // app screens nav slide menu is in NavBar.jsx
+  
+  // detect IE10 or IE11 and append string  
   var doc = document.documentElement;
   doc.setAttribute('data-useragent', navigator.userAgent);
-
+  
 });
 // ends dom ready
 

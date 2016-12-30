@@ -23,10 +23,6 @@ h1.skeleton {
 	margin: 5em 0 10em 0;
 }
 
-body {
-	min-width: 320px;
-}
-
 
 
 /* take away app styles */
@@ -238,12 +234,10 @@ header.static li.flight-search {
 /* ------- header ------- */
 
 header.static {
-	padding: 20px 0px 20px 230px;
+	padding: 20px 20px 20px 230px;
 	position: relative;
-	min-height: 70px;
-	height: 70px;
-	background: #ffffff url(../images/static/logo-beta.svg) 5px 5px no-repeat;
-	background-size: 275px;
+	background: #ffffff url(../images/static/logo-beta.svg) 5px 8px no-repeat;
+	background-size: 230px;
 	z-index: 5; /* get it above the video area */
 }
 
@@ -267,9 +261,8 @@ header.static nav .left {
 }
 
 header.static nav .right {
-	text-align: center;
-	max-width: 245px;
 	width: 245px;
+	text-align: right;
 }
 
 header.static ul,
@@ -389,7 +382,6 @@ video {
 	text-align: center;
 	padding: 5px;
 	width: 100%;
-	border: 0px solid transparent;
 }
 
 .try-it .loc-holder {
@@ -664,57 +656,11 @@ video {
 }
 
 .person.jafri .image {
-	background: #ffffff url(../images/static/team-jafri-hi.png) -1px top no-repeat;
-	background-size: 157px;
+	background: url(../images/static/team-jafri-lo.gif) no-repeat;
 }
 
-.person.michael .image {
-	background: #ffffff url(../images/static/team-michael-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.willg .image {
-	background: #ffffff url(../images/static/team-willg-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.bills .image {
-	background: #ffffff url(../images/static/team-bills-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.irina .image {
-	background: #ffffff url(../images/static/team-irina-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.cf .image {
-	background: #ffffff url(../images/static/team-cf-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.alext .image {
-	background: #ffffff url(../images/static/team-alext-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.cc .image {
-	background: #ffffff url(../images/static/team-cc-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.deborah .image {
-	background: #ffffff url(../images/static/team-deborah-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.aftab .image {
-	background: #ffffff url(../images/static/team-aftab-hi.png) -1px top no-repeat;
-	background-size: 157px;
-}
-
-.person.bills {
-	display: none;
+.person.blank .image {
+	background: transparent;
 }
 
 .about .button-holder {
@@ -897,10 +843,6 @@ footer.static .wrapper:after {
 	width: 100%;
 }
 
-footer.static .left nav {
-	text-align: left;	 
-}
-
 footer.static .left,
 footer.static .right {
 	display: inline-block;
@@ -963,12 +905,6 @@ footer.static .copyright {
 	display: inline-block;
 }
 
-footer.static .copyright:before {
-	content: '\00A9';
-}
-
-
-
 
 /* ------- responsive ------- */
 
@@ -1007,13 +943,9 @@ footer.static .copyright:before {
 		padding-right: 0;
 	}
 	
-	.static .home.compare ul {
-		margin-bottom: 20px;
-	}
-	
 	.static .home.compare:after {
 		margin-bottom: -30px;
-		height: calc(77vw * .75);
+		height: calc(77vw * .72);
 		width: 100%;
 		position: relative;
 		background: url(../images/static/tickets-compare.svg) right 0 no-repeat;
@@ -1042,16 +974,29 @@ footer.static .copyright:before {
 }
 
 
-/* triggers responsive nav */
-@media (max-width: 910px) {
+@media (max-width: 920px) {
 	
-	.static-nav-button {
-		cursor: pointer;
-		display: inline-block;
+	header.static {
+		padding-left: 230px;
+		background-size: 190px;
+		background: url(../images/static/logo-beta.svg) 5px 10px no-repeat;
 	}
 	
-	.touch .static-nav-button {
-		margin-top: -5px;
+	header.static a, header.static a:hover, header.static a:visited {
+		padding-left: 8px;
+		padding-right: 8px;
+	}
+	
+	header.static nav .right {
+		width: 235px;
+	}
+	
+}
+
+@media (max-width: 824px) {
+	
+	.static-nav-button {
+		display: inline-block;
 	}
 	
 	header.static {
@@ -1059,26 +1004,24 @@ footer.static .copyright:before {
 		padding-left: 20px;
 		padding-right: 200px;
 		padding-bottom: 10px;
-		background: url(../images/static/logo-beta.svg) right 5px no-repeat;
-    background-size: 275px;
-	}
-	
-	.touch header.static {
-		padding-left: 0;
-	}
-	
-	header.static nav.respond {
-		display: inline-block;
+		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
 	}
 	
 	header.static nav {
-		display: none;
+		display: inline-block;
 		width: 280px;
 		position: absolute;
-			top: 70px;
+			top: 73px;
 			left: 0;
 			padding: 20px 20px 50px 20px;
 		background: #062868;
+	}
+	
+	header.static nav {
+		/* sets initial hidden state, but
+		   when it toggles it picks up
+			 'display: inline-block' above */
+		display: none;
 	}
 	
 	header.static a, 
@@ -1149,7 +1092,7 @@ footer.static .copyright:before {
 		padding-right: 300px;
 	}
 	
-	.about.top .wrapper {
+	.about.top .wraper {
 		margin-top: 20px;
 		margin-left: 40px;
 	}
@@ -1172,6 +1115,11 @@ footer.static .copyright:before {
 }
 
 @media (max-width: 675px) {
+	
+	header.static nav {
+		width: 250px;
+		min-width: 250px;
+	}
 	
 	slogan.third {
 		line-height: 50px;
@@ -1209,60 +1157,13 @@ footer.static .copyright:before {
 		background-size: 79%;
 	}
 	
-	footer.static .left nav {
-		text-align: center;	 
-	}
-	
 }
-
-
-/* iPhone and Android landscape */
-@media (min-aspect-ratio: 13/9) {
-	
-	.touch .static-features {
-		padding: 0 20px;
-	}
-	
-	.touch .static-features > div {
-		padding: 20px 20px 20px 20px;
-		display: table-cell;
-	}
-	
-	.touch .static-features .graphic { 
-		height: 110px;
-		background-size: 110px;
-	}
-	
-	.touch .static-features > div:last-child:before {
-		content: '';
-		margin: 0 -30px 30px -30px;
-    display: block;
-    border-top: 1px solid #d7d7d7;
-	}
-	
-	.touch .static-features > div:last-child {
-		display: block;
-		width: 80%;
-	}
-	
-	.touch .static-features > div .copy {
-		font-size: 18px;
-	}
-	
-	.touch .home .upcoming {
-		width: 270px;
-		height: 250px;
-	}
-	
-	.touch .upcoming .copy {
-		line-height: 28px;
-	}
-	
-}
-
 
 @media (max-width: 550px) {
 	
+	header.static nav {
+		width: 
+	}
 	
 	.try-it .loc-holder input {
 		width: 100%;
@@ -1291,8 +1192,8 @@ footer.static .copyright:before {
 	}
 	
 	.static .home.compare:after {
-		height: calc(120vw * .75);
-		background: url(../images/static/tickets-compare.svg) -10px 10px no-repeat;
+		height: 340px;
+		background: url(../images/static/tickets-compare.svg) -10px bottom no-repeat;
 		background-size: 120%;
 	}
 	
@@ -1322,6 +1223,10 @@ footer.static .copyright:before {
 		width: 100%;
 	}
 	
+	about.person.blank {
+		display: none;
+	}
+	
 	.static.contact input, 
 	.static.contact textarea {
     width: 100%;
@@ -1330,7 +1235,6 @@ footer.static .copyright:before {
 	.static .success {
 		text-align: center;
 		padding: 20px 40px 30px 40px;
-		width: 100%;
 	}
 	
 	.static .success:before {
@@ -1338,14 +1242,7 @@ footer.static .copyright:before {
 		width: 100%;
 		height: 90px;
 		position: relative;
-			top: 0;
-			left: 0;
 		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
-	}
-	
-	.about.top a.buttonly {
-		line-height: 30px;
-		padding: 25px 30px 25px 30px;
 	}
 	
 	
@@ -1385,11 +1282,6 @@ footer.static .copyright:before {
 
 
 
-/* FF Firefox fixes */
-
-a, a:active, a:focus {
-	outline: none;
-}
 
 
 

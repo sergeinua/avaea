@@ -21,7 +21,8 @@
 /*.flight-unit .itinerary-airline-icon,*/
 /*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
-.dimmer {
+.dimmer,
+.touch > .copyright {
 	display: none;
 }
 
@@ -54,14 +55,6 @@
 	background: #ffffff;
 	border-radius: 4px;
 	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
-}
-
-.desktop .desktop-wrapper:after {
-	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
-	font-size: 13px;
-	padding: 20px 0;
-	display: inline-block;
-	float: left;
 }
 
 .desktop .desktop-wrapper,
@@ -162,12 +155,11 @@
 	display: inline-block;
 	position: relative;
 		top: -50px;
-    left: 200px;
+    left: 260px;
 	background: transparent;
 	border: 0px solid transparent;
 }
 
-.desktop #nav-slide-menu .divider,
 .desktop .navmenu.offcanvas:before,
 .desktop .nav.navbar-nav > li > a > b {
 	display: none;
@@ -722,7 +714,7 @@ body.desktop form.profile,
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
 .form-control {
-	color: #000000;
+	color: #222222;
 }
 
 /* dark blue */
@@ -751,7 +743,6 @@ body.desktop form.profile,
 .tt-highlight,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-.desktop .desktop-wrapper:after,
 legend,
 .dimmer .copy {
 	color: #004c9c;
@@ -1016,7 +1007,7 @@ button:active {
 
 input,
 textarea {
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
@@ -1171,11 +1162,6 @@ textarea {
   text-transform: lowercase;
 	font-weight: normal;
 	display: block;
-}
-
-.navbar-nav .divider {
-  border-bottom: 1px solid #ffffff;
-	opacity: .5;
 }
 
 .navmenu {
@@ -1633,6 +1619,10 @@ strong.tt-highlight {
 
 /* calendar */
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1680,6 +1670,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
+.desktop .bootstrap-datetimepicker-widget table td.disabled:hover,
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
