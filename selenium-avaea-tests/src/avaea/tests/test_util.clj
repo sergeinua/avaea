@@ -10,6 +10,10 @@
   (->> (-> el (attribute "class"))
        (re-find #"disabled")))
 
+(defn active? [el]
+  (->> (-> el (attribute "class"))
+       (re-find #"active")))
+
 (defn calendar-dates []
   (->> ($-elements (:calendar-day-elements search-page))
        (filter #(-> % disabled? not))))

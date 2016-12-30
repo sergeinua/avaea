@@ -2,7 +2,8 @@
   (:require [avaea.tests.webdriver :as webdriver]
             [clj-webdriver.taxi :refer :all]
             [midje.sweet :refer :all]
-            [clojure.tools.logging :as log]))
+            [clojure.tools.logging :as log]
+            [avaea.tests.config :refer :all]))
 
 (defn open-browser
   "Открывает браузер по переданному url"
@@ -63,6 +64,10 @@
              (exists? ~selector) => true)
      ($$ :text ~selector)
      nil))
+
+(defmacro has-class? [el class]
+  `(fact ~(str "Element has class " class)
+         (attribute el "class") => (re-pattern (str "\b" class "\b"))))
 
 (defn wait-element [selector]
   (wait-until #(and
@@ -134,20 +139,28 @@
          (swap! tests-fail inc)
          (is false)))))
 
-(defmacro fact-web [legend & forms]
-  `(fact
-    ~legend
-    (try
-      ~@forms
-      true
-      (catch Throwable t#
-        (log/info "test-->fail" (.getMessage t#))
-        false))))
+(defmacro facts* [legend & forms]
+  `(let [config# (read-config)]
+     (if-not (:dev config#)
+       (fact
+        ~legend
+        (try
+          ~@forms
+          true
+          (catch Throwable t#
+            (log/info "test-->fail" (.getMessage t#))
+            false)))
+       (do
+         (log/info "Test Skipped (dev mode): " ~legend)
+         "Test Skipped (dev mode)"))))
 
-(defmacro fact-web-2 [legend & forms]
+(defmacro facts-web-2 [legend & forms]
   `(fact
     ~legend
     (do ~@forms) =not=> (throws Throwable)))
+
+(defn get-attribute [el attr]
+  (some-> el (.getAttribute attr)))
 
 (defn focused-element-id
   "Get selected focused element id"

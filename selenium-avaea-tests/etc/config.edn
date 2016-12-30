@@ -1,37 +1,47 @@
 {:test-all-drivers ["chrome"]
 
  :server-root "http://stage.avaea.com"
- :pom {
-       :search {
-                 :one-way-button "#one_way"
-                 :round-trip-button "#round_trip"
-                 :multi-city-button "#multi_city"
+ :dev true
+ :pom {:search {:one-way-button "#one_way"
+                :round-trip-button "#round_trip"
+                :multi-city-button "#multi_city"
 
-                 :from-button "#from-area"
-                 :to-button "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_"#to-area"
-                 :airport-input "#airport-input"
-                 :airport-list ".tt-dataset-airport"
-                 :airport-list-element ".tt-suggestion"
-                 :cancel-button  "#search_button_top"
+                :from-button "#from-area"
+                :to-button "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_"#to-area"
+                :airport-input "#airport-input"
+                :airport-list ".tt-dataset-airport"
+                :airport-list-element ".tt-suggestion"
+                :cancel-button  "#search_button_top"
 
-                 :depart-button "div.flight-date-info-item.dep.col-xs-6.open-calendar > div.row.the-date"
-                 :return-button "div.flight-date-info-item.ret.col-xs-6.open-calendar > div.row.the-date"
+                :depart-button "div.flight-date-info-item.dep.col-xs-6.open-calendar > div.row.the-date"
+                :return-button "div.flight-date-info-item.ret.col-xs-6.open-calendar > div.row.the-date"
 
-                 :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
-                 :class-button "div.chooser.flight-class-info-item.row > div.text-picker"
+                :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
+                :class-button "div.chooser.flight-class-info-item.row > div.text-picker"
 
-                 :all-flights "div.search-buttons > button.big-button.secondary.search-button"
-                 :top-flights "div.search-buttons > button.big-button.search-top-button"
+                :all-flights "div.search-buttons > button.big-button.secondary.search-button"
+                :top-flights "div.search-buttons > button.big-button.search-top-button"
 
-                 :calendar-done-button "#date_select_top"
-                 :calendar-prev-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
-                 :calendar-next-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
-                 :calendar-20 "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
-                 :calendar-30 "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
-                 :calendar-day-elements "td.day"
+                :calendar-done-button "#date_select_top"
+                :calendar-prev-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
+                :calendar-next-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
+                :calendar-20 "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
+                :calendar-30 "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
+                :calendar-day-elements "td.day"
 
-                 :try-again-button "div.nothing-found > div.buttons > a"
-                 }
+                :flights-try-again-button "div.nothing-found > div.buttons > a"
+
+                :flights-list "#searchResultData > div"
+
+                :flights-price "#price_tile > div.slimScrollDiv > ul > li"
+                :flights-stops "#stops_tile > div.slimScrollDiv > ul > li"
+                :flights-airline "#airline_tile > div.slimScrollDiv > ul > li"
+                :flights-departure "#departure_tile > div.slimScrollDiv > ul > li"
+                :flights-arrival "#arrival_tile > div.slimScrollDiv > ul > li"
+                :flights-merchandising "#merchandising_tile > div.slimScrollDiv > ul > li"
+
+                }
+
        :round-way {}
        :general {}
        :dec_w1 {}

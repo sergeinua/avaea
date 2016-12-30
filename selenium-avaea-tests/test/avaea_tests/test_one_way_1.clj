@@ -44,12 +44,15 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(facts
+(facts*
  "Search of 'all flights' tickets using Mondee"
 
  (open-browser page-url)
 
  (click ($ (:one-way-button page)))
+
+ (fact "One way button is active"
+       ($ (:one-way-button page)) => active?)
 
  (fact "Open 'From' Search"
 
@@ -105,12 +108,24 @@
        (random-select-date)
        (click ($ (:calendar-done-button page))))
 
- #_(fact "Tap All Flights"
+ (fact "One way button is active"
+       ($ (:one-way-button page)) => active?)
+
+ (fact "Tap All Flights"
        (click ($ (:all-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
 
- (test-class-buttons)
- (test-passengers-buttons)
+       (wait-elements (:flights-list page))
 
- (quit))
+       (fact "Not Empty"
+             ($-elements (:flights-list page)) => not-empty)
+
+       (fact "Click first element"
+             (click ($ (:flights-list page))))
+
+       #_(when-let [try-again-btn ($ (:try-again-button page))]
+           (click try-again-btn)))
+
+ #_(test-passengers-buttons)
+ #_(test-class-buttons)
+
+ #_(quit))
