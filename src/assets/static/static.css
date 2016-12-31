@@ -883,6 +883,18 @@ footer.static a.social {
 	background: rgba(255, 255, 255, 1);
 }
 
+footer.static a.social,
+footer.static a.social:after {
+	height: 50px;
+	width: 50px;
+}
+
+footer.static a.social:after {
+	font-size: 34px;
+		top: 8px;
+		left: 0;
+}
+
 footer.static .wrapper {
   padding: 30px 0 20px 0;
 }

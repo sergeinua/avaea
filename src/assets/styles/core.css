@@ -711,17 +711,26 @@ legend {
   margin-left: 5px;
 }
 
-footer.app-copy .top a, 
+footer.app-copy .top a,
+footer.app-copy .bottom a {
+	color: #062868;
+}
+ 
 footer.app-copy .top a:hover, 
 footer.app-copy .top a:visited,
-footer.app-copy .bottom a,
 footer.app-copy .bottom a:hover,
 footer.app-copy .bottom a:focus {
-	color: #062868;
+	color: rgba(6, 40, 104, .6);
 }
 
 footer.app-copy a.social {
 	background: #062868;
+}
+
+footer.app-copy a.social:hover,
+footer.app-copy a.social:focus,
+footer.app-copy a.social:visited {
+	background: rgba(6, 40, 104, .6);
 }
 
 /* green */
@@ -3048,12 +3057,6 @@ footer .right {
 	margin: -12px 0 0 50px;
 }
 
-footer a.social,
-footer a.social:after {
-	height: 50px;
-	width: 50px;
-}
-
 footer a.social {
 	text-align: center;
 	margin: 0 10px;
@@ -3063,11 +3066,8 @@ footer a.social {
 }
 
 footer a.social:after {
-	font-size: 34px;
 	display: inline-block;
 	position: relative;
-		top: 8px;
-		left: 0;
 }
 
 footer .top nav a,
@@ -3087,6 +3087,10 @@ footer .wrapper {
 	padding: 25px 0 0 0;
 }
 
+footer nav {
+	min-width: 10px;
+}
+
 /* ------ not shared ------- */
 
 
@@ -3096,6 +3100,15 @@ footer.app-copy {
 
 footer.app-copy a.social:after {
 	color: #ffffff;
+	font-size: 26px;
+		top: 7px;
+		left: 0;
+}
+
+footer.app-copy a.social,
+footer.app-copy a.social:after {
+	height: 40px;
+	width: 40px;
 }
  
 footer.app-copy ul {
