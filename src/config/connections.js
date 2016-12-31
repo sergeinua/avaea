@@ -77,6 +77,7 @@ module.exports.connections = {
   testMemoryDb: {
     adapter   : 'sails-memory'
   },
+
   /***************************************************************************
   *                                                                          *
   * More adapters: https://github.com/balderdashy/sails                      *
