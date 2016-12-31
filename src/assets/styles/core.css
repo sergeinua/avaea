@@ -19,7 +19,8 @@
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
 .dimmer .landscape,
-.touch > .copyright {
+.touch > .copyright,
+.touch footer.app-copy {
 	display: none;
 }
 
@@ -46,19 +47,17 @@ body,
   background-attachment: fixed;
 }
 
-.desktop .login-holder:after {
-	bottom: -1px;
-	background-size: 65%;
+.desktop .login-holder {
+	margin: 80px auto 0 auto;
 }
 
-.desktop .login-holder {
-	margin: 120px auto 0 auto;
+.desktop .login-holder .wrapper {
 	max-width: 400px;
 }
 
 .desktop .main.container-fluid {
-	min-height: 561px;
 	height: auto;
+	position: relative;
 }
 
 .desktop .navbar-fixed-top,
@@ -848,7 +847,7 @@ a:focus,
 .flight-extras .buttons-bar:hover,
 .flight-extras .buttons-bar:focus,
 .mycustomtab {
-	background: rgba(21, 203, 97, .1);
+	background: rgba(0, 181, 255, .1);
 }
 
 .flight-date-info-item {
@@ -1112,7 +1111,7 @@ textarea {
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 8px 0 8px 0;
+	margin: 8px 0 8px 10px;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -1190,18 +1189,28 @@ textarea {
 
 .login-holder {
 	text-align: center;
-	margin: 150px 0 20px 0;
+	margin: 100px 0 20px 0;
 }
 
-.login-holder:after {
-	content: '';
+.login-holder .wrapper {
+	margin: 0 auto 20px auto;
+}
+
+.login-holder .graphic {
 	height: 200px;
 	width: 100%;
-	position: absolute;
-		bottom: 0;
-		left: 0;
-	background: url('/images/lil-plane.svg') center bottom no-repeat;
+	position: relative;
+		bottom: 1px;
+	background: url('/images/static/world.svg') center bottom no-repeat;
 	background-size: 110%;
+}
+
+.desktop .login-holder .graphic {
+	margin: 0 auto;
+	height: calc(100vw * .28);
+		bottom: 1px;
+	background: url(/images/static/world.svg) center 10px no-repeat;
+	background-size: 103%;
 }
 
 .login-holder a.big-button:before {
@@ -1924,7 +1933,13 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area .holder {
-  background: #cdeffc url('/images/clouds-sm.jpg') -300px center;
+  background: #cdeffc;
+}
+
+/* make sure filter scroll bar
+   is suppressed except for airlines */
+.swiper-slide  .mybucket:not(#airline_tile) .slimScrollBar {
+	display: none !important;
 }
 
 .swiper-container {
@@ -2044,7 +2059,7 @@ td[data-action*="selectDay"] {
 
 .mybucket .list-group {
   margin-bottom: 0;
-  max-height: 137px;
+  max-height: 140px;
   overflow: auto;
 }
 
@@ -3095,6 +3110,7 @@ footer nav {
 
 
 footer.app-copy {
+	margin-bottom: 70px;
 	display: block;
 }
 
@@ -3131,6 +3147,17 @@ footer.app-copy .bottom a {
 
 
 /* ------- responsive ------- */
+
+
+.touch .login-holder .graphic {
+	height: 200px;
+	width: 100%;
+	position: fixed;
+		bottom: -10px;
+	background: url(/images/static/world.svg) center top no-repeat;
+	background-size: 160%;
+}
+
 
 @media (min-width: 767px) {
 
