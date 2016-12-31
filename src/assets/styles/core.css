@@ -18,13 +18,23 @@
 .booking .long-wrapper,
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
-/*.flight-unit .itinerary-airline-icon,*/
-/*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
-.dimmer,
 .touch > .copyright {
 	display: none;
 }
+
+/* page settings */
+
+body,
+#spa-app,
+.desktop-wrapper {
+	background: #ffffff;
+}
+
+#spa-app {
+	padding-bottom: 80px;
+}
+
 
 /* desktop */
 
@@ -34,39 +44,6 @@
   background: linear-gradient(#e8f7fd, #50c5f0);
 	background-repeat: no-repeat;
   background-attachment: fixed;
-}
-
-.desktop:before {
-	  content: '';
-    width: 110%;
-    height: 603px;
-    position: fixed;
-    bottom: 0;
-    left: -5%;
-    right: 0;
-    background: url('/images/clouds.png') repeat-x;
-    z-index: -1;
-}
-
-.desktop .desktop-wrapper {
-	margin: 0 auto;
-	padding: 10px;
-	width: 878px;
-	background: #ffffff;
-	border-radius: 4px;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
-}
-
-.desktop .desktop-wrapper,
-.desktop .desktop-inner {
-	min-height: 684px;
-}
-
-.desktop .desktop-inner {
-	text-align: left;
-	padding-bottom: 70px;
-	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .desktop .login-holder:after {
@@ -86,8 +63,9 @@
 
 .desktop .navbar-fixed-top,
 .desktop #main_title {
+	text-align: center;
 	position: relative;
-	height: 51px;
+	height: 52px;
 	z-index: 0;
 }
 
@@ -155,7 +133,6 @@
 	display: inline-block;
 	position: relative;
 		top: -50px;
-    left: 260px;
 	background: transparent;
 	border: 0px solid transparent;
 }
@@ -286,15 +263,6 @@
 	border-bottom: 1px solid rgba(0, 129, 201, .2);
 }
 
-.desktop .search-result .navbar-header:before {
-	content: 'Avaea Agent';
-  font-family: 'montserrat-semibold';
-	font-size: 19px;
-	color: #ffffff;
-	text-transform: uppercase;
-	padding: 13px 5px 0 5px;
-}
-
 .desktop .result-search-info-bar span {
 	padding: 0 10px;
 }
@@ -332,12 +300,6 @@
 .desktop .sort-button .dropdown-menu {
 	left: 240px;
 	right: auto;
-}
-
-.desktop .dimmer {
-	text-align: center;
-	margin: 342px auto 0 auto;
-	width: 878px;
 }
 
 .desktop .swiper-container {
@@ -561,20 +523,12 @@
 
 
 
-
-/* heredeb */
-
-
-
-
-
 /* ------- everywhere parts ------- */
 
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
 	color: #222222;
-	background: #ffffff;
 }
 
 a {
@@ -595,7 +549,6 @@ h1, h2, h3 {
 }
 
 header,
-footer,
 .content {
   display: flex;
 }
@@ -726,13 +679,13 @@ body.desktop form.profile,
 .navmenu-default,
 .navbar-default .navbar-offcanvas,
 .flight-direction {
-	background: #262261;
+	background: #052767;
 }
 
 .flight-type-form,
 .flight-direction-form,
 .multi-city-coming-soon {
-	background: #004c9c;
+	background: #052767;
 }
 
 .desktop .result-search-info-bar,
@@ -740,30 +693,72 @@ body.desktop form.profile,
 .clear-undo-buttons,
 .flight-date-info-item .the-date span,
 .tap-plus,
-.tt-highlight,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-legend,
-.dimmer .copy {
-	color: #004c9c;
+legend {
+	color: #052767;
 }
 
 .mybucket {
-	border-top: 4px solid #004c9c;
+	border-top: 4px solid #052767;
+}
+
+.navbar.navbar-fixed-top {
+	border-bottom: 1px solid rgba(6, 40, 104, .6);
 }
 
 .flight-date-info-item .the-date span {
   margin-left: 5px;
 }
 
+footer.app-copy .top a, 
+footer.app-copy .top a:hover, 
+footer.app-copy .top a:visited,
+footer.app-copy .bottom a,
+footer.app-copy .bottom a:hover,
+footer.app-copy .bottom a:focus {
+	color: #062868;
+}
+
+footer.app-copy a.social {
+	background: #062868;
+}
+
+/* green */
+
+.big-button.secondary,
+.big-button.secondary:hover,
+.big-button.secondary:focus {
+	color: #14ca60;
+}
+
+.big-button,
+.navbar-header .small-button {
+	background: #14ca60;
+}
+
+.big-button.secondary {
+	border: 1px solid #14ca60;
+}
+
+.big-button.secondary:hover,
+.big-button.secondary:focus {
+	background: rgba(21, 203, 97, .2);
+}
+
+.big-button:hover,
+.big-button:focus {
+	background: #00a93f;
+}
+
+
 /* light blue */
 
 .sort-button .selected,
-.mybucket .selected,
-.big-button,
-.navbar-header .small-button {
+.mybucket .selected {
 	background: #0081c9;
 }
+
 
 .btn-primary,
 .datepicker span.active.new,
@@ -775,18 +770,6 @@ legend,
 .datepicker table td.active,
 .bootstrap-datetimepicker-widget table td.active:hover {
 	background-color: #0081c9;
-}
-
-.big-button.secondary {
-	border: 1px solid #0081c9;
-}
-
-.flight-extras .buttons-bar:hover,
-.flight-extras .buttons-bar:focus,
-.big-button.secondary:hover,
-.big-button.secondary:focus,
-.mycustomtab {
-	background: rgba(0, 129, 201, .1);
 }
 
 .flight-extras .buttons-bar .big-button.secondary,
@@ -808,20 +791,18 @@ legend,
 	border-bottom: 1px solid rgba(0, 129, 201, .2);
 }
 
-.big-button.secondary,
-.big-button.secondary:hover,
-.big-button.secondary:focus,
-.dropdown-menu > li > a,
-.tt-suggestion.tt-selectable,
-.datepicker .picker-switch,
-.datepicker th.next,
-.datepicker th.prev,
 .panel-title a,
 .panel-title a:hover,
 .panel-title a:focus,
 .panel-footer button,
 .panel-footer button:hover,
 .panel-footer button:focus,
+.tt-highlight,
+.dropdown-menu > li > a,
+.tt-suggestion.tt-selectable,
+.datepicker .picker-switch,
+.datepicker th.next,
+.datepicker th.prev,
 .mybucket .list-group-item > div.text {
 	color: #0081c9;
 }
@@ -855,17 +836,18 @@ a:focus,
 	color: rgba(0, 181, 255, .8);
 }
 
+.flight-extras .buttons-bar:hover,
+.flight-extras .buttons-bar:focus,
+.mycustomtab {
+	background: rgba(21, 203, 97, .1);
+}
+
 .flight-date-info-item {
 	background: rgba(0, 181, 255, .5);
 }
 
 .lil-button {
 	border: 1px solid rgba(0, 181, 255, .1);
-}
-
-.big-button:hover,
-.big-button:focus {
-	background: #00b5ff;
 }
 
 .tertiary-button {
@@ -879,8 +861,8 @@ a:focus,
     background: #deeef7;
 }
 
-.panel-default > .panel-heading,
-.panel-footer button {
+.panel-default > .panel-heading:hover,
+.panel-default > .panel-heading:focus {
 	background-color: #deeef7;
 }
 
@@ -892,8 +874,8 @@ a:focus,
 /* partial blue hover, #eef6f8 for lighter */
 
 
-.panel-default > .panel-heading:hover,
-.panel-default > .panel-heading:focus,
+.panel-default > .panel-heading,
+.panel-footer button,
 .panel-footer button:hover,
 .panel-footer button:focus {
 	background-color: #bdddf0;
@@ -909,7 +891,7 @@ a:focus,
 
 
 
-/* green */
+/* bright green */
 
 .success.ti:before,
 .extras-flag,
@@ -944,6 +926,11 @@ form label.required:before,
 	background: #ffffde;
 }
 
+.highlight,
+.error-flash {
+	background: #ffffe4;
+}
+
 
 .form label.error {
   display: block;
@@ -976,14 +963,6 @@ form label.required:before,
 }
 
 
-
-/* highlight */
-
-.highlight,
-.error-flash {
-	background: #ffffe4;
-}
-
 /* social */
 
 .big-button.facebook {
@@ -992,6 +971,14 @@ form label.required:before,
 
 .big-button.google {
 	background: #dd4b3a;
+}
+
+
+/* override bootstrap */
+
+.nav > li > a:hover, 
+.nav > li > a:focus {
+	background-color: transparent;
 }
 
 
@@ -1163,7 +1150,8 @@ textarea {
 }
 
 .navmenu {
-	margin-top: 50px;
+	margin-top: 51px;
+	width: 220px;
 }
 
 .navmenu.offcanvas:before {
@@ -2855,64 +2843,6 @@ td[data-action*="selectDay"] {
 }
 
 
-/* dimmer */
-
-.dimmer {
-	  margin-top: 235px;
-    width: 100%;
-    height: 100%;
-		position: fixed;
-		left: 0;
-		right: 0;
-    background-color: rgba(0, 0, 0, .5);
-    z-index: 1000;
-}
-
-.dimmer .wrapper {
-	margin: 25px auto 0 auto;
-	width: 325px;
-	height: 110px;
-	display: inline-block;
-	position: relative;
-	background: #ffffff;
-	border-radius: 3px;
-}
-
-.dimmer .wrapper:before {
-	content: '';
-	width: 25px;
-	height: 25px;
-	display: inline-block;
-	position: absolute;
-	top: -7px;
-	background: #ffffff;
-	border-radius: 3px;
-	transform: rotate(45deg);
-	z-index: -1;
-}
-
-.close-x {
-	cursor: pointer;
-	font-size: 18px;
-	padding: 14px;
-	opacity: .3;
-	display: inline-block;
-	position: absolute;
-		right: 0;
-}
-
-.dimmer-text {
-	text-align: left;
-	padding: 20px 30px;
-}
-
-.dimmer .copy {
-	font-size: 18px;
-	text-align: center;
-	padding-top: 10px;
-}
-
-
 /* pages */
 
 .sitepage {
@@ -2927,6 +2857,10 @@ td[data-action*="selectDay"] {
 .create .button-holder {
 	padding-top: 10px;
 	padding-left: 20px;
+}
+
+.panel-group {
+	background: #ffffff;
 }
 
 .panel-group .panel {
@@ -3044,11 +2978,6 @@ select.input-sm {
 	border-radius: 3px;
 }
 
-
-body.desktop form.profile {
-  height: 1625px;
-}
-
 .user-profile .fieldset {
   margin-bottom: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, .15);
@@ -3064,6 +2993,126 @@ body.desktop form.profile {
   margin-left: 10px;
 }
 
+.panel-group .button-holder {
+	padding-left: 30px;
+}
+
+
+/* ------- footer ------- */
+
+/* ----------------------
+
+   shared styles
+
+   ---------------------- */
+
+footer {
+	text-align: center;
+	display: block;
+	position: relative;
+	z-index: 1;
+}
+
+footer .wrapper {
+	margin: 0 auto;
+	display: inline-block;
+}
+
+footer .wrapper:after {
+	content: '';
+	display: table;
+	width: 100%;
+}
+
+footer .left nav {
+	text-align: left;	 
+}
+
+footer .left,
+footer .right {
+	display: inline-block;
+	float: left;
+}
+
+footer .holder {
+	text-align: left;
+	padding: 10px 0
+}
+
+footer .holder a {
+	display: inline-block;
+	padding: 0 15px; 
+}
+
+footer .right {
+	margin: -12px 0 0 50px;
+}
+
+footer a.social,
+footer a.social:after {
+	height: 50px;
+	width: 50px;
+}
+
+footer a.social {
+	text-align: center;
+	margin: 0 10px;
+	display: inline-block;
+	position: relative;
+	border-radius: 50%;
+}
+
+footer a.social:after {
+	font-size: 34px;
+	display: inline-block;
+	position: relative;
+		top: 8px;
+		left: 0;
+}
+
+footer .top nav a,
+footer .top nav a:hover,
+footer .top nav a:visited {
+	font-family: 'Open-Sans-Semibold';
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 5px 15px;
+}
+
+footer .bottom {
+	text-align: center;
+}
+
+footer .wrapper {
+	padding: 25px 0 0 0;
+}
+
+/* ------ not shared ------- */
+
+
+footer.app-copy {
+	display: block;
+}
+
+footer.app-copy a.social:after {
+	color: #ffffff;
+}
+ 
+footer.app-copy ul {
+  list-style-type: none;
+	display: inline-block;
+}
+
+footer.app-copy li,
+footer.app-copy .nav > li {
+	font-size: 14px;
+	display: inline-block;
+}
+
+footer.app-copy .bottom a {
+  padding: 0 10px;
+}
+
 
 
 
@@ -3072,22 +3121,46 @@ body.desktop form.profile {
 
 @media (min-width: 767px) {
 
-.navbar-brand {
-	display: block;
-}
-
-.touch .navbar-brand {
-	left: 12px;
-}
+	.navbar-brand {
+		display: block;
+	}
+	
+	.touch .navbar-brand {
+		left: 12px;
+	}
 
 }
 
 @media (max-width: 766px) {
 
-.navbar-brand {
-	display: none;
+	.navbar-brand {
+		display: none;
+	}
+
 }
 
+@media (max-width: 675px) {
+	
+	
+	footer .left, 
+	footer .right {
+    display: block;
+    width: 100%;
+    float: none;
+	}
+	
+	footer .holder {
+		text-align: center;
+	}
+	
+	footer .right {
+    margin: 15px 0 15px 0;
+	}
+	
+	footer .left nav {
+		text-align: center;	 
+	}
+	
 }
 
 
@@ -3241,14 +3314,6 @@ body.desktop form.profile {
 
 	.touch .searchingModal .modal-body:after {
 		bottom: 0;
-	}
-
-	.touch .dimmer .landscape {
-		display: inline;
-	}
-
-	.touch .dimmer .portrait {
-		display: none;
 	}
 
 	.touch .modal.flight-extras,
@@ -3417,7 +3482,7 @@ html[data-useragent*='Trident'] .flight-type-item:not(.voice-search-button) {
 }
 
 html[data-useragent*='Trident'] #resultpage {
-	background: #f3f3f3 url(/images/texture.gif);
+	background: #f3f3f3 url('/images/texture.gif');
 }
 
 html[data-useragent*='Trident'] .flight-type-form,
@@ -3464,10 +3529,6 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 	position: absolute;
 	top: 342px;
 	left: 250px;
-}
-
-html[data-useragent*='Trident'] .dimmer {
-	margin-top: 342px;
 }
 
 html[data-useragent*='Trident'] .swiper-container {
