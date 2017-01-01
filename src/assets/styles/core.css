@@ -15,6 +15,7 @@
 .search-result .static-price,
 .search-result .long-wrapper,
 .booking .buy-button,
+.buy-button-arrow,
 .booking .long-wrapper,
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
@@ -225,10 +226,6 @@ body,
 	padding: 30px 20px 120px 20px;
 }
 
-.desktop .searchingModal .spinner-holder {
-	margin-top: 20px;
-}
-
 .desktop .input-sm,
 .desktop .panel-footer {
 	width: 50%;
@@ -258,8 +255,8 @@ body,
 }
 
 .desktop .flight-info {
-	margin-left: -20px;
-	width: 856px;
+	margin-left: -15px;
+	width: 100%;
 	height: 50px;
 	position: absolute;
 		top: 51px;
@@ -425,10 +422,6 @@ body,
 	width: 90px;
 }
 
-.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 57px;
-}
-
 .desktop .dropdown-menu > li> a.our-dropdown {
 	font-size: 14px;
 	padding: 6px 8px 4px 7px;
@@ -469,7 +462,7 @@ body,
 
 .desktop .booking .buttons {
 	text-align: left;
-	padding-left: 20px;
+	padding-left: 30px;
 	position: relative;
 	border-top: 0px solid transparent;
 }
@@ -667,7 +660,7 @@ body.desktop form.profile,
 }
 
 .navbar.navbar-fixed-top {
-	border-bottom: 1px solid rgba(255, 255, 255, .4)
+	border-bottom: 1px solid rgba(6, 40, 104, .6);
 }
 
 .bootstrap-datetimepicker-widget table td.old:not(.active),
@@ -745,6 +738,7 @@ footer.app-copy a.social:visited {
 }
 
 .big-button,
+.btn-primary,
 .navbar-header .small-button {
 	background: #14ca60;
 }
@@ -758,8 +752,12 @@ footer.app-copy a.social:visited {
 	background: rgba(21, 203, 97, .2);
 }
 
+.buy-button-price.btn-primary:hover,
 .big-button:hover,
-.big-button:focus {
+.big-button:focus,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
 	background: #00a93f;
 }
 
@@ -771,8 +769,6 @@ footer.app-copy a.social:visited {
 	background: #0081c9;
 }
 
-
-.btn-primary,
 .datepicker span.active.new,
 .datepicker span.active.old,
 .datepicker table td.day.active.new,
@@ -793,10 +789,6 @@ footer.app-copy a.social:visited {
 
 .bottomNav {
 	background: #b7e5f8;
-}
-
-.btn-primary:active:hover {
-	background-color: rgba(0, 129, 201, .8);
 }
 
 .bottomNav {
@@ -1852,36 +1844,41 @@ td[data-action*="selectDay"] {
 	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
 }
 
-.searchingModal .spinner-holder,
-.bookingModal .spinner-holder {
-	margin-top: 20px;
-}
-
 .bookingModal .modal-body {
 	text-align: center;
 }
 
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder,
+.searchingModal .icon-spinner,
+.bookingModal .icon-spinner {
+	height: 40px;
+	width: 40px;
+}
+
+
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder {
+	margin: 20px auto 0 auto;
+}
+
 
 .icon-spinner {
-	font-size: 42px;
+	text-align: center;
 	display: inline-block;
+	position: relative;
 	-webkit-animation: spin 1.5s infinite linear;
 	animation: spin 1.5s infinite linear;
 }
 
 .icon-spinner:before {
+	content: '';
+	height: 40px;
+	width: 40px;
 	display: inline-block;
 	position: relative;
-	  right: 1px;
-    top: 1px;
-	-webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-
-.ff-miles .icon-spinner:before {
-    right: 0;
-    top: 0;
+	background: url('/images/spinner.svg') no-repeat;
+	background-size: 40px;
 }
 
 
@@ -2066,13 +2063,24 @@ td[data-action*="selectDay"] {
 
 .mybucket .list-group {
   margin-bottom: 0;
-  max-height: 140px;
+  max-height: 136px;
   overflow: auto;
+}
+
+.mybucket .slimScrollDiv {
+	height: 136px !important;
+	max-height: 136px;
 }
 
 .mybucket .list-group-item:first-child {
   border-radius: 0;
 }
+
+.mybucket .list-group-item:last-child {
+  border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
 
 /* tiles */
 .mybucket .list-group-item {
@@ -2430,7 +2438,10 @@ td[data-action*="selectDay"] {
 	box-shadow: none;
 }
 
-.btn-group > .btn + .dropdown-toggle {
+.btn-group > .btn + .dropdown-toggle,
+.btn-group > .btn + .dropdown-toggle:hover,
+.btn-group > .btn + .dropdown-toggle:active,
+.btn-group > .btn + .dropdown-toggle:focus {
 	border-left: 1px solid rgba(255, 255, 255, .4);
 }
 
@@ -2459,7 +2470,9 @@ td[data-action*="selectDay"] {
 }
 
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 47px;
+	width: 77px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
 }
 
 .row.notable-area {
@@ -2490,9 +2503,19 @@ td[data-action*="selectDay"] {
 }
 
 .notable-area .icon-spinner {
-	font-size: 24px;
-		top: 5px;
-    left: 5px;
+	top: 7px;
+	left: 10px;
+}
+
+.notable-area .refundable.row .icon-spinner {
+	top: -3px;
+	left: -20px;
+}
+
+.notable-area .icon-spinner:before {
+  height: 25px;
+	width: 25px;
+	background-size: 25px;
 }
 
 .notable-area .col-xs-3.flight-no {
