@@ -17,6 +17,7 @@ var confFields = {
     gender: "",
     birthday: "",
     pax_type: "",
+    phone: "",
     address: {
       street: "",
       city: "",
@@ -34,10 +35,9 @@ var confFields = {
     airline_name: ""
   },
   miles_programs: {
-    airline_name: "",
+    program_name: "",
     account_number: "",
-    expiration_date: "",
-    flier_miles: ""
+    status: ""
   },
   lounge_membership: {
     airline_name: "",
@@ -65,9 +65,9 @@ module.exports = {
   },
 
   attr_travel_type: {
-    'Domestic Short Haul Trips': 'Domestic Short Haul Trips',
-    'Domestic Long Haul Flights': 'Domestic Long Haul Flights',
-    'International Flights': 'International Flights'
+    'All Flights': 'All Flights',
+    'Domestic': 'Domestic',
+    'International': 'International'
   },
 
   findOneByUserId: function (id) {
@@ -135,7 +135,62 @@ module.exports = {
             }
             jsonStruct.personal_info.show_tiles = (found && found.personal_info) ? Boolean(found.personal_info.show_tiles) : true;
 
+            // Parse Emergency Contact panel
+            if (_.isArray(form.notifyContact)) {
+              for (var ii=0; ii < form.notifyContact.length; ii++) {
+                if (typeof form.notifyContact[ii].id != 'string') {
+                  continue;
+                }
+                var field = form.notifyContact[ii].id.split('.');
+
+                // root field
+                if (!_.isObjectLike(confFields[field[0]])) {
+                  continue;
+                }
+
+                if (_.isObjectLike(confFields[field[0]][field[1]])) {
+                  if (typeof confFields[field[0]][field[1]][field[2]] != 'undefined' && form.notifyContact[ii].data) {
+                    jsonStruct[field[0]][field[1]][field[2]] = form.notifyContact[ii].data;
+                  }
+                }
+                else if (typeof confFields[field[0]][field[1]] != 'undefined' && form.notifyContact[ii].data) {
+                  jsonStruct[field[0]][field[1]] = form.notifyContact[ii].data;
+                }
+              }
+            }
+
             // Parse airlines programs panel
+            if (_.isArray(form.preferredAirlines)) {
+              for (var ii=0; ii < form.preferredAirlines.length; ii++) {
+
+                // root field
+                var root_field_name = form.preferredAirlines[ii].id;
+                if (!_.isObjectLike(confFields[root_field_name])) {
+                  continue;
+                }
+                if (!_.isArray(form.preferredAirlines[ii].data)) {
+                  continue;
+                }
+
+                for (var jj=0; jj < form.preferredAirlines[ii].data.length; jj++) {
+                  if (!_.isObjectLike(form.preferredAirlines[ii].data[jj])) {
+                    continue;
+                  }
+                  jsonStruct[root_field_name][jj] = _.cloneDeep(confFields[root_field_name]);
+
+                  for (var prop in form.preferredAirlines[ii].data[jj]) {
+                    if (!form.preferredAirlines[ii].data[jj].hasOwnProperty(prop)) {
+                      continue;
+                    }
+                    if (typeof confFields[root_field_name][prop] != 'undefined' && form.preferredAirlines[ii].data[jj][prop]) {
+                      jsonStruct[root_field_name][jj][prop] = form.preferredAirlines[ii].data[jj][prop];
+                    }
+                  }
+                }
+              }
+            }
+
+            // Parse FFM programs panel
             if (_.isArray(form.programs)) {
               for (var ii=0; ii < form.programs.length; ii++) {
 

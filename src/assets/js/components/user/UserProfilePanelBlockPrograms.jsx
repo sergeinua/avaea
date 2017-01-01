@@ -1,5 +1,6 @@
 import React from 'react';
 import UserProfilePanelAirlineSelect from './UserProfilePanelAirlineSelect.jsx';
+import UserProfilePanelFFMSelect from './UserProfilePanelFFMSelect';
 import { clientStore } from '../../reducers.js';
 import { actionSetProgramsVal } from '../../actions.js';
 
@@ -38,36 +39,28 @@ let UserProfilePanelBlockPrograms = React.createClass({
     var self = this;
 
     return <fieldset className="fieldset" key={'miles_programs'}>
-      <legend className="legend">{this.state.item.title}</legend>
       <div className="panel-body">
         {
           this.state.item.data.map(function (item, index) {
 
-            return <div id={"miles_programs" + index} data-fieldset-name="miles_programs" key={'miles_programs' + item.airline_name + index}>
+            return <div id={"miles_programs" + index} data-fieldset-name="miles_programs" key={'miles_programs' + item.program_name + index}>
               <hr className={index == 0 ? "hidden" : ""} />
 
-              <label>Airline Name</label>
+              <label>Program Name</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                     data-fieldset="miles_programs" onClick={self.props.onRemoveFieldset} >remove</span>
-              <UserProfilePanelAirlineSelect
+              <UserProfilePanelFFMSelect
+                elem_name={"miles_programs.program_name["+index+"]"}
                 id={"miles_programs.airline_name-" + index}
-                elem_name={"miles_programs.airline_name["+index+"]"}
-                elem_value={item.airline_name}
+                elem_value={item.program_name}
                 blockNum={self.props.blockNum}
                 elemNum={index}
+                elem_value_status={item.status}
               />
 
-              <label>Account Number</label>
+              <label>Program Number</label>
               <input id={"miles_programs.account_number-" + index} type="text" name="miles_programs.account_number[]" className="form-control input-sm" placeholder="Account Number" defaultValue={item.account_number}
                      onBlur={(event) => self.handleChangeValue(event, index, 'account_number')}/>
-
-              <label>Frequent Flier Miles</label>
-              <input id={"miles_programs.flier_miles" + index} type="text" name="miles_programs.flier_miles[]" className="form-control input-sm" placeholder="Frequent Flier Miles" defaultValue={item.flier_miles}
-                     onBlur={(event) => self.handleChangeValue(event, index, 'flier_miles')}/>
-
-              <label>Expiration Date</label>
-              <input id={"miles_programs.expiration_date" + index} type="date" name="miles_programs.expiration_date[]" className="form-control input-sm" placeholder="Expiration Date" defaultValue={item.expiration_date}
-                     onBlur={(event) => self.handleChangeValue(event, index, 'expiration_date')}/>
 
             </div>
           })
@@ -75,7 +68,7 @@ let UserProfilePanelBlockPrograms = React.createClass({
       </div>
 
       <div className="panel-footer">
-        <button id="miles-programs-one-more-button" type="button" data-for="miles_programs" onClick={this.props.onAddOneMore}>One more</button>
+        <button id="miles-programs-one-more-button" type="button" data-for="miles_programs" onClick={this.props.onAddOneMore}>Add more</button>
       </div>
 
     </fieldset>;
