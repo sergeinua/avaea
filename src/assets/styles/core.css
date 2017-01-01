@@ -724,10 +724,13 @@ footer.app-copy .bottom a {
 }
  
 footer.app-copy .top a:hover, 
-footer.app-copy .top a:visited,
 footer.app-copy .bottom a:hover,
 footer.app-copy .bottom a:focus {
 	color: rgba(6, 40, 104, .6);
+}
+
+footer.app-copy .top a:visited {
+	color: rgba(6, 40, 104, 1);
 }
 
 footer.app-copy a.social {
@@ -3794,10 +3797,6 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
-}
-
-_:-ms-lang(x), .dimmer .wrapper:before {
-	left: 155px;
 }
 
 
