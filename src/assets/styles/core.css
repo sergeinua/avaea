@@ -199,10 +199,6 @@ body,
 	font-size: 18px;
 }
 
-.desktop .back-history {
-	margin-left: -12px;
-}
-
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -650,7 +646,7 @@ body.desktop form.profile,
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	text-transform: capitalize;
-	padding: 0px 2px 6px 15px;
+	padding: 0px 2px 6px 10px;
 	color: #ffffff;
 	display: inline-block;
 	float: left;
@@ -762,8 +758,11 @@ footer.app-copy a.social:visited {
 	border: 1px solid #14ca60;
 }
 
+
 .big-button.secondary:hover,
-.big-button.secondary:focus {
+.big-button.secondary:focus,
+.buttons-bar.single:hover,
+.buttons-bar.single:focus {
 	background: rgba(21, 203, 97, .2);
 }
 
@@ -795,11 +794,15 @@ footer.app-copy a.social:visited {
 	background-color: #0081c9;
 }
 
+.buttons-bar.single .big-button.secondary,
+.buttons-bar.single .big-button.secondary:hover,
+.buttons-bar.single .big-button.secondary:focus,
 .flight-extras .buttons-bar .big-button.secondary,
 .flight-extras .buttons-bar .big-button.secondary:hover,
 .flight-extras .buttons-bar .big-button.secondary:focus {
 	background: transparent;
 }
+
 
 .panel-title a,
 .panel-title a:hover,
@@ -2514,6 +2517,10 @@ td[data-action*="selectDay"] {
 	border-bottom-right-radius: 3px;
 }
 
+.touch .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	font-family: 'Open-Sans-Semibold';
+}
+
 .row.notable-area {
 	margin-bottom: -1px;
 	margin-right: -20px;
@@ -2538,6 +2545,14 @@ td[data-action*="selectDay"] {
 
 .desktop .notable-area .refundable {
 	margin-left: 30px;
+}
+
+.desktop .flights .notable-area .refundable {
+	margin-left: -20px;
+}
+
+.desktop .booking .notable-area .refundable {
+	margin-left: 0px;
 }
 
 .notable-area .ff-miles,
