@@ -1858,6 +1858,11 @@ td[data-action*="selectDay"] {
 	background-size: 70%;
 }
 
+.touch .searchingModal .modal-body {
+	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
+	background-size: 85%;
+}
+
 .bookingModal .modal-body {
 	text-align: center;
 }
@@ -3408,6 +3413,7 @@ footer.app-copy .bottom a {
 
 /* landscape phone */
 
+
 @media screen and (min-aspect-ratio: 13/9) {
 
 	/* have to add .touch to restrict */
@@ -3447,8 +3453,9 @@ footer.app-copy .bottom a {
 	}
 
 	.touch .flight-type-item:not(.voice-search-button) {
-		padding-top: 5px;
-		padding-bottom: 5px;
+		font-size: 15px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 	.touch .flight-direction-form {
@@ -3479,8 +3486,8 @@ footer.app-copy .bottom a {
 	}
 
 	.touch .flight-date-info-item {
-		padding-top: 10px;
-		height: 65px;
+		padding-top: 7px;
+		height: 62px;
 	}
 
 	.touch .flight-date-info-item .the-date {
@@ -3550,11 +3557,9 @@ footer.app-copy .bottom a {
 	}
 
 	.touch .searchingModal .modal-body {
-		padding: 25px 50px 110px 50px;
-	}
-
-	.touch .searchingModal .modal-body:after {
-		bottom: 0;
+		padding: 25px 50px 90px 50px;
+		background: url('/images/lil-plane-2.svg') bottom center no-repeat;
+		background-size: 40%;
 	}
 
 	.touch .modal.flight-extras,
