@@ -667,6 +667,7 @@ body.desktop form.profile,
 	border-bottom: 1px solid rgba(6, 40, 104, .6);
 }
 
+.notable-area .refundable.row .label-d,
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
@@ -2522,9 +2523,20 @@ td[data-action*="selectDay"] {
 	left: 10px;
 }
 
+.notable-area .refundable.row .label-d,
+.notable-area .refundable.row .copy {
+	display: inline-block;
+	float: left;
+}
+
+.notable-area .refundable.row .label-d {
+	text-transform: none;
+	padding-right: 10px;
+	opacity: 1;
+}
+
 .notable-area .refundable.row .icon-spinner {
 	top: -3px;
-	left: -20px;
 }
 
 .notable-area .icon-spinner:before {
@@ -2538,6 +2550,7 @@ td[data-action*="selectDay"] {
 	width: 20%;
 }
 
+.notable-area .refundable.row .label-d,
 .notable-text {
 	font-family: 'Open-Sans-Semibold';
 	opacity: 1;
