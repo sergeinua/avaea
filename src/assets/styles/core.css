@@ -47,6 +47,10 @@ body,
   background-attachment: fixed;
 }
 
+.desktop #spa-app {
+	min-height: 585px;
+}
+
 .desktop .login-holder {
 	margin: 80px auto 0 auto;
 }
@@ -662,6 +666,10 @@ body.desktop form.profile,
   box-shadow: none;
 }
 
+.navbar.navbar-fixed-top {
+	border-bottom: 1px solid rgba(255, 255, 255, .4)
+}
+
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
@@ -700,10 +708,6 @@ legend {
 
 .mybucket {
 	border-top: 4px solid #052767;
-}
-
-.navbar.navbar-fixed-top {
-	border-bottom: 1px solid rgba(6, 40, 104, .6);
 }
 
 .flight-date-info-item .the-date span {
@@ -805,7 +809,6 @@ footer.app-copy a.social:visited {
 .panel-footer button,
 .panel-footer button:hover,
 .panel-footer button:focus,
-.tt-highlight,
 .dropdown-menu > li > a,
 .tt-suggestion.tt-selectable,
 .datepicker .picker-switch,
@@ -813,6 +816,10 @@ footer.app-copy a.social:visited {
 .datepicker th.prev,
 .mybucket .list-group-item > div.text {
 	color: #0081c9;
+}
+
+.tt-highlight {
+	color: #004c9c;
 }
 
 
@@ -3201,6 +3208,15 @@ footer.app-copy .bottom a {
 		text-align: center;	 
 	}
 	
+}
+
+
+@media (max-width: 340px) {
+
+	.flight-type-item:not(.voice-search-button) {
+		font-size: 15px;
+	}
+
 }
 
 

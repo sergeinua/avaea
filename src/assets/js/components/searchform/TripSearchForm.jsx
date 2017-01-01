@@ -330,14 +330,17 @@ var TripSearchForm = React.createClass({
         </div>
 
         <div className="search-buttons">
+	        {/* not in demo any more, get rid of demo button */}
+	        {/*
           <button id="search-form-all-flights-button" type="submit" className={
             "big-button secondary search-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(0)}>All
             Flights
           </button>
+          */}  
           <button id="search-form-top-flights-button"
             type="submit"
-            className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>Top
-            Flights
+            className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>
+          	Search
           </button>
         </div>
 
