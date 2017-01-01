@@ -48,12 +48,14 @@ let Buckets = React.createClass({
     return (
     <div className={this.state.fullinfo ?"filters-area open":"filters-area closed"}>
       <div className="holder">
-         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
-           <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
-             {this.state.tiles.map(function (tile) {
-               return <Tile key={tile.id} info={tile} />
-             })}
-           </div>
+      	<div className="swiper-holder">
+	         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
+	           <div id="tiles" className="swiper-wrapper">
+	             {this.state.tiles.map(function (tile) {
+	               return <Tile key={tile.id} info={tile} />
+	             })}
+	           </div>
+	         </div>  
         </div>
 
         <div className={this.state.fullinfo ? "bottomNav":"bottomNav sticks"}>

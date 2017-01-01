@@ -43,6 +43,7 @@ body,
 .desktop {
 	text-align: center;
 	padding: 30px 30px 100px 30px;
+	min-width: 445px;
   background: linear-gradient(#e8f7fd, #50c5f0);
 	background-repeat: no-repeat;
   background-attachment: fixed;
@@ -114,7 +115,8 @@ body,
 }
 
 .desktop #search_title input[type=text] {
-	width: 400px;
+	/* location search */
+	width: calc(100% - 110px);
 }
 
 
@@ -133,7 +135,7 @@ body,
 }
 
 .desktop .navmenu.navmenu-default.navmenu-fixed-left.offcanvas {
-	margin-top: 0;
+	margin: 0 auto;
 	display: inline-block;
 	position: relative;
 		top: -50px;
@@ -179,7 +181,7 @@ body,
 }
 
 .desktop .tt-menu {
-	width: 55%;
+	max-width: 420px;
 }
 
 .desktop .calendar-panel {
@@ -215,6 +217,7 @@ body,
 	text-align: center;
 	width: 55%;
 	position: relative;
+	transition: all 0.1s ease-in-out;
 }
 
 .desktop .voice-search-textarea {
@@ -663,10 +666,6 @@ body.desktop form.profile,
   box-shadow: none;
 }
 
-.navbar.navbar-fixed-top {
-	border-bottom: 1px solid rgba(6, 40, 104, .6);
-}
-
 .notable-area .refundable.row .label-d,
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
@@ -675,10 +674,15 @@ body.desktop form.profile,
 	color: #222222;
 }
 
+.navbar-header {
+	border-bottom: 1px solid rgba(255, 255, 255, .4);
+}
+
+
 /* dark blue */
 
 .navbar-header,
-.navbar-header,
+.navbar.navbar-fixed-top,
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form,
 .navmenu-default,
@@ -1096,14 +1100,13 @@ textarea {
 	color: #ffffff;
 }
 
-.navbar-default .navbar-brand,
-.navbar-default .navbar-brand:focus,
-.navbar-default .navbar-brand:hover {
+.navbar-brand {
 	padding: 18px 5px 14px 5px;
 	width: 200px;
 	position: relative;
 	background: url('/images/logo-onvoya-app-2x.png') 0 5px no-repeat;
 	background-size: 185px;
+	transition: all 0.1s ease-in-out;
 }
 
 .navbar-default .navbar-toggle,
@@ -1396,7 +1399,7 @@ textarea {
 }
 
 .tt-menu {
-	margin-top: 63px;
+	margin-top: 64px;
 	margin-left: 10px;
 	width: 93%;
 	background: #ffffff;
@@ -1937,7 +1940,6 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area {
-  overflow: hidden;
   background: #cdeffc;
   margin-top: 50px;
 }
@@ -1948,6 +1950,10 @@ td[data-action*="selectDay"] {
 
 .filters-area .holder {
   background: #cdeffc;
+}
+
+.swiper-holder {
+	overflow: hidden;
 }
 
 /* make sure filter scroll bar
@@ -2029,7 +2035,10 @@ td[data-action*="selectDay"] {
   transition-property: transform;
 }
 
-
+/* prevent swipe from sticking with filters out of view */
+.swiper-container {
+	width: 2700px;
+}
 
 .swiper-container .swiper-slide,
 .swiper-wrapper {
@@ -2053,6 +2062,8 @@ td[data-action*="selectDay"] {
     max-width: 140px;
     margin: 0 2px;
 }
+
+
 
 /* bucket header */
 .mycustomtab,
@@ -3172,17 +3183,22 @@ footer.app-copy {
 	display: block;
 }
 
-footer.app-copy a.social:after {
-	color: #ffffff;
-	font-size: 26px;
-		top: 7px;
-		left: 0;
-}
-
 footer.app-copy a.social,
 footer.app-copy a.social:after {
 	height: 40px;
 	width: 40px;
+}
+
+footer.app-copy a.social:after {
+	color: #ffffff;
+	font-size: 27px;
+		top: 7px;
+		left: 0;
+}
+
+footer.app-copy a.social.twitter:after {
+		top: 8px;
+		left: 1px;
 }
  
 footer.app-copy ul {
@@ -3216,6 +3232,15 @@ footer.app-copy .bottom a {
 	background-size: 160%;
 }
 
+@media (max-width: 850px) {
+
+	.desktop .search-result .itinerary, 
+	.desktop .flight-unit .itinerary {
+		width: 90%;
+	}
+
+}
+
 
 @media (min-width: 767px) {
 
@@ -3229,13 +3254,25 @@ footer.app-copy .bottom a {
 
 }
 
-@media (max-width: 766px) {
+@media (max-width: 776px) {
 
 	.navbar-brand {
-		display: none;
+		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
+		background-size: 185px;
 	}
 
 }
+
+@media (max-width: 695px) {
+
+	.navbar-brand {
+		width: 45px;
+		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
+		background-size: 185px;
+	}
+
+}
+
 
 @media (max-width: 675px) {
 	
@@ -3259,6 +3296,24 @@ footer.app-copy .bottom a {
 		text-align: center;	 
 	}
 	
+}
+
+@media (max-width: 580px) {
+
+	.desktop .search-result .flights {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.desktop {
+		padding: 0 0 0 0;
+	}
+	
+	.desktop .voice-search-content {
+		width: 75%;   
+	}
+
+
 }
 
 
@@ -3573,7 +3628,7 @@ nav {
 	}
 
 	.desktop .tt-menu {
-		margin-top: 64px;
+		margin-top: 65px;
 	}
 
 }
