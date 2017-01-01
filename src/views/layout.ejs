@@ -3,7 +3,7 @@
 <head>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title><%= (typeof head_title != 'undefined') ? head_title :__('Avaea Agent') %></title>
+  <title><%= (typeof head_title != 'undefined') ? head_title :__('Search for flights with Onvoya Agent') %></title>
 
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -15,6 +15,10 @@
   <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.rawgit.com/vladmu/bootstrap-datetimepicker/master/build/css/bootstrap-datetimepicker.av.css">
+
+  <!-- google recaptcha @TODO: add lasy load to load only on "/contact" page -->
+  <script src="https://www.google.com/recaptcha/api.js"></script>
+
   <link rel="stylesheet" href="/js/styles.css">
 
   <!--STYLES-->
@@ -23,6 +27,7 @@
 
   <script type="application/javascript">
     var uaMobile = <%- isMobile %>;
+    var recaptchaPublicKey = "<%= sails.config.recaptcha.public %>";
   </script>
 </head>
 

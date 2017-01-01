@@ -121,7 +121,7 @@ let NavBar = React.createClass({
                         <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
                         <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
                       </div>
-                    </div>:<div className="navbar-brand">Avaea Agent</div>
+                    </div>:<div className="navbar-brand"></div>
                   }
                 </span>
               }
@@ -132,21 +132,20 @@ let NavBar = React.createClass({
               }
             </div>
 
-            <div id="nav_slide_menu"
-                 className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
-                 role="navigation">
+							<div id="nav_slide_menu"
+							  className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+							  role="navigation">
               <ul className="nav navbar-nav">
-                <li>{this.showLink("/search","Search")}</li>
-                <li>{this.showLink("/profile", "Profile")}</li>
-                <li>{this.showLink("/about", "About")}</li>
-                <li>{this.showLink("/terms", "Terms of Use")}</li>
-                <li>{this.showLink("/privacy", "Privacy Policy")}</li>
-                <li role="separator" className="divider"></li>
-                <li>{ this.getUser().email ?
-                  <a id="menu-link-logout" href="/logout">Log out <b>{ this.getUser().email }</b></a>
-                  :
-                  <a id="menu-link-login" href="/login">Log In</a>
-                }</li>
+								<li>{this.showLink("/home","Home")}</li>
+            		<li>{this.showLink("/search","Search")}</li>
+            		<li>{this.showLink("/profile", "Profile")}</li>
+                <li>
+                  {this.getUser().email ?
+                		<a href="/logout">Log out <b>{ this.getUser().email }</b></a>
+                		:
+                		<a href="/login">Log In</a>
+                  }
+                </li>
               </ul>
             </div>
           </div>:null

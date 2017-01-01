@@ -1,13 +1,13 @@
 /* ---------------
    icons.css
-	 --------------- */ 
-	 	
-		
+	 --------------- */
+
+
 /* soon to be removed - glyphicons */
-		
+
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff'); 
+  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff');
 }
 .glyphicon {
   position: relative;
@@ -40,6 +40,8 @@
 }
 
 .rdr-MonthAndYear-button i:after,
+.icon-social-instagram:before,
+.static-nav-button:before,
 .login-holder .big-button:after,
 .success.ti:before,
 .extras-flag:before,
@@ -154,6 +156,7 @@
 .icon-map-pin:before {
   content: "\e90c";
 }
+.static-nav-button:before,
 .icon-menu:before {
   content: "\e90d";
 }
@@ -250,6 +253,9 @@
 .login-holder .big-button.google:after,
 .icon-social-google:before {
   content: "\e932";
+}
+.icon-social-instagram:before {
+  content: "\e933";
 }
 
 /* end icons.css */
