@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticJobs from '../jobs/Jobs.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let JobsPage = React.createClass({
 
@@ -14,11 +15,6 @@ let JobsPage = React.createClass({
     analytics.page(this.props.location.pathname);
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
-  },
-
   render: function () {
     return (
       <div>
@@ -26,7 +22,7 @@ let JobsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticJobs user={this.getUser()||{}}/>
+            <StaticJobs user={getUser()||{}}/>
         }
       </div>
     )
