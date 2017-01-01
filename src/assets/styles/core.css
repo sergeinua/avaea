@@ -114,11 +114,6 @@ body,
 	border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.desktop #search_title input[type=text] {
-	/* location search */
-	width: calc(100% - 110px);
-}
-
 
 /* desktop slide menu */
 
@@ -242,6 +237,7 @@ body,
 .desktop .result-search-info-bar {
 	font-size: 16px;
 	text-align: center;
+	padding: 7px 0 0 2px;
 	display: block;
 	width: 100%;
 }
@@ -264,6 +260,15 @@ body,
 	position: absolute;
 		top: 51px;
 	border-bottom: 1px solid rgba(100, 100, 100, .2);
+}
+
+.desktop .result-search-info-bar .wrapper {
+	display: inline-block;
+	padding: 7px;
+	background: url(/images/texture-btn.gif) 0 -15px repeat-x;
+	border-top: 1px solid rgba(255, 255, 255, .8);
+	border-bottom: 1px solid rgba(0, 0, 0, .3);
+	border-radius: 15px;
 }
 
 .desktop .result-search-info-bar span {
@@ -292,6 +297,7 @@ body,
 }
 
 .desktop .bottomNav {
+	padding-top: 15px;
 	height: 36px;
 }
 
@@ -992,6 +998,10 @@ form label.required:before,
 	background-color: transparent;
 }
 
+.navbar-toggle .icon-bar {
+	width: 20px;
+}
+
 
 
 /* form parts */
@@ -1113,7 +1123,7 @@ textarea {
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 8px 0 8px 10px;
+	margin: 8px 0 8px 7px;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -1372,7 +1382,7 @@ textarea {
 #search_title input[type=text] {
   padding-left: 4px;
   margin: 10px 10px 12px 10px;
-  width: 269px;
+  width: calc(100% - 110px);
   height: 40px;
 	float: left;
   border: 0px solid transparent;
@@ -1897,17 +1907,8 @@ td[data-action*="selectDay"] {
 	cursor: pointer;
 	font-size: 12px;
 	text-align: left;
-	padding: 7px 0 0 2px;
+	padding: 18px 0 0 5px;
 	display: inline-block;
-}
-
-.result-search-info-bar .wrapper {
-	display: inline-block;
-	padding: 7px;
-	background: url(/images/texture-btn.gif) 0 -15px repeat-x;
-	border-top: 1px solid rgba(255, 255, 255, .8);
-	border-bottom: 1px solid rgba(0, 0, 0, .3);
-	border-radius: 15px;
 }
 
 .result-search-info-bar span {
@@ -1919,7 +1920,7 @@ td[data-action*="selectDay"] {
 }
 
 .result-search-info-bar .passenger-count:before {
-	font-size: 14px;
+	font-size: 12px;
 	margin-right: 1px;
 	display: inline-block;
 		top: 1px;
@@ -2035,8 +2036,8 @@ td[data-action*="selectDay"] {
   transition-property: transform;
 }
 
-/* prevent swipe from sticking with filters out of view */
-.swiper-container {
+/* prevent swiper from sticking with filters out of view */
+.desktop .swiper-container {
 	width: 2700px;
 }
 
@@ -2176,7 +2177,7 @@ td[data-action*="selectDay"] {
 
 .bottomNav {
 	font-size: 12px;
-  padding: 15px 10px 8px 10px;
+  padding: 8px 10px 8px 10px;
   height: 32px;
   width: auto;
 	background: url('/images/texture-dk.gif');
@@ -2243,6 +2244,11 @@ td[data-action*="selectDay"] {
 .sort-wrapper {
 	display: inline-block;
 	position: static;
+}
+
+.touch .sort-wrapper {
+	padding-left: 3px;
+	float: left;
 }
 
 .sort-button {
@@ -2489,15 +2495,16 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
-  padding: 0 0 0 0;
+  padding: 0 0 0 8px;
+	text-align: left;
 }
 
 .btn-group {
-	width: 75px;
+	width: 65px;
 }
 
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 77px;
+	width: 65px;
 	border-top-right-radius: 3px;
 	border-bottom-right-radius: 3px;
 }
@@ -2512,7 +2519,20 @@ td[data-action*="selectDay"] {
 }
 
 .notable-area .refundable {
-	margin: 15px 0 0 -20px;
+	margin: 15px 0 0 30px;
+}
+
+.touch .flights .notable-area .refundable {
+	margin-left: 5px;
+	margin-right: 30px;
+}
+
+.touch .booking .notable-area .refundable {
+	margin-left: 30px;
+}
+
+.desktop .notable-area .refundable {
+	margin-left: 30px;
 }
 
 .notable-area .ff-miles,
@@ -2620,7 +2640,6 @@ td[data-action*="selectDay"] {
   overflow: auto;
   max-height: 100vh;
 }
-
 
 .notable-area .merchandising {
   display: inline-block;
@@ -3244,7 +3263,7 @@ footer.app-copy .bottom a {
 
 @media (min-width: 767px) {
 
-	.navbar-brand {
+	.touch .navbar-brand {
 		display: block;
 	}
 	
@@ -3254,9 +3273,17 @@ footer.app-copy .bottom a {
 
 }
 
+@media (max-width: 766px) {
+
+	.touch .navbar-brand { 
+		display: none;
+	}
+
+}
+
 @media (max-width: 776px) {
 
-	.navbar-brand {
+	body:not(.touch) .navbar-brand {
 		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
 		background-size: 185px;
 	}
@@ -3265,7 +3292,7 @@ footer.app-copy .bottom a {
 
 @media (max-width: 695px) {
 
-	.navbar-brand {
+	body:not(.touch) .navbar-brand {
 		width: 45px;
 		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
 		background-size: 185px;
@@ -3313,17 +3340,70 @@ footer.app-copy .bottom a {
 		width: 75%;   
 	}
 
-
 }
 
 
-@media (max-width: 340px) {
+/* phones portrait */
+
+@media (max-width: 415px) {
+	
+	.touch .login-holder .graphic {
+		height: 310px;
+		background-size: 305%;
+	}
+	
+	.flight-unit .itinerary {
+		width: 90%;
+	}
+	
+	.touch .booking .notable-area .refundable  {
+		margin-left: 12%;
+	}
+	
+	
+}
+
+@media (min-width: 351px) {
+
+	.navbar-default .navbar-toggle,
+	.navbar-default .navbar-toggle:focus,
+	.navbar-default .navbar-toggle:hover {
+		margin-left: 10px;
+	}
+	
+}
+
+
+@media (max-width: 350px) {
 
 	.flight-type-item:not(.voice-search-button) {
 		font-size: 15px;
 	}
+	
+	.booking-success .confirm-message, 
+	.booking-success .flight-unit .itinerary, 
+	.booking-success .trip.ti {
+		padding-left: 20px;
+	}
+	
+	.booking-success .notable-area .refundable {
+		margin-left: 40px;
+	}
+	
+	.navbar-toggle .icon-bar {
+		width: 18px;
+	}
 
 }
+
+@media (max-width: 321px) {
+	
+	.navbar-toggle .icon-bar {
+		width: 10px;
+	}
+
+}
+
 
 
 /* landscape phone */
@@ -3344,10 +3424,9 @@ footer.app-copy .bottom a {
 	.touch.android .login-holder {
 		margin-top: 110px;
 	}
-
-	.touch .login-holder:after {
-		height: 120px;
-		background-size: 60%;
+	
+	.touch .login-holder .graphic {
+		display: none;
 	}
 
 	.touch .login-holder .big-button {
