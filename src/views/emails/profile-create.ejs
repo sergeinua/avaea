@@ -12,23 +12,23 @@
   <title>Welcome</title>
 
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
-	
+
 
 	<style type="text/css">
 
 		a, a:hover {
 			cursor: pointer;
 		}
-		
-					
+
+
 		.light {
 			font-weight: 300;
 		}
-		
+
 		.regular {
 			font-weight: 400;
 		}
-		
+
 		b,
 		strong,
 		.bold {
@@ -252,7 +252,7 @@
                             <div style="text-align: center; display: inline-block; margin: 0 auto; cursor: pointer;" >
 
                             <!--[if mso]>
-                              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://www.Onvoya.com/search" style="height: 70px; v-text-anchor:middle; width: 270px;" stroke="f" fillcolor="#14ca60">
+                              <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href=<%= sails.config.proxyHost %>"/search" style="height: 70px; v-text-anchor:middle; width: 270px;" stroke="f" fillcolor="#14ca60">
                                 <w:anchorlock/>
                                 <center style="color: #ffffff; font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-size: 26px;" class="regular">
                                   Search for fares
@@ -320,7 +320,7 @@
                           <td align="left" style="font-family: 'Open Sans', Helvetica, Arial, sans-serif; padding: 30px 60px 0px 60px; font-size: 16px; mso-line-height-rule: exactly; line-height: 26px; color: #6d6d6d;" class="padding-normal-copy">
 
                           <span class="light">Got a question?  Just <% var _mailto = replyTo.match(/(.*)<(.+)>/); %>
-                          <a style="color: #6d6d6d !important; text-decoration: underline;" href='mailto:<%- encodeURIComponent(_mailto[1])+ _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.</span>
+                          <a style="color: #6d6d6d !important; text-decoration: underline;" href='mailto:<%- _mailto[2] %>?subject=<%- encodeURIComponent('Welcome')%>'>email us</a>.</span>
 
                           </td>
                         </tr>

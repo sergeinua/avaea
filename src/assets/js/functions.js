@@ -183,11 +183,11 @@ function setCookie(name, value, options) {
 $(document).ready(function() {
 
   // app screens nav slide menu is in NavBar.jsx
-  
-  // detect IE10 or IE11 and append string  
+
+  // detect IE10 or IE11 and append string
   var doc = document.documentElement;
   doc.setAttribute('data-useragent', navigator.userAgent);
-  
+
 });
 // ends dom ready
 
@@ -211,4 +211,50 @@ export function unfocusFormForIos() {
 export function setAirportData(target, data) {
   ActionsStore.setFormValue(target, data.value);
   ActionsStore.setFormValue(target + 'City', data.city);
+}
+
+export let getDefaultDateSearch = (defaultParams) => {
+  let moment_now = moment()
+  let tmpDefaultDepDate = moment().add(2, 'w')
+  let tmpDefaultRetDate = moment().add(4, 'w')
+  let nextFirstDateMonth = moment().add(1, 'M').startOf('month');
+
+  if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
+    tmpDefaultRetDate = moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+    tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
+  } else {
+    tmpDefaultDepDate = moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+    tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+  }
+
+  if (defaultParams.departureDate) {
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
+
+    // Check depart date
+    if (moment_dp &&
+      (
+        moment_dp.isBefore(moment_now, 'day') ||
+        moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+      )
+    ) {
+      defaultParams.departureDate = tmpDefaultDepDate.format('YYYY-MM-DD')
+    }
+  }
+
+  if (defaultParams.returnDate) {
+    let moment_rp = moment(defaultParams.returnDate, "YYYY-MM-DD")
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
+
+    // Check return date
+    if (moment_rp &&
+      (
+        moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1 ||
+        moment_rp.isBefore(moment_dp, 'day')
+      )
+    ) {
+      defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD')
+    }
+  }
+
+  return defaultParams
 }
