@@ -151,7 +151,7 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setCookie(name, value, options) {
+export function setCookie(name, value, options) {
   options = options || {};
 
   var expires = options.expires;
@@ -257,4 +257,8 @@ export let getDefaultDateSearch = (defaultParams) => {
   }
 
   return defaultParams
+};
+
+export function getUser() {
+  return InitData.user || false;
 }

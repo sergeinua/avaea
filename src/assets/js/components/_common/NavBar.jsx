@@ -1,17 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import * as ReactRedux from 'react-redux';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
 import { browserHistory } from 'react-router';
 import moment from 'moment';
 
 let NavBar = React.createClass({
-
-  getUser: function () {
-    //FIXME get rid from global var
-    return InitData.user || false;
-  },
 
   getDefaultProps: function() {
     return {
@@ -91,6 +86,22 @@ let NavBar = React.createClass({
     }
   },
 
+  showLinkProfile: function (to, text) {
+    if (!getUser()) {
+      return <a id='menu-link-profile' href='/login' onClick={this.saveProfileRedirect}>{text}</a>
+    } else {
+      if (!this.props.location) {
+        return <a id='menu-link-profile' href={to}>{text}</a>
+      } else {
+        return <Link id='menu-link-profile' to={to}>{text}</Link>
+      }
+    }
+  },
+
+  saveProfileRedirect: function () {
+    setCookie('redirectTo', '/profile', {expires: 300});
+  },
+
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -133,18 +144,18 @@ let NavBar = React.createClass({
               }
             </div>
 
-							<div id="nav_slide_menu"
-							  className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
-							  role="navigation">
+            <div id="nav_slide_menu"
+              className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+              role="navigation">
               <ul className="nav navbar-nav">
-								<li>{this.showLink("/home","Home")}</li>
-            		<li>{this.showLink("/search","Search")}</li>
-            		<li>{this.showLink("/profile", "Profile")}</li>
+                <li>{this.showLink("/home","Home")}</li>
+                <li>{this.showLink("/search","Search")}</li>
+                <li>{this.showLinkProfile("/profile", "Profile")}</li>
                 <li>
-                  {this.getUser().email ?
-                		<a href="/logout">Log out <b>{ this.getUser().email }</b></a>
-                		:
-                		<a href="/login">Log In</a>
+                  {getUser().email ?
+                    <a href="/logout">Log out <b>{ getUser().email }</b></a>
+                    :
+                    <a href="/login">Log In</a>
                   }
                 </li>
               </ul>

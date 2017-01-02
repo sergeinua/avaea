@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticPartner from '../partner/Partner.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let PartnerPage = React.createClass({
 
@@ -10,11 +11,6 @@ let PartnerPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
-  },
-
   render: function () {
     return (
       <div>
@@ -22,7 +18,7 @@ let PartnerPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticPartner user={this.getUser()||{}}/>
+            <StaticPartner user={getUser()||{}}/>
         }
       </div>
     )
