@@ -707,6 +707,21 @@ video {
 	background-size: 157px;
 }
 
+.person.adja .image {
+	background: #ffffff url(../images/static/team-adja-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.veronica .image {
+	background: #ffffff url(../images/static/team-veronica-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
+.person.paul .image {
+	background: #ffffff url(../images/static/team-paul-hi.png) -1px top no-repeat;
+	background-size: 157px;
+}
+
 .person.bills {
 	display: none;
 }
