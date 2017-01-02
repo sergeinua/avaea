@@ -1,5 +1,5 @@
 /* ---------------
-   for-integration.css
+   for-integration.css -- DEMO-841 real
 
    Engineers, please add
    styles you need here, not in the code
@@ -27,15 +27,31 @@
 
 /* simple static search locations and calendar */
 
-.home .try-it .date-holder {
+
+.try-it .positioner {
+	display: inline-block;
 	position: relative;
 }
+
+.react-autosuggest__container {
+	display: table-cell;
+}
+
+.home .try-it .date-holder,
+.home .try-it .loc-holder {
+	position: relative;
+}
+
+.home .try-it .date-holder {
+	max-width: 430px;
+}
+
 
 /* colors */
 
 
 
-.suggest-container, .saggest-item {
+.suggest-container, .suggest-item {
 	color: #004c9c;
 }
 
@@ -130,7 +146,7 @@
 	font-size: 13px !important;
 	line-height: 42px !important;
 	height: 42px !important;
-	width: 40px !important; 
+	width: 37.5px !important; 
 	transition: none !important;
 }
 
@@ -189,9 +205,7 @@
 
 /* new styles */
 
-.try-it form {
-	width: 100%; /* deborah add this to existing */
-}
+
 
 .simple-cal {
 	padding: 40px 0 10px 0;
@@ -260,7 +274,7 @@
 .react-autosuggest__container--open .react-autosuggest__suggestions-container {
 	font-size: 16px;
   display: block;
-	width: 280px;
+	width: 285px;
   position: absolute;
   	top: 42px;
 	background-color: #fff;

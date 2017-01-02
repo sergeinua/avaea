@@ -12,7 +12,7 @@ const getSuggestionValue = suggestion => suggestion.value;
 
 // Use your imagination to render suggestions.
 const renderSuggestion = suggestion => (
-  <div className="saggest-item">
+  <div className="suggest-item">
     {suggestion.label}
   </div>
 );
@@ -178,35 +178,37 @@ let SimpleSearchForm = React.createClass({
         <div className="wrapper">
           <div className="ti">Where I want to go</div>
           <div className="loc-holder">
-
-            <Autosuggest
-              suggestions={this.state.DepartureOptions}
-              onSuggestionsFetchRequested={this.onSuggestionsFromRequested}
-              onSuggestionsClearRequested={this.onSuggestionsFromRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={renderSuggestion}
-              inputProps={{
-                value: valueFrom,
-                onChange: this.handleChangeFromValue
-              }}
-              onChange={this.handleChangeFromValue}
-              renderSuggestionsContainer={renderSuggestionsContainer}
-            />
-            <div className="react-autosuggest__container"><span>to</span></div>
-            <Autosuggest
-              suggestions={this.state.ArrivalOptions}
-              onSuggestionsFetchRequested={this.onSuggestionsToRequested}
-              onSuggestionsClearRequested={this.onSuggestionsToRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={renderSuggestion}
-              inputProps={{
-                value: valueTo,
-                onChange: this.handleChangeToValue
-              }}
-              onChange={this.handleChangeToValue}
-              renderSuggestionsContainer={renderSuggestionsContainer}
-            />
-
+          		<div className="positioner">
+		            <Autosuggest
+		              suggestions={this.state.DepartureOptions}
+		              onSuggestionsFetchRequested={this.onSuggestionsFromRequested}
+		              onSuggestionsClearRequested={this.onSuggestionsFromRequested}
+		              getSuggestionValue={getSuggestionValue}
+		              renderSuggestion={renderSuggestion}
+		              inputProps={{
+		                value: valueFrom,
+		                onChange: this.handleChangeFromValue
+		              }}
+		              onChange={this.handleChangeFromValue}
+		              renderSuggestionsContainer={renderSuggestionsContainer}
+		            />
+	            </div>
+	            <div className="react-autosuggest__container copy"><span>to</span></div>
+	            <div className="positioner">
+		            <Autosuggest
+		              suggestions={this.state.ArrivalOptions}
+		              onSuggestionsFetchRequested={this.onSuggestionsToRequested}
+		              onSuggestionsClearRequested={this.onSuggestionsToRequested}
+		              getSuggestionValue={getSuggestionValue}
+		              renderSuggestion={renderSuggestion}
+		              inputProps={{
+		                value: valueTo,
+		                onChange: this.handleChangeToValue
+		              }}
+		              onChange={this.handleChangeToValue}
+		              renderSuggestionsContainer={renderSuggestionsContainer}
+		            />
+	            </div>
           </div>
           <div className="ti">When</div>
           <div className="date-holder">

@@ -1,6 +1,6 @@
 /* ------------------------------
   
-  Begin static/static.css
+  Begin static/static.css -- DEMO-841 real
   loads for static pages only
   
 --------------------------------- */
@@ -365,7 +365,7 @@ video {
 
 .try-it {
 	margin: 20px 0 0 0;
-	padding: 30px 20px 30px 20px;
+	padding: 30px 50px 30px 50px;
   width: 60%;
 	display: inline-block;
   border-radius: 4px;
@@ -1260,14 +1260,29 @@ footer.static .copyright:before {
 	
 }
 
-
-@media (max-width: 550px) {
-	
+@media (max-width: 600px) {
 	
 	.try-it .loc-holder input {
 		width: 100%;
-		#ffffff url(../images/static/input-map-pin.svg) right 5px no-repeat;
+		background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
 	}
+	
+	.try-it form,
+	.try-it .positioner,
+	.try-it .loc-holder input {
+		width: 100%;
+	}
+	
+	.react-autosuggest__container {
+		display: block;
+		width: 100%;
+	}
+	
+}
+
+
+@media (max-width: 550px) {
+	
 	
 	.static-features {
 		padding-left: 0;
@@ -1355,6 +1370,34 @@ footer.static .copyright:before {
 	
 	.about.top:after {
 		background-size: 120%;
+	}
+	
+	.try-it {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+	
+}
+
+
+/* iPhone 5 */
+@media (max-width: 330px) {
+	
+	.about.top:after {
+		background-size: 120%;
+	}
+	
+	.try-it {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	
+	.simple-cal {
+		left: -18px;
+	}
+	
+	.react-autosuggest__suggestions-container {
+		left: -18px;
 	}
 	
 }
