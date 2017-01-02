@@ -1082,7 +1082,7 @@ function get_avaea_parser_tests() {
                             "SFO",
                             "JFK",
                             get_future_date(1,1), // Jan 1
-                            get_future_date(2,2), // Feb 2
+                            get_future_date(2,2,get_future_date(1,1)), // Feb 2
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Xmas, back on MLK day",
                             "SFO",
