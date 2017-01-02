@@ -30,6 +30,7 @@ module.exports = {
   proxyPort: 80,
   explicitHost: 'localhost',
 
+
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
@@ -50,7 +51,7 @@ module.exports = {
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
-      baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
+    	baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
       clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
     },
     farelogix: {

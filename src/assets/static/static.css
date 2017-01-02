@@ -13,7 +13,8 @@
 
 .hide,
 .static.contact form .error-msg,
-.static-nav-button {
+.static-nav-button,
+footer.app-copy {
 	display: none;
 }
 
@@ -73,11 +74,6 @@ h1, h2, h3 {
 	margin: 0 0 0 0;
 }
 
-.nav > li > a:hover, 
-.nav > li > a:focus {
-	background-color: transparent;
-}
-
 ul {
 	margin-bottom: 0;
 }
@@ -96,7 +92,8 @@ body,
 h1,
 h2,
 .textly .subti,
-footer.static .copyright {
+footer.static .copyright,
+footer a.social:after {
 	color: #062868;
 }
 
@@ -286,10 +283,7 @@ footer.static li {
 
 header.static a, 
 header.static a:hover, 
-header.static a:visited,
-footer.static .top nav a,
-footer.static .top nav a:hover,
-footer.static .top nav a:visited {
+header.static a:visited {
 	font-family: 'Open-Sans-Semibold';
 	text-decoration: none;
 	text-transform: uppercase;
@@ -861,15 +855,15 @@ video {
 
 /* ------- footer ------- */
 
-footer.static {
-	text-align: center;
-	display: block;
-	position: relative;
-	z-index: 1;
-}
+/* ----------------------
 
-footer.static .top a,
-footer.static .top a:hover,
+	 moved shared styles to 
+	 core.css
+
+   ---------------------- */
+	 
+footer.static .top a, 
+footer.static .top a:hover, 
 footer.static .top a:visited {
 	color: #ffffff;
 	opacity: .5;
@@ -880,45 +874,13 @@ footer.static .top a:hover {
 }
 
 footer.static .top nav .active a,
-footer.static  .top nav .active a:hover,
-footer.static  .top nav .active a:visited {
+footer.static .top nav .active a:hover,
+footer.static .top nav .active a:visited {
 	opacity: 1;
 }
 
-footer.static .wrapper {
-	margin: 0 auto;
-	padding: 30px 0 20px 0;
-	display: inline-block;
-}
-
-footer.static .wrapper:after {
-	content: '';
-	display: table;
-	width: 100%;
-}
-
-footer.static .left nav {
-	text-align: left;	 
-}
-
-footer.static .left,
-footer.static .right {
-	display: inline-block;
-	float: left;
-}
-
-footer.static .holder {
-	text-align: left;
-	padding: 10px 0
-}
-
-footer.static .holder a {
-	display: inline-block;
-	padding: 0 15px; 
-}
-
-footer.static .right {
-	margin: -12px 0 0 50px;
+footer.static a.social {
+	background: rgba(255, 255, 255, 1);
 }
 
 footer.static a.social,
@@ -927,35 +889,14 @@ footer.static a.social:after {
 	width: 50px;
 }
 
-footer.static a.social {
-	text-align: center;
-	margin: 0 10px;
-	display: inline-block;
-	position: relative;
-	background: rgba(255, 255, 255, 1);
-	border-radius: 50%;
-}
-
 footer.static a.social:after {
-	content:'';
-	display: inline-block;
+	font-size: 34px;
+		top: 8px;
+		left: 0;
 }
 
-footer.static a.fb:after {
-	background: url(../images/static/social-fb.svg) no-repeat;
-}
-
-footer.static a.twitter:after {
-	background: url(../images/static/social-twitter.svg) no-repeat;
-}
-
-footer.static a.instagram:after {
-	background: url(../images/static/social-instagram.svg) no-repeat;
-}
-
-footer.static .bottom {
-	text-align: center;
-	background: rgba(255, 255, 255, .5);
+footer.static .wrapper {
+  padding: 30px 0 20px 0;
 }
 
 footer.static .copyright {
@@ -965,6 +906,10 @@ footer.static .copyright {
 
 footer.static .copyright:before {
 	content: '\00A9';
+}
+
+footer.static .bottom {
+  background: rgba(255, 255, 255, .5);
 }
 
 
@@ -1179,20 +1124,6 @@ footer.static .copyright:before {
 		padding-right: 40px;
 	}
 	
-	footer.static .left, footer.static .right {
-    display: block;
-    width: 100%;
-    float: none;
-	}
-	
-	footer.static .holder {
-		text-align: center;
-	}
-	
-	footer.static .right {
-    margin: 15px 0 15px 0;
-	}
-	
 	.about.top {
 		padding-bottom: 250px;
 		padding-right: 40px;
@@ -1209,8 +1140,35 @@ footer.static .copyright:before {
 		background-size: 79%;
 	}
 	
-	footer.static .left nav {
-		text-align: center;	 
+}
+
+
+/* iPhone 5 */
+@media (max-width: 359px) {
+	
+	header.static {
+		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
+		background-size: 230px;
+	}
+	
+	.home.second.level h1 {
+		padding-top: 60px;
+	}
+	
+	.about .person .bio {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	.static.contact .form-label {
+		line-height: 20px;
+	}
+	
+	header.static nav.respond,
+	header.static nav .right {
+		min-width: 260px;
+		width: 260px;
+		max-width: 260px;
 	}
 	
 }
