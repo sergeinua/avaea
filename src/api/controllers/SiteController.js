@@ -15,7 +15,7 @@ module.exports = {
     let page = req.url;
 
     if (!req.url || req.url.trim() == '/') {
-      page = '/search'
+      page = req.isMobile ? '/search':'/home';
     }
 
     if (_.isEmpty(req.session)) {

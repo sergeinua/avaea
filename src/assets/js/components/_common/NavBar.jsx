@@ -108,20 +108,21 @@ let NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
+                  <div className="navbar-brand"></div>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
-                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
-                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
-                        <span className="flight-date">
-                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
-              </span>
-                        <span className="seating-class">
-                { serviceClass[this.props.commonData.searchParams.CabinClass] }
-              </span>
-                        <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
-                        <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
-                      </div>
-                    </div>:<div className="navbar-brand"></div>
+	                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
+	                      <div className="wrapper">
+		                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
+		                        <span className="flight-date">
+		                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
+							              </span>
+							              <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
+							              <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
+							              <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
+						              </div>
+	                      </div>
+                    </div>:null
                   }
                 </span>
               }
