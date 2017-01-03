@@ -1,5 +1,5 @@
 /* ---------------
-   for-integration.css -- DEMO-841 real
+   for-integration.css
 
    Engineers, please add
    styles you need here, not in the code
@@ -27,9 +27,14 @@
 
 /* simple static search locations and calendar */
 
+/* deborah integrate this one in static */
+.try-it form {
+	width: 100%; 
+}
+
 
 .try-it .positioner {
-	display: inline-block;
+	display: table-cell;
 	position: relative;
 }
 

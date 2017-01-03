@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticTerms from '../terms/Terms.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let TermsPage = React.createClass({
 
@@ -14,11 +15,6 @@ let TermsPage = React.createClass({
     analytics.page(this.props.location.pathname);
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
-  },
-
   render: function () {
     return (
       <div>
@@ -26,7 +22,7 @@ let TermsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticTerms user={this.getUser()||{}}/>
+            <StaticTerms user={getUser()||{}}/>
         }
       </div>
     )

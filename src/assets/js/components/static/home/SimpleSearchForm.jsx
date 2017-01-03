@@ -175,59 +175,62 @@ let SimpleSearchForm = React.createClass({
 
     return (
       <form>
-        <div className="wrapper">
-          <div className="ti">Where I want to go</div>
-          <div className="loc-holder">
-          		<div className="positioner">
-		            <Autosuggest
-		              suggestions={this.state.DepartureOptions}
-		              onSuggestionsFetchRequested={this.onSuggestionsFromRequested}
-		              onSuggestionsClearRequested={this.onSuggestionsFromRequested}
-		              getSuggestionValue={getSuggestionValue}
-		              renderSuggestion={renderSuggestion}
-		              inputProps={{
-		                value: valueFrom,
-		                onChange: this.handleChangeFromValue
-		              }}
-		              onChange={this.handleChangeFromValue}
-		              renderSuggestionsContainer={renderSuggestionsContainer}
-		            />
+	      <div className="centerer">
+	        <div className="wrapper">
+	          <div className="ti">Where I want to go</div>
+	          <div className="loc-holder">
+	          		<div className="positioner">
+			            <Autosuggest
+			              suggestions={this.state.DepartureOptions}
+			              onSuggestionsFetchRequested={this.onSuggestionsFromRequested}
+			              onSuggestionsClearRequested={this.onSuggestionsFromRequested}
+			              getSuggestionValue={getSuggestionValue}
+			              renderSuggestion={renderSuggestion}
+			              inputProps={{
+			                value: valueFrom,
+			                onChange: this.handleChangeFromValue
+			              }}
+			              onChange={this.handleChangeFromValue}
+			              renderSuggestionsContainer={renderSuggestionsContainer}
+			            />
+		            </div>
+		            <div className="react-autosuggest__container copy"><span>to</span></div>
+		            <div className="positioner">
+			            <Autosuggest
+			              suggestions={this.state.ArrivalOptions}
+			              onSuggestionsFetchRequested={this.onSuggestionsToRequested}
+			              onSuggestionsClearRequested={this.onSuggestionsToRequested}
+			              getSuggestionValue={getSuggestionValue}
+			              renderSuggestion={renderSuggestion}
+			              inputProps={{
+			                value: valueTo,
+			                onChange: this.handleChangeToValue
+			              }}
+			              onChange={this.handleChangeToValue}
+			              renderSuggestionsContainer={renderSuggestionsContainer}
+			            />
+		            </div>
+	          </div>{/* ends loc-holder */}
+	          
+	          <div className="ti">When</div>
+	          <div className="date-holder">
+	            <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
+	            <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>
+	              <DateRange
+	                linkedCalendars={ true }
+	                startDate={ this.state.searchParams.departureDate }
+	                endDate={ this.state.searchParams.returnDate }
+	                shownDate={moment()}
+	                offsetPositive={true}
+	                disableDaysBeforeToday={true}
+	                onInit={this.handleDateSelect}
+	                onChange={this.handleDateSelect}
+	              />
+	              <span onClick={this.hideCalendar} className="close-x"></span>
 	            </div>
-	            <div className="react-autosuggest__container copy"><span>to</span></div>
-	            <div className="positioner">
-		            <Autosuggest
-		              suggestions={this.state.ArrivalOptions}
-		              onSuggestionsFetchRequested={this.onSuggestionsToRequested}
-		              onSuggestionsClearRequested={this.onSuggestionsToRequested}
-		              getSuggestionValue={getSuggestionValue}
-		              renderSuggestion={renderSuggestion}
-		              inputProps={{
-		                value: valueTo,
-		                onChange: this.handleChangeToValue
-		              }}
-		              onChange={this.handleChangeToValue}
-		              renderSuggestionsContainer={renderSuggestionsContainer}
-		            />
-	            </div>
-          </div>
-          <div className="ti">When</div>
-          <div className="date-holder">
-            <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
-            <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>
-              <DateRange
-                linkedCalendars={ true }
-                startDate={ this.state.searchParams.departureDate }
-                endDate={ this.state.searchParams.returnDate }
-                shownDate={moment()}
-                offsetPositive={true}
-                disableDaysBeforeToday={true}
-                onInit={this.handleDateSelect}
-                onChange={this.handleDateSelect}
-              />
-              <span onClick={this.hideCalendar} className="close-x"></span>
-            </div>
-          </div>
-        </div>
+	          </div>{/* ends date-holder */}
+          </div>{/* ends centerer */}
+        </div>{/* ends wrapper */}
         <a className="buttonly" onClick={this.submitForm}>Try it</a>
       </form>
     )

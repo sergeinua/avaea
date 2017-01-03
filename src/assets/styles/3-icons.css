@@ -40,6 +40,7 @@
 }
 
 .rdr-MonthAndYear-button i:after,
+footer a.social:after, 
 .icon-social-instagram:before,
 .static-nav-button:before,
 .login-holder .big-button:after,
@@ -170,7 +171,7 @@
   content: "\e910";
 }
 .icon-spinner:before {
-  content: "\e911";
+  /* content: "\e911"; */
 }
 .clear-textarea:before,
 .icon-start-over:before {
@@ -243,10 +244,12 @@
 .icon-star:before {
   content: "\e92f";
 }
+footer a.fb:after,
 .login-holder .big-button.facebook:after,
 .icon-social-fb:before {
   content: "\e930";
 }
+footer a.twitter:after,
 .icon-social-twitter:before {
   content: "\e931";
 }
@@ -254,6 +257,7 @@
 .icon-social-google:before {
   content: "\e932";
 }
+footer a.instagram:after,
 .icon-social-instagram:before {
   content: "\e933";
 }
