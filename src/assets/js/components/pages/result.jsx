@@ -247,7 +247,9 @@ let ResultPage = React.createClass({
             mutatedMilesInfosObject[id] = false;
           });
 
-          this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          if (this.isMounted()) {
+            this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          }
           ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
             .then((msg) => {
               if( msg.error ) {
