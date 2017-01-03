@@ -1,5 +1,7 @@
 import React from 'react';
 import UserProfilePanelElement from './UserProfilePanelElement.jsx';
+import UserProfilePanelElementCountry from './UserProfilePanelElementCountry'
+import UserProfilePanelElementState from './UserProfilePanelElementState'
 import UserProfilePanelBlock from './UserProfilePanelBlock.jsx';
 
 let UserProfilePanel = React.createClass({
@@ -10,7 +12,27 @@ let UserProfilePanel = React.createClass({
     if (this.props.type == 'personal') {
 
       this.props.data.map(function (item, index) {
-        _panel.push(<UserProfilePanelElement profileStructure={self.props.profileStructure} item={item} key={index} elemNum={index} panelType="personal"/>);
+        if (item.id === "personal_info.address.country_code") {
+          _panel.push(<UserProfilePanelElementCountry profileStructure={self.props.profileStructure} item={item}
+                                                      key={index} elemNum={index} panelType="personal"/>)
+        } else if (item.id === "personal_info.address.state") {
+          _panel.push(<UserProfilePanelElementState profileStructure={self.props.profileStructure} item={item}
+                                                    key={index} elemNum={index} panelType="personal"/>)
+        } else {
+          _panel.push(<UserProfilePanelElement profileStructure={self.props.profileStructure} item={item}
+                                                key={index} elemNum={index} panelType="personal"/>)
+        }
+      });
+
+    } else if (this.props.type == 'notifyContact') {
+
+      this.props.data.map(function (item, index) {
+        _panel.push(<UserProfilePanelElement profileStructure={self.props.profileStructure} item={item} key={index} elemNum={index} panelType="notifyContact"/>);
+      });
+    } else if (this.props.type == 'preferredAirlines') {
+
+      this.props.data.map(function (item, index) {
+        _panel.push(<UserProfilePanelBlock programsStructure={self.props.programsStructure} item={item} key={index} blockNum={index}/>);
       });
 
     } else if (this.props.type == 'programs') {
