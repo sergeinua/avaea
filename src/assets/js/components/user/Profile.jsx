@@ -35,7 +35,7 @@ let UserProfile = React.createClass({
       {id:'personal_info.first_name', required: true, title: 'First Name', data: profile_fields.personal_info.first_name || ''},
       {id:'personal_info.middle_name', title: 'Middle Name', data: profile_fields.personal_info.middle_name || ''},
       {id:'personal_info.last_name', required: true, title: 'Last Name', data: profile_fields.personal_info.last_name || ''},
-      {id:'personal_info.gender', title: 'Gender', data: profile_fields.personal_info.gender || ''},
+      {id:'personal_info.gender', type: 'radio', title: 'Gender', data: profile_fields.personal_info.gender || ''},
       {id:'personal_info.phone', type: "tel", pattern: "[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*", title: 'Phone Number', placeholder: '+1 123 555 6789', data: profile_fields.personal_info.phone || ''},
       {id:'personal_info.birthday', type: "date", title: 'Date of Birth', placeholder: 'YYYY-MM-DD', data: profile_fields.personal_info.birthday || ''},
       {id:'personal_info.address.country_code', title: 'Country', data: profile_fields.personal_info.address.country_code || ''},
