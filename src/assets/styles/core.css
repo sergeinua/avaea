@@ -1946,15 +1946,6 @@ td[data-action*="selectDay"] {
 }
 
 
-.ff-miles .icon-spinner:before {
-    right: 0;
-    top: 0;
-=======
-	background: url('/images/spinner.svg') no-repeat;
-	background-size: 40px;
->>>>>>> origin/RC_20161205
-}
-
 
 
 /* ------- results ------- */
@@ -2555,13 +2546,8 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
-<<<<<<< HEAD
-	margin: -10px 0 5px 0;
-  padding: 0 0 0 0;
-=======
   padding: 0 0 0 8px;
 	text-align: left;
->>>>>>> origin/RC_20161205
 }
 
 .btn-group {
@@ -2651,7 +2637,6 @@ td[data-action*="selectDay"] {
   height: 25px;
 	width: 25px;
 	background-size: 25px;
->>>>>>> origin/RC_20161205
 }
 
 .notable-area .col-xs-3.flight-no {
