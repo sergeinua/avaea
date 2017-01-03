@@ -213,6 +213,7 @@ module.exports = {
           let _programs_res = Object.assign(...programsResults);
           // E-mail notification
           tpl_vars = {
+            mailType: 'booking',
             reqParams: reqParams,
             order: _itinerary_data,
             bookingRes: result,
@@ -227,7 +228,7 @@ module.exports = {
           return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
         })
         .then(function (msgContent) {
-          return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+          return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+ tpl_vars.bookingRes.PNR}, msgContent);
         })
         .then(function () {
           sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);

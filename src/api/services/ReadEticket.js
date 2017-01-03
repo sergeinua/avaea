@@ -73,6 +73,7 @@ module.exports = {
               let _programs_res = Object.assign(...programsResults);
               // E-mail notification
               let tpl_vars = {
+                mailType: 'eticket',
                 reqParams: _cur_rec.req_params,
                 order: _cur_rec.itinerary_data,
                 bookingRes: {PNR : _cur_rec.pnr, ReferenceNumber: _cur_rec.reference_number},
@@ -89,7 +90,7 @@ module.exports = {
             })
 
             .then(function (msgContent) {
-              return Mailer.sendMail({to: _cur_rec.email, subject: 'Confirmation for the E-Ticket number '+eticketNumbersStore[ii]}, msgContent);
+              return Mailer.sendMail({to: _cur_rec.email, subject: 'eTicket for order '+ _cur_rec.pnr}, msgContent);
             })
 
             .then(function () {
