@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticAbout from '../about/About.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let AboutPage = React.createClass({
 
@@ -10,9 +11,8 @@ let AboutPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -22,7 +22,7 @@ let AboutPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticAbout user={this.getUser()||{}}/>
+            <StaticAbout user={getUser()||{}}/>
         }
       </div>
     )

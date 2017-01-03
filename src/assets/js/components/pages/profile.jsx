@@ -1,10 +1,16 @@
 import React from 'react';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import UserProfileContainer from '../user/Profile.jsx';
 
 let ProfilePage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.changeForm('profile', false);
+    if (!getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('profile', false);
+    }
   },
 
   render: function () {

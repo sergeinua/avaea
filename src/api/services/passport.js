@@ -6,7 +6,7 @@ var path     = require('path')
  * Passport Service
  *
  * A painless Passport.js service for your Sails app that is guaranteed to
- * Rock Your Socks™. It takes all the hassle out of setting up Passport.js by
+ * Rock Your Socks. It takes all the hassle out of setting up Passport.js by
  * encapsulating all the boring stuff in two functions:
  *
  *   passport.endpoint()
@@ -21,7 +21,7 @@ var path     = require('path')
  * Behind the scenes, the service stores all the data it needs within "Pass-
  * ports". These contain all the information required to associate a local user
  * with a profile from a third-party provider. This even holds true for the good
- * ol' password authentication scheme – the Authentication Service takes care of
+ * ol' password authentication scheme the Authentication Service takes care of
  * encrypting passwords and storing them in Passports, allowing you to keep your
  * User model free of bloat.
  */
@@ -73,7 +73,7 @@ passport.connect = function (req, query, profile, next) {
    * @private
    */
   var _default_whitelist = [
-    '[^@]+?@avaea\.com'
+    '[^@]+?@onvoya\.com'
   ];
 
   // Get the authentication provider from the query.
@@ -156,7 +156,7 @@ passport.connect = function (req, query, profile, next) {
                   };
                   Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars)
                     .then(function (msgContent) {
-                      Mailer.sendMail({to: user.email, subject: 'Welcome to Avaea'}, msgContent)
+                      Mailer.sendMail({to: user.email, subject: 'Welcome to Onvoya'}, msgContent)
                         .then(function () {
                           sails.log.info('Mail was sent to '+ user.email);
                         })
@@ -233,21 +233,10 @@ passport.connect = function (req, query, profile, next) {
        * @param {function} callback
        */
       function(user, callback) {
-        User.findOne({email: user.email, is_whitelist: 1})
+        User.findOne({email: user.email})
           .exec(function (err, result) {
-            var _is_whitelist = 0;
 
-            // Check by default value
             if (err || !result) {
-              var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
-              if (_patt.exec(user.email)) {
-                _is_whitelist = 1;
-              }
-            } else if (result) {
-              _is_whitelist = 1;
-            }
-
-            if (! _is_whitelist) {
               if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
                 segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
                 callback('Email ' + user.email + ' is not in the whitelist');

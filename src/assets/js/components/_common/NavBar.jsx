@@ -1,17 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import * as ReactRedux from 'react-redux';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
 import { browserHistory } from 'react-router';
 import moment from 'moment';
 
 let NavBar = React.createClass({
-
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
-  },
 
   getDefaultProps: function() {
     return {
@@ -83,11 +78,28 @@ let NavBar = React.createClass({
   },
 
   showLink: function (to, text) {
+    let id = 'menu-link-' + text.replace(/\W+/g, '_').toLowerCase();
     if (!this.props.location) {
-      return <a href={to}>{text}</a>
+      return <a id={id} href={to}>{text}</a>
     } else {
-      return <Link to={to}>{text}</Link>
+      return <Link id={id} to={to}>{text}</Link>
     }
+  },
+
+  showLinkProfile: function (to, text) {
+    if (!getUser()) {
+      return <a id='menu-link-profile' href='/login' onClick={this.saveProfileRedirect}>{text}</a>
+    } else {
+      if (!this.props.location) {
+        return <a id='menu-link-profile' href={to}>{text}</a>
+      } else {
+        return <Link id='menu-link-profile' to={to}>{text}</Link>
+      }
+    }
+  },
+
+  saveProfileRedirect: function () {
+    setCookie('redirectTo', '/profile', {expires: 300});
   },
 
   render: function() {
@@ -98,7 +110,7 @@ let NavBar = React.createClass({
         && this.props.commonData.currentForm != 'calendar' ?
           <div id="main_title">
             <div className="navbar-header">
-              {this.getUser() && this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
+              {this.props.commonData.currentForm == 'voice_search' ? <div className="back-history" onClick={this.handleBackToSearch}>Back</div> : null}
               {this.props.commonData.currentForm == 'calendar' || this.props.commonData.currentForm == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
@@ -107,52 +119,46 @@ let NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
+                  <div className="navbar-brand"></div>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
-                      <div className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
-                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
-                        <span className="flight-date">
-                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
-              </span>
-                        <span className="seating-class">
-                { serviceClass[this.props.commonData.searchParams.CabinClass] }
-              </span>
-                        <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
-                        <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
-                      </div>
-                    </div>:<div className="navbar-brand">Avaea Agent</div>
+	                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
+	                      <div className="wrapper">
+		                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
+		                        <span className="flight-date">
+		                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
+							              </span>
+							              <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
+							              <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
+							              <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
+						              </div>
+	                      </div>
+                    </div>:null
                   }
                 </span>
               }
-              {this.getUser() && (this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') ?
+              {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') && this.props.page != 'login') ?
                   <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
               {this.props.commonData.currentForm == 'voice_search' ?
               <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
               }
             </div>
 
-            <div id="nav_slide_menu" className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"} role="navigation">
-                {this.getUser().email ?
-                  <ul className="nav navbar-nav">
-                    <li>{this.showLink("/search","Search")}</li>
-                    <li>{this.showLink("/profile", "Profile")}</li>
-                    <li>{this.showLink("/about", "About")}</li>
-                    <li>{this.showLink("/terms", "Terms of Use")}</li>
-                    <li>{this.showLink("/privacy", "Privacy Policy")}</li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/logout">Log out <b>{ this.getUser().email }</b></a></li>
-                  </ul>
-                  :
-                  <ul className="nav navbar-nav">
-                    <li>{this.showLink("/search", "Search")}</li>
-                    <li>{this.showLink("/profile", "Profile")}</li>
-                    <li>{this.showLink("/about", "About")}</li>
-                    <li>{this.showLink("/terms", "Terms of Use")}</li>
-                    <li>{this.showLink("/privacy", "Privacy Policy")}</li>
-                    <li role="separator" className="divider"></li>
-                    <li><a href="/login">Log In</a></li>
-                  </ul>
-                }
+            <div id="nav_slide_menu"
+              className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+              role="navigation">
+              <ul className="nav navbar-nav">
+                <li>{this.showLink("/home","Home")}</li>
+                <li>{this.showLink("/search","Search")}</li>
+                <li>{this.showLinkProfile("/profile", "Profile")}</li>
+                <li>
+                  {getUser().email ?
+                    <a href="/logout">Log out <b>{ getUser().email }</b></a>
+                    :
+                    <a href="/login">Log In</a>
+                  }
+                </li>
+              </ul>
             </div>
           </div>:null
         }
@@ -192,7 +198,7 @@ let NavBar = React.createClass({
             <div className="navbar-header back-style">
               <div className="container-fluid">
                 <div className="row">
-                  <div className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
+                  <div id="order-page-back-button" className="back-history" onClick={this.handleBackToSearchResult}>Back</div>
                 </div>
               </div>
             </div>

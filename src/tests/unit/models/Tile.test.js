@@ -18,7 +18,8 @@ describe('Tile generation test', function () {
   describe('#getTilesDataAlternative()', function () {
     it('should check tiles generation (round)', function (done) {
       Tile.getTilesDataAlternative(itineraries, params, function (err, itineraries, tileArr) {
-        tileArr.length.should.be.eql(8);
+      	// fake merchandising filters removed, when restored adjust to (8)
+        tileArr.length.should.be.eql(7);
         // tileArr.should.be.oneOf(tilesRoundTrip);
         done();
       });
@@ -27,7 +28,8 @@ describe('Tile generation test', function () {
       params.flightType = 'ONE_WAY';
       params.returnDate = '';
       Tile.getTilesDataAlternative(itineraries, params, function (err, itineraries, tileArr) {
-        tileArr.length.should.be.eql(6);
+      	// fake merchandising filters removed, when restored adjust to (6)
+        tileArr.length.should.be.eql(5);
         // tileArr.should.be.eql(tilesOneWay);
         done();
       });

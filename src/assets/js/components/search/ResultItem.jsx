@@ -2,14 +2,13 @@ import React from 'react';
 import Citypairs from './Citypairs.jsx';
 import ModalFlightInfo from './ModalFlightInfo.jsx';
 import { browserHistory } from 'react-router';
-import { ActionsStore, logAction, createMarkup } from '../../functions.js';
+import { ActionsStore, logAction, createMarkup, getUser, setCookie } from '../../functions.js';
 import ClientApi from '../_common/api.js';
 
 let ResultItem = React.createClass({
   getInitialState: function() {
     return {
       fullinfo: this.props.showFullInfo || false,
-      miles: false,
       refundType: false
     };
   },
@@ -22,47 +21,11 @@ let ResultItem = React.createClass({
   },
 
   getMilesInfo: function () {
-
-    ClientApi.reqPost('/ac/ffpcalculate?id=' + this.props.itinerary.id, null, true)
-      .then((msg) => {
-        if( msg.error ) {
-          console.log("Result of 30K api: " + JSON.stringify(msg));
-          if (this.isMounted()) {
-            this.setState({
-              miles: {
-                value: 0,
-                name: ''
-              }
-            });
-          }
-        } else {
-          if (this.isMounted()) {
-            this.setState({
-              miles: {
-                value: msg.miles || 0,
-                name: msg.ProgramCodeName
-              }
-            });
-          }
-        }
-      })
-      .catch((error) => {
-        console.log("Result of 30K api: " + JSON.stringify(error));
-        if (this.isMounted()) {
-          this.setState({
-            miles: {
-              value: 0,
-              name: ''
-            }
-          });
-        }
-      });
-
+    ActionsStore.getMilesInfoAllItineraries();
   },
 
   getRefundType: function () {
     if (this.state.refundType !== false) return;
-    var ResultItem = this;
     var refundType = 'N/A';
 
     ClientApi.reqPost('/ac/getRefundType?id=' + this.props.itinerary.id, null, true)
@@ -71,7 +34,7 @@ let ResultItem = React.createClass({
           refundType = msg.value;
         }
         if (this.isMounted()) {
-          ResultItem.setState({
+          this.setState({
             refundType: refundType
           });
         }
@@ -118,7 +81,8 @@ let ResultItem = React.createClass({
   showThumbsUp: function() {
     if (this.props.itinerary.smartRank <= 3 && this.props.itinerary.information && this.props.itinerary.information.length) {
       return <span data-toggle="modal" data-target={'[data-id=' + this.props.itinerary.id + ']'}><ModalFlightInfo id={this.props.itinerary.id} info={this.props.itinerary}/>
-        <span className="extras-flag"></span>
+        {/* remove extras until we have real ones to show */}
+        {/* <span className="extras-flag"></span> */}
       </span>
     }
     return null;
@@ -133,14 +97,19 @@ let ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      if (!getUser()) {
+        setCookie('redirectTo', '/order/' + itineraryId + '/' + (!!isSpecial), {expires: 300});
+        window.location = '/login';
+      } else {
+        browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      }
     }.bind(this);
   },
 
   render() {
     var showNoStops = this.showNoStops;
     return (
-      <div id={this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass}>
+      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass}>
 
     <div className="summary">
       <div className="row title">
@@ -151,7 +120,8 @@ let ResultItem = React.createClass({
                 title={ this.props.itinerary.citypairs[0].from.airline }>
           </span>
           <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-          {this.showThumbsUp()}
+          {/* remove extras until we have real ones to show */}
+          {/* {this.showThumbsUp()} */}
           <span className="static-price">{this.showPrice()}</span>
         </div>
       </div>
@@ -171,12 +141,12 @@ let ResultItem = React.createClass({
 
         <div className="col-xs-3 buy-button">
           <div className="btn-group text-nowrap buy-button-group">
-            <button id="buy-button-i" className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
+            <button id={"buy-button-" + this.props.itinerary.id } className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
             <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span className="caret"></span>
             </button>
             <ul className="dropdown-menu">
-              <li><a id="buy-cron-button-" href="#" onClick={this.handleBuyButton(this.props.itinerary.id, true)} className="our-dropdown text-center">or better</a></li>
+              <li><a id={ "buy-cron-button-" + this.props.itinerary.id } href="#" onClick={this.handleBuyButton(this.props.itinerary.id, true)} className="our-dropdown text-center">or better</a></li>
             </ul>
           </div>
         </div>
@@ -184,7 +154,10 @@ let ResultItem = React.createClass({
     </div>
 
     { (this.state.fullinfo ?
-      <Citypairs citypairs={this.props.itinerary.citypairs} information={this.props.itinerary.information} miles={this.state.miles} refundType={this.state.refundType} />
+      <Citypairs citypairs={this.props.itinerary.citypairs}
+                 information={this.props.itinerary.information}
+                 miles={this.props.miles}
+                 refundType={this.state.refundType} />
       : null
     )}
 

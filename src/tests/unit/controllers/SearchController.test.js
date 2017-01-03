@@ -20,7 +20,7 @@ describe('SearchController', function() {
 
           res.body.should.have.properties('title', 'head_title', 'defaultParams', 'serviceClass');
           res.body.title.should.be.eql('Search for flights');
-          res.body.head_title.should.be.eql('Search for flights with Avaea Agent');
+          res.body.head_title.should.be.eql('Search for flights with Onvoya Agent');
           res.body.defaultParams.should.have.properties([
             'DepartureLocationCode', 'ArrivalLocationCode', 'CabinClass',
             'departureDate', 'returnDate', 'passengers', 'flightType'
@@ -235,6 +235,7 @@ describe('SearchController', function() {
           };
         }
       };
+      sails.config.globals.bucketizationFunction = 'getTilesDataEmpty';
       Airlines.makeIconSpriteMap = function (cb) {return cb(false, {});};
       Search.getResult = function (params, cb) {
         var ititns = require('../../fixtures/itineraries.json');

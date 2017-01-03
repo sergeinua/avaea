@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticContact from '../contact/Contact.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let ContactPage = React.createClass({
 
@@ -10,9 +11,8 @@ let ContactPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -22,7 +22,7 @@ let ContactPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticContact user={this.getUser()||{}}/>
+            <StaticContact user={getUser()||{}}/>
         }
       </div>
     )

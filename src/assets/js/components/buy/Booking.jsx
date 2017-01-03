@@ -19,7 +19,7 @@ let Booking = React.createClass({
 
         <div className="confirm-message">
           <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
-          <div className="thanks">Thank you for choosing Avaea!</div>
+          <div className="thanks">Thank you for choosing Onvoya!</div>
           <div className="copy">
             
             {/* Vlad - need logic to show proper grammar for 1 passenger vs. >1 */}

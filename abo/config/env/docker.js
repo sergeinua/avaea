@@ -49,14 +49,12 @@ module.exports = {
     database: 'avaea'
   },
 
-  flightapis: {
-    mondee: {
-      baseEndPoint: 'http://nginx:23457/api/v2', // 'http://sandbox.trippro.com/api/v2',
-      clientId: 'CFP1017'
-    },
-    searchProvider: /*'mystifly'*/  'mondee'
-  },
+  hookTimeout: 120000,
 
-  hookTimeout: 60000
+  memcacheConf: {
+    host: 'cache',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
+  },
 
 };

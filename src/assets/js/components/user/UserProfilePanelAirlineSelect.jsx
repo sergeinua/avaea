@@ -3,7 +3,7 @@ import Select from 'react-select';
 import 'whatwg-fetch';
 import 'promise-polyfill';
 import { clientStore } from '../../reducers.js';
-import { actionSetProgramsVal } from '../../actions.js';
+import { actionSetPreferredAirlinesVal } from '../../actions.js';
 
 let UserProfilePanelAirlineSelect = React.createClass({
 
@@ -17,7 +17,7 @@ let UserProfilePanelAirlineSelect = React.createClass({
 
   handleChangeValue: function (incObj) {
     if (incObj) {
-      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
+      clientStore.dispatch(actionSetPreferredAirlinesVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
       this.setState({airlineName: incObj.value}); // Need to setup result value by self
     }
   },

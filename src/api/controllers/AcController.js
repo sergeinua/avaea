@@ -220,6 +220,38 @@ module.exports = {
     }
   },
 
+  ffm_airlines: function (req, res) {
+    var _query = req.param('q').replace(/^\s*/,"");
+
+    FFMPrograms.find({
+      where: {
+        or : [
+          {program_name: {'contains': _query}},
+          {program_code: _query},
+          {alliance: _query}
+        ]
+      },
+      sort: 'program_name'
+    }).exec(function (err, found) {
+      if (err) {
+        sails.log.error(err);
+      }
+      if (found && found.length) {
+        for (var i = 0; i < found.length; i++) {
+          found[i] = {
+            value: found[i].program_code,
+            label: found[i].program_name,
+            program: found[i].miles_type_configuration
+          }
+        }
+        return res.json(found);
+      }
+      else {
+        return res.json([]);
+      }
+    })
+  },
+
   /**
    * @param {String} id - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
    * */
@@ -229,7 +261,7 @@ module.exports = {
     var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
     memcache.get(cacheId, function(err, result) {
       if (!err && !_.isEmpty(result)) {
-        ffmapi.milefy.Calculate(JSON.parse(result), function (error, response, body) {
+        ffmapi.milefy.Calculate(JSON.parse(result), function (error, body) {
           if (error) {
             return res.json({error: error, body: body});
           }
@@ -240,6 +272,43 @@ module.exports = {
         return res.json({error: err});
       }
     });
+  },
+
+  /**
+   * @param {Array} ids - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
+   * */
+  ffpcalculateMany: function (req, res) {
+    var ids = req.param('ids');
+    if (ids && ids.length) {
+      let cacheIds = ids.map((id) => 'itinerary_' + id.replace(/\W+/g, '_'));
+      let cacheIdsRequest = cacheIds.join(' ');
+
+      memcache.get(cacheIdsRequest, function (err, result) {
+        if (!err && !_.isEmpty(result)) {
+          var skipedIds = [];
+          var resultParsed = Object.keys(result)
+            .map((itineraryId) => {
+                try {
+                  return JSON.parse(result[itineraryId]);
+                } catch (error) {
+                  skipedIds.push(itineraryId);
+                  return false;
+                }
+              }
+            );
+          var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
+          ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors}, function (error, body) {
+            if (error) {
+              return res.json({error: error, body: body});
+            }
+            var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+            return res.json({itineraries: jdata});
+          });
+        } else {
+          return res.json({error: err});
+        }
+      });
+    }
   },
 
   airlines: function (req, res) {

@@ -48,7 +48,7 @@ let OrderSpecialModal = React.createClass({
           <div className="modal-content">
 
             <div className="title-bar">
-              <div className="close-x" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}></div>
+              <div  id="user-price-close" className="close-x" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}></div>
               <div className="title">Choose Your Price</div>
             </div>
 
@@ -69,7 +69,7 @@ let OrderSpecialModal = React.createClass({
               </div>
 
               <div className="buttons-bar double">
-                <button type="button" className="big-button secondary" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}>Cancel</button>
+                <button  id="user-price-cancel" type="button" className="big-button secondary" onClick={() => {$("#user-price-modal").modal("hide");browserHistory.push('/result');return false;}}>Cancel</button>
                 <button type="submit" className="big-button" id="user-price-submit">Submit</button>
               </div>
 

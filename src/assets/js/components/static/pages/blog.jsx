@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticBlog from '../blog/Blog.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let BlogPage = React.createClass({
 
@@ -10,9 +11,8 @@ let BlogPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -22,7 +22,7 @@ let BlogPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticBlog user={this.getUser()||{}}/>
+            <StaticBlog user={getUser()||{}}/>
         }
       </div>
     )

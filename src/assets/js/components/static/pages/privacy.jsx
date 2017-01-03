@@ -1,6 +1,7 @@
 import React from 'react';
 import StaticPrivacy from '../privacy/Privacy.jsx';
 import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
 
 let PrivacyPage = React.createClass({
 
@@ -10,9 +11,8 @@ let PrivacyPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -22,7 +22,7 @@ let PrivacyPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticPrivacy user={this.getUser()||{}}/>
+            <StaticPrivacy user={getUser()||{}}/>
         }
       </div>
     )
