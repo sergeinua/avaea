@@ -109,7 +109,7 @@ let ResultItem = React.createClass({
   render() {
     var showNoStops = this.showNoStops;
     return (
-      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass}>
+      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
 
     <div className="summary">
       <div className="row title">
@@ -127,7 +127,7 @@ let ResultItem = React.createClass({
       </div>
 
       <div className="row">
-        <div className="col-xs-9"  id={ this.props.itinerary.id } onClick={this.toggleFullInfo()}>
+        <div className="col-xs-9"  id={ this.props.itinerary.id }>
           { this.props.itinerary.citypairs.map(function (pair, i) {
           return <div className="itinerary-info" key={"itin-info-" +  i}>
             <div className="col-xs-3 departLoc">
