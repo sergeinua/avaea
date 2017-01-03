@@ -2046,7 +2046,7 @@ td[data-action*="selectDay"] {
   transition-property: transform;
 }
 
-prevent swiper from sticking with filters out of view 
+/* prevent swiper from sticking with filters out of view */
 .desktop .swiper-container {
 	width: 2700px;
 }
