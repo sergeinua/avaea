@@ -16,6 +16,9 @@ var SearchFormPage = React.createClass({
     // FIXME remove this after removing jquery modal
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
+    // FIXME - had to hide logo for devices only when "flight-info" div is 
+  	// showing in nav bar - this restores it
+    $("body").removeClass('suppress-logo');
 
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },

@@ -46,6 +46,9 @@ var TripSearchForm = React.createClass({
         .then(function () {
           ActionsStore.submitTripSearchForm();
         });
+      // FIXME - hides logo for devices only when navbar shows "flight-info" div
+      // so logo does not push the search query down
+      $("body").addClass('suppress-logo');
     }.bind(this);
   },
 
