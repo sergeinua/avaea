@@ -36,14 +36,14 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person michael">
+		      		<div className="person irina">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Michael McCabe</div>
-		      				<div className="ti">VP Human Resources</div>
+		      				<div className="name">Irina Kuznetsova</div>
+		      				<div className="ti">VP Product</div>
 		      				<div className="bio">
-		      					Experienced solutions architect for start-up teams, 
-		      					executive team development and HR management.
+		      					Founder and PM of a portfolio of successful technology startups.
+		      					Executive liason between business goals and product execution.
 		      				</div>
 		      			</div>
 		      		</div>
@@ -72,38 +72,14 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
-		      		<div className="person irina">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Irina Kuznetsova</div>
-		      				<div className="ti">VP Product</div>
-		      				<div className="bio">
-		      					Founder and PM of a portfolio of successful technology startups.
-		      					Executive liason between business goals and product execution.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
 		      		<div className="person cf">
 		      			<div className="image"></div>
 		      			<div className="holder">
 		      				<div className="name">Constantine Filin</div>
 		      				<div className="ti">VP Engineering</div>
 		      				<div className="bio">
-		      					Proven delivery of complex applications using hybrid
-		      					and cutting-edge technologies. Key technology leader.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person alext">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Alex Tsyplikhin</div>
-		      				<div className="ti">Sr. Director Data Science</div>
-		      				<div className="bio">
-		      					Experienced data scientist across diverse data types.
-		      					Razor's-edge AI architecture and implementation. 
+		      					Key technology leader with proven delivery of complex 
+		      					applications using cutting-edge technologies.
 		      				</div>
 		      			</div>
 		      		</div>
@@ -121,6 +97,18 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
+		      		<div className="person alext">
+		      			<div className="image"></div>
+		      			<div className="holder">
+		      				<div className="name">Alex Tsyplikhin</div>
+		      				<div className="ti">Sr. Director Data Science</div>
+		      				<div className="bio">
+		      					Experienced data scientist across diverse data types.
+		      					Razor's-edge AI architecture and implementation. 
+		      				</div>
+		      			</div>
+		      		</div>
+		      		
 		      		<div className="person deborah">
 		      			<div className="image"></div>
 		      			<div className="holder">
@@ -133,14 +121,54 @@ var StaticAbout = React.createClass({
 		      			</div>
 		      		</div>
 		      		
+		      		<div className="person michael">
+		      			<div className="image"></div>
+		      			<div className="holder">
+		      				<div className="name">Michael McCabe</div>
+		      				<div className="ti">VP Human Resources</div>
+		      				<div className="bio">
+		      					Experienced solutions architect for start-up teams, 
+		      					executive team development and HR management.
+		      				</div>
+		      			</div>
+		      		</div>
+		      		
+		      		<div className="person paul">
+		      			<div className="image"></div>
+		      			<div className="holder">
+		      				<div className="name">Paul Kim</div>
+		      				<div className="ti">Sales and Partnerships</div>
+		      				<div className="bio"> 
+		      				</div>
+		      			</div>
+		      		</div>
+		      		
+		      		<div className="person veronica">
+		      			<div className="image"></div>
+		      			<div className="holder">
+		      				<div className="name">Veronica Li</div>
+		      				<div className="ti">Sales and Partnerships</div>
+		      				<div className="bio"> 
+		      				</div>
+		      			</div>
+		      		</div>
+		      		
+		      		<div className="person adja">
+		      			<div className="image"></div>
+		      			<div className="holder">
+		      				<div className="name">Adja Ba</div>
+		      				<div className="ti">Administration</div>
+		      				<div className="bio"> 
+		      				</div>
+		      			</div>
+		      		</div>
+		      		
 		      		<div className="person aftab">
 		      			<div className="image"></div>
 		      			<div className="holder">
 		      				<div className="name">Aftab Yaqub</div>
 		      				<div className="ti">Customer Service Advisor</div>
 		      				<div className="bio">
-		      					Successful travel business founder, bottom-line
-		      					deliverer of end-user satisfaction.
 		      				</div>
 		      			</div>
 		      		</div>

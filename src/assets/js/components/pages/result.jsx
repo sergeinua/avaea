@@ -43,7 +43,7 @@ let ResultPage = React.createClass({
           max_filter_items: json.max_filter_items
         }, function () {
 
-          //FIXME refactor code to use non jquery based swiper functionality
+          //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
 
           // correctly initialize the swiper for desktop vs. touch

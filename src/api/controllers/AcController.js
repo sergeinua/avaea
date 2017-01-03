@@ -220,6 +220,38 @@ module.exports = {
     }
   },
 
+  ffm_airlines: function (req, res) {
+    var _query = req.param('q').replace(/^\s*/,"");
+
+    FFMPrograms.find({
+      where: {
+        or : [
+          {program_name: {'contains': _query}},
+          {program_code: _query},
+          {alliance: _query}
+        ]
+      },
+      sort: 'program_name'
+    }).exec(function (err, found) {
+      if (err) {
+        sails.log.error(err);
+      }
+      if (found && found.length) {
+        for (var i = 0; i < found.length; i++) {
+          found[i] = {
+            value: found[i].program_code,
+            label: found[i].program_name,
+            program: found[i].miles_type_configuration
+          }
+        }
+        return res.json(found);
+      }
+      else {
+        return res.json([]);
+      }
+    })
+  },
+
   /**
    * @param {String} id - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
    * */

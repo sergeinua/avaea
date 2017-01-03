@@ -39,7 +39,7 @@ var makeProfileData = function (req, dataRec) {
     profileStructure: {
       'personal_info.gender': Profile.attr_gender
     },
-    programsStructure: {
+    preferredAirlinesStructure: {
       travel_type: Profile.attr_travel_type
     }
   });
