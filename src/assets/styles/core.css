@@ -3298,6 +3298,11 @@ footer.app-copy .bottom a {
 @media (max-width: 766px) {
 
 	.touch .navbar-brand { 
+		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
+		background-size: 185px;
+	}
+	
+	.touch.suppress-logo .navbar-brand { 
 		display: none;
 	}
 

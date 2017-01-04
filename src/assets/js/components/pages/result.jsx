@@ -45,6 +45,10 @@ let ResultPage = React.createClass({
 
           //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
+          
+          // FIXME - hides logo for devices only when navbar shows "flight-info" div
+          // so logo does not push the search query down
+          $("body").addClass('suppress-logo');
 
           // correctly initialize the swiper for desktop vs. touch
 
