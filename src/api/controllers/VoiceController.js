@@ -37,9 +37,11 @@ module.exports = {
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
-        if (sails.config.environment !== 'test')
+        if (sails.config.environment !== 'test') {
           let userId = utils.getUser(req);
           segmentio.track(userId, 'Voice Search', {query: _query, result: result});
+        }
+
         return res.json(result); //200
       } else {
         return res.notFound(); //404
