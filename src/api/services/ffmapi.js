@@ -154,8 +154,8 @@ module.exports = {
                   .forEach((program) => { definedProgramCodesAsObject[program] = programCodesAsObject[program] });
 
                 filteredResults.forEach((flight) => {
-                  if (definedProgramCodesAsObject[flight.ProgramCode]) {
-                    flight.ProgramCodeName = definedProgramCodesAsObject[flight.ProgramCode];
+                  if (definedProgramCodesAsObject[flight.ffmiles.ProgramCode]) {
+                    flight.ffmiles.ProgramCodeName = definedProgramCodesAsObject[flight.ffmiles.ProgramCode];
                   }
                 });
               }
