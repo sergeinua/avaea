@@ -87,7 +87,9 @@ module.exports = {
       filters: [
       ]
     },
-    Merchandising: { // Merchandising Fake data Issue #39
+    // suppressing fake merchandising until we have real data
+    /* 
+      Merchandising: { // Merchandising Fake data Issue #39
       name: 'Merchandising',
       id: 'merchandising_tile',
       order: 99,
@@ -108,7 +110,8 @@ module.exports = {
           count: 0
         }
       ]
-    }
+    } 
+    */
   },
   getTilesData: function (itineraries, params, callback) {
     sails.log.info('Using default bucketization algorithm');
@@ -466,7 +469,9 @@ module.exports = {
           }
         }
 
+        // suppressing fake merchandising data until we have real data
         // Merchandising Fake data Issue #39
+        /*
         _.forEach(itinerary.citypairs, function (cityPair) {
           if (cityPair.flights.length) {
             _.forEach(cityPair.flights, function (flight) {
@@ -484,6 +489,7 @@ module.exports = {
             });
           }
         });
+        */
 
         if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
@@ -498,7 +504,8 @@ module.exports = {
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
-          tileArr['Merchandising'].order = -1;
+          // suppressing fake merchandising data until we have real data
+          // tileArr['Merchandising'].order = -1;
           tileArr = _.sortBy(tileArr, 'order').reverse();
         }
         return callback(err, itineraries, tileArr);
@@ -567,10 +574,17 @@ module.exports = {
         }
       }
     } else {
-      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      if (false) {
+        sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      } else {
+        cicstanford.compute_departure_times_in_minutes(itineraries);
+        cicstanford.determine_airline(itineraries);
+        sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
+        var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+      }
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
@@ -598,7 +612,7 @@ module.exports = {
       itineraries = tmp;
       sails.log.info('after DEMO-285', itineraries.length);
     }
-    //cicstanford.print_many_itineraries(itineraries);
+
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
@@ -911,7 +925,9 @@ module.exports = {
           filterClass = filterClass + ' ' + tileArr['Stops'].filters[index].id;
         }
 
+        // suppressing fake merchandising data until we have real data
         // Merchandising Fake data Issue #39
+        /*
         _.forEach(itinerary.citypairs, function (cityPair) {
           if (cityPair.flights.length) {
             _.forEach(cityPair.flights, function (flight) {
@@ -929,6 +945,7 @@ module.exports = {
             });
           }
         });
+        */
 
         // Flight information popup Fake data Issue #255
         var additionalPrice = 0;
@@ -977,7 +994,10 @@ module.exports = {
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
-          tileArr['Merchandising'].order = 1000;
+          
+          // suppressing fake merchandising data until we have real data
+          //tileArr['Merchandising'].order = 1000;
+          
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
           tileArr.forEach(function (tile) {

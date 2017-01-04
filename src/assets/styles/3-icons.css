@@ -39,6 +39,10 @@
   font-style: normal;
 }
 
+footer a.social:after, 
+.icon-social-instagram:before,
+.static-nav-button:before,
+.login-holder .big-button:after,
 .success.ti:before,
 .extras-flag:before,
 #accordion .panel-title a:after,
@@ -152,6 +156,7 @@
 .icon-map-pin:before {
   content: "\e90c";
 }
+.static-nav-button:before,
 .icon-menu:before {
   content: "\e90d";
 }
@@ -165,7 +170,7 @@
   content: "\e910";
 }
 .icon-spinner:before {
-  content: "\e911";
+  /* content: "\e911"; */
 }
 .clear-textarea:before,
 .icon-start-over:before {
@@ -237,6 +242,23 @@
 .extras-flag:before,
 .icon-star:before {
   content: "\e92f";
+}
+footer a.fb:after,
+.login-holder .big-button.facebook:after,
+.icon-social-fb:before {
+  content: "\e930";
+}
+footer a.twitter:after,
+.icon-social-twitter:before {
+  content: "\e931";
+}
+.login-holder .big-button.google:after,
+.icon-social-google:before {
+  content: "\e932";
+}
+footer a.instagram:after,
+.icon-social-instagram:before {
+  content: "\e933";
 }
 
 /* end icons.css */

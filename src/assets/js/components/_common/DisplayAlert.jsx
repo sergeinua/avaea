@@ -1,4 +1,7 @@
-var DisplayAlert = React.createClass({
+import React from 'react';
+import { Link } from 'react-router';
+
+let DisplayAlert = React.createClass({
   render() {
     return (
       <div className="nothing-found">
@@ -6,7 +9,7 @@ var DisplayAlert = React.createClass({
             {this.props.errorInfo.messages.map((message, index) => <div key={'msg_'+index}>{message}</div>)}
           </div>
           <div className="buttons">
-            <Link to={this.props.tryUrl} className="big-button new-search-button" role="button">Try Again</Link>
+            <Link id="alert-page-try-again-button" to={this.props.tryUrl} className="big-button new-search-button" role="button">Try Again</Link>
           </div>
       </div>
     )
@@ -20,3 +23,5 @@ DisplayAlert.defaultProps = {
   },
   tryUrl: "/search"
 };
+
+export default DisplayAlert;

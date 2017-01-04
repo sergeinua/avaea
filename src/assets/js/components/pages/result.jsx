@@ -1,12 +1,31 @@
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore, logAction } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
-var ResultPage = React.createClass({
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
+
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
+let swiper;
+
+let ResultPage = React.createClass({
 
   getInitialState: function() {
     return {
       isLoading: true,
+      isLoadingMilesInfo: false,
       searchResultLength: 0,
+      milesInfosObject: {},
       filter: [],
     };
   },
@@ -24,8 +43,12 @@ var ResultPage = React.createClass({
           max_filter_items: json.max_filter_items
         }, function () {
 
-          //FIXME refactor code to use non jquery based swiper functionality
+          //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
+          
+          // FIXME - hides logo for devices only when navbar shows "flight-info" div
+          // so logo does not push the search query down
+          $("body").addClass('suppress-logo');
 
           // correctly initialize the swiper for desktop vs. touch
 
@@ -128,6 +151,7 @@ var ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
     ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
@@ -199,6 +223,78 @@ var ResultPage = React.createClass({
     };
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
+    };
+
+    ActionsStore.getMilesInfoAllItineraries = () => {
+      if (!this.state.isLoadingMilesInfo && this.state.searchResult && this.state.searchResult.length > 0) {
+        let ids = this.state.searchResult.map((itinerary) => itinerary.id);
+
+        let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
+          // miles value meaning:
+          // miles === false // loading started
+          // miles === undefined // not loaded
+          // typeof miles === object // loaded
+          let miles = this.state.milesInfosObject[id];
+          if (miles === undefined) {
+            return true;
+          }
+          return false;
+        });
+        if (idsLoadingNotStartedAndNotLoaded.length > 0) {
+          let mutatedMilesInfosObject = Object.assign({}, this.state.milesInfosObject);
+
+          idsLoadingNotStartedAndNotLoaded.forEach((id) => {
+            mutatedMilesInfosObject[id] = false;
+          });
+
+          if (this.isMounted()) {
+            this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          }
+          ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
+            .then((msg) => {
+              if( msg.error ) {
+                console.log("Result of 30K api: " + JSON.stringify(msg));
+                if (this.isMounted()) {
+                  this.setState({
+                    isLoadingMilesInfo: false
+                  });
+                }
+              } else {
+                if (this.isMounted()) {
+                  let milesInfosObject = {};
+                  let idsLoadedObject = {};
+                  msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
+                    idsLoadedObject[id] = true;
+                    milesInfosObject[id] = {
+                      value: miles || 0,
+                      name: ProgramCodeName
+                    }
+                  });
+                  let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
+                  idsFailedToLoad.forEach((id) => {
+                    milesInfosObject[id] = {
+                      value: 0,
+                      name: ''
+                    }
+                  });
+
+                  this.setState({
+                    isLoadingMilesInfo: false,
+                    milesInfosObject: milesInfosObject
+                  });
+                }
+              }
+            })
+            .catch((error) => {
+              console.log("Result of 30K api: " + JSON.stringify(error));
+              if (this.isMounted()) {
+                this.setState({
+                  isLoadingMilesInfo: false
+                });
+              }
+            });
+        }
+      }
     };
   },
 
@@ -425,3 +521,5 @@ const mapDispatchCommon = (dispatch) => {
 };
 
 const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

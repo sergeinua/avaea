@@ -17,7 +17,7 @@ module.exports = {
   session: {
     host: '127.0.0.1',
     user: 'avaea',
-    password: 'avaea',
+    password: 'a1v2a3e4a5',
     database: 'avaea',
     port: 5432
   },
@@ -47,5 +47,10 @@ flightapis: {
 
 
   hookTimeout: 512000,
-  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
+
+  recaptcha: {
+    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
+    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
+  }
 };

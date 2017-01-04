@@ -248,27 +248,5 @@
         "order":4
       }
     ]
-  },
-  {
-    "name":"Merchandising",
-    "id":"merchandising_tile",
-    "order":1000,
-    "filters":[
-      {
-        "title":"WiFi",
-        "id":"merchandising_tile_wifi",
-        "count":86
-      },
-      {
-        "title":"1st bag free",
-        "id":"merchandising_tile_1st_bag_free",
-        "count":129
-      },
-      {
-        "title":"Priority seat",
-        "id":"merchandising_tile_priority_seat",
-        "count":43
-      }
-    ]
   }
 ]

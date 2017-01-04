@@ -1,5 +1,7 @@
+import 'whatwg-fetch';
+import 'promise-polyfill';
 
-var ClientApi = {
+let ClientApi = {
 
   reqPost: function (reqUrl, reqData, isDispatchError) {
     return fetch(reqUrl, {
@@ -23,3 +25,5 @@ var ClientApi = {
   }
 
 };
+
+export default ClientApi;

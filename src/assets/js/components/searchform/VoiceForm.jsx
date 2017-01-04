@@ -1,3 +1,9 @@
+import React from 'react';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { ActionsStore, setAirportData } from '../../functions.js';
+import moment from 'moment';
+
 var final_transcript = '';
 var recognizing = false;
 var ignore_onend;
@@ -158,9 +164,13 @@ var VoiceForm = React.createClass({
     if (recognition && recognizing) {
       recognition.stop();
     }
-    this.demo(function(res, data) {
-      console.log("Result of demo: ", data);
-      loggerQuery(data, (res ? 'success' : 'failed'));
+    this.demo(function(err, res) {
+      if (err) {
+        res = err;
+      }
+      console.log("Result of demo: ", res);
+
+      loggerQuery(res, (err ? 'failed' : 'success'));
     });
   },
 
@@ -171,7 +181,8 @@ var VoiceForm = React.createClass({
    */
   demo: function (callback) {
 
-    fetch('/voice/parse', {
+    /* fetch('/voice/parse', {*/
+    fetch('/voice/parse_api_ai', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -205,7 +216,7 @@ var VoiceForm = React.createClass({
         }
       }
       if( !_airportsPromises.length ) {
-        return callback(false, result);
+        return callback(null, result || {});
       }
 
       $.when.apply($, _airportsPromises).done(function() {
@@ -223,83 +234,84 @@ var VoiceForm = React.createClass({
             setAirportData(_airportsKeys[_airportsPromisesKeys[i]], _arguments[i][0][0]);
           }
         }
-
-        if (result.origin_date || result.return_date) {
-          var leaving, returning;
-          // var picker = $('#dr_picker').data('DateTimePicker');
-          // picker.clear();
-          if (result.origin_date /*&& picker.maxDate().isSameOrAfter(result.origin_date)*/) {
-            var _month = result.origin_date.getMonth() + 1,
-              _day = result.origin_date.getDate();
-            if (_month < 10) _month = '0' + _month;
-            if (_day < 10) _day = '0' + _day;
-            ActionsStore.setFormValue('departureDate', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
-            // picker.date(result.origin_date);
-            leaving = result.origin_date.toDateString();
-            // we can't set return date on search form without origin date
-            if (result.return_date /*&& picker.maxDate().isSameOrAfter(result.return_date)*/) {
-              var _month = result.return_date.getMonth() + 1,
-                _day = result.return_date.getDate();
+        if ((typeof result !== 'undefined')) {
+          if (result.origin_date || result.return_date) {
+            var leaving, returning;
+            // var picker = $('#dr_picker').data('DateTimePicker');
+            // picker.clear();
+            if (result.origin_date /*&& picker.maxDate().isSameOrAfter(result.origin_date)*/) {
+              var _month = result.origin_date.getMonth() + 1,
+                _day = result.origin_date.getDate();
               if (_month < 10) _month = '0' + _month;
               if (_day < 10) _day = '0' + _day;
-              ActionsStore.setFormValue('returnDate', result.return_date.getFullYear() + '-' + _month + '-' + _day);
-              // picker.date(result.return_date);
-              returning = result.return_date.toDateString();
-            } else if (result.type == 'round_trip') {
-              result.type = 'one_way';
-              // $('#one_way').trigger('click');
+              ActionsStore.setFormValue('departureDate', result.origin_date.getFullYear() + '-' + _month + '-' + _day);
+              // picker.date(result.origin_date);
+              leaving = result.origin_date.toDateString();
+              // we can't set return date on search form without origin date
+              if (result.return_date /*&& picker.maxDate().isSameOrAfter(result.return_date)*/) {
+                var _month = result.return_date.getMonth() + 1,
+                  _day = result.return_date.getDate();
+                if (_month < 10) _month = '0' + _month;
+                if (_day < 10) _day = '0' + _day;
+                ActionsStore.setFormValue('returnDate', result.return_date.getFullYear() + '-' + _month + '-' + _day);
+                // picker.date(result.return_date);
+                returning = result.return_date.toDateString();
+              } else if (result.type == 'round_trip') {
+                result.type = 'one_way';
+                // $('#one_way').trigger('click');
+              }
             }
+            if (result.origin_date) {
+              var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
+              ActionsStore.setFormValue('departureDate', origin_date.format('YYYY-MM-DD') || '');
+            }
+            if (result.return_date) {
+              var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
+              ActionsStore.setFormValue('returnDate', return_date.format('YYYY-MM-DD') || '');
+            }
+            //
+            // if (leaving) {
+            //   $('#date_select_top').trigger('click');
+            // }
+
           }
-          if (result.origin_date) {
-            var origin_date = moment.isMoment(result.origin_date) ? result.origin_date : moment(result.origin_date || undefined);
-            ActionsStore.setFormValue('departureDate', origin_date.format('YYYY-MM-DD') || '');
+
+          if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
+            if (result.number_of_tickets == "multiple") {
+              result.number_of_tickets = 4;
+            }
+          } else {
+            result.number_of_tickets = 1;
           }
-          if (result.return_date) {
-            var return_date = moment.isMoment(result.return_date) ? result.return_date : moment(result.return_date || undefined);
-            ActionsStore.setFormValue('returnDate', return_date.format('YYYY-MM-DD') || '');
+          ActionsStore.setFormValue('passengers', result.number_of_tickets);
+
+          if (!result.class_of_service) {
+            result.class_of_service = 'E';
           }
-          //
-          // if (leaving) {
-          //   $('#date_select_top').trigger('click');
-          // }
 
-        }
-
-        if (result.number_of_tickets && (result.number_of_tickets > 0 || result.number_of_tickets == "multiple")) {
-          if (result.number_of_tickets == "multiple") {
-            result.number_of_tickets = 4;
+          if (serviceClass && serviceClass[result.class_of_service]) {
+            ActionsStore.setFormValue('CabinClass', result.class_of_service);
           }
-        } else {
-          result.number_of_tickets = 1;
-        }
-        ActionsStore.setFormValue('passengers', result.number_of_tickets);
 
-        if( !result.class_of_service ) {
-          result.class_of_service = 'E';
-        }
+          ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
+          ActionsStore.changeForm(result.type);
 
-        if (serviceClass && serviceClass[result.class_of_service]) {
-          ActionsStore.setFormValue('CabinClass', result.class_of_service);
-        }
-
-        ActionsStore.setFormValue('voiceSearchQuery', JSON.stringify(result));
-        ActionsStore.changeForm(result.type);
-
-        if (result.action == 'all' || result.action == 'top') {
-          Promise.resolve(ActionsStore.setFormValue('topSearchOnly', result.action == 'top' ? 1 : 0))
-            .then(function () {
-              ActionsStore.submitTripSearchForm();
-            });
+          if (result.action == 'all' || result.action == 'top') {
+            Promise.resolve(ActionsStore.setFormValue('topSearchOnly', result.action == 'top' ? 1 : 0))
+              .then(function () {
+                ActionsStore.submitTripSearchForm();
+              });
+          }
         }
 
-        return callback(true, result);
+        return callback(null, result || {});
       }).fail(function(error){
-        return callback(false, error);
+        return callback(error, {});
       });
     })
     .catch((error) => {
       console.log(error);
-      return callback(false, result);
+      return callback(error, {});
     });
   },
 
@@ -330,3 +342,5 @@ var VoiceForm = React.createClass({
     )
   }
 });
+
+export default VoiceForm;

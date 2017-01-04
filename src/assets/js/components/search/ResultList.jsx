@@ -1,3 +1,5 @@
+import React from 'react';
+import ResultItem from './ResultItem.jsx';
 
 var ResultList = React.createClass({
 
@@ -8,10 +10,12 @@ var ResultList = React.createClass({
       <div id="searchResultData" className="flights">
         {this.props.InitResultData.searchResult.map(function(itinerary) {
           if (!itinerary.is_hidden) {
-            return <ResultItem key={itinerary.id} itinerary={itinerary}/>
+            return <ResultItem key={itinerary.id}
+                               itinerary={itinerary}
+                               miles={this.props.InitResultData.milesInfosObject[itinerary.id]} />
           }
           return null;
-        })}
+        }.bind(this))}
       </div>
         : null
       )}
@@ -19,3 +23,5 @@ var ResultList = React.createClass({
     )
   }
 });
+
+export default ResultList;

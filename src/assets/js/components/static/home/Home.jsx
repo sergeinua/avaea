@@ -1,4 +1,6 @@
-var StaticHome = React.createClass({
+import React from 'react';
+
+let StaticHome = React.createClass({
   render: function () {
     return (
     		<div>
@@ -50,7 +52,7 @@ var StaticHome = React.createClass({
 			    	  		<div className="copy">
 				    	  		<span>Book your travel using your voice instead of your thumbs. </span> 
 				    	  		Walk, talk, and get your tickets. Our voice agent hears and 
-				    	  		searches - you don’t need to touch the keyboard.
+				    	  		searches - you don't need to touch the keyboard.
 			    	  		</div>
 				    	  </div>
 				    	  
@@ -69,7 +71,7 @@ var StaticHome = React.createClass({
 				    	  
 				    	  <div className="feature-price">
 			    	  		<h2>Low Price</h2>
-			    	  		<h3>try it out</h3>
+			    	  		<h3>try us and compare</h3>
 			    	  		<div className="graphic"></div>
 			    	  		<div className="copy">
 				    	  		<span>Your wallet will love our prices. </span> 
@@ -79,33 +81,16 @@ var StaticHome = React.createClass({
 			    	  		</div>
 				    	  </div>
 				    	  
-				    	</div>{/* ends features */}  
+				    	</div>{/* ends features */} 
 		    	  </div> {/* ends home second level */}
-		    	  
-		    	  <div className="home compare level">
-			    	  
-			    	  <div className="wrapper">
-			    	  	<h1>By comparing flight extras, our <strong>PriceLens</strong><span>&trade;</span> technology helps you choose the best flight.</h1>
-			      		<div className="copy">
-			      			<ul>
-			      				<li>Wireless</li>
-			      				<li>Frequent Flyer Miles</li>
-			      				<li>Baggage discounts</li>
-			      				<li>Lounge access</li>
-			      				<li>Priority seat</li>
-			      			</ul>
-			      		</div>
-	      		</div>
-				    	  
-	    	  </div> {/* ends home compare level */}
 		    	  
 		    	  <div className="home third level">
 			  	  	<h1>And, this is only Beta. See what's next!</h1>
 			  	  	
 			  	  	<div className="copy">
-			  	  		Today, we’re focused on air travel.  Tomorrow we’ll tackle 
-			  	  		hotels, rental cars, Uber, Airbnb… the entire world of 
-			  	  		travel. Here are features we’re developing now.
+			  	  		Today, we're focused on air travel. Tomorrow we'll tackle 
+			  	  		hotels, rental cars, Uber, Airbnb... the entire world of 
+			  	  		travel. Here are features we're developing now.
 			  	  	</div>
 			  	  		
 			  	  	<div className="wrapper">
@@ -114,7 +99,7 @@ var StaticHome = React.createClass({
 			  	  			<div className="ti">Watch ticket price</div>
 			  	  			<div className="copy">
 				  	  			Choose your price. If your chosen ticket meets 
-				  	  			your price, it’s bought.
+				  	  			your price, it's bought.
 			  	  			</div>
 			  	  		</div>
 			  	  	
@@ -127,9 +112,9 @@ var StaticHome = React.createClass({
 			  	  		</div>
 			  	  		
 			  	  		<div className="upcoming">
-			  	  			<div className="ti">Refundable tickets</div>
+			  	  			<div className="ti">Seat choice</div>
 			  	  			<div className="copy">
-			  	  				Visibility into refunds and penalties.
+			  	  				Choose the seat you like best from a seat map.
 			  	  			</div>
 			  	  		</div>
 			  	  		
@@ -137,14 +122,14 @@ var StaticHome = React.createClass({
 			  	  			<div className="ti">Agent experience</div>
 			  	  			<div className="copy">
 			  	  				Your travel preferences remembered and calculated, 
-			  	  				so you see the tickets you’ll love first.
+			  	  				so you see the tickets you'll love first.
 			  	  			</div>
 			  	  		</div>
 			  	  		
 			  	  		<div className="upcoming">
 			  	  			<div className="ti">Customized settings</div>
 			  	  			<div className="copy">
-			  	  				You know you best. Tell us what you like and we’ll search for that.
+			  	  				You know you best. Tell us what you like and we'll search for that.
 			  	  			</div>
 			  	  		</div>
 			  	  		
@@ -186,6 +171,9 @@ var StaticHome = React.createClass({
 	    	<div className="home graphic"></div>
 	    	
 	   </div> 	
+    		
     )
   }
 });
+
+export default StaticHome;

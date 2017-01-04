@@ -15,81 +15,62 @@
 .search-result .static-price,
 .search-result .long-wrapper,
 .booking .buy-button,
+.buy-button-arrow,
 .booking .long-wrapper,
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
-/*.flight-unit .itinerary-airline-icon,*/
-/*.flight-unit .itinerary-airline .itinerary-airline-icon,*/
 .dimmer .landscape,
-.dimmer {
+.touch > .copyright,
+.touch footer.app-copy {
 	display: none;
 }
+
+/* page settings */
+
+body,
+#spa-app,
+.desktop-wrapper {
+	background: #ffffff;
+}
+
+#spa-app {
+	padding-bottom: 80px;
+}
+
 
 /* desktop */
 
 .desktop {
 	text-align: center;
 	padding: 30px 30px 100px 30px;
+	min-width: 445px;
   background: linear-gradient(#e8f7fd, #50c5f0);
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
 
-.desktop:before {
-	  content: '';
-    width: 110%;
-    height: 603px;
-    position: fixed;
-    bottom: 0;
-    left: -5%;
-    right: 0;
-    background: url('/images/clouds.png') repeat-x;
-    z-index: -1;
+.desktop #spa-app {
+	min-height: 585px;
 }
 
-.desktop .desktop-wrapper {
-	margin: 0 auto;
-	padding: 10px;
-	width: 878px;
-	background: #ffffff;
-	border-radius: 4px;
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, .3);
+.desktop .login-holder {
+	margin: 80px auto 0 auto;
 }
 
-.desktop .desktop-wrapper:after {
-	content: '\00A9 2016 Avaea, Inc., All Rights Reserved';
-	font-size: 13px;
-	padding: 20px 0;
-	display: inline-block;
-	float: left;
-}
-
-.desktop .desktop-wrapper,
-.desktop .desktop-inner {
-	min-height: 684px;
-}
-
-.desktop .desktop-inner {
-	text-align: left;
-	padding-bottom: 70px;
-	position: relative;
-	border: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.desktop .login-holder:after {
-	bottom: -1px;
-	background-size: 65%;
+.desktop .login-holder .wrapper {
+	max-width: 400px;
 }
 
 .desktop .main.container-fluid {
-	min-height: 561px;
 	height: auto;
+	position: relative;
 }
 
 .desktop .navbar-fixed-top,
 .desktop #main_title {
+	text-align: center;
 	position: relative;
-	height: 51px;
+	height: 52px;
 	z-index: 0;
 }
 
@@ -133,10 +114,6 @@
 	border-left: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.desktop #search_title input[type=text] {
-	width: 400px;
-}
-
 
 /* desktop slide menu */
 
@@ -153,16 +130,14 @@
 }
 
 .desktop .navmenu.navmenu-default.navmenu-fixed-left.offcanvas {
-	margin-top: 0;
+	margin: 0 auto;
 	display: inline-block;
 	position: relative;
 		top: -50px;
-    left: 200px;
 	background: transparent;
 	border: 0px solid transparent;
 }
 
-.desktop #nav-slide-menu .divider,
 .desktop .navmenu.offcanvas:before,
 .desktop .nav.navbar-nav > li > a > b {
 	display: none;
@@ -197,11 +172,11 @@
 }
 
 .desktop .navbar-header:not(.back-style)	{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 .desktop .tt-menu {
-	width: 55%;
+	max-width: 420px;
 }
 
 .desktop .calendar-panel {
@@ -224,10 +199,6 @@
 	font-size: 18px;
 }
 
-.desktop .back-history {
-	margin-left: -12px;
-}
-
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -237,6 +208,7 @@
 	text-align: center;
 	width: 55%;
 	position: relative;
+	transition: all 0.1s ease-in-out;
 }
 
 .desktop .voice-search-textarea {
@@ -246,10 +218,6 @@
 
 .desktop .searchingModal .modal-body {
 	padding: 30px 20px 120px 20px;
-}
-
-.desktop .searchingModal .spinner-holder {
-	margin-top: 20px;
 }
 
 .desktop .input-sm,
@@ -265,6 +233,7 @@
 .desktop .result-search-info-bar {
 	font-size: 16px;
 	text-align: center;
+	padding: 7px 0 0 2px;
 	display: block;
 	width: 100%;
 }
@@ -278,24 +247,25 @@
 
 .desktop .swiper-slide {
 	max-width: 155px;
+	min-width: 155px;
 }
 
 .desktop .flight-info {
-	margin-left: -20px;
-	width: 856px;
+	margin-left: -15px;
+	width: 100%;
 	height: 50px;
 	position: absolute;
 		top: 51px;
-	border-bottom: 1px solid rgba(0, 129, 201, .2);
+	border-bottom: 1px solid rgba(100, 100, 100, .2);
 }
 
-.desktop .search-result .navbar-header:before {
-	content: 'Avaea Agent';
-  font-family: 'montserrat-semibold';
-	font-size: 19px;
-	color: #ffffff;
-	text-transform: uppercase;
-	padding: 13px 5px 0 5px;
+.desktop .result-search-info-bar .wrapper {
+	display: inline-block;
+	padding: 7px;
+	background: url(/images/texture-btn.gif) 0 -15px repeat-x;
+	border-top: 1px solid rgba(255, 255, 255, .8);
+	border-bottom: 1px solid rgba(0, 0, 0, .3);
+	border-radius: 15px;
 }
 
 .desktop .result-search-info-bar span {
@@ -324,23 +294,22 @@
 }
 
 .desktop .bottomNav {
+	padding-top: 15px;
 	height: 36px;
+}
+
+.desktop .bottomNav .wrapper {
+	margin: 0 auto;
+	display: inline-block;
+}
+
+.desktop .clear-undo-buttons {
+	margin-left: 40px;
 }
 
 .desktop .arr-asc:before,
 .desktop .arr-desc:before {
 	top: -7px;
-}
-
-.desktop .sort-button .dropdown-menu {
-	left: 240px;
-	right: auto;
-}
-
-.desktop .dimmer {
-	text-align: center;
-	margin: 342px auto 0 auto;
-	width: 878px;
 }
 
 .desktop .swiper-container {
@@ -463,10 +432,6 @@
 	width: 90px;
 }
 
-.desktop .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 57px;
-}
-
 .desktop .dropdown-menu > li> a.our-dropdown {
 	font-size: 14px;
 	padding: 6px 8px 4px 7px;
@@ -507,7 +472,6 @@
 
 .desktop .booking .buttons {
 	text-align: left;
-	padding-left: 20px;
 	position: relative;
 	border-top: 0px solid transparent;
 }
@@ -564,20 +528,12 @@
 
 
 
-
-/* heredeb */
-
-
-
-
-
 /* ------- everywhere parts ------- */
 
 body {
 	font-family: 'Open-Sans', Arial, sans-serif;
 	text-align: center;
 	color: #222222;
-	background: #ffffff;
 }
 
 a {
@@ -598,7 +554,6 @@ h1, h2, h3 {
 }
 
 header,
-footer,
 .content {
   display: flex;
 }
@@ -691,7 +646,7 @@ body.desktop form.profile,
 	font-family: 'Open-Sans-Light';
 	font-size: 16px;
 	text-transform: capitalize;
-	padding: 0px 2px 6px 15px;
+	padding: 0px 2px 6px 10px;
 	color: #ffffff;
 	display: inline-block;
 	float: left;
@@ -713,29 +668,37 @@ body.desktop form.profile,
   box-shadow: none;
 }
 
+.mycustomtab,
+.mybucket .badge,
+.notable-area .refundable.row .label-d,
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
 .form-control {
-	color: #000000;
+	color: #222222;
 }
+
+.navbar-header {
+	border-bottom: 1px solid rgba(255, 255, 255, .4);
+}
+
 
 /* dark blue */
 
 .navbar-header,
-.navbar-header,
+.navbar.navbar-fixed-top,
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form,
 .navmenu-default,
 .navbar-default .navbar-offcanvas,
 .flight-direction {
-	background: #262261;
+	background: #052767;
 }
 
 .flight-type-form,
 .flight-direction-form,
 .multi-city-coming-soon {
-	background: #004c9c;
+	background: #052767;
 }
 
 .desktop .result-search-info-bar,
@@ -743,33 +706,88 @@ body.desktop form.profile,
 .clear-undo-buttons,
 .flight-date-info-item .the-date span,
 .tap-plus,
-.tt-highlight,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-.desktop .desktop-wrapper:after,
-legend,
-.dimmer .copy {
-	color: #004c9c;
+legend {
+	color: #052767;
 }
 
 .mybucket {
-	border-top: 4px solid #004c9c;
+	border-top: 4px solid #052767;
 }
 
 .flight-date-info-item .the-date span {
   margin-left: 5px;
 }
 
+footer.app-copy .top a,
+footer.app-copy .bottom a {
+	color: #062868;
+}
+ 
+footer.app-copy .top a:hover, 
+footer.app-copy .bottom a:hover,
+footer.app-copy .bottom a:focus {
+	color: rgba(6, 40, 104, .6);
+}
+
+footer.app-copy .top a:visited {
+	color: rgba(6, 40, 104, 1);
+}
+
+footer.app-copy a.social {
+	background: #062868;
+}
+
+footer.app-copy a.social:hover,
+footer.app-copy a.social:focus,
+footer.app-copy a.social:visited {
+	background: rgba(6, 40, 104, .6);
+}
+
+/* green */
+
+.big-button.secondary,
+.big-button.secondary:hover,
+.big-button.secondary:focus {
+	color: #14ca60;
+}
+
+.big-button,
+.btn-primary,
+.navbar-header .small-button {
+	background: #14ca60;
+}
+
+.big-button.secondary {
+	border: 1px solid #14ca60;
+}
+
+
+.big-button.secondary:hover,
+.big-button.secondary:focus,
+.buttons-bar.single:hover,
+.buttons-bar.single:focus {
+	background: rgba(21, 203, 97, .2);
+}
+
+.buy-button-price.btn-primary:hover,
+.big-button:hover,
+.big-button:focus,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+	background: #00a93f;
+}
+
+
 /* light blue */
 
 .sort-button .selected,
-.mybucket .selected,
-.big-button,
-.navbar-header .small-button {
+.mybucket .selected {
 	background: #0081c9;
 }
 
-.btn-primary,
 .datepicker span.active.new,
 .datepicker span.active.old,
 .datepicker table td.day.active.new,
@@ -781,18 +799,9 @@ legend,
 	background-color: #0081c9;
 }
 
-.big-button.secondary {
-	border: 1px solid #0081c9;
-}
-
-.flight-extras .buttons-bar:hover,
-.flight-extras .buttons-bar:focus,
-.big-button.secondary:hover,
-.big-button.secondary:focus,
-.mycustomtab {
-	background: rgba(0, 129, 201, .1);
-}
-
+.buttons-bar.single .big-button.secondary,
+.buttons-bar.single .big-button.secondary:hover,
+.buttons-bar.single .big-button.secondary:focus,
 .flight-extras .buttons-bar .big-button.secondary,
 .flight-extras .buttons-bar .big-button.secondary:hover,
 .flight-extras .buttons-bar .big-button.secondary:focus {
@@ -800,34 +809,23 @@ legend,
 }
 
 
-.bottomNav {
-	background: #b7e5f8;
-}
-
-.btn-primary:active:hover {
-	background-color: rgba(0, 129, 201, .8);
-}
-
-.bottomNav {
-	border-bottom: 1px solid rgba(0, 129, 201, .2);
-}
-
-.big-button.secondary,
-.big-button.secondary:hover,
-.big-button.secondary:focus,
-.dropdown-menu > li > a,
-.tt-suggestion.tt-selectable,
-.datepicker .picker-switch,
-.datepicker th.next,
-.datepicker th.prev,
 .panel-title a,
 .panel-title a:hover,
 .panel-title a:focus,
 .panel-footer button,
 .panel-footer button:hover,
 .panel-footer button:focus,
+.dropdown-menu > li > a,
+.tt-suggestion.tt-selectable,
+.datepicker .picker-switch,
+.datepicker th.next,
+.datepicker th.prev,
 .mybucket .list-group-item > div.text {
 	color: #0081c9;
+}
+
+.tt-highlight {
+	color: #004c9c;
 }
 
 
@@ -859,17 +857,22 @@ a:focus,
 	color: rgba(0, 181, 255, .8);
 }
 
+.flight-extras .buttons-bar:hover,
+.flight-extras .buttons-bar:focus,
+.mycustomtab {
+	background: #b7eafd;
+}
+
+.mybucket {
+	background: rgba(229, 247, 254, .9);
+}
+
 .flight-date-info-item {
 	background: rgba(0, 181, 255, .5);
 }
 
 .lil-button {
 	border: 1px solid rgba(0, 181, 255, .1);
-}
-
-.big-button:hover,
-.big-button:focus {
-	background: #00b5ff;
 }
 
 .tertiary-button {
@@ -883,8 +886,8 @@ a:focus,
     background: #deeef7;
 }
 
-.panel-default > .panel-heading,
-.panel-footer button {
+.panel-default > .panel-heading:hover,
+.panel-default > .panel-heading:focus {
 	background-color: #deeef7;
 }
 
@@ -896,8 +899,8 @@ a:focus,
 /* partial blue hover, #eef6f8 for lighter */
 
 
-.panel-default > .panel-heading:hover,
-.panel-default > .panel-heading:focus,
+.panel-default > .panel-heading,
+.panel-footer button,
 .panel-footer button:hover,
 .panel-footer button:focus {
 	background-color: #bdddf0;
@@ -913,7 +916,7 @@ a:focus,
 
 
 
-/* green */
+/* bright green */
 
 .success.ti:before,
 .extras-flag,
@@ -948,6 +951,11 @@ form label.required:before,
 	background: #ffffde;
 }
 
+.highlight,
+.error-flash {
+	background: #ffffe4;
+}
+
 
 .form label.error {
   display: block;
@@ -959,7 +967,7 @@ form label.required:before,
 .desktop .flight-info,
 .desktop .search-result .flights,
 .desktop .flight-unit {
-	background: #f3f3f3 url('/images/texture.gif');
+	background: #f3f3f3 url('/images/texture-dk.gif');
 }
 
 /* .desktop.search-result .itinerary:hover, */
@@ -980,13 +988,28 @@ form label.required:before,
 }
 
 
+/* social */
 
-/* highlight */
-
-.highlight,
-.error-flash {
-	background: #ffffe4;
+.big-button.facebook {
+	background: #3b579d;
 }
+
+.big-button.google {
+	background: #dd4b3a;
+}
+
+
+/* override bootstrap */
+
+.nav > li > a:hover, 
+.nav > li > a:focus {
+	background-color: transparent;
+}
+
+.navbar-toggle .icon-bar {
+	width: 20px;
+}
+
 
 
 /* form parts */
@@ -1000,7 +1023,7 @@ button:active {
 
 input,
 textarea {
-	color: #000000;
+	color: #222222;
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
@@ -1095,20 +1118,20 @@ textarea {
 	color: #ffffff;
 }
 
-.navbar-default .navbar-brand,
-.navbar-default .navbar-brand:focus,
-.navbar-default .navbar-brand:hover {
-	font-family: 'montserrat-semibold';
-  font-size: 19px;
-  color: #ffffff;
-  text-transform: uppercase;
+.navbar-brand {
+	padding: 18px 5px 14px 5px;
+	width: 200px;
+	position: relative;
+	background: url('/images/logo-onvoya-app-2x.png') 0 5px no-repeat;
+	background-size: 185px;
+	transition: all 0.1s ease-in-out;
 }
 
 .navbar-default .navbar-toggle,
 .navbar-default .navbar-toggle:focus,
 .navbar-default .navbar-toggle:hover {
   font-family: 'Open-Sans-Extrabold';
-	margin: 8px 0 8px 0;
+	margin: 8px 0 8px 7px;
   padding-right: 6px;
   padding-left: 6px;
 	background-color: transparent;
@@ -1119,13 +1142,10 @@ textarea {
 	text-align: left;
 }
 
-.navbar-brand {
-	padding: 18px 5px 14px 5px;
-}
-
 .navbar-header {
 	min-height: 51px;
 	width: 100%;
+	position: relative;
 }
 
 .navbar-header .small-button {
@@ -1157,13 +1177,9 @@ textarea {
 	display: block;
 }
 
-.navbar-nav .divider {
-  border-bottom: 1px solid #ffffff;
-	opacity: .5;
-}
-
 .navmenu {
-	margin-top: 50px;
+	margin-top: 51px;
+	width: 220px;
 }
 
 .navmenu.offcanvas:before {
@@ -1193,35 +1209,51 @@ textarea {
 
 .login-holder {
 	text-align: center;
+	margin: 100px 0 20px 0;
 }
 
-.login-holder:after {
-	content: '';
+.login-holder .wrapper {
+	margin: 0 auto 20px auto;
+}
+
+.login-holder .graphic {
 	height: 200px;
 	width: 100%;
-	position: absolute;
-		bottom: 0;
-		left: 0;
-	background: url('/images/lil-plane.svg') center bottom no-repeat;
+	position: relative;
+		bottom: 1px;
+	background: url('/images/static/world.svg') center bottom no-repeat;
 	background-size: 110%;
 }
 
-.login-invite-only {
-	line-height: 20px;
-	margin: 10px 0;
+.desktop .login-holder .graphic {
+	margin: 0 auto;
+	height: calc(100vw * .28);
+		bottom: 1px;
+	background: url(/images/static/world.svg) center 10px no-repeat;
+	background-size: 103%;
 }
 
-.login-invite-only a {
-	text-decoration: underline;
-	display: block;
-}
-
-.form-signin-heading {
-	margin-top: 3em;
+.login-holder a.big-button:before {
+	content: 'Sign in with ';
 }
 
 .login-holder .big-button {
+	font-size: 19px;
+	text-align: left;
+	padding-left: 70px;
 	width: 280px;
+	position: relative;
+}
+
+.login-holder .big-button:after {
+	color: #ffffff;
+	font-size: 36px;
+	display: inline-block;
+	height: 45px;
+	width: 45px;
+	position: absolute;
+		top: 5px;
+		left: 15px;
 }
 
 
@@ -1358,7 +1390,7 @@ textarea {
 #search_title input[type=text] {
   padding-left: 4px;
   margin: 10px 10px 12px 10px;
-  width: 269px;
+  width: calc(100% - 110px);
   height: 40px;
 	float: left;
   border: 0px solid transparent;
@@ -1385,7 +1417,7 @@ textarea {
 }
 
 .tt-menu {
-	margin-top: 63px;
+	margin-top: 64px;
 	margin-left: 10px;
 	width: 93%;
 	background: #ffffff;
@@ -1611,6 +1643,10 @@ strong.tt-highlight {
 
 /* calendar */
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1658,6 +1694,7 @@ td[data-action*="selectDay"] {
   border-radius: 0;
 }
 
+.desktop .bootstrap-datetimepicker-widget table td.disabled:hover,
 .bootstrap-datetimepicker-widget table td.disabled, .bootstrap-datetimepicker-widget table td.disabled:hover {
 	cursor: not-allowed;
   background: #fafafa url('/images/ydiag_light.png');
@@ -1826,38 +1863,49 @@ td[data-action*="selectDay"] {
 	position: relative;
 	padding-bottom: 120px;
 	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
+	background-size: 70%;
 }
 
-.searchingModal .spinner-holder,
-.bookingModal .spinner-holder {
-	margin-top: 20px;
+.touch .searchingModal .modal-body {
+	background: url('/images/lil-plane-2.svg') bottom center no-repeat;
+	background-size: 85%;
 }
 
 .bookingModal .modal-body {
 	text-align: center;
 }
 
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder,
+.searchingModal .icon-spinner,
+.bookingModal .icon-spinner {
+	height: 40px;
+	width: 40px;
+}
+
+
+.searchingModal .spinner-holder,
+.bookingModal .spinner-holder {
+	margin: 20px auto 20px auto;
+}
+
 
 .icon-spinner {
-	font-size: 42px;
+	text-align: center;
 	display: inline-block;
+	position: relative;
 	-webkit-animation: spin 1.5s infinite linear;
 	animation: spin 1.5s infinite linear;
 }
 
 .icon-spinner:before {
+	content: '';
+	height: 40px;
+	width: 40px;
 	display: inline-block;
 	position: relative;
-	  right: 1px;
-    top: 1px;
-	-webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-
-.ff-miles .icon-spinner:before {
-    right: 0;
-    top: 0;
+	background: url('/images/spinner.svg') no-repeat;
+	background-size: 40px;
 }
 
 
@@ -1872,7 +1920,7 @@ td[data-action*="selectDay"] {
 	cursor: pointer;
 	font-size: 12px;
 	text-align: left;
-	padding: 16px 0 0 2px;
+	padding: 18px 0 0 5px;
 	display: inline-block;
 }
 
@@ -1885,7 +1933,7 @@ td[data-action*="selectDay"] {
 }
 
 .result-search-info-bar .passenger-count:before {
-	font-size: 14px;
+	font-size: 12px;
 	margin-right: 1px;
 	display: inline-block;
 		top: 1px;
@@ -1906,7 +1954,6 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area {
-  overflow: hidden;
   background: #cdeffc;
   margin-top: 50px;
 }
@@ -1916,13 +1963,24 @@ td[data-action*="selectDay"] {
 }
 
 .filters-area .holder {
-  background: #cdeffc url('/images/clouds-sm.jpg') -300px center;
+  background: #cdeffc;
+}
+
+.swiper-holder {
+	overflow: hidden;
+}
+
+/* make sure filter scroll bar
+   is suppressed except for airlines */
+.swiper-slide  .mybucket:not(#airline_tile) .slimScrollBar {
+	display: none !important;
 }
 
 .swiper-container {
   margin: 0 auto;
   padding: 10px;
   position: relative;
+	background: url('/images/texture-med.gif');
   transition: all 0.2s ease-in-out;
 
   /* Fix of Webkit flickering */
@@ -1992,6 +2050,10 @@ td[data-action*="selectDay"] {
 }
 
 
+/* prevent swiper from sticking with filters out of view */
+.desktop .swiper-container {
+	width: 2700px;
+}  
 
 .swiper-container .swiper-slide,
 .swiper-wrapper {
@@ -2003,24 +2065,20 @@ td[data-action*="selectDay"] {
 }
 
 .swiper-slide {
+	margin: 0 2px;
   -webkit-flex-shrink: 0;
   -ms-flex: 0 0 auto;
   flex-shrink: 0;
+	max-width: 140px;
   width: 100%;
+	min-width: 140px;
   height: 100%;
   position: relative;
 }
 
-.swiper-slide {
-    max-width: 140px;
-    margin: 0 2px;
-}
+
 
 /* bucket header */
-.mycustomtab,
-.mybucket .badge {
-	 color: #000;
-}
 
 .mycustomtab {
 	text-align: center;
@@ -2036,13 +2094,24 @@ td[data-action*="selectDay"] {
 
 .mybucket .list-group {
   margin-bottom: 0;
-  max-height: 137px;
+  max-height: 136px;
   overflow: auto;
+}
+
+.mybucket .slimScrollDiv {
+	height: 136px !important;
+	max-height: 136px;
 }
 
 .mybucket .list-group-item:first-child {
   border-radius: 0;
 }
+
+.mybucket .list-group-item:last-child {
+  border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}
+
 
 /* tiles */
 .mybucket .list-group-item {
@@ -2119,6 +2188,7 @@ td[data-action*="selectDay"] {
   padding: 8px 10px 8px 10px;
   height: 32px;
   width: auto;
+	background: url('/images/texture-dk.gif');
   border-top: 1px solid rgba(255, 255, 255, .8);
 }
 
@@ -2179,24 +2249,45 @@ td[data-action*="selectDay"] {
 	font-family: 'Open-Sans-Semibold';
 }
 
+.sort-wrapper {
+	display: inline-block;
+	position: static;
+}
+
+.touch .sort-wrapper {
+	padding-left: 3px;
+	float: left;
+}
+
 .sort-button {
   margin: -6px 0 0 0;
   padding: 0;
   float: left;
+	position: static;
 }
 
 .dropdown-menu {
-  border-radius: 0 0 3px 3px;
-  padding: 0;
   margin: -2px;
   margin-left: 0;
+	padding: 0;
+	min-width: 60px;
+	width: 150px;
+	 border-radius: 0 0 3px 3px;
+	 -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, .175);
+  	box-shadow: 0 3px 6px rgba(0, 0, 0, .175);
   z-index: 1031;
 }
 
+.dropdown-menu > li> a.our-dropdown {
+	font-size: 13px;
+	padding: 4px 5px 4px 4px;
+	width: 69px;
+}
+
 .sort-button .dropdown-menu {
+	margin-left: 50px;
   top: initial;
   left: auto;
-  right: 8px;
   -webkit-transform: translate(-50%, 0);
      -moz-transform: translate(-50%, 0);
       -ms-transform: translate(-50%, 0);
@@ -2400,20 +2491,11 @@ td[data-action*="selectDay"] {
 	box-shadow: none;
 }
 
-.btn-group > .btn + .dropdown-toggle {
+.btn-group > .btn + .dropdown-toggle,
+.btn-group > .btn + .dropdown-toggle:hover,
+.btn-group > .btn + .dropdown-toggle:active,
+.btn-group > .btn + .dropdown-toggle:focus {
 	border-left: 1px solid rgba(255, 255, 255, .4);
-}
-
-.dropdown-menu {
-	min-width: 60px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .175);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, .175);
-}
-
-.dropdown-menu > li> a.our-dropdown {
-	font-size: 13px;
-	padding: 4px 5px 4px 4px;
-	width: 69px;
 }
 
 .btn-sm, .btn-group-sm > .btn {
@@ -2421,15 +2503,22 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
-  padding: 0 0 0 0;
+  padding: 0 0 0 8px;
+	text-align: left;
 }
 
 .btn-group {
-	width: 75px;
+	width: 65px;
 }
 
 .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
-	width: 47px;
+	width: 65px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+
+.touch .btn-group > .btn:first-child:not(:last-child):not(.dropdown-toggle) {
+	font-family: 'Open-Sans-Semibold';
 }
 
 .row.notable-area {
@@ -2442,7 +2531,28 @@ td[data-action*="selectDay"] {
 }
 
 .notable-area .refundable {
-	margin: 15px 0 0 -20px;
+	margin: 15px 0 0 30px;
+}
+
+.touch .flights .notable-area .refundable {
+	margin-left: 5px;
+	margin-right: 30px;
+}
+
+.touch .booking .notable-area .refundable {
+	margin-left: 30px;
+}
+
+.desktop .notable-area .refundable {
+	margin-left: 30px;
+}
+
+.desktop .flights .notable-area .refundable {
+	margin-left: -20px;
+}
+
+.desktop .booking .notable-area .refundable {
+	margin-left: 0px;
 }
 
 .notable-area .ff-miles,
@@ -2460,9 +2570,30 @@ td[data-action*="selectDay"] {
 }
 
 .notable-area .icon-spinner {
-	font-size: 24px;
-		top: 5px;
-    left: 5px;
+	top: 7px;
+	left: 10px;
+}
+
+.notable-area .refundable.row .label-d,
+.notable-area .refundable.row .copy {
+	display: inline-block;
+	float: left;
+}
+
+.notable-area .refundable.row .label-d {
+	text-transform: none;
+	padding-right: 10px;
+	opacity: 1;
+}
+
+.notable-area .refundable.row .icon-spinner {
+	top: -3px;
+}
+
+.notable-area .icon-spinner:before {
+  height: 25px;
+	width: 25px;
+	background-size: 25px;
 }
 
 .notable-area .col-xs-3.flight-no {
@@ -2470,6 +2601,7 @@ td[data-action*="selectDay"] {
 	width: 20%;
 }
 
+.notable-area .refundable.row .label-d,
 .notable-text {
 	font-family: 'Open-Sans-Semibold';
 	opacity: 1;
@@ -2528,7 +2660,6 @@ td[data-action*="selectDay"] {
   overflow: auto;
   max-height: 100vh;
 }
-
 
 .notable-area .merchandising {
   display: inline-block;
@@ -2844,64 +2975,6 @@ td[data-action*="selectDay"] {
 }
 
 
-/* dimmer */
-
-.dimmer {
-	  margin-top: 235px;
-    width: 100%;
-    height: 100%;
-		position: fixed;
-		left: 0;
-		right: 0;
-    background-color: rgba(0, 0, 0, .5);
-    z-index: 1000;
-}
-
-.dimmer .wrapper {
-	margin: 25px auto 0 auto;
-	width: 325px;
-	height: 110px;
-	display: inline-block;
-	position: relative;
-	background: #ffffff;
-	border-radius: 3px;
-}
-
-.dimmer .wrapper:before {
-	content: '';
-	width: 25px;
-	height: 25px;
-	display: inline-block;
-	position: absolute;
-	top: -7px;
-	background: #ffffff;
-	border-radius: 3px;
-	transform: rotate(45deg);
-	z-index: -1;
-}
-
-.close-x {
-	cursor: pointer;
-	font-size: 18px;
-	padding: 14px;
-	opacity: .3;
-	display: inline-block;
-	position: absolute;
-		right: 0;
-}
-
-.dimmer-text {
-	text-align: left;
-	padding: 20px 30px;
-}
-
-.dimmer .copy {
-	font-size: 18px;
-	text-align: center;
-	padding-top: 10px;
-}
-
-
 /* pages */
 
 .sitepage {
@@ -2916,6 +2989,10 @@ td[data-action*="selectDay"] {
 .create .button-holder {
 	padding-top: 10px;
 	padding-left: 20px;
+}
+
+.panel-group {
+	background: #ffffff;
 }
 
 .panel-group .panel {
@@ -3033,11 +3110,6 @@ select.input-sm {
 	border-radius: 3px;
 }
 
-
-body.desktop form.profile {
-  height: 1625px;
-}
-
 .user-profile .fieldset {
   margin-bottom: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, .15);
@@ -3053,13 +3125,328 @@ body.desktop form.profile {
   margin-left: 10px;
 }
 
+.panel-group .button-holder {
+	padding-left: 30px;
+}
+
+
+/* ------- footer ------- */
+
+/* ----------------------
+
+   shared styles
+
+   ---------------------- */
+
+footer {
+	text-align: center;
+	display: block;
+	position: relative;
+	z-index: 1;
+}
+
+footer .wrapper {
+	margin: 0 auto;
+	display: inline-block;
+}
+
+footer .wrapper:after {
+	content: '';
+	display: table;
+	width: 100%;
+}
+
+footer .left nav {
+	text-align: left;	 
+}
+
+footer .left,
+footer .right {
+	display: inline-block;
+	float: left;
+}
+
+footer .holder {
+	text-align: left;
+	padding: 10px 0
+}
+
+footer .holder a {
+	display: inline-block;
+	padding: 0 15px; 
+}
+
+footer .right {
+	margin: -12px 0 0 50px;
+}
+
+footer a.social {
+	text-align: center;
+	margin: 0 10px;
+	display: inline-block;
+	position: relative;
+	border-radius: 50%;
+}
+
+footer a.social:after {
+	display: inline-block;
+	position: relative;
+}
+
+footer .top nav a,
+footer .top nav a:hover,
+footer .top nav a:visited {
+	font-family: 'Open-Sans-Semibold';
+	text-decoration: none;
+	text-transform: uppercase;
+	padding: 5px 15px;
+}
+
+footer .bottom {
+	text-align: center;
+}
+
+footer .wrapper {
+	padding: 25px 0 0 0;
+}
+
+footer nav {
+	min-width: 10px;
+}
+
+/* ------ not shared ------- */
+
+
+footer.app-copy {
+	margin-bottom: 70px;
+	display: block;
+}
+
+footer.app-copy a.social,
+footer.app-copy a.social:after {
+	height: 40px;
+	width: 40px;
+}
+
+footer.app-copy a.social:after {
+	color: #ffffff;
+	font-size: 27px;
+		top: 7px;
+		left: 0;
+}
+
+footer.app-copy a.social.twitter:after {
+		top: 8px;
+		left: 1px;
+}
+ 
+footer.app-copy ul {
+  list-style-type: none;
+	display: inline-block;
+}
+
+footer.app-copy li,
+footer.app-copy .nav > li {
+	font-size: 14px;
+	display: inline-block;
+}
+
+footer.app-copy .bottom a {
+  padding: 0 10px;
+}
+
 
 
 
 
 /* ------- responsive ------- */
 
+
+.touch .login-holder .graphic {
+	height: 200px;
+	width: 100%;
+	position: fixed;
+		bottom: -10px;
+	background: url('/images/static/world.svg') center top no-repeat;
+	background-size: 160%;
+}
+
+@media (min-width: 1190px) {
+
+	.desktop .swiper-container,
+	.swiper-container {
+		width: 1150px;
+	}
+	
+	.swiper-holder {
+		background: url('/images/texture-med.gif'); 
+	}
+
+}
+
+
+@media (max-width: 850px) {
+
+	.desktop .search-result .itinerary, 
+	.desktop .flight-unit .itinerary {
+		width: 90%;
+	}
+
+}
+
+
+@media (min-width: 767px) {
+
+	.touch .navbar-brand {
+		display: block;
+	}
+	
+	.touch .navbar-brand {
+		left: 12px;
+	}
+
+}
+
+@media (max-width: 766px) {
+
+	.touch .navbar-brand { 
+		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
+		background-size: 185px;
+	}
+	
+	.touch.suppress-logo .navbar-brand { 
+		display: none;
+	}
+
+}
+
+@media (max-width: 776px) {
+
+	body:not(.touch) .navbar-brand {
+		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
+		background-size: 185px;
+	}
+
+}
+
+@media (max-width: 695px) {
+
+	body:not(.touch) .navbar-brand {
+		width: 45px;
+		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
+		background-size: 185px;
+	}
+
+}
+
+
+@media (max-width: 675px) {
+	
+	
+	footer .left, 
+	footer .right {
+    display: block;
+    width: 100%;
+    float: none;
+	}
+	
+	footer .holder {
+		text-align: center;
+	}
+	
+	footer .right {
+    margin: 15px 0 15px 0;
+	}
+	
+	footer .left nav {
+		text-align: center;	 
+	}
+	
+}
+
+@media (max-width: 580px) {
+
+	.desktop .search-result .flights {
+		padding-left: 0;
+		padding-right: 0;
+	}
+	
+	.desktop {
+		padding: 0 0 0 0;
+	}
+	
+	.desktop .voice-search-content {
+		width: 75%;   
+	}
+
+}
+
+
+/* phones portrait */
+
+@media (max-width: 415px) {
+	
+	.touch .login-holder .graphic {
+		height: 310px;
+		background-size: 305%;
+	}
+	
+	.flight-unit .itinerary {
+		width: 90%;
+	}
+	
+	.touch .booking .notable-area .refundable  {
+		margin-left: 12%;
+	}
+	
+	
+}
+
+@media (min-width: 351px) {
+
+	.navbar-default .navbar-toggle,
+	.navbar-default .navbar-toggle:focus,
+	.navbar-default .navbar-toggle:hover {
+		margin-left: 10px;
+	}
+	
+}
+
+
+@media (max-width: 350px) {
+
+	.flight-type-item:not(.voice-search-button) {
+		font-size: 15px;
+	}
+	
+	.booking-success .confirm-message, 
+	.booking-success .flight-unit .itinerary, 
+	.booking-success .trip.ti {
+		padding-left: 20px;
+	}
+	
+	.booking-success .notable-area .refundable {
+		margin-left: 40px;
+	}
+	
+	.navbar-toggle .icon-bar {
+		width: 18px;
+	}
+
+}
+
+@media (max-width: 321px) {
+	
+	.navbar-toggle .icon-bar {
+		width: 10px;
+	}
+
+}
+
+
+
 /* landscape phone */
+
 
 @media screen and (min-aspect-ratio: 13/9) {
 
@@ -3068,20 +3455,27 @@ body.desktop form.profile {
 	.touch .form-signin-heading {
 		margin: 70px auto 0 auto;
 	}
-
-	.touch .login-holder:after {
-		height: 120px;
-		background-size: 60%;
+	
+	.touch .login-holder {
+		margin: 80px auto 20px auto;
+    width: 300px;
+	}
+	
+	.touch.android .login-holder {
+		margin-top: 110px;
+	}
+	
+	.touch .login-holder .graphic {
+		display: none;
 	}
 
-	.touch .login-holder .big-button,
-	.touch .login-invite-only {
+	.touch .login-holder .big-button {
 		position: relative;
     z-index: 2;
 	}
-
-	.touch.android .form-signin-heading {
-		margin: .5em auto 0 auto;
+	
+	.touch.android .login-holder .big-button {
+		margin: 5px 5px 5px 5px;
 	}
 
 	.touch .navbar.searchform-top {
@@ -3093,8 +3487,9 @@ body.desktop form.profile {
 	}
 
 	.touch .flight-type-item:not(.voice-search-button) {
-		padding-top: 5px;
-		padding-bottom: 5px;
+		font-size: 15px;
+		padding-top: 10px;
+		padding-bottom: 10px;
 	}
 
 	.touch .flight-direction-form {
@@ -3125,8 +3520,8 @@ body.desktop form.profile {
 	}
 
 	.touch .flight-date-info-item {
-		padding-top: 10px;
-		height: 65px;
+		padding-top: 7px;
+		height: 62px;
 	}
 
 	.touch .flight-date-info-item .the-date {
@@ -3196,19 +3591,9 @@ body.desktop form.profile {
 	}
 
 	.touch .searchingModal .modal-body {
-		padding: 25px 50px 110px 50px;
-	}
-
-	.touch .searchingModal .modal-body:after {
-		bottom: 0;
-	}
-
-	.touch .dimmer .landscape {
-		display: inline;
-	}
-
-	.touch .dimmer .portrait {
-		display: none;
+		padding: 25px 50px 90px 50px;
+		background: url('/images/lil-plane-2.svg') bottom center no-repeat;
+		background-size: 40%;
 	}
 
 	.touch .modal.flight-extras,
@@ -3361,7 +3746,7 @@ nav {
 	}
 
 	.desktop .tt-menu {
-		margin-top: 64px;
+		margin-top: 65px;
 	}
 
 }
@@ -3377,7 +3762,7 @@ html[data-useragent*='Trident'] .flight-type-item:not(.voice-search-button) {
 }
 
 html[data-useragent*='Trident'] #resultpage {
-	background: #f3f3f3 url(/images/texture.gif);
+	background: #f3f3f3 url('/images/texture-dk.gif');
 }
 
 html[data-useragent*='Trident'] .flight-type-form,
@@ -3419,15 +3804,6 @@ html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
 }
 
-html[data-useragent*='Trident'] .desktop .search-result .navbar-header:before {
-	content: '';
-	margin-top: 15px;
-	padding: 0 0 0 0;
-	height: 40px;
-	width: 150px;
-	background: url('/images/avaea-ie.svg') left top no-repeat;
-}
-
 html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 	display: block;
 	position: absolute;
@@ -3435,16 +3811,8 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 	left: 250px;
 }
 
-html[data-useragent*='Trident'] .dimmer {
-	margin-top: 342px;
-}
-
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
-}
-
-_:-ms-lang(x), .dimmer .wrapper:before {
-	left: 155px;
 }
 
 
