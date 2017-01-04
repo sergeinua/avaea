@@ -81,6 +81,7 @@ let UserProfilePanelFFMSelect = React.createClass({
     return <div>
       <Select.Async
         name={this.props.elem_name}
+        id={this.props.id}
         value={this.state.programName}
         className="form-control input-sm"
         placeholder="Program Name"
@@ -94,6 +95,7 @@ let UserProfilePanelFFMSelect = React.createClass({
       <label>Status</label>
       <Select
         name={"miles_programs.status[" + this.props.elemNum + "]"}
+        id={"miles_programs.status-" + this.props.elemNum}
         value={this.state.statusName}
         className="form-control input-sm"
         placeholder="Status"
