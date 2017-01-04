@@ -43,8 +43,12 @@ let ResultPage = React.createClass({
           max_filter_items: json.max_filter_items
         }, function () {
 
-          //FIXME refactor code to use non jquery based swiper functionality
+          //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
+          
+          // FIXME - hides logo for devices only when navbar shows "flight-info" div
+          // so logo does not push the search query down
+          $("body").addClass('suppress-logo');
 
           // correctly initialize the swiper for desktop vs. touch
 
@@ -243,7 +247,9 @@ let ResultPage = React.createClass({
             mutatedMilesInfosObject[id] = false;
           });
 
-          this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          if (this.isMounted()) {
+            this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
+          }
           ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
             .then((msg) => {
               if( msg.error ) {

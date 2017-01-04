@@ -1,12 +1,16 @@
 import * as ReactRedux from 'react-redux';
 import FormElement from '../_common/FormElement.jsx';
-import { actionSetPersonalVal } from '../../actions.js';
+import { actionSetPersonalVal, actionSetPersonalNotifyVal } from '../../actions.js';
 
 const mapDispatchPanelElem = (dispatch, ownProps) => {
   return {
     handleChangeValue: (event) => {
-      dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value));
-    },
+      if (ownProps.panelType && ownProps.panelType === 'notifyContact') {
+        dispatch(actionSetPersonalNotifyVal(ownProps.elemNum, event.target.value))
+      } else {
+        dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value))
+      }
+    }
   }
 };
 

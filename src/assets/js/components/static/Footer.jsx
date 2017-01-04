@@ -22,8 +22,10 @@ let StaticFooter = React.createClass({
 	      			</nav>
 	      			
 	      			<div className="holder">
-	      				<li><Link to="/terms" onClick={this.onItemClick}>Terms and Conditions</Link></li>
-	      				<li><Link to="/privacy" onClick={this.onItemClick}>Privacy</Link></li>
+	      				<ul className="terms">
+		      				<li><Link to="/terms" onClick={this.onItemClick}>Terms and Conditions</Link></li>
+		      				<li><Link to="/privacy" onClick={this.onItemClick}>Privacy</Link></li>
+	      				</ul>
 	      			</div>
 	      		</div>{/* ends left */}
 	      		

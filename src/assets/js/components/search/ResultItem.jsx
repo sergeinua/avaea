@@ -2,7 +2,7 @@ import React from 'react';
 import Citypairs from './Citypairs.jsx';
 import ModalFlightInfo from './ModalFlightInfo.jsx';
 import { browserHistory } from 'react-router';
-import { ActionsStore, logAction, createMarkup } from '../../functions.js';
+import { ActionsStore, logAction, createMarkup, getUser, setCookie } from '../../functions.js';
 import ClientApi from '../_common/api.js';
 
 let ResultItem = React.createClass({
@@ -81,8 +81,8 @@ let ResultItem = React.createClass({
   showThumbsUp: function() {
     if (this.props.itinerary.smartRank <= 3 && this.props.itinerary.information && this.props.itinerary.information.length) {
       return <span data-toggle="modal" data-target={'[data-id=' + this.props.itinerary.id + ']'}><ModalFlightInfo id={this.props.itinerary.id} info={this.props.itinerary}/>
-	      {/* remove extras until we have real ones to show */}
-	      {/* <span className="extras-flag"></span> */}
+        {/* remove extras until we have real ones to show */}
+        {/* <span className="extras-flag"></span> */}
       </span>
     }
     return null;
@@ -97,14 +97,19 @@ let ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function() {
-      browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      if (!getUser()) {
+        setCookie('redirectTo', '/order/' + itineraryId + '/' + (!!isSpecial), {expires: 300});
+        window.location = '/login';
+      } else {
+        browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+      }
     }.bind(this);
   },
 
   render() {
     var showNoStops = this.showNoStops;
     return (
-      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass}>
+      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
 
     <div className="summary">
       <div className="row title">
@@ -122,7 +127,7 @@ let ResultItem = React.createClass({
       </div>
 
       <div className="row">
-        <div className="col-xs-9"  id={ this.props.itinerary.id } onClick={this.toggleFullInfo()}>
+        <div className="col-xs-9"  id={ this.props.itinerary.id }>
           { this.props.itinerary.citypairs.map(function (pair, i) {
           return <div className="itinerary-info" key={"itin-info-" +  i}>
             <div className="col-xs-3 departLoc">

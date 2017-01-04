@@ -1,10 +1,9 @@
 import React from 'react';
 import 'whatwg-fetch';
 import 'promise-polyfill';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import Loader from '../_common/Loader.jsx';
 import Booking from '../buy/Booking.jsx';
-import { setCookie } from '../../legacyJquery.js';
 
 let BookingPage = React.createClass({
 
@@ -16,12 +15,8 @@ let BookingPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    return InitData.user || false;
-  },
-
   componentWillMount: function () {
-    if (!this.getUser()) {
+    if (!getUser()) {
       setCookie('redirectTo', this.props.location.pathname, {expires: 300});
       window.location = '/login';
     } else {
@@ -44,7 +39,6 @@ let BookingPage = React.createClass({
         });
     }
   },
-
 
   render: function () {
     return (
