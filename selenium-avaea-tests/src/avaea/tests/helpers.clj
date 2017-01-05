@@ -78,7 +78,7 @@
   (wait-until #(and
                 (-> selector exists?)
                 (-> selector displayed?)
-                (-> selector elements empty? not))))
+                (-> selector elements empty? not)) 60000))
 
 (defn any-displayed?
   [& selector]

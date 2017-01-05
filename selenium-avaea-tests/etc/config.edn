@@ -1,7 +1,7 @@
 {:test-all-drivers ["chrome"]
 
  :server-root "http://stage.avaea.com"
- :dev true
+ :dev false #_true
  :pom {:search {:one-way-button "#one_way"
                 :round-trip-button "#round_trip"
                 :multi-city-button "#multi_city"
@@ -19,8 +19,6 @@
                 :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
                 :class-button "div.chooser.flight-class-info-item.row > div.text-picker"
 
-                :all-flights "div.search-buttons > button.big-button.secondary.search-button"
-                :top-flights "div.search-buttons > button.big-button.search-top-button"
 
                 :calendar-done-button "#date_select_top"
                 :calendar-prev-button "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
@@ -29,9 +27,12 @@
                 :calendar-30 "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
                 :calendar-day-elements "td.day"
 
+                :search-button "#search-form-all-flights-button"
+
                 :flights-try-again-button "div.nothing-found > div.buttons > a"
 
                 :flights-list "#searchResultData > div"
+                :flights-result-button "#searchResultData > div .buy-button .btn"
 
                 :flights-price "#price_tile > div.slimScrollDiv > ul > li"
                 :flights-stops "#stops_tile > div.slimScrollDiv > ul > li"

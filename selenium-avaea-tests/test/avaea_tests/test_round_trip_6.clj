@@ -33,7 +33,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-#_(facts
+(facts*
  "The same day with possible day return"
 
  (open-browser page-url)

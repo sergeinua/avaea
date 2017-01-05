@@ -42,7 +42,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-#_(facts
+(facts*
  "Search of 'top flights' tickets using Farelogix"
 
  (open-browser page-url)
@@ -71,7 +71,7 @@
  (fact "YTO displays in 'From'"
        ($-text (:from-button page)) => #"YTO")
 
- (fact "Appear drop-down list and 'Cancel' button"
+ #_(fact "Appear drop-down list and 'Cancel' button"
        (click ($ (:from-button page)))
        (fact "Input have YTO text"
              (-> (:airport-input page) $ (attribute "value")) => "YTO"
@@ -104,13 +104,17 @@
        (random-select-date)
        (click ($ (:calendar-done-button page))))
 
- #_(fact "Tap Top Flights"
-       (click ($ (:top-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
 
  (test-class-buttons)
  (test-passengers-buttons)
+
+ (fact "Tap 'Search' button"
+       (click ($ (:search-button page)))
+
+       (wait-elements (:flights-list page))
+
+       (fact "Not Empty"
+             ($-elements (:flights-list page)) => not-empty))
 
  (quit))
 

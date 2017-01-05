@@ -44,7 +44,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-#_(facts
+(facts*
  "Search of 'all flights' tickets using Mondee"
 
  (open-browser page-url)

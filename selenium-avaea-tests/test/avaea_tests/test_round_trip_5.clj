@@ -30,7 +30,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-#_(facts
+(facts*
  "The same airport"
 
  (open-browser page-url)

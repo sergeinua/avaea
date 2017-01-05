@@ -76,7 +76,7 @@
  (fact "NYC displays in 'From'"
        ($-text (:from-button page)) => #"NYC")
 
- (fact "Appear drop-down list and 'Cancel' button"
+ #_(fact "Appear drop-down list and 'Cancel' button"
        (click ($ (:from-button page)))
        (fact "Input have NYC text"
              (-> (:airport-input page) $ (attribute "value")) => "NYC"
@@ -111,21 +111,24 @@
  (fact "One way button is active"
        ($ (:one-way-button page)) => active?)
 
- (fact "Tap All Flights"
-       (click ($ (:all-flights page)))
+ (test-passengers-buttons)
+ (test-class-buttons)
+
+ (fact "Tap 'Search' button"
+       (click ($ (:search-button page)))
 
        (wait-elements (:flights-list page))
 
        (fact "Not Empty"
              ($-elements (:flights-list page)) => not-empty)
 
-       (fact "Click first element"
+       #_(fact "Click first element"
              (click ($ (:flights-list page))))
+
+       #_(click ($ (:flights-result-button page)))
 
        #_(when-let [try-again-btn ($ (:try-again-button page))]
            (click try-again-btn)))
 
- #_(test-passengers-buttons)
- #_(test-class-buttons)
 
- #_(quit))
+ (quit))
