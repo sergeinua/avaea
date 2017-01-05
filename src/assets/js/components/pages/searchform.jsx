@@ -1,7 +1,7 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
 import { actionSetCommonVal } from '../../actions.js';
-import { unfocusFormForIos, ActionsStore } from '../../functions.js';
+import { unfocusFormForIos, ActionsStore, getDefaultDateSearch } from '../../functions.js';
 import TripSearchForm from '../searchform/TripSearchForm.jsx';
 import Calendar from '../searchform/Calendar.jsx';
 import MultiCityForm from '../searchform/MultiCityForm.jsx';
@@ -17,6 +17,7 @@ var SearchFormPage = React.createClass({
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
 
+    ActionsStore.setFormValue('searchParams', getDefaultDateSearch(this.props.commonData.searchParams))
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },
 
