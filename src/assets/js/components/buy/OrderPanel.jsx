@@ -3,7 +3,7 @@ import * as ReactRedux from 'react-redux';
 import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
-import ResultItem from '../search/ResultItem.jsx';
+import ResultItemContainer from '../search/ResultItem.jsx';
 import OrderSpecialModal from './OrderSpecialModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
@@ -196,7 +196,7 @@ let OrderPanel = React.createClass({
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
-              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
             </div>
           </div>
 
