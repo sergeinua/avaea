@@ -116,6 +116,9 @@
        (wait-elements (:flights-list page))
 
        (fact "Not Empty"
-             ($-elements (:flights-list page)) => not-empty))
+             ($-elements (as-farelogix (:flights-list page))) => not-empty)
+
+       (fact "Have Prices (all flights)"
+             ($ (:flights-result-button page)) =not=> nil))
 
  (quit))

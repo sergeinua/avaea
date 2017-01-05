@@ -14,13 +14,19 @@
   (->> (-> el (attribute "class"))
        (re-find #"active")))
 
-(defn calendar-dates []
+(defn calendar-dates [after]
   (->> ($-elements (:calendar-day-elements search-page))
-       (filter #(-> % disabled? not))))
+       (filter #(and
+                 (-> % disabled? not)
+                 (-> % text read-string (> after))))))
 
 (defn random-select-date
-  ([] (random-select-date (calendar-dates)))
-  ([dates-elements] (-> dates-elements rand-nth click)))
+  ([] (random-select-date 0))
+  ([after]
+   (let [date-button (-> (calendar-dates after) rand-nth)
+         date-number (-> date-button text read-string)]
+     (-> date-button click)
+     date-number)))
 
 (defn test-class-buttons []
   (fact "Tap Class"
@@ -37,6 +43,12 @@
 
         (click ($ (:class-button search-page)))
         ($-text (:class-button search-page)) => "Economy"))
+
+(defn as-mondee [selector]
+  (str selector (:mondee-marker search-page)))
+
+(defn as-farelogix [selector]
+  (str selector (:farelogix-marker search-page)))
 
 (defn test-passengers-buttons []
   (fact "Tap Passengers"

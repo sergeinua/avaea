@@ -102,18 +102,22 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date)
-       (click ($ (:calendar-done-button page)))
-       (click ($ (:return-button page)))
-       (random-select-date)
+       (let [date-from (random-select-date)]
+         (random-select-date date-from))
        (click ($ (:calendar-done-button page))))
-
- #_(fact "Tap All Flights"
-       (click ($ (:all-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
 
  (test-class-buttons)
  (test-passengers-buttons)
+
+ (fact "Tap 'Search' button"
+       (click ($ (:search-button page)))
+
+       (wait-elements (:flights-list page))
+
+       (fact "Not Empty"
+             ($-elements (as-mondee (:flights-list page))) => not-empty)
+
+       (fact "Have Prices (all flights)"
+             ($ (:flights-result-button page)) =not=> nil))
 
  (quit))

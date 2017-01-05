@@ -120,7 +120,10 @@
        (wait-elements (:flights-list page))
 
        (fact "Not Empty"
-             ($-elements (:flights-list page)) => not-empty)
+             ($-elements (as-mondee (:flights-list page))) => not-empty)
+
+       (fact "Have Prices (all flights)"
+             ($ (:flights-result-button page)) =not=> nil)
 
        #_(fact "Click first element"
              (click ($ (:flights-list page))))

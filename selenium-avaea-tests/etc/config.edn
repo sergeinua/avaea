@@ -1,7 +1,7 @@
 {:test-all-drivers ["chrome"]
 
  :server-root "http://stage.avaea.com"
- :dev false #_true
+ :dev false
  :pom {:search {:one-way-button "#one_way"
                 :round-trip-button "#round_trip"
                 :multi-city-button "#multi_city"
@@ -13,8 +13,8 @@
                 :airport-list-element ".tt-suggestion"
                 :cancel-button  "#search_button_top"
 
-                :depart-button "div.flight-date-info-item.dep.col-xs-6.open-calendar > div.row.the-date"
-                :return-button "div.flight-date-info-item.ret.col-xs-6.open-calendar > div.row.the-date"
+                :depart-button  ".flight-date-info-item.dep.open-calendar"
+                :return-button ".flight-date-info-item.ret.open-calendar"
 
                 :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
                 :class-button "div.chooser.flight-class-info-item.row > div.text-picker"
@@ -32,6 +32,10 @@
                 :flights-try-again-button "div.nothing-found > div.buttons > a"
 
                 :flights-list "#searchResultData > div"
+                :mondee-marker ".mondee-search"
+                :farelogix-marker ".farelogix-search"
+
+
                 :flights-result-button "#searchResultData > div .buy-button .btn"
 
                 :flights-price "#price_tile > div.slimScrollDiv > ul > li"

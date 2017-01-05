@@ -82,10 +82,11 @@
        (random-select-date)
        (click ($ (:calendar-done-button page))))
 
- #_(fact "Tap Top Flights"
-       (click ($ (:top-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
+ (fact "Chosen date is displayed"
+       (:depart-button page) => exists?)
+
+ (fact "Search button is disabled"
+       ($ (:search-button page)) => disabled?)
 
  (quit))
 

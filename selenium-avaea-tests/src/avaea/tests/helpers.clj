@@ -46,8 +46,8 @@
 
 (defmacro $
   [selector]
-  `(if (fact ~(str "Element with selector " selector " not null")
-             (exists? ~selector) => true)
+  `(if (fact ~(str "Element with selector " selector " exists")
+             ~selector => exists?)
      ($$ ~selector)
      nil))
 
