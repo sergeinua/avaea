@@ -1,4 +1,5 @@
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import Citypairs from './Citypairs.jsx';
 import ModalFlightInfo from './ModalFlightInfo.jsx';
 import { browserHistory } from 'react-router';
@@ -20,8 +21,23 @@ let ResultItem = React.createClass({
     }
   },
 
+  // start loading miles info if needed
   getMilesInfo: function () {
-    ActionsStore.getMilesInfoAllItineraries();
+    let itineraryId = this.props.itinerary.id;
+
+    let itineraryMiles = this.props.ffmiles[itineraryId];
+    if (itineraryMiles === undefined
+      || itineraryMiles.isLoading === false
+    ) {
+      let ids = [];
+      if (ActionsStore.getSearchResultItineraryIds) {
+        ids = ActionsStore.getSearchResultItineraryIds();
+      }
+      if (ids.indexOf(itineraryId) == -1) {
+        ids.push(itineraryId);
+      }
+      ActionsStore.loadMilesInfo(ids);
+    }
   },
 
   getRefundType: function () {
@@ -156,7 +172,7 @@ let ResultItem = React.createClass({
     { (this.state.fullinfo ?
       <Citypairs citypairs={this.props.itinerary.citypairs}
                  information={this.props.itinerary.information}
-                 miles={this.props.miles}
+                 miles={this.props.ffmiles[this.props.itinerary.id]}
                  refundType={this.state.refundType} />
       : null
     )}
@@ -167,4 +183,12 @@ let ResultItem = React.createClass({
 
 });
 
-export default ResultItem;
+const mapStateCommon = function (store) {
+  return {
+    ffmiles: store.commonData.ffmiles,
+  };
+};
+
+const ResultItemContainer = ReactRedux.connect(mapStateCommon)(ResultItem);
+
+export default ResultItemContainer;
