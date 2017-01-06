@@ -4,9 +4,13 @@
             [avaea.tests.config :refer :all]
             [clj-webdriver.taxi :refer :all]
             [clj-time.core :as t]
-            [clj-time.format :as f]))
+            [clj-time.format :as f]
+            [clojure.string :as string]))
 
 (def ^:private search-page (-> (read-config) :pom :search))
+
+(def slash-formater (f/formatter "MM/dd/YYYY"))
+(def depart-formater (f/formatter "dd MMM YYYY"))
 
 (defn disabled? [el]
   (->> (-> el (attribute "class"))
@@ -17,7 +21,7 @@
        (re-find #"active")))
 
 (defn parse-date [date-string]
-  (f/parse (f/formatter "MM/dd/YYYY") date-string))
+  (f/parse slash-formater date-string))
 
 (defn date-from-element [el]
   #_(let [date-attr (attribute el "data-day")
@@ -34,7 +38,7 @@
                  (-> % date-from-element parse-date (t/after? (parse-date after)))))))
 
 (defn random-select-date
-  ([] (random-select-date "1/1/1972"))
+  ([] (random-select-date "01/01/1970"))
   ([after & config]
    (let [remove-first (if ((set config) :not-first) rest identity)
          remove-last (if ((set config) :not-last) drop-last identity)
@@ -44,9 +48,18 @@
      date-time)))
 
 (defn random-select-date-range []
-  (let [date-from (random-select-date "1/1/1972" :not-last)
+  (let [date-from (random-select-date "01/01/1970" :not-last)
         date-to (random-select-date date-from)]
     [date-from date-to]))
+
+(defn format-as-slashes [t]
+  (f/unparse-local depart-formater t))
+
+(defn format-as-text [t]
+  (f/unparse-local depart-formater t))
+
+(defn tomorow []
+  (-> (t/today) (t/plus (t/days 1))))
 
 (defn test-class-buttons []
   (fact "Tap Class"
@@ -85,3 +98,6 @@
 
         (click ($ (:passengers-button search-page)))
         ($-text (:passengers-button search-page)) => "One Adult"))
+
+(defn remove-spaces [s]
+  (-> s (string/replace #"\s" "")))

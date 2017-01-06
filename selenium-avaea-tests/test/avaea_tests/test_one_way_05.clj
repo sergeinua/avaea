@@ -1,4 +1,4 @@
-(ns avaea-tests.test-one-way-5
+(ns avaea-tests.test-one-way-05
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]

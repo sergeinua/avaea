@@ -1,4 +1,4 @@
-(ns avaea-tests.test-one-way-3
+(ns avaea-tests.test-one-way-02
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -11,40 +11,42 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on "One Way" tab.
-      Pereffered airline is added - klm royal dutch airlines
+      Precondition: User is logged in and he is on " One Way " tab.
+      Farelogix sells tickets only in Canada and some big airports of USA
 
-      1. Tap the "From"
-      2. Start typing the city (for example New-York)
-      3. Tap the NYC airport
-      4. Tap the "To"
-      5. Start typing the city (for example Kiev)
-      6. Tap the KBP
+      1. Tap the " From "
+      2. Start typing the city (for example Toronto)
+      3. Tap the YTO airport
+      4. Tap the " To "
+      5. Start typing the city (for example Montreal)
+      6. Tap the YMQ
       7. Tap the Calendar and choose any date
-      8. Tap the "Top flights"
+      8. Tap the " All flights "
+      9. Check with different quantity of " Class " and " Passengers "
 ")
 
 (comment "
 
       Expected:
 
-      1. Appear drop-down list and "Cancel" button
+      1. Appear drop-down list and " Cancel " button
       2. Search starts looking for (code -> airport name-> city->country)
-      3. NYC displays in "From"
-      4. Appear drop-down list and "Cancel" button
+      3. YTO displays in " From "
+      4. Appear drop-down list and " Cancel " button
       5. Search starts looking for (code -> airport name-> city->country)
-      6. KBP displays in "To"
+      6. YMQ displays in " To "
       7. Tap tomorrow day
-      8. Appear list of tickets. Go to server logs and see that search was done using Mondee
+      8. Appear list of tickets. Go to server logs and see that search was done using Farelogix
+      9. Appear list of tickets, where at the top displays correct class and quantity of passengers.
+         For the first class will display (" The first " class)
 ")
 
 (def config (read-config))
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-;; blocked (no have 'top flights')
-#_(facts*
- "Search of 'top flights' tickets using Mondee"
+(facts*
+ "Search of 'all flights' tickets using Farelogix"
 
  (open-browser page-url)
 
@@ -59,23 +61,24 @@
        (fact "Focus on input"
              (focused-element-id) => (:airport-input page))
 
-       (type-text "New York" (focused-element))
+       (type-text "Toronto" (focused-element))
 
        (wait-elements (:airport-list-element page))
 
-       (fact "Have NYC element"
-             ($-text (:airport-list-element page)) => #"NYC")
+       (fact "Have YTO element"
+             ($-text (:airport-list-element page)) => #"YTO")
 
        (fact "Select first result and go home"
              (click ($ (:airport-list-element page)))))
 
- (fact "NYC displays in 'From'"
-       ($-text (:from-button page)) => #"NYC")
+ (fact "YTO displays in 'From'"
+       ($-text (:from-button page)) => #"YTO")
 
+ ;; 'cancel' button bug
  #_(fact "Appear drop-down list and 'Cancel' button"
        (click ($ (:from-button page)))
-       (fact "Input have NYC text"
-             (-> (:airport-input page) $ (attribute "value")) => "NYC"
+       (fact "Input have YTO text"
+             (-> (:airport-input page) $ (attribute "value")) => "YTO"
              (click ($ (:cancel-button page)))))
 
  (fact "Open 'Destination' search"
@@ -86,18 +89,18 @@
        (fact "Focus on input"
              (focused-element-id) => (:airport-input page))
 
-       (type-text "Kiev" (focused-element))
+       (type-text "Montreal" (focused-element))
 
        (wait-elements (:airport-list-element page))
 
-       (fact "Have KBP element"
-             ($-text (:airport-list-element page)) => #"KBP")
+       (fact "Have YMQ element"
+             ($-text (:airport-list-element page)) => #"YMQ")
 
        (fact "Select first result and go home"
              (click ($ (:airport-list-element page)))))
 
- (fact "KBP displays in 'From'"
-       ($-text (:to-button page)) => #"KBP")
+ (fact "YMQ displays in 'From'"
+       ($-text (:to-button page)) => #"YMQ")
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
@@ -113,6 +116,9 @@
        (wait-elements (:flights-list page))
 
        (fact "Not Empty"
-             ($-elements (:flights-list page)) => not-empty))
+             ($-elements (as-farelogix (:flights-list page))) => not-empty)
+
+       (fact "Have Prices (all flights)"
+             ($ (:flights-result-button page)) =not=> nil))
 
  (quit))

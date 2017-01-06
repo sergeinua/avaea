@@ -1,4 +1,4 @@
-(ns avaea-tests.test-one-way-1
+(ns avaea-tests.test-one-way-01
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -11,7 +11,7 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on 'Round Way' tab
+      Precondition: User is logged in and he is on 'One Way' tab
       1. Tap the 'From'
       2. Start typing the city (for example New-York)
       3. Tap the NYC airport
@@ -49,7 +49,10 @@
 
  (open-browser page-url)
 
- (click ($ (:round-trip-button page)))
+ (click ($ (:one-way-button page)))
+
+ (fact "One way button is active"
+       ($ (:one-way-button page)) => active?)
 
  (fact "Open 'From' Search"
 
@@ -73,7 +76,7 @@
  (fact "NYC displays in 'From'"
        ($-text (:from-button page)) => #"NYC")
 
- (fact "Appear drop-down list and 'Cancel' button"
+ #_(fact "Appear drop-down list and 'Cancel' button"
        (click ($ (:from-button page)))
        (fact "Input have NYC text"
              (-> (:airport-input page) $ (attribute "value")) => "NYC"
@@ -102,11 +105,14 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date-range)
+       (random-select-date)
        (click ($ (:calendar-done-button page))))
 
- (test-class-buttons)
+ (fact "One way button is active"
+       ($ (:one-way-button page)) => active?)
+
  (test-passengers-buttons)
+ (test-class-buttons)
 
  (fact "Tap 'Search' button"
        (click ($ (:search-button page)))
@@ -117,6 +123,15 @@
              ($-elements (as-mondee (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil))
+             ($ (:flights-result-button page)) =not=> nil)
+
+       #_(fact "Click first element"
+             (click ($ (:flights-list page))))
+
+       #_(click ($ (:flights-result-button page)))
+
+       #_(when-let [try-again-btn ($ (:try-again-button page))]
+           (click try-again-btn)))
+
 
  (quit))

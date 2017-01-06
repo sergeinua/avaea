@@ -6,6 +6,10 @@
                 :round-trip-button "#round_trip"
                 :multi-city-button "#multi_city"
 
+                :voice-search-button "#voice_search"
+                :voice-search-text-area "#voiceSearchTextarea"
+                :voice-search-submit-button "#voiceSearchFlight"
+
                 :from-button "#from-area"
                 :to-button "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_"#to-area"
                 :airport-input "#airport-input"

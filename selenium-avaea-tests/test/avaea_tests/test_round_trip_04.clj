@@ -1,4 +1,4 @@
-(ns avaea-tests.test-round-trip-2
+(ns avaea-tests.test-round-trip-04
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -12,7 +12,7 @@
       Steps:
 
       Precondition: User is logged in and he is on "Round Way" tab.
-      Farelogix sells tickets only in Canada and some big airports of USA
+      Farelogix sells tickets only in Canada and some big airports of USA. Preferred airline is added - westjet
 
       1. Tap the "From"
       2. Start typing the city (for example Toronto)
@@ -21,8 +21,7 @@
       5. Start typing the city (for example Montreal)
       6. Tap the YMQ
       7. Tap the Calendar and choose any date
-      8. Tap the "All flights"
-      9. Check with different quantity of "Class" and "Passengers"
+      8. Tap the "Top flights"
 ")
 
 (comment "
@@ -37,16 +36,15 @@
       6. YMQ displays in "To"
       7. Tap tomorrow day
       8. Appear list of tickets. Go to server logs and see that search was done using Farelogix
-      9. Appear list of tickets, where at the top displays correct class and quantity of passengers.
-         For the first class will display ("The first" class)
 ")
 
 (def config (read-config))
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(facts*
- "Search of 'all flights' tickets using Farelogix"
+;; blocked (no have 'top flights')
+#_(facts*
+ "Search of 'top flights' tickets using Farelogix"
 
  (open-browser page-url)
 
@@ -80,7 +78,7 @@
              (-> (:airport-input page) $ (attribute "value")) => "YTO"
              (click ($ (:cancel-button page)))))
 
- (fact "Open Destination search"
+ (fact "Open 'Destination' search"
        (click ($ (:to-button page)))
 
        (wait-element (:airport-input page))
@@ -103,21 +101,19 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date-range)
+       (random-select-date)
+       (click ($ (:calendar-done-button page)))
+       (click ($ (:return-button page)))
+       (random-select-date)
        (click ($ (:calendar-done-button page))))
+
+ #_(fact "Tap Top Flights"
+       (click ($ (:top-flights page)))
+       (when-let [try-again-btn ($ (:try-again-button page))]
+         (click try-again-btn)))
 
  (test-class-buttons)
  (test-passengers-buttons)
 
- (fact "Tap 'Search' button"
-       (click ($ (:search-button page)))
-
-       (wait-elements (:flights-list page))
-
-       (fact "Not Empty"
-             ($-elements (as-farelogix (:flights-list page))) => not-empty)
-
-       (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil))
-
  (quit))
+
