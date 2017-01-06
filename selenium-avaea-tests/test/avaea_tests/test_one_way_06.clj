@@ -39,8 +39,10 @@
 
  (click ($ (:voice-search-button page)))
 
+ (wait-element (:voice-search-text-area page))
+
  (fact "Continue button is disabled"
-       (:voice-search-submit-button page) => disabled?)
+       (:voice-search-text-area page) => disabled?)
 
  (input-text ($ (:voice-search-submit-button page)) "I'm in Paris need to fly to Madrid tomorrow")
 
