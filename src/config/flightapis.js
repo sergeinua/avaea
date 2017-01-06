@@ -13,6 +13,11 @@ module.exports.flightapis = {
     }
   },
   farelogix: {
+    providerInfo: {
+      callTo: '+1 (786) 464-8650',
+      pubName: 'FareLogix',
+      siteUrl: 'www.farelogix.com'
+    },
     post_options: {
       host: 'api.farelogix.com',
       port: '443',
