@@ -29,7 +29,7 @@
   (->> ($-elements (:calendar-day-elements search-page))
        (filter #(and
                  (-> % disabled? not)
-                 (let [el-date (date-from-element %)]
+                 #_(let [el-date (date-from-element %)]
                    (println el-date "after" after "=>" (t/after? (parse-date el-date) (parse-date after))) true)
                  (-> % date-from-element parse-date (t/after? (parse-date after)))))))
 
@@ -41,12 +41,12 @@
          date-button (-> (calendar-dates after) remove-first remove-last rand-nth)
          date-time (-> date-button date-from-element)]
      (-> date-button click)
-     date-time))
+     date-time)))
 
-  (defn random-select-date-range []
-    (let [date-from (random-select-date "1/1/1972" :not-last)
-          date-to (random-select-date date-from)]
-      [date-from date-to]))
+(defn random-select-date-range []
+  (let [date-from (random-select-date "1/1/1972" :not-last)
+        date-to (random-select-date date-from)]
+    [date-from date-to]))
 
 (defn test-class-buttons []
   (fact "Tap Class"
