@@ -6,7 +6,7 @@ import Flight from './Flight.jsx';
 let Citypairs = React.createClass({
 
   showFMiles: function(miles) {
-    if( miles === false || miles === undefined) {
+    if (miles === undefined || miles.isLoading) {
       // spinner here
       return <div className="ff-miles no-value">
         Frequent Flyer miles

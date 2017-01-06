@@ -366,6 +366,10 @@ module.exports = {
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
+        if (itinerary.service) {
+          filterClass = itinerary.service + '-search';
+        }
+
         if (itinerary.price) {
           var i = 0;
           while(itinerary.price >= priceNameArr[i+1]) {
@@ -373,7 +377,7 @@ module.exports = {
           }
 
           tileArr['Price'].filters[i].count++;
-          filterClass = tileArr['Price'].filters[i].id;
+          filterClass = filterClass + ' ' + tileArr['Price'].filters[i].id;
         }
 
         if (itinerary.durationMinutes) {
@@ -801,6 +805,10 @@ module.exports = {
       }
 
       async.map(itineraries, function (itinerary, doneCallback) {
+        if (itinerary.service) {
+          filterClass = itinerary.service + '-search';
+        }
+
         if (itinerary.price) {
           var i = 0;
           while(itinerary.price >= priceNameArr[i+1]) {
@@ -808,7 +816,7 @@ module.exports = {
           }
 
           tileArr['Price'].filters[i].count++;
-          filterClass = tileArr['Price'].filters[i].id;
+          filterClass = filterClass + ' ' + tileArr['Price'].filters[i].id;
         }
 
         if (itinerary.citypairs[0].from.quarter) {

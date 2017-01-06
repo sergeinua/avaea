@@ -1,13 +1,13 @@
 /* ---------------
    icons.css
-	 --------------- */ 
-	 	
-		
+	 --------------- */
+
+
 /* soon to be removed - glyphicons */
-		
+
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff'); 
+  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff');
 }
 .glyphicon {
   position: relative;
@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.rdr-MonthAndYear-button i:after,
 footer a.social:after, 
 .icon-social-instagram:before,
 .static-nav-button:before,

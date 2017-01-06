@@ -1,9 +1,13 @@
 import React from 'react';
-import ResultItem from '../search/ResultItem';
+import ResultItemContainer from '../search/ResultItem';
 
 let Booking = React.createClass({
   render: function () {
     var _mailto = this.props.orderData.replyTo.match(/(.*)<(.+)>/);
+
+    // FIXME - had to hide logo for devices only when "flight-info" div is
+  	// showing in nav bar - this restores it
+    $("body").removeClass('suppress-logo');
 
     return (
       <div className="booking-success">
@@ -21,36 +25,36 @@ let Booking = React.createClass({
           <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
           <div className="thanks">Thank you for choosing Onvoya!</div>
           <div className="copy">
-            
+
             {/* Vlad - need logic to show proper grammar for 1 passenger vs. >1 */}
-            Your trip is all set. The (logic: one passenger? "ticket has" or "tickets have") been issued as 
+            Your trip is all set. The (logic: one passenger? "ticket has" or "tickets have") been issued as
             (logic: one passenger? "an" or "") electronic ticket(logic: one passenger? "" or "s").
             Please check your email for confirmation.
-            
+
           </div>
         </div>
-        
+
         <div className="holder">
         	<div className="trip ti">Passengers</div>
         	<div className="passengers">
-        	
+
         		<div className="wrapper">
 	        		{/* Vlad - date format should be Aug 16, 2016 - Aug 20, 2016 */}
 	      			<span className="travel-dates">Mmm DD, YYYY - Mmm DD, YYYY</span>
 	      			<span className="class">Class type</span>
         		</div>
-        		
+
         		{/* Vlad - Firstname Lastname in the order they were entered on booking form */}
         		<div className="name">Firstname Lastname</div>
-        	
+
         	</div>
         </div>
-        
+
         <div className="holder">
 	        <div className="trip ti">Itinerary</div>
 	        <div className="flight-unit">
 	          <div id="booked-flight-unit" className="booked-flight-unit">
-	            <ResultItem key={this.props.orderData.itineraryData.id}  itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+	            <ResultItemContainer key={this.props.orderData.itineraryData.id}  itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
 	          </div>
 	        </div>
         </div>
