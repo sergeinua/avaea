@@ -1,7 +1,7 @@
 {:test-all-drivers ["chrome"]
 
  :server-root "http://stage.avaea.com"
- :dev false
+ :dev true
  :pom {:search {:one-way-button "#one_way"
                 :round-trip-button "#round_trip"
                 :multi-city-button "#multi_city"

@@ -45,7 +45,7 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(facts
+(facts*
  "Search of 'all flights' tickets using Farelogix"
 
  (open-browser page-url)

@@ -42,7 +42,8 @@
 (def page-url (-> config :server-root (str "/search")))
 (def page (-> config :pom :search))
 
-(facts*
+;; blocked (no have 'top flights')
+#_(facts*
  "Search of 'top flights' tickets using Mondee"
 
  (open-browser page-url)
@@ -100,8 +101,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (let [date-from (random-select-date)]
-         (random-select-date date-from))
+       (random-select-date-range)
        (click ($ (:calendar-done-button page))))
 
  (test-class-buttons)
