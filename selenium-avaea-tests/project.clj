@@ -8,6 +8,7 @@
                  [org.clojure/tools.namespace "0.2.11"]
                  [org.clojure/tools.logging "0.2.6"]
                  [midje "1.8.3"]
+                 [clj-time "0.13.0"]
                  [log4j "1.2.17" :exclusions [javax.mail/mail
                                               javax.jms/jms
                                               com.sun.jdmk/jmxtools

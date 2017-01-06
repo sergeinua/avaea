@@ -103,10 +103,8 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date)
-       (click ($ (:calendar-done-button page)))
-       (click ($ (:return-button page)))
-       (random-select-date)
+       (let [date-from (random-select-date)]
+         (random-select-date date-from))
        (click ($ (:calendar-done-button page))))
 
  (test-class-buttons)
