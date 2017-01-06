@@ -11,6 +11,7 @@ import DisplayAlert from '~/_common/DisplayAlert';
 
 import HomePage from 'components/static/pages/home.jsx';
 import AboutPage from 'components/static/pages/about.jsx';
+import PartnerPage from 'components/static/pages/partner.jsx';
 import JobsPage from 'components/static/pages/jobs.jsx';
 import NewsPage from 'components/static/pages/news.jsx';
 import ContactPage from 'components/static/pages/contact.jsx';
@@ -24,7 +25,7 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms } from './functions.js';
+import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch } from './functions.js';
 import { actionSetCommonVal } from './actions.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.
@@ -59,23 +60,24 @@ $(document).ready(function() {
       _localSearchParams = hashedParams;
     } else if (localStorage.getItem('searchParams')) {
       //use data from local storage if exists
-      _localSearchParams = JSON.parse(localStorage.getItem('searchParams'));
+      _localSearchParams = getDefaultDateSearch(JSON.parse(localStorage.getItem('searchParams')))
     } else if (InitData.defaultSearch) {
       //use data from server with default/session params if local storage is empty
-      _localSearchParams = InitData.defaultSearch;
+      _localSearchParams = getDefaultDateSearch(InitData.defaultSearch)
     }
 
     Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
       .then(function () {
         render((
           <ReactRedux.Provider store={clientStore}>
-            <Router history={browserHistory}>
+            <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
               <Route path="/" component={StaticContainer}>
                 <Route path="/home" component={HomePage}/>
                 <Route path="/about" component={AboutPage}/>
                 <Route path="/jobs" component={JobsPage}/>
                 <Route path="/news" component={NewsPage}/>
                 <Route path="/blog" component={BlogPage}/>
+                <Route path="/partner" component={PartnerPage}/>
                 <Route path="/contact" component={ContactPage}/>
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>

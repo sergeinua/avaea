@@ -54,11 +54,6 @@ module.exports = {
     exptime: 60*30 // 30 minutes
   },
 },
-
-  flightapis: {
-    searchProvider: 'mondee' // 'mystifly'
-  },
-
   hookTimeout: 60000
 
 };

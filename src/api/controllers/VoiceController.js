@@ -6,11 +6,32 @@
  */
 
 var _ = require('lodash');
+var ApiAiParser = require('../services/ApiAiParser.js');
 
 module.exports = {
   parse: function (req, res) {
     var _query = _.trim(req.param('q'));
     return AvaeaTextParser.run(_query, function(err, result) {
+      if (err) {
+        sails.log.error(err);
+        return res.serverError(); //500
+      }
+      if (req.wantsJSON) {
+        if (sails.config.environment !== 'test') {
+          let userId = utils.getUser(req);
+          segmentio.track(userId, 'Voice Search', {query: _query, result: result});
+        }
+
+        return res.json(result); //200
+      } else {
+        return res.notFound(); //404
+      }
+    });
+  },
+
+  parseApiAi: function (req, res) {
+    var _query = _.trim(req.param('q'));
+    new ApiAiParser().parse(_query, req.sessionID, function(err, result){
       if (err) {
         sails.log.error(err);
         return res.serverError(); //500

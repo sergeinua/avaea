@@ -4,6 +4,8 @@ export const actionTypesProfile = {
   LOAD_PROFILE_FAILED: 'LOAD_PROFILE_FAILED',
   SET_PERSONAL_VAL: 'SET_PERSONAL_VAL',
   SET_PROGRAMS_VAL: 'SET_PROGRAMS_VAL',
+  SET_PERSONAL_NOTIFY_VAL: 'SET_PERSONAL_NOTIFY_VAL',
+  SET_PREFERREDAIRLINES_VAL: 'SET_PREFERREDAIRLINES_VAL'
 };
 export const actionTypesOrder = {
   LOAD_ORDER_SUCCESS: 'LOAD_ORDER_SUCCESS',
@@ -32,9 +34,28 @@ export function actionSetPersonalVal (elemNum, value) {
   }
 }
 
+export function actionSetPersonalNotifyVal (elemNum, value) {
+  return {
+    type: actionTypesProfile.SET_PERSONAL_NOTIFY_VAL,
+    elemNum: elemNum,
+    value: value
+  }
+}
+
 export function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
   return {
     type: actionTypesProfile.SET_PROGRAMS_VAL,
+    blockNum: blockNum,
+    elemNum: elemNum,
+    fieldName: fieldName,
+    value: value
+  }
+}
+
+export function actionSetPreferredAirlinesVal (blockNum, elemNum, fieldName, value) {
+  console.log(arguments)
+  return {
+    type: actionTypesProfile.SET_PREFERREDAIRLINES_VAL,
     blockNum: blockNum,
     elemNum: elemNum,
     fieldName: fieldName,

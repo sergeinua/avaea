@@ -15,7 +15,7 @@ module.exports = {
     let page = req.url;
 
     if (!req.url || req.url.trim() == '/') {
-      page = '/search'
+      page = req.isMobile ? '/search':'/home';
     }
 
     if (_.isEmpty(req.session)) {
@@ -49,7 +49,7 @@ module.exports = {
       {
         user         : req.user || '',
         serviceClass : Search.serviceClass,
-        head_title   : 'Search for flights with Avaea Agent',
+        head_title   : 'Search for flights with Onvoya Agent',
         page         : page,
         defaultSearch: params
       },

@@ -1,21 +1,19 @@
 import React from 'react';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import UserProfileContainer from '../user/Profile.jsx';
-import { setCookie } from '../../legacyJquery.js';
 
 let ProfilePage = React.createClass({
   componentWillMount: function () {
-    if (!this.getUser()) {
+  	// FIXME - had to hide logo for devices only when "flight-info" div is 
+  	// showing in nav bar - this restores it
+  	$("body").removeClass('suppress-logo');
+    if (!getUser()) {
       setCookie('redirectTo', this.props.location.pathname, {expires: 300});
       window.location = '/login';
     } else {
       analytics.page(this.props.location.pathname);
       ActionsStore.changeForm('profile', false);
     }
-  },
-
-  getUser: function () {
-    return InitData.user || false;
   },
 
   render: function () {
