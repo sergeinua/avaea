@@ -9,6 +9,8 @@
 
 (comment "
 
+      'Search of 'all flights' tickets using Mondee'
+
       Steps:
 
       Precondition: User is logged in and he is on 'One Way' tab
@@ -21,10 +23,6 @@
       7. Tap the Calendar and choose any date
       8. Tap the 'All flights'
       9. Check with different quantity of 'Class' and 'Passengers'
-
-")
-
-(comment "
 
       Expected:
 

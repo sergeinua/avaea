@@ -9,6 +9,8 @@
 
 (comment "
 
+      'Search of 'top flights' tickets using Farelogix'
+
       Steps:
 
       Precondition: User is logged in and he is on "Round Way" tab.
@@ -22,9 +24,6 @@
       6. Tap the YMQ
       7. Tap the Calendar and choose any date
       8. Tap the "Top flights"
-")
-
-(comment "
 
       Expected:
 

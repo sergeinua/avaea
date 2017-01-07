@@ -5,7 +5,8 @@
             [clj-webdriver.taxi :refer :all]
             [clj-time.core :as t]
             [clj-time.format :as f]
-            [clojure.string :as string]))
+            [clojure.string :as string])
+  (:import [org.joda.time LocalDate LocalTime]))
 
 (def search-page (-> (read-config) :pom :search))
 
@@ -24,18 +25,21 @@
   (f/parse slash-formater date-string))
 
 (defn date-from-element [el]
-  #_(let [date-attr (attribute el "data-day")
-          date-time (parse-date date-attr)]
-      date-time)
   (attribute el "data-day"))
 
-(defn calendar-dates [after]
+(defn calendar-dates
+  ([] (calendar-dates "01/01/1970"))
+  ([after]
   (->> ($-elements (:calendar-day-elements search-page))
        (filter #(and
                  (-> % disabled? not)
-                 #_(let [el-date (date-from-element %)]
-                     (println el-date "after" after "=>" (t/after? (parse-date el-date) (parse-date after))) true)
-                 (-> % date-from-element parse-date (t/after? (parse-date after)))))))
+                 (-> % date-from-element parse-date (t/after? (parse-date after))))))))
+
+(defn select-date [^String date-string]
+  (let [filter-fn (fn [elems] (filter #(-> % date-from-element (= date-string)) elems))
+        date-button (-> (calendar-dates) filter-fn first)]
+    (-> date-button click)
+    date-string))
 
 (defn random-select-date
   ([] (random-select-date "01/01/1970"))
@@ -53,13 +57,22 @@
     [date-from date-to]))
 
 (defn format-as-slashes [t]
-  (f/unparse-local depart-formater t))
+  (f/unparse-local slash-formater t))
 
 (defn format-as-text [t]
   (f/unparse-local depart-formater t))
 
+(defn today []
+  (t/today))
+
+(defn today-str []
+  (format-as-slashes (today)))
+
 (defn tomorow []
   (-> (t/today) (t/plus (t/days 1))))
+
+(defn tomorow-str []
+  (format-as-slashes (tomorow)))
 
 (defn test-class-buttons []
   (fact "Tap Class"

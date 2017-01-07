@@ -9,6 +9,8 @@
 
 (comment "
 
+      'The same day with possible day return'
+
       Steps:
 
       Precondition: User is logged in and he is on "Round Way" tab.
@@ -18,9 +20,6 @@
       (choose different dates then tap the calendar again and choose only
       one day the same as return, tap the OK)
       3. Tap the "All flights" or "Top flights"
-")
-
-(comment "
 
       Expected:
 

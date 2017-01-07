@@ -10,6 +10,8 @@
 
 (comment "
 
+      'Voice search'
+
       Steps:
 
       1. Tap the mic on Search page
@@ -18,9 +20,6 @@
       3. Tap the "Continue"
       4. Tap the Search
       5. Check with different parsers including when search should starts automatically
-")
-
-(comment "
 
       Expected:
 
@@ -46,7 +45,8 @@
  (fact "Continue button is disabled"
        (:voice-search-submit-button page) => disabled?)
 
- (input-text ($ (:voice-search-text-area page)) "You want to go from Washington DC to London leaving on September 17th and returning on December 23rd in the car")
+ (input-text ($ (:voice-search-text-area page))
+             "You want to go from Washington DC to London leaving on September 17th and returning on December 23rd in the car")
 
  (fact "Continue button is enabled"
        (:voice-search-submit-button page) => enabled?)
@@ -68,6 +68,7 @@
  (fact "Depart is December 23th"
        ($-text (:return-button page)) => #"23Dec")
 
+ ;; bug? - not working search button
  #_(fact "Tap 'Search' button"
        (click ($ (:search-button page)))
 

@@ -9,6 +9,8 @@
 
 (comment "
 
+      'Voice search'
+
       Steps:
 
       1. Tap the mic on Search page
@@ -16,9 +18,6 @@
       3. Tap the "Continue"
       4. Tap the "All flights" or "Top flights"
       5. Check with different parsers including when search should starts automatically
-")
-
-(comment "
 
       Expected:
 

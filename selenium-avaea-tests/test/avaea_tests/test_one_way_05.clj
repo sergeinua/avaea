@@ -9,15 +9,14 @@
 
 (comment "
 
+      The same airport
+
       Steps:
 
       Precondition: User is logged in and he is on "One Way" tab.
       1. Choose in "From" and "To" the same airport
       2. Choose the date for flight
       3. Tap the "All flights" or "Top flights"
-")
-
-(comment "
 
       Expected:
 

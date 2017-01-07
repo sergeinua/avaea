@@ -33,12 +33,11 @@
 
                 :search-button "#search-form-all-flights-button"
 
-                :flights-try-again-button "div.nothing-found > div.buttons > a"
+                :flights-try-again-button "#alert-page-try-again-button"
 
                 :flights-list "#searchResultData > div"
                 :mondee-marker ".mondee-search"
                 :farelogix-marker ".farelogix-search"
-
 
                 :flights-result-button "#searchResultData > div .buy-button .btn"
 
