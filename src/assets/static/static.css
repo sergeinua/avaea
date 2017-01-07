@@ -1411,9 +1411,32 @@ footer.static .bottom {
 
 /* FF Firefox fixes */
 
-a, a:active, a:focus {
-	outline: none;
+/* firefox rendering font too thin */
+@-moz-document url-prefix() {
+	body {
+    -moz-osx-font-smoothing: auto;
+	}
+
+	.desktop .tt-menu {
+		margin-top: 65px;
+	}
+	
+	/* simple form calendar */
+	.try-it .rdr-WeekDay {
+		font-weight: 200 !important;
+	}
+	
+	.try-it .rdr-Calendar {
+		width: 283px !important;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+
 }
+
+
 
 
 
