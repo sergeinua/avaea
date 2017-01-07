@@ -41,7 +41,67 @@ export let ActionsStore = {
 
   submitTripSearchForm: () => {
     clientStore.dispatch(actionUpdateCommonByVal('formSubmitCount', 1));
-  }
+  },
+
+  loadMilesInfo: (ids) => {
+    let milesInfosObject = clientStore.getState().commonData.ffmiles;
+
+
+    let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
+      // miles value meaning:
+      // miles === undefined // not loaded
+      let miles = milesInfosObject[id];
+      return (
+        miles === undefined
+        || (!miles.isLoading && !miles.isLoaded && !miles.isError)
+      );
+    });
+
+    if (idsLoadingNotStartedAndNotLoaded.length > 0) {
+      setMilesInfoLoadingStarted(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+      ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
+        .then((msg) => {
+          if (msg.error) {
+            console.log("Result of 30K api: " + JSON.stringify(msg));
+            return setMilesInfoLoadingFailed(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+          }
+
+          let updatedMilesInfosObject = {};
+          let idsLoadedObject = {};
+          msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
+            idsLoadedObject[id] = true;
+            updatedMilesInfosObject[id] = {
+              isLoading: false,
+              isLoaded: true,
+              isError: false,
+              value: miles || 0,
+              name: ProgramCodeName
+            }
+          });
+          let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
+          idsFailedToLoad.forEach((id) => {
+            updatedMilesInfosObject[id] = {
+              isLoading: false,
+              isLoaded: false,
+              isError: true,
+              value: 0,
+              name: ''
+            }
+          });
+
+          let loadingMilesUpdated = Object.keys(updatedMilesInfosObject)
+            .map((itineraryId) => [['ffmiles', itineraryId], updatedMilesInfosObject[itineraryId]]);
+          return clientStore.dispatch(actionMergeCommonVal(loadingMilesUpdated));
+
+        })
+        .catch((error) => {
+          console.log("Result of 30K api: " + JSON.stringify(error));
+          return setMilesInfoLoadingFailed(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+        })
+      ;
+    }
+  },
+
 };
 
 export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
@@ -143,6 +203,28 @@ var isMobile = {
 export let logAction = function (type, data) {
   ClientApi.reqPost("/prediction/" + type, data);
 };
+
+function setMilesInfoLoadingStarted(milesInfosObject, ids) {
+  return _setMilesInfoLoadingState(true, false, false, milesInfosObject, ids);
+}
+
+function setMilesInfoLoadingFailed(milesInfosObject, ids) {
+  return _setMilesInfoLoadingState(false, false, true, milesInfosObject, ids);
+}
+
+function _setMilesInfoLoadingState(isLoading, isLoaded, isError, milesInfosObject, ids) {
+  let loadingMilesFailed = ids.map((itineraryId) => {
+    let miles = milesInfosObject[itineraryId];
+    return [['ffmiles', itineraryId], {
+      isLoading: isLoading,
+      isLoaded: isLoaded,
+      isError: isError,
+      value: miles ? miles.value : 0,
+      name: miles ? miles.name : ''
+    }]
+  });
+  return clientStore.dispatch(actionMergeCommonVal(loadingMilesFailed));
+}
 
 function getCookie(name) {
   var matches = document.cookie.match(new RegExp(

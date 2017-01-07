@@ -7,6 +7,7 @@ export const storeInitialState = {
     searchParams: {
       flightType: 'round_trip'
     },
+    ffmiles: {},
     iconSpriteMap: [],
     currentForm: 'round_trip',
     airportChoiceTarget: 'DepartureLocationCode',
