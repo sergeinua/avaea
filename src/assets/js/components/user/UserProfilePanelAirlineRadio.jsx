@@ -47,8 +47,9 @@ let UserProfilePanelAirlineRadio = React.createClass({
 
     _options.map(function(option, index) {
       _nodes.push(
-        <label key={index} className="btn-block">
+        <label key={index} className="">
           <input type="radio" name={self.props.item.id + '[' + self.props.elemNum + ']'}
+                 id={self.props.id}
                  value={option.key} onChange={self.handleChangeValue}
                  checked={(self.state.checked === option.key)}
           />{option.data}

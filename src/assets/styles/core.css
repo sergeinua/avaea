@@ -247,6 +247,7 @@ body,
 
 .desktop .swiper-slide {
 	max-width: 155px;
+	min-width: 155px;
 }
 
 .desktop .flight-info {
@@ -667,6 +668,8 @@ body.desktop form.profile,
   box-shadow: none;
 }
 
+.mycustomtab,
+.mybucket .badge,
 .notable-area .refundable.row .label-d,
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
@@ -2046,10 +2049,11 @@ td[data-action*="selectDay"] {
   transition-property: transform;
 }
 
+
 /* prevent swiper from sticking with filters out of view */
 .desktop .swiper-container {
 	width: 2700px;
-}
+}  
 
 .swiper-container .swiper-slide,
 .swiper-wrapper {
@@ -2061,26 +2065,20 @@ td[data-action*="selectDay"] {
 }
 
 .swiper-slide {
+	margin: 0 2px;
   -webkit-flex-shrink: 0;
   -ms-flex: 0 0 auto;
   flex-shrink: 0;
+	max-width: 140px;
   width: 100%;
+	min-width: 140px;
   height: 100%;
   position: relative;
-}
-
-.swiper-slide {
-    max-width: 140px;
-    margin: 0 2px;
 }
 
 
 
 /* bucket header */
-.mycustomtab,
-.mybucket .badge {
-	 color: #000;
-}
 
 .mycustomtab {
 	text-align: center;
@@ -3269,9 +3267,23 @@ footer.app-copy .bottom a {
 	width: 100%;
 	position: fixed;
 		bottom: -10px;
-	background: url(/images/static/world.svg) center top no-repeat;
+	background: url('/images/static/world.svg') center top no-repeat;
 	background-size: 160%;
 }
+
+@media (min-width: 1190px) {
+
+	.desktop .swiper-container,
+	.swiper-container {
+		width: 1150px;
+	}
+	
+	.swiper-holder {
+		background: url('/images/texture-med.gif'); 
+	}
+
+}
+
 
 @media (max-width: 850px) {
 
@@ -3298,6 +3310,11 @@ footer.app-copy .bottom a {
 @media (max-width: 766px) {
 
 	.touch .navbar-brand { 
+		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
+		background-size: 185px;
+	}
+	
+	.touch.suppress-logo .navbar-brand { 
 		display: none;
 	}
 

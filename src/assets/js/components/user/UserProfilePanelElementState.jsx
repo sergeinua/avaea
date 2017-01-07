@@ -33,6 +33,7 @@ let UserProfilePanelElementState = React.createClass({
       <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
       <Select
         name={this.props.item.id}
+        id={'profilePersonal-' + this.props.item.id}
         value={this.state.stateCode}
         className="form-control input-sm"
         placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title}
