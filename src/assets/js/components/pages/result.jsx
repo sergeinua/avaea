@@ -50,22 +50,11 @@ let ResultPage = React.createClass({
           // so logo does not push the search query down
           $("body").addClass('suppress-logo');
 
-          // correctly initialize the swiper for desktop vs. touch
-
-          if (!uaMobile) {
-            // is desktop
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: '5.5'
-            });
-
-          } else {
-            // is touch
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: 'auto'
-            });
-          }
+          // correctly initialize the swiper
+          swiper = new Swiper('.swiper-container', {
+            freeMode: true,
+            slidesPerView: 'auto'
+          });
 
           // Init slim scroll
           var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
@@ -421,7 +410,7 @@ let ResultPage = React.createClass({
 
   render: function() {
     return (
-      <div className="search-result">
+      <div className={ 'search-result ' + this.props.commonData.searchParams.flightType }>
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>
