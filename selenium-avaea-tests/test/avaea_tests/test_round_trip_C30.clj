@@ -1,4 +1,4 @@
-(ns avaea-tests.test-one-way-01
+(ns avaea-tests.test-round-trip-c30
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -13,7 +13,7 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on 'One Way' tab
+      Precondition: User is logged in and he is on 'Round Way' tab
       1. Tap the 'From'
       2. Start typing the city (for example New-York)
       3. Tap the NYC airport
@@ -47,24 +47,18 @@
 
  (open-browser page-url)
 
- (click ($ (:one-way-button page)))
-
- (fact "One way button is active"
-       ($ (:one-way-button page)) => active?)
+ (click ($ (:round-trip-button page)))
 
  (assign-from-airport {:search-text "New York" :airport "NYC"})
  (assign-to-airport {:search-text "Kiev" :airport "KBP"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (select-random-date)
+       (select-random-date-range)
        (click ($ (:calendar-done-button page))))
 
- (fact "One way button is active"
-       ($ (:one-way-button page)) => active?)
-
- (test-passengers-buttons)
  (test-class-buttons)
+ (test-passengers-buttons)
 
  (fact "Tap 'Search' button"
        (click ($ (:search-button page)))
@@ -75,15 +69,6 @@
              ($-elements (as-mondee (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil)
-
-       #_(fact "Click first element"
-             (click ($ (:flights-list page))))
-
-       #_(click ($ (:flights-result-button page)))
-
-       #_(when-let [try-again-btn ($ (:try-again-button page))]
-           (click try-again-btn)))
-
+             ($ (:flights-result-button page)) =not=> nil))
 
  (quit))

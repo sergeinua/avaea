@@ -1,4 +1,4 @@
-(ns avaea-tests.test-round-trip-10
+(ns avaea-tests.test-round-trip-c36
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -9,21 +9,20 @@
 
 (comment "
 
-      'No search with empty 'Return' date'
+      'The same day with impossible day return'
 
       Steps:
 
       1. Choose in 'From' and 'To' different airports (for example NYC and KBP)
-      2. Tap the Calendar and choose only one date
-      3. Tap 'Done' button
-      4. Tap 'All flights' or 'Top flights'
+      2. Tap the Calendar and choose day with no tickets (for example too late for book tickets for this time)
+      3. Tap the 'All flights' or 'Top flights'
 
       Expected:
 
       1. The same airport is displayed
       2. Chosen date are displaying on page
-      3. Chosen date displays in 'Depart' date. 'Return' date is empty
-      4. 'Return' date is highlighted. No search
+      3. Both airport are highlighted. User is on search result page, but see the message:
+         No flights are available for selected itinerary. Please try different dates or airports
 ")
 
 (def config (read-config))
@@ -31,7 +30,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "No search with empty 'Return' date"
+ "The same day with impossible day return"
 
  (open-browser page-url)
 
@@ -42,10 +41,18 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (select-random-date)
+       (select-date (tomorow-str))
+       (select-date (tomorow-str))
        (click ($ (:calendar-done-button page))))
 
- (fact "Search Button is disabled"
-       ($ (:search-button page)) => disabled?)
+ (fact "Tap 'Search' button"
+       (click ($ (:search-button page)))
+
+       (wait-elements (:flights-try-again-button page))
+
+       (fact "Try Again Button displayed"
+             (:flights-try-again-button page) => displayed?)
+
+       (click ($ (:flights-try-again-button page))))
 
  (quit))

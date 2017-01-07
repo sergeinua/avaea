@@ -1,4 +1,4 @@
-(ns avaea-tests.test-round-trip-05
+(ns avaea-tests.test-round-trip-c190
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -9,20 +9,18 @@
 
 (comment "
 
-      The same airport
+      'Wrong date for Depart or Return'
 
       Steps:
 
-      Precondition: User is logged in and he is on 'Round Way' tab.
-      1. Choose in 'From' and 'To' the same airport
-      2. Choose the date for flight
-      3. Tap the 'All flights' or 'Top flights'
+      1. Tap the mike and start talk (choose dates that are more than 330 days from now)
+      2. Tap the 'Continue'
 
       Expected:
 
-      1. The same airport is displayed
-      2. Chosen date is displayed
-      3. Both airports are highlighted. No search
+      1. Phrase for the search is displayed
+      2. Dates displays in Calendar. Buttons 'All flights' and 'Top flights' are disabled (grey).
+         Impossible to search tickets
 ")
 
 (def config (read-config))
@@ -30,25 +28,24 @@
 (def page (-> config :pom :search))
 
 (facts*
- "The same airport"
+ "Wrong date for Depart or Return"
 
  (open-browser page-url)
 
  (click ($ (:round-trip-button page)))
 
  (assign-from-airport {:search-text "New York" :airport "NYC"})
- (assign-to-airport {:search-text "New York" :airport "NYC"})
+ (assign-to-airport {:search-text "Kiev" :airport "KBP"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (select-random-date)
-       (click ($ (:calendar-done-button page))))
+       (select-date (tomorow-str))
+       (dotimes [n 12]
+         (click ($ (:calendar-next-button page))))
+       (select-random-date))
+ (click ($ (:calendar-done-button page)))
 
- (fact "Chosen date is displayed"
-       (:depart-button page) => exists?)
-
- (fact "Search button is disabled"
+ (fact "Search Button is disabled"
        ($ (:search-button page)) => disabled?)
 
  (quit))
-

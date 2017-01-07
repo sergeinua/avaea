@@ -1,4 +1,4 @@
-(ns avaea-tests.test-round-trip-07
+(ns avaea-tests.test-round-trip-c35
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -13,8 +13,12 @@
 
       Steps:
 
+      Precondition: User is logged in and he is on 'Round Way' tab.
+
       1. Choose in 'From' and 'To' different airports (for example NYC and SFO)
       2. Tap the Calendar and choose the same date for depart and return
+      (choose different dates then tap the calendar again and choose only
+      one day the same as return, tap the OK)
       3. Tap the 'All flights' or 'Top flights'
 
       Expected:
@@ -40,7 +44,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (select-random-date-range)
+       (select-random-date)
        (click ($ (:calendar-done-button page))))
 
  (quit))
