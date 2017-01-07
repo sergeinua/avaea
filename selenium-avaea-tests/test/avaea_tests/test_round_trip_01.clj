@@ -51,54 +51,8 @@
 
  (click ($ (:round-trip-button page)))
 
- (fact "Open 'From' Search"
-
-       (click ($ (:from-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "New York" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have NYC element"
-             ($-text (:airport-list-element page)) => #"NYC")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "NYC displays in 'From'"
-       ($-text (:from-button page)) => #"NYC")
-
- (fact "Appear drop-down list and 'Cancel' button"
-       (click ($ (:from-button page)))
-       (fact "Input have NYC text"
-             (-> (:airport-input page) $ (attribute "value")) => "NYC"
-             (click ($ (:cancel-button page)))))
-
- (fact "Open 'Destination' search"
-       (click ($ (:to-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "Kiev" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have KBP element"
-             ($-text (:airport-list-element page)) => #"KBP")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "KBP displays in 'From'"
-       ($-text (:to-button page)) => #"KBP")
+ (assign-from-airport {:search-text "New York" :airport "NYC"})
+ (assign-to-airport {:search-text "Kiev" :airport "KBP"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))

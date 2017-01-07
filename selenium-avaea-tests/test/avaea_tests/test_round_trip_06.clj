@@ -40,60 +40,12 @@
 
  (click ($ (:round-trip-button page)))
 
- (fact "Open 'From' Search"
-
-       (click ($ (:from-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "New York" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have NYC element"
-             ($-text (:airport-list-element page)) => #"NYC")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "NYC displays in 'From'"
-       ($-text (:from-button page)) => #"NYC")
-
- (fact "Open 'Destination' search"
-       (click ($ (:to-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "San Francisco" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have SFO element"
-             ($-text (:airport-list-element page)) => #"SFO")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "SFO displays in 'From'"
-       ($-text (:to-button page)) => #"SFO")
+ (assign-from-airport {:search-text "New York" :airport "NYC"})
+ (assign-to-airport {:search-text "San Francisco" :airport "SFO"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (click (-> (calendar-dates) (nth 3)))
-       (click ($ (:calendar-done-button page)))
-       (click ($ (:return-button page)))
-       (click (-> (calendar-dates) (nth 3)))
+       (random-select-date)
        (click ($ (:calendar-done-button page))))
-
- #_(fact "Tap All Flights"
-       (click ($ (:all-flights page)))
-       (when-let [try-again-btn ($ (:try-again-button page))]
-         (click try-again-btn)))
 
  (quit))

@@ -1,4 +1,4 @@
-(ns avaea-tests.test-round-trip-05
+(ns avaea-tests.test-round-trip-07
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -11,9 +11,8 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on "Round Way" tab.
-      1. Choose in "From" and "To" the same airport
-      2. Choose the date for flight
+      1. Choose in "From" and "To" different airports (for example NYC and SFO)
+      2. Tap the Calendar and choose the same date for depart and return
       3. Tap the "All flights" or "Top flights"
 ")
 
@@ -22,8 +21,8 @@
       Expected:
 
       1. The same airport is displayed
-      2. Chosen date is displayed
-      3. Both airports are highlighted. No search
+      2. Chosen date are displaying on page
+      3. Both airport are highlighted. User see all possible tickets
 ")
 
 (def config (read-config))
@@ -31,25 +30,18 @@
 (def page (-> config :pom :search))
 
 (facts*
- "The same airport"
+ "The same day with possible day return"
 
  (open-browser page-url)
 
  (click ($ (:round-trip-button page)))
 
  (assign-from-airport {:search-text "New York" :airport "NYC"})
- (assign-to-airport {:search-text "New York" :airport "NYC"})
+ (assign-to-airport {:search-text "San Francisco" :airport "SFO"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date)
+       (random-select-date-range)
        (click ($ (:calendar-done-button page))))
 
- (fact "Chosen date is displayed"
-       (:depart-button page) => exists?)
-
- (fact "Search button is disabled"
-       ($ (:search-button page)) => disabled?)
-
  (quit))
-

@@ -37,45 +37,8 @@
 
  (click ($ (:one-way-button page)))
 
- (fact "Open 'From' Search"
-
-       (click ($ (:from-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "New York" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have NYC element"
-             ($-text (:airport-list-element page)) => #"NYC")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "Open 'Destination' search"
-       (click ($ (:to-button page)))
-
-       (wait-element (:airport-input page))
-
-       (type-text "New York" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have NYC element"
-             ($-text (:airport-list-element page)) => #"NYC")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "NYC displays in 'From'"
-       ($-text (:from-button page)) => #"NYC")
-
- (fact "NYC displays in 'From'"
-       ($-text (:to-button page)) => #"NYC")
+ (assign-from-airport {:search-text "New York" :airport "NYC"})
+ (assign-to-airport {:search-text "New York" :airport "NYC"})
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))

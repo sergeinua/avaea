@@ -52,27 +52,8 @@
 
  (click ($ (:one-way-button page)))
 
- (fact "Open 'From' Search"
-
-       (click ($ (:from-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "Toronto" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have YTO element"
-             ($-text (:airport-list-element page)) => #"YTO")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "YTO displays in 'From'"
-       ($-text (:from-button page)) => #"YTO")
+ (assign-from-airport {:search-text "Toronto" :airport "YTO"})
+ (assign-to-airport {:search-text "Montreal" :airport "YMQ"})
 
  ;; 'cancel' button bug
  #_(fact "Appear drop-down list and 'Cancel' button"
@@ -80,27 +61,6 @@
        (fact "Input have YTO text"
              (-> (:airport-input page) $ (attribute "value")) => "YTO"
              (click ($ (:cancel-button page)))))
-
- (fact "Open 'Destination' search"
-       (click ($ (:to-button page)))
-
-       (wait-element (:airport-input page))
-
-       (fact "Focus on input"
-             (focused-element-id) => (:airport-input page))
-
-       (type-text "Montreal" (focused-element))
-
-       (wait-elements (:airport-list-element page))
-
-       (fact "Have YMQ element"
-             ($-text (:airport-list-element page)) => #"YMQ")
-
-       (fact "Select first result and go home"
-             (click ($ (:airport-list-element page)))))
-
- (fact "YMQ displays in 'From'"
-       ($-text (:to-button page)) => #"YMQ")
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))

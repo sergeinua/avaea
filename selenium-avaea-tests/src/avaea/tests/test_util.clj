@@ -7,7 +7,7 @@
             [clj-time.format :as f]
             [clojure.string :as string]))
 
-(def ^:private search-page (-> (read-config) :pom :search))
+(def search-page (-> (read-config) :pom :search))
 
 (def slash-formater (f/formatter "MM/dd/YYYY"))
 (def depart-formater (f/formatter "dd MMM YYYY"))
@@ -34,7 +34,7 @@
        (filter #(and
                  (-> % disabled? not)
                  #_(let [el-date (date-from-element %)]
-                   (println el-date "after" after "=>" (t/after? (parse-date el-date) (parse-date after))) true)
+                     (println el-date "after" after "=>" (t/after? (parse-date el-date) (parse-date after))) true)
                  (-> % date-from-element parse-date (t/after? (parse-date after)))))))
 
 (defn random-select-date
@@ -101,3 +101,49 @@
 
 (defn remove-spaces [s]
   (-> s (string/replace #"\s" "")))
+
+(defmacro assign-from-airport [{:keys [search-text airport]}]
+  `(fact "Open 'From' Search"
+
+         (click ($ (:from-button search-page)))
+
+         (wait-element (:airport-input search-page))
+
+         (fact "Focus on input"
+               (focused-element-id) => (:airport-input search-page))
+
+         (type-text ~search-text (focused-element))
+
+         (wait-elements (:airport-list-element search-page))
+
+         (fact "Check airport"
+               ($-text (:airport-list-element search-page)) => (re-pattern ~airport))
+
+         (fact "Select first result and go home"
+               (click ($ (:airport-list-element search-page))))
+
+         (fact "Check value displays in 'From'"
+               ($-text (:from-button search-page)) => (re-pattern ~airport))))
+
+(defmacro assign-to-airport [{:keys [search-text airport]}]
+  `(fact "Open 'Destination' search"
+
+        (click ($ (:to-button search-page)))
+
+        (wait-element (:airport-input search-page))
+
+        (fact "Focus on input"
+              (focused-element-id) => (:airport-input search-page))
+
+        (type-text ~search-text (focused-element))
+
+        (wait-elements (:airport-list-element search-page))
+
+        (fact "Check airport"
+              ($-text (:airport-list-element search-page)) => (re-pattern ~airport))
+
+        (fact "Select first result and go home"
+              (click ($ (:airport-list-element search-page))))
+
+        (fact "Check value displays in 'From'"
+              ($-text (:to-button search-page)) => (re-pattern ~airport))))
