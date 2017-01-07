@@ -1,7 +1,7 @@
 /* global sails */
 module.exports.flightapis = {
   searchApiMaxDays: 330,
-  searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
+  execReadEticketPeriod: 3600*24, // seconds
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
     baseEndPoint: 'http://api.trippro.com/api/v2',

@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-    connection: 'productionPostgresqlServer'
+    connection: 'stagePostgresqlServer'
   },
 
   /***************************************************************************
@@ -47,6 +47,7 @@ module.exports = {
   },
 
   flightapis: {
+    searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
       baseEndPoint: 'http://sandbox.trippro.com/api/v2',
       // clientId: 'CFS1017' temporary disabled bc of error from mondee "Please Provide Valid ClientId"
@@ -70,6 +71,11 @@ module.exports = {
   },
 
   hookTimeout: 60000,
-  segmentio_key: 'dTKBLO5w1lHx5o9HPLIwTQCzomWJOUN5'
+  segmentio_key: 'dTKBLO5w1lHx5o9HPLIwTQCzomWJOUN5',
+
+  recaptcha: {
+    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
+    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
+  }
 
 };

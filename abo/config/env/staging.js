@@ -18,7 +18,7 @@ module.exports = {
    ***************************************************************************/
 
   models: {
-    connection: 'productionPostgresqlServer'
+    connection: 'stagePostgresqlServer'
   },
 
   /***************************************************************************
@@ -42,16 +42,12 @@ module.exports = {
   },
 
   session: {
-    host: '127.0.0.1',
+    host: 'localhost',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
 
-  flightapis: {
-    searchProvider: 'mondee' // 'mystifly'
-  },
-
-  hookTimeout: 60000
+  hookTimeout: 90000
 
 };

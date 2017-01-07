@@ -1,4 +1,11 @@
-var BookingPage = React.createClass({
+import React from 'react';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import Loader from '../_common/Loader.jsx';
+import Booking from '../buy/Booking.jsx';
+
+let BookingPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -9,24 +16,29 @@ var BookingPage = React.createClass({
   },
 
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('about');
+    if (!getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('about', false);
 
-    fetch('/booking?bookingId=' + this.state.bookingId, {
-      method: 'POST',
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        this.setState({
-          isLoading: false,
-          orderData: json
+      fetch('/booking?bookingId=' + this.state.bookingId, {
+        method: 'POST',
+        credentials: 'same-origin' // required for including auth headers
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          this.setState({
+            isLoading: false,
+            orderData: json
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+    }
   },
-
 
   render: function () {
     return (
@@ -40,3 +52,5 @@ var BookingPage = React.createClass({
     )
   }
 });
+
+export default BookingPage;

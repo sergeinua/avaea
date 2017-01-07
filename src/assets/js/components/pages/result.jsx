@@ -1,34 +1,36 @@
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore, logAction } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
-var ResultPage = React.createClass({
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
+
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
+let swiper;
+
+let ResultPage = React.createClass({
+
   getInitialState: function() {
-    var searchParams;
-    var currentSort = {"name": "price", "order": "asc"};
-
-    if (localStorage.getItem('searchParams')) {
-      //use data from local storage if exists
-      searchParams = JSON.parse(localStorage.getItem('searchParams'));
-    } else {
-      //use data from server with default/session params if local storage is empty
-      searchParams = this.props.InitSearchFormData.searchParams;
-    }
-
-    if (searchParams.topSearchOnly == 1) {
-      currentSort = {"name": "smart", "order": "asc"};
-    }
     return {
       isLoading: true,
-      searchParams: searchParams,
       searchResultLength: 0,
+      searchResultIds: [],
       filter: [],
-      currentSort: currentSort
     };
   },
 
   componentDidMount: function () {
-    var searchParams = this.state.searchParams;
-    ActionsStore.updateNavBarSearchParams(searchParams);
+
     var updateState = (json) => {
       if (this.isMounted()) {
         this.setState({
@@ -36,11 +38,17 @@ var ResultPage = React.createClass({
           tiles: json.tiles,
           searchResultLength: json.searchResult.length,
           searchResult: json.searchResult,
-          errorInfo: json.errorInfo
+          searchResultIds: getIdsArrayFromAnything(json.searchResult),
+          errorInfo: json.errorInfo,
+          max_filter_items: json.max_filter_items
         }, function () {
 
-          //FIXME refactor code to use non jquery based swiper functionality
+          //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
+
+          // FIXME - hides logo for devices only when navbar shows "flight-info" div
+          // so logo does not push the search query down
+          $("body").addClass('suppress-logo');
 
           // correctly initialize the swiper for desktop vs. touch
 
@@ -59,79 +67,92 @@ var ResultPage = React.createClass({
             });
           }
 
+          // Init slim scroll
+          var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
+          if (max_filter_items > maxBucketVisibleFilters || !max_filter_items) {
+            max_filter_items = maxBucketVisibleFilters;
+          }
+          $('.list-group').slimScroll({
+            height: parseInt(max_filter_items * bucketFilterItemHeigh)+2 +'px',
+            touchScrollStep: 30
+          });
+
         });
       }
     };
+
     if (this.state.isLoading) {
       var savedResult = JSON.parse(sessionStorage.getItem('savedResult') || '{}');
 
       var now = moment.utc();
       var duration = moment.duration(now.diff(moment(savedResult.time)));
 
-      if (
-        duration.asMinutes() < 20
-        && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
-        && savedResult.searchResult
-        && savedResult.searchResult.length
-      ) { //use cached result if params didn't change in 20 minutes
-        console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
-        updateState(savedResult);
-      } else {
-        $("#searchBanner").modal({
-          backdrop: 'static',
-          keyboard: false
-        });
-        console.log('server request used');
-
-        fetch('/result?s=' + btoa(JSON.stringify(searchParams)), {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(searchParams),
-          credentials: 'same-origin' // required for including auth headers
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            if (json.errorInfo) {
-              console.log(json.errorInfo);
-              updateState({
-                isLoading: false,
-                tiles: [],
-                searchResult: [],
-                errorInfo: json.errorInfo
-              });
-            } else {
-              sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
-              json.time = moment();
-              sessionStorage.setItem('savedResult', JSON.stringify(json));
-              sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
-              updateState(json);
-            }
-          })
-          .catch((error) => {
-            updateState({
-              isLoading: false,
-              tiles: [],
-              searchResult: [],
-              errorInfo: {
-                type:'Error.Search.NoConnection',
-                messages: [
-                  "Your request cannot be processed",
-                  "at the moment due to technical problems.",
-                  "Please try again later"
-                ]
-              }
-            });
-            console.log(error);
-          });
+      let searchParams = this.props.commonData.searchParams;
+      let currentSort = {"name": "price", "order": "asc"};
+      if (searchParams.topSearchOnly == 1) {
+        currentSort = {"name": "smart", "order": "asc"};
       }
-    }
+
+      Promise.resolve(this.props.actionSetCommonVal('currentSort', currentSort))
+        .then(function () {
+          if (
+            duration.asMinutes() < 20
+            && btoa(JSON.stringify(searchParams)) == sessionStorage.getItem('searchId')
+            && savedResult.searchResult
+            && savedResult.searchResult.length
+          ) { //use cached result if params didn't change in 20 minutes
+            console.log('sessionStorage used for next', Math.round(20 - duration.asMinutes()), 'minutes');
+            updateState(savedResult);
+          } else {
+            $("#searchBanner").modal({
+              backdrop: 'static',
+              keyboard: false
+            });
+            console.log('server request used');
+
+            ClientApi.reqPost('/result?s=' + btoa(JSON.stringify(searchParams)), searchParams, true)
+              .then((json) => {
+                if (json.errorInfo) {
+                  console.log(json.errorInfo);
+                  updateState({
+                    isLoading: false,
+                    tiles: [],
+                    searchResult: [],
+                    errorInfo: json.errorInfo
+                  });
+                } else {
+                  sessionStorage.setItem('iconSpriteMap', JSON.stringify(json.iconSpriteMap));
+                  clientStore.dispatch(actionSetCommonVal('iconSpriteMap', json.iconSpriteMap));
+                  json.time = moment();
+                  sessionStorage.setItem('savedResult', JSON.stringify(json));
+                  sessionStorage.setItem('searchId', btoa(JSON.stringify(searchParams)));
+                  updateState(json);
+                }
+              })
+              .catch((error) => {
+                updateState({
+                  isLoading: false,
+                  tiles: [],
+                  searchResult: [],
+                  errorInfo: {
+                    type:'Error.Search.NoConnection',
+                    messages: [
+                      "Your request cannot be processed",
+                      "at the moment due to technical problems.",
+                      "Please try again later"
+                    ]
+                  }
+                });
+                console.error(error);
+              });
+          }
+        });
+      }
   },
 
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('result');
+    analytics.page(this.props.location.pathname);
+    ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
 
@@ -203,6 +224,14 @@ var ResultPage = React.createClass({
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
     };
+
+    ActionsStore.getSearchResultItineraryIds = () => {
+      if (this.state.searchResult && this.state.searchResult.length > 0) {
+        return getIdsArrayFromAnything(this.state.searchResult);
+      } else {
+        return [];
+      }
+    };
   },
 
   sortItineraries: function (option, direction) {
@@ -248,8 +277,8 @@ var ResultPage = React.createClass({
       return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 
-    this.setState({searchResult: itineraries});
-    this.setState({currentSort: {"name": option, "order": direction}});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
+    this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
   clearTiles: function () {
@@ -341,8 +370,9 @@ var ResultPage = React.createClass({
         filter.count = count;
       });
     });
-    this.setState({tiles: tiles});
-    scrollAirlines();
+    this.setState({tiles: tiles}, function () {
+      scrollAirlines();
+    });
   },
 
   resetResultVisibility: function() {
@@ -377,7 +407,7 @@ var ResultPage = React.createClass({
         });
       }
     });
-    this.setState({searchResult: itineraries});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
 
     // recalculate visible itineraries
     var count = 0;
@@ -395,7 +425,13 @@ var ResultPage = React.createClass({
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>
-                 <Buckets tiles={this.state.tiles} filter={this.state.filter} searchResultLength={this.state.searchResultLength} currentSort={this.state.currentSort}/>
+                 <Buckets
+                   tiles={this.state.tiles}
+                   filter={this.state.filter}
+                   searchResultLength={this.state.searchResultLength}
+                   currentSort={this.props.commonData.currentSort}
+                   max_filter_items={this.state.max_filter_items}
+                 />
                  <ResultList InitResultData={this.state} />
                </span>)
             : <DisplayAlert errorInfo={this.state.errorInfo} />
@@ -405,3 +441,29 @@ var ResultPage = React.createClass({
     )
   }
 });
+
+function getIdsArrayFromAnything(anything = []) {
+  if (anything.length) {
+    return anything.map(({id}) => id);
+  } else {
+    return [];
+  }
+}
+
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const mapDispatchCommon = (dispatch) => {
+  return {
+    actionSetCommonVal: (fieldName, fieldValue) => {
+      return dispatch(actionSetCommonVal(fieldName, fieldValue));
+    }
+  }
+};
+
+const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

@@ -32,7 +32,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': 'AuthController.login',
+  // '/': 'AuthController.login',
   'get /*': { controller: 'Site', action: 'index', skipAssets: true, skipRegex: /^\/(auth|login|logout|register).*$/ },
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',
@@ -57,9 +57,10 @@ module.exports.routes = {
 
   'post /ac/airports': 'AcController.airports',
 
-  'post /voicesearch': 'VoicesearchController.index',
+  // 'post /voicesearch': 'VoicesearchController.index',
 
-  'post /site/about/info': 'SiteController.about_info', // For simple site pages
+  'post /voice/parse': 'VoiceController.parse',
+  'post /voice/parse_api_ai': 'VoiceController.parseApiAi',
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',

@@ -48,6 +48,7 @@ module.exports = {
   },
 
   flightapis: {
+    searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
       baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
       clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
@@ -71,5 +72,14 @@ module.exports = {
   },
 
   hookTimeout: 120000,
-  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR'
+  segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
+
+  recaptcha: {
+    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
+    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
+  },
+
+  cron: {
+    readEticket: {schedule: '*/20 * * * * *'}
+  }
 };

@@ -1,25 +1,12 @@
+import 'whatwg-fetch';
+import 'promise-polyfill';
 
-var ClientApi = {
+let ClientApi = {
 
-  reqGet: function (reqUrl) {
-    return fetch(reqUrl, {
-      credentials: 'same-origin' // required for including auth headers
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((json) => {
-        return json;
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  },
-
-  reqPost: function (reqUrl, reqData) {
+  reqPost: function (reqUrl, reqData, isDispatchError) {
     return fetch(reqUrl, {
       method: 'POST',
-      body: JSON.stringify(reqData),
+      body: reqData ? JSON.stringify(reqData) : null,
       credentials: 'same-origin' // required for including auth headers
     })
       .then((response) => {
@@ -29,7 +16,11 @@ var ClientApi = {
         return json;
       })
       .catch(function (error) {
-        console.error(error);
+        if (isDispatchError) {
+          return Promise.reject(error);
+        } else {
+          console.error(error);
+        }
       });
   }
 

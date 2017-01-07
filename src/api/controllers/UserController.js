@@ -12,10 +12,6 @@ var qpromice = require('q');
 var makeProfileData = function (req, dataRec) {
   var qdefer = qpromice.defer();
   var profile_fields = {};
-  var user_out = {
-    id: req.user.id,
-    email: req.user.email,
-  };
 
   if (dataRec) {
     // Assign fields for the view
@@ -39,12 +35,11 @@ var makeProfileData = function (req, dataRec) {
   }
 
   qdefer.resolve({
-    user: user_out,
     profileFields: profile_fields,
     profileStructure: {
       'personal_info.gender': Profile.attr_gender
     },
-    programsStructure: {
+    preferredAirlinesStructure: {
       travel_type: Profile.attr_travel_type
     }
   });
@@ -60,25 +55,28 @@ module.exports = {
   profile: function (req, res) {
     //FIXME this is temporary fix. Must be removed after abo sockets auth refactoring (src/config/policies.js:33)
     if (!req.session.authenticated || !req.user) {
-      return res.redirect('/login');
-    }
-    //end of temp fix
-
-    var user_out = {
-      id: req.user.id,
-      email: req.user.email,
-    };
-
-    Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
-      if (err) {
-        sails.log.error(err);
-        return res.ok({user: user_out, error: true});
-      }
-
-      makeProfileData(req, found).then(function (resData) {
+      makeProfileData(req, {}).then(function (resData) {
         return res.ok(resData);
       });
-    });
+    } else {
+      //end of temp fix
+
+      var user_out = {
+        id: req.user.id,
+        email: req.user.email,
+      };
+
+      Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
+        if (err) {
+          sails.log.error(err);
+          return res.ok({user: user_out, error: true});
+        }
+
+        makeProfileData(req, found).then(function (resData) {
+          return res.ok(resData);
+        });
+      });
+    }
   },
 
   /**

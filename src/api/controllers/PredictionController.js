@@ -9,17 +9,20 @@
 
 module.exports = {
   order_tiles: function (req, res) {
+    let userId = utils.getUser(req);
+
     //( array_of_tiles )
-    UserAction.saveAction(req.user, 'order_tiles', req.allParams(), function () {
-      User.publishCreate(req.user);
+    UserAction.saveAction(userId, 'order_tiles', req.allParams(), function () {
+      User.publishCreate(userId);
     });
     return res.json(req.allParams());
   },
 
   order_itineraries: function (req, res) {
+    let userId = utils.getUser(req);
     //( array_of_itineraries )
-    UserAction.saveAction(req.user, 'search', req.allParams(), function () {
-      User.publishCreate(req.user);
+    UserAction.saveAction(userId, 'search', req.allParams(), function () {
+      User.publishCreate(userId);
     });
     return res.json(req.allParams());
   },
@@ -27,7 +30,7 @@ module.exports = {
   on_tile_choice: function (req, res) {
     var uuid = 'default';
     var search_params = {};
-    if (!_.isEmpty(req.session.search_params_hash)) {
+    if (_.isString(req.session.search_params_hash)) {
       uuid = req.session.search_params_hash;
       search_params = req.session.search_params_raw;
     }
@@ -40,18 +43,19 @@ module.exports = {
         recalculateTiles = true;
       }
     }
+    let userId = utils.getUser(req);
     //( tile )
     if (recalculateTiles) {
       tilePrediction.recalculate(
-        req.user.id,
+        userId,
         uuid,
         search_params,
         req.param('tileName', 'default'),
         req.param('sample')
       );
     }
-    UserAction.saveAction(req.user, 'on_tile_choice', req.allParams(), function () {
-      User.publishCreate(req.user);
+    UserAction.saveAction(userId, 'on_tile_choice', req.allParams(), function () {
+      User.publishCreate(userId);
     });
     return res.json(req.allParams());
   },
@@ -71,8 +75,9 @@ module.exports = {
             itinerary : JSON.parse(result)
           };
 
-          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(req.user);
+          let userId = utils.getUser(req);
+          UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(userId);
           });
         } else {
           sails.log.error('Something wrong. Can not find itinerary');

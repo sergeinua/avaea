@@ -1,6 +1,6 @@
 import React from 'react';
 
-var Loader = React.createClass({
+let Loader = React.createClass({
 
   render: function () {
     return <div className="spinner-holder">

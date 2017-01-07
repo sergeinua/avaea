@@ -1,51 +1,32 @@
-var AboutPage = React.createClass({
+import React from 'react';
+import StaticAbout from '../about/About.jsx';
+import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
+
+let AboutPage = React.createClass({
 
   getInitialState: function () {
     return {
-      isLoading: true,
-      aboutData: {
-        cur_year: new Date().getFullYear(),
-        software_version: '',
-        contact_email: ''
-      },
+      isLoading: false
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
-  },
-
   componentWillMount: function () {
-    fetch('/site/about/info', {
-      method: 'POST',
-      credentials: 'same-origin' // required for including auth headers
-    })
-    .then((response) => response.json())
-    .then((json) => {
-      this.setState({
-        isLoading: false,
-        aboutData: {
-          cur_year: this.state.aboutData.cur_year,
-          software_version: json.site_info.software_version,
-          contact_email: json.site_info.contact_email
-        }
-      });
-    })
-    .catch((error) => {
-      console.log(error);
-    })
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
     return (
-      <div className="about">
+      <div>
         {
           this.state.isLoading === true ?
             <Loader/>
-            : <StaticAbout AboutData={this.state.aboutData} user={this.getUser()||{}}/>
+            :
+            <StaticAbout user={getUser()||{}}/>
         }
       </div>
     )
   }
 });
+
+export default AboutPage;

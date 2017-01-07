@@ -40,6 +40,13 @@ var generateGridSearch = function (nameFilter, data) {
 };
 
 var getRowGridSearch = function (row) {
+  var serviceClass = {
+    E:'Economy',
+    P:'Premium',
+    B:'Business',
+    F:'First'
+  };
+
   return {
     email: (row.user && row.user.email) ? row.user.email : '--na--',
     createdAt: new Date(row.createdAt).toLocaleString(),
@@ -51,11 +58,13 @@ var getRowGridSearch = function (row) {
     departureDate: moment(row.logInfo.searchParams.departureDate, 'DD/MM/YYYY').format('MMM DD, YY') || '-- na --',
     returnDate: row.logInfo.searchParams.returnDate ? moment(row.logInfo.searchParams.returnDate, 'DD/MM/YYYY').format('MMM DD, YY') : '',
     passengers: row.logInfo.searchParams.passengers || 0,
+    CabinClass: serviceClass[row.logInfo.searchParams.CabinClass] || '-- na --',
+    topSearchOnly: (row.logInfo.searchParams.topSearchOnly ? 'Top Flights' : 'All Flights'),
     serviceProvider: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.name + '<br/>';
       }) : '--na--',
-    result: (row.logInfo.error && row.logInfo.error != 'No Results Found') ? 'failed' : 'success',
+    result: (row.logInfo.error && row.logInfo.error.toLowerCase() != 'no results found') ? 'failed' : 'success',
     serviceCount: (row.logInfo.searchInfoByProviders && row.logInfo.searchInfoByProviders.length) ?
       row.logInfo.searchInfoByProviders.map(function (it) {
         return it.count + '<br/>';
@@ -111,6 +120,8 @@ var generateGridUsersStat = function () {
       {name: 'departureDate', title: 'Departing', type: 'date', width: 100, align: "center"},
       {name: 'returnDate', title: 'Returning', type: 'date', width: 100, align: "center"},
       {name: 'passengers', title: 'Passengers', type: 'number', width: 100, align: "center"},
+      {name: 'CabinClass', title: 'Class', type: 'string', width: 100, align: "center"},
+      {name: 'topSearchOnly', title: 'Action', type: 'string', width: 100, align: "center"},
       {name: 'serviceProvider', title: 'Provider', type: 'text', width: 100, align: "center"},
       {name: 'result', title: 'Result', type: 'text', width: 100, align: "center"},
       {name: 'serviceTimeWork', title: 'Latency', type: 'date', width: 100, align: "center"},

@@ -1,4 +1,7 @@
-var Sorter = React.createClass({
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
+
+let Sorter = React.createClass({
   getInitialState: function() {
 
     var sortOptions = {
@@ -80,23 +83,27 @@ var Sorter = React.createClass({
     var sortItineraries = this.sortItineraries;
     var current = this.props.current;
     return (
-      <div className="sort-button">
-        <button className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <span>{getOption(current.name).title}</span>
-          <span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span>
-        </button>
-        <ul className="dropdown-menu">
-          {Object.keys(this.state.sortOptions).map(function(key) {
-            if (getOption(key)) {
-              return <li key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
-                <span>{ getOption(key).title }</span>
-                {key == current.name?<span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span> : null }
-              </li>
-            }
-            return null;
-          })}
-        </ul>
+    	<div className="sort-wrapper">	
+	      <div className="sort-button">
+	        <button id="sort-select-button" className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          <span>{getOption(current.name).title}</span>
+	          <span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span>
+	        </button>
+	        <ul className="dropdown-menu">
+	          {Object.keys(this.state.sortOptions).map(function(key) {
+	            if (getOption(key)) {
+	              return <li id={"sort-select-elem-" + key} key={key} className={key == current.name ? "selected" : ""} onClick={sortItineraries(key, getOption(key).order)}>
+	                <span>{ getOption(key).title }</span>
+	                {key == current.name?<span className={current.order == 'asc'? "arr-asc" : "arr-desc" }> </span> : null }
+	              </li>
+	            }
+	            return null;
+	          })}
+	        </ul>
+	      </div>
       </div>
     )
   }
 });
+
+export default Sorter;

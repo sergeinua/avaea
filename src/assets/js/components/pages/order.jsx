@@ -1,14 +1,24 @@
-var OrderPage = React.createClass({
+import React from 'react';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import OrderPanelContainer from '../buy/OrderPanel.jsx';
+
+let OrderPage = React.createClass({
   componentWillMount: function () {
-    ActionsStore.updateNavBarPage('order');
+    if (!getUser()) {
+      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
+      window.location = '/login';
+    } else {
+      analytics.page(this.props.location.pathname);
+      ActionsStore.changeForm('order', false);
+    }
   },
 
   render: function () {
     var specialOrder = this.props.params['specialOrder'] !== 'false';
     return (
-      <ReactRedux.Provider store={clientStore}>
-        <OrderPanelContainer itineraryId={this.props.params['itineraryId']} specialOrder={specialOrder} />
-      </ReactRedux.Provider>
+      <OrderPanelContainer itineraryId={this.props.params['itineraryId']} specialOrder={specialOrder} />
     )
   }
 });
+
+export default OrderPage;
