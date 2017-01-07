@@ -177,7 +177,7 @@ let SimpleSearchForm = React.createClass({
       <form>
 	      <div className="centerer">
 	        <div className="wrapper">
-	          <div className="ti">Where I want to go</div>
+	          <div className="ti">Travel Locations</div>
 	          <div className="loc-holder">
 	          		<div className="positioner">
 			            <Autosuggest
@@ -212,7 +212,7 @@ let SimpleSearchForm = React.createClass({
 		            </div>
 	          </div>{/* ends loc-holder */}
 	          
-	          <div className="ti">When</div>
+	          <div className="ti">Travel Dates</div>
 	          <div className="date-holder">
 	            <input type="text" readOnly value={this.getDatesValue()} onFocus={this.showCalendar}/>
 	            <div id="simple-search-form-cal-id" className={this.state.showCalendar ? "simple-cal":"hidden"}>

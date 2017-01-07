@@ -234,15 +234,10 @@
 	padding: 15px;
 	position: absolute;
     top: 0;
-    right: 10px;
+    right: 8px;
 }
 
 
-@media (max-width: 730px) {
-	
-	
-	
-}
 
 @media (max-width: 600px) {
 	
