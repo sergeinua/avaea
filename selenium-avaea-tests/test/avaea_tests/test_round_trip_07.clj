@@ -13,9 +13,9 @@
 
       Steps:
 
-      1. Choose in "From" and "To" different airports (for example NYC and SFO)
+      1. Choose in 'From' and 'To' different airports (for example NYC and SFO)
       2. Tap the Calendar and choose the same date for depart and return
-      3. Tap the "All flights" or "Top flights"
+      3. Tap the 'All flights' or 'Top flights'
 
       Expected:
 
@@ -40,7 +40,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date-range)
+       (select-random-date-range)
        (click ($ (:calendar-done-button page))))
 
  (quit))

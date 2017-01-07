@@ -41,8 +41,8 @@
     (-> date-button click)
     date-string))
 
-(defn random-select-date
-  ([] (random-select-date "01/01/1970"))
+(defn select-random-date
+  ([] (select-random-date "01/01/1970"))
   ([after & config]
    (let [remove-first (if ((set config) :not-first) rest identity)
          remove-last (if ((set config) :not-last) drop-last identity)
@@ -51,9 +51,9 @@
      (-> date-button click)
      date-time)))
 
-(defn random-select-date-range []
-  (let [date-from (random-select-date "01/01/1970" :not-last)
-        date-to (random-select-date date-from)]
+(defn select-random-date-range []
+  (let [date-from (select-random-date "01/01/1970" :not-last)
+        date-to (select-random-date date-from)]
     [date-from date-to]))
 
 (defn format-as-slashes [t]

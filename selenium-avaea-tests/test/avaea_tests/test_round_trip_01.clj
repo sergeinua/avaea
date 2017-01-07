@@ -54,7 +54,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date-range)
+       (select-random-date-range)
        (click ($ (:calendar-done-button page))))
 
  (test-class-buttons)

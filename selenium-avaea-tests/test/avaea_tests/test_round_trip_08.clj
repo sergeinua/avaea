@@ -13,9 +13,9 @@
 
       Steps:
 
-      1. Choose in "From" and "To" different airports (for example NYC and KBP)
+      1. Choose in 'From' and 'To' different airports (for example NYC and KBP)
       2. Tap the Calendar and choose day with no tickets (for example too late for book tickets for this time)
-      3. Tap the "All flights" or "Top flights"
+      3. Tap the 'All flights' or 'Top flights'
 
       Expected:
 

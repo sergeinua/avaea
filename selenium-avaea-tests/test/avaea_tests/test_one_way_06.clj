@@ -15,8 +15,8 @@
 
       1. Tap the mic on Search page
       2. Start saying some phrases from Parsers for One way search (for example: I'm in Paris need to fly to Madrid tomorrow)
-      3. Tap the "Continue"
-      4. Tap the "All flights" or "Top flights"
+      3. Tap the 'Continue'
+      4. Tap the 'All flights' or 'Top flights'
       5. Check with different parsers including when search should starts automatically
 
       Expected:

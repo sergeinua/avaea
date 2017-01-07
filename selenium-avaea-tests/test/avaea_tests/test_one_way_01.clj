@@ -57,7 +57,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date)
+       (select-random-date)
        (click ($ (:calendar-done-button page))))
 
  (fact "One way button is active"

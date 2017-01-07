@@ -13,10 +13,10 @@
 
       Steps:
 
-      Precondition: User is logged in and he is on "One Way" tab.
-      1. Choose in "From" and "To" the same airport
+      Precondition: User is logged in and he is on 'One Way' tab.
+      1. Choose in 'From' and 'To' the same airport
       2. Choose the date for flight
-      3. Tap the "All flights" or "Top flights"
+      3. Tap the 'All flights' or 'Top flights'
 
       Expected:
 
@@ -41,7 +41,7 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (random-select-date)
+       (select-random-date)
        (click ($ (:calendar-done-button page))))
 
  (fact "Chosen date is displayed"
