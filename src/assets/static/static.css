@@ -399,6 +399,7 @@ video {
 
 .try-it .loc-holder input {
 	width: 188px;
+	background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
 	border: 0px solid transparent;
 }
 
@@ -1244,7 +1245,6 @@ footer.static .bottom {
 	
 	.try-it .loc-holder input {
 		width: 100%;
-		background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
 	}
 	
 	.try-it form,
