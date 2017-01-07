@@ -184,7 +184,7 @@ module.exports = {
   },
 
   getNearestAirport: function (req, res) {
-    let ip = req.ip;
+    let ip = req.header('x-forwarded-for') || req.connection.remoteAddress || req.ip;
     let geo = require('geoip-lite').lookup(ip);
     let send = {airport:''};
 
