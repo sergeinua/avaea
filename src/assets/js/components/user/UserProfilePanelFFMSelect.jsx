@@ -11,14 +11,17 @@ let UserProfilePanelFFMSelect = React.createClass({
     return {
       programName: '',
       programData: [],
-      statusName: ''
+      statusName: '',
+      tierData: [],
+      tierName: ''
     }
   },
 
   componentWillMount: function () {
     this.setState({
       programName: this.props.elem_value || '',
-      statusName: this.props.elem_value_status || ''
+      statusName: this.props.elem_value_status || '',
+      tierName: this.props.elem_value_tier || ''
     })
   },
 
@@ -27,7 +30,8 @@ let UserProfilePanelFFMSelect = React.createClass({
       clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'program_name', incObj.value))
       this.setState({
         programName: incObj.value,
-        programData: this.getStatusOptions(incObj.program)
+        programData: this.getStatusOptions(incObj.program),
+        tierData: this.getTierOptions(incObj.tier)
       })
     }
   },
@@ -37,6 +41,15 @@ let UserProfilePanelFFMSelect = React.createClass({
       clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'status', incObj.value))
       this.setState({
         statusName: incObj.value
+      })
+    }
+  },
+
+  handleChangeTierValue: function (incObj) {
+    if (incObj) {
+      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'tier', incObj.value))
+      this.setState({
+        tierName: incObj.value
       })
     }
   },
@@ -56,7 +69,8 @@ let UserProfilePanelFFMSelect = React.createClass({
       .then((json) => {
         if (this.state.programName && this.state.programName == json[0].value) {
           this.setState({
-            programData: this.getStatusOptions(json[0].program)
+            programData: this.getStatusOptions(json[0].program),
+            tierData: this.getTierOptions(json[0].tier)
           })
         }
         return {options: json}
@@ -67,11 +81,26 @@ let UserProfilePanelFFMSelect = React.createClass({
   },
 
   getStatusOptions: function(data) {
-    if (!data.length) return []
+    if (!data.length) {
+      return []
+    }
     let res = data.map(function (item, key) {
       return {
         value: item['at'],
         label: item['atn']
+      }
+    })
+    return res
+  },
+
+  getTierOptions: function(data) {
+    if (!data.length) {
+      return []
+    }
+    let res = data.map(function (item, key) {
+      return {
+        value: item['ta'],
+        label: item['tn']
       }
     })
     return res
@@ -103,6 +132,19 @@ let UserProfilePanelFFMSelect = React.createClass({
         clearable={false}
         cache={false}
         onChange={this.handleChangeStatusValue}
+      />
+
+      <label>Tier</label>
+      <Select
+        name={"miles_programs.tier[" + this.props.elemNum + "]"}
+        id={"miles_programs.tier-" + this.props.elemNum}
+        value={this.state.tierName}
+        className="form-control input-sm"
+        placeholder="Tier"
+        options={this.state.tierData}
+        clearable={false}
+        cache={false}
+        onChange={this.handleChangeTierValue}
       />
     </div>
   }
