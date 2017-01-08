@@ -18,6 +18,7 @@ import ContactPage from 'components/static/pages/contact.jsx';
 import BlogPage from 'components/static/pages/blog.jsx';
 import TermsPage from 'components/static/pages/terms.jsx';
 import PrivacyPage from 'components/static/pages/privacy.jsx';
+import UnsupportedPage from 'components/static/pages/unsupported.jsx';
 
 import ProfilePage from 'components/pages/profile.jsx';
 import SearchFormPageContainer from 'components/pages/searchform.jsx';
@@ -81,6 +82,7 @@ $(document).ready(function() {
                 <Route path="/contact" component={ContactPage}/>
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>
+                <Route path="/unsupported" component={UnsupportedPage}/>
               </Route>
               <Route path="/" component={AppContainer}>
                 <IndexRoute component={SearchFormPageContainer} />
