@@ -31,7 +31,7 @@ let StaticFooter = React.createClass({
 	      		
 	      		<div className="right">
 	      			<a className="social fb" href="http://www.facebook.com/onvoya" target="_blank"></a>
-	      			<a className="social twitter" href="http://www.twitter.com/onvoyatravel" target="_blank"></a>
+	      			<a className="social twitter" href="http://www.twitter.com/onvoya" target="_blank"></a>
 	      			<a className="social instagram" href="http://www.instagram.com/onvoya" target="_blank"></a>
 	      		</div>{/* ends right */}
 	      		

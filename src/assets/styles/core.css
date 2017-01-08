@@ -74,6 +74,11 @@ body,
 	z-index: 0;
 }
 
+.desktop i.icon-mic:before,
+body:not(.touch) i.icon-mic:before {
+	content: '';
+}
+
 .desktop .flight-direction-form {
 	padding-left: 0;
 	padding-right: 0;
