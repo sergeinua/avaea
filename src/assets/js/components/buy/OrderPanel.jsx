@@ -9,7 +9,7 @@ import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
 import { browserHistory } from 'react-router';
-import PassengerItem from './PassengerItem.jsx';
+import PassengerItemContainer from './PassengerItem.jsx';
 
 let OrderPanel = React.createClass({
 
@@ -212,7 +212,7 @@ let OrderPanel = React.createClass({
 
       let _passengers = [];
       for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
-        _passengers.push(<PassengerItem passengerData={this.makePassengerData(this.props.orderData)} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
+        _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(this.props.orderData)} index={i} key={'pass'+i}/>);
       }
 
       return (

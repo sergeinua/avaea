@@ -1,4 +1,5 @@
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import OrderPanelElement from './OrderPanelElement.jsx';
 
 let PassengerItem = React.createClass({
@@ -22,4 +23,12 @@ let PassengerItem = React.createClass({
 
 });
 
-export default PassengerItem;
+const mapStateOrder = function(store) {
+  return {
+    orderData: store.orderData
+  };
+};
+
+const PassengerItemContainer = ReactRedux.connect(mapStateOrder)(PassengerItem);
+
+export default PassengerItemContainer;
