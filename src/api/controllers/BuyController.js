@@ -208,31 +208,34 @@ module.exports = {
       // Make and send booking confirmation
       let _itinerary_data = _.cloneDeep(booking_itinerary);
       let tpl_vars = {};
-      qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data}))
-        .then(function (programsResults) {
-          let _programs_res = Object.assign(...programsResults);
-          // E-mail notification
-          tpl_vars = {
-            reqParams: reqParams,
-            order: _itinerary_data,
-            bookingRes: result,
-            replyTo: sails.config.email.replyTo,
-            callTo: sails.config.email.callTo,
-            miles: _programs_res.miles,
-            refundType: _programs_res.refundType,
-            eticketNumber: null, // Is not defined yet
-          };
-          return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
-        })
-        .then(function (msgContent) {
-          return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
-        })
-        .then(function () {
-          sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
-        })
-        .catch(function (error) {
+
+      getMilesPrograms(req).then(function (milesPrograms) {
+        qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
+          .then(function (programsResults) {
+              let _programs_res = Object.assign(...programsResults);
+              // E-mail notification
+              tpl_vars = {
+                reqParams: reqParams,
+                order: _itinerary_data,
+                bookingRes: result,
+                replyTo: sails.config.email.replyTo,
+                callTo: sails.config.email.callTo,
+                miles: _programs_res.miles,
+                refundType: _programs_res.refundType,
+                eticketNumber: null, // Is not defined yet
+              };
+              return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
+          })
+          .then(function (msgContent) {
+            return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+          })
+          .then(function () {
+            sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
+          })
+          .catch(function (error) {
           sails.log.error('in booking sendMail chain:', error);
         });
+      });
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)
@@ -247,6 +250,30 @@ module.exports = {
           });
         });
     };
+
+    /**
+     * Return promise this miles or []
+     * @param req
+     *
+     * @return promise  //Always successfully
+     */
+    var getMilesPrograms = function (req) {
+      let qdefer = qpromice.defer();
+      let emptyMilesProgramsValue = [];
+      if (req.user && req.user.id) {
+        Profile.getUserMilesProgramsByUserId(req.user.id)
+          .then(function (milesProgram) {
+            qdefer.resolve(milesProgram);
+          })
+          .catch(function (error) {
+            qdefer.resolve(emptyMilesProgramsValue);
+          });
+      } else {
+        qdefer.resolve(emptyMilesProgramsValue);
+      }
+      return qdefer.promise;
+    };
+
   },
 
   booking: function (req, res) {

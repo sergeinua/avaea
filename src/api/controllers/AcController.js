@@ -1,3 +1,5 @@
+var qpromice = require('q');
+
 /**
  * AcController
  *
@@ -63,7 +65,8 @@ module.exports = {
           found[i] = {
             value: found[i].program_code,
             label: found[i].program_name,
-            program: found[i].miles_type_configuration
+            program: found[i].miles_type_configuration,
+            tier: found[i].tiers_configuration
           }
         }
         return res.json(found);
@@ -75,29 +78,7 @@ module.exports = {
   },
 
   /**
-   * @param {String} id - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
-   * */
-  ffpcalculate: function (req, res) {
-    var id = req.param('id');
-
-    var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
-    memcache.get(cacheId, function(err, result) {
-      if (!err && !_.isEmpty(result)) {
-        ffmapi.milefy.Calculate(JSON.parse(result), function (error, body) {
-          if (error) {
-            return res.json({error: error, body: body});
-          }
-          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          return res.json(jdata);
-        });
-      } else {
-        return res.json({error: err});
-      }
-    });
-  },
-
-  /**
-   * @param {Array} ids - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
+   * @param {Array} ids - [Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )]
    * */
   ffpcalculateMany: function (req, res) {
     var ids = req.param('ids');
@@ -124,18 +105,44 @@ module.exports = {
               }
             );
           var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
-          ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors}, function (error, body) {
-            if (error) {
-              return res.json({error: error, body: body});
-            }
-            var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-            return res.json({itineraries: jdata});
+          getMilesPrograms(req).then(function (milesPrograms) {
+            ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors, milesPrograms}, function (error, body) {
+              if (error) {
+                return res.json({error: error, body: body});
+              }
+              var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+              return res.json({itineraries: jdata});
+            });
           });
         } else {
           return res.json({error: err});
         }
       });
     }
+
+    /**
+     * Return promise this miles or []
+     * @param req
+     *
+     * @return promise  //Always successfully
+     */
+    var getMilesPrograms = function (req) {
+      let qdefer = qpromice.defer();
+      let emptyMilesProgramsValue = [];
+      if (req.user && req.user.id) {
+        Profile.getUserMilesProgramsByUserId(req.user.id)
+          .then(function (milesProgram) {
+            qdefer.resolve(milesProgram);
+          })
+          .catch(function (error) {
+            qdefer.resolve(emptyMilesProgramsValue);
+          });
+      } else {
+        qdefer.resolve(emptyMilesProgramsValue);
+      }
+      return qdefer.promise;
+    };
+
   },
 
   airlines: function (req, res) {
