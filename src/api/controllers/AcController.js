@@ -103,15 +103,20 @@ module.exports = {
     var ids = req.param('ids');
     if (ids && ids.length) {
       let cacheIds = ids.map((id) => 'itinerary_' + id.replace(/\W+/g, '_'));
-      let cacheIdsRequest = cacheIds.join(' ');
-
-      memcache.get(cacheIdsRequest, function (err, result) {
+      memcache.get(cacheIds, function (err, result) {
         if (!err && !_.isEmpty(result)) {
           var skipedIds = [];
-          var resultParsed = Object.keys(result)
+
+          var resultObject = {};
+          if (cacheIds.length == 1 || typeof result == "string") {
+            resultObject[cacheIds[0]] = result;
+          } else {
+            resultObject = result;
+          }
+          var resultParsed = Object.keys(resultObject)
             .map((itineraryId) => {
                 try {
-                  return JSON.parse(result[itineraryId]);
+                  return JSON.parse(resultObject[itineraryId]);
                 } catch (error) {
                   skipedIds.push(itineraryId);
                   return false;
@@ -184,7 +189,7 @@ module.exports = {
   },
 
   getNearestAirport: function (req, res) {
-    let ip = req.ip;
+    let ip = req.header('x-forwarded-for') || req.connection.remoteAddress || req.ip;
     let geo = require('geoip-lite').lookup(ip);
     let send = {airport:''};
 
