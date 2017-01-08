@@ -1,5 +1,6 @@
 /* global itineraryPrediction */
 /* global UserAction */
+/* global FFMPrograms */
 /* global memcache */
 /* global sails */
 /* global Profile */
@@ -209,7 +210,7 @@ module.exports = {
       let _itinerary_data = _.cloneDeep(booking_itinerary);
       let tpl_vars = {};
 
-      getMilesPrograms(req).then(function (milesPrograms) {
+      FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id).then(function (milesPrograms) {
         qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
           .then(function (programsResults) {
               let _programs_res = Object.assign(...programsResults);
@@ -250,30 +251,6 @@ module.exports = {
           });
         });
     };
-
-    /**
-     * Return promise this miles or []
-     * @param req
-     *
-     * @return promise  //Always successfully
-     */
-    var getMilesPrograms = function (req) {
-      let qdefer = qpromice.defer();
-      let emptyMilesProgramsValue = [];
-      if (req.user && req.user.id) {
-        Profile.getUserMilesProgramsByUserId(req.user.id)
-          .then(function (milesProgram) {
-            qdefer.resolve(milesProgram);
-          })
-          .catch(function (error) {
-            qdefer.resolve(emptyMilesProgramsValue);
-          });
-      } else {
-        qdefer.resolve(emptyMilesProgramsValue);
-      }
-      return qdefer.promise;
-    };
-
   },
 
   booking: function (req, res) {

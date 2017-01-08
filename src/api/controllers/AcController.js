@@ -1,4 +1,4 @@
-var qpromice = require('q');
+/* global FFMPrograms */
 
 /**
  * AcController
@@ -105,7 +105,8 @@ module.exports = {
               }
             );
           var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
-          getMilesPrograms(req).then(function (milesPrograms) {
+          FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id)
+            .then(function (milesPrograms) {
             ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors, milesPrograms}, function (error, body) {
               if (error) {
                 return res.json({error: error, body: body});
@@ -119,30 +120,6 @@ module.exports = {
         }
       });
     }
-
-    /**
-     * Return promise this miles or []
-     * @param req
-     *
-     * @return promise  //Always successfully
-     */
-    var getMilesPrograms = function (req) {
-      let qdefer = qpromice.defer();
-      let emptyMilesProgramsValue = [];
-      if (req.user && req.user.id) {
-        Profile.getUserMilesProgramsByUserId(req.user.id)
-          .then(function (milesProgram) {
-            qdefer.resolve(milesProgram);
-          })
-          .catch(function (error) {
-            qdefer.resolve(emptyMilesProgramsValue);
-          });
-      } else {
-        qdefer.resolve(emptyMilesProgramsValue);
-      }
-      return qdefer.promise;
-    };
-
   },
 
   airlines: function (req, res) {

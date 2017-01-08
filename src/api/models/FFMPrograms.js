@@ -1,3 +1,4 @@
+var qpromice = require('q');
 /**
  * FFMPrograms.js
  *
@@ -24,4 +25,27 @@ module.exports = {
     airlines: { type: 'json' }
   },
   tableName: 'ffm_programs',
+
+  /**
+   * Return promise this miles or []
+   * @param userId || undefined
+   *
+   * @return promise  //Always successfully
+   */
+  getMilesProgramsByUserId: function (userId) {
+    let qdefer = qpromice.defer();
+    let emptyMilesProgramsValue = [];
+    if (userId == undefined) {
+      qdefer.resolve(emptyMilesProgramsValue);
+    } else {
+      Profile.getUserMilesProgramsByUserId(req.user.id)
+        .then(function (milesProgram) {
+          qdefer.resolve(milesProgram);
+        })
+        .catch(function (error) {
+          qdefer.resolve(emptyMilesProgramsValue);
+        });
+    }
+    return qdefer.promise;
+  }
 };
