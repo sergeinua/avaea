@@ -371,6 +371,7 @@ video {
 
 .try-it form {
 	display: inline-block;
+	width: 100%; 
 }
 
 .try-it form .centerer {  
@@ -1422,9 +1423,6 @@ footer.static .bottom {
 	}
 	
 	/* simple form calendar */
-	.try-it .rdr-WeekDay {
-		font-weight: 200 !important;
-	}
 	
 	.try-it .rdr-Calendar {
 		width: 283px !important;

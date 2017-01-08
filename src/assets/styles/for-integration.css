@@ -27,11 +27,6 @@
 
 /* simple static search locations and calendar */
 
-/* deborah integrate this one in static */
-.try-it form {
-	width: 100%; 
-}
-
 
 .try-it .positioner {
 	display: table-cell;
@@ -60,7 +55,9 @@
 	color: #004c9c;
 }
 
-.rdr-Day.is-selected.is-inRange {
+.rdr-Day.is-selected.is-inRange,
+.rdr-Day.is-inRange,
+.rdr-Day.is-inRange:hover {
 	color: #222222 !important;
 }
 
@@ -99,8 +96,13 @@
 	border-bottom: 0px solid transparent;
 }
 
-.rdr-Day.is-passive {
-	color: #bebebe;
+.rdr-Day.is-passive,
+.rdr-Day.is-selected.is-passive,
+.rdr-Day.is-passive:hover,
+.rdr-Day.is-selected.is-passive:hover {
+	cursor: default;
+	color: #d1d1d1 !important;
+	background: transparent !important;
 }
 
 .rdr-Day:hover {
@@ -128,10 +130,6 @@
 	padding: 0 5px;
 }
 
-.rdr-Day.is-passive,
-.rdr-Day.is-passive:hover {
-	background: #fafafa url('/images/ydiag_light.png') !important;
-}
 
 .rdr-WeekDays, 
 .rdr-Days {
@@ -145,6 +143,7 @@
 
 .try-it .rdr-WeekDay {
 	font-family: 'Open-Sans-Semibold';
+	font-weight: 200 !important;
 }
 
 .try-it .rdr-Day {
@@ -190,7 +189,7 @@
 	font-size: 14px;
 	position: absolute;
 	  top: 12px;
-    left: 10px;
+    left: 11px;
 }
 
 .rdr-MonthAndYear-button i {
