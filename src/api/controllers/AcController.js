@@ -183,7 +183,19 @@ module.exports = {
           sails.log.error(err);
         } else {
           if (result && !_.isUndefined(result[0].value)) {
-            send.airport = result[0].value;
+            // check airport passengers traffic
+            if ( result[0].pax > 100 ) {
+              send.airport = result[0].value;
+            } else {
+              //find closest neighbor airport
+              let distance = 9999999;
+              result[0].neighbors.forEach(function (item) {
+                if (item.iata_3code && item.distance < distance) {
+                  distance = item.distance;
+                  send.airport = item.iata_3code;
+                }
+              });
+            }
           } else {
             sails.log.info('No location found for user IP', ip);
           }
