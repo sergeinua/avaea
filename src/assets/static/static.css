@@ -86,6 +86,12 @@ body,
 	color: #323232;
 }
 
+.rdr-Day.is-selected.is-inRange,
+.rdr-Day.is-inRange,
+.rdr-Day.is-inRange:hover {
+	color: #222222 !important;
+}
+
 /* dark blue */
 .static-nav-button,
 .static.home input,
@@ -109,11 +115,26 @@ footer.static {
   background: rgba(6, 40, 85, .9);
 }
 
+.suggest-container, .suggest-item {
+	color: #004c9c;
+}
+
 /* bright blue */
 header.static li.active a,
 header.static li.active a:active,
 header.static li.active a:visited {
 	color: #00a9e7;
+}
+
+.rdr-MonthAndYear-button i:after {
+	color: #0081c9;
+}
+
+.rdr-Day.is-selected,
+.rdr-Day.is-selected.is-inRange,
+.rdr-Day.is-selected:hover,
+.rdr-Day.is-selected.is-inRange:hover {
+	background: #0081c9 !important;
 }
 
 /* light blue bg */
@@ -125,6 +146,12 @@ header.static li.active a:visited {
 
 .about .person .image {
 	background: #eff0f4;
+}
+
+.rdr-Day.is-inRange,
+.rdr-Day.is-inRange:hover,
+.rdr-MonthAndYear-button {
+	background: #deeef7 !important;
 }
 
 
@@ -198,6 +225,39 @@ header,
 .static.contact .form-label {
 	color: #919191;
 }
+
+.rdr-Day.is-passive,
+.rdr-Day.is-selected.is-passive,
+.rdr-Day.is-passive:hover,
+.rdr-Day.is-selected.is-passive:hover {
+	cursor: default;
+	color: #d1d1d1 !important;
+	background: transparent !important;
+}
+
+.rdr-Day:hover {
+	background: #eeeeee !important;
+}
+
+.react-autosuggest__suggestion--focused {
+  background-color: #f7f7f7;
+}
+
+.simple-cal,
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion:last-child {
+	border-bottom: 0px solid transparent;
+}
+
+
+
 
 
 /* ------- everywhere parts ------- */
@@ -371,6 +431,7 @@ video {
 
 .try-it form {
 	display: inline-block;
+	width: 100%; 
 }
 
 .try-it form .centerer {  
@@ -579,6 +640,192 @@ video {
 	background: url(../images/static/world.svg) center bottom no-repeat;
 	background-size: 104%
 }
+
+
+
+/*locations and calendar React elements */
+
+
+.try-it .positioner {
+	display: table-cell;
+	position: relative;
+}
+
+.react-autosuggest__container {
+	display: table-cell;
+}
+
+.home .try-it .date-holder,
+.home .try-it .loc-holder {
+	position: relative;
+}
+
+.home .try-it .date-holder {
+	max-width: 430px;
+}
+
+
+
+/* locations */
+
+.react-autosuggest__suggestions-list {
+  list-style-type: none;
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	font-size: 16px;
+  display: block;
+	width: 285px;
+  position: absolute;
+  	top: 42px;
+	background-color: #fff;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+
+/* calendar */
+
+/* overwrite plugin */
+
+#rdr-DateRange {
+	border-radius: 0px !important;
+}
+
+.rdr-MonthAndYear-divider {
+	display: none;
+}
+
+.rdr-MonthAndYear-month:after {
+	content: '';
+	display: inline;
+	padding: 0 5px;
+}
+
+
+.rdr-WeekDays, 
+.rdr-Days {
+	font-family: 'Open-Sans';
+}
+
+.try-it .rdr-Day,
+.try-it .rdr-WeekDay {
+	font-size: 13px !important;
+}
+
+.try-it .rdr-WeekDay {
+	font-family: 'Open-Sans-Semibold';
+	font-weight: 200 !important;
+}
+
+.try-it .rdr-Day {
+	font-size: 13px !important;
+	line-height: 42px !important;
+	height: 42px !important;
+	width: 37.5px !important; 
+	transition: none !important;
+}
+
+.rdr-Day.is-passive {
+	opacity: 1 !important;
+}
+
+.rdr-Day.is-selected,
+.rdr-Day.is-selected.is-inRange {
+	color: #ffffff !important;
+}
+
+.rdr-DateRange,
+.rdr-MonthAndYear,
+.rdr-MonthAndYear-innerWrapper {
+	position: relative;
+}
+
+.rdr-MonthAndYear-button {
+	height: 35px !important;
+	width: 35px !important;
+	position: absolute;
+		top: 0px; 
+}
+
+.rdr-MonthAndYear-button.prev {
+	left: -10px;
+}
+
+.rdr-MonthAndYear-button.next {
+	right: -10px;
+}
+
+.rdr-MonthAndYear-button i:after {
+	font-family: 'icomoon';
+	font-size: 14px;
+	position: absolute;
+	  top: 12px;
+    left: 11px;
+}
+
+.rdr-MonthAndYear-button i {
+	border-width: 0px !important;
+	border-color: transparent !important;
+	border-style: none !important;
+}
+
+.rdr-MonthAndYear-button.prev i:after {
+	content: "\e925";
+}
+
+.rdr-MonthAndYear-button.next i:after {
+	content: "\e926";
+}
+
+
+/* new styles */
+
+.simple-cal {
+	padding: 40px 0 10px 0;
+  display: inline-block;
+	width: 570px;
+  position: absolute;
+		top: 41px;
+		left: 0;
+	background: #ffffff;	
+  z-index: 2;
+	transition: all 0.1s ease-in-out;
+}
+
+.try-it .simple-cal span {
+	padding: 0 0 0 0;
+}
+
+.simple-cal span.close-x {
+	color: #323232;
+	font-size: 22px;
+	padding: 15px;
+	position: absolute;
+    top: 0;
+    right: 8px;
+}
+
+
 
 /* about */
 
@@ -1165,6 +1412,23 @@ footer.static .bottom {
 	
 }
 
+@media (max-width: 600px) {
+	
+	.simple-cal {
+		width: 285px;
+			left: 0px;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+	
+	.rdr-Calendar:first-child {
+		margin-bottom: 15px;
+	}
+	
+}
+
 
 /* iPhone 5 */
 @media (max-width: 359px) {
@@ -1422,9 +1686,6 @@ footer.static .bottom {
 	}
 	
 	/* simple form calendar */
-	.try-it .rdr-WeekDay {
-		font-weight: 200 !important;
-	}
 	
 	.try-it .rdr-Calendar {
 		width: 283px !important;
