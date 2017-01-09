@@ -49,7 +49,7 @@ module.exports = {
       {
         user         : req.user || '',
         serviceClass : Search.serviceClass,
-        head_title   : 'Search for flights with Onvoya Agent',
+        head_title   : 'Search for flights with OnVoya Agent',
         page         : page,
         defaultSearch: params
       },
