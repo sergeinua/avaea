@@ -39,7 +39,7 @@ let StaticFooter = React.createClass({
       	</div>{/* ends top */}
       	
       	<div className="bottom">
-        	<span className="copyright">{(' ' + d.getFullYear() + ' Onvoya.com')}</span>
+        	<span className="copyright">{(' ' + d.getFullYear() + ' OnVoya.com')}</span>
         </div>	
       </footer>
     )
