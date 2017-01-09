@@ -69,7 +69,7 @@ let UserProfile = React.createClass({
 
     this.profileData.programsStructure = Object.assign({},
     {
-      miles_programs: {program_name: '', account_number: '', status: ''},
+      miles_programs: {program_name: '', account_number: '', status: '', tier: ''},
       // lounge_membership: {airline_name: '', membership_number: '', expiration_date: ''}
     });
 

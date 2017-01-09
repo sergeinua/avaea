@@ -74,6 +74,11 @@ body,
 	z-index: 0;
 }
 
+.desktop i.icon-mic:before,
+body:not(.touch) i.icon-mic:before {
+	content: '';
+}
+
 .desktop .flight-direction-form {
 	padding-left: 0;
 	padding-right: 0;
@@ -547,6 +552,7 @@ a:visited,
 a:hover,
 a:focus {
 	text-decoration: none;
+	outline: none;
 }
 
 h1, h2, h3 {
@@ -1968,6 +1974,7 @@ td[data-action*="selectDay"] {
 
 .swiper-holder {
 	overflow: hidden;
+	background: url('/images/texture-med.gif');
 }
 
 /* make sure filter scroll bar
@@ -1980,7 +1987,6 @@ td[data-action*="selectDay"] {
   margin: 0 auto;
   padding: 10px;
   position: relative;
-	background: url('/images/texture-med.gif');
   transition: all 0.2s ease-in-out;
 
   /* Fix of Webkit flickering */
@@ -2048,12 +2054,6 @@ td[data-action*="selectDay"] {
   -ms-transition-property: -ms-transform;
   transition-property: transform;
 }
-
-
-/* prevent swiper from sticking with filters out of view */
-.desktop .swiper-container {
-	width: 2700px;
-}  
 
 .swiper-container .swiper-slide,
 .swiper-wrapper {
@@ -3273,13 +3273,18 @@ footer.app-copy .bottom a {
 
 @media (min-width: 1190px) {
 
-	.desktop .swiper-container,
-	.swiper-container {
+	.desktop .round_trip .swiper-container,
+	body:not(.touch) .round_trip .swiper-container {
 		width: 1150px;
 	}
-	
-	.swiper-holder {
-		background: url('/images/texture-med.gif'); 
+
+}
+
+@media (min-width: 880px) {
+
+	.desktop .one_way .swiper-container,
+	body:not(.touch) .one_way .swiper-container {
+		width: 830px;
 	}
 
 }

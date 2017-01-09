@@ -72,28 +72,27 @@ module.exports = {
     /**
      * The Calculate web method uses provided flight information to calculate accruals for every given flight
      *
-     * @todo add support of fligts array not only one flight
+     *
      * @docs http://www.30k.com/30k-api/milefy-api/calculate/
      *
+     * @params {itineraries: [], milesPrograms: []} // milesPrograms is optional
+     *
      * */
-    Calculate: function (params, callback) {
+    Calculate: function ({itineraries = [], milesPrograms = []}, callback) {
       var apiUrl = 'api/miles/calculate';
 
       // map itinerary to 30K request
       var _30kparams = {
-        flts: []
+        flts: [],
+        tgp:[],
       };
-
-      var itineraries = [];
-
-      if (params.itineraries) {
-        itineraries = params.itineraries;
-      } else {
-        itineraries.push(params);
-      }
 
       itineraries.forEach((itinerary) => {
         _30kparams.flts.push(convertItineraryTo30kFlightFormat(itinerary));
+      });
+
+      milesPrograms.forEach((milesProgram) => {
+        _30kparams.tgp.push(convertMilesProgramTo30kFormat(milesProgram));
       });
 
       sails.log.info('Request to 30K api: ', JSON.stringify(_30kparams));
@@ -168,6 +167,28 @@ module.exports = {
           return callback(null, filteredResults);
         }
       });
+
+      /**
+       * Convert data to 30kApi format __version 2.5__ or lover for request "/api/miles/calculate"
+       * {
+       *   program_name: 'LMM',
+       *   account_number: '34afadfg45gdagdfg',
+       *   tier: '24',
+       *   status: '8'
+       * }
+       * Is converted to
+       * {
+       *   tc: 'LMM',
+       *   ut: '24'
+       * }
+       *
+       * @param {object}
+       * @return {object}
+       *
+       */
+      function convertMilesProgramTo30kFormat({program_name: tc = '', tier: ut = ''}) {
+        return { tc, ut };
+      }
 
       function convertItineraryTo30kFlightFormat(itinerary) {
         //Mapping our structure to 30K api request
