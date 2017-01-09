@@ -81,8 +81,10 @@ module.exports = {
       if (err) {
         sails.log.error(err);
         qdefer.reject(err);
-      } else {
+      } else if (record) {
         qdefer.resolve(record.miles_programs);
+      } else {
+        qdefer.reject('User has no profile');
       }
     });
     return qdefer.promise;
