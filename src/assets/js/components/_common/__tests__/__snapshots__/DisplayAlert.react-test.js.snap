@@ -17,6 +17,7 @@ exports[`test DisplayAlert component test 1`] = `
     className="buttons">
     <a
       className="big-button new-search-button"
+      id="alert-page-try-again-button"
       onClick={[Function]}
       role="button"
       style={Object {}}>
