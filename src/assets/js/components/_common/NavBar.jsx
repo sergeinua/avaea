@@ -78,7 +78,7 @@ let NavBar = React.createClass({
   },
   
   handleHomeLink: function () {
-  	browserHistory.push('/home');
+  	window.location.assign('/home');
   },
 
   showLink: function (to, text) {
