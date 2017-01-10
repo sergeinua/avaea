@@ -74,6 +74,10 @@ function profileReducer(curState = storeInitialState.profileData, action) {
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['personal', action.elemNum, 'data'], () => action.value).toJS();
 
+    case actionTypesProfile.SET_PERSONAL_VALIDATOR:
+      _immutable = Immutable.fromJS(curState);
+      return _immutable.updateIn(['personal', action.elemNum, 'validated'], () => action.validator).toJS();
+
     case actionTypesProfile.SET_PERSONAL_NOTIFY_VAL:
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['notifyContact', action.elemNum, 'data'], () => action.value).toJS();

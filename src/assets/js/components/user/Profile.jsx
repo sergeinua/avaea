@@ -5,6 +5,7 @@ import DisplayAlert from '../_common/DisplayAlert.jsx';
 import ClientApi from '../_common/api.js';
 import UserProfilePanel from './UserProfilePanel.jsx';
 import { actionLoadProfileSuccess, actionLoadProfileFailed } from '../../actions.js';
+import { validateFormPersonal } from './ProfileFormValidator'
 
 let UserProfile = React.createClass({
 
@@ -16,6 +17,10 @@ let UserProfile = React.createClass({
     profileStructure: {},
     programsStructure: {},
     preferredAirlinesStructure: {}
+  },
+
+  getInitialState: function() {
+    return {isValid: true}
   },
 
   makeProfileData: function(incData) {
@@ -32,11 +37,40 @@ let UserProfile = React.createClass({
     }
 
     this.profileData.personal = [
-      {id:'personal_info.first_name', required: true, title: 'First Name', data: profile_fields.personal_info.first_name || ''},
+      {id:'personal_info.first_name', required: true, title: 'First Name', data: profile_fields.personal_info.first_name || '',
+        validator: {
+          name: ['required', 'alpha'],
+          errorMsg: {
+            'required': 'This field is required.',
+            'alpha': 'Please enter a valid First Name'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
       {id:'personal_info.middle_name', title: 'Middle Name', data: profile_fields.personal_info.middle_name || ''},
-      {id:'personal_info.last_name', required: true, title: 'Last Name', data: profile_fields.personal_info.last_name || ''},
+      {id:'personal_info.last_name', required: true, title: 'Last Name', data: profile_fields.personal_info.last_name || '',
+        validator: {
+          name: ['required', 'alpha'],
+          errorMsg: {
+            'required': 'This field is required.',
+            'alpha': 'Please enter a valid Middle Name'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
       {id:'personal_info.gender', type: 'radio', title: 'Gender', data: profile_fields.personal_info.gender || ''},
-      {id:'personal_info.phone', type: "tel", pattern: "[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*", title: 'Phone Number', placeholder: '+1 123 555 6789', data: profile_fields.personal_info.phone || ''},
+      {id:'personal_info.phone', type: "tel", pattern: "[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*", title: 'Phone Number', placeholder: '+1 123 555 6789', data: profile_fields.personal_info.phone || '',
+        validator: {
+          name: ['phone'],
+          errorMsg: {
+            'phone': 'Please enter a valid Phone Number (+1 123 555 6789)'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
       {id:'personal_info.birthday', type: "date", title: 'Date of Birth', placeholder: 'YYYY-MM-DD', data: profile_fields.personal_info.birthday || ''},
       {id:'personal_info.address.country_code', title: 'Country', data: profile_fields.personal_info.address.country_code || ''},
       {id:'personal_info.address.street', title: 'Address', data: profile_fields.personal_info.address.street || ''},
@@ -69,7 +103,7 @@ let UserProfile = React.createClass({
 
     this.profileData.programsStructure = Object.assign({},
     {
-      miles_programs: {program_name: '', account_number: '', status: '', tier: ''},
+      miles_programs: {program_name: '', account_number: '', tier: ''},
       // lounge_membership: {airline_name: '', membership_number: '', expiration_date: ''}
     });
 
@@ -90,14 +124,22 @@ let UserProfile = React.createClass({
   },
 
   execUpdate: function () {
-    this.props.loadProfileSuccess({});
-    this.postProfile()
-      .then(function (resData) {
-        resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
-      }.bind(this))
-      .catch(function (error) {
-        console.error(error);
-      });
+    let _isValid = validateFormPersonal(this.props.profileData.personal)
+    this.setState({isValid: _isValid})
+    if (_isValid) {
+      this.props.loadProfileSuccess({});
+      this.postProfile()
+        .then(function (resData) {
+          resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
+        }.bind(this))
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  },
+
+  onChangeForm: function() {
+    this.setState({isValid: true})
   },
 
   componentDidMount: function() {
@@ -112,7 +154,7 @@ let UserProfile = React.createClass({
 
   render: function () {
     if (this.props.profileData.personal) {
-      return <form action="user/update" name="Profile" id="Profile" method="post" className="form profile">
+      return <form action="user/update" name="Profile" id="Profile" method="post" className="form profile" onChange={this.onChangeForm}>
         <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
           <div className="user-profile">
             <UserProfilePanel
@@ -148,8 +190,9 @@ let UserProfile = React.createClass({
               key="Four"
             />
           </div>
-          <div className="button-holder">
+          <div className={"button-holder " + (this.state.isValid ? null : 'has-error')}>
             <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
+            {this.state.isValid ? null : <div className="error-message">Error saving the form data</div>}
           </div>
         </div>
       </form>;
