@@ -57,7 +57,7 @@ let UserProfilePanelAirlineRadio = React.createClass({
       );
     });
 
-    return  <div>{_nodes}</div>
+    return  <div className="radio-buttons-block">{_nodes}</div>
   }
 
 })
