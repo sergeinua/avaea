@@ -1,3 +1,5 @@
+import React from 'react';
+
 var MultiCityForm = React.createClass({
   render() {
     return (
@@ -5,3 +7,5 @@ var MultiCityForm = React.createClass({
     )
   }
 });
+
+export default MultiCityForm;

@@ -1,12 +1,30 @@
-var firstSelectionCount = {};
-var globalSelectionCount = 0;
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { ActionsStore, logAction } from '../../functions.js';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultList from '../search/ResultList.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import Buckets from '../search/buckets/Buckets.jsx';
+import { actionSetCommonVal } from '../../actions.js';
+import ClientApi from '../_common/api.js';
+import { clientStore } from '../../reducers.js';
+import moment from 'moment';
 
-var ResultPage = React.createClass({
+import { maxBucketVisibleFilters, bucketFilterItemHeigh, scrollAirlines } from '../../legacyJquery.js';
+require('swiper');
+require('jquery-slimscroll');
+
+let firstSelectionCount = {};
+let globalSelectionCount = 0;
+let swiper;
+
+let ResultPage = React.createClass({
 
   getInitialState: function() {
     return {
       isLoading: true,
       searchResultLength: 0,
+      searchResultIds: [],
       filter: [],
     };
   },
@@ -20,29 +38,23 @@ var ResultPage = React.createClass({
           tiles: json.tiles,
           searchResultLength: json.searchResult.length,
           searchResult: json.searchResult,
+          searchResultIds: getIdsArrayFromAnything(json.searchResult),
           errorInfo: json.errorInfo,
           max_filter_items: json.max_filter_items
         }, function () {
 
-          //FIXME refactor code to use non jquery based swiper functionality
+          //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
 
-          // correctly initialize the swiper for desktop vs. touch
+          // FIXME - hides logo for devices only when navbar shows "flight-info" div
+          // so logo does not push the search query down
+          $("body").addClass('suppress-logo');
 
-          if (!uaMobile) {
-            // is desktop
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: '5.5'
-            });
-
-          } else {
-            // is touch
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: 'auto'
-            });
-          }
+          // correctly initialize the swiper
+          swiper = new Swiper('.swiper-container', {
+            freeMode: true,
+            slidesPerView: 'auto'
+          });
 
           // Init slim scroll
           var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
@@ -128,6 +140,7 @@ var ResultPage = React.createClass({
   },
 
   componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
     ActionsStore.changeForm('result', false);
 
     ActionsStore.updateTiles = (filter) => {
@@ -200,6 +213,14 @@ var ResultPage = React.createClass({
     ActionsStore.sortItineraries = (option, direction) => {
       this.sortItineraries(option, direction);
     };
+
+    ActionsStore.getSearchResultItineraryIds = () => {
+      if (this.state.searchResult && this.state.searchResult.length > 0) {
+        return getIdsArrayFromAnything(this.state.searchResult);
+      } else {
+        return [];
+      }
+    };
   },
 
   sortItineraries: function (option, direction) {
@@ -245,7 +266,7 @@ var ResultPage = React.createClass({
       return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 
-    this.setState({searchResult: itineraries});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
     this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
@@ -375,7 +396,7 @@ var ResultPage = React.createClass({
         });
       }
     });
-    this.setState({searchResult: itineraries});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
 
     // recalculate visible itineraries
     var count = 0;
@@ -389,7 +410,7 @@ var ResultPage = React.createClass({
 
   render: function() {
     return (
-      <div className="search-result">
+      <div className={ 'search-result ' + this.props.commonData.searchParams.flightType }>
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>
@@ -410,6 +431,14 @@ var ResultPage = React.createClass({
   }
 });
 
+function getIdsArrayFromAnything(anything = []) {
+  if (anything.length) {
+    return anything.map(({id}) => id);
+  } else {
+    return [];
+  }
+}
+
 const mapStateCommon = function(store) {
   return {
     commonData: store.commonData,
@@ -425,3 +454,5 @@ const mapDispatchCommon = (dispatch) => {
 };
 
 const ResultPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(ResultPage);
+
+export default ResultPageContainer;

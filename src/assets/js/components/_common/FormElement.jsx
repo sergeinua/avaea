@@ -1,4 +1,8 @@
-var FormElement = React.createClass({
+import React from 'react';
+import FormElementDropdownContainer from './FormElementDropdown';
+import FormElementRadioContainer from './FormElementRadio'
+
+let FormElement = React.createClass({
 
   render: function() {
 
@@ -6,15 +10,26 @@ var FormElement = React.createClass({
 
       if ($.isArray(this.props.profileStructure[this.props.item.id]) || $.isPlainObject(this.props.profileStructure[this.props.item.id])) {
 
-        return <div>
-          <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
-          <FormElementDropdownContainer
+        if (this.props.item.type === 'radio') {
+          return <FormElementRadioContainer
+            id={this.props.item.id}
             panelType={this.props.panelType}
             item={this.props.item }
             profileStructure={this.props.profileStructure[this.props.item.id]}
             elemNum={this.props.elemNum}
           />
-        </div>
+        } else {
+          return <div>
+            <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
+            <FormElementDropdownContainer
+              id={this.props.item.id}
+              panelType={this.props.panelType}
+              item={this.props.item }
+              profileStructure={this.props.profileStructure[this.props.item.id]}
+              elemNum={this.props.elemNum}
+            />
+          </div>
+        }
       }
 
     } else {
@@ -23,6 +38,7 @@ var FormElement = React.createClass({
         <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
         <input
           type={this.props.item.type ? this.props.item.type : "text"}
+          id={this.props.item.id}
           name={this.props.item.id}
           className="form-control input-sm"
           placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title}
@@ -35,3 +51,5 @@ var FormElement = React.createClass({
   }
 
 });
+
+export default FormElement;

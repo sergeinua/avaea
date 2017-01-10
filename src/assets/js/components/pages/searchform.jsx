@@ -1,13 +1,26 @@
-var searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { actionSetCommonVal } from '../../actions.js';
+import { unfocusFormForIos, ActionsStore, getDefaultDateSearch } from '../../functions.js';
+import TripSearchForm from '../searchform/TripSearchForm.jsx';
+import Calendar from '../searchform/Calendar.jsx';
+import MultiCityForm from '../searchform/MultiCityForm.jsx';
+import VoiceForm from '../searchform/VoiceForm.jsx';
+import Typeahead from '../searchform/Typeahead.jsx';
 
 var SearchFormPage = React.createClass({
 
   componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
     // DEMO-800 removed mess after not properly closed modal.
     // FIXME remove this after removing jquery modal
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
+    // FIXME - had to hide logo for devices only when "flight-info" div is 
+  	// showing in nav bar - this restores it
+    $("body").removeClass('suppress-logo');
 
+    ActionsStore.setFormValue('searchParams', getDefaultDateSearch(this.props.commonData.searchParams))
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },
 
@@ -54,7 +67,6 @@ var SearchFormPage = React.createClass({
           <Typeahead target={this.props.commonData.airportChoiceTarget} searchParams={this.props.commonData.searchParams}/>
           : null
         }
-        <SearchBanner/>
       </div>
     )
   }
@@ -76,3 +88,4 @@ const mapDispatchCommon = (dispatch) => {
 
 const SearchFormPageContainer = ReactRedux.connect(mapStateCommon, mapDispatchCommon)(SearchFormPage);
 
+export default SearchFormPageContainer;

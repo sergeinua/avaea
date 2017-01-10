@@ -1,5 +1,16 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import ClientApi from '../_common/api.js';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultItemContainer from '../search/ResultItem.jsx';
+import OrderSpecialModal from './OrderSpecialModal.jsx';
+import OrderPanelElement from './OrderPanelElement.jsx';
+import Loader from '../_common/Loader.jsx';
+import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
+import { browserHistory } from 'react-router';
 
-var OrderPanel = React.createClass({
+let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
     var fields_data = incData.fieldsData ? incData.fieldsData : {};
@@ -135,7 +146,7 @@ var OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         if (!resData.error && resData.bookingId) {
-          window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
+          browserHistory.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
           savedData.orderData.flashMsg = resData.flashMsg;
           //scroll to page top to show error message after components re-render
@@ -185,7 +196,7 @@ var OrderPanel = React.createClass({
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
-              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
             </div>
           </div>
 
@@ -245,4 +256,6 @@ const mapDispatchOrder = (dispatch) => {
   }
 };
 
-var OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+let OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+
+export default OrderPanelContainer;

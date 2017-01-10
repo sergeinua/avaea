@@ -1,4 +1,9 @@
-var UserProfilePanelBlockMembership = React.createClass({
+import React from 'react';
+import UserProfilePanelAirlineSelect from './UserProfilePanelAirlineSelect.jsx';
+import { clientStore } from '../../reducers.js';
+import { actionSetProgramsVal } from '../../actions.js';
+
+let UserProfilePanelBlockMembership = React.createClass({
 
   getInitialState: function() {
     return {item: {}};
@@ -38,13 +43,14 @@ var UserProfilePanelBlockMembership = React.createClass({
         {
           this.state.item.data.map(function (item, index) {
 
-            return <div id="lounge_membership" data-fieldset-name="lounge_membership" key={'lounge_membership' + item.airline_name + index}>
+            return <div id={"lounge_membership-" + index} data-fieldset-name="lounge_membership" key={'lounge_membership' + item.airline_name + index}>
               <hr className={index == 0 ? "hidden" : ""} />
 
               <label>Airline Name</label>
               <span className={"remove-fieldset " + (self.state.item.data.length > 1 ? "" : "hide")}
                     data-fieldset="lounge_membership" onClick={self.props.onRemoveFieldset} >remove</span>
               <UserProfilePanelAirlineSelect
+                id={"profile-airline-select-" + index}
                 elem_name={"lounge_membership.airline_name["+index+"]"}
                 elem_value={item.airline_name}
                 blockNum={self.props.blockNum}
@@ -53,11 +59,11 @@ var UserProfilePanelBlockMembership = React.createClass({
 
 
               <label>Club Membership Number</label>
-              <input type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number}
+              <input id={"lounge_membership_membership_number-" + index} type="text" name="lounge_membership.membership_number[]" className="form-control input-sm" placeholder="Club Membership Number" defaultValue={item.membership_number}
                      onBlur={(event) => self.handleChangeValue(event, index, 'membership_number')}/>
 
               <label>Expiration Date</label>
-              <input type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defaultValue={item.expiration_date}
+              <input id={"lounge_membership.expiration_date-" + index} type="date" name="lounge_membership.expiration_date[]" className="form-control input-sm" defaultValue={item.expiration_date}
                      onBlur={(event) => self.handleChangeValue(event, index, 'expiration_date')}/>
 
             </div>
@@ -66,10 +72,12 @@ var UserProfilePanelBlockMembership = React.createClass({
       </div>
 
       <div className="panel-footer">
-        <button type="button" data-for="lounge_membership" onClick={this.props.onAddOneMore}>One more</button>
+        <button id="lounge-membership-one-more-button" type="button" data-for="lounge_membership" onClick={this.props.onAddOneMore}>One more</button>
       </div>
 
     </fieldset>;
   }
 
 });
+
+export default UserProfilePanelBlockMembership;

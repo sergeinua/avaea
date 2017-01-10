@@ -1,3 +1,5 @@
+import React from 'react';
+import { ActionsStore } from '../../functions.js';
 
 var ClassChooser = React.createClass({
 
@@ -25,8 +27,10 @@ var ClassChooser = React.createClass({
     return (
       <div className="chooser flight-class-info-item row">
         <div className="label-d col-xs-6">Class</div>
-        <div className="text-picker col-xs-6" onClick={this.changeClass}>{serviceClass[this.props.searchParams.CabinClass]}</div>
+        <div  id="search-form-cabin-class" className="text-picker col-xs-6" onClick={this.changeClass}>{serviceClass[this.props.searchParams.CabinClass]}</div>
       </div>
     )
   }
 });
+
+export default ClassChooser;

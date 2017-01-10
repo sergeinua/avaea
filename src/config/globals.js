@@ -65,6 +65,6 @@ module.exports.globals = {
   // For site pages
   site_info: {
     software_version: '0.1.10',
-    contact_email: 'info@avaea.com'
+    contact_email: 'info@onvoya.com'
   }
 };

@@ -26,9 +26,9 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'http://www.avaea.com',
+  proxyHost: 'https://www.avaea.com',
   proxyPort: 80,
-  explicitHost: 'localhost',
+  explicitHost: '0.0.0.0',
 
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
@@ -40,27 +40,43 @@ module.exports = {
   },
 
   session: {
-    host: 'localhost',
+    host: 'db1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
-
+  connections: {
+    memcacheConf: {
+    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
+  },
+},
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
+
+  recaptcha: {
+    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
+    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
+  },
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/]
   },
   ffmapis: {
     milefy: {
-      url:      'https://testingapi.30k.com/',
+      url:      'https://liveapi.30k.com/',
       login:    'avaea',
-      password: '8ac8c8cae00e'
+      password: '11c235eba9b7'
     },
     wallet: {
-      url:      'https://walletapi-testing.30k.com/',
+      url:      'https://walletapi.30k.com/',
       login:    'avaea',
-      password: '8ac8c8cae00e'
+      password: '11c235eba9b7'
     }
+  },
+  recaptcha: {
+    public: '6LfyCREUAAAAAADwXPedDrDDZkjPDtyD2LGFgNC2',
+    private: '6LfyCREUAAAAAI8z2-sRHTfbq8un61iX-DB6Uahk'
   }
 };
+

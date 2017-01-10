@@ -1,10 +1,19 @@
+import * as ReactRedux from 'react-redux';
+import FormElement from '../_common/FormElement.jsx';
+import { actionSetPersonalVal, actionSetPersonalNotifyVal } from '../../actions.js';
 
 const mapDispatchPanelElem = (dispatch, ownProps) => {
   return {
     handleChangeValue: (event) => {
-      dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value));
-    },
+      if (ownProps.panelType && ownProps.panelType === 'notifyContact') {
+        dispatch(actionSetPersonalNotifyVal(ownProps.elemNum, event.target.value))
+      } else {
+        dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value))
+      }
+    }
   }
 };
 
-var UserProfilePanelElement = ReactRedux.connect(null, mapDispatchPanelElem)(FormElement);
+let UserProfilePanelElement = ReactRedux.connect(null, mapDispatchPanelElem)(FormElement);
+
+export default UserProfilePanelElement;

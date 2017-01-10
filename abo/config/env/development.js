@@ -21,6 +21,20 @@ module.exports = {
     connection: 'etPostgresqlServer'
   },
 
+  /***************************************************************************
+   * Set the port in the production environment to 80                        *
+   ***************************************************************************/
+
+  //port: 8080,
+  proxyHost: 'http://dev.abo.avaea.com',
+  proxyPort: 80,
+
+  remoteSocket: 'http://avaea.com',
+
+  /***************************************************************************
+   * Set the log level in production environment to "silent"                 *
+   ***************************************************************************/
+
   log: {
       level: 'verbose',
       timestamp: true
@@ -34,18 +48,6 @@ module.exports = {
     port: 5432
   },
 
-  //port: 8080,
-  proxyHost: 'http://dev.abo.avaea.com',
-  proxyPort: 80,
-
-  remoteSocket: 'http://avaea.com',
-
-  flightapis: {
-    mondee: {
-      baseEndPoint: 'http://localhost:23456/api/v2', // 'http://sandbox.trippro.com/api/v2',
-      clientId: 'CFS1017'
-    },
-    searchProvider: /*'mystifly'*/  'mondee'
-  }
+  hookTimeout: 120000,
 
 };

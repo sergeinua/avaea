@@ -1,9 +1,13 @@
+import * as Redux from 'redux';
+import * as Immutable from 'immutable';
+import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from 'actions.js';
 
-const storeInitialState = {
+export const storeInitialState = {
   commonData: {
     searchParams: {
       flightType: 'round_trip'
     },
+    ffmiles: {},
     iconSpriteMap: [],
     currentForm: 'round_trip',
     airportChoiceTarget: 'DepartureLocationCode',
@@ -20,7 +24,7 @@ const storeInitialState = {
   orderData: {}
 };
 
-const storeGetCommonVal = (curState, fieldName) => {
+export const storeGetCommonVal = (curState, fieldName) => {
   return curState.commonData[fieldName];
 };
 
@@ -70,9 +74,17 @@ function profileReducer(curState = storeInitialState.profileData, action) {
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['personal', action.elemNum, 'data'], () => action.value).toJS();
 
+    case actionTypesProfile.SET_PERSONAL_NOTIFY_VAL:
+      _immutable = Immutable.fromJS(curState);
+      return _immutable.updateIn(['notifyContact', action.elemNum, 'data'], () => action.value).toJS();
+
     case actionTypesProfile.SET_PROGRAMS_VAL:
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['programs', action.blockNum, 'data', action.elemNum, action.fieldName], () => action.value).toJS();
+
+    case actionTypesProfile.SET_PREFERREDAIRLINES_VAL:
+      _immutable = Immutable.fromJS(curState);
+      return _immutable.updateIn(['preferredAirlines', action.blockNum, 'data', action.elemNum, action.fieldName], () => action.value).toJS();
 
     default:
       return curState;
@@ -118,18 +130,18 @@ const appReducers = Redux.combineReducers({
   orderData: orderReducer,
 });
 
-
-// Create store
-const clientStore = Redux.createStore(appReducers);
+export const clientStore = Redux.createStore(appReducers);
+//for test env only
+// export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 
 // global, because subscribers can be re-mounted many times
 let observeStoreFields = {};
-let observeUnsubscribers = {};
+export let observeUnsubscribers = {};
 
 // Observe store for changed values. And call handler if need
 // Be careful with this code and code of the calling handlers. Because if handler dispatch the same data again then you can make eternal races
-const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
+export const observeStore = (handleGetVal, fieldName, handleOnChangeStore) => {
   let cur_val;
   if (['formSubmitCount','searchParams'].indexOf(fieldName) == -1) {
     console.error('Unknown observed field:', fieldName);
