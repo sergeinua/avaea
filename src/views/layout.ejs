@@ -30,14 +30,6 @@
   <!-- google recaptcha @TODO: add lasy load to load only on "/contact" page -->
   <script src="https://www.google.com/recaptcha/api.js"></script>
   
-  <!-- manage unsupported IE browsers -->
-  <!--[if lte IE 9]>
-    <html class="unsupported">
-    <script type="text/javascript">       
-      window.location="/unsupported";
-    </script>
-  <![endif]-->
-
   <link rel="stylesheet" href="/js/styles.css">
 
   <!--STYLES-->
@@ -127,26 +119,7 @@
           <a href="/terms">Terms and Conditions</a>
           <a href="/privacy">Privacy</a>
         </div>
-      </footer>
+    </footer>
 
-      <% if ( (typeof showUnsupportedAlert != 'undefined') && showUnsupportedAlert ) { %>
-      <div id="unsupportedAlert" class="modal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              Your browser is not yet supported, and you may encounter errors if you continue. Please use Chrome for now.
-            </div>
-            <div class="buttons-bar single">
-              <button type="button" class="big-button secondary" onClick="$('#unsupportedAlert').modal('hide');">Ok</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          $('#unsupportedAlert').modal();
-        });
-      </script>
-      <% } %>
   </body>
 </html>

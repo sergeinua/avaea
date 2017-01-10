@@ -1,5 +1,7 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import Autosuggest from 'react-autosuggest';
 import { DateRange } from 'react-date-range';
 import ClientApi from '~/_common/api';
@@ -159,7 +161,7 @@ let SimpleSearchForm = React.createClass({
     localStorage.setItem('searchParams', JSON.stringify(searchParams));
     clientStore.dispatch(actionSetCommonVal('searchParams', searchParams));
 
-    browserHistory.push(
+    historyStrategy.push(
       {
         pathname: '/result',
         query: {
