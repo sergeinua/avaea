@@ -299,9 +299,23 @@ header.static {
 	position: relative;
 	min-height: 70px;
 	height: 70px;
+	z-index: 5; /* get it above the video area */
+}
+
+header.static a.brand {
+	display: inline-block;
+	height: 65px;
+	width: 275px;
+	position: absolute;
+		top: 0;
 	background: #ffffff url(../images/static/logo-beta.svg) 5px 5px no-repeat;
 	background-size: 275px;
-	z-index: 5; /* get it above the video area */
+}
+
+header.static a.brand,
+header.static a.brand:hover,
+header.static a.brand:visited {
+	opacity: 1;
 }
 
 .static-nav-button {
@@ -1256,6 +1270,14 @@ footer.static .bottom {
 	
 }
 
+@media (min-width: 911px) {
+	
+	header.static .brand {
+		left: 0;
+	}
+
+}
+
 
 /* triggers responsive nav */
 @media (max-width: 910px) {
@@ -1274,8 +1296,10 @@ footer.static .bottom {
 		padding-left: 20px;
 		padding-right: 200px;
 		padding-bottom: 10px;
-		background: url(../images/static/logo-beta.svg) right 5px no-repeat;
-    background-size: 275px;
+	}
+	
+	header.static .brand {
+		right: -10px;
 	}
 	
 	.touch header.static {
@@ -1608,6 +1632,14 @@ footer.static .bottom {
 		padding: 25px 30px 25px 30px;
 	}
 	
+	
+}
+
+@media (max-width: 460px) {
+
+	header.static .brand {
+		right: 0;
+	}
 	
 }
 

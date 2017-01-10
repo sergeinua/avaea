@@ -9,11 +9,19 @@ let StaticHeader = React.createClass({
 			$("header.static nav").toggleClass('respond');
 		}
 	},
+	
+	closeNav: function (event) {
+		if ($(".static-nav-button").is(':visible')) {
+			$("header.static nav").removeClass('respond');
+		}
+	},
  
   render: function () {
     return (
     		<header className="static">
         <div className="static-nav-button" onClick={this.onItemClick}></div>
+        {/* logo managed by CSS for whitelabelling later */}
+        <Link to="/home" onClick={this.onItemClick} className="brand" onClick={this.closeNav}></Link> 
           <nav>
           	<div className="left">
   		        <ul className="menu nav">
