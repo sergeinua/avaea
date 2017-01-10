@@ -1125,6 +1125,7 @@ textarea {
 }
 
 .navbar-brand {
+	cursor: pointer;
 	padding: 18px 5px 14px 5px;
 	width: 200px;
 	position: relative;
@@ -3093,6 +3094,10 @@ legend {
 
 select.input-sm {
 	height: 45px;
+}
+
+input[value="F"] {
+	margin-left: 20px;
 }
 
 .panel-footer {

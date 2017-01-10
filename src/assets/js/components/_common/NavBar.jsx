@@ -76,6 +76,14 @@ let NavBar = React.createClass({
   handleBackToSearchForm: function () {
     browserHistory.push('/search');
   },
+  
+  handleHomeLink: function () {
+    if (!this.props.location) {
+    	window.location.assign('/home');
+    } else {
+      browserHistory.push('/home');
+    }
+  },
 
   showLink: function (to, text) {
     let id = 'menu-link-' + text.replace(/\W+/g, '_').toLowerCase();
@@ -119,7 +127,7 @@ let NavBar = React.createClass({
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                   </button>
-                  <div className="navbar-brand"></div>
+                  <div className="navbar-brand" onClick={this.handleHomeLink}></div>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
 	                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
