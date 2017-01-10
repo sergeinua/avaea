@@ -65,7 +65,6 @@ module.exports = {
           found[i] = {
             value: found[i].program_code,
             label: found[i].program_name,
-            program: found[i].miles_type_configuration,
             tier: found[i].tiers_configuration
           }
         }
