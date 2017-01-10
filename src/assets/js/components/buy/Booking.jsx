@@ -24,7 +24,7 @@ let Booking = React.createClass({
 
         <div className="confirm-message">
           <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
-          <div className="thanks">Thank you for choosing Onvoya!</div>
+          <div className="thanks">Thank you for choosing OnVoya!</div>
           <div className="copy">
             You're all set for your next trip. Your ticket has been issued as an electronic ticket.
             Please check your email for confirmation.

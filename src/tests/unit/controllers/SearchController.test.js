@@ -20,7 +20,7 @@ describe('SearchController', function() {
 
           res.body.should.have.properties('title', 'head_title', 'defaultParams', 'serviceClass');
           res.body.title.should.be.eql('Search for flights');
-          res.body.head_title.should.be.eql('Search for flights with Onvoya Agent');
+          res.body.head_title.should.be.eql('Search for flights with OnVoya Agent');
           res.body.defaultParams.should.have.properties([
             'DepartureLocationCode', 'ArrivalLocationCode', 'CabinClass',
             'departureDate', 'returnDate', 'passengers', 'flightType'

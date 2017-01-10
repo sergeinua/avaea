@@ -156,7 +156,7 @@ passport.connect = function (req, query, profile, next) {
                   };
                   Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars)
                     .then(function (msgContent) {
-                      Mailer.sendMail({to: user.email, subject: 'Welcome to Onvoya'}, msgContent)
+                      Mailer.sendMail({to: user.email, subject: 'Welcome to OnVoya'}, msgContent)
                         .then(function () {
                           sails.log.info('Mail was sent to '+ user.email);
                         })
