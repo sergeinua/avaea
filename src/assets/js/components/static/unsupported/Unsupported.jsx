@@ -12,10 +12,13 @@ let StaticUnsupported = React.createClass({
       				<div className="copy">
       				
       					<p>
-      						We support a wide selection of browsers and devices, but we had to draw the line somewhere.
+      						<strong>We support a wide selection of browsers and devices.</strong> While we're starting up,
+      						it's crucial for us to develop features, and supporting older browsers means we 
+      						would have to spend time accommodating out-of-date technology instead.
       					</p>
     						<p>
-    							Please try using your mobile device, tablet, or a modern browser to use our website for your travel search. Thank you.
+    							Please try using your mobile device, tablet, or a modern browser (we recommend Chrome) 
+    							to use our website for your travel search. Thank you.
     						</p>
       				
       				</div>
