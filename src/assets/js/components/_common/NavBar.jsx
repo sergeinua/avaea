@@ -3,7 +3,9 @@ import { Link } from 'react-router';
 import * as ReactRedux from 'react-redux';
 import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import moment from 'moment';
 
 let NavBar = React.createClass({
@@ -70,18 +72,18 @@ let NavBar = React.createClass({
   },
 
   handleBackToSearchResult: function () {
-    browserHistory.push('/result');
+    historyStrategy.push('/result');
   },
 
   handleBackToSearchForm: function () {
-    browserHistory.push('/search');
+    historyStrategy.push('/search');
   },
   
   handleHomeLink: function () {
     if (!this.props.location) {
     	window.location.assign('/home');
     } else {
-      browserHistory.push('/home');
+      historyStrategy.push('/home');
     }
   },
 

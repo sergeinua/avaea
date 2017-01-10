@@ -3857,6 +3857,51 @@ html[data-useragent*='Trident'] .swiper-container {
 }
 
 
+/* Unsupported IEs */
+
+.unsupported header,
+.unsupported footer {
+	display: none;
+}
+
+.unsupported body,
+.unsupported,
+.unsupported .desktop .desktop-wrapper,
+.unsupported #spa-app {
+	background: #f1f1f1;
+}
+
+.no-can-do {
+	margin: 60px auto;
+	width: 600px;
+}
+
+.unsupported-box {
+	padding: 40px;
+	background: #ffffff;
+	border: 1px solid #dedede;
+	border-radius: 3px;
+}
+
+.unsupported-logo {
+	margin-bottom: 5px;
+	height: 63px;
+	width: 271px;
+	background: url('/images/logo-unsupported.png') 0 0 no-repeat;
+}
+
+.unsupported .no-can-do h1 {
+	margin-bottom: 30px;
+}
+
+.unsupported .no-can-do p {
+	line-height: 24px;
+	width: 90%;
+}
+
+
+
+
 
 /* end onvoya.css */
 
