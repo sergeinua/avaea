@@ -83,7 +83,7 @@ let NavBar = React.createClass({
     if (!this.props.location) {
     	window.location.assign('/home');
     } else {
-      browserHistory.push('/home');
+      historyStrategy.push('/home');
     }
   },
 
