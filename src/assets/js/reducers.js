@@ -134,9 +134,9 @@ const appReducers = Redux.combineReducers({
   orderData: orderReducer,
 });
 
-// export const clientStore = Redux.createStore(appReducers);
+export const clientStore = Redux.createStore(appReducers);
 //for test env only
-export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+// export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 
 // global, because subscribers can be re-mounted many times
