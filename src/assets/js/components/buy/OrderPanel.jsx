@@ -32,22 +32,44 @@ let OrderPanel = React.createClass({
   },
 
   // Vlad I took a guess at how additional passenger fields would be handled
-  makePassengerData: function(incData) {
-    var fields_data = incData.fieldsData ? incData.fieldsData : {};
+  makePassengerData: function(incData, index) {
+
+    var fields_data = incData ? incData : {};
+
     return [
+      {
+        id:'passengers['+index+'].FirstName',
+        required: true,
+        title: 'First Name',
+        data: fields_data['passengers['+index+'].FirstName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].FirstName'] || ''
+      },
+      {
+        id:'passengers['+index+'].LastName',
+        required: true,
+        title: 'Last Name',
+        data: fields_data['passengers['+index+'].LastName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].LastName'] || ''
+      },
 
-      // Vlad if user clicks "its-me" button, populate the first passenger's name fields and DOB from billing data
-      {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
-      {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
+      {
+        id:'passengers['+index+'].Gender',
+        required: true,
+        title: 'Gender',
+        type: 'radio',
+        data: fields_data['passengers['+index+'].Gender'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].Gender'] || ''
+      },
 
-      {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},
-
-      // Vlad if user clicks "its-me" button, populate the first passenger's DOB from billing data
-      {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''}/*,
-
-      // Vlad Ajax detect if ticket is for child or infant from DOB, drop down an optional checkbox - I could not make it a checkbox
-      {id:'Lap', required: false, title: 'Lap infant', data: fields_data.Lap || ''},*/
-
+      {
+        id:'passengers['+index+'].DateOfBirth',
+        required: true,
+        type: "date",
+        title: 'Birthday',
+        placeholder: 'YYYY-MM-DD',
+        data: fields_data['passengers['+index+'].DateOfBirth'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
+      }
     ];
   },
 
@@ -73,7 +95,7 @@ let OrderPanel = React.createClass({
     /**
      * Client validation during booking of itinerary
      */
-    $("#form_booking").validate({
+    let validationRules = {
       rules: {
         FirstName: {
           requiredAndTrim: true
@@ -141,7 +163,7 @@ let OrderPanel = React.createClass({
 
       // booking modal
       submitHandler: function(form) {
-        var _isError = false;
+        let _isError = false;
 
         if ($('.booking .form input').parent().hasClass('has-error')) {
           _isError = true;
@@ -154,7 +176,28 @@ let OrderPanel = React.createClass({
           return true;
         }
       }
-    });
+    };
+
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      validationRules.rules["passengers["+i+"].FirstName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].LastName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].Gender"] = {
+        required: true
+      };
+      validationRules.rules["passengers["+i+"].DateOfBirth"] = {
+        required: true,
+          date: true,
+          minlength: 10,
+          maxlength: 10
+      };
+    }
+
+    console.log('validationRules', validationRules);
+    $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
       return;
@@ -163,7 +206,7 @@ let OrderPanel = React.createClass({
       backdrop: 'static',
       keyboard: false
     });
-    var savedData = JSON.parse(JSON.stringify(this.props));
+    let savedData = JSON.parse(JSON.stringify(this.props));
     this.postOrder()
       .then(function (resData) {
         //FIXME jquery mess
@@ -212,7 +255,11 @@ let OrderPanel = React.createClass({
 
       let _passengers = [];
       for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
-        _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(this.props.orderData)} index={i} key={'pass'+i}/>);
+        console.log('this.props.orderData.fieldsData[passengers['+i+']]',this.props.orderData.fieldsData['passengers['+i+']']);
+        _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(
+          this.props.orderData.fieldsData,
+          i
+        )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
       }
 
       return (

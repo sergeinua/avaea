@@ -3,20 +3,28 @@ import ResultItemContainer from '../search/ResultItem';
 import moment from 'moment';
 
 let Booking = React.createClass({
-  getInitialState: function() {
-    return {
-      searchParams: JSON.parse(localStorage.getItem('searchParams'))
-    };
-  },
-
   getMarketingText: function () {
     let text;
-    if (this.state.searchParams.passengers.length == 1) {
+    if (this.props.orderData.fieldsData.session.passengers.length == 1) {
       text = "Your trip is all set. The ticket has been issued as an electronic ticket.";
     } else {
       text = "Your trip is all set. The tickets have been issued as electronic tickets.";
     }
     return text + " Please check your email for confirmation.";
+  },
+
+  showPassengers: function () {
+    let _passengers = [];
+    for (let i = 1; i <= this.props.orderData.fieldsData.session.passengers; i++) {
+      _passengers.push(<div className="name" key={"passenger-" + i}>
+        {
+          this.props.orderData.fieldsData['passengers['+i+'].FirstName']
+          + ' ' +
+          this.props.orderData.fieldsData['passengers['+i+'].LastName']
+        }
+      </div>);
+    }
+    return _passengers;
   },
 
   render: function () {
@@ -51,12 +59,16 @@ let Booking = React.createClass({
           <div className="passengers">
 
             <div className="wrapper">
-              <span className="travel-dates">{moment(this.state.searchParams.departureDate).format('MMM DD, YYYY') + (this.state.searchParams.returnDate?moment(this.state.searchParams.returnDate).format(' - MMM DD, YYYY'):'')}</span>
-              <span className="class">{serviceClass[this.state.searchParams.CabinClass]}</span>
+              <span className="travel-dates">{moment(this.props.orderData.fieldsData.session.departureDate).format('MMM DD, YYYY')
+              + (this.props.orderData.fieldsData.session.returnDate ?
+                 moment(this.props.orderData.fieldsData.session.returnDate).format(' - MMM DD, YYYY')
+                :
+                '')}
+              </span>
+              <span className="class">{serviceClass[this.props.orderData.fieldsData.session.CabinClass]}</span>
             </div>
 
-            {/* Vlad - Firstname Lastname in the order they were entered on booking form */}
-            <div className="name">Firstname Lastname</div>
+            {this.showPassengers()}
 
           </div>
         </div>

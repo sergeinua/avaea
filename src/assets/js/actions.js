@@ -53,7 +53,6 @@ export function actionSetProgramsVal (blockNum, elemNum, fieldName, value) {
 }
 
 export function actionSetPreferredAirlinesVal (blockNum, elemNum, fieldName, value) {
-  console.log(arguments)
   return {
     type: actionTypesProfile.SET_PREFERREDAIRLINES_VAL,
     blockNum: blockNum,
