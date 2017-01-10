@@ -10,8 +10,6 @@ let UserProfilePanelFFMSelect = React.createClass({
   getInitialState: function() {
     return {
       programName: '',
-      programData: [],
-      statusName: '',
       tierData: [],
       tierName: ''
     }
@@ -20,7 +18,6 @@ let UserProfilePanelFFMSelect = React.createClass({
   componentWillMount: function () {
     this.setState({
       programName: this.props.elem_value || '',
-      statusName: this.props.elem_value_status || '',
       tierName: this.props.elem_value_tier || ''
     })
   },
@@ -30,17 +27,7 @@ let UserProfilePanelFFMSelect = React.createClass({
       clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'program_name', incObj.value))
       this.setState({
         programName: incObj.value,
-        programData: this.getStatusOptions(incObj.program),
         tierData: this.getTierOptions(incObj.tier)
-      })
-    }
-  },
-
-  handleChangeStatusValue: function (incObj) {
-    if (incObj) {
-      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'status', incObj.value))
-      this.setState({
-        statusName: incObj.value
       })
     }
   },
@@ -69,7 +56,6 @@ let UserProfilePanelFFMSelect = React.createClass({
       .then((json) => {
         if (this.state.programName && this.state.programName == json[0].value) {
           this.setState({
-            programData: this.getStatusOptions(json[0].program),
             tierData: this.getTierOptions(json[0].tier)
           })
         }
@@ -78,19 +64,6 @@ let UserProfilePanelFFMSelect = React.createClass({
       .catch(function (error) {
         console.log(error)
       });
-  },
-
-  getStatusOptions: function(data) {
-    if (!data.length) {
-      return []
-    }
-    let res = data.map(function (item, key) {
-      return {
-        value: item['at'],
-        label: item['atn']
-      }
-    })
-    return res
   },
 
   getTierOptions: function(data) {
@@ -121,26 +94,13 @@ let UserProfilePanelFFMSelect = React.createClass({
         onChange={this.handleChangeValue}
       />
 
-      <label>Status</label>
-      <Select
-        name={"miles_programs.status[" + this.props.elemNum + "]"}
-        id={"miles_programs.status-" + this.props.elemNum}
-        value={this.state.statusName}
-        className="form-control input-sm"
-        placeholder="Status"
-        options={this.state.programData}
-        clearable={false}
-        cache={false}
-        onChange={this.handleChangeStatusValue}
-      />
-
-      <label>Tier</label>
+      <label>Tier Level</label>
       <Select
         name={"miles_programs.tier[" + this.props.elemNum + "]"}
         id={"miles_programs.tier-" + this.props.elemNum}
         value={this.state.tierName}
         className="form-control input-sm"
-        placeholder="Tier"
+        placeholder="Tier Level"
         options={this.state.tierData}
         clearable={false}
         cache={false}
