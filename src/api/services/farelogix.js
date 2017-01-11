@@ -1,17 +1,17 @@
 /* global memcache */
 /* global async */
 /* global sails */
-var
+const
   util    = require('util'),
   lodash  = require('lodash'),
   ejs     = require('ejs'),
   https   = require('https'),
   x2j     = require('xml2json');
 
-var serviceName = require('path').basename(module.filename, '.js');
-var currency = 'USD';
+const serviceName = require('path').basename(module.filename, '.js');
+const currency = 'USD';
 
-var getEndPoint = function() {
+const getEndPoint = function() {
   return [
     'https://',
     sails.config.flightapis.farelogix.post_options.host + ':' + sails.config.flightapis.farelogix.post_options.port,
@@ -19,8 +19,8 @@ var getEndPoint = function() {
   ].join('');
 };
 
-var getTc = function() {
-  var template = '' +
+const getTc = function() {
+  let template = '' +
     '<tc>\
         <iden<% for (var attr in iden) { %> <%=attr%>="<%=iden[attr]%>"<% } %>/>\
         <agent<% for (var attr in agent) { %> <%=attr%>="<%=agent[attr]%>"<% } %>/>\
@@ -35,8 +35,8 @@ var getTc = function() {
   });
 };
 
-var getFullRq = function(request) {
-  var template = '' +
+const getFullRq = function(request) {
+  let template = '' +
     '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">\
       <SOAP-ENV:Header>\
         <t:Transaction xmlns:t="xxs">\
@@ -57,10 +57,10 @@ var getFullRq = function(request) {
   });
 };
 
-var getSearchDestinations = function(params) {
-  var cabin = 'Y';
+const getSearchDestinations = function(params) {
+  let cabin = 'Y';
   if (['E', 'B', 'F', 'P'].indexOf(params.CabinClass) != -1) {
-    var mapClass = {
+    let mapClass = {
       'E': 'Y', // Economy Class
       'B': 'C', // Business Class
       'F': 'F', // First Class
@@ -68,7 +68,7 @@ var getSearchDestinations = function(params) {
     };
     cabin = mapClass[params.CabinClass];
   }
-  var template = '' +
+  let template = '' +
     '<OriginDestination>\
       <Departure>\
           <CityCode><%=departure%></CityCode>\
@@ -81,7 +81,7 @@ var getSearchDestinations = function(params) {
         <Cabin><%=cabin%></Cabin>\
       </Preferences>\
     </OriginDestination>';
-  var destinations = [];
+  let destinations = [];
   destinations.push(ejs.render(template, {
     departure: params.ArrivalLocationCode,
     arrival: params.DepartureLocationCode,
@@ -99,8 +99,8 @@ var getSearchDestinations = function(params) {
   return destinations.join('');
 };
 
-var getPNRFlights = function(params) {
-  var template = '' +
+const getPNRFlights = function(params) {
+  let template = '' +
     '<Flight AssociationID="F<%=aid%>" OriginDestinationID="O<%=oid%>" Source="<%=source%>">\
       <Departure>\
           <AirportCode><%=departure.code%></AirportCode>\
@@ -120,9 +120,9 @@ var getPNRFlights = function(params) {
     <NumberInParty>1</NumberInParty>\
     <FareRefKey><%=fareKey%></FareRefKey>\
   </Flight>';
-  var flights = [], aId = 1, oId = 1;
-  for (var cp = 0; cp < params.length; cp++) {
-    for (var fl = 0; fl < params[cp].flights.length; fl++) {
+  let flights = [], aId = 1, oId = 1;
+  for (let cp = 0; cp < params.length; cp++) {
+    for (let fl = 0; fl < params[cp].flights.length; fl++) {
       flights.push(ejs.render(template, {
         departure: {
           code: params[cp].flights[fl].from.code,
@@ -149,15 +149,15 @@ var getPNRFlights = function(params) {
   return flights.join('');
 };
 
-var farelogixRqGetters = {
+const farelogixRqGetters = {
   getAirAvailabilityRq: function (guid, params) {
-    var template = '' +
+    let template = '' +
       '<AirAvailabilityRQ TransactionIdentifier="<%-guid%>">\
         <%-destinations%>\
         <NumberInParty><%=passengers%></NumberInParty>\
         <% for (var i=1; i<=passengers; i++) { %><TravelerIDs PaxType="ADT" AssociationID="T<%=i%>"/><% } %>\
       </AirAvailabilityRQ>';
-    var req = getFullRq(ejs.render(template, {
+    let req = getFullRq(ejs.render(template, {
       guid: guid,
       destinations: getSearchDestinations(params),
       passengers: params.passengers
@@ -167,7 +167,7 @@ var farelogixRqGetters = {
 
   getFareSearchRq: function (guid, params) {
     // be careful with BrandedFareSupport attribute, another value will lead to changing response structure
-    var template = '' +
+    let template = '' +
       '<FareSearchRQ BrandedFareSupport="N" TransactionIdentifier="<%-guid%>">\
         <%-destinations%>\
         <TravelerInfo Type="ADT"><%=passengers%></TravelerInfo>\
@@ -176,7 +176,7 @@ var farelogixRqGetters = {
           <PricingCurrency><%=currency%></PricingCurrency>\
         </PricingInfo>\
       </FareSearchRQ>';
-    var req = getFullRq(ejs.render(template, {
+    let req = getFullRq(ejs.render(template, {
       guid: guid,
       destinations: getSearchDestinations(params),
       passengers: params.passengers,
@@ -187,7 +187,7 @@ var farelogixRqGetters = {
 
   getPNRCreateRq: function (guid, params) {
     // be careful with BrandedFareSupport attribute, another value will lead to changing response structure
-    var template = '' +
+    let template = '' +
       '<PNRCreateRQ TransactionIdentifier="<%-guid%>">\
         <CompletePNRElements>\
           <Itinerary>\
@@ -225,7 +225,7 @@ var farelogixRqGetters = {
         </OtherPNRElements>\
         <EndTransaction IgnoreWarnings="Y" TransactionType="ER"/>\
       </PNRCreateRQ>';
-    var req = getFullRq(ejs.render(template, {
+    let req = getFullRq(ejs.render(template, {
       guid: guid,
       flights: getPNRFlights(params.session.booking_itinerary.itinerary_data.citypairs),
       cc: {
@@ -249,9 +249,9 @@ var farelogixRqGetters = {
   }
 };
 
-var callFarelogixApi = function (api, apiParams, apiCb) {
+const callFarelogixApi = function (api, apiParams, apiCb) {
   api = lodash.upperFirst(api);
-  var farelogixRqGetter = 'get' + api + 'Rq';
+  let farelogixRqGetter = 'get' + api + 'Rq';
   if (!api) {
     throw 'api required';
   } else if (!farelogixRqGetters[farelogixRqGetter]) {
@@ -260,14 +260,14 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
   if (!apiCb || typeof(apiCb) != 'function') {
     throw 'callback required and should be a function';
   }
-  var request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
+  let request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
   // sails.log.info(request);
 
-  var post_options = sails.config.flightapis.farelogix.post_options;
+  let post_options = sails.config.flightapis.farelogix.post_options;
   post_options.headers['Content-Length'] = Buffer.byteLength(request);
 
-  var post_req = https.request(post_options, function(response) {
-    var body = '';
+  let post_req = https.request(post_options, function(response) {
+    let body = '';
 
     response.setEncoding('utf8');
     response.on('data', function (chunk) {
@@ -275,7 +275,7 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
     });
     response.on('end', function () {
       try {
-        var bodyJson = x2j.toJson(body, {
+        let bodyJson = x2j.toJson(body, {
           object: true
         });
         if( lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']) || lodash.isEmpty(bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']) ) {
@@ -284,7 +284,7 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
         if (err = bodyJson['SOAP-ENV:Envelope']['SOAP-ENV:Body']['SOAP-ENV:Fault']) {
           throw err['faultstring'];
         }
-        var apiRs = api;
+        let apiRs = api;
         if (api == 'PNRCreate') {
           apiRs = 'PNRView';
         }
@@ -302,22 +302,22 @@ var callFarelogixApi = function (api, apiParams, apiCb) {
   post_req.end();
 };
 
-var _jorneyTimeToMinutes = function (jt) {
+const _jorneyTimeToMinutes = function (jt) {
   jt = jt.split(':');
   return parseInt(jt[0])*60 + parseInt(jt[1]);
 };
 
-var mapIntermediateStops = function (stops) {
-  var res = {
+const mapIntermediateStops = function (stops) {
+  let res = {
     stops: [],
     stopsDurationMinutes: 0
   };
-  for (var i = 0; i < stops.length; i++) {
-    var stop = stops[i];
-    var cpStopDuration = sails.moment.duration(
+  for (let i = 0; i < stops.length; i++) {
+    let stop = stops[i];
+    let cpStopDuration = sails.moment.duration(
       sails.moment(stop.DepartureDate + ' ' + stop.DepartureTime).diff(stop.ArrivalDate + ' ' + stop.ArrivalTime)
     ).asMinutes();
-    var mappedStop = {
+    let mappedStop = {
       code: stop.locationCode,
       begin: {
         date: stop.ArrivalDate,
@@ -336,8 +336,8 @@ var mapIntermediateStops = function (stops) {
   return res;
 };
 
-var mapFlights = function(flights, priceSettings) {
-  var res = {
+const mapFlights = function(flights, priceSettings) {
+  let res = {
     flights: [],
     pathFlights: [],
     path: [],
@@ -345,18 +345,18 @@ var mapFlights = function(flights, priceSettings) {
     stopsCodes: [],
     stopsDurationMinutes: 0
   };
-  var mapReverseClass = {
+  let mapReverseClass = {
     'Y': 'E', // Economy Class
     'C': 'B', // Business Class
     'F': 'F', // First Class
     'W': 'P'  // Premium Economy
   };
-  for (var j=0; j < flights.length; j++) {
-    var flight = flights[j];
+  for (let j=0; j < flights.length; j++) {
+    let flight = flights[j];
 
     if (j>0) {
       // fill the citypair stops
-      var cpStopDuration = sails.moment.duration(
+      let cpStopDuration = sails.moment.duration(
         sails.moment(flight.Departure.Date + ' ' + flight.Departure.Time).diff(flights[j-1].Arrival.Date + ' ' + flights[j-1].Arrival.Time)
       ).asMinutes();
       res.stopsCodes.push(flight.Departure.AirportCode.toUpperCase());
@@ -376,7 +376,7 @@ var mapFlights = function(flights, priceSettings) {
       res.stopsDurationMinutes += cpStopDuration;
     }
 
-    var mappedFlight = {
+    let mappedFlight = {
       number: flight.Carrier.FlightNumber,
       abbrNumber: flight.Carrier.AirlineCode.toUpperCase() + flight.Carrier.FlightNumber,
       from: {
@@ -410,7 +410,7 @@ var mapFlights = function(flights, priceSettings) {
       }
       mappedFlight.noOfStops = flight.StopInformation.length;
 
-      var mStops = mapIntermediateStops(flight.StopInformation);
+      let mStops = mapIntermediateStops(flight.StopInformation);
       mappedFlight.stops = mStops.stops;
       mappedFlight.stopsDurationMinutes = mStops.stopsDurationMinutes;
       mappedFlight.stopsDuration = utils.minutesToDuration(mappedFlight.stopsDurationMinutes);
@@ -430,16 +430,16 @@ var mapFlights = function(flights, priceSettings) {
   return res;
 };
 
-var mapCitypairs = function(citypairs) {
-  var res = {
+const mapCitypairs = function(citypairs) {
+  let res = {
     price: 0,
     durationMinutes: 0,
     citypairs: [],
     key: ''
   };
-  for (var i=0; i < citypairs.length; i++) {
-    var currentDurationArr = [];
-    var pair = citypairs[i];
+  for (let i=0; i < citypairs.length; i++) {
+    let currentDurationArr = [];
+    let pair = citypairs[i];
     if (!pair.PriceGroup) {
       throw 'Wrong response format. No PriceGroup was found in flight';
     }
@@ -447,11 +447,11 @@ var mapCitypairs = function(citypairs) {
     if (!lodash.isArray(pair.Segment)) {
       pair.Segment = [pair.Segment];
     }
-    var from = pair.Segment[0];
+    let from = pair.Segment[0];
     from.Departure.DateTime = from.Departure.Date + ' ' + from.Departure.Time;
-    var to = pair.Segment[pair.Segment.length-1];
+    let to = pair.Segment[pair.Segment.length-1];
     to.Arrival.DateTime = to.Arrival.Date + ' ' + to.Arrival.Time;
-    var mappedPair = {
+    let mappedPair = {
       direction: i==0 ? 'Depart' : 'Return',
       from: {
         code: from.Departure.AirportCode.toUpperCase(),
@@ -488,7 +488,7 @@ var mapCitypairs = function(citypairs) {
     };
     res.durationMinutes += mappedPair.durationMinutes;
 
-    var mFlights = mapFlights(pair.Segment, pair.PriceGroup.PriceClass[0].PriceSegment);
+    let mFlights = mapFlights(pair.Segment, pair.PriceGroup.PriceClass[0].PriceSegment);
     mappedPair.noOfStops = mFlights.stops.length;
     mappedPair.stopsDurationMinutes = mFlights.stopsDurationMinutes;
     mappedPair.stopsDuration = utils.minutesToDuration(mappedPair.stopsDurationMinutes);
@@ -506,16 +506,16 @@ var mapCitypairs = function(citypairs) {
 };
 
 // Merchandising Fake keys Issue #39
-var _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
-var mapMerchandising = function (citypairs, val) {
-  var _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
+let _keysMerchandisingWiFi, _keysMerchandising1bagfree, _keysMerchandisingPrioritySeat;
+const mapMerchandising = function (citypairs, val) {
+  let _cityPairKey = ((citypairs.length > 1) ? lodash.random(0, citypairs.length - 1) : 0),
     _flightKey = ((citypairs[_cityPairKey].flights.length > 1) ? lodash.random(0, citypairs[_cityPairKey].flights.length - 1) : 0);
 
   citypairs[_cityPairKey].flights[_flightKey].merchandising.push(val);
 };
 
-var mapItinerary = function(itinerary) {
-  var res = {
+const mapItinerary = function(itinerary) {
+  let res = {
     id: itinerary.ItineraryId,
     service: serviceName,
     currency: currency,
@@ -526,7 +526,7 @@ var mapItinerary = function(itinerary) {
     key: ''
   };
 
-  var mCitypairs = mapCitypairs(itinerary);
+  let mCitypairs = mapCitypairs(itinerary);
   res.price = mCitypairs.price.toFixed(2);
   res.duration = utils.minutesToDuration(mCitypairs.durationMinutes);
   res.durationMinutes = mCitypairs.durationMinutes;
@@ -552,28 +552,26 @@ var mapItinerary = function(itinerary) {
 
 module.exports = {
   flightSearch: function(guid, params, callback) {
-    var
+    let
       _api_name = serviceName + '.flightSearch',
       farelogixApi = 'fareSearch';
 
     utils.timeLog(_api_name);
     sails.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
-    var _cb = callback;
+    let _cb = callback;
     callback = function (errors, resArr) {
       sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
       return _cb(errors, resArr);
     };
 
-    memcache.init(function(){});
-
-    var endPoint = getEndPoint();
+    let endPoint = getEndPoint();
     sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
-    var op = _api_name + ': ' + farelogixApi;
+    let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params.searchParams], function (err, result, raw) {
       try {
-        var
+        let
           apiCallTime = utils.timeLogGet(op),
           apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
         if (apiCallTime > 7000) {
@@ -583,13 +581,13 @@ module.exports = {
         if (err) {
           throw err;
         } else {
-          var resArr = [], errors = null;
+          let resArr = [], errors = null;
           if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
             if (!lodash.isArray(errors)) {
               errors = [errors];
             }
-            var errtxt = [];
-            for (var i = 0; i < errors.length; i++) {
+            let errtxt = [];
+            for (let i = 0; i < errors.length; i++) {
               errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
             }
             errors = errtxt.join('; ');
@@ -597,37 +595,41 @@ module.exports = {
           } else {
             utils.timeLog(_api_name + '_prepare_result');
             if (!result.FareGroup) {
-              throw 'No results found';
+              throw 'No Results Found';
             }
-            var isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
+            let isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
 
             if (!lodash.isArray(result.FareGroup)) {
               result.FareGroup = [result.FareGroup];
             }
-            var itineraries = [];
+            let itineraries = [];
             // prepare data for mapping
-            for (var fg = 0; fg < result.FareGroup.length; fg++) {
+            for (let fg = 0; fg < result.FareGroup.length; fg++) {
               if (!isBrandedFareGroup) {
+                /* convert element to array */
                 if (!lodash.isArray(result.FareGroup[fg].TravelerGroup.FareRules.FareInfo)) {
                   result.FareGroup[fg].TravelerGroup.FareRules.FareInfo = [result.FareGroup[fg].TravelerGroup.FareRules.FareInfo];
                 }
               }
-              var flights = [];
+              let flights = [];
+              /* convert element to array */
               if (!lodash.isArray(result.FareGroup[fg].OriginDestination)) {
                 result.FareGroup[fg].OriginDestination = [result.FareGroup[fg].OriginDestination];
               }
-              for (var od = 0; od < result.FareGroup[fg].OriginDestination.length; od++) {
+              for (let od = 0; od < result.FareGroup[fg].OriginDestination.length; od++) {
+                /* convert element to array */
                 if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight)) {
                   result.FareGroup[fg].OriginDestination[od].Flight = [result.FareGroup[fg].OriginDestination[od].Flight];
                 }
-                for (var fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
+                for (let fl = 0; fl < result.FareGroup[fg].OriginDestination[od].Flight.length; fl++) {
                   result.FareGroup[fg].OriginDestination[od].Flight[fl].CurrencyCode = result.FareGroup[fg].CurrencyCode;
                   if (!isBrandedFareGroup) {
+                    /* convert element to array */
                     if (!lodash.isArray(result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment)) {
                       result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment = [result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment];
                     }
                     // add FareRefKey to RelatedSegments
-                    for (var rs = 0; rs < result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment.length; rs++) {
+                    for (let rs = 0; rs < result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment.length; rs++) {
                       result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment[rs].FareRefKey = result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareRefKey;
                     }
                     result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup = {
@@ -642,12 +644,13 @@ module.exports = {
                   if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass)) {
                     result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass = [result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass];
                   }
-                  for (var pc = 0; pc < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass.length; pc++) {
+                  for (let pc = 0; pc < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass.length; pc++) {
+                    /* convert element to array */
                     if (!lodash.isArray(result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment)) {
                       result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment = [result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment];
                     }
                     // add Source and OriginDestinationID to PriceSegment
-                    for (var ps = 0; ps < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment.length; ps++) {
+                    for (let ps = 0; ps < result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment.length; ps++) {
                       result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment[ps].Source = result.FareGroup[fg].Source;
                       result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup.PriceClass[pc].PriceSegment[ps].OriginDestinationID = od+1;
                     }
@@ -657,23 +660,23 @@ module.exports = {
                 flights.push(result.FareGroup[fg].OriginDestination[od].Flight);
               }
               // get all combination of flights for current group
-              var groupItineraries = utils.cartesianProductOf.apply(null, flights);
+              let groupItineraries = utils.cartesianProductOf.apply(null, flights);
               itineraries = lodash.concat(itineraries, groupItineraries);
             }
             // generate ItinerariesIds
-            for (var it = 0; it < itineraries.length; it++) {
+            for (let it = 0; it < itineraries.length; it++) {
               itineraries[it].ItineraryId = guid + '-itin-' + (it+1);
             }
 
             // Merchandising Fake keys Issue #39
-            var itineraryIds = lodash.map(itineraries, 'ItineraryId');
+            let itineraryIds = lodash.map(itineraries, 'ItineraryId');
             _keysMerchandisingWiFi = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 50 / 100) );
             _keysMerchandising1bagfree = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 75 / 100) );
             _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
             async.map(itineraries, function (itinerary, doneCb) {
 
-              var mappedItinerary = mapItinerary(itinerary);
+              let mappedItinerary = mapItinerary(itinerary);
               resArr.push( mappedItinerary );
 
               return doneCb(null);
@@ -701,22 +704,22 @@ module.exports = {
    * @param {function} callback
    */
   flightBooking: function(guid, params, callback) {
-    var
-      _api_name = serviceName + '.flightBooking';
+    let
+      _api_name = serviceName + '.flightBooking',
+      farelogixApi = 'PNRCreate';
 
     utils.timeLog(_api_name);
     sails.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
-    var _cb = callback;
+    let _cb = callback;
     callback = function (errors, result) {
       sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
-    var endPoint = getEndPoint();
+    let endPoint = getEndPoint();
     sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
-    var farelogixApi = 'PNRCreate';
-    var op = _api_name + ': ' + farelogixApi;
+    let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params], function (err, result, raw) {
       try {
@@ -724,8 +727,8 @@ module.exports = {
           if (!lodash.isArray(errors)) {
             errors = [errors];
           }
-          var errtxt = [];
-          for (var i = 0; i < errors.length; i++) {
+          let errtxt = [];
+          for (let i = 0; i < errors.length; i++) {
             errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
           }
           errors = errtxt.join('; ');
@@ -752,13 +755,35 @@ module.exports = {
    * @param {function} callback
    */
   cancelPnr: function(guid, params, callback) {
+    let
+      _api_name = serviceName + '.cancelPnr',
+      farelogixApi = 'cancelPnr';
 
+    utils.timeLog(_api_name);
+    sails.log.info(_api_name + ' started');
+    // re-init callback for adding final measure of api processing time and show info in log
+    let _cb = callback;
+    callback = function (errors, result) {
+      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      return _cb(errors, result);
+    };
+
+    return callback('Not implemented.', null);
   },
 
-  getFareRules: function (guid, params, callback) {
-    var _api_name = "fareRules";
-    sails.log.info('Farelogix '+_api_name+' API call started');
-    utils.timeLog('farelogix_FareRules');
+  fareRules: function (guid, params, callback) {
+    let
+      _api_name = serviceName + '.fareRules',
+      farelogixApi = 'fareRules';
+
+    utils.timeLog(_api_name);
+    sails.log.info(_api_name + ' started');
+    // re-init callback for adding final measure of api processing time and show info in log
+    let _cb = callback;
+    callback = function (errors, result) {
+      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      return _cb(errors, result);
+    };
 
     return callback('Not implemented.', null);
   }

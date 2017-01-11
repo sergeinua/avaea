@@ -78,7 +78,24 @@ let OrderPanel = React.createClass({
   },
 
   postOrder: function() {
-    return ClientApi.reqPost('/booking_proc', this.props.orderData.fieldsData);
+    /* TODO: need to be refactored when the form will return normal array of passengers */
+    let fieldsData = Object.assign({}, this.props.orderData.fieldsData);
+    let passengers = [];
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      passengers.push({
+        PaxType: 'ADT',
+        FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
+        LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
+        Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
+        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
+      });
+      delete fieldsData["passengers["+i+"].FirstName"];
+      delete fieldsData["passengers["+i+"].LastName"];
+      delete fieldsData["passengers["+i+"].Gender"];
+      delete fieldsData["passengers["+i+"].DateOfBirth"];
+    }
+    fieldsData.passengers = passengers;
+    return ClientApi.reqPost('/booking_proc', fieldsData);
   },
 
   execReq: function (event) {
