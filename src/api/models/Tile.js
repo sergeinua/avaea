@@ -158,7 +158,7 @@ module.exports = {
           var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
-          // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.
+          // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
           sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
           var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} );  // only keep the ones departing midnight-6am
           var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} );  // only keep the ones departing 6am-noon
@@ -549,7 +549,34 @@ module.exports = {
     utils.timeLog('smart_ranking');
     var scenario = 7; // this is purposely hardcoded to allow easy switching between scenarios
     switch (scenario) {
-    case 5:
+    case 1: // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
+      sails.log.info('Scenario 1 : Prune and rank all together');
+      var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
+      sails.log.info('Pruned itineraries to ', pruned.length);
+      // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
+      // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+      var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
+      itineraries = ranked;
+      break;
+    case 2:
+      // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
+      sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
+      var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} ); // only keep the ones departing midnight-6am
+      var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} ); // only keep the ones departing 6am-noon
+      var itineraries_departing_Q3 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==3);} ); // only keep the ones departing noon-6pm
+      var itineraries_departing_Q4 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==4);} ); // only keep the ones departing 6pm-midnight
+      var pruned_departing_Q1 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q1);
+      var pruned_departing_Q2 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q2);
+      var pruned_departing_Q3 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q3);
+      var pruned_departing_Q4 = cicstanford.prune_itineraries_in_2D(itineraries_departing_Q4);
+      var pruned_departing_Q1234 = pruned_departing_Q1.concat(pruned_departing_Q2, pruned_departing_Q3, pruned_departing_Q4); // group them all together
+      // var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Duration'].order); // rank them all together
+      // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
+      var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
+      itineraries = ranked_departing_Q1234;
+      sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
+      break;
+    case 5: // number of itineraries stays the same
       sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
