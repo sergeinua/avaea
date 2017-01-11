@@ -68,7 +68,9 @@ let SimpleSearchForm = React.createClass({
       if (json.airport) {
         let searchParams = this.state.searchParams;
         searchParams.DepartureLocationCode = json.airport;
-        this.setState({searchParams: searchParams});
+        this.setState({searchParams: searchParams}, function () {
+          this.getSelectOptions(this.state.searchParams.DepartureLocationCode, 'DepartureOptions');
+        });
       }
     })
     .catch(function (error) {
