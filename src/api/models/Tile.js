@@ -547,6 +547,8 @@ module.exports = {
 
     /* Smart Ranking {{{ */
     utils.timeLog('smart_ranking');
+    cicstanford.compute_departure_times_in_minutes(itineraries); // used in Scenarios 5,6,7
+    cicstanford.determine_airline(itineraries); // used in Scenarios 5,6,7
     var scenario = 7; // this is purposely hardcoded to allow easy switching between scenarios
     switch (scenario) {
     case 1: // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
@@ -558,8 +560,7 @@ module.exports = {
       var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
       itineraries = ranked;
       break;
-    case 2:
-      // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
+    case 2: // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
       sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
       var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} ); // only keep the ones departing midnight-6am
       var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} ); // only keep the ones departing 6am-noon
@@ -578,8 +579,6 @@ module.exports = {
       break;
     case 5: // number of itineraries stays the same
       sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
       var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
       // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
       // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
@@ -607,10 +606,8 @@ module.exports = {
         }
       }
       break;
-    case 6:
+    case 6: // number of itineraries stays the same
       sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
       var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
 
       // append the default zero smartRank
@@ -628,9 +625,7 @@ module.exports = {
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
       break;
-    case 7:
-      cicstanford.compute_departure_times_in_minutes(itineraries);
-      cicstanford.determine_airline(itineraries);
+    case 7: // number of itineraries stays the same
       sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
       var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
 
