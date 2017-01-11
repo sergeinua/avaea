@@ -660,7 +660,7 @@ module.exports = {
       itineraries = tmp;
       sails.log.info('after DEMO-285', itineraries.length);
     }
-    //cicstanford.print_many_itineraries(itineraries);
+    cicstanford.print_many_itineraries(itineraries);
 
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
