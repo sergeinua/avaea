@@ -31,7 +31,9 @@ let PassengerItem = React.createClass({
           (item, index) => <OrderPanelElement profileStructure={genderStructure} item={item} key={'elem-' + index} panelType="fields"/>
         )}
 
-        { this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'] && moment().diff(this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'], 'years') < 12 ?
+        { this.props.orderData.fieldsData
+        && this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth']
+        && moment().diff(this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'], 'years') < 12 ?
           <OrderPanelElement
             item={{
               id: 'passengers[' + this.props.index + '].lap',

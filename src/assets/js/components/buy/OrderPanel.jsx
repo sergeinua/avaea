@@ -255,7 +255,6 @@ let OrderPanel = React.createClass({
 
       let _passengers = [];
       for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
-        console.log('this.props.orderData.fieldsData[passengers['+i+']]',this.props.orderData.fieldsData['passengers['+i+']']);
         _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(
           this.props.orderData.fieldsData,
           i
