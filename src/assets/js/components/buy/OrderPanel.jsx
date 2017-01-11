@@ -89,10 +89,6 @@ let OrderPanel = React.createClass({
         Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
         DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
       });
-      delete fieldsData["passengers["+i+"].FirstName"];
-      delete fieldsData["passengers["+i+"].LastName"];
-      delete fieldsData["passengers["+i+"].Gender"];
-      delete fieldsData["passengers["+i+"].DateOfBirth"];
     }
     fieldsData.passengers = passengers;
     return ClientApi.reqPost('/booking_proc', fieldsData);
