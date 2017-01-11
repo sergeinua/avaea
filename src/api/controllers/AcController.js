@@ -65,7 +65,6 @@ module.exports = {
           found[i] = {
             value: found[i].program_code,
             label: found[i].program_name,
-            program: found[i].miles_type_configuration,
             tier: found[i].tiers_configuration
           }
         }
@@ -178,11 +177,14 @@ module.exports = {
     let send = {airport:''};
 
     if (geo && !_.isUndefined(geo.city)) {
-      Airports.getAirports(geo.city, 1, function (err, result) {
+      let lookup = require('country-data').lookup;
+      let seachString = geo.city || lookup.countries({alpha2: geo.country})[0].name;
+
+      Airports.getAirports(seachString, 1, function (err, result) {
         if (err) {
           sails.log.error(err);
         } else {
-          if (result && !_.isUndefined(result[0].value)) {
+          if (result && result.length && !_.isUndefined(result[0].value)) {
             // check airport passengers traffic
             if ( result[0].pax > 100 ) {
               send.airport = result[0].value;
