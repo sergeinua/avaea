@@ -97,7 +97,7 @@
 
 (defn get-cases
   "Returns a list of test cases for a test suite or specific section in a test suite."
-  [project-id filter]
+  [project-id {:keys [suite_id section_id created_after created_before] :as filter}]
   (send-get (build-url "get_case" project-id (map-to-get-params filter))))
 
 (defn add-case
@@ -156,11 +156,6 @@
   [project-id {:keys [suite_id name description milestoneid assignedto_id include_all project_id] :as info}]
   (send-post (build-url "update_project" project-id) info))
 
-(defn close-project
-  "Closes an existing test project and archives its tests & results."
-  [project-id]
-  (send-post (build-url "close_project" project-id) {}))
-
 (defn delete-project
   "Deletes an existing test project."
   [project-id]
@@ -168,15 +163,43 @@
 
 ;; -------------------------------------------------------------------------------------
 
+(defn get-suite
+  "Returns an existing test suite."
+  [suite-id]
+  (send-get (build-url "get_suite" suite-id)))
 
+(defn get-suites
+  "Returns a list of test suites for a project."
+  [project-id {:keys [suite_id section_id created_after created_before] :as filter}]
+  (send-get (build-url "get_suite" project-id (map-to-get-params filter))))
+
+(defn add-suite
+  "Creates a new test suite."
+  [project-id {:keys [] :as info}]
+  (send-post (build-url "add_suite" project-id) info))
+
+(defn update-suite
+  "Updates an existing test suite (partial updates are supported,
+   i.e. you can submit and update specific fields only)."
+  [suite-id {:keys [] :as info}]
+  (send-post (build-url "update_suite" suite-id) info))
+
+(defn delete-suite
+  "Deletes an existing test suite."
+  [suite-id]
+  (send-post (build-url "delete_suite" suite-id) {}))
 
 ;; -------------------------------------------------------------------------------------
 
+(defn get-test
+  "Returns an existing test."
+  [test-id]
+  (send-get (build-url "get_test" test-id)))
 
-
-;; -------------------------------------------------------------------------------------
-
-
+(defn get-tests
+  "Returns a list of test tests for a project."
+  [run-id]
+  (send-get (build-url "get_test" run-id (map-to-get-params filter))))
 
 ;; -------------------------------------------------------------------------------------
 
