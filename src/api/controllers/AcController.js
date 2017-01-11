@@ -184,7 +184,7 @@ module.exports = {
         if (err) {
           sails.log.error(err);
         } else {
-          if (result && !_.isUndefined(result[0].value)) {
+          if (result && result.length && !_.isUndefined(result[0].value)) {
             // check airport passengers traffic
             if ( result[0].pax > 100 ) {
               send.airport = result[0].value;
