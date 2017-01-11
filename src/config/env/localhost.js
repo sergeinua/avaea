@@ -82,6 +82,11 @@ module.exports = {
 
   hookTimeout: 120000,
   segmentio_key: 'xtV7Xew6UQa1scURs186FRazPcgCPcxR',
+
+  recaptcha: {
+    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
+    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
+  },
   //test account set up to http://localhost:1337
   passport: {
     google: {

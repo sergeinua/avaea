@@ -1,28 +1,31 @@
 /* ---------------
    for-integration.css
 
-	 Engineers, please add
-	 styles you need here, not in the code
-	 Deborah will integrate into core.css
-	 during the next phase
+   Engineers, please add
+   styles you need here, not in the code
+   Deborah will integrate into core.css
+   during the next phase
 
-	 please be specific so new styles do not
-	 get picked up where they should not.
+   please be specific so new styles do not
+   get picked up where they should not.
 
-	 thank you!
+   thank you!
 
-	 --------------- */
+--------------- */
 
-/* Deborah integrated the styles here on Nov 29
-	 leaving the react-select CSS style sheet separate for now
-*/
+ 
 
 
 
 
-.navmenu {
-  width: 200px;
-}
+
+
+
+
+
+
+
+
 
 
 

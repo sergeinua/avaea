@@ -1,11 +1,12 @@
 import React from 'react';
 import Flight from './Flight.jsx';
-import MerchandisingInfo from './MerchandisingInfo.jsx';
+{/* suppressing fake merchandising data until we have real data */}
+{/* import MerchandisingInfo from './MerchandisingInfo.jsx'; */}
 
 let Citypairs = React.createClass({
 
   showFMiles: function(miles) {
-    if( miles === false ) {
+    if (miles === undefined || miles.isLoading) {
       // spinner here
       return <div className="ff-miles no-value">
         Frequent Flyer miles
@@ -42,9 +43,11 @@ let Citypairs = React.createClass({
                 { pair.direction }
               </div>
 
+              {/*
               <div className="col-xs-9 extras">
                 <MerchandisingInfo flights={pair.flights}/>
               </div>
+              */}
 
             </div>
             { pair.flights.map(function (flight, j) {
@@ -54,8 +57,8 @@ let Citypairs = React.createClass({
           })}
         {this.showFMiles(this.props.miles)}
         <div className="refundable row">
-          <div className="col-xs-4 text-nowrap notable-text detail-col times">Refund Type:</div>
-          <div className="col-xs-8 text-left detail-col">{this.showRefundType(this.props.refundType)}</div>
+          <div className="label-d">Refund Type:</div>
+          <div className="copy">{this.showRefundType(this.props.refundType)}</div>
         </div>
       </div>
     )

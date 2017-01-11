@@ -120,5 +120,32 @@ module.exports = {
       type: error,
       messages: sails.__(error) || []
     };
+  },
+
+  convertType: function (value){
+    if (value === "undefined") {
+      return undefined;
+    }
+    if (value === "null") {
+      return null;
+    }
+    if (value === "true") {
+      return true;
+    }
+    if (value === "false") {
+      return false;
+    }
+    let v = Number (value);
+    return isNaN (v) ? value : v;
+  },
+
+  getUser: function (req) {
+    let userId = '';
+    if (req.user && req.user.id) {
+      userId = req.user.id;
+    } else {
+      userId = utils.convertType(req.cookies.ajs_user_id) || utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') || 0;
+    }
+    return userId;
   }
 };

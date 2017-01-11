@@ -42,7 +42,6 @@ var Order = {
       merchandising: [
         'Free WiFi',
         'In seat video',
-        'In seat video',
         '+20kg luggage free',
         'Priority boarding'
       ]

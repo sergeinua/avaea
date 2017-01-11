@@ -41,7 +41,67 @@ export let ActionsStore = {
 
   submitTripSearchForm: () => {
     clientStore.dispatch(actionUpdateCommonByVal('formSubmitCount', 1));
-  }
+  },
+
+  loadMilesInfo: (ids) => {
+    let milesInfosObject = clientStore.getState().commonData.ffmiles;
+
+
+    let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
+      // miles value meaning:
+      // miles === undefined // not loaded
+      let miles = milesInfosObject[id];
+      return (
+        miles === undefined
+        || (!miles.isLoading && !miles.isLoaded && !miles.isError)
+      );
+    });
+
+    if (idsLoadingNotStartedAndNotLoaded.length > 0) {
+      setMilesInfoLoadingStarted(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+      ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
+        .then((msg) => {
+          if (msg.error) {
+            console.log("Result of 30K api: " + JSON.stringify(msg));
+            return setMilesInfoLoadingFailed(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+          }
+
+          let updatedMilesInfosObject = {};
+          let idsLoadedObject = {};
+          msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
+            idsLoadedObject[id] = true;
+            updatedMilesInfosObject[id] = {
+              isLoading: false,
+              isLoaded: true,
+              isError: false,
+              value: miles || 0,
+              name: ProgramCodeName
+            }
+          });
+          let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
+          idsFailedToLoad.forEach((id) => {
+            updatedMilesInfosObject[id] = {
+              isLoading: false,
+              isLoaded: false,
+              isError: true,
+              value: 0,
+              name: ''
+            }
+          });
+
+          let loadingMilesUpdated = Object.keys(updatedMilesInfosObject)
+            .map((itineraryId) => [['ffmiles', itineraryId], updatedMilesInfosObject[itineraryId]]);
+          return clientStore.dispatch(actionMergeCommonVal(loadingMilesUpdated));
+
+        })
+        .catch((error) => {
+          console.log("Result of 30K api: " + JSON.stringify(error));
+          return setMilesInfoLoadingFailed(milesInfosObject, idsLoadingNotStartedAndNotLoaded);
+        })
+      ;
+    }
+  },
+
 };
 
 export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
@@ -134,8 +194,6 @@ var isMobile = {
   }
 };
 
-// Deborah removed landscape function
-// in order to control landscape view with responsive CSS
 
 /**
  * Possible types
@@ -146,6 +204,28 @@ export let logAction = function (type, data) {
   ClientApi.reqPost("/prediction/" + type, data);
 };
 
+function setMilesInfoLoadingStarted(milesInfosObject, ids) {
+  return _setMilesInfoLoadingState(true, false, false, milesInfosObject, ids);
+}
+
+function setMilesInfoLoadingFailed(milesInfosObject, ids) {
+  return _setMilesInfoLoadingState(false, false, true, milesInfosObject, ids);
+}
+
+function _setMilesInfoLoadingState(isLoading, isLoaded, isError, milesInfosObject, ids) {
+  let loadingMilesFailed = ids.map((itineraryId) => {
+    let miles = milesInfosObject[itineraryId];
+    return [['ffmiles', itineraryId], {
+      isLoading: isLoading,
+      isLoaded: isLoaded,
+      isError: isError,
+      value: miles ? miles.value : 0,
+      name: miles ? miles.name : ''
+    }]
+  });
+  return clientStore.dispatch(actionMergeCommonVal(loadingMilesFailed));
+}
+
 function getCookie(name) {
   var matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -153,7 +233,7 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function setCookie(name, value, options) {
+export function setCookie(name, value, options) {
   options = options || {};
 
   var expires = options.expires;
@@ -182,15 +262,11 @@ function setCookie(name, value, options) {
   document.cookie = updatedCookie;
 }
 
-
 $(document).ready(function() {
 
-  $('#nav_slide_menu').offcanvas({
-    toggle: false,
-    placement: 'left'
-  });
+  // app screens nav slide menu is in NavBar.jsx
 
-//***** detect IE10 or IE11 and append string  ***** //
+  // detect IE10 or IE11 and append string
   var doc = document.documentElement;
   doc.setAttribute('data-useragent', navigator.userAgent);
 
@@ -217,4 +293,54 @@ export function unfocusFormForIos() {
 export function setAirportData(target, data) {
   ActionsStore.setFormValue(target, data.value);
   ActionsStore.setFormValue(target + 'City', data.city);
+}
+
+export let getDefaultDateSearch = (defaultParams) => {
+  let moment_now = moment()
+  let tmpDefaultDepDate = moment().add(2, 'w')
+  let tmpDefaultRetDate = moment().add(4, 'w')
+  let nextFirstDateMonth = moment().add(1, 'M').startOf('month');
+
+  if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
+    tmpDefaultRetDate = moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+    tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
+  } else {
+    tmpDefaultDepDate = moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+    tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+  }
+
+  if (defaultParams.departureDate) {
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
+
+    // Check depart date
+    if (moment_dp &&
+      (
+        moment_dp.isBefore(moment_now, 'day') ||
+        moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
+      )
+    ) {
+      defaultParams.departureDate = tmpDefaultDepDate.format('YYYY-MM-DD')
+    }
+  }
+
+  if (defaultParams.returnDate) {
+    let moment_rp = moment(defaultParams.returnDate, "YYYY-MM-DD")
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
+
+    // Check return date
+    if (moment_rp &&
+      (
+        moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1 ||
+        moment_rp.isBefore(moment_dp, 'day')
+      )
+    ) {
+      defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD')
+    }
+  }
+
+  return defaultParams
+};
+
+export function getUser() {
+  return InitData.user || false;
 }

@@ -28,7 +28,7 @@ module.exports = {
   port: 8080,
   proxyHost: 'http://abo.avaea.com',
   proxyPort: 80,
-  explicitHost: 'localhost',
+  explicitHost: '0.0.0.0',
 
   remoteSocket: 'https://www.avaea.com',
 
@@ -42,16 +42,18 @@ module.exports = {
   },
 
   session: {
-    host: '127.0.0.1',
+    host: 'db1',
     user: 'avaea',
     password: 'a1v2a3e4a5',
     database: 'avaea'
   },
-
-  flightapis: {
-    searchProvider: 'mondee' // 'mystifly'
+   connections: {
+    memcacheConf: {
+    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
+    port: '11211',
+    exptime: 60*30 // 30 minutes
   },
-
+},
   hookTimeout: 60000
 
 };

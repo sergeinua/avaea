@@ -48,24 +48,28 @@ let Buckets = React.createClass({
     return (
     <div className={this.state.fullinfo ?"filters-area open":"filters-area closed"}>
       <div className="holder">
-         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
-           <div id="tiles" className="swiper-wrapper" data-max_filter_items={ this.props.max_filter_items }>
-             {this.state.tiles.map(function (tile) {
-               return <Tile key={tile.id} info={tile} />
-             })}
-           </div>
+      	<div className="swiper-holder">
+	         <div className={this.state.fullinfo ? "swiper-container":"swiper-container hide"}>
+	           <div id="tiles" className="swiper-wrapper">
+	             {this.state.tiles.map(function (tile) {
+	               return <Tile key={tile.id} info={tile} />
+	             })}
+	           </div>
+	         </div>  
         </div>
 
         <div className={this.state.fullinfo ? "bottomNav":"bottomNav sticks"}>
-          <div className="bottom-nav-text">
-          <span>Showing <span className='search_count' id='search_count'>{ this.props.searchResultLength }/{this.state.searchResultLength} </span>
-          flights by</span> </div><Sorter current={this.props.currentSort}/>
-          { !!this.props.tiles.length ?
-            <div className="clear-undo-buttons text-right">
-              <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
-              <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
-            </div>:null
-          }
+        	<div className="wrapper">
+	          <div className="bottom-nav-text">
+	          <span>Showing <span className='search_count' id='search_count'>{ this.props.searchResultLength }/{this.state.searchResultLength} </span>
+	          flights by</span> </div><Sorter current={this.props.currentSort}/>
+	          { !!this.props.tiles.length ?
+	            <div className="clear-undo-buttons text-right">
+	              <span id="clear" className="clear-all-filters" onClick={this.handleClear()}>Clear</span>|
+	              <span id="undo" className="undo-button" onClick={this.handleUndo()}>Undo</span>
+	            </div>:null
+	          }
+	          </div>
         </div>
       </div>
     </div>
