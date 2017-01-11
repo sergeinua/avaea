@@ -30,7 +30,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "The same day with impossible day return"
+ "(C36) The same day with impossible day return"
 
  (open-browser page-url)
 

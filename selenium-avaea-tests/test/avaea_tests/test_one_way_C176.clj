@@ -43,7 +43,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "Search of 'all flights' tickets using Mondee"
+ "(C176) Search of 'all flights' tickets using Mondee"
 
  (open-browser page-url)
 
@@ -75,12 +75,12 @@
              ($-elements (as-mondee (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil)
+             ($ (:flights-price-button page)) =not=> nil)
 
        #_(fact "Click first element"
              (click ($ (:flights-list page))))
 
-       #_(click ($ (:flights-result-button page)))
+       #_(click ($ (:flights-price-button page)))
 
        #_(when-let [try-again-btn ($ (:try-again-button page))]
            (click try-again-btn)))

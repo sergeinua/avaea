@@ -34,7 +34,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "Voice search"
+ "(C37) Voice search"
 
  (open-browser page-url)
 
@@ -78,7 +78,7 @@
              ($-elements (as-mondee (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil))
+             ($ (:flights-price-button page)) =not=> nil))
 
  (quit))
 

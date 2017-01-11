@@ -31,7 +31,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "No search with empty 'Return' date"
+ "(C191) No search with empty 'Return' date"
 
  (open-browser page-url)
 

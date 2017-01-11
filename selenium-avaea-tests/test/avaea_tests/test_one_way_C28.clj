@@ -32,7 +32,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "Voice search"
+ "(C28) Voice search"
 
  (open-browser page-url)
 
@@ -41,7 +41,7 @@
  (wait-element (:voice-search-text-area page))
 
  (fact "Continue button is disabled"
-       (:voice-search-text-area page) => disabled?)
+       (:voice-search-submit-button page) => disabled?)
 
  (input-text ($ (:voice-search-submit-button page)) "I'm in Paris need to fly to Madrid tomorrow")
 
@@ -71,7 +71,7 @@
              ($-elements (as-mondee (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil))
+             ($ (:flights-price-button page)) =not=> nil))
 
  (quit))
 

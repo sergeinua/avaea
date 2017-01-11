@@ -1,6 +1,4 @@
-(ns avaea-tests.test-general-c40)
-
-(ns avaea-tests.test-one-way-c176
+(ns avaea-tests.test-general-c40
   (:require [avaea.tests.webdriver :refer :all]
             [avaea.tests.helpers :refer :all]
             [avaea.tests.test-util :refer :all]
@@ -34,7 +32,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "Booking with wrong info"
+ "(C40) Booking with wrong info"
 
  (open-browser page-url)
 
@@ -45,10 +43,14 @@
 
  (fact "Tap the Calendar and choose any date"
        (click ($ (:depart-button page)))
-       (select-random-date)
+       (select-random-date-range)
        (click ($ (:calendar-done-button page))))
 
- (fact "Search Button is disabled"
-       ($ (:search-button page)) => disabled?)
+ (fact "Booking"
+       (click ($ (:search-button page)))
+       #_(click ($ (:flights-price-button page)))
+
+       ;; TODO
+ )
 
  (quit))

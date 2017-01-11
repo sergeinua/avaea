@@ -45,7 +45,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "Search of 'all flights' tickets using Farelogix"
+ "(C31) Search of 'all flights' tickets using Farelogix"
 
  (open-browser page-url)
 
@@ -71,6 +71,6 @@
              ($-elements (as-farelogix (:flights-list page))) => not-empty)
 
        (fact "Have Prices (all flights)"
-             ($ (:flights-result-button page)) =not=> nil))
+             ($ (:flights-price-button page)) =not=> nil))
 
  (quit))

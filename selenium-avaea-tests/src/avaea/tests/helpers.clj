@@ -103,7 +103,8 @@
   ([s el] (type-text s 100 el))
   ([s timeout el]
    (clear el)
-   (let [size (count s)]
+   (input-text el s)
+   #_(let [size (count s)]
      (loop [i 0]
        (let [char (str (get s i))]
          (when (< i size)

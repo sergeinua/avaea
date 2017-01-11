@@ -30,7 +30,7 @@
 (def page (-> config :pom :search))
 
 (facts*
- "The same airport"
+ "(C180) The same airport"
 
  (open-browser page-url)
 

@@ -9,6 +9,7 @@
   (:import [org.joda.time LocalDate LocalTime]))
 
 (def search-page (-> (read-config) :pom :search))
+(def profile-form (-> (read-config) :pom :profile-form))
 
 (def slash-formater (f/formatter "MM/dd/YYYY"))
 (def depart-formater (f/formatter "dd MMM YYYY"))
