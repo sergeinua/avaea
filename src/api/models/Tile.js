@@ -110,7 +110,7 @@ module.exports = {
           count: 0
         }
       ]
-    } 
+    }
     */
   },
   getTilesData: function (itineraries, params, callback) {
@@ -236,7 +236,7 @@ module.exports = {
           itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
         }
       }
-      cicstanford.print_many_itineraries(itineraries);
+      //cicstanford.print_many_itineraries(itineraries);
       sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
       /* }}} Smart Ranking */
       utils.timeLog('tile_generation');
@@ -547,7 +547,9 @@ module.exports = {
 
     /* Smart Ranking {{{ */
     utils.timeLog('smart_ranking');
-    if (false) {
+    var scenario = 7; // this is purposely hardcoded to allow easy switching between scenarios
+    switch (scenario) {
+    case 5:
       sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
       cicstanford.compute_departure_times_in_minutes(itineraries);
       cicstanford.determine_airline(itineraries);
@@ -577,18 +579,13 @@ module.exports = {
           next_rank++;
         }
       }
-    } else {
-      if (false) {
-        sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-        cicstanford.compute_departure_times_in_minutes(itineraries);
-        cicstanford.determine_airline(itineraries);
-        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
-      } else {
-        cicstanford.compute_departure_times_in_minutes(itineraries);
-        cicstanford.determine_airline(itineraries);
-        sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
-        var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
-      }
+      break;
+    case 6:
+      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = 0;
@@ -603,6 +600,31 @@ module.exports = {
         var itin_index = ID.indexOf(itin_id);
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
+      break;
+    case 7:
+      cicstanford.compute_departure_times_in_minutes(itineraries);
+      cicstanford.determine_airline(itineraries);
+      sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
+      var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+
+      // append the default zero smartRank
+      for (var i = 0; i < itineraries.length; i++) {
+        itineraries[i].smartRank = 0;
+      }
+      // extract all the itinerary IDs into a separate array
+      var ID = itineraries.map(function (it) {
+        return it.id
+      });
+      // the itineraries in temp_itins are ordered according to a smartRank, copy their ranks to the original itineraries
+      for (var i = 0; i < temp_itins.length; i++) {
+        var itin_id = temp_itins[i].id;
+        var itin_index = ID.indexOf(itin_id);
+        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+      }
+      break;
+    default:
+      // do nothing
+      break;
     }
     //DEMO-285 temporary shrink result based on smart rank
     if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
@@ -616,6 +638,7 @@ module.exports = {
       itineraries = tmp;
       sails.log.info('after DEMO-285', itineraries.length);
     }
+    //cicstanford.print_many_itineraries(itineraries);
 
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
