@@ -3,12 +3,14 @@ import * as ReactRedux from 'react-redux';
 import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
-import ResultItem from '../search/ResultItem.jsx';
+import ResultItemContainer from '../search/ResultItem.jsx';
 import OrderSpecialModal from './OrderSpecialModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 let OrderPanel = React.createClass({
 
@@ -146,7 +148,7 @@ let OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         if (!resData.error && resData.bookingId) {
-          browserHistory.push('/booking/' + resData.bookingId);
+          historyStrategy.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
           savedData.orderData.flashMsg = resData.flashMsg;
           //scroll to page top to show error message after components re-render
@@ -196,7 +198,7 @@ let OrderPanel = React.createClass({
 
           <div className="flight-unit">
             <div className="booking-flight-unit">
-              <ResultItem key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
             </div>
           </div>
 
