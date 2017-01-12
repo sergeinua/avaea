@@ -73,5 +73,10 @@ module.exports = {
       login:    'avaea',
       password: '11c235eba9b7'
     }
+  },
+  recaptcha: {
+    public: '6LfyCREUAAAAAADwXPedDrDDZkjPDtyD2LGFgNC2',
+    private: '6LfyCREUAAAAAI8z2-sRHTfbq8un61iX-DB6Uahk'
   }
 };
+

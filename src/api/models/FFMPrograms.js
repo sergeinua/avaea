@@ -38,7 +38,7 @@ module.exports = {
     if (userId == undefined) {
       qdefer.resolve(emptyMilesProgramsValue);
     } else {
-      Profile.getUserMilesProgramsByUserId(req.user.id)
+      Profile.getUserMilesProgramsByUserId(userId)
         .then(function (milesProgram) {
           qdefer.resolve(milesProgram);
         })

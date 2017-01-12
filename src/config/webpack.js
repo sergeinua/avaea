@@ -83,6 +83,12 @@ module.exports.webpack = {
           exclude: /node_modules/,
         },
         {
+          // whatwg-fetch use Promsie which IE11 doesn't support
+          test: /\.js$/,
+          include: [/whatwg-.*/],
+          loader: 'babel'
+        },
+        {
           test: /\.css$/,
           loader: extractCSS.extract(['css'])
         },
