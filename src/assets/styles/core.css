@@ -3894,6 +3894,10 @@ html[data-useragent*='Trident'] .swiper-container {
 	margin-bottom: 30px;
 }
 
+.unsupported .copy {
+	text-align: left;
+}
+
 .unsupported .no-can-do p {
 	line-height: 24px;
 	width: 90%;
