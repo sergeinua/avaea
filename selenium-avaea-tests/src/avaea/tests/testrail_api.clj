@@ -1,4 +1,4 @@
-(ns avaea.tests.testrail
+(ns avaea.tests.testrail-api
   (:require [clj-http.client :as client]
             [avaea.tests.config :refer :all]
             [clojure.string :as string]))
@@ -20,7 +20,7 @@
 (defn- send-post [url body]
   (:body (client/post (build-url url) (merge headers (:auth testrail-config) {:form-params body}))))
 
-(defn get-status-id [status-id]
+(defn- get-status-id [status-id]
   (if (keyword? status-id)
     (case status-id
       :passed 1
@@ -29,20 +29,20 @@
       :retest 4
       :failed 5) status-id))
 
-(defn test-api [test-fn]
+(defn- test-api [test-fn]
   (try
     (test-fn)
     (catch Throwable e (-> e ex-data :body))))
 
-(defn build-url
+(defn- build-url
   [& parts]
   (let [url (string/join "/"
                          (map (fn [part]
                                 (if (string? part)
                                   part
                                   (str "?" (string/join "&"
-                                                     (for [[k v] part]
-                                                       (str (name k) "=" v))))))
+                                                        (for [[k v] part]
+                                                          (str (name k) "=" v))))))
                               (filter #(-> % empty? not) parts)))]
     url))
 
@@ -229,7 +229,6 @@
   the differences between test cases and tests."
   [run-id case-id {:keys [status_id comment elapsed defects version custom_step_results] :as result}]
   (send-post (build-url "add_result_for_case" run-id case-id) result))
-
 
 (defn add-results
   "Adds one or more new test results, comments or assigns one or more tests.

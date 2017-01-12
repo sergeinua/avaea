@@ -1,8 +1,10 @@
 {:test-all-drivers ["chrome"]
 
- :server-root "http://stage.avaea.com"
+ ;; :server-root "http://stage.avaea.com"
+ :server-root  "https://www.onvoya.com"
  :testrail   {
               :base-url "https://potapenko.testrail.net/"
+
               :auth {:basic-auth ["eugene.john.potapenko@gmail.com" "SIcLfBJL2fRv3zYbnH5S"]}
                }
  ;; :dev         true

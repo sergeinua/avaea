@@ -1,10 +1,11 @@
 (ns avaea.tests.midje-testrail-plugin
-  (:require [midje.emission.plugins.util :as util]
-            [midje.data.fact :as fact]
-            [midje.emission.plugins.default :as default]
-            [midje.emission.state :as state]
+  (:require [avaea.tests.testrail-api :as testrail]
             [environ.core :as environ]
-            [avaea.tests.testrail :as testrail]))
+            [midje.data.fact :as fact]
+            [midje.emission.plugins
+             [default :as default]
+             [util :as util]]
+            [midje.emission.state :as state]))
 
 (def browser-name (environ/env :clj-env))
 
@@ -42,9 +43,9 @@
   (println "!!! possible-new-namespace !!!")
   (default/possible-new-namespace fact))
 
-(defn finishing-fact-stream [fact]
+(defn finishing-fact-stream [midje-counters clojure-test-map]
   (println "!!! finishing-fact-stream !!!")
-  (default/finishing-fact-stream fact))
+  (default/finishing-fact-stream midje-counters clojure-test-map))
 
 (defn starting-fact-stream []
   (println "!!! starting-fact-stream !!!")
