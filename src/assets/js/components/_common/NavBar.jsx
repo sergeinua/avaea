@@ -163,9 +163,9 @@ let NavBar = React.createClass({
                 <li>{this.showLinkProfile("/profile", "Profile")}</li>
                 <li>
                   {getUser().email ?
-                    <a href="/logout">Log out <b>{ getUser().email }</b></a>
+                    <a href="/logout" id='menu-link-logout'>Log out <b>{ getUser().email }</b></a>
                     :
-                    <a href="/login">Log In</a>
+                    <a href="/login" id='menu-link-login'>Log In</a>
                   }
                 </li>
               </ul>
