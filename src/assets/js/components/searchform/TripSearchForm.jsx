@@ -4,7 +4,9 @@ import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
 import { ActionsStore } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
 var flashErrorTimeout = 1000;
@@ -61,7 +63,7 @@ var TripSearchForm = React.createClass({
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
-        browserHistory.push(
+        historyStrategy.push(
           {
             pathname: '/result',
             query: {

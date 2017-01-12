@@ -1,3 +1,5 @@
+/* global FFMPrograms */
+
 /**
  * AcController
  *
@@ -63,7 +65,7 @@ module.exports = {
           found[i] = {
             value: found[i].program_code,
             label: found[i].program_name,
-            program: found[i].miles_type_configuration
+            tier: found[i].tiers_configuration
           }
         }
         return res.json(found);
@@ -75,29 +77,7 @@ module.exports = {
   },
 
   /**
-   * @param {String} id - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
-   * */
-  ffpcalculate: function (req, res) {
-    var id = req.param('id');
-
-    var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
-    memcache.get(cacheId, function(err, result) {
-      if (!err && !_.isEmpty(result)) {
-        ffmapi.milefy.Calculate(JSON.parse(result), function (error, body) {
-          if (error) {
-            return res.json({error: error, body: body});
-          }
-          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          return res.json(jdata);
-        });
-      } else {
-        return res.json({error: err});
-      }
-    });
-  },
-
-  /**
-   * @param {Array} ids - Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )
+   * @param {Array} ids - [Itinerary ID ( 2ef4bb98-eb14-4528-982c-8404dade3e77 )]
    * */
   ffpcalculateMany: function (req, res) {
     var ids = req.param('ids');
@@ -124,12 +104,15 @@ module.exports = {
               }
             );
           var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
-          ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors}, function (error, body) {
-            if (error) {
-              return res.json({error: error, body: body});
-            }
-            var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-            return res.json({itineraries: jdata});
+          FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id)
+            .then(function (milesPrograms) {
+            ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors, milesPrograms}, function (error, body) {
+              if (error) {
+                return res.json({error: error, body: body});
+              }
+              var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+              return res.json({itineraries: jdata});
+            });
           });
         } else {
           return res.json({error: err});
@@ -194,11 +177,14 @@ module.exports = {
     let send = {airport:''};
 
     if (geo && !_.isUndefined(geo.city)) {
-      Airports.getAirports(geo.city, 1, function (err, result) {
+      let lookup = require('country-data').lookup;
+      let seachString = geo.city || lookup.countries({alpha2: geo.country})[0].name;
+
+      Airports.getAirports(seachString, 1, function (err, result) {
         if (err) {
           sails.log.error(err);
         } else {
-          if (result && !_.isUndefined(result[0].value)) {
+          if (result && result.length && !_.isUndefined(result[0].value)) {
             // check airport passengers traffic
             if ( result[0].pax > 100 ) {
               send.airport = result[0].value;

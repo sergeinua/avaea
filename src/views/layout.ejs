@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="<%= (typeof showUnsupportedAlert !='undefined' && showUnsupportedAlert) ? 'unsupported' : ''%>">
 <head>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title><%= (typeof head_title != 'undefined') ? head_title :__('Search for flights with Onvoya Agent') %></title>
+  <title><%= (typeof head_title != 'undefined') ? head_title :__('Search for flights with OnVoya Agent') %></title>
 
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
   <meta http-equiv='Content-Language' content='en-US' />
+  
+  <!-- Device and browser favicons and favicon parts -->
   <link rel="icon" href="favicon.ico" type="image/x-icon"/>
   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
   <link rel="apple-touch-icon" sizes="167x167" href="/apple-touch-icon-167.png">
@@ -18,7 +20,7 @@
   <link rel="apple-touch-startup-image" href="/apple-launch.png">
   <link rel="manifest-favicon" href="/manifest-favicon.json"> 
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#3abbec"> 
-  <meta name="theme-color" content="#052062">
+    <meta name="theme-color" content="#052062">
   
 
   <link rel="stylesheet" href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css">
@@ -28,6 +30,7 @@
   <!-- google recaptcha @TODO: add lasy load to load only on "/contact" page -->
   <script src="https://www.google.com/recaptcha/api.js"></script>
 
+ 
   <link rel="stylesheet" href="/js/styles.css">
 
   <!--STYLES-->
@@ -117,26 +120,7 @@
           <a href="/terms">Terms and Conditions</a>
           <a href="/privacy">Privacy</a>
         </div>
-      </footer>
+    </footer>
 
-      <% if ( (typeof showUnsupportedAlert != 'undefined') && showUnsupportedAlert ) { %>
-      <div id="unsupportedAlert" class="modal" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              Your browser is not yet supported, and you may encounter errors if you continue. Please use Chrome for now.
-            </div>
-            <div class="buttons-bar single">
-              <button type="button" class="big-button secondary" onClick="$('#unsupportedAlert').modal('hide');">Ok</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <script type="text/javascript">
-        $(document).ready(function() {
-          $('#unsupportedAlert').modal();
-        });
-      </script>
-      <% } %>
   </body>
 </html>

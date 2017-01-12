@@ -1,10 +1,10 @@
 /* ---------------
-   onvoya.css 
+   onvoya.css
 	 --------------- */
 
 /* syntax
    transition: all 0.1s ease-in-out;
-	 :not(.search-result) 
+	 :not(.search-result)
 */
 
 
@@ -745,8 +745,8 @@ footer.app-copy .top a,
 footer.app-copy .bottom a {
 	color: #062868;
 }
- 
-footer.app-copy .top a:hover, 
+
+footer.app-copy .top a:hover,
 footer.app-copy .bottom a:hover,
 footer.app-copy .bottom a:focus {
 	color: rgba(6, 40, 104, .6);
@@ -975,7 +975,18 @@ form label.required:before,
 	border: 1px solid #ed2741;
 }
 
-/* highlight */
+.has-error .error-message {
+  display: block;
+  color: #ed2741;
+  margin-top: 10px;
+}
+
+.button-holder.has-error .error-message {
+  margin: 10px 5px;
+  font-weight: bold;
+}
+
+  /* highlight */
 
 .has-error .form-control {
 	background: #ffffde;
@@ -986,8 +997,7 @@ form label.required:before,
 	background: #ffffe4;
 }
 
-
-.form label.error {
+.form label.error, .has-error label {
   display: block;
   color: #ed2741;
 }
@@ -1031,7 +1041,7 @@ form label.required:before,
 
 /* override bootstrap */
 
-.nav > li > a:hover, 
+.nav > li > a:hover,
 .nav > li > a:focus {
 	background-color: transparent;
 }
@@ -1150,6 +1160,7 @@ textarea {
 }
 
 .navbar-brand {
+	cursor: pointer;
 	padding: 18px 5px 14px 5px;
 	width: 200px;
 	position: relative;
@@ -3209,6 +3220,17 @@ legend {
 	position: relative;
 }
 
+.radio-buttons-block label {
+  font-weight: lighter;
+  margin-right: 10px;
+  font-family: inherit;
+}
+
+.profile-country.Select--single > .Select-control .Select-value, .profile-country .Select-placeholder,
+.profile-state.Select--single > .Select-control .Select-value, .profile-state .Select-placeholder {
+  padding-left: 0;
+}
+
 .panel-heading {
 	padding: 0 0 0 0;
 	border-top-left-radius: 0px;
@@ -3222,6 +3244,10 @@ legend {
 
 select.input-sm {
 	height: 37px;
+}
+
+input[value="F"] {
+	margin-left: 20px;
 }
 
 .panel-footer {
@@ -3286,7 +3312,7 @@ footer .wrapper:after {
 }
 
 footer .left nav {
-	text-align: left;	 
+	text-align: left;
 }
 
 footer .left,
@@ -3302,7 +3328,7 @@ footer .holder {
 
 footer .holder a {
 	display: inline-block;
-	padding: 0 15px; 
+	padding: 0 15px;
 }
 
 footer .right {
@@ -3368,7 +3394,7 @@ footer.app-copy a.social.twitter:after {
 		top: 8px;
 		left: 1px;
 }
- 
+
 footer.app-copy ul {
   list-style-type: none;
 	display: inline-block;
@@ -3421,7 +3447,7 @@ footer.app-copy .bottom a {
 
 @media (max-width: 850px) {
 
-	.desktop .search-result .itinerary, 
+	.desktop .search-result .itinerary,
 	.desktop .flight-unit .itinerary {
 		width: 90%;
 	}
@@ -3434,7 +3460,7 @@ footer.app-copy .bottom a {
 	.touch .navbar-brand {
 		display: block;
 	}
-	
+
 	.touch .navbar-brand {
 		left: 12px;
 	}
@@ -3443,12 +3469,12 @@ footer.app-copy .bottom a {
 
 @media (max-width: 766px) {
 
-	.touch .navbar-brand { 
+	.touch .navbar-brand {
 		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
 		background-size: 185px;
 	}
-	
-	.touch.suppress-logo .navbar-brand { 
+
+	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
 
@@ -3475,27 +3501,27 @@ footer.app-copy .bottom a {
 
 
 @media (max-width: 675px) {
-	
-	
-	footer .left, 
+
+
+	footer .left,
 	footer .right {
     display: block;
     width: 100%;
     float: none;
 	}
-	
+
 	footer .holder {
 		text-align: center;
 	}
-	
+
 	footer .right {
     margin: 15px 0 15px 0;
 	}
-	
+
 	footer .left nav {
-		text-align: center;	 
+		text-align: center;
 	}
-	
+
 }
 
 @media (max-width: 580px) {
@@ -3504,13 +3530,13 @@ footer.app-copy .bottom a {
 		padding-left: 0;
 		padding-right: 0;
 	}
-	
+
 	.desktop {
 		padding: 0 0 0 0;
 	}
-	
+
 	.desktop .voice-search-content {
-		width: 75%;   
+		width: 75%;
 	}
 
 }
@@ -3519,21 +3545,21 @@ footer.app-copy .bottom a {
 /* phones portrait */
 
 @media (max-width: 415px) {
-	
+
 	.touch .login-holder .graphic {
 		height: 310px;
 		background-size: 305%;
 	}
-	
+
 	.flight-unit .itinerary {
 		width: 90%;
 	}
-	
+
 	.touch .booking .notable-area .refundable  {
 		margin-left: 12%;
 	}
-	
-	
+
+
 }
 
 @media (min-width: 351px) {
@@ -3543,7 +3569,7 @@ footer.app-copy .bottom a {
 	.navbar-default .navbar-toggle:hover {
 		margin-left: 10px;
 	}
-	
+
 }
 
 
@@ -3552,17 +3578,17 @@ footer.app-copy .bottom a {
 	.flight-type-item:not(.voice-search-button) {
 		font-size: 15px;
 	}
-	
-	.booking-success .confirm-message, 
-	.booking-success .flight-unit .itinerary, 
+
+	.booking-success .confirm-message,
+	.booking-success .flight-unit .itinerary,
 	.booking-success .trip.ti {
 		padding-left: 20px;
 	}
-	
+
 	.booking-success .notable-area .refundable {
 		margin-left: 40px;
 	}
-	
+
 	.navbar-toggle .icon-bar {
 		width: 18px;
 	}
@@ -3570,7 +3596,7 @@ footer.app-copy .bottom a {
 }
 
 @media (max-width: 321px) {
-	
+
 	.navbar-toggle .icon-bar {
 		width: 10px;
 	}
@@ -3589,16 +3615,16 @@ footer.app-copy .bottom a {
 	.touch .form-signin-heading {
 		margin: 70px auto 0 auto;
 	}
-	
+
 	.touch .login-holder {
 		margin: 80px auto 20px auto;
     width: 300px;
 	}
-	
+
 	.touch.android .login-holder {
 		margin-top: 110px;
 	}
-	
+
 	.touch .login-holder .graphic {
 		display: none;
 	}
@@ -3607,7 +3633,7 @@ footer.app-copy .bottom a {
 		position: relative;
     z-index: 2;
 	}
-	
+
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
@@ -3958,6 +3984,55 @@ html[data-useragent*='Trident'] .swiper-container {
 
 	}
 }
+
+
+/* Unsupported IEs */
+
+.unsupported header,
+.unsupported footer {
+	display: none;
+}
+
+.unsupported body,
+.unsupported,
+.unsupported .desktop .desktop-wrapper,
+.unsupported #spa-app {
+	background: #f1f1f1;
+}
+
+.no-can-do {
+	margin: 60px auto;
+	width: 600px;
+}
+
+.unsupported-box {
+	padding: 40px;
+	background: #ffffff;
+	border: 1px solid #dedede;
+	border-radius: 3px;
+}
+
+.unsupported-logo {
+	margin-bottom: 5px;
+	height: 63px;
+	width: 271px;
+	background: url('/images/logo-unsupported.png') 0 0 no-repeat;
+}
+
+.unsupported .no-can-do h1 {
+	margin-bottom: 30px;
+}
+
+.unsupported .copy {
+	text-align: left;
+}
+
+.unsupported .no-can-do p {
+	line-height: 24px;
+	width: 90%;
+}
+
+
 
 
 

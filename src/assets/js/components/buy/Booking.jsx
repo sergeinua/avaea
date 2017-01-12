@@ -48,7 +48,7 @@ let Booking = React.createClass({
 
         <div className="confirm-message">
           <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
-          <div className="thanks">Thank you for choosing Onvoya!</div>
+          <div className="thanks">Thank you for choosing OnVoya!</div>
           <div className="copy">
             {this.getMarketingText()}
           </div>

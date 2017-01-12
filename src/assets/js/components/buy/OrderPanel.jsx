@@ -8,7 +8,9 @@ import OrderSpecialModal from './OrderSpecialModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
 
 let OrderPanel = React.createClass({
@@ -223,7 +225,7 @@ let OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         if (!resData.error && resData.bookingId) {
-          browserHistory.push('/booking/' + resData.bookingId);
+          historyStrategy.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
           savedData.orderData.flashMsg = resData.flashMsg;
           //scroll to page top to show error message after components re-render
