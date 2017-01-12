@@ -1,17 +1,9 @@
 (ns avaea.tests.testrail
   (:require [clj-http.client :as client]
             [avaea.tests.config :refer :all]
-            [environ.core :as environ]
             [clojure.string :as string]))
 
 (def testrail-config (-> (read-config) :testrail))
-
-(def browser-name (environ/env :clj-env))
-
-(def system-info
-  {:name    (System/getProperty "os.name"),
-   :version (System/getProperty "os.version"),
-   :arch    (System/getProperty "os.arch")})
 
 (def headers {:content-type :json :accept :json})
 
@@ -98,7 +90,7 @@
 (defn get-cases
   "Returns a list of test cases for a test suite or specific section in a test suite."
   [project-id {:keys [suite_id section_id created_after created_before] :as filter}]
-  (send-get (build-url "get_case" project-id (map-to-get-params filter))))
+  (send-get (build-url "get_case" project-id filter)))
 
 (defn add-case
   "Creates a new test case."
@@ -171,7 +163,7 @@
 (defn get-suites
   "Returns a list of test suites for a project."
   [project-id {:keys [suite_id section_id created_after created_before] :as filter}]
-  (send-get (build-url "get_suite" project-id (map-to-get-params filter))))
+  (send-get (build-url "get_suite" project-id filter)))
 
 (defn add-suite
   "Creates a new test suite."
@@ -199,7 +191,7 @@
 (defn get-tests
   "Returns a list of test tests for a project."
   [run-id]
-  (send-get (build-url "get_test" run-id (map-to-get-params filter))))
+  (send-get (build-url "get_test" run-id)))
 
 ;; -------------------------------------------------------------------------------------
 
@@ -250,6 +242,4 @@
   Ideal for test automation to bulk-add multiple test results in one step."
   [run-id results]
   (send-post (build-url "add_results_for_cases" run-id) results))
-
-
 

@@ -5,14 +5,14 @@
               :base-url "https://potapenko.testrail.net/"
               :auth {:basic-auth ["eugene.john.potapenko@gmail.com" "SIcLfBJL2fRv3zYbnH5S"]}
                }
- :dev         true
+ ;; :dev         true
  :pom         {
                :menu         {
                               :home-menu-button    "#menu-link-home"
                               :search-menu-button  "#menu-link-search"
                               :profile-menu-button "#menu-link-profile"
                               :logout-menu-button  "#nav_slide_menu > ul > li:nth-child(4) > a"
-                              }
+                             }
                :profile-form {
                               :personal-info             {
                                                           :first-name  "#personal_info.first_name"

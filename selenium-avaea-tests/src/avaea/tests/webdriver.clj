@@ -10,6 +10,8 @@
 (def profile-name (environ/env :clj-env))
 (def os-name (environ/env :clj-env-os))
 
+;; (midje.config/change-defaults :emitter 'avaea.tests.midje-testrail-plugin)
+
 ;; PhantomJS and selenium-java java classes conflit resolve
 (defmacro webdriver-import []
   (case profile-name

@@ -48,11 +48,11 @@
  (fact "Tap 'Search' button"
        (click ($ (:search-button page)))
 
-       (wait-elements (:flights-try-again-button page))
-
-       (fact "Try Again Button displayed"
+       ;; behavior deprecated?
+       #_(wait-elements (:flights-try-again-button page))
+       #_(fact "Try Again Button displayed"
              (:flights-try-again-button page) => displayed?)
 
-       (click ($ (:flights-try-again-button page))))
+       #_(click ($ (:flights-try-again-button page))))
 
  (quit))
