@@ -23,9 +23,8 @@ let ResultPage = React.createClass({
   getInitialState: function() {
     return {
       isLoading: true,
-      isLoadingMilesInfo: false,
       searchResultLength: 0,
-      milesInfosObject: {},
+      searchResultIds: [],
       filter: [],
     };
   },
@@ -39,33 +38,23 @@ let ResultPage = React.createClass({
           tiles: json.tiles,
           searchResultLength: json.searchResult.length,
           searchResult: json.searchResult,
+          searchResultIds: getIdsArrayFromAnything(json.searchResult),
           errorInfo: json.errorInfo,
           max_filter_items: json.max_filter_items
         }, function () {
 
           //FIXME refactor code to use non jquery based functionality
           $("#searchBanner").modal('hide');
-          
+
           // FIXME - hides logo for devices only when navbar shows "flight-info" div
           // so logo does not push the search query down
           $("body").addClass('suppress-logo');
 
-          // correctly initialize the swiper for desktop vs. touch
-
-          if (!uaMobile) {
-            // is desktop
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: '5.5'
-            });
-
-          } else {
-            // is touch
-            swiper = new Swiper('.swiper-container', {
-              freeMode: true,
-              slidesPerView: 'auto'
-            });
-          }
+          // correctly initialize the swiper
+          swiper = new Swiper('.swiper-container', {
+            freeMode: true,
+            slidesPerView: 'auto'
+          });
 
           // Init slim scroll
           var max_filter_items = parseInt($('#tiles').data('max_filter_items'));
@@ -225,75 +214,11 @@ let ResultPage = React.createClass({
       this.sortItineraries(option, direction);
     };
 
-    ActionsStore.getMilesInfoAllItineraries = () => {
-      if (!this.state.isLoadingMilesInfo && this.state.searchResult && this.state.searchResult.length > 0) {
-        let ids = this.state.searchResult.map((itinerary) => itinerary.id);
-
-        let idsLoadingNotStartedAndNotLoaded = ids.filter((id) => {
-          // miles value meaning:
-          // miles === false // loading started
-          // miles === undefined // not loaded
-          // typeof miles === object // loaded
-          let miles = this.state.milesInfosObject[id];
-          if (miles === undefined) {
-            return true;
-          }
-          return false;
-        });
-        if (idsLoadingNotStartedAndNotLoaded.length > 0) {
-          let mutatedMilesInfosObject = Object.assign({}, this.state.milesInfosObject);
-
-          idsLoadingNotStartedAndNotLoaded.forEach((id) => {
-            mutatedMilesInfosObject[id] = false;
-          });
-
-          if (this.isMounted()) {
-            this.setState({isLoadingMilesInfo: true, milesInfosObject: mutatedMilesInfosObject});
-          }
-          ClientApi.reqPost('/ac/ffpcalculateMany', {ids: idsLoadingNotStartedAndNotLoaded}, true)
-            .then((msg) => {
-              if( msg.error ) {
-                console.log("Result of 30K api: " + JSON.stringify(msg));
-                if (this.isMounted()) {
-                  this.setState({
-                    isLoadingMilesInfo: false
-                  });
-                }
-              } else {
-                if (this.isMounted()) {
-                  let milesInfosObject = {};
-                  let idsLoadedObject = {};
-                  msg.itineraries.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
-                    idsLoadedObject[id] = true;
-                    milesInfosObject[id] = {
-                      value: miles || 0,
-                      name: ProgramCodeName
-                    }
-                  });
-                  let idsFailedToLoad = idsLoadingNotStartedAndNotLoaded.filter((id) => !idsLoadedObject[id]);
-                  idsFailedToLoad.forEach((id) => {
-                    milesInfosObject[id] = {
-                      value: 0,
-                      name: ''
-                    }
-                  });
-
-                  this.setState({
-                    isLoadingMilesInfo: false,
-                    milesInfosObject: milesInfosObject
-                  });
-                }
-              }
-            })
-            .catch((error) => {
-              console.log("Result of 30K api: " + JSON.stringify(error));
-              if (this.isMounted()) {
-                this.setState({
-                  isLoadingMilesInfo: false
-                });
-              }
-            });
-        }
+    ActionsStore.getSearchResultItineraryIds = () => {
+      if (this.state.searchResult && this.state.searchResult.length > 0) {
+        return getIdsArrayFromAnything(this.state.searchResult);
+      } else {
+        return [];
       }
     };
   },
@@ -341,7 +266,7 @@ let ResultPage = React.createClass({
       return (a > b) ? 1 : ((a < b) ? -1 : 0);
     });
 
-    this.setState({searchResult: itineraries});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
     this.props.actionSetCommonVal('currentSort', {"name": option, "order": direction});
   },
 
@@ -471,7 +396,7 @@ let ResultPage = React.createClass({
         });
       }
     });
-    this.setState({searchResult: itineraries});
+    this.setState({searchResult: itineraries, searchResultIds: getIdsArrayFromAnything(itineraries)});
 
     // recalculate visible itineraries
     var count = 0;
@@ -485,7 +410,7 @@ let ResultPage = React.createClass({
 
   render: function() {
     return (
-      <div className="search-result">
+      <div className={ 'search-result ' + this.props.commonData.searchParams.flightType }>
         {this.state.isLoading === true ? null :
           (this.state.searchResultLength
             ? (<span>
@@ -505,6 +430,14 @@ let ResultPage = React.createClass({
     )
   }
 });
+
+function getIdsArrayFromAnything(anything = []) {
+  if (anything.length) {
+    return anything.map(({id}) => id);
+  } else {
+    return [];
+  }
+}
 
 const mapStateCommon = function(store) {
   return {

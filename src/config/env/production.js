@@ -55,10 +55,6 @@ module.exports = {
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
 
-  recaptcha: {
-    public: '6Lcj2g8UAAAAAIIZm_Twxs0oJ2TkYIjQqsaU2hgl',
-    private: '6Lcj2g8UAAAAAFdbK61ZTltscXy_W2Uru5paNqVz'
-  },
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/]
   },
@@ -73,5 +69,10 @@ module.exports = {
       login:    'avaea',
       password: '11c235eba9b7'
     }
+  },
+  recaptcha: {
+    public: '6LfyCREUAAAAAADwXPedDrDDZkjPDtyD2LGFgNC2',
+    private: '6LfyCREUAAAAAI8z2-sRHTfbq8un61iX-DB6Uahk'
   }
 };
+

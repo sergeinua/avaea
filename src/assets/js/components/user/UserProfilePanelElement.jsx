@@ -1,6 +1,7 @@
 import * as ReactRedux from 'react-redux';
 import FormElement from '../_common/FormElement.jsx';
 import { actionSetPersonalVal, actionSetPersonalNotifyVal } from '../../actions.js';
+import { validateField } from './ProfileFormValidator'
 
 const mapDispatchPanelElem = (dispatch, ownProps) => {
   return {
@@ -10,6 +11,7 @@ const mapDispatchPanelElem = (dispatch, ownProps) => {
       } else {
         dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value))
       }
+      validateField(ownProps, event.target.value)
     }
   }
 };

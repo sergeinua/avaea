@@ -1,14 +1,14 @@
 import React from 'react';
-import ResultItem from '../search/ResultItem';
+import ResultItemContainer from '../search/ResultItem';
 
 let Booking = React.createClass({
   render: function () {
     var _mailto = this.props.orderData.replyTo.match(/(.*)<(.+)>/);
-    
-    // FIXME - had to hide logo for devices only when "flight-info" div is 
+
+    // FIXME - had to hide logo for devices only when "flight-info" div is
   	// showing in nav bar - this restores it
     $("body").removeClass('suppress-logo');
-    
+
     return (
       <div className="booking-success">
 
@@ -24,7 +24,7 @@ let Booking = React.createClass({
 
         <div className="confirm-message">
           <div className="name">Dear&nbsp;{this.props.orderData.fieldsData.FirstName} {this.props.orderData.fieldsData.LastName},</div>
-          <div className="thanks">Thank you for choosing Onvoya!</div>
+          <div className="thanks">Thank you for choosing OnVoya!</div>
           <div className="copy">
             You're all set for your next trip. Your ticket has been issued as an electronic ticket.
             Please check your email for confirmation.
@@ -34,7 +34,7 @@ let Booking = React.createClass({
         <div className="trip ti">Trip Details</div>
         <div className="flight-unit">
           <div id="booked-flight-unit" className="booked-flight-unit">
-            <ResultItem key={this.props.orderData.itineraryData.id}  itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+            <ResultItemContainer key={this.props.orderData.itineraryData.id}  itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
           </div>
         </div>
 
