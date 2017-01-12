@@ -37,8 +37,7 @@ var confFields = {
   miles_programs: {
     program_name: "",
     account_number: "",
-    tier: "",
-    status: ""
+    tier: ""
   },
   lounge_membership: {
     airline_name: "",

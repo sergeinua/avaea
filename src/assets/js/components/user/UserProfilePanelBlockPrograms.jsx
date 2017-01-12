@@ -55,7 +55,6 @@ let UserProfilePanelBlockPrograms = React.createClass({
                 elem_value={item.program_name}
                 blockNum={self.props.blockNum}
                 elemNum={index}
-                elem_value_status={item.status}
                 elem_value_tier={item.tier}
               />
 
