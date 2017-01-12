@@ -99,7 +99,7 @@ const getSearchDestinations = function(params) {
   return destinations.join('');
 };
 
-const getPNRFlights = function(params) {
+const getPNRFlights = function(params, numberInParty) {
   let template = '' +
     '<Flight AssociationID="F<%=aid%>" OriginDestinationID="O<%=oid%>" Source="<%=source%>">\
       <Departure>\
@@ -117,7 +117,7 @@ const getPNRFlights = function(params) {
       <FlightNumber><%=flightNumber%></FlightNumber>\
     </Carrier>\
     <ClassOfService><%=cls%></ClassOfService>\
-    <NumberInParty>1</NumberInParty>\
+    <NumberInParty><%=numberInParty%></NumberInParty>\
     <FareRefKey><%=fareKey%></FareRefKey>\
   </Flight>';
   let flights = [], aId = 1, oId = 1;
@@ -140,13 +140,51 @@ const getPNRFlights = function(params) {
         fareKey: params[cp].flights[fl].fareRefKey,
         aid: aId,
         oid: oId,
-        source: params[cp].flights[fl].source
+        source: params[cp].flights[fl].source,
+        numberInParty: numberInParty
       }));
       aId++;
     }
     oId++;
   }
   return flights.join('');
+};
+
+const getTravelers = function (passengers) {
+  let template = '' +
+    '<Traveler AssociationID="T<%=index%>" Type="<%=type%>">\
+      <TravelerName>\
+        <Surname><%=lastName%></Surname>\
+        <GivenName><%=firstName%></GivenName>\
+        <DateOfBirth><%=birthday%></DateOfBirth>\
+        <Gender><%=gender%></Gender>\
+      </TravelerName>\
+    </Traveler>\
+    ';
+  let travelers = [];
+  for (let i=0; i<passengers.length; i++) {
+    let d_birth = sails.moment(passengers[i].DateOfBirth);
+    let paxType = 'ADT',
+      age = sails.moment().diff(d_birth, 'years');
+    if (age < 2) {
+      // less than 2
+      paxType = 'INS'; // Infant occupying seat
+    }
+    else if (age < 12) {
+      // between and including 2 and 11
+      paxType = 'CHD';
+    }
+
+    travelers.push(ejs.render(template, {
+      type: paxType,
+      lastName: passengers[i].LastName,
+      firstName: passengers[i].FirstName,
+      birthday: d_birth.format('YYYY-MM-DD'),
+      gender: passengers[i].Gender,
+      index: i
+    }));
+  }
+  return travelers.join('');
 };
 
 const farelogixRqGetters = {
@@ -193,14 +231,7 @@ const farelogixRqGetters = {
           <Itinerary>\
             <%-flights%>\
           </Itinerary>\
-          <Traveler AssociationID="T1" Type="ADT">\
-            <TravelerName>\
-              <Surname><%=lastName%></Surname>\
-              <GivenName><%=firstName%></GivenName>\
-              <DateOfBirth><%=birthday%></DateOfBirth>\
-              <Gender>M</Gender>\
-            </TravelerName>\
-          </Traveler>\
+          <%-travelers%>\
         </CompletePNRElements>\
         <OtherPNRElements>\
           <EmailAddress>\
@@ -227,7 +258,7 @@ const farelogixRqGetters = {
       </PNRCreateRQ>';
     let req = getFullRq(ejs.render(template, {
       guid: guid,
-      flights: getPNRFlights(params.session.booking_itinerary.itinerary_data.citypairs),
+      flights: getPNRFlights(params.booking_itinerary.citypairs, params.passengers.length),
       cc: {
         code: params.CardType,
         number: params.CardNumber,
@@ -240,9 +271,7 @@ const farelogixRqGetters = {
         lastName: params.LastName,
         fullName: params.FirstName + ' ' + params.LastName // TODO: not sure we don't need a separated field for it
       },
-      firstName: params.FirstName,
-      lastName: params.LastName,
-      birthday: sails.moment(params.DateOfBirth).format('YYYY-MM-DD'),
+      travelers: getTravelers(params.passengers),
       email: params.user.email
     }));
     return req;
@@ -261,7 +290,7 @@ const callFarelogixApi = function (api, apiParams, apiCb) {
     throw 'callback required and should be a function';
   }
   let request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
-  // sails.log.info(request);
+  sails.log.info(util.inspect(request, {showHidden: true, depth: null}));
 
   let post_options = sails.config.flightapis.farelogix.post_options;
   post_options.headers['Content-Length'] = Buffer.byteLength(request);
@@ -744,6 +773,10 @@ module.exports = {
         return callback(e, null);
       }
     });
+  },
+  readEticket: function(guid, params, callback) {
+    // TODO: not implemented return fake data for cron
+    return callback(null, params.pnr);
   },
 
 

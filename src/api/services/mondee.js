@@ -60,8 +60,18 @@ class MondeeClient {
               return new Error('Invalid date format: '+params.passengers[i].DateOfBirth+' Must be MM/DD/YYYY');
             }
             params.passengers[i].DateOfBirth = d_birth.format('MM/DD/YYYY');
+            let paxType = 'ADT',
+              age = sails.moment().diff(d_birth, 'years');
+            if (age < 2) {
+              // less than 2
+              paxType = 'INF';
+            }
+            else if (age < 12) {
+              // between and including 2 and 11
+              paxType = 'CHD';
+            }
             paxDetails.push({
-              PaxType: params.passengers[i].PaxType,
+              PaxType: paxType,
               FirstName: params.passengers[i].FirstName,
               LastName: params.passengers[i].LastName,
               Gender: params.passengers[i].Gender,

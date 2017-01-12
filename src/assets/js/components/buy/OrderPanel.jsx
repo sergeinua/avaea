@@ -31,7 +31,6 @@ let OrderPanel = React.createClass({
     ];
   },
 
-  // Vlad I took a guess at how additional passenger fields would be handled
   makePassengerData: function(incData, index) {
 
     var fields_data = incData ? incData : {};
@@ -83,7 +82,6 @@ let OrderPanel = React.createClass({
     let passengers = [];
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
       passengers.push({
-        PaxType: 'ADT',
         FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
         LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
         Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
