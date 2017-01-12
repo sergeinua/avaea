@@ -32,8 +32,8 @@
   
   <!-- manage unsupported IE browsers -->
   <!--[if lte IE 9]>
-    <html class="unsupported">
-    <script type="text/javascript">       
+    <script type="text/javascript">  
+      $('html').addClass(' unsupported');    
       window.location="/unsupported";
     </script>
   <![endif]-->
