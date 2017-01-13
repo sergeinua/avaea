@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import * as ReactRedux from 'react-redux';
-import { Router, browserHistory, hashHistory, IndexRoute, Route } from 'react-router';
+import { Router, browserHistory, hashHistory, IndexRoute, Route, Redirect } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import AppContainer from 'containers/AppContainer.jsx';
 import StaticContainer from 'containers/StaticContainer.jsx';
-import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from 'reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from './reducers.js';
 
 import NavBarContainer from '~/_common/NavBar'
 import DisplayAlert from '~/_common/DisplayAlert';
@@ -30,6 +30,7 @@ import BookingPage from 'components/pages/booking.jsx';
 
 import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch } from './functions.js';
 import { actionSetCommonVal } from './actions.js';
+import { isMobile } from './legacyJquery.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.
 require('bootstrap');
@@ -93,7 +94,7 @@ $(document).ready(function() {
                 <Route path="/result" component={ResultPageContainer}/>
                 <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
                 <Route path="/booking/:bookingId" component={BookingPage}/>
-                <Route path="*" component={DisplayAlert}/>
+                {isMobile.any()?<Redirect from="*" to="/search"/>:<Redirect from="*" to="/home"/>}
               </Route>
             </Router>
           </ReactRedux.Provider>
