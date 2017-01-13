@@ -176,34 +176,32 @@ module.exports = {
     let geo = require('geoip-lite').lookup(ip);
     let send = {airport:''};
 
-    if (geo && !_.isUndefined(geo.city)) {
-      let lookup = require('country-data').lookup;
-      let seachString = geo.city || lookup.countries({alpha2: geo.country})[0].name;
+    if (geo && !_.isEmpty(geo.ll)) {
+      const _query = 'SELECT * FROM ' +
+        Airports.tableName + ' WHERE pax > 1 ORDER BY ' +
+        '(select  (point($1, $2) <@> point(airports.longitude,airports.latitude)) as distance), pax limit 1';
 
-      Airports.getAirports(seachString, 1, function (err, result) {
-        if (err) {
-          sails.log.error(err);
-        } else {
-          if (result && !_.isUndefined(result[0].value)) {
-            // check airport passengers traffic
-            if ( result[0].pax > 100 ) {
-              send.airport = result[0].value;
-            } else {
-              //find closest neighbor airport
-              let distance = 9999999;
-              result[0].neighbors.forEach(function (item) {
-                if (item.iata_3code && item.distance < distance) {
-                  distance = item.distance;
-                  send.airport = item.iata_3code;
-                }
-              });
-            }
+      const params = [
+        geo.ll[1], // longitude by IP
+        geo.ll[0], // latitude by IP
+      ];
+
+      Airports.query(
+        _query,
+        params,
+        function (err, result) {
+          if (err) {
+            sails.log.error(err);
           } else {
-            sails.log.info('No location found for user IP', ip);
+            if (result.rows && result.rows.length && !_.isUndefined(result.rows[0].iata_3code)) {
+                send.airport = result.rows[0].iata_3code;
+            } else {
+              sails.log.info('No location found for user IP', ip);
+            }
           }
+          return res.json(send);
         }
-        return res.json(send);
-      });
+      );
     } else {
       sails.log.info('No location found for user IP', ip);
       return res.json(send);

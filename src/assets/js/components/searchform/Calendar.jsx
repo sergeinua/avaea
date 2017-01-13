@@ -72,6 +72,9 @@ export function finalizeValues(searchParams) {
 
 var Calendar = React.createClass({
   componentDidMount: function () {
+  	
+  	// start off with band-aid bad plugin message hidden
+  	$('.message.info').attr('style', 'display: none;');
 
     // init datetimepicker {{{
     if ($('#dr_picker').length) {
@@ -104,6 +107,10 @@ var Calendar = React.createClass({
         var flightType = _self.props.searchParams.flightType || 'round_trip';
         // enable range functionality for round trip flight type
         if (flightType == 'round_trip') {
+        	
+        	// show the band-aid message until we make a good calendar
+        	$('.message.info').attr('style', 'display: block;');
+        	
           // range manipulation {{{
           var range = $(this).data("DateTimePicker").range;
           if (range.start && !range.end && e.date.isAfter(range.start)) {
@@ -123,6 +130,10 @@ var Calendar = React.createClass({
             // setDisplayedDate($('.flight-date-info-item.ret'), range.end);
           }
         } else if (flightType == 'one_way') {
+        	
+        	// make sure the band-aid message for how to use this dreadful plugin does not show
+        	$('.message.info').attr('style', 'display: none;');
+        	
           $('#date_select .info .dep').text(moment(e.date).format('DD MMM ddd'));
         } else {
           // setDisplayedDate($('.flight-date-info-item.dep'), e.date);
@@ -163,6 +174,7 @@ var Calendar = React.createClass({
   render() {
     return (
       <div id="date_select_main" className="clearfix calendar-panel">
+      <div className="message info">Select both departure and return date.</div>	
         <div className="row">
           <div className="row">
             <div id="dr_picker"></div>

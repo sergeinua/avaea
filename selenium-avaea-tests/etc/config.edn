@@ -1,0 +1,102 @@
+{:test-all-drivers ["chrome"]
+
+ ;; :server-root "http://stage.avaea.com"
+ :server-root  "https://www.onvoya.com"
+ :testrail   {
+              :base-url "https://potapenko.testrail.net/"
+
+              :auth {:basic-auth ["eugene.john.potapenko@gmail.com" "SIcLfBJL2fRv3zYbnH5S"]}
+               }
+ ;; :dev         true
+ :pom         {
+               :menu         {
+                              :home-menu-button    "#menu-link-home"
+                              :search-menu-button  "#menu-link-search"
+                              :profile-menu-button "#menu-link-profile"
+                              :logout-menu-button  "#nav_slide_menu > ul > li:nth-child(4) > a"
+                             }
+               :profile-form {
+                              :personal-info             {
+                                                          :first-name  "#personal_info.first_name"
+                                                          :middle-name "#personal_info.middle_name"
+                                                          :last-name   "#personal_info.last_name"
+                                                          :gender      "#personal_info.gender"
+                                                          :phone       "#personal_info.phone"
+                                                          :birthday    "#personal_info.birthday"
+                                                          :country     "#personal_info.country"
+                                                          :address     "#personal_info.address"
+                                                          :city        "#personal_info.city"
+                                                          :state       "#personal_info.state"
+                                                          :zip_code    "#personal_info.zip_code"
+                                                          }
+                              :emergency-contact         {
+                                                          :name  "#notify_contact.name"
+                                                          :phone "#notify_contact.phone"
+                                                          }
+                              :preferred-airlines        {
+                                                          :type            "#preferred_airlines-0"
+                                                          :airlines-name   "#preferred_airlines0 > div.Select.form-control.input-sm.Select--single.is-searchable"
+                                                          :add-more-button "#preferred-airlines-one-more-button"
+                                                          }
+                              :frequent-flyer-membership {
+                                                          :program-name    "#miles_programs0 > div > div:nth-child(1)"
+                                                          :status          "#miles_programs0 > div > div:nth-child(3)"
+                                                          :program-number  "#miles_programs.account_number-0"
+                                                          :add-more-button "#miles-programs-one-more-button"
+                                                          }
+                              }
+               :search       {
+                              :one-way-button    "#one_way"
+                              :round-trip-button "#round_trip"
+                              :multi-city-button "#multi_city"
+
+                              :voice-search-button        "#voice_search"
+                              :voice-search-text-area     "#voiceSearchTextarea"
+                              :voice-search-submit-button "#voiceSearchFlight"
+
+                              :from-button          "#from-area"
+                              :to-button            "#spa-app > div > div > div.form-fields > div.row.text-center.flight-direction > div > div > div:nth-child(2)" #_ "#to-area"
+                              :airport-input        "#airport-input"
+                              :airport-list         ".tt-dataset-airport"
+                              :airport-list-element ".tt-suggestion"
+                              :cancel-button        "#search_button_top"
+
+                              :depart-button ".flight-date-info-item.dep.open-calendar"
+                              :return-button ".flight-date-info-item.ret.open-calendar"
+
+                              :passengers-button "div.chooser.flight-passengers-info-item.row > div.text-picker"
+                              :class-button      "div.chooser.flight-class-info-item.row > div.text-picker"
+
+
+                              :calendar-done-button  "#date_select_top"
+                              :calendar-prev-button  "div.datepicker-days > table > thead > tr:nth-child(1) > th.prev"
+                              :calendar-next-button  "div.datepicker-days > table > thead > tr:nth-child(1) > th.next"
+                              :calendar-20           "div.datepicker-days > table > tbody > tr:nth-child(4) > td:nth-child(3)"
+                              :calendar-30           "div.datepicker-days > table > tbody > tr:nth-child(5) > td:nth-child(6)"
+                              :calendar-day-elements "td.day"
+
+                              :search-button "#search-form-all-flights-button"
+
+                              :flights-try-again-button "#alert-page-try-again-button"
+
+                              :flights-list     "#searchResultData > div"
+                              :mondee-marker    ".mondee-search"
+                              :farelogix-marker ".farelogix-search"
+
+                              :flights-price-button "#searchResultData > div .buy-button .btn"
+
+                              :flights-tile-price         "#price_tile > div.slimScrollDiv > ul > li"
+                              :flights-tile-stops         "#stops_tile > div.slimScrollDiv > ul > li"
+                              :flights-tile-airline       "#airline_tile > div.slimScrollDiv > ul > li"
+                              :flights-tile-departure     "#departure_tile > div.slimScrollDiv > ul > li"
+                              :flights-tile-arrival       "#arrival_tile > div.slimScrollDiv > ul > li"
+                              :flights-tile-merchandising "#merchandising_tile > div.slimScrollDiv > ul > li"
+                              }
+               :login {
+                       :google-login   ".big-button.google"
+                       :facebook-login "#auth-button-facebook"
+
+
+                       }
+               }
+ }

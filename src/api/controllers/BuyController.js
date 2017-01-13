@@ -161,6 +161,7 @@ module.exports = {
 
         // Clone and modify params for booking API
         let reqParamsApi = Object.assign({}, reqParams);
+        reqParamsApi.booking_itinerary = booking_itinerary;
         reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
         reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
         // Save modified api params also

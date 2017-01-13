@@ -25,7 +25,7 @@ var PassengerChooser = React.createClass({
     return (
       <div className="chooser flight-passengers-info-item row">
         <div className="label-d col-xs-6">Passengers</div>
-        <div className="text-picker col-xs-6" onClick={this.changePassengersCount}>
+        <div id="search-form-passengers" className="text-picker col-xs-6" onClick={this.changePassengersCount}>
           <span id="passengers_count">{digits[this.props.searchParams.passengers]}</span> <span className="passengers_text">{passengers_text}</span>
         </div>
       </div>
