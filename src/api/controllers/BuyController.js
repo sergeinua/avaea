@@ -1,5 +1,6 @@
 /* global itineraryPrediction */
 /* global UserAction */
+/* global FFMPrograms */
 /* global memcache */
 /* global sails */
 /* global Profile */
@@ -160,6 +161,7 @@ module.exports = {
 
         // Clone and modify params for booking API
         let reqParamsApi = Object.assign({}, reqParams);
+        reqParamsApi.booking_itinerary = booking_itinerary;
         reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
         reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
         // Save modified api params also
@@ -208,34 +210,37 @@ module.exports = {
       // Make and send booking confirmation
       let _itinerary_data = _.cloneDeep(booking_itinerary);
       let tpl_vars = {};
-      qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data}))
-        .then(function (programsResults) {
-          let _programs_res = Object.assign(...programsResults);
-          // E-mail notification
-          tpl_vars = {
-            mailType: 'booking',
-            reqParams: reqParams,
-            order: _itinerary_data,
-            bookingRes: result,
-            replyTo: sails.config.email.replyTo,
-            callTo: sails.config.email.callTo,
-            miles: _programs_res.miles,
-            refundType: _programs_res.refundType,
-            eticketNumber: null, // Is not defined yet
-            serviceClass: Search.serviceClass,
-            providerInfo: sails.config.flightapis[_itinerary_data.service].providerInfo
-          };
-          return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
-        })
-        .then(function (msgContent) {
-          return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+ tpl_vars.bookingRes.PNR}, msgContent);
-        })
-        .then(function () {
-          sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
-        })
-        .catch(function (error) {
-          sails.log.error('in booking sendMail chain:', error);
-        });
+
+      FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id).then(function (milesPrograms) {
+        qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
+          .then(function (programsResults) {
+            let _programs_res = Object.assign(...programsResults);
+            // E-mail notification
+            tpl_vars = {
+              mailType: 'booking',
+              reqParams: reqParams,
+              order: _itinerary_data,
+              bookingRes: result,
+              replyTo: sails.config.email.replyTo,
+              callTo: sails.config.email.callTo,
+              miles: _programs_res.miles,
+              refundType: _programs_res.refundType,
+              eticketNumber: null, // Is not defined yet
+              serviceClass: Search.serviceClass,
+              providerInfo: sails.config.flightapis[_itinerary_data.service].providerInfo
+            };
+            return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
+          })
+          .then(function (msgContent) {
+            return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+          })
+          .then(function () {
+            sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
+          })
+          .catch(function (error) {
+            sails.log.error('in booking sendMail chain:', error);
+          });
+      });
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)

@@ -1,10 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
 import * as ReactRedux from 'react-redux';
-import { Router, browserHistory, IndexRoute, Route } from 'react-router';
+import { Router, browserHistory, hashHistory, IndexRoute, Route, Redirect } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import AppContainer from 'containers/AppContainer.jsx';
 import StaticContainer from 'containers/StaticContainer.jsx';
-import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from 'reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from './reducers.js';
 
 import NavBarContainer from '~/_common/NavBar'
 import DisplayAlert from '~/_common/DisplayAlert';
@@ -18,6 +20,7 @@ import ContactPage from 'components/static/pages/contact.jsx';
 import BlogPage from 'components/static/pages/blog.jsx';
 import TermsPage from 'components/static/pages/terms.jsx';
 import PrivacyPage from 'components/static/pages/privacy.jsx';
+import UnsupportedPage from 'components/static/pages/unsupported.jsx';
 
 import ProfilePage from 'components/pages/profile.jsx';
 import SearchFormPageContainer from 'components/pages/searchform.jsx';
@@ -27,6 +30,7 @@ import BookingPage from 'components/pages/booking.jsx';
 
 import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch } from './functions.js';
 import { actionSetCommonVal } from './actions.js';
+import { isMobile } from './legacyJquery.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.
 require('bootstrap');
@@ -38,11 +42,11 @@ $(document).ready(function() {
 
 
     if ( InitData.page ) {
-      browserHistory.push(InitData.page);
+      historyStrategy.push(InitData.page);
     }
 
     //DEMO-796 fix for iOS10
-    browserHistory.listen( location =>  {
+    historyStrategy.listen( location =>  {
       unfocusFormForIos();
     });
 
@@ -70,7 +74,7 @@ $(document).ready(function() {
       .then(function () {
         render((
           <ReactRedux.Provider store={clientStore}>
-            <Router onUpdate={() => window.scrollTo(0, 0)} history={browserHistory}>
+            <Router onUpdate={() => window.scrollTo(0, 0)} history={historyStrategy}>
               <Route path="/" component={StaticContainer}>
                 <Route path="/home" component={HomePage}/>
                 <Route path="/about" component={AboutPage}/>
@@ -81,6 +85,7 @@ $(document).ready(function() {
                 <Route path="/contact" component={ContactPage}/>
                 <Route path="/terms" component={TermsPage}/>
                 <Route path="/privacy" component={PrivacyPage}/>
+                <Route path="/unsupported" component={UnsupportedPage}/>
               </Route>
               <Route path="/" component={AppContainer}>
                 <IndexRoute component={SearchFormPageContainer} />
@@ -89,7 +94,7 @@ $(document).ready(function() {
                 <Route path="/result" component={ResultPageContainer}/>
                 <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
                 <Route path="/booking/:bookingId" component={BookingPage}/>
-                <Route path="*" component={DisplayAlert}/>
+                {isMobile.any()?<Redirect from="*" to="/search"/>:<Redirect from="*" to="/home"/>}
               </Route>
             </Router>
           </ReactRedux.Provider>

@@ -610,11 +610,13 @@ module.exports = {
 
         if ( price_preference==0 && duration_preference==0) return itins;
 
-        var MAD_price = this.median_absolute_deviation_in_price(itins);
-        var MAD_duration = this.median_absolute_deviation_in_duration(itins);
+        //var MAD_price    = this.median_absolute_deviation_in_price   (itins) + 1; console.log("MAD_price = "    + MAD_price   );
+        //var MAD_duration = this.median_absolute_deviation_in_duration(itins) + 1; console.log("MAD_duration = " + MAD_duration);
+        var Median_price    = this.median_in_price     (itins) + 1; //console.log("Median_price = "    + Median_price);
+        var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
 
         return _.clone(itins,true) // make a copy
-                .sort(this.compare_in_2D_by_linear_combination(price_preference/MAD_duration,duration_preference/MAD_price) ); // sort in 2D by linear combination of price and duration
+                .sort(this.compare_in_2D_by_linear_combination(price_preference/Median_duration,duration_preference/Median_price) ); // sort in 2D by linear combination of price and duration
     }, // end of function rank_itineraries_in_2D
 
     find_closest_array_index: function (a, start_idx, end_idx, x)
@@ -1181,6 +1183,7 @@ module.exports = {
             var other__itins_from_one_airline = itins_from_one_airline.filter(function(obj){ // the rest
                                                     return !ranked_itins_from_one_airline.some(function(obj2) { return obj.id == obj2.id; });
                                                 });
+            other__itins_from_one_airline = this.rank_itineraries_in_2D(other__itins_from_one_airline, price_pref, duration_pref); // ranked in-place
 
             itins_on_airline[preferred_airlines[i]] = ranked_itins_from_one_airline.concat(other__itins_from_one_airline); // pruned-out appended at the end
 
@@ -1198,6 +1201,7 @@ module.exports = {
         var other__itins_other = itins_other.filter(function(obj){ // the rest
                                       return !ranked_itins_other.some(function(obj2) { return obj.id == obj2.id; });
                                  });
+        other__itins_other = this.rank_itineraries_in_2D(other__itins_other, price_pref, duration_pref); // ranked in-place
         itins_other = ranked_itins_other.concat(other__itins_other); // pruned-out appended at the end
         //console.log("Other itins after ranking :");
         //this.print_many_itineraries(itins_other);

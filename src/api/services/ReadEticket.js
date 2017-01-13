@@ -8,7 +8,10 @@ module.exports = {
   procUserPrograms: (dataRec) => {
     // Returns array of fulfilled promises only - wo rejected. Else you must to parse by allSettled() in the parent caller
     return [
-      qpromice.nfbind(ffmapi.milefy.Calculate)(dataRec.itinerary_data)
+      qpromice.nfbind(ffmapi.milefy.Calculate)({
+        itineraries: [dataRec.itinerary_data],
+        milesPrograms: dataRec.milesPrograms
+      })
         .then(function (body) {
           let jdata = (typeof body == 'object') ? body : JSON.parse(body);
           return Promise.resolve({

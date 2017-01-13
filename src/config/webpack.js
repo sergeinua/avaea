@@ -1,8 +1,8 @@
 var webpack = require('webpack');
 
 var definePlugin = new webpack.DefinePlugin({
-  __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
-  __PRERELEASE__: JSON.stringify(JSON.parse(process.env.BUILD_PRERELEASE || 'false'))
+  __DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV != 'production' || 'false')),
+  __STAGE__: JSON.stringify(JSON.parse(process.env.NODE_ENV == 'staging' || 'false'))
 });
 
 var commonsPlugin = new webpack.optimize.CommonsChunkPlugin('common.js');
@@ -16,6 +16,25 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 // const PurifyCSSPlugin = require('purifycss-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+const filesToForceCopy = [
+  'android-chrome-192x192.png',
+  'android-chrome-256x256.png',
+  'apple-touch-icon-167.png',
+  'apple-touch-icon-180.png',
+  'favicon.ico',
+  'favicon-16x16.png',
+  'favicon-32x32.png',
+  'favicon-safari-pinned.svg',
+  'manifest-favicon.json',
+  'mstile-150x150.png',
+  'robots.txt',
+  'rev.txt',
+
+  'images/',
+  'js/dependencies/',
+  'static/'
+];
+
 const plugins = [
   definePlugin,
   commonsPlugin,
@@ -26,24 +45,21 @@ const plugins = [
     // project and will fail to work.
     root: process.cwd()
   }),
-  new CopyWebpackPlugin([
-    {
-      from: path.resolve(__dirname, '../assets/images/'),
-      to: path.resolve(__dirname, '../.tmp/public/images/')
-    },
-    {
-      from: path.resolve(__dirname, '../assets/favicon.ico'),
-      to: path.resolve(__dirname, '../.tmp/public/favicon.ico')
-    },
-    {
-      from: path.resolve(__dirname, '../assets/js/dependencies/'),
-      to: path.resolve(__dirname, '../.tmp/public/js/dependencies/')
-    },
-    {
-      from: path.resolve(__dirname, '../assets/static/'),
-      to: path.resolve(__dirname, '../.tmp/public/static/')
-    }
-  ])
+  new CopyWebpackPlugin(
+    filesToForceCopy.map(function(filePath) {
+      let fs = require('fs');
+      if (fs.existsSync(path.resolve(__dirname, '../assets/' + filePath))) {
+        return {
+          from: path.resolve(__dirname, '../assets/' + filePath),
+          to: path.resolve(__dirname, '../.tmp/public/' + filePath)
+        }
+      } else {
+        return false;
+      }
+    }).filter(function(item) {
+      return !!item;
+    })
+  )
 /*
   new PurifyCSSPlugin({
     basePath: process.cwd(),
@@ -56,11 +72,11 @@ const plugins = [
 ];
 
 if (process.env.NODE_ENV == 'production') {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: true
-    }
-  }))
+  // plugins.push(new webpack.optimize.UglifyJsPlugin({
+  //   compress: {
+  //     warnings: true
+  //   }
+  // }))
 }
 
 module.exports.webpack = {
@@ -81,6 +97,12 @@ module.exports.webpack = {
           test: /\.jsx?$/,
           loaders: ['babel-loader'],
           exclude: /node_modules/,
+        },
+        {
+          // whatwg-fetch use Promsie which IE11 doesn't support
+          test: /\.js$/,
+          include: [/whatwg-.*/],
+          loader: 'babel'
         },
         {
           test: /\.css$/,

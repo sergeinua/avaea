@@ -37,7 +37,7 @@ var confFields = {
   miles_programs: {
     program_name: "",
     account_number: "",
-    status: ""
+    tier: ""
   },
   lounge_membership: {
     airline_name: "",
@@ -72,6 +72,21 @@ module.exports = {
 
   findOneByUserId: function (id) {
     return this.findOne({user:id});
+  },
+
+  getUserMilesProgramsByUserId: function (id) {
+    var qdefer = qpromice.defer();
+    this.findOne({user:id}).exec(function (err, record) {
+      if (err) {
+        sails.log.error(err);
+        qdefer.reject(err);
+      } else if (record) {
+        qdefer.resolve(record.miles_programs);
+      } else {
+        qdefer.reject('User has no profile');
+      }
+    });
+    return qdefer.promise;
   },
 
   findOneByCriteria: function (criteria) {

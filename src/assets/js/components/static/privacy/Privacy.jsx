@@ -11,7 +11,7 @@ let StaticPrivacy = React.createClass({
       	<div className="updated">Last updated December 5, 2016</div>
 
       	<div className="copy intro">
-		      	At Onvoya, we want to give you a fantastic travel experience. As part of that effort, we want you to feel
+		      	At OnVoya, we want to give you a fantastic travel experience. As part of that effort, we want you to feel
 		      	comfortable when you visit or use our Service (the websites and related mobile apps on which this
 		      	Privacy Policy is displayed, and the services that we make available though those websites and apps).
 		      	We also understand that you may have some important questions for us about what information we
@@ -55,13 +55,13 @@ let StaticPrivacy = React.createClass({
 		      	Connect and Google's OpenID-based authentication mechanism). By using this Facebook or Google
 		      	functionality to log into the Service, you permit us to access and use specific identifying information
 		      	related to your Facebook or Google account. While these services make a variety of information
-		      	available, Onvoya will associate only your e-mail address or other unique user account identifier with
-		      	your Onvoya account.
+		      	available, OnVoya will associate only your e-mail address or other unique user account identifier with
+		      	your OnVoya account.
 	      	</p>
 
 		      <p>
 			      We may also allow you to integrate various functionalities from other services, such as Microsoft Outlook
-	      	  and Google Calendar, with Onvoya. If you choose to take advantage of this integration feature in the
+	      	  and Google Calendar, with OnVoya. If you choose to take advantage of this integration feature in the
 	      	  desktop version of the Service, we will ask you for your login credentials for the other service. If you
 	      	  access the Service using our mobile apps, you do not need to provide your login credentials, as your
 	      	  mobile device allows this integration automatically. By providing those credentials or installing the
@@ -69,7 +69,7 @@ let StaticPrivacy = React.createClass({
 	      	  functionality contains, including personally identifiable information. Further, if you have obtained
 	      	  authorized access through the other service to another person's information, you understand and
 	      	  agree that by providing us your login credentials or installing the mobile, you are allowing and are
-	      	  authorized to allow Onvoya to access and store that other person's information, including personally
+	      	  authorized to allow OnVoya to access and store that other person's information, including personally
 	      	  identifiable information.
 	      	 </p>
       	</li>
@@ -78,7 +78,7 @@ let StaticPrivacy = React.createClass({
 	      	<strong>Calendar Information:</strong> With your permission, we collect calendar information from your mobile device
 	      	and use it to provide suggestions (such as for flights, hotels, and cars) based on your meetings and
 	      	travel plans. We also may allow you to integrate various functionalities from other services, such as
-	      	Microsoft Outlook and Google Calendar, with Onvoya. If you choose to take advantage of this integration
+	      	Microsoft Outlook and Google Calendar, with OnVoya. If you choose to take advantage of this integration
 	      	feature in the desktop version of the Service, we will ask you for your login credentials for the other
 	      	service. If you access the Service using our mobile apps, you do not need to provide your login
 	      	credentials, as your mobile device allows this integration automatically. By providing those credentials
@@ -86,7 +86,7 @@ let StaticPrivacy = React.createClass({
 	      	other service's functionality contains, including personally identifiable information. Further, if you have
 	      	obtained authorized access through the other service to another person's information, you understand
 	      	and agree that by providing us your login credentials or installing the mobile, you are allowing and are
-	      	authorized to allow Onvoya to access and store that other person's information, including personally
+	      	authorized to allow OnVoya to access and store that other person's information, including personally
 	      	identifiable information.
       	</li>
 
@@ -95,9 +95,9 @@ let StaticPrivacy = React.createClass({
 	      	collect your email address and the contents of the communication. In addition, we may provide or
 	      	enable communications with you through third party services and those third party services may
 	      	provide us with information about you and the content of your communications. For example, when
-	      	you interact with the Onvoya Virtual Travel Agent on a third-party service such as Facebook
+	      	you interact with the OnVoya Virtual Travel Agent on a third-party service such as Facebook
 	      	Messenger or Slack, that third-party service may collect your contact information and the content
-	      	of those communications and share this information with Onvoya. We do not own or operate these
+	      	of those communications and share this information with OnVoya. We do not own or operate these
 	      	third-party services, and you should review the terms of use and privacy policies of such services t
 	      	o make sure you are comfortable with the ways in which they use the information you share with
 	      	them.
@@ -139,8 +139,8 @@ let StaticPrivacy = React.createClass({
       	</li>
 
       	<li>
-	      	<strong>Booking through Onvoya:</strong> If you are a registered Onvoya user, you may book travel transactions with some
-	      	of our travel partners through Onvoya. When you use this feature, we collect payment details from
+	      	<strong>Booking through OnVoya:</strong> If you are a registered OnVoya user, you may book travel transactions with some
+	      	of our travel partners through OnVoya. When you use this feature, we collect payment details from
 	      	you including name on card, card number, billing address, expiration date, security code, and
 	      	phone number, and we pass that information to the travel partner to complete the transaction.
 	      	The travel partner processes your payment.
@@ -148,11 +148,11 @@ let StaticPrivacy = React.createClass({
 
       	</ul>
 
-      	<div className="subti">How Onvoya uses this information:</div>
+      	<div className="subti">How OnVoya uses this information:</div>
 
 
       	<div className="copy intro">
-	      	Onvoya uses the information you provide or that we collect to to develop, operate, maintain, enhance,
+	      	OnVoya uses the information you provide or that we collect to to develop, operate, maintain, enhance,
 	      	and provide the Service, to develop new products and services, and to customize and target content
 	      	that may be more interesting, relevant or useful to you, including advertisements, and for other
 	      	administrative purposes. Here are some examples of how we may use the information you provide
@@ -194,8 +194,8 @@ let StaticPrivacy = React.createClass({
       		We may provide personally identifiable information to third parties for their use in helping us perform
       		our internal business functions. These are things like processing payments for us, or performing
       		maintenance, security, data analysis, e-mail transmission and processing, or data hosting on our
-      		behalf. If you book travel with one of our travel partners through Onvoya, we provide the payment
-      		details you give us to the travel partner to process the transaction. If you book travel using Onvoya
+      		behalf. If you book travel with one of our travel partners through OnVoya, we provide the payment
+      		details you give us to the travel partner to process the transaction. If you book travel using OnVoya
       		through certain third-party partners, we may, with your consent, send a copy of the travel booking
       		confirmation to the partner. The confirmation will include personally identifiable information (such as
       		name, email and phone number, and billing address) and truncated payment card details. We will do
@@ -205,24 +205,24 @@ let StaticPrivacy = React.createClass({
 				</div>
 
 				<div className="sub-copy">
-      		Onvoya may disclose your personal information if required to do so by law or in the good faith belief that
+      		OnVoya may disclose your personal information if required to do so by law or in the good faith belief that
       		disclosure is necessary to: (1) satisfy legal obligations or comply with legal process (such as a
-      		subpoena) served on Onvoya; (2) protect Onvoya and others from fraudulent, abusive, predatory,
-      		or unlawful uses or activity; (3) investigate and defend Onvoya against any legal claims or threats;
-      		(4) protect and defend the rights or property of Onvoya; (5) take action on user complaints, or (6) act
-      		in urgent circumstances to protect the personal safety of users of Onvoya, the Service, or the public.
+      		subpoena) served on OnVoya; (2) protect OnVoya and others from fraudulent, abusive, predatory,
+      		or unlawful uses or activity; (3) investigate and defend OnVoya against any legal claims or threats;
+      		(4) protect and defend the rights or property of OnVoya; (5) take action on user complaints, or (6) act
+      		in urgent circumstances to protect the personal safety of users of OnVoya, the Service, or the public.
 				</div>
 
 				<div className="sub-copy">
-      		If there is a change in ownership of Onvoya, including through a merger with, acquisition by, or sale of
+      		If there is a change in ownership of OnVoya, including through a merger with, acquisition by, or sale of
       		assets to another entity, we may sell or otherwise transfer all information you provide to us, including
       		personally identifiable information, to that entity.
 				</div>
 
 				<div className="sub-copy">
-      		Onvoya may disclose aggregated, anonymized, or other types of non-personally identifiable information,
+      		OnVoya may disclose aggregated, anonymized, or other types of non-personally identifiable information,
       		including "automatically collected" and "cookies" information that is non-personally identifiable, to third
-      		parties for various purposes. For example, Onvoya may disclose non-personally identifiable information to
+      		parties for various purposes. For example, OnVoya may disclose non-personally identifiable information to
       		our travel partners or other interested third parties to assist them in understanding the usage, viewing,
       		and demographic patterns and activity on the Service, to assist them in serving your travel needs, to
       		select the advertisements shown to you on our Service or on other websites and services, or to
@@ -232,14 +232,14 @@ let StaticPrivacy = React.createClass({
       	<div className="subti">Choice</div>
 
 				<div className="sub-copy">
-      		You may, of course, decline to share certain information with Onvoya, in which case Onvoya may not be
+      		You may, of course, decline to share certain information with OnVoya, in which case OnVoya may not be
       		able to provide to you some of the features and functionality found on the Service. For instance, you
       		may delete, or choose not to accept, cookies from the Service (see "Cookies" Information above for
       		details). And through your account preferences page on the Service, you may update, correct, or
       		delete certain categories of your profile information, and you may change your preferences. Please
       		note that while your changes to your profile information are reflected promptly in active user databases,
       		we may retain all information you previously submitted. If you want your information permanently
-      		anonymized, please submit a request to <strong>contacts@Onvoya.com</strong>. We may retain any anonymized
+      		anonymized, please submit a request to <strong>contacts@OnVoya.com</strong>. We may retain any anonymized
       		information for a variety of purposes, including backups and archiving, prevention of fraud and
       		abuse, and analytics.
 				</div>
@@ -249,7 +249,7 @@ let StaticPrivacy = React.createClass({
 				<div className="sub-copy">
       		Our advertising technology partners may use technology to send, directly to your browser, the
       		advertisements that appear on the Service. They automatically receive your IP address and other log
-      		file information when this happens. Onvoya Inc., our advertising technology partners, as well as certain
+      		file information when this happens. OnVoya Inc., our advertising technology partners, as well as certain
       		of our other travel partners, may also use cookies, pixel tags, or other technology to assist in
       		understanding the usage, viewing, and demographic patterns and activity on the Service or to
       		serve advertisements or other information about travel booking options to you both on our Service
@@ -258,23 +258,23 @@ let StaticPrivacy = React.createClass({
       		services on the Internet, including certain travel partners' sites and services (collectively, "Usage
       		Information") and/or on anonymized user information. Although you may not opt out of receiving
       		online advertisements generally, you may control the collection of data on our site used for targeted
-      		Onvoya, Inc. advertising during your visits to other websites. To opt-out of Onvoya, Inc. data collection
-      		for targeted advertising on other sites, please email <strong>contacts@Onvoya.com</strong>. We may use Facebook custom
+      		OnVoya, Inc. advertising during your visits to other websites. To opt-out of OnVoya, Inc. data collection
+      		for targeted advertising on other sites, please email <strong>contacts@OnVoya.com</strong>. We may use Facebook custom
       		audiences. You can opt out of advertising delivered via Facebook Audiences by following Facebook's process to do so from your Facebook feed. We may use Google Analytics data collection.
 				</div>
 
 				<div className="sub-copy">
       		These advertising technology and other travel partners may transmit your Usage Information to
-      		Onvoya, and Onvoya may use that Usage Information consistent with this Privacy Policy. Our advertising
+      		OnVoya, and OnVoya may use that Usage Information consistent with this Privacy Policy. Our advertising
       		technology partners also may, in accordance with their privacy policies, permit third parties to target
       		advertisements that are displayed to you, both on and off the Service, based on your Usage Information
       		or anonymized user information. These partners have promised that they will not combine or associate
-      		your Usage Information or anonymized user information provided to them by Onvoya with information
+      		your Usage Information or anonymized user information provided to them by OnVoya with information
       		you have independently provided to those partners.
 				</div>
 
 				<div className="sub-copy">
-      		If you interact with Onvoya through a third-party website, such as Yahoo! Travel, and you sign up to
+      		If you interact with OnVoya through a third-party website, such as Yahoo! Travel, and you sign up to
       		receive information about travel deals or fares from us, we will share your email address with that
       		same third party so that they may contact you with travel-related offers or services that may be of
       		interest to you. They are prohibited from using your contact information for any other purpose without
@@ -284,7 +284,7 @@ let StaticPrivacy = React.createClass({
 				<div className="sub-copy">
       		Aside from what is described above, we do not provide personal information to our advertising
       		technology partners without your consent. To learn more about our advertising technology partners,
-      		send us an e-mail at <strong>support@Onvoya.com</strong>. To learn more about online advertising generally
+      		send us an e-mail at <strong>support@OnVoya.com</strong>. To learn more about online advertising generally
       		and manage your online advertising preferences, you may visit the Network Advertising Initiative's
       		website here.
 				</div>
@@ -293,9 +293,9 @@ let StaticPrivacy = React.createClass({
 
 				<div className="sub-copy">
 					If you are a California resident, you have the right to receive: (1) information identifying any third party
-      		company or companies to which Onvoya may have disclosed, within the past year, personally identifiable
+      		company or companies to which OnVoya may have disclosed, within the past year, personally identifiable
       		information pertaining to you for that third party's direct marketing purposes, and (2) a description of
-      		the categories of personally identifiable information disclosed. To obtain such information, please email <strong>support@Onvoya.com</strong>.
+      		the categories of personally identifiable information disclosed. To obtain such information, please email <strong>support@OnVoya.com</strong>.
 			   </div>
 
 
@@ -314,7 +314,7 @@ let StaticPrivacy = React.createClass({
       		may book travel. When you follow the links to third-party services, you should understand that our
       		Privacy Policy no longer applies, and that the third-party's privacy practices may not be the same as
       		ours. In addition, our Service may incorporate features provided by third parties and you may interface
-      		with Onvoya through third-party services, including, for example, the third-party communications
+      		with OnVoya through third-party services, including, for example, the third-party communications
       		services described above. Please keep in mind that we do not own or operate these third-party
       		services, and you should review the terms of use and privacy policies of such services to make sure
       		you are comfortable with the ways in which they use the information you share with them. We are
@@ -324,13 +324,13 @@ let StaticPrivacy = React.createClass({
       	<div className="subti">The Security of Your Information</div>
 
 				<div className="sub-copy">
-      		Onvoya employs various physical, managerial, and technical safeguards that are designed to help
+      		OnVoya employs various physical, managerial, and technical safeguards that are designed to help
       		protect the integrity and security of our systems and to protect against the loss, misuse, and alteration
       		of personally identifiable information that we control. For example, we scramble your password during
       		transmission, and limit the employees who can access personally identifiable information to a small set
-      		who need such information to perform their jobs. If you save your payment information in your Onvoya
+      		who need such information to perform their jobs. If you save your payment information in your OnVoya
       		account, we store it in encrypted form in its own database. While we take reasonable measures to
-      		protect your information, we do not guarantee the security of your information. If Onvoya
+      		protect your information, we do not guarantee the security of your information. If OnVoya
       		learns of a security systems breach, then we may attempt to notify you electronically, either by e-mail
       		on via our website, so that you can take appropriate protective steps. These methods of communicating
       		with you are only examples. We retain the right to decide which method we will use to notify you of
@@ -350,7 +350,7 @@ let StaticPrivacy = React.createClass({
       		less stringent than your own region.
 				</div>
 
-      	<div className="subti">How Will You Know Whether Onvoya's Privacy Policy Has Changed?</div>
+      	<div className="subti">How Will You Know Whether OnVoya's Privacy Policy Has Changed?</div>
 
 				<div className="sub-copy">
 					We may occasionally update this Privacy Policy to reflect changes in our information practices. When
@@ -358,9 +358,9 @@ let StaticPrivacy = React.createClass({
 					revise the policy (and we will use our discretion to determine if the revision is substantial) we may
 					send e-mails to our registered users containing a link to the updated policy or post such updates.
 					We encourage you to review this Privacy Policy from time to time to stay informed about how we
-					are protecting the personally identifiable information we collect. Your continued use of the Onvoya
+					are protecting the personally identifiable information we collect. Your continued use of the OnVoya
 					Service following the posting of any changes to the Privacy Policy will constitute your acceptance
-					of any such changes. If you do not agree to the changes, you must stop using the Onvoya Service.
+					of any such changes. If you do not agree to the changes, you must stop using the OnVoya Service.
 				</div>
 
 

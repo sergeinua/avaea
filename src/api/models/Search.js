@@ -125,6 +125,7 @@ module.exports = {
 
   getResult: function (params, callback) {
     var guid = this.getCurrentSearchGuid();
+    memcache.init(function(){});
 
     var errors = [];
     async.map(sails.config.flightapis.searchProvider, (provider, doneCb) => {
@@ -298,7 +299,7 @@ module.exports = {
     if (params.service && _.indexOf(sails.config.flightapis.searchProvider, params.service) != -1) {
       utils.timeLog('getRefundType_' + params.service);
       // run async API search
-      global[params.service].getFareRules(guid, params, (err, result) => {
+      global[params.service].fareRules(guid, params, (err, result) => {
         sails.log.info(params.service + ' get Fare Rules finished!');
         if (err) {
           if (!done) {
