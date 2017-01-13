@@ -208,8 +208,9 @@ body:not(.touch) i.icon-mic:before {
 	background: transparent;
 }
 
-.desktop .message.info {
+.desktop .message {
 	font-size: 16px;
+	width: 85%;
 }
 
 .desktop .calendar-panel .message.info {
@@ -1700,7 +1701,7 @@ strong.tt-highlight {
 .calendar-panel .message.info {
 	margin: 0 auto 10px auto;
 	padding: 10px;
-	width: 85%;
+	width: 90%;
 	border-radius: 3px;
 }
 
