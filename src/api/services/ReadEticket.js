@@ -1,3 +1,4 @@
+/* global FFMPrograms */
 
 let qpromice = require('q');
 
@@ -69,7 +70,13 @@ module.exports = {
               }
               eticketNumbersStore[ii] = eticketNumber; // remember
 
-              return qpromice.all(_self.procUserPrograms(_cur_rec));
+              return FFMPrograms.getMilesProgramsByUserId(_cur_rec.user_id)
+                .then(function (milesPrograms) {
+                  return qpromice.all(_self.procUserPrograms({
+                    itinerary_data: _cur_rec,
+                    milesPrograms
+                  }));
+                })
             })
 
             .then(function (programsResults) {
