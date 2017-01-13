@@ -3,13 +3,12 @@
 %>
 <%
 if (selectedAirline) { %>
-  <form action="/<%= selectedAirline%>/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+  <form action="/<%= selectedAirline%>/update/<%= selectedUser %>" name="Profile" id="Profile" method="post" autocomplete="off">
 <% } else { %>
-    <form action="/update/<%= selectedUser %>" name="Profile" id="Profile" method="post">
+    <form action="/update/<%= selectedUser %>" name="Profile" id="Profile" method="post" autocomplete="off">
 <% } %>
 
 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-
 
 <!--BASE INFO/FAMILY-->
   <div class="panel panel-default">
@@ -159,58 +158,109 @@ if (profile_fields.travel_with) {
 
 
 <div class="panel panel-default">
-    <div class="panel-heading" role="tab" id="headingTwo">
-      <h4 class="panel-title">
-        <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Airlines/Programs
-        </a>
-      </h4>
-    </div>
-    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-      <div class="panel-body">
-<!--AIRLINES/PROGRAMS-->
-<!--Preferred Airlines-->
-    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
-      <legend style="margin-bottom:0; font-size:18px;">Preferred Airlines</legend>
+  <div class="panel-heading" role="tab" id="headingTwo">
+    <h4 class="panel-title">
+      <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Airlines/Programs
+      </a>
+    </h4>
+  </div>
+  <a name="#collapseTwo"></a>
+  <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+    <div class="panel-body">
+          
+    <!--AIRLINES/PROGRAMS-->
+    <!--Preferred Airlines-->
+      <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+        <legend style="margin-bottom:0; font-size:18px;">Preferred Airlines</legend>
         <div class="panel-body">
+        <%
+        if(profile_fields.preferred_airlines.length == 0){
+            profile_fields.preferred_airlines.push({travel_type: 'All Flights', airline_name: ''});
+        }
+        var iterator = 0;
+        profile_fields.preferred_airlines.forEach(function (preferred_airlines) {
 
-<%
-if (profile_fields.preferred_airlines) {
-  isFirst = true
-  iterator = 0
-  profile_fields.preferred_airlines.forEach(function (preferred_airlines) { %>
+          var travelType = preferred_airlines.travel_type || 'All Flights'; 
+          if(travelType == 'Domestic Short Haul Trips' || travelType == 'Domestic Long Haul Flights'){
+            travelType = 'Domestic';
+          }
+          if(travelType === 'International Flights'){
+            travelType = 'International';
+          }
+        %>
+          <div class="preferred_airlines" fieldset-number="<%= iterator %>">
+              <hr <% if(iterator == 0){%> class="hidden" <%}%> />
+              <span class="pull-right remove-fieldset-placeholder">
+                  <a class="remove-fieldset" fieldset="preferred_airlines" iterator="<%= iterator %>" style="<% if(iterator == 0){%>display:none;<%}%>cursor:pointer;">Remove</a>    
+              </span>                
+              <label>Type</label>
+              <div class="preferred-airlines-predefined">
+                  <label class=""><input type="radio" name="preferred_airlines.travel_type[<%= iterator %>]" value="All Flights" <%if(travelType == 'All Flights'){%>checked<%}%> /> All Flights</label>
+                  <label class=""><input type="radio" name="preferred_airlines.travel_type[<%= iterator %>]" value="Domestic" <%if(travelType == 'Domestic'){%>checked<%}%> /> Domestic</label>
+                  <label class=""><input type="radio" name="preferred_airlines.travel_type[<%= iterator %>]" value="International" <%if(travelType == 'International'){%>checked<%}%> /> International</label>
+              </div><!-- .preferred-airlines-predefined -->
 
-    <div id="preferred_airlines" fieldset-number="<%= iterator %>">
-      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-      <label>Preferred Airlines type</label>
-
-      <% if (profile_fields.preferred_airlines.length > 1) {%>
-        <input class="remove-fieldset" type="button" value="remove" fieldset="preferred_airlines" iterator="<%= iterator %>"/>
-      <% } %>
-
-      <select name="preferred_airlines.travel_type[]" class="form-control input-sm">
-        <option value=''<% if(preferred_airlines.travel_type) {%> selected<%} %>>please choose</option>
-        <option value="Domestic Short Haul Trips"<% if(preferred_airlines.travel_type == 'Domestic Short Haul Trips') {%> selected<%} %>>Domestic Short Haul Trips</option>
-        <option value="Domestic Long Haul Flights"<% if(preferred_airlines.travel_type == 'Domestic Long Haul Flights') {%> selected<%} %>>Domestic Long Haul Flights</option>
-        <option value="International Flights"<% if(preferred_airlines.travel_type == 'International Flights') {%> selected<%} %>>International Flights</option>
-      </select>
-      <label>Airline Name</label>
-      <input type="text" name="preferred_airlines.airline_name[]" value="<%= preferred_airlines.airline_name %>" class="form-control input-sm" placeholder="Airline Name"/>
-    </div>
-<%
-    isFirst = false
-    iterator++
-  })
-}
-%>
-
-    </div>
-    <div class="panel-footer">
-      <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="preferred_airlines"><%= __('One more')%></button>
-    </div>
+            <label>Airline Name</label>             
+            <input type="text" name="preferred_airlines.airline_name_label[<%= iterator %>]" value="<%= preferred_airlines.airline_name %>" class="form-control input-sm abo-search-input airline-name" placeholder="Airline Name" autocomplete="off"/>
+            <input type="hidden" name="preferred_airlines.airline_name[<%= iterator %>]" value="<%= preferred_airlines.airline_name %>"/>
+          </div>
+        <%
+          iterator++
+        })
+        %>
+        </div><!-- .panel-body -->
+        <div class="panel-footer">
+          <button class="btn btn-xs btn-info btn-block addPreferredAirlines" role="button"><%= __('One more')%></button>
+      </div>     
     </fieldset>
 
-    <!--Airlines Frequent Flier Miles Programs-->
+    <!-- Frequent Flyer Membership -->
+    <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
+        <legend style="margin-bottom:0; font-size:18px;">Frequent Flyer Membership</legend>
+        <div class="panel-body">
+        <%
+        if(profile_fields.miles_programs.length == 0){
+            profile_fields.miles_programs.push({program_name: '', tier: '', account_number: ''});
+        }
+        var iterator = 0;
+        profile_fields.miles_programs.forEach(function (miles_program) {
+          if(!miles_program.program_name_label) miles_program.program_name_label = '';        
+          if(!miles_program.program_name) miles_program.program_name = '';
+          if(!miles_program.tier_label) miles_program.tier_label = '';
+          if(!miles_program.tier) miles_program.tier = '';          
+          if(!miles_program.account_number) miles_program.account_number = '';
+          if(!miles_program.program_tiers) miles_program.program_tiers = '';
+        %>
+          <div class="miles_programs" fieldset-number="<%= iterator %>">
+              <hr <% if(iterator == 0){%> class="hidden" <%}%> />
+              <span class="pull-right remove-fieldset-placeholder">
+                  <a class="remove-fieldset" fieldset="miles_programs" iterator="<%= iterator %>" style="<% if(iterator == 0){%>display:none;<%}%>cursor:pointer;">Remove</a>    
+              </span>   
+                
+              <label>Program Name</label>            
+              <input type="text" name="miles_programs.program_name_label[<%= iterator %>]" value="<%= miles_program.program_name_label %>" class="form-control input-sm abo-search-input ffm-program-name" data-tier="<%= miles_program.program_tiers %>" placeholder="Program Name" autocomplete="off"/>
+              <input type="hidden" name="miles_programs.program_name[<%= iterator %>]" value="<%= miles_program.program_name %>" class="ffm-program-name-hidden"/>
+
+              <label>Tier Level</label>            
+              <input type="text" name="miles_programs.tier_label[<%= iterator %>]" value="<%= miles_program.tier_label %>" class="form-control input-sm abo-search-input ffm-program-tier" placeholder="Tier Level" autocomplete="off"/>
+              <input type="hidden" name="miles_programs.tier[<%= iterator %>]" value="<%= miles_program.tier %>" class="ffm-program-tier-hidden"/>
+
+              <label>Program Number</label>            
+              <input type="text" name="miles_programs.account_number[<%= iterator %>]" value="<%= miles_program.account_number %>" class="form-control input-sm ffm-program-account-number" placeholder="Program Number" autocomplete="off"/>
+          </div>
+        <%
+          iterator++
+        })
+        %>
+        </div><!-- .panel-body -->
+        <div class="panel-footer">
+            <button class="btn btn-xs btn-info btn-block addMilesProgram" role="button"><%= __('One more')%></button>
+        </div>     
+    </fieldset>
+
+
+    <!--Airlines Frequent Flier Miles Programs>
     <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
       <legend style="margin-bottom:0; font-size:18px;">Airlines Frequent Flier Miles Programs</legend>
       <div class="panel-body">
@@ -222,8 +272,8 @@ if (profile_fields.miles_programs) {
   profile_fields.miles_programs.forEach(function (miles_programs) { %>
 
     <div id="miles_programs" fieldset-number="<%= iterator %>">
-      <hr <% if (isFirst) { %>class="hidden"<% } %>/>
-      <label>Airline Name</label>
+        <hr <% if (isFirst) { %>class="hidden"<% } %>/>
+    <label>Airline Name</label>
 
       <% if (profile_fields.miles_programs.length > 1) {%>
       <input class="remove-fieldset" type="button" value="remove" fieldset="miles_programs" iterator="<%= iterator %>"/>
@@ -249,6 +299,8 @@ if (profile_fields.miles_programs) {
         <button class="btn btn-xs btn-info btn-block mymoreprofilebutton" role="button" for="miles_programs"><%= __('One more')%></button>
       </div>
       </fieldset>
+    -->
+    
       <!--Airline Club Lounge Memberships-->
       <fieldset style="background-image: linear-gradient(0, #f7f7ee, #FFFFFF);">
         <legend style="margin-bottom:0; font-size:18px;">Airline Club Lounge Memberships</legend>
