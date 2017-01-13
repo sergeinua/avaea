@@ -174,7 +174,7 @@ var Calendar = React.createClass({
   render() {
     return (
       <div id="date_select_main" className="clearfix calendar-panel">
-      <div className="message info">Please re-select <strong>both dates</strong>.</div>	
+      <div className="message info">Select both departure and return date.</div>	
         <div className="row">
           <div className="row">
             <div id="dr_picker"></div>
