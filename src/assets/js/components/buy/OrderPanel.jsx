@@ -11,6 +11,7 @@ import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
+import PassengerItemContainer from './PassengerItem.jsx';
 
 let OrderPanel = React.createClass({
 
@@ -20,8 +21,6 @@ let OrderPanel = React.createClass({
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
-      {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},
-      {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
       {id:'State', required: true, title: 'State', data: fields_data.State || ''},
@@ -34,12 +33,65 @@ let OrderPanel = React.createClass({
     ];
   },
 
+  makePassengerData: function(incData, index) {
+
+    var fields_data = incData ? incData : {};
+
+    return [
+      {
+        id:'passengers['+index+'].FirstName',
+        required: true,
+        title: 'First Name',
+        data: fields_data['passengers['+index+'].FirstName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].FirstName'] || ''
+      },
+      {
+        id:'passengers['+index+'].LastName',
+        required: true,
+        title: 'Last Name',
+        data: fields_data['passengers['+index+'].LastName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].LastName'] || ''
+      },
+
+      {
+        id:'passengers['+index+'].Gender',
+        required: true,
+        title: 'Gender',
+        type: 'radio',
+        data: fields_data['passengers['+index+'].Gender'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].Gender'] || ''
+      },
+
+      {
+        id:'passengers['+index+'].DateOfBirth',
+        required: true,
+        type: "date",
+        title: 'Birthday',
+        placeholder: 'YYYY-MM-DD',
+        data: fields_data['passengers['+index+'].DateOfBirth'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
+      }
+    ];
+  },
+
   getOrder: function() {
     return ClientApi.reqPost('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
   },
 
   postOrder: function() {
-    return ClientApi.reqPost('/booking_proc', this.props.orderData.fieldsData);
+    /* TODO: need to be refactored when the form will return normal array of passengers */
+    let fieldsData = Object.assign({}, this.props.orderData.fieldsData);
+    let passengers = [];
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      passengers.push({
+        FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
+        LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
+        Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
+        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
+      });
+    }
+    fieldsData.passengers = passengers;
+    return ClientApi.reqPost('/booking_proc', fieldsData);
   },
 
   execReq: function (event) {
@@ -49,10 +101,14 @@ let OrderPanel = React.createClass({
       return !!value.trim();
     }, 'This field is required');
 
+    $.validator.addMethod("Trim", function(value, element) {
+      return value.trim();
+    });
+
     /**
      * Client validation during booking of itinerary
      */
-    $("#form_booking").validate({
+    let validationRules = {
       rules: {
         FirstName: {
           requiredAndTrim: true
@@ -120,7 +176,7 @@ let OrderPanel = React.createClass({
 
       // booking modal
       submitHandler: function(form) {
-        var _isError = false;
+        let _isError = false;
 
         if ($('.booking .form input').parent().hasClass('has-error')) {
           _isError = true;
@@ -133,7 +189,28 @@ let OrderPanel = React.createClass({
           return true;
         }
       }
-    });
+    };
+
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      validationRules.rules["passengers["+i+"].FirstName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].LastName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].Gender"] = {
+        required: true
+      };
+      validationRules.rules["passengers["+i+"].DateOfBirth"] = {
+        required: true,
+          date: true,
+          minlength: 10,
+          maxlength: 10
+      };
+    }
+
+    console.log('validationRules', validationRules);
+    $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
       return;
@@ -142,7 +219,7 @@ let OrderPanel = React.createClass({
       backdrop: 'static',
       keyboard: false
     });
-    var savedData = JSON.parse(JSON.stringify(this.props));
+    let savedData = JSON.parse(JSON.stringify(this.props));
     this.postOrder()
       .then(function (resData) {
         //FIXME jquery mess
@@ -189,39 +266,55 @@ let OrderPanel = React.createClass({
         return <DisplayAlert />;
       }
 
+      let _passengers = [];
+      for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+        _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(
+          this.props.orderData.fieldsData,
+          i
+        )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
+      }
+
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
 
         <form id="form_booking" className="booking">
-        <div>
+          <div>
 
-          <div className="flight-unit">
-            <div className="booking-flight-unit">
-              <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+            <div className="confirmation persons-class-price">
+              <div className="wrapper">
+                <div className="people">{ this.props.commonData.searchParams.passengers }</div>
+                <div className="class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+                <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+              </div>
             </div>
-          </div>
+            <div className="flight-unit">
+              <div className="booking-flight-unit">
+                <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              </div>
+            </div>
 
-          <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
+            <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
 
-          <div id="user-time-limit-target-div" className="time-limit message hidden">
-            <div className="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
-          </div>
+            <div className="form">
 
-          <div className="form">
-            <div className="page-ti">Billing</div>
+            <div className="page-ti billing">Billing</div>
             {this.makeOrderData(this.props.orderData).map(
-              (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
             )}
-          </div>
 
-          <div className="buttons">
-            <button id="booking_button" className="big-button" onClick={this.execReq}>
-              {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
-            </button>
-          </div>
+            <div className="page-ti people">Travellers</div>
+            {_passengers}
 
-        </div>
+
+            <div className="buttons">
+              <button id="booking_button" className="big-button" onClick={this.execReq}>
+                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+              </button>
+            </div>
+
+            </div>{/* ends div.form */}
+          </div>
         </form>
           {this.props.specialOrder ?
             <OrderSpecialModal />:null
@@ -244,6 +337,7 @@ let OrderPanel = React.createClass({
 const mapStateOrder = function(store) {
   return {
     orderData: store.orderData,
+    commonData: store.commonData,
   };
 };
 
