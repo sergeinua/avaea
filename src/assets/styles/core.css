@@ -204,6 +204,18 @@ body:not(.touch) i.icon-mic:before {
 	font-size: 18px;
 }
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
+.desktop .message.info {
+	font-size: 16px;
+}
+
+.desktop .calendar-panel .message.info {
+	margin-bottom: 40px;
+}
+
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -664,6 +676,10 @@ body.desktop form.profile,
 	left: -5px;
 }
 
+.message.info strong {
+	font-family: 'Open-Sans-Semibold';
+}
+
 
 /* colors */
 
@@ -784,6 +800,14 @@ footer.app-copy a.social:visited {
 .btn-primary:focus,
 .btn-primary:active {
 	background: #00a93f;
+}
+
+.message.info {
+	color: #009f36;
+}
+
+.message.info {
+	background: #b8efcf;
 }
 
 
@@ -1014,6 +1038,17 @@ form label.required:before,
 
 .navbar-toggle .icon-bar {
 	width: 20px;
+}
+
+
+/* message parts */
+
+.message {
+	padding: 20px;
+}
+
+.message.info {
+	
 }
 
 
@@ -1649,10 +1684,6 @@ strong.tt-highlight {
 
 /* calendar */
 
-.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
-	background: transparent;
-}
-
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1664,6 +1695,13 @@ strong.tt-highlight {
 	position: absolute;
 	left: 20px;
 	top: 18px;
+}
+
+.calendar-panel .message.info {
+	margin: 0 auto 10px auto;
+	padding: 10px;
+	width: 85%;
+	border-radius: 3px;
 }
 
 .datepicker .disabled {
@@ -2622,7 +2660,7 @@ td[data-action*="selectDay"] {
 
 .notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
-	font-family: 'Open-Sans-semibold';
+	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
 	width: 17%;
 }
