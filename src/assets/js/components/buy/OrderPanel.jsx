@@ -138,7 +138,7 @@ let OrderPanel = React.createClass({
           requiredAndTrim: true
         },
         State: {
-          requiredAndTrim: true
+          requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
         Country: {
           requiredAndTrim: true
