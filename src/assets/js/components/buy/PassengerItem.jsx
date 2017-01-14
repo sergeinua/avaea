@@ -47,6 +47,14 @@ let PassengerItem = React.createClass({
             panelType="fields"
           />:null
         }
+        {this.props.index == 1 ?
+          <OrderPanelElement item={{
+            id: 'passengers[' + this.props.index + '].phone',
+            required: true,
+            title: 'Phone',
+            placeholder: '+1 123 555 6789',
+            data: ''
+          }} key={'elem-passenger-phone'} panelType="fields"/>:null}
       </div>
     )
   }

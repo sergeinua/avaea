@@ -627,7 +627,19 @@ module.exports = {
       break;
     case 7: // number of itineraries stays the same
       sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
-      var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+      var temp_itins;
+      //sails.log.info('ranking using 1 1 1');
+      //temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
+      //cicstanford.print_many_itineraries(temp_itins);
+      if ( Tile.userPreferredAirlines.length == 0 ) {
+        sails.log.info('ranking using 1 6 20');
+        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 20, Tile.userPreferredAirlines);
+        //cicstanford.print_many_itineraries(temp_itins);
+      } else {
+        sails.log.info('ranking using 1 6 6');
+        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 6, Tile.userPreferredAirlines);
+        //cicstanford.print_many_itineraries(temp_itins);
+      }
 
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
