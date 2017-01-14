@@ -53,6 +53,7 @@ module.exports = {
           LastName: "last_name",
           Gender: "gender",
           DateOfBirth: "birthday",
+          Phone: "phone"
         };
 
         var userAddress = {
