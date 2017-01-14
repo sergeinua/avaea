@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="<%= (typeof showUnsupportedAlert !='undefined' && showUnsupportedAlert) ? 'unsupported' : ''%>">
 <head>
 
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -29,7 +29,8 @@
 
   <!-- google recaptcha @TODO: add lasy load to load only on "/contact" page -->
   <script src="https://www.google.com/recaptcha/api.js"></script>
-  
+
+ 
   <link rel="stylesheet" href="/js/styles.css">
 
   <!--STYLES-->

@@ -45,7 +45,8 @@ let FormElement = React.createClass({
           name={this.props.item.id}
           className="form-control input-sm"
           placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title}
-          defaultValue={this.props.item.data}
+          key={`input:${this.props.item.data || this.props.item.forcedUpdate}`}
+          defaultValue={this.props.item.data || this.props.item.forcedUpdate}
           required={this.props.item.required ? "required" : ""}
           onBlur={this.props.handleChangeValue}
         />
