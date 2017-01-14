@@ -21,11 +21,11 @@ let OrderPanel = React.createClass({
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
+      {id:'Country', required: true, title: 'Country', data: fields_data.Country || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
       {id:'State', required: true, title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
-      {id:'Country', required: true, title: 'Country Code', data: fields_data.Country || ''},
       {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
@@ -103,6 +103,10 @@ let OrderPanel = React.createClass({
 
     $.validator.addMethod("Trim", function(value, element) {
       return value.trim();
+    });
+
+    $.validator.addMethod("requiredPhone", function(value, element) {
+      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
     });
 
     /**
@@ -203,13 +207,17 @@ let OrderPanel = React.createClass({
       };
       validationRules.rules["passengers["+i+"].DateOfBirth"] = {
         required: true,
-          date: true,
-          minlength: 10,
-          maxlength: 10
+        date: true,
+        minlength: 10,
+        maxlength: 10
       };
+      if (i == 1) {
+        validationRules.rules["passengers["+i+"].phone"] = {
+          requiredPhone: true
+        };
+      }
     }
 
-    console.log('validationRules', validationRules);
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {

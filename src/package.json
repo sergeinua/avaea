@@ -24,6 +24,7 @@
     "clean-webpack-plugin": "^0.1.14",
     "connect-redis": "^1.4.5",
     "copy-webpack-plugin": "^4.0.1",
+    "countryjs": "^1.6.0",
     "css-loader": "^0.26.1",
     "debug": "^2.2.0",
     "ejs": "^2.5.1",
