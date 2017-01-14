@@ -12,6 +12,8 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
+const COUNTRIES = require('../../fixtures/countries');
+const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
 
@@ -24,7 +26,7 @@ let OrderPanel = React.createClass({
       {id:'Country', required: true, title: 'Country', data: fields_data.Country || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
-      {id:'State', required: true, title: 'State', data: fields_data.State || ''},
+      {id:'State', required: (STATES.STATES[this.props.orderData.fieldsData.Country] && true), title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
       {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
@@ -281,6 +283,23 @@ let OrderPanel = React.createClass({
           i
         )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
       }
+
+      let c = {}, s = {};
+      COUNTRIES.COUNTRIES.map(function(item, index) {
+        c[item.value] = item.label;
+        return item;
+      });
+      if (STATES.STATES[this.props.orderData.fieldsData.Country]) {
+        STATES.STATES[this.props.orderData.fieldsData.Country].map(function (item, index) {
+          s[item.value] = item.label;
+          return item;
+        });
+      } else {
+        s = {};
+      }
+      this.props.orderData.profileStructure.Country = c;
+      this.props.orderData.profileStructure.State = s;
+      // console.log(this.props.orderData.profileStructure);
 
       return (
         <span>
