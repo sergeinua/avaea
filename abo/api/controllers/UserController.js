@@ -7,9 +7,9 @@
  * @description :: Server-side logic for managing Users
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var qpromise = require('q');
 
 module.exports = {
-
 
   /**
    * `UserController.login()`
@@ -28,70 +28,147 @@ module.exports = {
    * `UserController.profile()`
    */
   profile: function (req, res) {
-
     var selectedAirline = this._setAirlineCode(req);
-    var _user_id = req.params.user_id;
 
-    Profile.findOneByUserId(_user_id).exec(function findOneCB(err, found) {
-      if (err) {
-        sails.log.error(err);
-      }
 
-      if (!found) {
-        res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + _user_id);
-      } else {
-
-        if (!found.employer) {
-
-          found.employer = {
-            company_name: '',
-            address:     '',
-            phone:       '',
-            position:    '',
-            salary:      '',
-            income:      ''
+    var data = {user_id: req.params.user_id, profile: {}, airlines: undefined, ffmprograms: undefined};  
+    
+    var getUserProfile = function(data){
+      var deferred = qpromise.defer();
+      Profile.findOneByUserId(data.user_id).exec(function findOneCB(error, result) {
+          if (error) {
+            deferred.reject(error);
+          }else{
+            data.profile = result;
+            deferred.resolve(data);
           }
+      });
+      return deferred.promise;      
+    };    
+    
+    var getAirlines = function(data){
+      var deferred = qpromise.defer();
+      Airlines.find().exec(function (error, result){
+          if(error){
+              deferred.reject(error);
+          }else{
+              data.airlines = result;
+              deferred.resolve(data);
+          }
+      });      
+      return deferred.promise;
+    };
+    
+    var getFFMPrograms = function(data){    
+      var deferred = qpromise.defer();
+      FFMPrograms.find().exec(function (error, result){
+          if(error){
+              deferred.reject(error);
+          }else{
+              data.ffmprograms = result;
+              deferred.resolve(data);
+          }
+      });
+      return deferred.promise;
+    };   
 
+    return getUserProfile(data) // get user profile
+      .then(getAirlines)        // get list of airlines
+      .then(getFFMPrograms)     // get ffm programs
+      .then(function(data){     // return response for view
+        if(typeof data.profile === 'undefined'){
+          res.redirect((selectedAirline ? '/' + selectedAirline : '') + '/create/' + data.user_id);                
         }
-
-        if (!found.travel_with) {
-          found.travel_with = [{
-            first_name: '',
-            last_name: '',
-            gender: '',
-            date_of_birth: ''
-          }];
-        }
-
-        // Assign fields for the view
+        
+        data.airlines = (typeof data.airlines === 'undefined')? []: data.airlines;
+        data.ffmprograms = (typeof data.ffmprograms === 'undefined')? []: data.ffmprograms;
+        
+        var profile = data.profile; // user profile
         var profile_fields = {};
-        for(var prop in found) {
-          if (!found.hasOwnProperty(prop)) {
+
+        for(var prop in profile) {
+          if(!profile.hasOwnProperty(prop)){
             continue;
           }
-          if (typeof found[prop] == 'undefined' || found[prop] === null || (typeof found[prop] == 'string' && found[prop].trim()=="")) {
-            profile_fields[prop] = '';
-          } else {
-            profile_fields[prop] = found[prop];
+          if(typeof profile[prop] === 'undefined' || profile[prop] === null){
+            profile_fields[prop] = ''
+          }else if(typeof profile[prop] === 'object' || profile[prop] === 'array'){
+            profile_fields[prop] = profile[prop];
+          }else{
+            profile_fields[prop] = ('' + profile[prop]).trim();
           }
         }
-        if (typeof profile_fields.birthday == 'object') {
+
+        if (typeof profile_fields.birthday === 'object') {
           profile_fields.birthday = sails.moment(profile_fields.birthday).format('YYYY-MM-DD');
         }
         if (profile_fields.birthday) {
           var years = sails.moment().diff(profile_fields.birthday, 'years');
           profile_fields.pax_type = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
-        }
+        }         
 
+        
+        // add program name and tier name before output
+        // 
+        //   miles_programs:
+        //  [ { program_name: 'AMC',                                // it's program_code saved from main profile
+        //      account_number: '11111',                  
+        //      tier: '8',                                          // it's tiers_configuration[n].ta - saved from main profile
+        //      program_name_label: 'ANA Mileage Club',             // human representation of program_code
+        //      tier_label: 'Bronze' },                             // human representation of tier
+        //      program_tiers: JSON.stringify(tiers_configuration)  // list of tiers for initialization
+        //   ],
+        //
+        
+        if(typeof profile_fields.miles_programs === 'array' || typeof profile_fields.miles_programs === 'object'){
+          for(var i in profile_fields.miles_programs){
+            var ffmp_user = profile_fields.miles_programs[i];
+            
+            profile_fields.miles_programs[i]['program_name_label'] = ffmp_user.program_name || ''; // ffm program label
+            profile_fields.miles_programs[i]['tier_label'] = ffmp_user.tier || ''; // tier label
+            
+            for(var j in data.ffmprograms){ // set original program name 
+              var ffmp_orig = data.ffmprograms[j];
+              
+              if(ffmp_orig.program_code === ffmp_user.program_name){
+                profile_fields.miles_programs[i]['program_name_label'] = ffmp_orig.program_name;
+                
+                if(typeof ffmp_orig.tiers_configuration === 'object'){
+                  
+                  profile_fields.miles_programs[i]['program_tiers'] = JSON.stringify(ffmp_orig.tiers_configuration);
+                  
+                  for(var k in ffmp_orig.tiers_configuration){  // set original tier label from tn field
+                    var tier = ffmp_orig.tiers_configuration[k];
+                    
+                    if(ffmp_user.tier === tier.ta){
+                      
+                      profile_fields.miles_programs[i]['tier_label'] = tier.tn;
+                      break;
+                    }
+                  }
+                }
+                
+                break;
+              }
+            }
+          }
+        }           
+      
         return res.view('user/profile', {
-          selectedAirline: selectedAirline,
-          title:'Update profile',
-          selectedUser: _user_id,
-          user: req.user,
-          profile_fields: profile_fields
-        });
-      }
-    });
+              selectedAirline: selectedAirline,
+              title:'Update profile',
+              selectedUser: data.user_id,
+              user: req.user,
+              profile_fields: profile_fields,
+              airlines: data.airlines,
+              ffmprograms: data.ffmprograms
+            }); 
+    })
+    .catch(function (error) {
+      sails.log.error(error);
+      res.redirect('/');
+    })
+    .done();
   },
 
   /**
@@ -136,7 +213,8 @@ module.exports = {
       if (!found) {
 
         sails.log.error('User not found', JSON.stringify(req.user));
-
+        return res.json({error: err});
+        
       } else {
 
         var fieldset = req.param('fieldset'), iterator = req.param('iterator');
@@ -150,11 +228,14 @@ module.exports = {
             return res.json({'success': true});
           });
 
+        }else{
+            // if record in fieldset can't be found cause may be in the user try to delete record of fieldset before the record was saved into the database
+            // front end waiting for result of operation and we must return response
+            return res.json({'success': true});
         }
-
       }
 
-    })
+    });
   },
 
   _setAirlineCode: function(req) {
@@ -169,5 +250,5 @@ module.exports = {
     }
 
     return selectedAirline;
-  }
+  },
 };
