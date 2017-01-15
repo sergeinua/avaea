@@ -24,7 +24,29 @@ module.exports = {
   },
 
   findOneByUserId: function (id) {
-    return this.findOne({user:id});
+    var profile = this.findOne({user:id});
+    
+    if(typeof profile !== 'undefined'){
+      if(typeof profile.employer === 'undefined'){
+        profile.employer = {
+          company_name: '',
+          address: '',
+          phone: '',
+          position: '',
+          salary: '',
+          income: ''
+        };
+      }
+      if(typeof profile.travel_with === 'undefined'){
+        profile.travel_with = [{
+          first_name: '',
+          last_name: '',
+          gender: '',
+          date_of_birth: ''
+        }];
+      }         
+    }
+    return profile;
   },
 
   make: function (form, user) {
@@ -87,17 +109,16 @@ module.exports = {
       });
     }
 
-    if (form['miles_programs.airline_name']) {
-      for (var i = 0; i < form['miles_programs.airline_name'].length; i++) {
+    if (form['miles_programs.program_name']) {
+      for (var i = 0; i < form['miles_programs.program_name'].length; i++) {
         jsonStruct.miles_programs.push({
-          airline_name: form['miles_programs.airline_name'][i],
-          account_number: form['miles_programs.account_number'][i],
-          flier_miles: form['miles_programs.flier_miles'][i],
-          expiration_date: form['miles_programs.expiration_date'][i]
+          program_name: form['miles_programs.program_name'][i] || '',
+          tier: form['miles_programs.tier'][i] || '',
+          account_number: form['miles_programs.account_number'][i] || ''
         });
       }
     } else {
-      sails.log.warn('Got miles_programs.airline_name with type=' + (typeof form['miles_programs.airline_name']));
+      sails.log.warn('Got miles_programs.program_name with type=' + (typeof form['miles_programs.program_name']));
     }
 
     if (form['lounge_membership.airline_name']) {
