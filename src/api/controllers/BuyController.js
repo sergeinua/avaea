@@ -10,7 +10,6 @@ const util = require('util');
 const url = require('url');
 const lodash = require('lodash');
 const qpromice = require('q');
-let countryApi = require('countryjs');
 
 /**
  * BuyController
