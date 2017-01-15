@@ -5,7 +5,7 @@ var Sails = require('sails'),
 before(function(done) {
 
   // Increase the Mocha timeout so that Sails has enough time to lift.
-  this.timeout(50000);
+  this.timeout(512000);
 
   var useDB = 'etPostgresqlServer'; // default dev
   if (
@@ -34,7 +34,7 @@ before(function(done) {
     policies: {
       '*' : true
     },
-    hookTimeout: 60000,
+    hookTimeout: 512000,
     hooks: {
       session: false,
       grunt: false

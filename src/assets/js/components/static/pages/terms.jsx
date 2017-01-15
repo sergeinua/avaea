@@ -1,4 +1,9 @@
-var TermsPage = React.createClass({
+import React from 'react';
+import StaticTerms from '../terms/Terms.jsx';
+import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
+
+let TermsPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -6,9 +11,8 @@ var TermsPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -18,9 +22,11 @@ var TermsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticTerms user={this.getUser()||{}}/>
+            <StaticTerms user={getUser()||{}}/>
         }
       </div>
     )
   }
 });
+
+export default TermsPage;

@@ -1,3 +1,8 @@
+import React from 'react';
+import StaticNews from '../news/News.jsx';
+import Loader from '../../_common/Loader.jsx';
+import { getUser } from '../../../functions.js';
+
 var NewsPage = React.createClass({
 
   getInitialState: function () {
@@ -6,9 +11,8 @@ var NewsPage = React.createClass({
     };
   },
 
-  getUser: function () {
-    //FIXME get rid from global var
-    return this.props.user || InitData.user || false;
+  componentWillMount: function () {
+    analytics.page(this.props.location.pathname);
   },
 
   render: function () {
@@ -18,9 +22,11 @@ var NewsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticNews user={this.getUser()||{}}/>
+            <StaticNews user={getUser()||{}}/>
         }
       </div>
     )
   }
 });
+
+export default NewsPage;

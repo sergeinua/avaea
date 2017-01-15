@@ -1,5 +1,11 @@
+import React from 'react';
+import Select from 'react-select';
+import 'whatwg-fetch';
+import 'promise-polyfill';
+import { clientStore } from '../../reducers.js';
+import { actionSetPreferredAirlinesVal } from '../../actions.js';
 
-var UserProfilePanelAirlineSelect = React.createClass({
+let UserProfilePanelAirlineSelect = React.createClass({
 
   getInitialState: function() {
     return {airlineName: ''};
@@ -11,7 +17,7 @@ var UserProfilePanelAirlineSelect = React.createClass({
 
   handleChangeValue: function (incObj) {
     if (incObj) {
-      clientStore.dispatch(actionSetProgramsVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
+      clientStore.dispatch(actionSetPreferredAirlinesVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
       this.setState({airlineName: incObj.value}); // Need to setup result value by self
     }
   },
@@ -29,7 +35,6 @@ var UserProfilePanelAirlineSelect = React.createClass({
         return response.json();
       })
       .then((json) => {
-        console.log('_airlines:'+ JSON.stringify(json));
         return {options: json};
       })
       .catch(function (error) {
@@ -50,3 +55,5 @@ var UserProfilePanelAirlineSelect = React.createClass({
   }
 
 });
+
+export default UserProfilePanelAirlineSelect;

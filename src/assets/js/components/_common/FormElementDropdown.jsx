@@ -1,3 +1,6 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import { actionSetProgramsVal, actionSetPersonalVal, actionSetOrderFieldVal } from '../../actions.js';
 
 class FormElementDropdown extends React.Component {
 
@@ -29,7 +32,7 @@ class FormElementDropdown extends React.Component {
       name={this.props.item.id}
       className="form-control input-sm"
       defaultValue={self.props.item.data}
-      onBlur={this.props.handleChangeValue}
+      onChange={this.props.handleChangeValue}
     >
       <option value="">---</option>
       { _nodes }
@@ -58,4 +61,6 @@ const mapDispatchElemDropdown = (dispatch, ownProps) => {
   }
 };
 
-var FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);
+let FormElementDropdownContainer = ReactRedux.connect(null, mapDispatchElemDropdown)(FormElementDropdown);
+
+export default FormElementDropdownContainer;

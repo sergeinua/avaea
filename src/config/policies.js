@@ -26,11 +26,14 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  '*': ['passport', 'bearerAuth'],
+  '*': ['passport'],
   'auth': {
     '*': ['passport']
   },
   'user': {
+    '*': ['passport']
+  },
+  'ac': {
     '*': ['passport']
   },
   'site': {

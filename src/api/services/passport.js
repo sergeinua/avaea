@@ -6,7 +6,7 @@ var path     = require('path')
  * Passport Service
  *
  * A painless Passport.js service for your Sails app that is guaranteed to
- * Rock Your Socks™. It takes all the hassle out of setting up Passport.js by
+ * Rock Your Socks. It takes all the hassle out of setting up Passport.js by
  * encapsulating all the boring stuff in two functions:
  *
  *   passport.endpoint()
@@ -21,7 +21,7 @@ var path     = require('path')
  * Behind the scenes, the service stores all the data it needs within "Pass-
  * ports". These contain all the information required to associate a local user
  * with a profile from a third-party provider. This even holds true for the good
- * ol' password authentication scheme – the Authentication Service takes care of
+ * ol' password authentication scheme the Authentication Service takes care of
  * encrypting passwords and storing them in Passports, allowing you to keep your
  * User model free of bloat.
  */
@@ -73,7 +73,7 @@ passport.connect = function (req, query, profile, next) {
    * @private
    */
   var _default_whitelist = [
-    '[^@]+?@avaea\.com'
+    '[^@]+?@onvoya\.com'
   ];
 
   // Get the authentication provider from the query.
@@ -148,6 +148,23 @@ passport.connect = function (req, query, profile, next) {
                   }
                   segmentio.track(user.id, 'Registration', {email: user.email});
 
+                  // E-mail notification
+                  var tpl_vars = {
+                    user: user,
+                    replyTo: sails.config.email.replyTo,
+                    callTo: sails.config.email.callTo
+                  };
+                  Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars)
+                    .then(function (msgContent) {
+                      Mailer.sendMail({to: user.email, subject: 'Welcome to OnVoya'}, msgContent)
+                        .then(function () {
+                          sails.log.info('Mail was sent to '+ user.email);
+                        })
+                    })
+                    .catch(function (error) {
+                      sails.log.error(error);
+                    });
+
                   callback(null, user);
                 });
               });
@@ -212,29 +229,14 @@ passport.connect = function (req, query, profile, next) {
       /**
        * Check whitelist access
        *
-       * @param {object} genRes
+       * @param {object} user
        * @param {function} callback
        */
-      function(genRes, callback) {
-        User.findOne({email: user.email, is_whitelist: 1})
+      function(user, callback) {
+        User.findOne({email: user.email})
           .exec(function (err, result) {
-            var _is_whitelist = 0;
 
-            //sails.log.info("__user:", user);
-            //sails.log.info("__err:", err);
-            //sails.log.info("__result:", result);
-            // Check by default value
             if (err || !result) {
-              var _patt = new RegExp("^(" + _default_whitelist.join("|") + ")$");
-              if (_patt.exec(user.email)) {
-                _is_whitelist = 1;
-              }
-            }
-            else if (result) {
-              _is_whitelist = 1;
-            }
-
-            if (! _is_whitelist) {
               if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
                 segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
                 callback('Email ' + user.email + ' is not in the whitelist');
@@ -243,7 +245,7 @@ passport.connect = function (req, query, profile, next) {
                 callback('Email ' + user.email + ' is not registered');
               }
             } else {
-              callback(null, genRes);
+              callback(null, user);
             }
           });
       },
@@ -251,30 +253,29 @@ passport.connect = function (req, query, profile, next) {
       /**
        * Check existence of the username and email
        *
-       * @param {object} genRes
+       * @param {object} user
        * @param {function} callback
        */
-      function(genRes, callback) {
+      function(user, callback) {
         if (!user.username && !user.email) {
           callback('Neither a username nor email was available');
+        } else {
+          callback(null, user);
         }
-        else
-          callback(null, genRes);
       }
     ],
 
     function(err, result) {
-      if(err) {
-        if(typeof err == "string") {
+      if (err) {
+        if (typeof err == "string") {
           req.flash('error', err);
           return next(new Error(err));
-        }
-        else
+        } else {
           return next(err);
-      }
-      else if (result)
+        }
+      } else if (result) {
         return next(null, result);
-      else {
+      } else {
         var _errstr = "Unknown result in the passport.connect";
         sails.log.error(_errstr);
         return next(new Error(_errstr));

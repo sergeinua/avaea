@@ -2,8 +2,10 @@
   var InitData = {
     <% if (user) { %>
     user: {email:"<%= user.email %>", id: <%= user.id %>},
+    <% } else { %>
+    user: false,
     <% } %>
-    page: "<%= page %>",
+    page: "<%= (typeof showUnsupportedAlert !='undefined' && showUnsupportedAlert) ? '/unsupported' : page %>",
     defaultSearch: <%- JSON.stringify(defaultSearch) %>
   };
   var serviceClass = <%- JSON.stringify(serviceClass) %>;

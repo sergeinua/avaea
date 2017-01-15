@@ -1,7 +1,4 @@
 {
-  "user": {
-    "id": 1
-  },
   "title": "TEST-TEST",
   "tiles": [],
   "max_filter_items": 0,
@@ -5420,10 +5417,6 @@
       "searchId": "search_89d1cc41_63b6_4cc1_89fb_dfe8f4570032_mondee"
     }
   ],
-  "timelog": "",
-  "head_title": "Flights from TEST to TEST on 25 Jul '16",
-  "iconSpriteMap": {},
-  "departure": {},
-  "arrival": {},
-  "errorType": ""
+  "errorInfo": false,
+  "iconSpriteMap": {}
 }

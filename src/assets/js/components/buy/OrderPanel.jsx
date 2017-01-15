@@ -1,5 +1,21 @@
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import ClientApi from '../_common/api.js';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import SearchBanner from '../searchform/SearchBanner.jsx';
+import ResultItemContainer from '../search/ResultItem.jsx';
+import OrderSpecialModal from './OrderSpecialModal.jsx';
+import OrderPanelElement from './OrderPanelElement.jsx';
+import Loader from '../_common/Loader.jsx';
+import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
+import PassengerItemContainer from './PassengerItem.jsx';
+const COUNTRIES = require('../../fixtures/countries');
+const STATES = require('../../fixtures/countryStates');
 
-var OrderPanel = React.createClass({
+let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
     var fields_data = incData.fieldsData ? incData.fieldsData : {};
@@ -7,17 +23,56 @@ var OrderPanel = React.createClass({
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
-      {id:'Gender', required: true, title: 'Gender', data: fields_data.Gender || ''},
-      {id:'DateOfBirth', required: true, type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: fields_data.DateOfBirth || ''},
+      {id:'Country', required: true, title: 'Country', data: fields_data.Country || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
-      {id:'State', required: true, title: 'State', data: fields_data.State || ''},
+      {id:'State', required: (STATES.STATES[this.props.orderData.fieldsData.Country] && true), title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
-      {id:'Country', required: true, title: 'Country Code', data: fields_data.Country || ''},
       {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
+    ];
+  },
+
+  makePassengerData: function(incData, index) {
+
+    var fields_data = incData ? incData : {};
+
+    return [
+      {
+        id:'passengers['+index+'].FirstName',
+        required: true,
+        title: 'First Name',
+        data: fields_data['passengers['+index+'].FirstName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].FirstName'] || ''
+      },
+      {
+        id:'passengers['+index+'].LastName',
+        required: true,
+        title: 'Last Name',
+        data: fields_data['passengers['+index+'].LastName'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].LastName'] || ''
+      },
+
+      {
+        id:'passengers['+index+'].Gender',
+        required: true,
+        title: 'Gender',
+        type: 'radio',
+        data: fields_data['passengers['+index+'].Gender'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].Gender'] || ''
+      },
+
+      {
+        id:'passengers['+index+'].DateOfBirth',
+        required: true,
+        type: "date",
+        title: 'Birthday',
+        placeholder: 'YYYY-MM-DD',
+        data: fields_data['passengers['+index+'].DateOfBirth'] || '',
+        forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
+      }
     ];
   },
 
@@ -26,31 +81,46 @@ var OrderPanel = React.createClass({
   },
 
   postOrder: function() {
-    return ClientApi.reqPost('/booking_proc', this.props.orderData.fieldsData);
+    /* TODO: need to be refactored when the form will return normal array of passengers */
+    let fieldsData = Object.assign({}, this.props.orderData.fieldsData);
+    let passengers = [];
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      passengers.push({
+        FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
+        LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
+        Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
+        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
+      });
+    }
+    fieldsData.passengers = passengers;
+    return ClientApi.reqPost('/booking_proc', fieldsData);
   },
 
   execReq: function (event) {
     event.preventDefault();
-    /**
-     * Added according to DEMO-707
-     * @link https://avaeaeng.atlassian.net/browse/DEMO-707
-     */
-    $.validator.addMethod("lettersonly", function(value, element) {
-      return this.optional(element) || /^[a-z\s]+$/i.test(value);
-    }, "Please remove any non alphabetical characters from your name");
+
+    $.validator.addMethod("requiredAndTrim", function(value, element) {
+      return !!value.trim();
+    }, 'This field is required');
+
+    $.validator.addMethod("Trim", function(value, element) {
+      return value.trim();
+    });
+
+    $.validator.addMethod("requiredPhone", function(value, element) {
+      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
+    });
 
     /**
      * Client validation during booking of itinerary
      */
-    $("#form_booking").validate({
+    let validationRules = {
       rules: {
         FirstName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         LastName: {
-          required: true,
-          lettersonly: true
+          requiredAndTrim: true
         },
         Gender: {
           required: true
@@ -62,19 +132,19 @@ var OrderPanel = React.createClass({
           maxlength: 10
         },
         Address1: {
-          required: true
+          requiredAndTrim: true
         },
         City: {
-          required: true
+          requiredAndTrim: true
         },
         State: {
-          required: true
+          requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
         Country: {
-          required: true
+          requiredAndTrim: true
         },
         ZipCode: {
-          required: true
+          requiredAndTrim: true
         },
         CardType: {
           required: true
@@ -86,7 +156,7 @@ var OrderPanel = React.createClass({
           maxlength: 16
         },
         ExpiryDate: {
-          required: true,
+          requiredAndTrim: true,
           minlength: 7,
           maxlength: 7
         },
@@ -112,7 +182,7 @@ var OrderPanel = React.createClass({
 
       // booking modal
       submitHandler: function(form) {
-        var _isError = false;
+        let _isError = false;
 
         if ($('.booking .form input').parent().hasClass('has-error')) {
           _isError = true;
@@ -125,7 +195,32 @@ var OrderPanel = React.createClass({
           return true;
         }
       }
-    });
+    };
+
+    for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+      validationRules.rules["passengers["+i+"].FirstName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].LastName"] = {
+        requiredAndTrim: true
+      };
+      validationRules.rules["passengers["+i+"].Gender"] = {
+        required: true
+      };
+      validationRules.rules["passengers["+i+"].DateOfBirth"] = {
+        required: true,
+        date: true,
+        minlength: 10,
+        maxlength: 10
+      };
+      if (i == 1) {
+        validationRules.rules["passengers["+i+"].phone"] = {
+          requiredPhone: true
+        };
+      }
+    }
+
+    $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
       return;
@@ -134,13 +229,13 @@ var OrderPanel = React.createClass({
       backdrop: 'static',
       keyboard: false
     });
-    var savedData = JSON.parse(JSON.stringify(this.props));
+    let savedData = JSON.parse(JSON.stringify(this.props));
     this.postOrder()
       .then(function (resData) {
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
         if (!resData.error && resData.bookingId) {
-          window.ReactRouter.browserHistory.push('/booking/' + resData.bookingId);
+          historyStrategy.push('/booking/' + resData.bookingId);
         } else if (resData.flashMsg) {
           savedData.orderData.flashMsg = resData.flashMsg;
           //scroll to page top to show error message after components re-render
@@ -155,9 +250,11 @@ var OrderPanel = React.createClass({
       });
   },
 
-  componentDidMount: function() {
-    clientStore.subscribe(() => console.log('_store:', clientStore.getState()));
+  componentWillMount: function () {
+    this.props.loadSuccess({});
+  },
 
+  componentDidMount: function() {
     this.getOrder()
       .then(function (resData) {
         resData.error ? this.props.loadFailed(resData) : this.props.loadSuccess(resData);
@@ -179,39 +276,72 @@ var OrderPanel = React.createClass({
         return <DisplayAlert />;
       }
 
+      let _passengers = [];
+      for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
+        _passengers.push(<PassengerItemContainer passengerData={this.makePassengerData(
+          this.props.orderData.fieldsData,
+          i
+        )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
+      }
+
+      let c = {}, s = {};
+      COUNTRIES.COUNTRIES.map(function(item, index) {
+        c[item.value] = item.label;
+        return item;
+      });
+      if (STATES.STATES[this.props.orderData.fieldsData.Country]) {
+        STATES.STATES[this.props.orderData.fieldsData.Country].map(function (item, index) {
+          s[item.value] = item.label;
+          return item;
+        });
+      } else {
+        s = {};
+      }
+      this.props.orderData.profileStructure.Country = c;
+      this.props.orderData.profileStructure.State = s;
+      // console.log(this.props.orderData.profileStructure);
+
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
 
         <form id="form_booking" className="booking">
-        <div>
+          <div>
 
-          <div className="flight-unit">
-            <div className="booking-flight-unit">
-              <ResultItem itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+            <div className="confirmation persons-class-price">
+              <div className="wrapper">
+                <div className="people">{ this.props.commonData.searchParams.passengers }</div>
+                <div className="class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+                <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+              </div>
             </div>
-          </div>
+            <div className="flight-unit">
+              <div className="booking-flight-unit">
+                <ResultItemContainer key={this.props.orderData.itineraryData.id} itinerary={this.props.orderData.itineraryData} showFullInfo={true}/>
+              </div>
+            </div>
 
-          <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
+            <div className={this.props.orderData.flashMsg ? "warning warning-booking" : ""} role="alert">{this.props.orderData.flashMsg}</div>
 
-          <div id="user-time-limit-target-div" className="time-limit message hidden">
-            <div className="copy">Time limit for getting the fare is <span id="user-time-limit-target"></span> day(s).</div>
-          </div>
+            <div className="form">
 
-          <div className="form">
-            <div className="page-ti">Billing</div>
+            <div className="page-ti billing">Billing</div>
             {this.makeOrderData(this.props.orderData).map(
-              (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
             )}
-          </div>
 
-          <div className="buttons">
-            <button id="booking_button" className="big-button" onClick={this.execReq}>
-              {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
-            </button>
-          </div>
+            <div className="page-ti people">Travellers</div>
+            {_passengers}
 
-        </div>
+
+            <div className="buttons">
+              <button id="booking_button" className="big-button" onClick={this.execReq}>
+                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+              </button>
+            </div>
+
+            </div>{/* ends div.form */}
+          </div>
         </form>
           {this.props.specialOrder ?
             <OrderSpecialModal />:null
@@ -234,6 +364,7 @@ var OrderPanel = React.createClass({
 const mapStateOrder = function(store) {
   return {
     orderData: store.orderData,
+    commonData: store.commonData,
   };
 };
 
@@ -248,4 +379,6 @@ const mapDispatchOrder = (dispatch) => {
   }
 };
 
-var OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+let OrderPanelContainer = ReactRedux.connect(mapStateOrder, mapDispatchOrder)(OrderPanel);
+
+export default OrderPanelContainer;

@@ -28,7 +28,7 @@ describe('SearchController', function() {
             throw err;
           }
 
-          res.text.should.match(/<title>Search for flights with Avaea Agent<\/title>/);
+          res.text.should.match(/<title>Search for flights with OnVoya Agent<\/title>/);
           res.text.should.match(/<form[^>]*id="search_form"/);
           res.text.should.match(/<input[^>]*name="originAirport"/);
           res.text.should.match(/<input[^>]*name="destinationAirport"/);

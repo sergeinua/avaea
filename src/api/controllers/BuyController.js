@@ -1,5 +1,6 @@
 /* global itineraryPrediction */
 /* global UserAction */
+/* global FFMPrograms */
 /* global memcache */
 /* global sails */
 /* global Profile */
@@ -8,7 +9,6 @@ var util = require('util');
 var url = require('url');
 var lodash = require('lodash');
 var qpromice = require('q');
-
 /**
  * BuyController
  */
@@ -27,7 +27,17 @@ module.exports = {
       });
     };
 
-    Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
+    if (!req.user) {
+      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.User.NotAuthorised')
+      });
+    }
+
+    let userId = utils.getUser(req);
+
+    Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
       if (err) {
         sails.log.error(err);
         return res.ok({
@@ -43,6 +53,7 @@ module.exports = {
           LastName: "last_name",
           Gender: "gender",
           DateOfBirth: "birthday",
+          Phone: "phone"
         };
 
         var userAddress = {
@@ -92,16 +103,16 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
+          let userId = utils.getUser(req);
+          itineraryPrediction.updateRank(userId, logData.itinerary.searchId, logData.itinerary.price);
 
-          UserAction.saveAction(req.user, 'on_itinerary_purchase', logData, function () {
-            User.publishCreate(req.user);
+          UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
+            User.publishCreate(userId);
           });
 
           var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
           itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
           itinerary_data.orderPrice = (itinerary_data.currency == 'USD') ? '$'+itinerary_data.price : itinerary_data.price +' '+ itinerary_data.currency;
-
           return res.ok(
             {
               action: 'order',
@@ -144,13 +155,28 @@ module.exports = {
           var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
+        reqParams.user = req.user;
+        reqParams.price = booking_itinerary.price;
+
+        // Clone and modify params for booking API
+        let reqParamsApi = Object.assign({}, reqParams);
+        reqParamsApi.booking_itinerary = booking_itinerary;
+        reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
+        reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
+        // Save modified api params also
+        reqParams.paramsApi = {
+          FirstName: reqParamsApi.FirstName,
+          LastName: reqParamsApi.LastName
+        };
+        // Important ! Remove credit cards data before parsing of the flight-booking
+        delete reqParams.CardNumber;
+        delete reqParams.ExpiryDate;
+        delete reqParams.CVV;
 
         req.session.time_log = [];
+        reqParamsApi.session = reqParams.session = req.session;
 
-        reqParams.session = req.session;
-        reqParams.user = req.user;
-
-        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParams, parseFlightBooking);
+        return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
       .catch((error) => {
         sails.log.error(error);
@@ -180,40 +206,42 @@ module.exports = {
       // Clear flash errors
       req.session.flash = '';
 
-      var order = lodash.clone(booking_itinerary, true);
+      // Make and send booking confirmation
+      let _itinerary_data = _.cloneDeep(booking_itinerary);
+      let tpl_vars = {};
 
-      // E-mail notification
-      var tpl_vars = {
-        reqParams: reqParams,
-        order: order,
-        miles: { value: 0, name: ''},
-        bookingRes: result,
-        replyTo: sails.config.email.replyTo,
-        callTo: sails.config.email.callTo,
-      };
-
-      ffmapi.milefy.Calculate(order, function (error, response, body) {
-        if (!error) {
-          var jdata = (typeof body == 'object') ? body : JSON.parse(body);
-          tpl_vars.miles.name = jdata.ProgramCodeName || '';
-          tpl_vars.miles.value = jdata.miles || 0;
-        }
-        Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars)
+      FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id).then(function (milesPrograms) {
+        qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
+          .then(function (programsResults) {
+              let _programs_res = Object.assign(...programsResults);
+              // E-mail notification
+              tpl_vars = {
+                reqParams: reqParams,
+                order: _itinerary_data,
+                bookingRes: result,
+                replyTo: sails.config.email.replyTo,
+                callTo: sails.config.email.callTo,
+                miles: _programs_res.miles,
+                refundType: _programs_res.refundType,
+                eticketNumber: null, // Is not defined yet
+              };
+              return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
+          })
           .then(function (msgContent) {
-            Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent)
-              .then(function () {
-                sails.log.info('Mail was sent to '+ req.user.email);
-              })
+            return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+          })
+          .then(function () {
+            sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
           })
           .catch(function (error) {
-            sails.log.error(error);
-          });
+          sails.log.error('in booking sendMail chain:', error);
+        });
       });
 
       // Save result to DB
       Booking.saveBooking(req.user, result, booking_itinerary, reqParams)
         .then(function (record) {
-          return res.ok({bookingId: record.id});
+          return res.ok({bookingId: record.id_pub});
         })
         .catch(function (error) {
           sails.log.error(error);
@@ -226,35 +254,43 @@ module.exports = {
   },
 
   booking: function (req, res) {
-    Booking.findOne({
-      id: req.param('bookingId'),
-      user_id: req.user.id
-    }).exec(function (err, record) {
-      if (err) {
-        sails.log.error(err);
-        return res.ok({error: true});
-      }
-      if (!record) {
-        sails.log.error('Could not find by bookingId:', req.param('bookingId'));
-        return res.ok({
-          error: true,
-          errorInfo: utils.showError('Error.Search.Booking.NotFound')
-        });
-      }
+    if (! /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(req.param('bookingId'))) {
+      sails.log.error('Invalid bookingId format:', req.param('bookingId'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.Search.Booking.NotFound')
+      });
+    }
 
-      // Render view
-      return res.ok(
-        {
-          action: 'booking',
-          fieldsData: record.req_params,
-          itineraryData: record.itinerary_data,
-          bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
-          replyTo: sails.config.email.replyTo,
-          callTo: sails.config.email.callTo,
-        },
-        'booking'
-      );
-    });
+    // Sails work with ORM in case-insensitive mode only. In this case we need query method
+    Booking.query(
+      `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 AND user_id=$2`, [req.param('bookingId'), req.user.id], function (err, dbResults) {
+        if (err) {
+          sails.log.error('Booking.query: '+ req.param('bookingId'), err);
+          return res.ok({error: true});
+        }
+        if (dbResults.rows.length == 0) {
+          sails.log.error('Could not find by bookingId:', req.param('bookingId'));
+          return res.ok({
+            error: true,
+            errorInfo: utils.showError('Error.Search.Booking.NotFound')
+          });
+        }
+        let record = dbResults.rows[0];
+
+        // Render view
+        return res.ok(
+          {
+            action: 'booking',
+            fieldsData: record.req_params,
+            itineraryData: record.itinerary_data,
+            bookingRes: {PNR: record.pnr, ReferenceNumber: record.reference_number},
+            replyTo: sails.config.email.replyTo,
+            callTo: sails.config.email.callTo,
+          },
+          'booking'
+        );
+      });
   }
 
 };

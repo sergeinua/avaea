@@ -1,10 +1,26 @@
-var UserProfile = React.createClass({
+import React from 'react';
+import * as ReactRedux from 'react-redux';
+import Loader from '../_common/Loader.jsx';
+import DisplayAlert from '../_common/DisplayAlert.jsx';
+import ClientApi from '../_common/api.js';
+import UserProfilePanel from './UserProfilePanel.jsx';
+import { actionLoadProfileSuccess, actionLoadProfileFailed } from '../../actions.js';
+import { validateFormPersonal } from './ProfileFormValidator'
+
+let UserProfile = React.createClass({
 
   profileData: {
     personal: [],
+    notifyContact: [],
     programs: [],
+    preferredAirlines: [],
     profileStructure: {},
-    programsStructure: {}
+    programsStructure: {},
+    preferredAirlinesStructure: {}
+  },
+
+  getInitialState: function() {
+    return {isValid: true}
   },
 
   makeProfileData: function(incData) {
@@ -21,35 +37,75 @@ var UserProfile = React.createClass({
     }
 
     this.profileData.personal = [
-      {id:'personal_info.first_name', required: true, title: 'First Name', data: profile_fields.personal_info.first_name || ''},
+      {id:'personal_info.first_name', required: true, title: 'First Name', data: profile_fields.personal_info.first_name || '',
+        validator: {
+          name: ['required', 'alpha'],
+          errorMsg: {
+            'required': 'This field is required.',
+            'alpha': 'Please enter a valid First Name'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
       {id:'personal_info.middle_name', title: 'Middle Name', data: profile_fields.personal_info.middle_name || ''},
-      {id:'personal_info.last_name', required: true, title: 'Last Name', data: profile_fields.personal_info.last_name || ''},
-      {id:'personal_info.gender', title: 'Gender', data: profile_fields.personal_info.gender || ''},
-      {id:'personal_info.birthday', type: "date", title: 'Birthday', placeholder: 'YYYY-MM-DD', data: profile_fields.personal_info.birthday || ''},
+      {id:'personal_info.last_name', required: true, title: 'Last Name', data: profile_fields.personal_info.last_name || '',
+        validator: {
+          name: ['required', 'alpha'],
+          errorMsg: {
+            'required': 'This field is required.',
+            'alpha': 'Please enter a valid Middle Name'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
+      {id:'personal_info.gender', type: 'radio', title: 'Gender', data: profile_fields.personal_info.gender || ''},
+      {id:'personal_info.phone', type: "tel", pattern: "[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*", title: 'Phone Number', placeholder: '+1 123 555 6789', data: profile_fields.personal_info.phone || '',
+        validator: {
+          name: ['phone'],
+          errorMsg: {
+            'phone': 'Please enter a valid Phone Number (+1 123 555 6789)'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      },
+      {id:'personal_info.birthday', type: "date", title: 'Date of Birth', placeholder: 'YYYY-MM-DD', data: profile_fields.personal_info.birthday || ''},
+      {id:'personal_info.address.country_code', title: 'Country', data: profile_fields.personal_info.address.country_code || ''},
       {id:'personal_info.address.street', title: 'Address', data: profile_fields.personal_info.address.street || ''},
       {id:'personal_info.address.city', title: 'City', data: profile_fields.personal_info.address.city || ''},
       {id:'personal_info.address.state', title: 'State', data: profile_fields.personal_info.address.state || ''},
-      {id:'personal_info.address.zip_code', title: 'Zip Code', data: profile_fields.personal_info.address.zip_code || ''},
-      {id:'personal_info.address.country_code', title: 'Country Code', data: profile_fields.personal_info.address.country_code || ''},
-      {id:'notify_contact.name', title: 'In Case of Emergency Notify', placeholder: 'First and Last Name', data: profile_fields.notify_contact.name || ''},
-      {id:'notify_contact.phone', title: 'Emergency Notify Phone', placeholder: 'Phone number', data: profile_fields.notify_contact.phone || ''}
+      {id:'personal_info.address.zip_code', title: 'Zip Code', data: profile_fields.personal_info.address.zip_code || ''}
     ];
 
+    this.profileData.notifyContact = [
+      {id:'notify_contact.name', title: 'Name', placeholder: 'First and Last Name', data: profile_fields.notify_contact.name || ''},
+      {id:'notify_contact.phone', title: 'Phone Number', placeholder: '+1 123 555 6789', data: profile_fields.notify_contact.phone || ''}
+    ];
+
+    this.profileData.preferredAirlines = [
+      {id:'preferred_airlines', title: 'Preferred Airlines', data: profile_fields.preferred_airlines || []}
+    ]
+
     this.profileData.programs = [
-      {id:'preferred_airlines', title: 'Preferred Airlines', data: profile_fields.preferred_airlines || []},
       {id:'miles_programs', title: 'Airlines Frequent Flier Miles Programs', data: profile_fields.miles_programs || []},
-      {id:'lounge_membership', title: 'Airline Club Lounge Memberships', data: profile_fields.lounge_membership || []}
+      // {id:'lounge_membership', title: 'Airline Club Lounge Memberships', data: profile_fields.lounge_membership || []}
     ];
 
     this.profileData.profileStructure = incData.profileStructure;
 
+    this.profileData.preferredAirlinesStructure = Object.assign({},
+    {
+      preferred_airlines: {travel_type: '', airline_name: ''}
+    },
+      incData.preferredAirlinesStructure);
+
     this.profileData.programsStructure = Object.assign({},
     {
-      preferred_airlines: {travel_type: '', airline_name: ''},
-      miles_programs: {airline_name: '', account_number: '', flier_miles: '', expiration_date: ''},
-      lounge_membership: {airline_name: '', membership_number: '', expiration_date: ''}
-    },
-      incData.programsStructure);
+      miles_programs: {program_name: '', account_number: '', tier: ''},
+      // lounge_membership: {airline_name: '', membership_number: '', expiration_date: ''}
+    });
 
     return this.profileData;
   },
@@ -61,19 +117,29 @@ var UserProfile = React.createClass({
   postProfile: function() {
     return ClientApi.reqPost('/profile/update', {
       personal: this.props.profileData.personal,
+      notifyContact: this.props.profileData.notifyContact,
       programs: this.props.profileData.programs,
+      preferredAirlines: this.props.profileData.preferredAirlines
     });
   },
 
   execUpdate: function () {
-    this.props.loadProfileSuccess({});
-    this.postProfile()
-      .then(function (resData) {
-        resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
-      }.bind(this))
-      .catch(function (error) {
-        console.error(error);
-      });
+    let _isValid = validateFormPersonal(this.props.profileData.personal)
+    this.setState({isValid: _isValid})
+    if (_isValid) {
+      this.props.loadProfileSuccess({});
+      this.postProfile()
+        .then(function (resData) {
+          resData.error ? this.props.loadProfileFailed() : this.props.loadProfileSuccess(this.makeProfileData(resData));
+        }.bind(this))
+        .catch(function (error) {
+          console.error(error);
+        });
+    }
+  },
+
+  onChangeForm: function() {
+    this.setState({isValid: true})
   },
 
   componentDidMount: function() {
@@ -88,7 +154,7 @@ var UserProfile = React.createClass({
 
   render: function () {
     if (this.props.profileData.personal) {
-      return <form action="user/update" name="Profile" id="Profile" method="post" className="form profile">
+      return <form action="user/update" name="Profile" id="Profile" method="post" className="form profile" onChange={this.onChangeForm}>
         <div className="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
           <div className="user-profile">
             <UserProfilePanel
@@ -96,20 +162,37 @@ var UserProfile = React.createClass({
               profileStructure={this.props.profileData.profileStructure}
               data={this.props.profileData.personal}
               id="One1"
-              name="Personal information"
+              name="Personal Info"
               key="One"
+            />
+            <UserProfilePanel
+              type="notifyContact"
+              profileStructure={this.props.profileData.profileStructure}
+              data={this.props.profileData.notifyContact}
+              id="Two2"
+              name="Emergency Contact"
+              key="Two"
+            />
+            <UserProfilePanel
+              type="preferredAirlines"
+              programsStructure={this.props.profileData.preferredAirlinesStructure}
+              data={this.props.profileData.preferredAirlines}
+              id="Three3"
+              name="Preferred Airlines"
+              key="Three"
             />
             <UserProfilePanel
               type="programs"
               programsStructure={this.props.profileData.programsStructure}
               data={this.props.profileData.programs}
-              id="Two2"
-              name="Airlines/Programs"
-              key="Two"
+              id="Four4"
+              name="Frequent Flyer Membership"
+              key="Four"
             />
           </div>
-          <div className="button-holder">
+          <div className={"button-holder " + (this.state.isValid ? null : 'has-error')}>
             <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
+            {this.state.isValid ? null : <div className="error-message">Error saving the form data</div>}
           </div>
         </div>
       </form>;
@@ -140,4 +223,6 @@ const mapDispatchProfile = (dispatch) => {
   }
 };
 
-var UserProfileContainer = ReactRedux.connect(mapStateProfile, mapDispatchProfile)(UserProfile);
+let UserProfileContainer = ReactRedux.connect(mapStateProfile, mapDispatchProfile)(UserProfile);
+
+export default UserProfileContainer;
