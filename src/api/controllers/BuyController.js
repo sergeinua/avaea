@@ -56,6 +56,7 @@ module.exports = {
           LastName: "last_name",
           Gender: "gender",
           DateOfBirth: "birthday",
+          Phone: "phone"
         };
 
         let userAddress = {
@@ -115,11 +116,6 @@ module.exports = {
           let itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
           itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
           itinerary_data.orderPrice = (itinerary_data.currency == 'USD') ? '$'+itinerary_data.price : itinerary_data.price +' '+ itinerary_data.currency;
-
-          let CountryList = countryApi.all().map(function(item) {
-            return item.name;
-          }).filter(function(item) {return !!item;});
-          let StateList = countryApi.states('US');
           return res.ok(
             {
               action: 'order',
@@ -127,9 +123,7 @@ module.exports = {
               itineraryData: itinerary_data,
               profileStructure: {
                 Gender: Profile.attr_gender,
-                CardType: Order.CardType,
-                Country: CountryList,
-                State: StateList
+                CardType: Order.CardType
               },
               flashMsg: ''
             },
