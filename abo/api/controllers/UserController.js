@@ -182,11 +182,6 @@ module.exports = {
     }
 
     var selectedAirline = this._setAirlineCode(req);
-    
-    // remove label fields and save JSON in format for main profile
-    if(req.params.miles_program){
-
-    }
 
     User.findOne({id: req.params.user_id}).exec(function findOneCB(err, found) {
       Profile.update({user:req.params.user_id}, profileFields).exec(function (err, record) {
