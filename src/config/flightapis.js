@@ -5,9 +5,19 @@ module.exports.flightapis = {
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
     baseEndPoint: 'http://api.trippro.com/api/v2',
-    clientId: 'CFP1017'
+    clientId: 'CFP1017',
+    providerInfo: {
+      callTo: '+1 (877) 917-8453',
+      pubName: 'Mondee',
+      siteUrl: 'www.mondee.com'
+    }
   },
   farelogix: {
+    providerInfo: {
+      callTo: '+1 (786) 464-8650',
+      pubName: 'FareLogix',
+      siteUrl: 'www.farelogix.com'
+    },
     post_options: {
       host: 'api.farelogix.com',
       port: '443',
