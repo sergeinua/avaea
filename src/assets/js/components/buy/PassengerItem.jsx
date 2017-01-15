@@ -47,6 +47,15 @@ let PassengerItem = React.createClass({
             panelType="fields"
           />:null
         }
+        {this.props.index == 1 ?
+          <OrderPanelElement item={{
+            id: 'passengers[' + this.props.index + '].phone',
+            required: true,
+            title: 'Phone',
+            placeholder: '+1 123 555 6789',
+            data: this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone'] || '',
+            forcedUpdate: this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone'] || ''
+          }} key={'elem-passenger-phone'} panelType="fields"/>:null}
       </div>
     )
   }
@@ -60,6 +69,7 @@ const mapDispatchPassengerItem = (dispatch, ownProps) => {
       dispatch(actionSetOrderFieldVal('passengers[1].LastName', ownProps.orderData.fieldsData.LastName));
       dispatch(actionSetOrderFieldVal('passengers[1].Gender', ownProps.orderData.fieldsData.Gender));
       dispatch(actionSetOrderFieldVal('passengers[1].DateOfBirth', ownProps.orderData.fieldsData.DateOfBirth));
+      dispatch(actionSetOrderFieldVal('passengers[1].phone', ownProps.orderData.fieldsData.Phone));
     },
   }
 };

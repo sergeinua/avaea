@@ -12,6 +12,8 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
+const COUNTRIES = require('../../fixtures/countries');
+const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
 
@@ -21,11 +23,11 @@ let OrderPanel = React.createClass({
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
       {id:'LastName', required: true, title: 'Last Name', data: fields_data.LastName || ''},
+      {id:'Country', required: true, title: 'Country', data: fields_data.Country || ''},
       {id:'Address1', required: true, title: 'Address', data: fields_data.Address1 || ''},
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
-      {id:'State', required: true, title: 'State', data: fields_data.State || ''},
+      {id:'State', required: (STATES.STATES[this.props.orderData.fieldsData.Country] && true), title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
-      {id:'Country', required: true, title: 'Country Code', data: fields_data.Country || ''},
       {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
@@ -105,6 +107,10 @@ let OrderPanel = React.createClass({
       return value.trim();
     });
 
+    $.validator.addMethod("requiredPhone", function(value, element) {
+      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
+    });
+
     /**
      * Client validation during booking of itinerary
      */
@@ -132,7 +138,7 @@ let OrderPanel = React.createClass({
           requiredAndTrim: true
         },
         State: {
-          requiredAndTrim: true
+          requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
         Country: {
           requiredAndTrim: true
@@ -203,13 +209,17 @@ let OrderPanel = React.createClass({
       };
       validationRules.rules["passengers["+i+"].DateOfBirth"] = {
         required: true,
-          date: true,
-          minlength: 10,
-          maxlength: 10
+        date: true,
+        minlength: 10,
+        maxlength: 10
       };
+      if (i == 1) {
+        validationRules.rules["passengers["+i+"].phone"] = {
+          requiredPhone: true
+        };
+      }
     }
 
-    console.log('validationRules', validationRules);
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
@@ -273,6 +283,23 @@ let OrderPanel = React.createClass({
           i
         )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
       }
+
+      let c = {}, s = {};
+      COUNTRIES.COUNTRIES.map(function(item, index) {
+        c[item.value] = item.label;
+        return item;
+      });
+      if (STATES.STATES[this.props.orderData.fieldsData.Country]) {
+        STATES.STATES[this.props.orderData.fieldsData.Country].map(function (item, index) {
+          s[item.value] = item.label;
+          return item;
+        });
+      } else {
+        s = {};
+      }
+      this.props.orderData.profileStructure.Country = c;
+      this.props.orderData.profileStructure.State = s;
+      // console.log(this.props.orderData.profileStructure);
 
       return (
         <span>

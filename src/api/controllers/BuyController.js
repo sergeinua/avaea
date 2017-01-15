@@ -9,7 +9,6 @@ var util = require('util');
 var url = require('url');
 var lodash = require('lodash');
 var qpromice = require('q');
-
 /**
  * BuyController
  */
@@ -54,6 +53,7 @@ module.exports = {
           LastName: "last_name",
           Gender: "gender",
           DateOfBirth: "birthday",
+          Phone: "phone"
         };
 
         var userAddress = {
@@ -113,7 +113,6 @@ module.exports = {
           var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
           itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
           itinerary_data.orderPrice = (itinerary_data.currency == 'USD') ? '$'+itinerary_data.price : itinerary_data.price +' '+ itinerary_data.currency;
-
           return res.ok(
             {
               action: 'order',
