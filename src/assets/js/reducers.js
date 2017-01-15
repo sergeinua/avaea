@@ -74,6 +74,10 @@ function profileReducer(curState = storeInitialState.profileData, action) {
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['personal', action.elemNum, 'data'], () => action.value).toJS();
 
+    case actionTypesProfile.SET_PERSONAL_VALIDATOR:
+      _immutable = Immutable.fromJS(curState);
+      return _immutable.updateIn(['personal', action.elemNum, 'validated'], () => action.validator).toJS();
+
     case actionTypesProfile.SET_PERSONAL_NOTIFY_VAL:
       _immutable = Immutable.fromJS(curState);
       return _immutable.updateIn(['notifyContact', action.elemNum, 'data'], () => action.value).toJS();
@@ -130,10 +134,14 @@ const appReducers = Redux.combineReducers({
   orderData: orderReducer,
 });
 
-export const clientStore = Redux.createStore(appReducers);
-//for test env only
-// export const clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
-
+export let clientStore;
+if (__DEV__) {
+  console.log('App in dev mode. You can use redux devtools extension ( https://github.com/zalmoxisus/redux-devtools-extension )');
+  //for test env only
+  clientStore = Redux.createStore(appReducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+} else {
+  clientStore = Redux.createStore(appReducers);
+}
 
 // global, because subscribers can be re-mounted many times
 let observeStoreFields = {};

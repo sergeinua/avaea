@@ -37,8 +37,7 @@ var confFields = {
   miles_programs: {
     program_name: "",
     account_number: "",
-    tier: "",
-    status: ""
+    tier: ""
   },
   lounge_membership: {
     airline_name: "",
@@ -81,8 +80,10 @@ module.exports = {
       if (err) {
         sails.log.error(err);
         qdefer.reject(err);
-      } else {
+      } else if (record) {
         qdefer.resolve(record.miles_programs);
+      } else {
+        qdefer.reject('User has no profile');
       }
     });
     return qdefer.promise;

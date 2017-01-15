@@ -5,7 +5,7 @@
     <% } else { %>
     user: false,
     <% } %>
-    page: "<%= page %>",
+    page: "<%= (typeof showUnsupportedAlert !='undefined' && showUnsupportedAlert) ? '/unsupported' : page %>",
     defaultSearch: <%- JSON.stringify(defaultSearch) %>
   };
   var serviceClass = <%- JSON.stringify(serviceClass) %>;

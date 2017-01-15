@@ -1,10 +1,10 @@
 /* ---------------
-   onvoya.css 
+   onvoya.css
 	 --------------- */
 
 /* syntax
    transition: all 0.1s ease-in-out;
-	 :not(.search-result) 
+	 :not(.search-result)
 */
 
 
@@ -204,6 +204,19 @@ body:not(.touch) i.icon-mic:before {
 	font-size: 18px;
 }
 
+.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
+	background: transparent;
+}
+
+.desktop .message {
+	font-size: 16px;
+	width: 85%;
+}
+
+.desktop .calendar-panel .message.info {
+	margin-bottom: 40px;
+}
+
 .desktop .voice-form {
 	margin-top: 45px;
 	margin-bottom: 20px;
@@ -352,7 +365,7 @@ body:not(.touch) i.icon-mic:before {
 }
 
 .desktop .booking-success .row.notable-area {
-	margin-right: -40px;
+	margin-left: -20px;
 }
 
 .desktop .notable-area .details,
@@ -475,6 +488,10 @@ body:not(.touch) i.icon-mic:before {
 	height: 51px;
 }
 
+.desktop .refundable.row {
+	text-align: center;
+}
+
 .desktop .booking .buttons {
 	text-align: left;
 	position: relative;
@@ -483,11 +500,6 @@ body:not(.touch) i.icon-mic:before {
 
 .desktop .booking .form {
 	padding-bottom: 45px;
-}
-
-.desktop .booking .ti {
-	font-size: 26px;
-	padding-left: 40px;
 }
 
 .desktop .ti:before {
@@ -505,8 +517,12 @@ body:not(.touch) i.icon-mic:before {
 	margin-top: 20px;
 }
 
+.desktop .booking-success .passengers {
+	margin-bottom: 25px;
+}
+
 .desktop .booking-success .confirm-message {
-	padding-bottom: 40px;
+	padding-bottom: 30px;
 	border-top: 0px solid transparent;
 }
 
@@ -517,6 +533,14 @@ body:not(.touch) i.icon-mic:before {
 .desktop .booking-success .confirm-message .copy,
 .desktop .booking-success .confirm-message .thanks {
 	font-size: 16px;
+}
+
+.desktop .booking-success .trip.ti {
+	margin-bottom: 0;
+}
+
+.booking-success .passengers .wrapper {
+	margin-top: 15px;
 }
 
 .desktop .booking-success .flight-unit .summary {
@@ -565,6 +589,8 @@ header,
 }
 
 .clear-it,
+.clearit,
+.booking .confirmation:after,
 body.desktop form.profile,
 .confirm-code:after,
 .long-wrapper:after,
@@ -633,8 +659,10 @@ body.desktop form.profile,
 }
 
 .tertiary-button {
-	font-size: 14px;
-	margin: 10px 5px;
+	cursor: pointer;
+	font-family: 'Open-Sans-Light';
+	font-size: 18px;
+	margin: 10px 5px 10px 8px;
 	padding: 4px 15px;
 	box-shadow: inset 0 0 2px #ffffff;
 }
@@ -662,6 +690,10 @@ body.desktop form.profile,
 	font-size: 36px;
 	top: 8px;
 	left: -5px;
+}
+
+.message.info strong {
+	font-family: 'Open-Sans-Semibold';
 }
 
 
@@ -730,8 +762,8 @@ footer.app-copy .top a,
 footer.app-copy .bottom a {
 	color: #062868;
 }
- 
-footer.app-copy .top a:hover, 
+
+footer.app-copy .top a:hover,
 footer.app-copy .bottom a:hover,
 footer.app-copy .bottom a:focus {
 	color: rgba(6, 40, 104, .6);
@@ -784,6 +816,14 @@ footer.app-copy a.social:visited {
 .btn-primary:focus,
 .btn-primary:active {
 	background: #00a93f;
+}
+
+.message.info {
+	color: #009f36;
+}
+
+.message.info {
+	background: #b8efcf;
 }
 
 
@@ -927,8 +967,17 @@ a:focus,
 .success.ti:before,
 .extras-flag,
 .flight-extras .total-value,
-.icon-spinner {
-	color: #37d016;
+.icon-spinner,
+.which-passenger:before {
+	color: #15cb61;
+}
+
+.booking .confirmation {
+	background-color: #def7ec;
+}
+
+.booking .confirmation {
+	color: #00a93f;
 }
 
 /* red */
@@ -951,7 +1000,18 @@ form label.required:before,
 	border: 1px solid #ed2741;
 }
 
-/* highlight */
+.has-error .error-message {
+  display: block;
+  color: #ed2741;
+  margin-top: 10px;
+}
+
+.button-holder.has-error .error-message {
+  margin: 10px 5px;
+  font-weight: bold;
+}
+
+  /* highlight */
 
 .has-error .form-control {
 	background: #ffffde;
@@ -962,8 +1022,7 @@ form label.required:before,
 	background: #ffffe4;
 }
 
-
-.form label.error {
+.form label.error, .has-error label {
   display: block;
   color: #ed2741;
 }
@@ -1007,13 +1066,24 @@ form label.required:before,
 
 /* override bootstrap */
 
-.nav > li > a:hover, 
+.nav > li > a:hover,
 .nav > li > a:focus {
 	background-color: transparent;
 }
 
 .navbar-toggle .icon-bar {
 	width: 20px;
+}
+
+
+/* message parts */
+
+.message {
+	padding: 20px;
+}
+
+.message.info {
+	
 }
 
 
@@ -1068,6 +1138,7 @@ textarea {
 	padding: 8px;
 }
 
+.its-me .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .ff-miles.none {
@@ -1125,6 +1196,7 @@ textarea {
 }
 
 .navbar-brand {
+	cursor: pointer;
 	padding: 18px 5px 14px 5px;
 	width: 200px;
 	position: relative;
@@ -1231,11 +1303,25 @@ textarea {
 	background-size: 110%;
 }
 
+.modal-content .login-holder:after {
+	display: none;
+}
+
+.modal-content .login-holder {
+	margin: 0 0 0 0;
+	padding: 20px 0 30px 0;
+}
+
+.login-modal .modal-body {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
 .desktop .login-holder .graphic {
 	margin: 0 auto;
 	height: calc(100vw * .28);
 		bottom: 1px;
-	background: url(/images/static/world.svg) center 10px no-repeat;
+	background: url('/images/static/world.svg') center 10px no-repeat;
 	background-size: 103%;
 }
 
@@ -1649,10 +1735,6 @@ strong.tt-highlight {
 
 /* calendar */
 
-.desktop .bootstrap-datetimepicker-widget table thead tr:first-child th:hover {
-	background: transparent;
-}
-
 .calendar-header .ret:before {
 	content: ' - ';
 }
@@ -1664,6 +1746,13 @@ strong.tt-highlight {
 	position: absolute;
 	left: 20px;
 	top: 18px;
+}
+
+.calendar-panel .message.info {
+	margin: 0 auto 10px auto;
+	padding: 10px;
+	width: 90%;
+	border-radius: 3px;
 }
 
 .datepicker .disabled {
@@ -1913,6 +2002,7 @@ td[data-action*="selectDay"] {
 	background: url('/images/spinner.svg') no-repeat;
 	background-size: 40px;
 }
+
 
 
 
@@ -2622,7 +2712,7 @@ td[data-action*="selectDay"] {
 
 .notable-area .details .col-xs-2.dest,
 .notable-area .col-xs-3.direction {
-	font-family: 'Open-Sans-semibold';
+	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
 	width: 17%;
 }
@@ -2702,7 +2792,9 @@ td[data-action*="selectDay"] {
 }
 
 .page-ti {
+	font-family: 'Open-Sans-Semibold';
 	font-size: 20px;
+	margin-left: -15px;
 	padding: 5px 0 5px 0;
 	position: relative;
 }
@@ -2713,14 +2805,66 @@ td[data-action*="selectDay"] {
     left: -2px;
 }
 
+.page-ti.people {
+	margin-top: 30px;
+}
+
+.booking .confirmation {
+	font-family: 'Open-Sans-Light';
+	font-size: 20px;
+	text-align: center;
+	padding: 15px; 
+}
+
+.booking .confirmation:after {
+	content: '';
+	display: table;
+	width: 100%;
+	clear: both;
+}
+
+.booking .confirmation .wrapper {
+	margin: 0 auto;
+	display: inline-block;
+}
+
+.booking .confirmation div {
+	padding-right: 20px;
+	display: inline-block;
+}
+
+.booking .confirmation div:last-child {
+	padding-right: 0;
+}
+
+.which-passenger {
+	font-size: 18px;
+	margin-left: -8px;
+	padding-left: 15px;
+	position: relative;
+}
+
+.which-passenger:before {
+	font-size: 22px;
+	position: absolute;
+		left: -10px;
+}
+
+.its-me .hint {
+	font-family: 'Open-Sans-Light';
+	margin-left: 9px;
+}
+
 .booking-success {
 	margin-top: 70px;
 }
 
+.booking-success .confirm-code,
 .booking-success .confirm-message,
 .booking-success .flight-unit .itinerary,
-.booking-success .trip.ti {
-	padding: 0 40px;
+.booking-success .trip.ti,
+.booking-success .passengers {
+	padding: 0 20px 0 25px;
 }
 
 .success.ti {
@@ -2728,7 +2872,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 	float: left;
 	position: relative;
-		left: 19px;
+		left: 28px;
 }
 
 .booking-success .refundable,
@@ -2737,10 +2881,14 @@ td[data-action*="selectDay"] {
 }
 
 .booking-success .success.ti:before {
-	font-size: 24px;
+	font-size: 38px;
 	position: absolute;
-    top: -1px;
-    left: -28px;
+    top: -8px;
+    left: -36px;
+}
+
+.booking-success .success.ti .label-ti {
+	padding-left: 8px;
 }
 
 .booking-success .confirm-code .wrapper {
@@ -2761,22 +2909,12 @@ td[data-action*="selectDay"] {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	border-top: 1px solid rgba(0, 0, 0, 0.3);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.booking-success .confirm-message .copy,
-.booking-success .confirm-message .thanks {
-	font-size: 13px;
 }
 
 .booking-success .confirm-code,
 .booking-success .confirm-message .name,
 .booking-success .trip.ti {
 	font-size: 16px;
-}
-
-.booking-success .confirm-code {
-	padding: 0 20px;
 }
 
 .booking-success .confirm-message .thanks {
@@ -2788,6 +2926,20 @@ td[data-action*="selectDay"] {
 	padding-left: 3px;
 }
 
+.booking-success .passengers {
+	text-align: left;
+}
+
+.booking-success .passengers .wrapper {
+	font-family: 'Open-Sans-Bold';
+	font-size: 13px;
+	margin-bottom: 5px;
+}
+
+.booking-success .passengers .wrapper span:first-child {
+	padding-right: 10px;
+}
+
 .booking-success .flight-unit .itinerary {
 	font-size: 14px;
 	width: 100%;
@@ -2796,7 +2948,10 @@ td[data-action*="selectDay"] {
 .booking-success .trip.ti {
 	line-height: 1em;
 	text-align: left;
-	padding: 10px 40px;
+	margin: 15px 0;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-top: 1px solid rgba(0, 0, 0, 0.3);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
@@ -2821,6 +2976,10 @@ td[data-action*="selectDay"] {
 	float: left;
 }
 
+.booking-success .flight-unit .notable-area .details .col-xs-2.length {
+	text-align: left;
+}
+
 .booking-success .flight-unit .notable-area .details .col-xs-3.flight-no {
 	width: 22%;
 }
@@ -2830,7 +2989,7 @@ td[data-action*="selectDay"] {
 }
 
 .booking-success .flight-unit .notable-area .details .col-xs-3.times {
-	width: 37%;
+	width: 32%;
 }
 
 .booking-success .change-planes {
@@ -2840,6 +2999,20 @@ td[data-action*="selectDay"] {
 .booking-success .notable-area .col-xs-3.direction {
 	text-transform: uppercase;
 	width: 21%;
+}
+
+.booking-success .refundable.row .ti {
+	padding-right: 5px;
+	display: inline-block;
+}
+
+.booking-success .refundable.row .copy {
+	display: inline-block;
+}
+
+.booking-success .notable-area .ff-miles, 
+.booking-success .notable-area .ff-miles.no-value {
+    margin-left: -20px;
 }
 
 .help-contact {
@@ -2852,8 +3025,9 @@ td[data-action*="selectDay"] {
 
 /* flight unit */
 
-.flight-unit {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+.flight-unit,
+.booking .confirmation {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .flight-unit .col-xs-9 {
@@ -2868,6 +3042,10 @@ td[data-action*="selectDay"] {
 	width: 82%;
 	float: none;
 	border-bottom: 0px solid transparent;
+}
+
+.booking-flight-unit .itinerary {
+	width: 92%;
 }
 
 .flight-unit .itinerary-airline.col-from-to {
@@ -2953,12 +3131,13 @@ td[data-action*="selectDay"] {
 
 
 .booking .buttons {
-	position: fixed;
-	bottom: 0;
-	text-align: center;
-	background: #fff;
+	margin-top: 30px;
 	width: 100%;
-	border-top: 1px solid rgba(0, 0, 0, .15);
+	background: #fff;
+}
+
+.booking .buttons .big-button {
+	margin-left: 0;
 }
 
 .warning {
@@ -3021,10 +3200,6 @@ td[data-action*="selectDay"] {
 	padding: 15px 25px 15px 35px;
 }
 
-.booking .form {
-	padding-bottom: 85px;
-}
-
 .panel-body .panel-body {
 	padding-left: 0;
 }
@@ -3065,19 +3240,34 @@ legend {
 
 .input-sm {
 	font-size: 16px;
-	padding: 10px 5px 11px 5px;
+	padding: 5px 5px 6px 5px;
 	height: auto;
+}
+
+.panel-group label,
+.form-group label {
+	font-family: 'Open-Sans-Semibold';
 }
 
 .panel-group label,
 .form-group label,
 .booking label {
-	font-family: 'Open-Sans-Semibold';
 	font-weight: normal;
 	font-size: 16px;
 	margin-top: 15px;
 	margin-bottom: 0;
 	position: relative;
+}
+
+.radio-buttons-block label {
+  font-weight: lighter;
+  margin-right: 10px;
+  font-family: inherit;
+}
+
+.profile-country.Select--single > .Select-control .Select-value, .profile-country .Select-placeholder,
+.profile-state.Select--single > .Select-control .Select-value, .profile-state .Select-placeholder {
+  padding-left: 0;
 }
 
 .panel-heading {
@@ -3092,7 +3282,11 @@ legend {
 }
 
 select.input-sm {
-	height: 45px;
+	height: 37px;
+}
+
+input[value="F"] {
+	margin-left: 20px;
 }
 
 .panel-footer {
@@ -3157,7 +3351,7 @@ footer .wrapper:after {
 }
 
 footer .left nav {
-	text-align: left;	 
+	text-align: left;
 }
 
 footer .left,
@@ -3173,7 +3367,7 @@ footer .holder {
 
 footer .holder a {
 	display: inline-block;
-	padding: 0 15px; 
+	padding: 0 15px;
 }
 
 footer .right {
@@ -3239,7 +3433,7 @@ footer.app-copy a.social.twitter:after {
 		top: 8px;
 		left: 1px;
 }
- 
+
 footer.app-copy ul {
   list-style-type: none;
 	display: inline-block;
@@ -3292,7 +3486,7 @@ footer.app-copy .bottom a {
 
 @media (max-width: 850px) {
 
-	.desktop .search-result .itinerary, 
+	.desktop .search-result .itinerary,
 	.desktop .flight-unit .itinerary {
 		width: 90%;
 	}
@@ -3305,7 +3499,7 @@ footer.app-copy .bottom a {
 	.touch .navbar-brand {
 		display: block;
 	}
-	
+
 	.touch .navbar-brand {
 		left: 12px;
 	}
@@ -3314,12 +3508,12 @@ footer.app-copy .bottom a {
 
 @media (max-width: 766px) {
 
-	.touch .navbar-brand { 
+	.touch .navbar-brand {
 		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
 		background-size: 185px;
 	}
-	
-	.touch.suppress-logo .navbar-brand { 
+
+	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
 
@@ -3346,27 +3540,27 @@ footer.app-copy .bottom a {
 
 
 @media (max-width: 675px) {
-	
-	
-	footer .left, 
+
+
+	footer .left,
 	footer .right {
     display: block;
     width: 100%;
     float: none;
 	}
-	
+
 	footer .holder {
 		text-align: center;
 	}
-	
+
 	footer .right {
     margin: 15px 0 15px 0;
 	}
-	
+
 	footer .left nav {
-		text-align: center;	 
+		text-align: center;
 	}
-	
+
 }
 
 @media (max-width: 580px) {
@@ -3375,13 +3569,13 @@ footer.app-copy .bottom a {
 		padding-left: 0;
 		padding-right: 0;
 	}
-	
+
 	.desktop {
 		padding: 0 0 0 0;
 	}
-	
+
 	.desktop .voice-search-content {
-		width: 75%;   
+		width: 75%;
 	}
 
 }
@@ -3390,21 +3584,21 @@ footer.app-copy .bottom a {
 /* phones portrait */
 
 @media (max-width: 415px) {
-	
+
 	.touch .login-holder .graphic {
 		height: 310px;
 		background-size: 305%;
 	}
-	
+
 	.flight-unit .itinerary {
 		width: 90%;
 	}
-	
+
 	.touch .booking .notable-area .refundable  {
 		margin-left: 12%;
 	}
-	
-	
+
+
 }
 
 @media (min-width: 351px) {
@@ -3414,7 +3608,7 @@ footer.app-copy .bottom a {
 	.navbar-default .navbar-toggle:hover {
 		margin-left: 10px;
 	}
-	
+
 }
 
 
@@ -3423,17 +3617,17 @@ footer.app-copy .bottom a {
 	.flight-type-item:not(.voice-search-button) {
 		font-size: 15px;
 	}
-	
-	.booking-success .confirm-message, 
-	.booking-success .flight-unit .itinerary, 
+
+	.booking-success .confirm-message,
+	.booking-success .flight-unit .itinerary,
 	.booking-success .trip.ti {
 		padding-left: 20px;
 	}
-	
+
 	.booking-success .notable-area .refundable {
 		margin-left: 40px;
 	}
-	
+
 	.navbar-toggle .icon-bar {
 		width: 18px;
 	}
@@ -3441,7 +3635,7 @@ footer.app-copy .bottom a {
 }
 
 @media (max-width: 321px) {
-	
+
 	.navbar-toggle .icon-bar {
 		width: 10px;
 	}
@@ -3460,16 +3654,16 @@ footer.app-copy .bottom a {
 	.touch .form-signin-heading {
 		margin: 70px auto 0 auto;
 	}
-	
+
 	.touch .login-holder {
 		margin: 80px auto 20px auto;
     width: 300px;
 	}
-	
+
 	.touch.android .login-holder {
 		margin-top: 110px;
 	}
-	
+
 	.touch .login-holder .graphic {
 		display: none;
 	}
@@ -3478,7 +3672,7 @@ footer.app-copy .bottom a {
 		position: relative;
     z-index: 2;
 	}
-	
+
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
@@ -3829,6 +4023,55 @@ html[data-useragent*='Trident'] .swiper-container {
 
 	}
 }
+
+
+/* Unsupported IEs */
+
+.unsupported header,
+.unsupported footer {
+	display: none;
+}
+
+.unsupported body,
+.unsupported,
+.unsupported .desktop .desktop-wrapper,
+.unsupported #spa-app {
+	background: #f1f1f1;
+}
+
+.no-can-do {
+	margin: 60px auto;
+	width: 600px;
+}
+
+.unsupported-box {
+	padding: 40px;
+	background: #ffffff;
+	border: 1px solid #dedede;
+	border-radius: 3px;
+}
+
+.unsupported-logo {
+	margin-bottom: 5px;
+	height: 63px;
+	width: 271px;
+	background: url('/images/logo-unsupported.png') 0 0 no-repeat;
+}
+
+.unsupported .no-can-do h1 {
+	margin-bottom: 30px;
+}
+
+.unsupported .copy {
+	text-align: left;
+}
+
+.unsupported .no-can-do p {
+	line-height: 24px;
+	width: 90%;
+}
+
+
 
 
 

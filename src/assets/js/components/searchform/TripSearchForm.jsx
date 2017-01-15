@@ -4,7 +4,9 @@ import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
 import { ActionsStore } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
 var flashErrorTimeout = 1000;
@@ -61,7 +63,7 @@ var TripSearchForm = React.createClass({
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
-        browserHistory.push(
+        historyStrategy.push(
           {
             pathname: '/result',
             query: {
@@ -246,7 +248,7 @@ var TripSearchForm = React.createClass({
               </div>
 
               <div className="col-xs-6">
-                <div id="to-area "
+                <div id="to-area"
                      className={(this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to") +
                      " " + this.getErrorClass('#to-area')}
                      onClick={this.handleAirportSearch('ArrivalLocationCode')}>
@@ -270,7 +272,7 @@ var TripSearchForm = React.createClass({
 
         <div className="flight-date-info row">
 
-          <div
+          <div id="flight-date-dep-open-calendar"
             className={'flight-date-info-item dep col-xs-6 open-calendar' + this.getErrorClass('.flight-date-info-item.dep')}
             onClick={this.showCalendar('dep')}>
             <div className="row">
@@ -296,7 +298,7 @@ var TripSearchForm = React.createClass({
           </div>
 
           { this.props.InitSearchFormData.currentForm == 'round_trip' ?
-            <div className={
+            <div id="flight-date-ret-open-calendar" className={
               "flight-date-info-item ret col-xs-6 open-calendar" +
               " " + this.getErrorClass('.flight-date-info-item.ret')
             }

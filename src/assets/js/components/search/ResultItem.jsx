@@ -2,7 +2,9 @@ import React from 'react';
 import * as ReactRedux from 'react-redux';
 import Citypairs from './Citypairs.jsx';
 import ModalFlightInfo from './ModalFlightInfo.jsx';
-import { browserHistory } from 'react-router';
+import { browserHistory, hashHistory } from 'react-router';
+import { supportsHistory } from 'history/lib/DOMUtils';
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import { ActionsStore, logAction, createMarkup, getUser, setCookie } from '../../functions.js';
 import ClientApi from '../_common/api.js';
 
@@ -117,7 +119,7 @@ let ResultItem = React.createClass({
         setCookie('redirectTo', '/order/' + itineraryId + '/' + (!!isSpecial), {expires: 300});
         window.location = '/login';
       } else {
-        browserHistory.push('/order/' + itineraryId + '/' + (!!isSpecial));
+        historyStrategy.push('/order/' + itineraryId + '/' + (!!isSpecial));
       }
     }.bind(this);
   },
