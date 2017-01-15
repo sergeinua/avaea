@@ -15,8 +15,9 @@ module.exports = {
       })
         .then(function (body) {
           let jdata = (typeof body == 'object') ? body : JSON.parse(body);
+          let [{ffmiles = {}} = {}] = jdata;
           return Promise.resolve({
-            miles: {name: jdata.ProgramCodeName || '', value: jdata.miles || 0}
+            miles: {name: ffmiles.ProgramCodeName || '', value: ffmiles.miles || 0}
           });
         })
         .catch(function () {
@@ -73,7 +74,7 @@ module.exports = {
               return FFMPrograms.getMilesProgramsByUserId(_cur_rec.user_id)
                 .then(function (milesPrograms) {
                   return qpromice.all(_self.procUserPrograms({
-                    itinerary_data: _cur_rec,
+                    itinerary_data: _cur_rec.itinerary_data,
                     milesPrograms
                   }));
                 })
