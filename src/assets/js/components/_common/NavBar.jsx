@@ -64,7 +64,7 @@ let NavBar = React.createClass({
   },
 
   handleCancelAirport: function () {
-    ActionsStore.changeForm($('#search_form').data('flight-type') || 'round_trip');
+    ActionsStore.changeForm(this.props.commonData.searchParams.flightType || 'round_trip');
   },
 
   handleClearVoice: function () {
@@ -78,7 +78,7 @@ let NavBar = React.createClass({
   handleBackToSearchForm: function () {
     historyStrategy.push('/search');
   },
-  
+
   handleHomeLink: function () {
     if (!this.props.location) {
     	window.location.assign('/home');
