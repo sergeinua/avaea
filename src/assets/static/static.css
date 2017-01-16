@@ -1475,11 +1475,40 @@ footer.static .bottom {
 
 
 @media (max-width: 500px) {
-
-	.try-it .date-holder input {
-		background: #ffffff;
+	
+	.home-top-copy {
+		padding-top: 30px;
+	}
+	
+	.slogan.third {
+		padding: 0 0 0 0;
+	}
+	
+	.try-it {
+		padding-left: 30px;
+		padding-right: 30px;
 	}
 
+	.try-it .date-holder input,
+	.try-it .loc-holder input {
+		font-size: 15px;
+    line-height: 28px;
+    font-family: 'Open-Sans-Semibold';
+    padding-right: 30px;
+	}
+
+}
+
+
+/* iPhone 6, Android */
+@media (max-width: 375px) {
+	
+	.try-it {
+    padding-left: 20px;
+    padding-right: 20px;
+		width: 94%;
+	}
+	
 }
 
 
@@ -1487,12 +1516,42 @@ footer.static .bottom {
 @media (max-width: 359px) {
 	
 	header.static {
-		background: url(../images/static/logo-beta.svg) right 10px no-repeat;
-		background-size: 230px;
+		min-height: 60px;
+    height: 60px;
 	}
 	
-	.home.second.level h1 {
-		padding-top: 60px;
+	.touch .static-nav-button {
+		margin-top: -8px;
+	}
+	
+	header.static nav {
+		top: 60px;
+	}
+	
+	header.static a.brand {
+		width: 235px;
+		height: 55px;
+		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
+    background-size: 235px;
+	}
+	
+	.slogan.third {
+		font-size: 30px;
+    font-family: 'Open-Sans';	
+	}
+	
+	.try-it {
+		margin-top: 10px;
+		padding-top: 20px;
+	}
+	
+	.try-it .date-holder input {
+		padding-right: 0px;
+		background: #ffffff;
+	}
+	
+	.home-top-copy {
+		padding-top: 20px;
 	}
 	
 	.about .person .bio {
