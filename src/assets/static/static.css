@@ -32,6 +32,10 @@ body {
 
 /* take away app styles */
 
+#spa-app {
+	padding-bottom: 0;
+}
+
 .desktop {
 	text-align: center;
 	margin: 0;
@@ -76,6 +80,10 @@ h1, h2, h3 {
 
 ul {
 	margin-bottom: 0;
+}
+
+textarea {
+	border-radius: 0;
 }
 
 
@@ -406,6 +414,14 @@ header.static li.flight-search a:hover {
   font-size: 40px;
   padding: 10px 0;
   display: block;
+	position: relative;
+}
+
+.slogan.third:after {
+	content:'\2122';
+	font-size: 26px;
+	position: relative;
+	  top: -8px;
 }
 
 .video-holder {
@@ -476,6 +492,10 @@ video {
 	width: 188px;
 	background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
 	border: 0px solid transparent;
+}
+
+.try-it .date-holder input {
+	background: #ffffff url('../images/static/input-calendar.svg') right 5px no-repeat;
 }
 
 .try-it span {
@@ -1184,7 +1204,7 @@ footer.static .wrapper {
 }
 
 footer.static .copyright {
-	padding: 20px;
+	padding: 20px 20px 50px 20px;
 	display: inline-block;
 }
 
@@ -1451,6 +1471,15 @@ footer.static .bottom {
 		margin-bottom: 15px;
 	}
 	
+}
+
+
+@media (max-width: 500px) {
+
+	.try-it .date-holder input {
+		background: #ffffff;
+	}
+
 }
 
 
