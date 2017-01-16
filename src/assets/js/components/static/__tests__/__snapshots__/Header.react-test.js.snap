@@ -1,0 +1,67 @@
+exports[`test Header component test 1`] = `
+<header
+  className="static">
+  <div
+    className="static-nav-button"
+    onClick={[Function]} />
+  <a
+    className="brand"
+    onClick={[Function]}
+    style={Object {}} />
+  <nav>
+    <div
+      className="left">
+      <ul
+        className="menu nav">
+        <li
+          className="active">
+          <a
+            onClick={[Function]}
+            style={Object {}}>
+            Home
+          </a>
+        </li>
+        <li
+          className="">
+          <a
+            onClick={[Function]}
+            style={Object {}}>
+            About
+          </a>
+        </li>
+        <li
+          className="">
+          <a
+            onClick={[Function]}
+            style={Object {}}>
+            Contact
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div
+      className="right">
+      <ul
+        className="menu user">
+        <li
+          className="flight-search">
+          <a
+            className="flight-search"
+            onClick={[Function]}
+            style={Object {}}>
+            Flight Search
+          </a>
+        </li>
+        <li
+          className="active">
+          <a
+            href="/logout"
+            onClick={[Function]}>
+            Log Out
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+`;

@@ -1,11 +1,12 @@
 import React from 'react';
-import StaticContact from '../Contact';
+import StaticHeader from '../Header';
 import renderer from 'react-test-renderer';
 
-test('Contact component test', () => {
+test('Header component test', () => {
   var mockUser = {email: "test@gmail.com", id: 58};
+  var mockLocation = {pathname: '/home'};
   var component = renderer.create(
-    <StaticContact user={mockUser}/>
+    <StaticHeader user={mockUser} location={mockLocation}/>
   );
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();

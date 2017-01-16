@@ -4,7 +4,7 @@ import React from 'react';
 import UserProfilePanelFFMSelect from '../UserProfilePanelFFMSelect';
 import renderer from 'react-test-renderer';
 
-test('UserProfilePanelFFMSelect component test', () => {
+xtest('UserProfilePanelFFMSelect component test', () => {
 
   var mockProps = {
     blockNum: 0
