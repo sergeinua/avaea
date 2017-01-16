@@ -187,7 +187,7 @@ let SimpleSearchForm = React.createClass({
       <form>
         <div className="centerer">
           <div className="wrapper">
-            <div className="ti">Travel Locations</div>
+            <div className="ti">From Location</div>
             <div className="loc-holder">
                 <div className="positioner">
                   <Autosuggest

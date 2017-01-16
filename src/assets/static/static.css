@@ -455,7 +455,8 @@ video {
   border-radius: 4px;
 }
 
-.try-it .ti {
+.try-it .ti,
+.try-it span {
 	font-size: 25px;
 }
 
@@ -499,7 +500,6 @@ video {
 }
 
 .try-it span {
-	font-size: 19px;
 	padding: 0 18px;
 }
 
@@ -1458,167 +1458,6 @@ footer.static .bottom {
 
 @media (max-width: 600px) {
 	
-	.simple-cal {
-		width: 285px;
-			left: 0px;
-	}
-	
-	.simple-cal span.close-x {
-		right: 3px;
-	}
-	
-	.rdr-Calendar:first-child {
-		margin-bottom: 15px;
-	}
-	
-}
-
-
-@media (max-width: 500px) {
-	
-	.home-top-copy {
-		padding-top: 30px;
-	}
-	
-	.slogan.third {
-		padding: 0 0 0 0;
-	}
-	
-	.try-it {
-		padding-left: 30px;
-		padding-right: 30px;
-	}
-
-	.try-it .date-holder input,
-	.try-it .loc-holder input {
-		font-size: 15px;
-    line-height: 28px;
-    font-family: 'Open-Sans-Semibold';
-    padding-right: 30px;
-	}
-
-}
-
-
-/* iPhone 6, Android */
-@media (max-width: 375px) {
-	
-	.try-it {
-    padding-left: 20px;
-    padding-right: 20px;
-		width: 94%;
-	}
-	
-}
-
-
-/* iPhone 5 */
-@media (max-width: 359px) {
-	
-	header.static {
-		min-height: 60px;
-    height: 60px;
-	}
-	
-	.touch .static-nav-button {
-		margin-top: -8px;
-	}
-	
-	header.static nav {
-		top: 60px;
-	}
-	
-	header.static a.brand {
-		width: 235px;
-		height: 55px;
-		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
-    background-size: 235px;
-	}
-	
-	.slogan.third {
-		font-size: 30px;
-    font-family: 'Open-Sans';	
-	}
-	
-	.try-it {
-		margin-top: 10px;
-		padding-top: 20px;
-	}
-	
-	.try-it .date-holder input {
-		padding-right: 0px;
-		background: #ffffff;
-	}
-	
-	.home-top-copy {
-		padding-top: 20px;
-	}
-	
-	.about .person .bio {
-		margin-left: 0;
-		margin-right: 0;
-	}
-	
-	.static.contact .form-label {
-		line-height: 20px;
-	}
-	
-	header.static nav.respond,
-	header.static nav .right {
-		min-width: 260px;
-		width: 260px;
-		max-width: 260px;
-	}
-	
-}
-
-
-/* iPhone and Android landscape */
-@media (min-aspect-ratio: 13/9) {
-	
-	.touch .static-features {
-		padding: 0 20px;
-	}
-	
-	.touch .static-features > div {
-		padding: 20px 20px 20px 20px;
-		display: table-cell;
-	}
-	
-	.touch .static-features .graphic { 
-		height: 110px;
-		background-size: 110px;
-	}
-	
-	.touch .static-features > div:last-child:before {
-		content: '';
-		margin: 0 -30px 30px -30px;
-    display: block;
-    border-top: 1px solid #d7d7d7;
-	}
-	
-	.touch .static-features > div:last-child {
-		display: block;
-		width: 80%;
-	}
-	
-	.touch .static-features > div .copy {
-		font-size: 18px;
-	}
-	
-	.touch .home .upcoming {
-		width: 270px;
-		height: 250px;
-	}
-	
-	.touch .upcoming .copy {
-		line-height: 28px;
-	}
-	
-}
-
-@media (max-width: 600px) {
-	
 	.try-it .loc-holder input {
 		width: 100%;
 	}
@@ -1633,10 +1472,30 @@ footer.static .bottom {
 	.react-autosuggest__container {
 		display: block;
 		width: 100%;
+		position: relative;
+	}
+	
+	.try-it span {
+		padding-left: 0px;
+		padding-right: 0px;
+		position: relative;
+			top: 5px;
+	}
+	
+	.simple-cal {
+		width: 285px;
+			left: 0px;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+	
+	.rdr-Calendar:first-child {
+		margin-bottom: 15px;
 	}
 	
 }
-
 
 @media (max-width: 550px) {
 	
@@ -1723,6 +1582,32 @@ footer.static .bottom {
 	
 }
 
+
+@media (max-width: 500px) {
+	
+	.home-top-copy {
+		padding-top: 30px;
+	}
+	
+	.slogan.third {
+		padding: 0 0 0 0;
+	}
+	
+	.try-it {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
+
+	.try-it .date-holder input,
+	.try-it .loc-holder input {
+		font-size: 15px;
+    line-height: 28px;
+    font-family: 'Open-Sans-Semibold';
+    padding-right: 30px;
+	}
+
+}
+
 @media (max-width: 460px) {
 
 	header.static .brand {
@@ -1731,6 +1616,8 @@ footer.static .bottom {
 	
 }
 
+
+/* iPhone 6, Android */
 @media (max-width: 380px) {
 	
 	.about.top:after {
@@ -1738,14 +1625,80 @@ footer.static .bottom {
 	}
 	
 	.try-it {
-		padding-left: 30px;
-		padding-right: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+		width: 94%;
+	}
+	
+	.try-it .ti,
+	.try-it span {
+		font-size: 25px;
+		font-family: 'Open-Sans';
 	}
 	
 }
 
 
 /* iPhone 5 */
+@media (max-width: 359px) {
+	
+	header.static {
+		min-height: 60px;
+    height: 60px;
+	}
+	
+	.touch .static-nav-button {
+		margin-top: -8px;
+	}
+	
+	header.static nav {
+		top: 60px;
+	}
+	
+	header.static a.brand {
+		width: 235px;
+		height: 55px;
+		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
+    background-size: 235px;
+	}
+	
+	.slogan.third {
+		font-size: 30px;
+    font-family: 'Open-Sans';	
+	}
+	
+	.try-it {
+		margin-top: 10px;
+		padding-top: 20px;
+	}
+	
+	.try-it .date-holder input {
+		padding-right: 0px;
+		background: #ffffff;
+	}
+	
+	.home-top-copy {
+		padding-top: 20px;
+	}
+	
+	.about .person .bio {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	
+	.static.contact .form-label {
+		line-height: 20px;
+	}
+	
+	header.static nav.respond,
+	header.static nav .right {
+		min-width: 260px;
+		width: 260px;
+		max-width: 260px;
+	}
+	
+}
+
 @media (max-width: 330px) {
 	
 	.about.top:after {
@@ -1768,12 +1721,51 @@ footer.static .bottom {
 }
 
 
-
-/* landscape phone */
-
-@media screen and (min-aspect-ratio: 13/9) {
-
+/* iPhone and Android landscape */
+@media (min-aspect-ratio: 13/9) {
+	
+	.touch .static-features {
+		padding: 0 20px;
+	}
+	
+	.touch .static-features > div {
+		padding: 20px 20px 20px 20px;
+		display: table-cell;
+	}
+	
+	.touch .static-features .graphic { 
+		height: 110px;
+		background-size: 110px;
+	}
+	
+	.touch .static-features > div:last-child:before {
+		content: '';
+		margin: 0 -30px 30px -30px;
+    display: block;
+    border-top: 1px solid #d7d7d7;
+	}
+	
+	.touch .static-features > div:last-child {
+		display: block;
+		width: 80%;
+	}
+	
+	.touch .static-features > div .copy {
+		font-size: 18px;
+	}
+	
+	.touch .home .upcoming {
+		width: 270px;
+		height: 250px;
+	}
+	
+	.touch .upcoming .copy {
+		line-height: 28px;
+	}
+	
 }
+
+
 
 
 /* heredeb */
