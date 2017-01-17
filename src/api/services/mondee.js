@@ -488,11 +488,14 @@ module.exports = {
         params.session.time_log.push(_api_name + ' took %s to respond', apiCallTimeHr);
       }
       try {
-        if (err) {
+        if (err && err == 'No Results Found') {
+          return callback(null, []);
+        } else if (err) {
           throw err;
         }
         if (!result.FlightItinerary) {
-          throw 'No Results Found';
+          // throw 'No Results Found';
+          return callback(null, []);
         }
         return new Mapper().run(result.FlightItinerary, callback);
       } catch (e) {

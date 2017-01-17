@@ -617,6 +617,11 @@ module.exports = {
             }
             let errtxt = [];
             for (let i = 0; i < errors.length; i++) {
+              if (errors[i].Code == '9999' && errors[i].Text == 'International Flights Searches are restricted') {
+                // Assume 'International Flights Searches are restricted' error
+                // is thesame as 'No Results Found'
+                return callback(null, []);
+              }
               errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
             }
             errors = errtxt.join('; ');
@@ -624,7 +629,8 @@ module.exports = {
           } else {
             utils.timeLog(_api_name + '_prepare_result');
             if (!result.FareGroup) {
-              throw 'No Results Found';
+              // No Results Found
+              return callback(null, []);
             }
             let isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
 
