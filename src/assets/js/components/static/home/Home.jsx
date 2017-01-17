@@ -21,7 +21,7 @@ let StaticHome = React.createClass({
               <div className="slogan">
                 <span className="slogan first">Best price.</span>
                 <span className="slogan second">Best choice.</span>
-                <span className="slogan third">Travel Intelligence for your journey.</span>
+                <span className="slogan third">Travel Intelligence.</span>
               </div>
 
               <div className="try-it">
