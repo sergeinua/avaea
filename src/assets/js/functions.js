@@ -102,6 +102,9 @@ export let ActionsStore = {
     }
   },
 
+  defineCabinClass: itineraryData => {
+    return serviceClass[itineraryData.cabinClass] ? serviceClass[itineraryData.cabinClass] : 'UNKNOWN';
+  }
 };
 
 export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment
