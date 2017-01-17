@@ -1,0 +1,11 @@
+exports[`test StaticJobs component test 1`] = `
+<div>
+  <div
+    className="content static jobs">
+    <h1
+      className="skeleton">
+      Jobs Content
+    </h1>
+  </div>
+</div>
+`;
