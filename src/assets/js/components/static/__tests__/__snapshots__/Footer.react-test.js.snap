@@ -1,0 +1,85 @@
+exports[`test Footer component test 1`] = `
+<footer
+  className="static">
+  <div
+    className="top">
+    <div
+      className="wrapper">
+      <div
+        className="left">
+        <nav>
+          <ul
+            className="menu nav">
+            <li
+              className="active">
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                Home
+              </a>
+            </li>
+            <li
+              className="">
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                About
+              </a>
+            </li>
+            <li
+              className="">
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div
+          className="holder">
+          <ul
+            className="terms">
+            <li>
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                Terms and Conditions
+              </a>
+            </li>
+            <li>
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                Privacy
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        className="right">
+        <a
+          className="social fb"
+          href="http://www.facebook.com/onvoya"
+          target="_blank" />
+        <a
+          className="social twitter"
+          href="http://www.twitter.com/onvoya"
+          target="_blank" />
+        <a
+          className="social instagram"
+          href="http://www.instagram.com/onvoya"
+          target="_blank" />
+      </div>
+    </div>
+  </div>
+  <div
+    className="bottom">
+    <span
+      className="copyright">
+       2017 OnVoya.com
+    </span>
+  </div>
+</footer>
+`;
