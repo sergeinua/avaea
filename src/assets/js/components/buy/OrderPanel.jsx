@@ -301,11 +301,6 @@ let OrderPanel = React.createClass({
       this.props.orderData.profileStructure.Country = c;
       this.props.orderData.profileStructure.State = s;
       // console.log(this.props.orderData.profileStructure);
-      // let _disp_cabin_class = '';
-      // if (this.props.orderData.itineraryData && this.props.orderData.itineraryData.citypairs && this.props.orderData.itineraryData.citypairs.length > 0
-      //   && this.props.orderData.itineraryData.citypairs[0].flights && this.props.orderData.itineraryData.citypairs[0].flights.length > 0) {
-      //   _disp_cabin_class = serviceClass[this.props.orderData.itineraryData.citypairs[0].flights[0].cabinClass];
-      // }
 
       return (
         <span>

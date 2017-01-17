@@ -7,7 +7,6 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import moment from 'moment';
-import { clientStore } from '../../reducers.js';
 
 let NavBar = React.createClass({
 
@@ -47,7 +46,6 @@ let NavBar = React.createClass({
   },
 
   componentWillMount: function () {
-    clientStore.subscribe(() => console.log('_storeNav:', clientStore.getState())); // Need !
     ActionsStore.changeCalendarDate = () => {
       finalizeValues(this.props.commonData.searchParams);
     };

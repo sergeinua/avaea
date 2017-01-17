@@ -67,7 +67,7 @@ let Booking = React.createClass({
                 :
                 '')}
               </span>
-              <span className="class">{ActionsStore.defineCabinClass(this.props.orderData.itineraryData)/*serviceClass[this.props.orderData.fieldsData.session.CabinClass]*/}</span>
+              <span className="class">{ActionsStore.defineCabinClass(this.props.orderData.itineraryData)}</span>
             </div>
 
             {this.showPassengers()}
