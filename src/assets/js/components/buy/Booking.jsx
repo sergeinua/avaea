@@ -34,7 +34,6 @@ let Booking = React.createClass({
     // FIXME - had to hide logo for devices only when "flight-info" div is
     // showing in nav bar - this restores it
     $("body").removeClass('suppress-logo');
-    console.log('__booking', this.props.orderData);
 
     return (
       <div className="booking-success">
