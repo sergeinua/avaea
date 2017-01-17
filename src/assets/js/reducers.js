@@ -1,6 +1,6 @@
 import * as Redux from 'redux';
 import * as Immutable from 'immutable';
-import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from 'actions.js';
+import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from './actions.js';
 
 export const storeInitialState = {
   commonData: {
