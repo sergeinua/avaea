@@ -31,7 +31,7 @@ test-unit:
 	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
 test-jest-snapshot:
-  ./node_modules/.bin/jest
+	./node_modules/.bin/jest
 
 test-health:
 	./node_modules/.bin/mocha ./tests/bootstrap.health.test.js ./tests/health/**/*.test.js
