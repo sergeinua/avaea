@@ -1,5 +1,6 @@
 import React from 'react';
 import ResultItemContainer from '../search/ResultItem';
+import { ActionsStore } from '../../functions.js';
 import moment from 'moment';
 
 let Booking = React.createClass({
@@ -33,6 +34,7 @@ let Booking = React.createClass({
     // FIXME - had to hide logo for devices only when "flight-info" div is
     // showing in nav bar - this restores it
     $("body").removeClass('suppress-logo');
+    console.log('__booking', this.props.orderData);
 
     return (
       <div className="booking-success">
@@ -65,7 +67,7 @@ let Booking = React.createClass({
                 :
                 '')}
               </span>
-              <span className="class">{serviceClass[this.props.orderData.fieldsData.session.CabinClass]}</span>
+              <span className="class">{ActionsStore.defineCabinClass(this.props.orderData.itineraryData)/*serviceClass[this.props.orderData.fieldsData.session.CabinClass]*/}</span>
             </div>
 
             {this.showPassengers()}

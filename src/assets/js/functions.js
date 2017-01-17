@@ -101,7 +101,15 @@ export let ActionsStore = {
       ;
     }
   },
-
+  
+  defineCabinClass: itineraryData => {
+    let _disp_cabin_class = '';
+    if (itineraryData && itineraryData.citypairs && itineraryData.citypairs.length > 0
+      && itineraryData.citypairs[0].flights && itineraryData.citypairs[0].flights.length > 0) {
+      _disp_cabin_class = serviceClass[itineraryData.citypairs[0].flights[0].cabinClass];
+    }
+    return _disp_cabin_class;
+  }
 };
 
 export let searchApiMaxDays = 330; // Mondee API restriction for search dates at this moment

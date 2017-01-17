@@ -12,6 +12,7 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
+import { ActionsStore } from '../../functions.js';
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
@@ -300,6 +301,11 @@ let OrderPanel = React.createClass({
       this.props.orderData.profileStructure.Country = c;
       this.props.orderData.profileStructure.State = s;
       // console.log(this.props.orderData.profileStructure);
+      // let _disp_cabin_class = '';
+      // if (this.props.orderData.itineraryData && this.props.orderData.itineraryData.citypairs && this.props.orderData.itineraryData.citypairs.length > 0
+      //   && this.props.orderData.itineraryData.citypairs[0].flights && this.props.orderData.itineraryData.citypairs[0].flights.length > 0) {
+      //   _disp_cabin_class = serviceClass[this.props.orderData.itineraryData.citypairs[0].flights[0].cabinClass];
+      // }
 
       return (
         <span>
@@ -311,7 +317,7 @@ let OrderPanel = React.createClass({
             <div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
-                <div className="class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+                <div className="class">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</div>
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
               </div>
             </div>

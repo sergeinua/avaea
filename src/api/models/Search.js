@@ -175,6 +175,19 @@ module.exports = {
             // save itinerary with lowest price in filter
             if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
               _filteredItins[itin.key] = itin;
+              // var _prevCabin='', _cur_itin=null;
+              // itin.citypairs.forEach(function (_cityPair) {
+              //   _cityPair.flights.forEach(function (_curFlight) {
+              //     if (_prevCabin && _prevCabin != _curFlight.cabinClass) {
+              //       _cur_itin = itin;
+              //       // sails.log.warn('_cabin', itin.citypairs[0].flights[0].cabinClass);
+              //     }
+              //     _prevCabin = _curFlight.cabinClass;
+              //   });
+              // });
+              // if (_cur_itin) {
+              //   sails.log.warn('_prov_itin', require('util').inspect(_cur_itin, {showHidden: true, depth: null}));
+              // }
             }
           });
         });
