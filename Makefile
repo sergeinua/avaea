@@ -13,7 +13,7 @@ app-test-unit:
 	cd ./src && ./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
 app-test-jest-snapshot:
-    cd ./src && ./node_modules/.bin/jest
+	cd ./src && ./node_modules/.bin/jest
 
 abo-test-integration:
 	cd ./abo && ./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
