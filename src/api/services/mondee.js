@@ -445,6 +445,8 @@ class Mapper {
     res.durationMinutes = mCitypairs.durationMinutes;
     res.duration = utils.minutesToDuration(res.durationMinutes);
     res.key = mCitypairs.key;
+    // Set itinerary cabin class as value from the first flight at this moment
+    res.cabinClass = (res.citypairs && res.citypairs[0].flights) ? res.citypairs[0].flights[0].cabinClass : '';
 
     // Merchandising Fake data Issue #39
     if (lodash.isArray(this._keysMerchandisingWiFi) && lodash.indexOf(this._keysMerchandisingWiFi, itinerary.ItineraryId) != -1) {
