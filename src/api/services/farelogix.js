@@ -1,4 +1,3 @@
-/* global memcache */
 /* global async */
 /* global sails */
 const

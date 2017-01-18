@@ -83,7 +83,7 @@ module.exports = {
     var ids = req.param('ids');
     if (ids && ids.length) {
       let cacheIds = ids.map((id) => 'itinerary_' + id.replace(/\W+/g, '_'));
-      memcache.get(cacheIds, function (err, result) {
+      cache.get(cacheIds, function (err, result) {
         if (!err && !_.isEmpty(result)) {
           var skipedIds = [];
 
@@ -160,7 +160,7 @@ module.exports = {
     var reqParams = req.allParams();
     var id = reqParams.id;
     var cacheId = 'itinerary_' + id.replace(/\W+/g, '_');
-    memcache.get(cacheId, function(err, result) {
+    cache.get(cacheId, function(err, result) {
       if (!err && !_.isEmpty(result)) {
         Search.getRefundType(JSON.parse(result), function (e, r) {
           return res.json({error: e, value: r});

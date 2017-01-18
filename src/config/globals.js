@@ -66,5 +66,6 @@ module.exports.globals = {
   site_info: {
     software_version: '0.1.10',
     contact_email: 'info@onvoya.com'
-  }
+  },
+  cacheStore: 'redis', //<redis|memcached>
 };

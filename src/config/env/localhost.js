@@ -48,13 +48,13 @@ module.exports = {
     timestamp: true
   },
 
-  session: {
-    host: '127.0.0.1',
-    user: 'avaea',
-    password: 'avaea',
-    database: 'avaea',
-    port: 5432
-  },
+  // session: {
+  //   host: '127.0.0.1',
+  //   user: 'avaea',
+  //   password: 'avaea',
+  //   database: 'avaea',
+  //   port: 5432
+  // },
 
   flightapis: {
     searchProvider: ['mondee'/*, 'farelogix'*//*, 'mystifly'*/],
