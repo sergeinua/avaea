@@ -7,6 +7,8 @@ import moment from 'moment';
 let PassengerItem = React.createClass({
 
   render() {
+    const phone = (this.props.orderData && this.props.orderData.fieldsData)
+      ? this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone']:'';
     let lapRadioStructure = {};
     let genderStructure = {};
 
@@ -53,8 +55,8 @@ let PassengerItem = React.createClass({
             required: true,
             title: 'Phone',
             placeholder: '+1 123 555 6789',
-            data: this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone'] || '',
-            forcedUpdate: this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone'] || ''
+            data: phone,
+            forcedUpdate: phone
           }} key={'elem-passenger-phone'} panelType="fields"/>:null}
       </div>
     )
