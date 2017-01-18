@@ -37,6 +37,9 @@ module.exports = {
   },
 
   execReadEticket: function () {
+    if (!sails.config.email.worker_eticket) {
+      return;
+    }
     sails.log.verbose('Start execReadEticket job');
     if (readEticketQueueCounter > 0) {
       sails.log.warn(`readEticket queue did not spooled by previous job. Queue counter=${readEticketQueueCounter}. Stop current job`);

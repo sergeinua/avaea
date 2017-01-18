@@ -15,6 +15,9 @@ module.exports.email = {
     // port: 25,
     // secure: false, // use SSL
   },
+  // Set to non-empty value by command line env variable sails_email__worker_eticket for one instance only. Example:
+  // sails_email__worker_eticket=1 sails lift
+  worker_eticket: false,
 
   // Default "from" field
   from: '"OnVoya Customer Support" <support@onvoya.com>',
