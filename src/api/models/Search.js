@@ -1,4 +1,5 @@
 /* global sails */
+let lodash = require('lodash');
 /**
 * Search.js
 *

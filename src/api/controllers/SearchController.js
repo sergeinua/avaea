@@ -149,8 +149,8 @@ module.exports = {
     var errStat = [];
     Search.getResult(params, function ( errRes, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
-      if (err) {
-        errStat = err;
+      if (errRes) {
+        errStat.push(errRes);
       }
       utils.timeLog('sprite_map'); // start sprite_map timer
       utils.timeLog('tiles_data'); // start tiles_data timer
