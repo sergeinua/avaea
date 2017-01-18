@@ -12,6 +12,7 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
+import { ActionsStore } from '../../functions.js';
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
@@ -311,7 +312,7 @@ let OrderPanel = React.createClass({
             <div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
-                <div className="class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+                <div className="class">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</div>
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
               </div>
             </div>
