@@ -976,6 +976,10 @@ video {
 	background-size: 157px;
 }
 
+.person.cf .name:before {
+	content: 'Constantine Filin';
+}
+
 .person.alext .image {
 	background: #ffffff url(../images/static/team-alext-hi.png) -1px top no-repeat;
 	background-size: 157px;
