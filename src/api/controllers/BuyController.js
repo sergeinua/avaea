@@ -5,10 +5,12 @@
 /* global sails */
 /* global Profile */
 /* global Order */
-var util = require('util');
-var url = require('url');
-var lodash = require('lodash');
-var qpromice = require('q');
+/* global utils */
+const util = require('util');
+const url = require('url');
+const lodash = require('lodash');
+const qpromice = require('q');
+
 /**
  * BuyController
  */
@@ -17,7 +19,7 @@ module.exports = {
 
   order: function (req, res) {
     // Get all params for redirect case
-    var reqParams = req.allParams();
+    let reqParams = req.allParams();
 
     let onIllegalResult = function () {
       req.session.flash = '';
@@ -48,7 +50,7 @@ module.exports = {
 
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
-        var userData = {
+        let userData = {
           FirstName: "first_name",
           LastName: "last_name",
           Gender: "gender",
@@ -56,7 +58,7 @@ module.exports = {
           Phone: "phone"
         };
 
-        var userAddress = {
+        let userAddress = {
           Address1: "street",
           City: "city",
           State: "state",
@@ -72,19 +74,19 @@ module.exports = {
           found.address = {};
         }
         // Apply DB values if form fields is not defined yet
-        for (var prop in userData) {
+        for (let prop in userData) {
           if (!reqParams[prop] || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
             reqParams[prop] = found.personal_info[userData[prop]] || '';
           }
         }
-        for (var prop in userAddress) {
+        for (let prop in userAddress) {
           if (!reqParams[prop] || (typeof reqParams[prop] == 'string' && reqParams[prop].trim () == "")) {
             reqParams[prop] = found.personal_info.address[userAddress[prop]] || '';
           }
         }
       }
 
-      var itinerary_id = req.param('itineraryId');
+      let itinerary_id = req.param('itineraryId');
       if (typeof itinerary_id == 'undefined') {
         return onIllegalResult();
       }
@@ -97,7 +99,7 @@ module.exports = {
             return Promise.reject('cacheId "'+cacheId+'" not found by order action');
           }
 
-          var logData = {
+          let logData = {
             action    : 'order',
             itinerary : JSON.parse(resItinerary)
           };
@@ -110,7 +112,7 @@ module.exports = {
             User.publishCreate(userId);
           });
 
-          var itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
+          let itinerary_data = logData.itinerary ? lodash.cloneDeep(logData.itinerary) : {};
           itinerary_data.price = parseFloat(itinerary_data.price || 0).toFixed(2);
           itinerary_data.orderPrice = (itinerary_data.currency == 'USD') ? '$'+itinerary_data.price : itinerary_data.price +' '+ itinerary_data.currency;
           return res.ok(
@@ -135,8 +137,8 @@ module.exports = {
   },
 
   booking_proc: function (req, res) {
-    var booking_itinerary = {};
-    var reqParams = req.allParams();
+    let booking_itinerary = {};
+    let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
     qpromice.nfbind(memcache.get)(cacheId)
@@ -152,7 +154,7 @@ module.exports = {
           reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
         }
         if (reqParams.DateOfBirth) {
-          var years = sails.moment().diff(reqParams.DateOfBirth, 'years');
+          let years = sails.moment().diff(reqParams.DateOfBirth, 'years');
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
         reqParams.user = req.user;
@@ -187,8 +189,8 @@ module.exports = {
         });
       });
 
-    var parseFlightBooking = function (err, result) {
-      var _segmParams = _.merge({}, reqParams);
+    const parseFlightBooking = function (err, result) {
+      let _segmParams = _.merge({}, reqParams);
       _.forEach(_segmParams, function (item, key) {
         if (_.indexOf(['CardType','CardNumber','ExpiryDate','CVV'], key) != -1)
           delete _segmParams[key];
@@ -213,29 +215,32 @@ module.exports = {
       FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id).then(function (milesPrograms) {
         qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
           .then(function (programsResults) {
-              let _programs_res = Object.assign(...programsResults);
-              // E-mail notification
-              tpl_vars = {
-                reqParams: reqParams,
-                order: _itinerary_data,
-                bookingRes: result,
-                replyTo: sails.config.email.replyTo,
-                callTo: sails.config.email.callTo,
-                miles: _programs_res.miles,
-                refundType: _programs_res.refundType,
-                eticketNumber: null, // Is not defined yet
-              };
-              return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
+            let _programs_res = Object.assign(...programsResults);
+            // E-mail notification
+            tpl_vars = {
+              mailType: 'booking',
+              reqParams: reqParams,
+              order: _itinerary_data,
+              bookingRes: result,
+              replyTo: sails.config.email.replyTo,
+              callTo: sails.config.email.callTo,
+              miles: _programs_res.miles,
+              refundType: _programs_res.refundType,
+              eticketNumber: null, // Is not defined yet
+              serviceClass: Search.serviceClass,
+              providerInfo: sails.config.flightapis[_itinerary_data.service].providerInfo
+            };
+            return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
           })
           .then(function (msgContent) {
-            return Mailer.sendMail({to: req.user.email, subject: 'Confirmation for the booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+            return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
           })
           .then(function () {
             sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
           })
           .catch(function (error) {
-          sails.log.error('in booking sendMail chain:', error);
-        });
+            sails.log.error('in booking sendMail chain:', error);
+          });
       });
 
       // Save result to DB
