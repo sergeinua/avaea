@@ -1,3 +1,4 @@
+/* global FFMPrograms */
 
 let qpromice = require('q');
 
@@ -14,8 +15,9 @@ module.exports = {
       })
         .then(function (body) {
           let jdata = (typeof body == 'object') ? body : JSON.parse(body);
+          let [{ffmiles = {}} = {}] = jdata;
           return Promise.resolve({
-            miles: {name: jdata.ProgramCodeName || '', value: jdata.miles || 0}
+            miles: {name: ffmiles.ProgramCodeName || '', value: ffmiles.miles || 0}
           });
         })
         .catch(function () {
@@ -35,6 +37,9 @@ module.exports = {
   },
 
   execReadEticket: function () {
+    if (!sails.config.email.worker_eticket) {
+      return;
+    }
     sails.log.verbose('Start execReadEticket job');
     if (readEticketQueueCounter > 0) {
       sails.log.warn(`readEticket queue did not spooled by previous job. Queue counter=${readEticketQueueCounter}. Stop current job`);
@@ -69,13 +74,20 @@ module.exports = {
               }
               eticketNumbersStore[ii] = eticketNumber; // remember
 
-              return qpromice.all(_self.procUserPrograms(_cur_rec));
+              return FFMPrograms.getMilesProgramsByUserId(_cur_rec.user_id)
+                .then(function (milesPrograms) {
+                  return qpromice.all(_self.procUserPrograms({
+                    itinerary_data: _cur_rec.itinerary_data,
+                    milesPrograms
+                  }));
+                })
             })
 
             .then(function (programsResults) {
               let _programs_res = Object.assign(...programsResults);
               // E-mail notification
               let tpl_vars = {
+                mailType: 'eticket',
                 reqParams: _cur_rec.req_params,
                 order: _cur_rec.itinerary_data,
                 bookingRes: {PNR : _cur_rec.pnr, ReferenceNumber: _cur_rec.reference_number},
@@ -84,13 +96,15 @@ module.exports = {
                 miles: _programs_res.miles,
                 refundType: _programs_res.refundType,
                 eticketNumber: eticketNumbersStore[ii],
+                serviceClass: Search.serviceClass,
+                providerInfo: sails.config.flightapis[_cur_rec.itinerary_data.service].providerInfo
               };
               segmentio.track(_cur_rec.user_id, 'Confirmation for the E-Ticket number', {params: tpl_vars});
               return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
             })
 
             .then(function (msgContent) {
-              return Mailer.sendMail({to: _cur_rec.email, subject: 'Confirmation for the E-Ticket number '+eticketNumbersStore[ii]}, msgContent);
+              return Mailer.sendMail({to: _cur_rec.email, subject: 'eTicket for order '+ _cur_rec.pnr}, msgContent);
             })
 
             .then(function () {

@@ -1,5 +1,6 @@
 import React from 'react';
 import ResultItemContainer from '../search/ResultItem';
+import { ActionsStore } from '../../functions.js';
 import moment from 'moment';
 
 let Booking = React.createClass({
@@ -65,7 +66,7 @@ let Booking = React.createClass({
                 :
                 '')}
               </span>
-              <span className="class">{serviceClass[this.props.orderData.fieldsData.session.CabinClass]}</span>
+              <span className="class">{ActionsStore.defineCabinClass(this.props.orderData.itineraryData)}</span>
             </div>
 
             {this.showPassengers()}
