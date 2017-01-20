@@ -123,115 +123,149 @@ module.exports = {
     });
   },
 
+  getProviders: function (providers, params, cb) {
+    //check farelogix
+    let isCanada = false;
+
+    Airports.find({
+      where: {
+        or : [
+          {iata_3code: params.searchParams.DepartureLocationCode},
+          {iata_3code: params.searchParams.ArrivalLocationCode}
+        ]
+      }
+    }).exec(function (err, result) {
+      if (err) {
+        sails.log.error(err);
+      } else {
+        result.map(function(item) {
+          if (item.country == 'Canada') {
+            isCanada = true;
+          }
+        });
+        if ( !isCanada ) {
+          sails.log.info('Need to remove [farelogix]');
+          _.remove(providers, function(item) {return item == 'farelogix';});
+        }
+      }
+      return cb(providers);
+    });
+  },
+
   getResult: function (params, callback) {
-    var guid = this.getCurrentSearchGuid();
+    let guid = this.getCurrentSearchGuid();
     memcache.init(function(){});
 
-    var errors = [];
-    async.map(sails.config.flightapis.searchProvider, (provider, doneCb) => {
-      utils.timeLog('search_' + provider);
-      var done = false;
-      setTimeout(() => {
-        if (!done) {
-          done = true;
-          errors.push(provider + ' API does not respond over 30s');
-          return doneCb(null, []);
+    let errors = [];
+
+    this.getProviders(sails.config.flightapis.searchProvider, params, function (providers) {
+      async.map(providers, (provider, doneCb) => {
+        utils.timeLog('search_' + provider);
+        let done = false;
+        setTimeout(() => {
+          if (!done) {
+            done = true;
+            errors.push(provider + ' API does not respond over 30s');
+            return doneCb(null, []);
+          }
+        }, 30000);
+        // run async API search
+        global[provider].flightSearch(guid, params, (err, result) => {
+          sails.log.info(provider + ' search finished!');
+          if (err) {
+            errors.push(err);
+            result = [];
+          }
+          if (!done) {
+            done = true;
+            return doneCb(null, result);
+          }
+        });
+      }, (err, results) => {
+        if (errors.length) {
+          if (errors.length == providers.length) {
+            // if all APIs return error then stop processing
+            err = errors.join("\n");
+          } else {
+            // show errors in log but continue processing if at least one API works correctly
+            sails.log.error("Some errors have occurred on search:\n%s", errors.join("\n"));
+          }
         }
-      }, 30000);
-      // run async API search
-      global[provider].flightSearch(guid, params, (err, result) => {
-        sails.log.info(provider + ' search finished!');
-        if (err) {
-          errors.push(err);
-          result = [];
-        }
-        if (!done) {
-          done = true;
-          return doneCb(null, result);
+        if (!err) {
+          //de-dup logic
+          let _filteredItins = {};
+          results.forEach((provItins) => {
+            provItins.forEach((itin) => {
+              //DEMO-850 Stop showing AA flights
+              let isAA = false;
+              itin.citypairs.map(function(pair) {
+                pair.flights.map(function(flight) {
+                  isAA = isAA || (flight.airlineCode == "AA");
+                });
+              });
+              // save itinerary with lowest price in filter
+              if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
+                _filteredItins[itin.key] = itin;
+              }
+            });
+          });
+
+          let resArr = [];
+          let row = {};
+          let minDuration, maxDuration, minPrice, maxPrice;
+          for (let key in _filteredItins) {
+
+            if (minPrice === undefined || minPrice > parseFloat(_filteredItins[key].price)) {
+              minPrice = Math.floor(parseFloat(_filteredItins[key].price));
+            }
+
+            if (maxPrice === undefined || maxPrice < parseFloat(_filteredItins[key].price)) {
+              maxPrice = Math.ceil(parseFloat(_filteredItins[key].price));
+            }
+
+            if (minDuration === undefined || minDuration > _filteredItins[key].durationMinutes) {
+              minDuration = _filteredItins[key].durationMinutes;
+            }
+            if (maxDuration === undefined || maxDuration < _filteredItins[key].durationMinutes) {
+              maxDuration = _filteredItins[key].durationMinutes;
+            }
+            resArr.push(_filteredItins[key]);
+          }
+          _filteredItins = undefined; // clearing filtered hash that's no longer needed
+          resArr.priceRange = {
+            minPrice: minPrice || 0,
+            maxPrice: maxPrice || 0
+          };
+          resArr.durationRange = {
+            minDuration: minDuration || 0,
+            maxDuration: maxDuration || 0
+          };
+
+          row.result = {
+            priceRange: resArr.priceRange,
+            durationRange: resArr.durationRange,
+            result: resArr
+          };
+          row.params = params;
+
+          sails.log.info('Get search data from API');
+
+          Search.cache(guid, row);
+
+          resArr.guid = guid;
+          return callback(null, resArr);
+        } else {
+          let result = [];
+
+          result.guid = guid;
+          result.priceRange = { minPrice: 0, maxPrice: 0 };
+          result.durationRange = { minPrice: 0, maxPrice: 0 };
+          return callback(err, result);
         }
       });
-    }, (err, results) => {
-      if (errors.length) {
-        if (errors.length == sails.config.flightapis.searchProvider.length) {
-          // if all APIs return error then stop processing
-          err = errors.join("\n");
-        } else {
-          // show errors in log but continue processing if at least one API works correctly
-          sails.log.error("Some errors have occurred on search:\n%s", errors.join("\n"));
-        }
-      }
-      if (!err) {
-        //de-dup logic
-        var _filteredItins = {};
-        results.forEach((provItins) => {
-          provItins.forEach((itin) => {
-            //DEMO-850 Stop showing AA flights
-            var isAA = false;
-            itin.citypairs.map(function(pair) {
-              pair.flights.map(function(flight) {
-                isAA = isAA || (flight.airlineCode == "AA");
-              });
-            });
-            // save itinerary with lowest price in filter
-            if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
-              _filteredItins[itin.key] = itin;
-            }
-          });
-        });
-        var resArr = [];
-        var row = {};
-        var minDuration, maxDuration, minPrice, maxPrice;
-        for(var key in _filteredItins) {
 
-          if (minPrice === undefined || minPrice > parseFloat(_filteredItins[key].price)) {
-            minPrice = Math.floor(parseFloat(_filteredItins[key].price));
-          }
-
-          if (maxPrice === undefined || maxPrice < parseFloat(_filteredItins[key].price)) {
-            maxPrice = Math.ceil(parseFloat(_filteredItins[key].price));
-          }
-
-          if (minDuration === undefined || minDuration > _filteredItins[key].durationMinutes) {
-            minDuration = _filteredItins[key].durationMinutes;
-          }
-          if (maxDuration === undefined || maxDuration < _filteredItins[key].durationMinutes) {
-            maxDuration = _filteredItins[key].durationMinutes;
-          }
-          resArr.push(_filteredItins[key]);
-        }
-        _filteredItins = undefined; // clearing filtered hash that's no longer needed
-        resArr.priceRange = {
-          minPrice: minPrice || 0,
-          maxPrice: maxPrice || 0
-        };
-        resArr.durationRange = {
-          minDuration: minDuration || 0,
-          maxDuration: maxDuration || 0
-        };
-
-        row.result = {
-          priceRange: resArr.priceRange,
-          durationRange: resArr.durationRange,
-          result: resArr
-        };
-        row.params = params;
-
-        sails.log.info('Get search data from API');
-
-        this.cache(guid, row);
-
-        resArr.guid = guid;
-        return callback(null, resArr);
-      } else {
-        sails.log.error(err);
-        var result = [];
-
-        result.guid = guid;
-        result.priceRange = { minPrice: 0, maxPrice: 0 };
-        result.durationRange = { minPrice: 0, maxPrice: 0 };
-        return callback(err, result);
-      }
     });
+
   },
 
   getStatistics: function (itineraries) {
