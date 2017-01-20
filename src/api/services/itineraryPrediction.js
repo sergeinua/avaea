@@ -20,7 +20,7 @@ module.exports = {
       if (!err && !_.isEmpty(result)) {
         var searchData = JSON.parse(result);
         //get all itineraries
-        cache.get(searchData.itineraryKeys, function (err, itineraries) {
+        cache.getByArrayKeys(searchData.itineraryKeys, function (err, itineraries) {
           if (!err && !_.isEmpty(itineraries)) {
             var rankMin = 0;
             var rankMax = 0;

@@ -10,7 +10,7 @@ module.exports = {
     if (this.client) {
       return cb();
     }
-    var redis = require('redis');
+    let redis = require('redis');
     this.client = new redis.createClient(
       sails.config.connections.redisConf.port,
       sails.config.connections.redisConf.host,
@@ -18,16 +18,15 @@ module.exports = {
         prefix : sails.config.connections.redisConf.prefix
       }
     );
-    // this.client.connect(function () {
-    //   sails.log.info('Connected to memcache');
+    sails.log.info('Connected to redis');
+
     return cb();
-    // });
   },
 
   store: function (key, value) {
-    this.init(function () {
-      redis.client.setex( key, sails.config.connections.redisConf.exptime, JSON.stringify(value), function(err, status) {
-        if (err && err.type != 'NOT_STORED') {
+    this.init(() => {
+      this.client.setex( key, sails.config.connections.redisConf.exptime, JSON.stringify(value), function(err, status) {
+        if (err) {
           sails.log.error( 'Key ' + key + ' can\'t be saved!' );
           sails.log.error( err );
         }
@@ -37,9 +36,8 @@ module.exports = {
 
   //Get may take a single key, or an array of keys.
   get: function (key, callback) {
-    this.init(function() {
-      redis.client.get( key, function(err, response) {
-        // sails.log.info(Object.keys(response).length);
+    this.init(() => {
+      this.client.get( key, function(err, response) {
         if (!err) {
           if ( Object.keys(response).length > 1 ) {
             return callback(null, response);
@@ -47,8 +45,21 @@ module.exports = {
           return callback(null, response[key]);
         } else {
           sails.log.error(err);
-          var error = 'Key ' + key + ' is not found!';
+          let error = 'Key ' + key + ' is not found!';
           sails.log.error(error);
+          return callback(error, false);
+        }
+      });
+    });
+  },
+
+  getByArrayKeys: function (keys, callback) {
+    this.init(() => {
+      this.client.mget( keys, function(err, response) {
+        if (!err) {
+          return callback(null, response);
+        } else {
+          sails.log.error(err);
           return callback(error, false);
         }
       });

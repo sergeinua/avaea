@@ -83,7 +83,7 @@ module.exports = {
     var ids = req.param('ids');
     if (ids && ids.length) {
       let cacheIds = ids.map((id) => 'itinerary_' + id.replace(/\W+/g, '_'));
-      cache.get(cacheIds, function (err, result) {
+      cache.getByArrayKeys(cacheIds, function (err, result) {
         if (!err && !_.isEmpty(result)) {
           var skipedIds = [];
 

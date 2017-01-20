@@ -5,7 +5,7 @@ module.exports = {
 
   init: function (cb) {
     if (!sails.config.globals.cacheStore) {
-      sails.config.globals.cacheStore = 'memcached';
+      sails.config.globals.cacheStore = 'memcache';
     }
     if (this.client) {
       return cb();
@@ -15,15 +15,21 @@ module.exports = {
   },
 
   store: function (key, value) {
-    this.init(function () {
+    this.init(() => {
       this.client.store(key, value);
     });
   },
 
   //Get may take a single key, or an array of keys.
   get: function (key, callback) {
-    this.init(function () {
-      cache.client.get(key, callback);
+    this.init(() => {
+      this.client.get(key, callback);
+    });
+  },
+
+  getByArrayKeys: function (key, callback) {
+    this.init(() => {
+      this.client.getByArrayKeys(key, callback);
     });
   }
 };

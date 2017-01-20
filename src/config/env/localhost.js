@@ -48,13 +48,18 @@ module.exports = {
     timestamp: true
   },
 
-  // session: {
-  //   host: '127.0.0.1',
-  //   user: 'avaea',
-  //   password: 'avaea',
-  //   database: 'avaea',
-  //   port: 5432
-  // },
+  session: {
+    adapter: 'sails-pg-session',
+    host: '127.0.0.1',
+    user: 'avaea',
+    password: 'avaea',
+    database: 'avaea',
+    port: 5432
+  },
+
+  globals: {
+    cacheStore: 'memcache'
+  },
 
   flightapis: {
     searchProvider: ['mondee'/*, 'farelogix'*//*, 'mystifly'*/],
