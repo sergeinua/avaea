@@ -123,9 +123,11 @@ module.exports = {
     });
   },
 
-  getProviders: function (providers, params, cb) {
+  getProviders: function (params, cb) {
+    let providers = sails.config.flightapis.searchProvider;
     //check farelogix
-    let isCanada = false;
+    let isCanada = 0,
+      isUSA = false;
 
     Airports.find({
       where: {
@@ -134,18 +136,23 @@ module.exports = {
           {iata_3code: params.searchParams.ArrivalLocationCode}
         ]
       }
-    }).exec(function (err, result) {
+    }).exec((err, result) => {
       if (err) {
         sails.log.error(err);
       } else {
         result.map(function(item) {
           if (item.country == 'Canada') {
-            isCanada = true;
+            isCanada++;
           }
+          isUSA = item.country == 'United States';
         });
-        if ( !isCanada ) {
+        if ( isCanada == 2 || (isCanada == 1 && isUSA) ) {
+          sails.log.info('CA<->US or CA<->CA flight: using [farelogix]');
+        } else {
           sails.log.info('Need to remove [farelogix]');
-          _.remove(providers, function(item) {return item == 'farelogix';});
+          _.remove(providers, function(item) {
+            return item == 'farelogix';
+          });
         }
       }
       return cb(providers);
@@ -158,7 +165,7 @@ module.exports = {
 
     let errors = [];
 
-    this.getProviders(sails.config.flightapis.searchProvider, params, function (providers) {
+    this.getProviders(params, (providers) => {
       async.map(providers, (provider, doneCb) => {
         utils.timeLog('search_' + provider);
         let done = false;
@@ -250,11 +257,12 @@ module.exports = {
 
           sails.log.info('Get search data from API');
 
-          Search.cache(guid, row);
+          this.cache(guid, row);
 
           resArr.guid = guid;
           return callback(null, resArr);
         } else {
+          sails.log.error(err);
           let result = [];
 
           result.guid = guid;
