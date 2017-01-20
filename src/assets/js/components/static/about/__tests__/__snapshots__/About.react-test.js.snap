@@ -115,9 +115,7 @@ exports[`test About component test 1`] = `
           <div
             className="holder">
             <div
-              className="name">
-              Constantine Filin
-            </div>
+              className="name" />
             <div
               className="ti">
               VP Engineering
