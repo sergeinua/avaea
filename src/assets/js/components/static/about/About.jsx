@@ -75,7 +75,7 @@ var StaticAbout = React.createClass({
 		      		<div className="person cf">
 		      			<div className="image"></div>
 		      			<div className="holder">
-		      				<div className="name">Constantine Filin</div>
+		      				<div className="name"></div>
 		      				<div className="ti">VP Engineering</div>
 		      				<div className="bio">
 		      					Key technology leader with proven delivery of complex 
