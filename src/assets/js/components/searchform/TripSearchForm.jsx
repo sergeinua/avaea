@@ -1,7 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import ClassChooser from './ClassChooser.jsx';
-import PassengerChooser from './PassengerChooser.jsx';
 import { ActionsStore } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
@@ -17,11 +15,11 @@ var TripSearchForm = React.createClass({
     observeStore(storeGetCommonVal, 'formSubmitCount', this.handleSubmitForm);
 
     return {
-      '.flight-date-info-item.dep': {
+      '.open-calendar.dep': {
         isError: false,
         isErrorFlash: false
       },
-      '.flight-date-info-item.ret': {
+      '.open-calendar.ret': {
         isError: false,
         isErrorFlash: false
       },
@@ -151,12 +149,12 @@ var TripSearchForm = React.createClass({
       }
 
       if (formErrors.returnDate) {
-        this.setErrorElement('.flight-date-info-item.ret');
+        this.setErrorElement('.open-calendar.ret');
         _isError = true;
       }
 
       if (formErrors.departureDate) {
-        this.setErrorElement('.flight-date-info-item.dep');
+        this.setErrorElement('.open-calendar.dep');
         _isError = true;
       }
 
@@ -223,75 +221,61 @@ var TripSearchForm = React.createClass({
 
   render() {
     return (
-      <div className="form-fields">
+      <div className="searchform">
 
-        <div className="row text-center flight-direction">
-          <div className="col-xs-12 clearfix flight-direction-form">
-            <div className="row clearfix">
+        <div className="flight-direction">
 
-              <div className="col-xs-6">
-                <div id="from-area"
-                     className={(this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from") + " " + this.getErrorClass('#from-area')}
-                     onClick={this.handleAirportSearch('DepartureLocationCode')}>
-                  <div className="flight-direction-item-from-to">From</div>
-                  {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
-                    <span className="plus">+</span>
-                    :
-                    <div className="search-from">
-                      <span
-                        id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
-                      <div id="from-city-selected"
-                           className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
-                    </div>
-                  }
-                </div>
+          <div id="from-area"
+               className={"area from " + (this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "sel" : "") + " " + this.getErrorClass('#from-area')}
+               onClick={this.handleAirportSearch('DepartureLocationCode')}>
+            <div className="label-d">From</div>
+            {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
+              <span className="plus">+</span>
+              :
+              <div className="location">
+                <span
+                  id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
+                <div id="from-city-selected"
+                     className="city-name">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
               </div>
+            }
+          </div>{/* ends from area */}
 
-              <div className="col-xs-6">
-                <div id="to-area"
-                     className={(this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to") +
-                     " " + this.getErrorClass('#to-area')}
-                     onClick={this.handleAirportSearch('ArrivalLocationCode')}>
-                  <div className="flight-direction-item-from-to">To</div>
-                  {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
-                    <span className="plus">+</span>
-                    :
-                    <div className="search-to">
-                      <span
-                        id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
-                      <div id="to-city-selected"
-                           className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
-                    </div>
-                  }
-                </div>
+          <div id="to-area"
+               className={"area to " + (this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "sel" : "") +
+               " " + this.getErrorClass('#to-area')}
+               onClick={this.handleAirportSearch('ArrivalLocationCode')}>
+            <div className="label-d">To</div>
+            {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
+              <span className="plus">+</span>
+              :
+              <div className="location">
+                <span
+                  id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
+                <div id="to-city-selected"
+                     className="city-name">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
               </div>
+            }
+          </div>{/* ends to area */}
 
-            </div>
-          </div>
-        </div>
+        </div>{/* ends flight-direction */}
 
-        <div className="flight-date-info row">
+        <div className="flight-date">
 
           <div id="flight-date-dep-open-calendar"
-            className={'flight-date-info-item dep col-xs-6 open-calendar' + this.getErrorClass('.flight-date-info-item.dep')}
+            className={['open-calendar dep ']  + [this.props.InitSearchFormData.currentForm == 'one_way' ? "one-way ":""] + [this.getErrorClass('.open-calendar.dep')]}  
             onClick={this.showCalendar('dep')}>
-            <div className="row">
-              <div className="col-xs-12">
+            <div className="wrapper">
                 <div className="direction label-d">Depart</div>
                 <div id="search-form-depart-date"
-                  className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.departureDate)}</div>
+                  className="weekday label-d">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.departureDate)}</div>
               </div>
-            </div>
             {!this.props.InitSearchFormData.searchParams.departureDate ?
-              <div className="tap-plus">+</div>
+              <div className="plus">+</div>
               :
-              <div className="row the-date">
-                <span
-                  className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-                <span
-                  className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-                <span
-                  className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+              <div className="the-date">
+                <span>{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+                <span> {this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
               </div>
             }
 
@@ -299,39 +283,26 @@ var TripSearchForm = React.createClass({
 
           { this.props.InitSearchFormData.currentForm == 'round_trip' ?
             <div id="flight-date-ret-open-calendar" className={
-              "flight-date-info-item ret col-xs-6 open-calendar" +
-              " " + this.getErrorClass('.flight-date-info-item.ret')
+              "open-calendar ret" +
+              " " + this.getErrorClass('.open-calendar.ret')
             }
                  onClick={this.showCalendar('ret')}>
-              <div className="row">
-                <div className="col-xs-12">
+              <div className="wrapper">
                   <div className="direction label-d">Return</div>
                   <div id="search-form-return-date"
-                    className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.returnDate)}</div>
-                </div>
+                    className="weekday label-d">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.returnDate)}</div>
               </div>
               {!this.props.InitSearchFormData.searchParams.returnDate ?
-                <div className="tap-plus">+</div>
+                <div className="plus">+</div>
                 :
-                <div className="row the-date">
-                  <span
-                    className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-                  <span
-                    className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-                  <span
-                    className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+                <div className="the-date">
+                  <span>{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+                  <span> {this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
                 </div>
               }
 
             </div> : null
           }
-        </div>
-
-        <div className="flight-additional-info row">
-          <div className="col-xs-12">
-            <PassengerChooser searchParams={this.props.InitSearchFormData.searchParams}/>
-            <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
-          </div>
         </div>
 
         <div className="search-buttons">
@@ -341,7 +312,7 @@ var TripSearchForm = React.createClass({
           	Search
           </button>
            
-				  {/* since we're not in demo any more, get rid of extra demo button */}
+				  {/* no 2nd button until we have better agent customization */}
 				  {/*
           <button id="search-form-top-flights-button"
             type="submit"

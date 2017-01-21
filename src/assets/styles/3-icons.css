@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.dropbutton:after,
 .rdr-MonthAndYear-button i:after,
 footer a.social:after, 
 .icon-social-instagram:before,
@@ -192,6 +193,7 @@ footer a.social:after,
 .icon-credit-card:before {
   content: "\e914";
 }
+.dropbutton:after,
 .icon-expander-down:before {
   content: "\e915";
 }

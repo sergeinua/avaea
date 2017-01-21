@@ -1,5 +1,5 @@
 /* ---------------
-   onvoya core.css
+   onvoya.css
 	 --------------- */
 
 /* syntax
@@ -22,7 +22,7 @@
 .dimmer .landscape,
 .touch > .copyright,
 .touch footer.app-copy,
-.dropmenu.hide {
+.searchnav .dropmenu.hide {
 	display: none;
 }
 
@@ -4081,7 +4081,7 @@ html[data-useragent*='Trident'] .swiper-container {
 
 
 
-/* end onvoya core.css */
+/* end onvoya.css */
 
 
 
