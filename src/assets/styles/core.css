@@ -22,7 +22,7 @@
 .dimmer .landscape,
 .touch > .copyright,
 .touch footer.app-copy,
-.dropmenu.hide:not(.robust) {
+.dropmenu.hide {
 	display: none;
 }
 
@@ -45,7 +45,7 @@ body,
 	text-align: center;
 	padding: 30px 30px 100px 30px;
 	min-width: 445px;
-  background: linear-gradient(#e8f7fd, #50c5f0);
+  background: linear-gradient(#f3fbfe, #81d7f7);
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -80,10 +80,42 @@ body:not(.touch) i.icon-mic:before {
 	content: '';
 }
 
-.desktop .flight-direction {
-	padding-left: 0;
-	padding-right: 0;
+.desktop .searchnav {
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
+
+.desktop .searchnav .positioner {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 10px 3px 10px;
+	max-width: 400px;
+  border-radius: 20px;
+}
+
+.desktop .searchnav .dropbutton {
+	padding: 5px 0;
+}
+
+.desktop .searchnav .dropmenu {
+	margin-top: 0;
+}
+
+.searchnav .dropmenu:not(.robust) {
+	left: 2px;
+}
+
+.desktop .flight-direction .area {
+	margin-left: 6%;
+	margin-right: 6%;
+	width: 250px;
+}
+
+.desktop .open-calendar .the-date {
+	font-size: 30px
+}
+
+/* heredeb */
 
 .desktop .row {
 	margin-left: 0;
@@ -654,7 +686,9 @@ body.desktop form.profile,
 	color: #ffffff;
 }
 
-.big-button.cancel-button {
+.big-button.cancel-button,
+.big-button.cancel-button:hover,
+.big-button.cancel-button:focus {
 	background: #ffffff;
 }
 
@@ -755,7 +789,8 @@ legend {
 	color: #052767;
 }
 
-.searchform {
+.searchform,
+.desktop .searchnav .dropbutton {
 	color: #05277a;
 }
 
@@ -768,8 +803,10 @@ legend {
 }
 
 footer.app-copy .top a,
-footer.app-copy .bottom a {
+footer.app-copy .bottom a,
+footer.app-copy a:visited {
 	color: #062868;
+	opacity: 1;
 }
 
 footer.app-copy .top a:hover,
@@ -778,17 +815,12 @@ footer.app-copy .bottom a:focus {
 	color: rgba(6, 40, 104, .6);
 }
 
-footer.app-copy .top a:visited {
-	color: rgba(6, 40, 104, 1);
-}
-
 footer.app-copy a.social {
 	background: #062868;
 }
 
 footer.app-copy a.social:hover,
-footer.app-copy a.social:focus,
-footer.app-copy a.social:visited {
+footer.app-copy a.social:focus {
 	background: rgba(6, 40, 104, .6);
 }
 
@@ -922,10 +954,14 @@ a:focus,
 
 .searchform .open-calendar,
 .searchform .area {
-	background: #6bcbef;
+	background: #88d8f6;
 }
 
-
+.desktop .searchnav .positioner {
+	background: linear-gradient(#9de0fa, #68c3f2);
+	border-top: 1px solid rgba(255, 255, 255, .5);
+	border-bottom: 1px solid #0192e2;
+}
 
 .tertiary-button:before {
 	color: rgba(0, 169, 231, .8);
@@ -1117,6 +1153,10 @@ form label.required:before,
 	width: 20px;
 }
 
+.navbar {
+	margin-bottom: 0;
+}
+
 
 /* message parts */
 
@@ -1145,6 +1185,7 @@ textarea {
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
+	box-shadow: none;
 }
 
 .count.holder input {
@@ -1405,7 +1446,6 @@ textarea {
 /* search form */
 
 .searchnav {
-	margin-top: 50px;
 	padding: 10px 10px 0 10px; 
 	position: relative;
 	z-index: 2;
@@ -1440,8 +1480,9 @@ textarea {
 
 .dropbutton {
 	cursor: pointer;
-	font-family: 'Open-Sans-Light';
 	position: relative;
+	/* disallow text-selection */
+	user-select: none;
 }
 
 .dropbutton:after {
@@ -1488,7 +1529,7 @@ textarea {
 
 .dropmenu.robust .wrapper {
 	margin-top: 45px;
-	padding: 15px;
+	padding: 15px 15px 5px 15px;
 }
 
 .dropmenu.passenger-chooser {
@@ -1578,12 +1619,6 @@ textarea {
 }
 
 
-
-
-
-/* heredeb */
-
-
 .multi-city-coming-soon {
 	color: #ffffff;
   font-size: 18px;
@@ -1640,12 +1675,8 @@ textarea {
 	height: 2em;
 }
 
-.flight-direction-item-selected .flight-direction-item-from-to {
-	margin-top: 12px;
-}
-
-#from-airport-selected,
-#to-airport-selected {
+.from-airport-selected,
+.to-airport-selected {
   font-size: 54px;
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
@@ -3629,7 +3660,6 @@ footer.app-copy .bottom a {
 
 /* ------- responsive ------- */
 
-
 .touch .login-holder .graphic {
 	height: 200px;
 	width: 100%;
@@ -3637,6 +3667,10 @@ footer.app-copy .bottom a {
 		bottom: -10px;
 	background: url('/images/static/world.svg') center top no-repeat;
 	background-size: 160%;
+}
+
+.touch .searchnav {
+	margin-top: 50px;
 }
 
 @media (min-width: 1190px) {
@@ -3667,6 +3701,15 @@ footer.app-copy .bottom a {
 
 }
 
+@media (max-width: 776px) {
+
+	body:not(.touch) .navbar-brand {
+		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
+		background-size: 185px;
+	}
+
+}
+
 
 @media (min-width: 767px) {
 
@@ -3690,14 +3733,9 @@ footer.app-copy .bottom a {
 	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
-
-}
-
-@media (max-width: 776px) {
-
-	body:not(.touch) .navbar-brand {
-		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
-		background-size: 185px;
+	
+	.desktop .flight-direction .area {
+		width: 180px;
 	}
 
 }
@@ -3752,6 +3790,15 @@ footer.app-copy .bottom a {
 		width: 75%;
 	}
 
+}
+
+@media (max-width: 500px) {
+
+	.desktop .flight-direction .area {
+		margin-left: 3%;
+    margin-right: 3%;
+	}
+	
 }
 
 
@@ -3895,8 +3942,8 @@ footer.app-copy .bottom a {
 		margin-bottom: -12px;
 	}
 
-	.touch #from-airport-selected,
-	.touch #to-airport-selected {
+	.touch .from-airport-selected,
+	.touch .to-airport-selected {
 		font-size: 36px;
 		line-height: 40px;
 	}

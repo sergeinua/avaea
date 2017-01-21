@@ -103,7 +103,7 @@ var SearchFormPage = React.createClass({
 	           <div className="wrapper passengers">
 	           		{/* engineer - implement logic to display correct wording where "Adult" is */}
 	         			<div id="dropButtonPassengers" className="dropbutton">{ this.props.commonData.searchParams.passengers } Adult</div>
-		          	<div id="passenger-chooser" className="dropmenu passenger-chooser robust">	
+		          	<div id="passenger-chooser" className="dropmenu passenger-chooser robust hide">	
 				        	<PassengerChooser searchParams={this.props.commonData.searchParams}/>
 				        </div>{/* ends dropmenu */} 
 		         </div>{/* ends passengers */}

@@ -234,7 +234,7 @@ var TripSearchForm = React.createClass({
               :
               <div className="location">
                 <span
-                  id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
+                  id="from-airport-selected" className="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
                 <div id="from-city-selected"
                      className="city-name">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
               </div>
@@ -251,7 +251,7 @@ var TripSearchForm = React.createClass({
               :
               <div className="location">
                 <span
-                  id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
+                  id="to-airport-selected" className="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
                 <div id="to-city-selected"
                      className="city-name">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
               </div>
