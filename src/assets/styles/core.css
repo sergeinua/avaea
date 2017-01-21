@@ -22,7 +22,7 @@
 .dimmer .landscape,
 .touch > .copyright,
 .touch footer.app-copy,
-.dropmenu.hide {
+.dropmenu.hide:not(.robust) {
 	display: none;
 }
 
@@ -590,6 +590,7 @@ header,
 
 .clear-it,
 .clearit,
+.passenger-chooser .passenger-type:after,
 .searchform .flight-date:after,
 .booking .confirmation:after,
 body.desktop form.profile,
@@ -620,6 +621,18 @@ body.desktop form.profile,
 	background: #ffffff;
 }
 
+.buttons.double {
+	text-align: center;
+}
+
+.buttons.double .big-button {
+	width: 45%;
+	display: table-cell;
+}
+
+.dropmenu .buttons.double .big-button {
+	font-size: 18px;
+}
 
 .big-button {
 	font-family: 'Open-Sans-Light';
@@ -635,6 +648,10 @@ body.desktop form.profile,
 .big-button:hover,
 .big-button:focus {
 	color: #ffffff;
+}
+
+.big-button.cancel-button {
+	background: #ffffff;
 }
 
 .big-button.secondary {
@@ -730,7 +747,6 @@ body.desktop form.profile,
 .bottomNav .sort-button button.btn,
 .clear-undo-buttons,
 .flight-additional-info .text-picker,
-.flight-direction-item.error-flash,
 legend {
 	color: #052767;
 }
@@ -878,7 +894,8 @@ a:focus,
 .tertiary-button,
 .plus:hover,
 .flight-additional-info .text-picker:hover,
-.dropmenu {
+.dropmenu:not(.robust),
+.passenger-chooser .count div {
 	color: #00a9e7;
 }
 
@@ -960,6 +977,10 @@ a:focus,
 	background-color: rgba(145, 217, 255, .2);
 }
 
+.count .add {
+	background: #cceefa;
+}
+
 
 
 
@@ -1014,13 +1035,10 @@ form label.required:before,
 
   /* highlight */
 
-.has-error .form-control {
-	background: #ffffde;
-}
-
+.has-error .form-control,
 .highlight,
 .error-flash {
-	background: #ffffe4;
+	background: #ffffe0;
 }
 
 .form label.error, 
@@ -1049,13 +1067,27 @@ form label.required:before,
 
 .big-button.disabled,
 .small-button.disabled,
-.tertiary-button.disabled {
+.tertiary-button.disabled,
+.big-button.cancel-button {
 	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .searchform .label-d,
 .searchform .open-calendar .weekday {
 	color: #3e7589;
+}
+
+.close-x:before,
+.big-button.cancel-button {
+	color: #777777;
+}
+
+.passenger-chooser .age {
+	color: #aaaaaa;
+}
+
+.count .subtract.disabled {
+	background: #e5e5e5;
 }
 
 
@@ -1111,6 +1143,10 @@ textarea {
 	border-radius: 3px;
 }
 
+.count.holder input {
+	border-radius: 0;
+}
+
 form.label {
 	position: relative;
 }
@@ -1143,6 +1179,8 @@ form.form {
 textarea {
 	padding: 8px;
 }
+
+/* disabled */
 
 .its-me .hint,
 .tertiary-button.disabled:before,
@@ -1370,7 +1408,7 @@ textarea {
 }
 
 .searchnav .positioner {
-	padding: 0 5px;
+	padding: 0;
 	display: flex;
 	justify-content: space-between;
 	position: relative;
@@ -1414,17 +1452,13 @@ textarea {
 }
 
 .searchnav .dropmenu {
-	margin-top: -2px;
+	margin-top: -12px;
 	width: 150px;
 	position: absolute;
 }
 
 .searchnav .dropmenu:not(.robust) {
 	left: 10px;
-}
-
-.searchnav .dropmenu.robust {
-	right: 5px;
 }
 
 .dropmenu .choice {
@@ -1439,6 +1473,99 @@ textarea {
 	padding-bottom: 20px;
 	border-bottom: 0px solid transparent;
 }
+
+.dropmenu.robust .wrapper {
+	margin-top: 45px;
+	padding: 15px;
+}
+
+.dropmenu.passenger-chooser {
+	min-width: 300px;
+	position: absolute;
+		right: 0;
+}
+
+.dropmenu .close-x {
+	font-size: 18px;
+	padding: 20px;
+	position: absolute;
+		right: 0px;
+		top: 0px;
+ 	z-index: 2;
+}
+
+.passenger-chooser .passenger-type {
+	font-size: 16px;
+	margin-bottom: 18px;
+	position: relative;
+	width: 100%;
+}
+
+.passenger-chooser .passenger-type div {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+}
+
+.passenger-chooser .label-wrap {
+	float: left;
+	top: 12px;
+}
+
+.passenger-chooser .count {
+	float: right;
+	vertical-align: top;
+}
+
+.passenger-chooser .ti {
+	margin-right: 8px;
+}
+
+.passenger-chooser .age {
+	font-size: 14px;
+		top: 2px;
+}
+
+.count.holder .subtract,
+.count.holder .add,
+.count.holder input {
+	text-align: center;
+	height: 40px;
+	width: 40px;
+	position: relative;
+		top: 0;
+}
+
+.count.holder input {
+	display: inline-block;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.count .add,
+.count .subtract {
+	font-size: 40px;
+	line-height: 20px;
+}
+
+.count.holder span {
+	 position: absolute;
+}
+
+.count.holder .add span {
+	right: 8px;
+	top: 10px;
+}
+
+.count.holder .subtract span {
+	left: 15px;
+	top: 7px;
+}
+
+.dropmenu.passenger-chooser .cancel-button {	
+	margin-left: 5px;
+}
+
+
 
 
 
@@ -1920,17 +2047,17 @@ td[data-action*="selectDay"] {
 	border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+.modal-content .buttons-bar.double .big-button {
+	width: 50%;
+	display: inline-block;
+	float: left;
+}
+
 .modal-content .buttons-bar .big-button {
 	margin: 0;
 	border: 0px solid transparent;
 	border-top-right-radius: 0px;
 	border-top-left-radius: 0px;
-}
-
-.modal-content .buttons-bar.double .big-button {
-	width: 50%;
-	display: inline-block;
-	float: left;
 }
 
 .buttons-bar.double .big-button:first-child {
