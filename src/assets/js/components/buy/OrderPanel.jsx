@@ -264,6 +264,14 @@ let OrderPanel = React.createClass({
         console.error(error);
       });
   },
+  
+  //this is used in a couple of places, should it be global?
+  flightClassName: {
+    'E': 'Economy',
+    'P': 'Premium',
+    'B': 'Business',
+    'F': 'First Class',
+  },
 
   render: function () {
 
@@ -312,7 +320,7 @@ let OrderPanel = React.createClass({
             <div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
-                <div className="class">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</div>
+                <div className="class">{ this.flightClassName[this.props.commonData.searchParams.CabinClass] }</div>
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
               </div>
             </div>

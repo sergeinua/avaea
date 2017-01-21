@@ -731,6 +731,10 @@ body.desktop form.profile,
 	background: #ffffff;
 }
 
+.close-x {
+	cursor: pointer;
+}
+
 .back-history {
 	cursor: pointer;
 	font-family: 'Open-Sans-Light';
@@ -1691,6 +1695,7 @@ textarea {
 	min-width: 140px;
 	height: 140px;
 	position: relative;
+	transition: all 0.1s ease-in-out;
 }
 
 .flight-direction .area,
@@ -3743,7 +3748,7 @@ footer.app-copy .bottom a {
 @media (max-width: 695px) {
 
 	body:not(.touch) .navbar-brand {
-		width: 45px;
+		width: 44px;
 		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
 		background-size: 185px;
 	}
@@ -4193,6 +4198,15 @@ html[data-useragent*='Trident'] #resultpage {
 html[data-useragent*='Trident'] #main_title .navbar-header:first-child {
 	height: 51px;
 	max-height: 51px;
+}
+
+html[data-useragent*='Trident'] .searchnav .positioner > .wrapper {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+html[data-useragent*='Trident'] .double.buttons .big-button {
+	display: inline-block;
 }
 
 html[data-useragent*='Trident'] .multi-city-coming-soon {

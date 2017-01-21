@@ -56,6 +56,7 @@ var SearchFormPage = React.createClass({
     multi_city: 'Multi-City',
   },
   
+  //this is used in a couple of places, should it be global?
   flightClassName: {
     'E': 'Economy',
     'P': 'Premium',
