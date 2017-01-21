@@ -625,6 +625,10 @@ body.desktop form.profile,
 	text-align: center;
 }
 
+.dropdown .buttons.double {
+	margin-bottom: 15px;
+}
+
 .buttons.double .big-button {
 	width: 45%;
 	display: table-cell;
@@ -909,8 +913,7 @@ a:focus,
 }
 
 .searchnav,
-.flight-type-form,
-.flight-direction,
+.searchform .flight-direction,
 .multi-city-coming-soon {
 	background: #00a9e7;
 }
@@ -977,7 +980,8 @@ a:focus,
 	background-color: rgba(145, 217, 255, .2);
 }
 
-.count .add {
+.count .add,
+.count .subtract {
 	background: #cceefa;
 }
 
@@ -1185,8 +1189,8 @@ textarea {
 .its-me .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
-.ff-miles.none,
-.dropmenu .choice.active {
+.dropmenu .choice.active,
+.ff-miles.none {
 	color: #a2a2a2;
 }
 
@@ -1402,7 +1406,7 @@ textarea {
 
 .searchnav {
 	margin-top: 50px;
-	padding: 0 10px; 
+	padding: 10px 10px 0 10px; 
 	position: relative;
 	z-index: 2;
 }
@@ -1410,12 +1414,13 @@ textarea {
 .searchnav .positioner {
 	padding: 0;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	position: relative;
 }
 
-.searchnav .wrapper {
+.searchnav .positioner > .wrapper {
 	position: relative ;
+	display: table-cell;
 }
 
 .wrapper.seat-class {
@@ -1447,8 +1452,16 @@ textarea {
 .searchnav .dropbutton {
 	color: #ffffff;
 	font-size: 16px;
-	padding: 20px 5px 20px 5px;
-	min-width: 110px;
+	padding: 20px 0;
+}
+
+.searchnav .trip-type .dropbutton {
+	text-align: left;
+	min-width: 105px;
+}
+
+.searchnav .dropmenu:not(.robust) {
+	min-width: 106px;
 }
 
 .searchnav .dropmenu {
@@ -1462,7 +1475,6 @@ textarea {
 }
 
 .dropmenu .choice {
-	font-family: 'Open-Sans-Light';
   font-size: 16px;
 	cursor: pointer;
   padding: 10px 20px 10px 20px;
@@ -1585,16 +1597,24 @@ textarea {
 
 .searchform .plus {
 	  font-size: 100px;
-    line-height: 78px;
+    line-height: 82px;
 		display: inline-block;
     position: relative;
 }
 
-.flight-direction {
-  padding: 0 10px 40px 10px;
+.searchform .open-calendar .plus {
+    line-height: 72px;
+}
+
+.searchnav .flight-direction {
+  padding: 10px 10px 40px 10px;
 	display: flex;
 	justify-content: space-around;
 	
+}
+
+.searchform .flight-direction {
+	padding-bottom: 30px;
 }
 
 .flight-direction-item {
@@ -1635,6 +1655,7 @@ textarea {
 .flight-direction .area {
 	margin: 0 5px;
 	padding: 10px 0 0 0;
+	display: inline-block;
 	width: 42%;
 	min-width: 140px;
 	height: 140px;
@@ -1747,9 +1768,7 @@ strong.tt-highlight {
 }
 
 .open-calendar {
-	padding-left: 0;
-	padding-right: 0;
-	padding: 20px 0 15px 0;
+	padding: 23px 0 15px 0;
 	width: 50%;
 	float: left;
 }
@@ -1771,7 +1790,7 @@ strong.tt-highlight {
 	font-size: 36px;
 	line-height: 65px;
 	margin: 0;
-	padding: 3px 0 10px 0;
+	padding: 0 0 10px 0;
 }
 
 .open-calendar .direction,
@@ -1890,7 +1909,7 @@ strong.tt-highlight {
 }
 
 .touch .search-buttons {
-	margin-top: 40px;
+	margin-top: 55px;
 }
 
 
@@ -2755,6 +2774,7 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
+	margin: -2px 0 7px 0;
   padding: 0 0 0 8px;
 	text-align: left;
 }
@@ -3788,10 +3808,28 @@ footer.app-copy .bottom a {
 
 }
 
+
+/* iPhone 5 phone 5 */
 @media (max-width: 321px) {
 
 	.navbar-toggle .icon-bar {
 		width: 10px;
+	}
+	
+	.searchnav {
+		padding-top: 0;
+	}
+	
+	.searchform .flight-direction {
+		padding-top: 0px;
+	}
+	
+	.touch .search-buttons {
+		margin-top: 35px;
+	}
+	
+	.dropmenu.passenger-chooser {
+		right: -5px;
 	}
 
 }
@@ -3830,27 +3868,26 @@ footer.app-copy .bottom a {
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
-
-	.touch .navbar.searchform {
-		min-height: 1px;
+	
+	.touch .searchnav {
+		padding-top: 0;
 	}
-
-	.touch .flight-type-item:not(.voice-search-button) {
-		font-size: 15px;
+	
+	.touch .searchnav .dropbutton {
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
-
-	.touch .flight-direction {
-		padding: 0px 15px 5px 15px;
+	
+	.touch .searchform .flight-direction {
+		padding-bottom: 10px;
+		display: flex;
+		justify-content: space-around;
 	}
 
-	.touch .flight-direction-item {
+	.touch .flight-direction .area {
 		padding-top: 5px;
-	}
-
-	.touch .flight-direction-item-from-to {
-		padding-bottom: 0;
+		width: 35%;
+		height: 120px;
 	}
 
 	.touch .flight-direction .plus {
@@ -3864,10 +3901,6 @@ footer.app-copy .bottom a {
 		line-height: 40px;
 	}
 
-	.touch .flight-direction-item .city-name {
-		line-height: 1em;
-	}
-
 	.touch .open-calendar {
 		padding-top: 7px;
 		height: 62px;
@@ -3875,16 +3908,7 @@ footer.app-copy .bottom a {
 
 	.touch .open-calendar .the-date {
 		font-size: 20px;
-		letter-spacing: 0;
-		padding-top: 0;
-	}
-
-	.touch .flight-additional-info .chooser {
-		padding-top: 13px;
-		display: inline-block;
-		width: 50%;
-		height: 40px;
-		float: left;
+		line-height: 25px;
 	}
 
 	.touch .calendar-panel {
@@ -3895,6 +3919,10 @@ footer.app-copy .bottom a {
 	.touch .voice-search-buttons {
 		position: relative;
 			top: 5px;
+	}
+	
+	.touch .search-buttons {
+		margin-top: 0px;
 	}
 
 	.touch .search-buttons .big-button {
@@ -3915,6 +3943,7 @@ footer.app-copy .bottom a {
 	}
 
 	.touch .flight-date .plus {
+		font-size: 50px;
 		line-height: 30px;
 		padding-bottom: 0;
 	}

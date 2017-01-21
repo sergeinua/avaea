@@ -26,7 +26,7 @@ var SearchFormPage = React.createClass({
       }
     });
   	
-		// close the open dropmenu on selection of a choice
+		// close the open dropmenu on selection of a choice (but not passenger chooser, since it requires multiple touches)
 		$('.dropmenu:not(.passenger-chooser)') 
 	    .click(function () {
 	    if (!$(this).hasClass('hide')) {
@@ -101,7 +101,8 @@ var SearchFormPage = React.createClass({
 				     </div>{/* ends seat-class */}
 		           
 	           <div className="wrapper passengers">
-	         			<div id="dropButtonPassengers" className="dropbutton">{ this.props.commonData.searchParams.passengers }</div>
+	           		{/* engineer - implement logic to display correct wording where "Adult" is */}
+	         			<div id="dropButtonPassengers" className="dropbutton">{ this.props.commonData.searchParams.passengers } Adult</div>
 		          	<div id="passenger-chooser" className="dropmenu passenger-chooser robust">	
 				        	<PassengerChooser searchParams={this.props.commonData.searchParams}/>
 				        </div>{/* ends dropmenu */} 
