@@ -114,7 +114,8 @@ let ResultItem = React.createClass({
   },
 
   handleBuyButton: function(itineraryId, isSpecial) {
-    return function() {
+    return function(e) {
+    	e.stopPropagation();
       if (!getUser()) {
         setCookie('redirectTo', '/order/' + itineraryId + '/' + (!!isSpecial), {expires: 300});
         window.location = '/login';
