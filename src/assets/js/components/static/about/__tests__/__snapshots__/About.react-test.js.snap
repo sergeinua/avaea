@@ -286,7 +286,7 @@ exports[`test About component test 1`] = `
       className="button-holder">
       <a
         className="buttonly"
-        href="#">
+        href="/contact">
         Contact us
       </a>
     </div>
