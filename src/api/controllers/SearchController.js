@@ -266,7 +266,7 @@ module.exports = {
         // Parse error and define error type
         if (itinerariesData.error) {
           errType = 'Error.Search.Generic';
-        } else if (itineraries && itineraries.length == 0 && !err) {
+        } else if (itineraries && itineraries.length == 0) {
           errType = 'Error.Search.NoFlights';
         }
 
