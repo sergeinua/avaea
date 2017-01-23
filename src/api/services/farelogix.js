@@ -619,11 +619,6 @@ module.exports = {
             }
             let errtxt = [];
             for (let i = 0; i < errors.length; i++) {
-              if (errors[i].Code == '9999' && errors[i].Text == 'International Flights Searches are restricted') {
-                // Assume 'International Flights Searches are restricted' error
-                // is thesame as 'No Results Found'
-                return callback(null, []);
-              }
               errtxt.push('(' + errors[i].Code + ') ' + errors[i].Text);
             }
             errors = errtxt.join('; ');
@@ -728,6 +723,16 @@ module.exports = {
         }
       } catch (e) {
         sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
+        // Assume 'International Flights Searches are restricted' and 'No Schedule availability' errors
+        // are the same as 'No Results Found' error
+        let no_flights_errors = [
+          'International Flights Searches are restricted',
+          'No Schedule availability',
+          'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 errors type we show for end user
+        ];
+        if (typeof err == 'string' && err.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+          e = null;
+        }
         return callback(e, []);
       }
     });

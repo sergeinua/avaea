@@ -490,17 +490,22 @@ module.exports = {
       if (apiCallTime > apiCallTimeWarn) {
         params.session.time_log.push(_api_name + ' took %s to respond', apiCallTimeHr);
       }
-      err = 'No Results Found';
-      if (err) {
-        if (err == 'No Results Found') {
-          return _cb(null, []);
-        } else {
-          return _cb(err, []);
+      try {
+        if (err) {
+          throw err;
         }
-      }
-      if (!result.FlightItinerary) {
-        // throw 'No Results Found';
-        return _cb(null, []);
+        if (!result.FlightItinerary) {
+          throw 'No Results Found';
+        }
+      } catch (e) {
+        let no_flights_errors = [
+          'No Results Found',
+          'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 error types we show for end user
+        ];
+        if (typeof err == 'string' && err.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+          e = null;
+        }
+        return _cb(e, []);
       }
       return new Mapper().run(result.FlightItinerary, _cb);
     });
