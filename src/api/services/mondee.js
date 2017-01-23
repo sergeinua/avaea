@@ -211,7 +211,7 @@ class MondeeClient {
               throw '(API) Wrong Response';
             }
             _res = result[responseKey];
-          } catch(e) {
+          } catch (e) {
             sails.log.error(op + ": " + e);
             _err = e;
           }
