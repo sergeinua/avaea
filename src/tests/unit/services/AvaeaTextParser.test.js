@@ -17,7 +17,7 @@ describe('AvaeaTextParser', function() {
       if( parser[key] )
         value = (typeof(parser[key].value.toDateString)=="function") ? parser[key].value.toDateString() : parser[key].value;
       if( t[key]!=value )
-          throw Error("Values for '"+key+"' do not match, '"+t[key]+"' vs. '"+value+"'"); 
+          throw Error("Values for '"+key+"' do not match, '"+t[key]+"' vs. '"+value+"'");
       });
     });
   });

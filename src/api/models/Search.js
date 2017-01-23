@@ -25,16 +25,44 @@ module.exports = {
     F:'First'
   },
 
+  getDefault: function (req) {
+    if (_.isEmpty(req.session)) {
+      req.session = {};
+    }
+    let tmpDefaultDepDate = sails.moment().add(2, 'w');
+    let tmpDefaultRetDate = sails.moment().add(4, 'w');
+    let nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
+
+    if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
+      tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+      tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
+    } else {
+      tmpDefaultDepDate = sails.moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
+      tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+    }
+
+    return {
+      DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
+      ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
+      DepartureLocationCodeCity : !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
+      ArrivalLocationCodeCity   : !_.isString(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
+      CabinClass                : !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
+      departureDate             : _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
+      returnDate                : _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
+      passengers                : _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
+      flightType                : !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
+    };
+  },
+
   validateSearchParams: function (searchParams) {
-    var _Error = false;
-    var searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
+    let _Error = false;
+    let searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
+    let departureDate = searchParams.departureDate;
+    let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
+    let returnDate = searchParams.returnDate;
+    let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
+    let moment_now = sails.moment();
 
-    var departureDate = searchParams.departureDate;
-    var moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
-    var returnDate = searchParams.returnDate;
-    var moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
-
-    var moment_now = sails.moment();
     // Check depart date
     if (moment_dp &&
         (
@@ -68,12 +96,14 @@ module.exports = {
     }
 
     // Check airports selection
-    if (!searchParams.DepartureLocationCode.trim()) {
+    if (!searchParams.DepartureLocationCode || (searchParams.DepartureLocationCode && !searchParams.DepartureLocationCode.trim())) {
       _Error = 'Error.Search.Validation.DepartureLocationCode.Empty';
     }
-    if (!searchParams.ArrivalLocationCode.trim()) {
+
+    if (!searchParams.ArrivalLocationCode || (searchParams.ArrivalLocationCode && !searchParams.ArrivalLocationCode.trim())) {
       _Error = 'Error.Search.Validation.ArrivalLocationCode.Empty';
     }
+
     if (searchParams.DepartureLocationCode == searchParams.ArrivalLocationCode) {
       _Error = 'Error.Search.Validation.LocationCode.Same';
     }
