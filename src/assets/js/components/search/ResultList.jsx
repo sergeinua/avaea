@@ -11,7 +11,7 @@ let ResultList = React.createClass({
         {this.props.InitResultData.searchResult.map(function(itinerary, counter) {
           if (!itinerary.is_hidden) {
             let result = null;
-            if (counter == 2) {
+            if (!uaMobile && counter == 2) {
               result = <span key="ad">
                 <div className="col-xs-12 itinerary">
                   <Iframe id="c7aed39b" name="mc79eba9" url="/static/adds.html"
