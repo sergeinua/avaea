@@ -1,17 +1,9 @@
 import React from 'react';
 import SimpleSearchForm from './SimpleSearchForm';
-
-function createWayfareHomeDeals() { return { __html: 
-		<iframe id="c7aed39b" name="mc79eba9" src="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ==" 
-    		frameborder="0" scrolling="no" width="100%" height="100%"></iframe>
-		}; 
-};
+import Iframe from 'react-iframe';
 
 let StaticHome = React.createClass({
   render: function () {
-  	
-  	const isDesktop = $('body').hasClass('desktop');
-  	
     return (
       <div>
         <div className="content static home">
@@ -35,27 +27,19 @@ let StaticHome = React.createClass({
 
               <div className="try-it">
                 <SimpleSearchForm/>
-                
-                {isDesktop ? 
-                <div className="wayfare home comparison-unit">
-	                <script type="text/javascript" src="//x.wayfareinteractive.com/x/www/delivery/spcjs.php?id=843&amp;zones=55067&amp;callbackZone=55067&amp;cb=Jfc9HVbz"></script>
-	              	<script type="text/javascript" src="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L3NwY2pzLnBocD9pZD04NDMmYW1wO3pvbmVzPTU1MDY3JmFtcDtjYWxsYmFja1pvbmU9NTUwNjc=&amp;cb=Jfc9HVbz"></script>
-              	</div>	
-              	:null
-                }
-                
               </div>{/* ends try-it form */}
 
             </div> {/* ends home-top-copy */}
           </div> {/* ends home top level */}
 
-          {isDesktop ? 
+          {!uaMobile ?
           <div className="wayfare home deals-unit">
-          	<div dangerouslySetInnerHTML={createWayfareHomeDeals()} />
+            <Iframe id="c7aed39b" name="mc79eba9" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
+                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
           </div>
-          :null 
+          :null
           }
-          
+
           <div className="home second level">
             <h1>Finally, tech that makes travel easier.</h1>
             <div className="static-features">
