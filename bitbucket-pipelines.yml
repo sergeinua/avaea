@@ -5,7 +5,8 @@ pipelines:
         script:
           - echo "This script runs on all branches that don't have any specific pipeline assigned in 'branches'."
   branches:
-    RC_20161205:
+     master:
+#    RC_20161205:
       - step:
           script:
               - /etc/init.d/postgresql start
