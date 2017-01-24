@@ -163,6 +163,13 @@ module.exports = {
         // Clone and modify params for booking API
         let reqParamsApi = Object.assign({}, reqParams);
         reqParamsApi.booking_itinerary = booking_itinerary;
+        reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
+        reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
+        // Save modified api params also
+        reqParams.paramsApi = {
+          FirstName: reqParamsApi.FirstName,
+          LastName: reqParamsApi.LastName
+        };
         if (Array.isArray(reqParamsApi.passengers)) {
           for (let i=0; i < reqParamsApi.passengers.length; i++) {
             // remains alphabet only
