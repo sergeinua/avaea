@@ -567,18 +567,68 @@ body:not(.touch) i.icon-mic:before {
 }
 
 .desktop .search-result .results-wrapper {
-	 display: flex;
+	margin-bottom: -12px;
+	padding: 10px 0 70px 20px;
+	display: flex;
+	background: #f3f3f3 url('/images/texture-dk.gif');
 }
 
 .desktop .search-result .flights,
 .wayfare.results.deals-unit {
-	display: table-cell;
 	height: 100%;
 }
 
-.wayfare.results.deals-unit iframe {
-	min-height: 2000px;
+.desktop .search-result .flights {
+	padding-top: 15px;
+	width: 100%;
+	border-top-right-radius: 6px;
+	border-top-left-radius: 6px;
 }
+
+.wayfare.results.deals-unit {
+	margin-top: -45px;
+	padding: 5px 15px 0 15px;
+	min-width: 320px;
+	width: 320px;
+	max-width: 320px;
+}
+
+.desktop .search-result .bottomNav {
+	padding-top: 10px;
+	padding-right: 320px;
+	height: 55px;
+	margin-bottom: -5px;
+}
+
+.desktop .search-result .bottomNav .wrapper {
+	padding: 9px 20px 0 20px;
+	display: inline-block;
+	height: 40px;
+	background: url(/images/texture-btn.gif) 0 -15px repeat-x;
+	border-top: 1px solid rgba(255, 255, 255, .8);
+	border-bottom: 1px solid rgba(0, 0, 0, .3);
+	border-radius: 15px;
+}
+
+.wayfare.results.deals-unit iframe {
+	min-height: 800px;
+}
+
+.desktop .search-result .flights, 
+.desktop .flight-unit {
+	background: #ffffff !important;
+}
+
+.desktop .search-result .itinerary, 
+.desktop .flight-unit .itinerary {
+	width: 90%;
+}
+
+.desktop .search-result {
+	margin-bottom: -80px;
+}
+
+
 
 
 
@@ -612,7 +662,7 @@ header,
 .content {
   display: flex;
 }
-
+ 
 .clear-it,
 .clearit,
 .booking .confirmation:after,
