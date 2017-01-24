@@ -18,7 +18,7 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// _: true,
+  // _: true,
 
   /****************************************************************************
   *                                                                           *
@@ -28,7 +28,7 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// async: true,
+  // async: true,
 
   /****************************************************************************
   *                                                                           *
@@ -37,7 +37,7 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// sails: true,
+  // sails: true,
 
   /****************************************************************************
   *                                                                           *
@@ -48,7 +48,7 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// services: true,
+  // services: true,
 
   /****************************************************************************
   *                                                                           *
@@ -59,12 +59,13 @@ module.exports.globals = {
   *                                                                           *
   ****************************************************************************/
 
-	// models: true,
-	bucketizationFunction: 'getTilesDataAlternative', //'getTilesData' or just empty for default getTilesData
+  // models: true,
+  bucketizationFunction: 'getTilesDataAlternative', //'getTilesData' or just empty for default getTilesData
 
   // For site pages
   site_info: {
     software_version: '0.1.10',
     contact_email: 'info@onvoya.com'
-  }
+  },
+  cacheStore: 'redis', //<redis|memcache>
 };

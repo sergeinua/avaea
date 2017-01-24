@@ -1,4 +1,3 @@
-/* global memcache */
 /* global async */
 /* global sails */
 var lodash = require('lodash');
@@ -402,7 +401,6 @@ module.exports = {
   flightSearch: function(guid, params, callback) {
     sails.log.info('Mystifly API call started');
 
-    memcache.init(function(){});
     utils.timeLog('mystifly');
 
     var wsdlUrl = getWsdlUrl();
