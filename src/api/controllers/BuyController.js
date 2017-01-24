@@ -1,7 +1,7 @@
 /* global itineraryPrediction */
 /* global UserAction */
 /* global FFMPrograms */
-/* global memcache */
+/* global cache */
 /* global sails */
 /* global Profile */
 /* global Order */
@@ -92,7 +92,7 @@ module.exports = {
       }
 
       let cacheId = 'itinerary_' + itinerary_id.replace(/\W+/g, '_');
-      qpromice.nfbind(memcache.get)(cacheId)
+      qpromice.nfbind(cache.get)(cacheId)
         .then((resItinerary) => {
 
           if (lodash.isEmpty(resItinerary)) {
@@ -141,7 +141,7 @@ module.exports = {
     let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
-    qpromice.nfbind(memcache.get)(cacheId)
+    qpromice.nfbind(cache.get)(cacheId)
       .then((resItinerary) => {
 
         if (lodash.isEmpty(resItinerary)) {

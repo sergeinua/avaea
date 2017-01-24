@@ -139,7 +139,7 @@ module.exports = {
       var id = 'itinerary_' + itinerary.id.replace(/\W+/g, '_');
       itinerary.searchId = searchId;
       searchResultKeys.push(id);
-      memcache.store(id, itinerary);
+      cache.store(id, itinerary);
       return doneCb(null);
     }, (err) => {
       var searchData = {
@@ -150,9 +150,10 @@ module.exports = {
         searchParams: row.params,
         itineraryKeys: searchResultKeys
       };
-      memcache.store(searchId, searchData);
+      cache.store(searchId, searchData);
     });
   },
+
 
   getProviders: function (params, cb) {
     let providers = sails.config.flightapis.searchProvider;
@@ -192,7 +193,7 @@ module.exports = {
 
   getResult: function (params, callback) {
     let guid = this.getCurrentSearchGuid();
-    memcache.init(function(){});
+    cache.init(function(){});
 
     let errors = [];
 

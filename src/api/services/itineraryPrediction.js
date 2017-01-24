@@ -4,7 +4,7 @@
 /* global iPrediction */
 /* global itineraryPrediction */
 /* global _ */
-/* global memcache */
+/* global cache */
 /* global sails */
 module.exports = {
   alpha : sails.config.prediction.itineraries.alpha,
@@ -16,11 +16,11 @@ module.exports = {
   rankMax : 0,
   updateRank : function (user, searchUuid, price)
   {
-    memcache.get(searchUuid, function(err, result) {
+    cache.get(searchUuid, function(err, result) {
       if (!err && !_.isEmpty(result)) {
         var searchData = JSON.parse(result);
         //get all itineraries
-        memcache.get(searchData.itineraryKeys, function (err, itineraries) {
+        cache.getByArrayKeys(searchData.itineraryKeys, function (err, itineraries) {
           if (!err && !_.isEmpty(itineraries)) {
             var rankMin = 0;
             var rankMax = 0;
@@ -54,7 +54,7 @@ module.exports = {
             itineraryPrediction.recalculateRank(user, searchData.searchParams, 'global');
 
           } else {
-            sails.log.error('Can\'t find itineraries in memcache for search uuid ', searchUuid);
+            sails.log.error('Can\'t find itineraries in cache for search uuid ', searchUuid);
           }
         });
       } else {

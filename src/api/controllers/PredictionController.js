@@ -68,7 +68,7 @@ module.exports = {
       var cacheId = 'itinerary_' + data.itinerary.id.replace(/\W+/g, '_');
 
       var logData = {};
-      memcache.get(cacheId, function(err, result) {
+      cache.get(cacheId, function(err, result) {
         if (!err && result) {
           var logData = {
             action    : 'itinerary_expanded',
