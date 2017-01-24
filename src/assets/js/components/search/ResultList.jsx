@@ -8,6 +8,7 @@ let ResultList = React.createClass({
     let adWasShowed = false;
     return (
       <span>
+      <div className="results-wrapper">
       {(this.props.InitResultData.searchResultLength ?
       <div id="searchResultData" className="flights">
         {this.props.InitResultData.searchResult.map(function(itinerary) {
@@ -22,8 +23,8 @@ let ResultList = React.createClass({
             adWasShowed = true;
             ad = <span key="ad">
                 {itin}
-                <div className="col-xs-12 itinerary">
-                  <Iframe id="c7aed39b" name="mc79eba9" url="/static/adds.html"
+                <div id="wayfare-results-comparison" className="col-xs-12 itinerary wayfare results comparison-unit">
+                  <Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="/static/adds_results_result.html"
                           frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
                 </div>
               </span>;
@@ -31,8 +32,20 @@ let ResultList = React.createClass({
           return ad || itin;
         }.bind(this))}
       </div>
+      
         : null
       )}
+      
+      {!uaMobile ?
+        	<div id="wayfare-results-deals" className="wayfare results deals-unit">
+	      		<div className="wrapper">
+	      		<Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
+              frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+	          </div>
+          </div>
+        	:null
+        }
+      </div>
       </span>
     )
   }

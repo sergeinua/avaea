@@ -148,8 +148,7 @@ header.static li.active a:visited {
 /* light blue bg */
 
 .about.second,
-.static .home.compare,
-.desktop .static .home.second {
+.static .home.compare {
 	background: #f9fafe;
 }
 
@@ -221,13 +220,11 @@ header.static .left a:hover {
 }
 
 header,
-.home.level.compare,
-.desktop .static .home.second {
+.home.level.compare {
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.home.level.compare,
-.desktop .static .home.second {
+.home.level.compare {
 	border-top: 1px solid #d7d7d7;
 }
 
@@ -269,9 +266,7 @@ header,
 
 /* gold */
 
-.desktop .wayfare.home.deals-unit:before {
-	background: #ffb502;
-}
+
 
 
 
@@ -526,6 +521,62 @@ video {
 
 /* desktop wayfare ad units */
 
+.desktop .home-top-copy {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 30px 0;
+}
+
+.desktop .try-it {
+	margin-top: 0;
+}
+
+.wayfare.home .ti.compare {
+	text-align: left;
+	margin: 10px auto 0 auto;
+}
+
+.wayfare.home .ti.compare,
+.wayfare.home.comparison-unit {
+	max-width: 430px;
+}
+
+.wayfare.home.comparison-unit {
+	margin: -20px auto 30px auto;
+	height: 100px;
+}
+
+.wayfare.home.comparison-unit,
+.wayfare.home.comparison-unit .holder {
+	position: relative;
+	overflow: hidden;
+}
+
+.wayfare.home.comparison-unit iframe {
+	top: -22px;
+	left: -15%;
+	width: 130% !important;
+	background: #ffffff;
+}
+
+
+/* 
+
+------------------------------------------  
+	home deals unit has no parameters
+  so we are taking it out   
+------------------------------------------
+
+.desktop .wayfare.home.deals-unit:before {
+	background: #ffb502;
+}
+
+.desktop .static .home.second {
+	background: #f9fafe;
+	border-top: 1px solid #d7d7d7;
+	border-bottom: 1px solid #d7d7d7;
+}
+
 .desktop .home .top.level {
 	margin-bottom: 0;
 }
@@ -538,34 +589,17 @@ video {
     margin: 0 40px;
 }
 
-.wayfare.home.deals-unit .wrapper {
-	padding: 40px;
-	height: 380px;
-	overflow: hidden;
-}
-
 .wayfare.home.deals-unit:before {
 	content: '';
 	display: block;
 	height: 5px;
 }
 
-.desktop .home-top-copy {
-	margin-top: 0;
-	margin-bottom: 0;
-	padding: 40px 0;
+.wayfare.home.deals-unit .wrapper {
+	padding: 40px;
+	height: 380px;
+	overflow: hidden;
 }
-
-.desktop .try-it {
-	margin-top: 0;
-}
-
-.wayfare.home.comparison-unit {
-	margin: -20px 0 10px 0;
-	height: 100px;
-}
-
-
 
 @media (max-width: 1090px) {
 	
@@ -597,7 +631,9 @@ video {
 		height: 865px; 
 	}
 	
-} 
+}
+
+*/ 
 
 
 

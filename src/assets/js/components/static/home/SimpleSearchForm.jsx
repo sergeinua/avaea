@@ -250,12 +250,14 @@ let SimpleSearchForm = React.createClass({
         
         {!uaMobile ?
             <div id="wayfare-home-comparison" className="wayfare home comparison-unit">
-              <Iframe id="c7aed39b" name="mc79eba9" url="/static/adds_home.html"
-                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+        			<div className="ti compare">Compare our results</div>
+	        			<div className="holder">
+		              <Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="/static/adds_home_tryit.html"
+		                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+	            </div>
             </div>
             :null
           }
-        
         
         <a className="buttonly" onClick={this.submitForm}>Try it</a>
       </form>

@@ -37,16 +37,6 @@ let StaticHome = React.createClass({
             </div> {/* ends home-top-copy */}
           </div> {/* ends home top level */}
 
-          {!uaMobile ?
-          <div id="wayfare-home-deals" className="wayfare home deals-unit">
-          	<div className="wrapper" id="home-deals-wrapper">
-	            <Iframe id="c7aed39b" name="mc79eba9" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
-	                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
-	          </div>
-          </div>
-          :null
-          }
-
           <div className="home second level">
             <h1>Finally, tech that makes travel easier.</h1>
             <div className="static-features">

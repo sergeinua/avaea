@@ -557,11 +557,28 @@ body:not(.touch) i.icon-mic:before {
 
 /* desktop ad units */
 
+.wayfare iframe,
 .wayfare iframe body {
 	overflow: hidden;
 }
 
+.iframe.wayfare::-webkit-scrollbar {
+	display: none;
+}
 
+.desktop .search-result .results-wrapper {
+	 display: flex;
+}
+
+.desktop .search-result .flights,
+.wayfare.results.deals-unit {
+	display: table-cell;
+	height: 100%;
+}
+
+.wayfare.results.deals-unit iframe {
+	min-height: 2000px;
+}
 
 
 
