@@ -626,7 +626,8 @@ module.exports = {
           } else {
             utils.timeLog(_api_name + '_prepare_result');
             if (!result.FareGroup) {
-              throw 'No Results Found';
+              // No Results Found
+              return callback(null, []);
             }
             let isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
 
@@ -722,6 +723,16 @@ module.exports = {
         }
       } catch (e) {
         sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
+        // Assume 'International Flights Searches are restricted' and 'No Schedule availability' errors
+        // are the same as 'No Results Found' error
+        let no_flights_errors = [
+          'International Flights Searches are restricted',
+          'No Schedule availability',
+          'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 errors type we show for end user
+        ];
+        if (typeof err == 'string' && err.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+          e = null;
+        }
         return callback(e, []);
       }
     });

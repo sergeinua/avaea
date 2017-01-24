@@ -21,7 +21,7 @@ module.exports = {
    */
   result: function (req, res) {
     utils.timeLog('search_result');
-    var savedParams = {}, errStat = null;
+    var savedParams = {};
     res.locals.searchId = null;
     if (req.param('s')) {
       try {
@@ -146,10 +146,11 @@ module.exports = {
     Tile.tiles = _.clone(Tile.default_tiles, true);
     // tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    Search.getResult(params, function ( err, itineraries ) {
+    var errStat = [];
+    Search.getResult(params, function ( errRes, itineraries ) {
       sails.log.info('Found itineraries: %d', itineraries.length);
-      if (err) {
-        errStat = err;
+      if (errRes) {
+        errStat.push(errRes);
       }
       utils.timeLog('sprite_map'); // start sprite_map timer
       utils.timeLog('tiles_data'); // start tiles_data timer
@@ -158,10 +159,11 @@ module.exports = {
           Airports.findOne({iata_3code: params.searchParams.DepartureLocationCode}).exec((_err, _row) => {
             if (_err) {
               sails.log.error(_err);
-              errStat = _err;
+              errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
+              _row = {};
             }
             return doneCb(_err, _row);
           });
@@ -170,10 +172,11 @@ module.exports = {
           Airports.findOne({iata_3code: params.searchParams.ArrivalLocationCode}).exec((_err, _row) => {
             if (_err) {
               sails.log.error(_err);
-              errStat = _err;
+              errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
+              _row = {};
             }
             return doneCb(_err, _row);
           });
@@ -186,7 +189,7 @@ module.exports = {
           Airlines.makeIconSpriteMap(function (_err, _iconSpriteMap) {
             if (_err) {
               sails.log.error(_err);
-              errStat = _err;
+              errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -213,7 +216,7 @@ module.exports = {
           Tile[algorithm](itineraries, params.searchParams, function (_err, _itineraries, _tiles) {
             if (_err) {
               sails.log.error(_err);
-              errStat = _err;
+              errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
@@ -253,27 +256,16 @@ module.exports = {
           countAll      : itineraries.length,
           timeWorkStr   : utils.timeLogGetHr('search_result'),
           timeWork      : utils.timeLogGet('search_result'),
-          error         : err || errStat
+          error         : err || errStat.join("\n")
         }, Search.getStatistics(itineraries));
         UserAction.saveAction(userId, 'search', itinerariesData, function () {
           User.publishCreate(userId);
         });
         sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
-
         var errType = '';
         // Parse error and define error type
-        if (typeof itinerariesData.error == 'string') {
-          errType = 'Error.Search.Generic'; // as default
-          var no_flights_codes = [2002, 9999];
-          var no_flights_errors = [
-            'No Results Found',
-            'Departure Date should be greater than 3 days from the current date'
-          ];
-
-          if (itinerariesData.error.match(new RegExp('\\(('+ no_flights_codes.join('|') +')\\)')) ||
-            itinerariesData.error.match(new RegExp('('+ no_flights_errors.join('|') +')','gi'))) {
-            errType = 'Error.Search.NoFlights';
-          }
+        if (itinerariesData.error) {
+          errType = 'Error.Search.Generic';
         } else if (itineraries && itineraries.length == 0) {
           errType = 'Error.Search.NoFlights';
         }
@@ -295,7 +287,7 @@ module.exports = {
           },
           searchResult: itineraries,
           iconSpriteMap: result.iconSpriteMap,
-          errorInfo: errType?utils.showError(errType):false
+          errorInfo: errType ? utils.showError(errType) : false
         }, 'search/result');
       });
     });
