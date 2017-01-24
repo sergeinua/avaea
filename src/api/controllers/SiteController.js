@@ -21,7 +21,18 @@ module.exports = {
       page = req.isMobile ? '/search':'/home';
     }
 
-    let params = req.allParams();
+    let params = Search.getDefault(req);
+    //map parameters to our structure
+    params = {
+      DepartureLocationCode : req.param('From', ''),   // departure airport code
+      ArrivalLocationCode   : req.param('To', ''),     // destination airport code
+      CabinClass            : req.param('Class', 'E'), // booking class, if any
+      departureDate         : req.param('Departure'),  // departure date)
+      returnDate            : req.param('Return'), // return date, if any
+      passengers            : req.param('Adults', '1'), // number of adult passengers, if any
+      //FIXME: add this parameter when ONV-938 is ready
+      //req.param('kids') // number of kids, if any
+    };
     params.flightType = params.returnDate?'round_trip':'one_way';
     let error = Search.validateSearchParams(params);
 
@@ -42,7 +53,6 @@ module.exports = {
             if (_err) {
               sails.log.error(_err);
             }
-            console.log('test', _row, _err);
             return doneCb(_err, _row);
           });
         }
