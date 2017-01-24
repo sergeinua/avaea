@@ -19,13 +19,15 @@ let StaticHome = React.createClass({
             </div>
 
             <div className="home-top-copy">
-              <div className="slogan">
-                <span className="slogan first">Best price.</span>
-                <span className="slogan second">Best choice.</span>
-                <span className="slogan third">Travel Intelligence</span>
-              </div>
-
+            
               <div className="try-it">
+              
+              <div className="slogan">
+	              <span className="slogan first">Best price.</span>
+	              <span className="slogan second">Best choice.</span>
+	              <span className="slogan third">Travel Intelligence</span>
+	            </div>
+              
                 <SimpleSearchForm/>
               </div>{/* ends try-it form */}
 
@@ -34,8 +36,10 @@ let StaticHome = React.createClass({
 
           {!uaMobile ?
           <div className="wayfare home deals-unit">
-            <Iframe id="c7aed39b" name="mc79eba9" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
-                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+          	<div className="wrapper">
+	            <Iframe id="c7aed39b" name="mc79eba9" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
+	                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+	          </div>
           </div>
           :null
           }

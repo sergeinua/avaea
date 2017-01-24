@@ -116,7 +116,7 @@ footer.static {
 }
 
 .overlay {
-  background: rgba(6, 40, 85, .5);
+  background: rgba(6, 40, 85, .2);
 }
 
 .try-it {
@@ -148,7 +148,8 @@ header.static li.active a:visited {
 /* light blue bg */
 
 .about.second,
-.static .home.compare {
+.static .home.compare,
+.static .home.second {
 	background: #f9fafe;
 }
 
@@ -220,11 +221,13 @@ header.static .left a:hover {
 }
 
 header,
-.home.level.compare {
+.home.level.compare,
+.static .home.second {
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.home.level.compare {
+.home.level.compare,
+.static .home.second {
 	border-top: 1px solid #d7d7d7;
 }
 
@@ -264,7 +267,11 @@ header,
 	border-bottom: 0px solid transparent;
 }
 
+/* gold */
 
+.desktop .wayfare.home.deals-unit:before {
+	background: #ffb502;
+}
 
 
 
@@ -406,13 +413,14 @@ header.static li.flight-search a:hover {
     top: 0;
 }
 
-.slogan {
-	padding: 0 5px;
+.slogan.first,
+.slotan.second {
+	padding: 0 8px;
 }
 
 .slogan.third {
   font-size: 40px;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
   display: block;
 	position: relative;
 }
@@ -499,7 +507,7 @@ video {
 	background: #ffffff url('../images/static/input-calendar.svg') right 5px no-repeat;
 }
 
-.try-it span {
+.try-it span:not(.slogan) {
 	padding: 0 18px;
 }
 
@@ -510,6 +518,62 @@ video {
 .level {
 	margin-bottom: 70px;
 }
+
+/* desktop wayfare ad units */
+
+.desktop .home.top.level {
+	margin-bottom: 0;
+}
+
+.wayfare.home.deals-unit .wrapper {
+	padding: 40px;
+	height: 380px;
+}
+
+.wayfare.home.deals-unit:before {
+	content: '';
+	display: block;
+	height: 5px;
+}
+
+
+@media (max-width: 1090px) {
+	
+	.wayfare.home.deals-unit .wrapper {
+		height: 730px;
+	}
+	
+}
+
+@media (max-width: 915px) {
+	
+	.wayfare.home.deals-unit .wrapper {
+		height: 670px;
+	}
+	
+}
+
+@media (max-width: 720px) {
+	
+	.wayfare.home.deals-unit .wrapper {
+		height: 570px; 
+	}
+	
+}
+
+@media (max-width: 475px) {
+	
+	.wayfare.home.deals-unit .wrapper {
+		height: 865px; 
+	}
+	
+}
+
+
+/* heredeb */
+
+
+/* ends desktop wayfare ad units */
 
 .static .home.compare {
 	text-align: left;
@@ -564,9 +628,12 @@ video {
 	background: url(../images/static/checkmark-static.svg) 0 2px no-repeat;
 }
 
-.home.second.level h1,
 .home.third > copy {
 	margin: 0 40px;
+}
+
+.home .second.level {
+	padding: 40px 0;
 }
 
 .static-features {
@@ -1479,7 +1546,7 @@ footer.static .bottom {
 		position: relative;
 	}
 	
-	.try-it span {
+	.try-it span:not(.slogan) {
 		padding-left: 0px;
 		padding-right: 0px;
 		position: relative;
@@ -1635,7 +1702,7 @@ footer.static .bottom {
 	}
 	
 	.try-it .ti,
-	.try-it span {
+	.try-it span:not(.slogan) {
 		font-size: 22px;
 		font-family: 'Open-Sans';
 	}
@@ -1769,10 +1836,6 @@ footer.static .bottom {
 	
 }
 
-
-
-
-/* heredeb */
 
 
 

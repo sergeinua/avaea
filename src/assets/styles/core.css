@@ -555,6 +555,14 @@ body:not(.touch) i.icon-mic:before {
 	width: 10%;
 }
 
+/* desktop ad units */
+
+.wayfare iframe body {
+	overflow: hidden;
+}
+
+
+
 
 
 /* ------- everywhere parts ------- */
