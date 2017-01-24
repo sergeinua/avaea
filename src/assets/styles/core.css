@@ -566,6 +566,10 @@ body:not(.touch) i.icon-mic:before {
 	display: none;
 }
 
+.desktop .search-result {
+	min-width: 925px;
+}
+
 .desktop .search-result .results-wrapper {
 	margin-bottom: -12px;
 	padding: 10px 0 70px 20px;
@@ -581,6 +585,7 @@ body:not(.touch) i.icon-mic:before {
 .desktop .search-result .flights {
 	padding-top: 15px;
 	width: 100%;
+	min-width: 510px;
 	border-top-right-radius: 6px;
 	border-top-left-radius: 6px;
 }
@@ -594,9 +599,9 @@ body:not(.touch) i.icon-mic:before {
 }
 
 .desktop .search-result .bottomNav {
-	padding-top: 10px;
+	padding-top: 8px;
 	padding-right: 320px;
-	height: 55px;
+	height: 50px;
 	margin-bottom: -5px;
 }
 
@@ -627,6 +632,58 @@ body:not(.touch) i.icon-mic:before {
 .desktop .search-result {
 	margin-bottom: -80px;
 }
+
+.desktop .search-result .itinerary.wayfare {
+	padding: 0 0 0 0;
+	height: 240px;
+}
+
+.desktop .mycustomtab {
+	color: #ffffff;
+	background: #062868;
+}
+
+
+@media (max-width: 1620px) {
+
+	.desktop .search-result .itinerary.wayfare {
+		height: 220px;
+	}
+
+}
+
+@media (max-width: 1255px) {
+
+	.desktop .search-result .itinerary.wayfare {
+		height: 210px;
+	}
+
+}
+
+@media (max-width: 1168px) {
+
+	.desktop .search-result .itinerary.wayfare {
+		height: 320px;
+	}
+
+}
+
+@media (max-width: 1075px) {
+
+	.desktop .search-result .itinerary.wayfare {
+		height: 310px;
+	}
+
+}
+
+@media (max-width: 1000px) {
+
+	.desktop .search-result .itinerary.wayfare {
+		height: 300px;
+	}
+
+}
+
 
 
 
