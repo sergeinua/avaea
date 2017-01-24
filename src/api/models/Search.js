@@ -1,4 +1,5 @@
 /* global sails */
+let lodash = require('lodash');
 /**
 * Search.js
 *
@@ -216,6 +217,10 @@ module.exports = {
               }
             });
           });
+          // if no itineraries and at least one api has errors then return these errors
+          if (lodash.isEmpty(_filteredItins) && errors.length) {
+            return callback(errors.join("\n"), []);
+          }
 
           let resArr = [];
           let row = {};

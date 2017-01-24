@@ -186,6 +186,7 @@ class MondeeClient {
         sails.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
+          let _err = null, _res = null;
           try {
             let
               apiCallTime = utils.timeLogGet(op),
@@ -209,11 +210,12 @@ class MondeeClient {
             if ((typeof result[responseKey] != "object") || lodash.isEmpty(result[responseKey])) {
               throw '(API) Wrong Response';
             }
-            return callback(null, result[responseKey]);
+            _res = result[responseKey];
           } catch (e) {
             sails.log.error(op + ": " + e);
-            return callback(e, null);
+            _err = e;
           }
+          return callback(_err, _res);
         });
       }
     });
@@ -474,15 +476,14 @@ module.exports = {
     utils.timeLog(_api_name);
     sails.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
-    let _cb = callback;
-    callback = function (errors, resArr) {
+    let _cb = (err, result) => {
       sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
-      return _cb(errors, resArr);
+      return callback(err, result);
     };
 
     let op = _api_name + '.response';
     utils.timeLog(op);
-    return new MondeeClient(api).getResponse(guid, params.searchParams, function(err, result) {
+    return new MondeeClient(api).getResponse(guid, params.searchParams, (err, result) => {
       let
         apiCallTime = utils.timeLogGet(op),
         apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
@@ -496,10 +497,17 @@ module.exports = {
         if (!result.FlightItinerary) {
           throw 'No Results Found';
         }
-        return new Mapper().run(result.FlightItinerary, callback);
       } catch (e) {
-        return callback(e, []);
+        let no_flights_errors = [
+          'No Results Found',
+          'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 error types we show for end user
+        ];
+        if (typeof err == 'string' && err.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+          e = null;
+        }
+        return _cb(e, []);
       }
+      return new Mapper().run(result.FlightItinerary, _cb);
     });
   },
 
