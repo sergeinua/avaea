@@ -170,6 +170,13 @@ module.exports = {
           FirstName: reqParamsApi.FirstName,
           LastName: reqParamsApi.LastName
         };
+        if (Array.isArray(reqParamsApi.passengers)) {
+          for (let i=0; i < reqParamsApi.passengers.length; i++) {
+            // remains alphabet only
+            reqParamsApi.passengers[i].FirstName = reqParamsApi.passengers[i].FirstName.trim().replace(/[^a-z]/ig,'');
+            reqParamsApi.passengers[i].LastName = reqParamsApi.passengers[i].LastName.trim().replace(/[^a-z]/ig,'');
+          }
+        }
         // Important ! Remove credit cards data before parsing of the flight-booking
         delete reqParams.CardNumber;
         delete reqParams.ExpiryDate;
