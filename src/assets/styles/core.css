@@ -555,7 +555,7 @@ body:not(.touch) i.icon-mic:before {
 	width: 10%;
 }
 
-/* desktop ad units */
+/* wayfare desktop ad units */
 
 .wayfare iframe,
 .wayfare iframe body {
@@ -566,8 +566,8 @@ body:not(.touch) i.icon-mic:before {
 	display: none;
 }
 
-.desktop .search-result {
-	min-width: 925px;
+.desktop #spa-app {
+	min-width: 895px;
 }
 
 .desktop .search-result .results-wrapper {
@@ -593,9 +593,9 @@ body:not(.touch) i.icon-mic:before {
 .wayfare.results.deals-unit {
 	margin-top: -45px;
 	padding: 5px 15px 0 15px;
-	min-width: 320px;
-	width: 320px;
-	max-width: 320px;
+	min-width: 290px;
+	width: 290px;
+	max-width: 290px;
 }
 
 .desktop .search-result .bottomNav {
@@ -643,6 +643,10 @@ body:not(.touch) i.icon-mic:before {
 	background: #062868;
 }
 
+.desktop .itinerary-airline.col-from-to {
+	font-family: 'Open-Sans-Semibold';
+}
+
 
 @media (max-width: 1620px) {
 
@@ -684,9 +688,23 @@ body:not(.touch) i.icon-mic:before {
 
 }
 
+/* IE10 & IE11 */
+html[data-useragent*='Trident'] .desktop .search-result .results-wrapper {
+	padding-bottom: 0;
+	display: table;
+	width: 100%;
+}
 
+html[data-useragent*='Trident'] .desktop .search-result .flights,
+html[data-useragent*='Trident'] .wayfare.results.deals-unit {
+	display: table-cell;
+	vertical-align: top;
+}
 
-
+html[data-useragent*='Trident'] .wayfare.results.deals-unit iframe {
+	margin-top: -55px;
+}
+	
 
 
 /* ------- everywhere parts ------- */
@@ -925,7 +943,8 @@ footer.app-copy a.social:visited {
 
 .big-button,
 .btn-primary,
-.navbar-header .small-button {
+.navbar-header .small-button,
+.calendar-panel .message.info {
 	background: #14ca60;
 }
 
@@ -948,10 +967,6 @@ footer.app-copy a.social:visited {
 .btn-primary:focus,
 .btn-primary:active {
 	background: #00a93f;
-}
-
-.message.info {
-	color: #009f36;
 }
 
 .message.info {
@@ -1214,8 +1229,8 @@ form label.required:before,
 	padding: 20px;
 }
 
-.message.info {
-	
+.calendar-panel .message.info {
+	color: #ffffff;
 }
 
 
@@ -4135,11 +4150,8 @@ html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
 }
 
-html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
-	display: block;
-	position: absolute;
-	top: 342px;
-	left: 250px;
+html[data-useragent*='Trident'] .sort-button {
+	position: relative;
 }
 
 html[data-useragent*='Trident'] .swiper-container {
@@ -4150,7 +4162,6 @@ html[data-useragent*='Trident'] .swiper-container {
 /* IE 11 ONLY */
 @media all and (-ms-high-contrast:none) {
 
- /* ie11 */
  *::-ms-backdrop, .mystyle {
 
 	}

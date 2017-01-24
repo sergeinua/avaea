@@ -1873,7 +1873,11 @@ footer.static .bottom {
 }
 
 
+/* ie10 ie11 */
 
+html[data-useragent*='Trident'] .try-it input {
+	height: 37px;
+}
 
 
 
