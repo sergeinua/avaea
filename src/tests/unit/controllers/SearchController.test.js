@@ -5,12 +5,10 @@ var assert = require('assert');
 
 describe('SearchController', function() {
 
-  describe.skip('#index()', function() {
+  describe('#index()', function() {
     it('should return search form', function (done) {
       request(sails.hooks.http.app)
-        .post('/search')
-        .set('Accept', 'text/html')
-        .set('Content-Type', 'text/html')
+        .get('/search')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function(err, res) {
@@ -18,12 +16,19 @@ describe('SearchController', function() {
             throw err;
           }
 
-          res.body.should.have.properties('title', 'head_title', 'defaultParams', 'serviceClass');
-          res.body.title.should.be.eql('Search for flights');
+          res.body.should.have.properties('user', 'head_title', 'page', 'defaultSearch', 'serviceClass');
+          res.body.page.should.be.eql('/search');
           res.body.head_title.should.be.eql('Search for flights with OnVoya Agent');
-          res.body.defaultParams.should.have.properties([
-            'DepartureLocationCode', 'ArrivalLocationCode', 'CabinClass',
-            'departureDate', 'returnDate', 'passengers', 'flightType'
+          res.body.defaultSearch.should.have.properties([
+            'DepartureLocationCode',
+            'DepartureLocationCodeCity',
+            'ArrivalLocationCode',
+            'ArrivalLocationCodeCity',
+            'CabinClass',
+            'departureDate',
+            'returnDate',
+            'passengers',
+            'flightType'
           ]);
 
           done();
@@ -241,6 +246,7 @@ describe('SearchController', function() {
         var ititns = require('../../fixtures/itineraries.json');
         cb(false, ititns);
       };
+      let savedOriginalFunction = Search.validateSearchParams;
       Search.validateSearchParams = function (params) {
         return false;
       };
@@ -275,6 +281,7 @@ describe('SearchController', function() {
       view.args[0].should.be.eql([result, 'search/result']);
       assert(view.calledWith(result, 'search/result'));
       view.reset();
+      Search.validateSearchParams = savedOriginalFunction;
       done();
     });
   });

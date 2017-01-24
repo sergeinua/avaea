@@ -1,7 +1,10 @@
 import React from 'react';
 import SimpleSearchForm from './SimpleSearchForm';
+import Iframe from 'react-iframe';
+
 
 let StaticHome = React.createClass({
+
   render: function () {
     return (
       <div>
@@ -18,19 +21,21 @@ let StaticHome = React.createClass({
             </div>
 
             <div className="home-top-copy">
-              <div className="slogan">
-                <span className="slogan first">Best price.</span>
-                <span className="slogan second">Best choice.</span>
-                <span className="slogan third">Travel Intelligence</span>
-              </div>
-
+            
               <div className="try-it">
+              
+              <div className="slogan">
+	              <span className="slogan first">Best price.</span>
+	              <span className="slogan second">Best choice.</span>
+	              <span className="slogan third">Travel Intelligence</span>
+	            </div>
+              
                 <SimpleSearchForm/>
+                
               </div>{/* ends try-it form */}
 
             </div> {/* ends home-top-copy */}
           </div> {/* ends home top level */}
-
 
           <div className="home second level">
             <h1>Finally, tech that makes travel easier.</h1>

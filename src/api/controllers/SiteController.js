@@ -1,4 +1,7 @@
 /* global sails */
+/* global async */
+/* global Search */
+/* global Airports */
 /**
  * SiteController
  *
@@ -18,43 +21,79 @@ module.exports = {
       page = req.isMobile ? '/search':'/home';
     }
 
-    if (_.isEmpty(req.session)) {
-      req.session = {};
-    }
-    let tmpDefaultDepDate = sails.moment().add(2, 'w');
-    let tmpDefaultRetDate = sails.moment().add(4, 'w');
-    let nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
-
-    if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
-      tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
-    } else {
-      tmpDefaultDepDate = sails.moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
-    }
-
-    let params = {
-      DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
-      ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
-      DepartureLocationCodeCity : !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
-      ArrivalLocationCodeCity   : !_.isString(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
-      CabinClass                : !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
-      departureDate             : _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
-      returnDate                : _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers                : _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
-      flightType                : !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
+    let params = Search.getDefault(req);
+    //map parameters to our structure
+    params = {
+      DepartureLocationCode : req.param('From', ''),   // departure airport code
+      ArrivalLocationCode   : req.param('To', ''),     // destination airport code
+      CabinClass            : req.param('Class', 'E'), // booking class, if any
+      departureDate         : req.param('Departure'),  // departure date)
+      returnDate            : req.param('Return'), // return date, if any
+      passengers            : req.param('Adults', '1'), // number of adult passengers, if any
+      //FIXME: add this parameter when ONV-938 is ready
+      //req.param('kids') // number of kids, if any
     };
+    params.flightType = params.returnDate?'round_trip':'one_way';
+    let error = Search.validateSearchParams(params);
 
-    return res.ok(
-      {
-        user         : req.user || '',
-        serviceClass : Search.serviceClass,
-        head_title   : 'Search for flights with OnVoya Agent',
-        page         : page,
-        defaultSearch: params
-      },
-      'site/index'
-    );
+    if (req.params == 'search' && !error ) {
+      sails.log.verbose('Found valid parameters for search form');
+
+      async.parallel({
+        departure: (doneCb) => {
+          Airports.findOne({iata_3code: params.DepartureLocationCode}).exec((_err, _row) => {
+            if (_err) {
+              sails.log.error(_err);
+            }
+            return doneCb(_err, _row);
+          });
+        },
+        arrival: (doneCb) => {
+          Airports.findOne({iata_3code: params.ArrivalLocationCode}).exec((_err, _row) => {
+            if (_err) {
+              sails.log.error(_err);
+            }
+            return doneCb(_err, _row);
+          });
+        }
+      }, (err, result) => {
+        if (result.departure && result.departure.city) {
+          params.DepartureLocationCodeCity = result.departure.city;
+        } else {
+          params.DepartureLocationCode = '';
+        }
+
+        if (result.arrival && result.arrival.city) {
+          params.ArrivalLocationCodeCity = result.arrival.city;
+        } else {
+          params.ArrivalLocationCode = '';
+        }
+        params.forceDefault = true;
+
+        return res.ok(
+          {
+            user         : req.user || '',
+            serviceClass : Search.serviceClass,
+            head_title   : 'Search for flights with OnVoya Agent',
+            page         : '/search',
+            defaultSearch: params
+          },
+          'site/index'
+        );
+
+      });
+    } else {
+      return res.ok(
+        {
+          user: req.user || '',
+          serviceClass: Search.serviceClass,
+          head_title: 'Search for flights with OnVoya Agent',
+          page: page,
+          defaultSearch: Search.getDefault(req)
+        },
+        'site/index'
+      );
+    }
   },
 
   about_info: function (req, res) {
