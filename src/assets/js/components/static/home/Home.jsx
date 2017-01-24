@@ -31,6 +31,7 @@ let StaticHome = React.createClass({
 	            </div>
               
                 <SimpleSearchForm/>
+                
               </div>{/* ends try-it form */}
 
             </div> {/* ends home-top-copy */}

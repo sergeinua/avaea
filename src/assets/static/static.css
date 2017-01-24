@@ -550,6 +550,21 @@ video {
 	height: 5px;
 }
 
+.desktop .home-top-copy {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 40px 0;
+}
+
+.desktop .try-it {
+	margin-top: 0;
+}
+
+.wayfare.home.comparison-unit {
+	margin: -20px 0 10px 0;
+	height: 100px;
+}
+
 
 
 @media (max-width: 1090px) {
