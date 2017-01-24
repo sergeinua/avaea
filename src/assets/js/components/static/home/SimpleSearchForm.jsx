@@ -206,7 +206,7 @@ let SimpleSearchForm = React.createClass({
                     focusInputOnSuggestionClick={false}
                   />
                 </div>
-                <div className="react-autosuggest__container copy"><span>to</span></div>
+                <div className="react-autosuggest__container copy"><span className="word-to"></span></div>
                 <div className="positioner">
                   <Autosuggest
                     suggestions={this.state.ArrivalOptions}

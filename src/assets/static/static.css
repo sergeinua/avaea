@@ -149,7 +149,7 @@ header.static li.active a:visited {
 
 .about.second,
 .static .home.compare,
-.static .home.second {
+.desktop .static .home.second {
 	background: #f9fafe;
 }
 
@@ -222,12 +222,12 @@ header.static .left a:hover {
 
 header,
 .home.level.compare,
-.static .home.second {
+.desktop .static .home.second {
 	border-bottom: 1px solid #d7d7d7;
 }
 
 .home.level.compare,
-.static .home.second {
+.desktop .static .home.second {
 	border-top: 1px solid #d7d7d7;
 }
 
@@ -468,6 +468,10 @@ video {
 	font-size: 25px;
 }
 
+.try-it .word-to:before {
+	content: 'to';
+}
+
 .try-it form {
 	display: inline-block;
 	width: 100%; 
@@ -519,15 +523,25 @@ video {
 	margin-bottom: 70px;
 }
 
+
 /* desktop wayfare ad units */
 
-.desktop .home.top.level {
+.desktop .home .top.level {
 	margin-bottom: 0;
+}
+
+.desktop .home .second.level {
+	padding: 40px 0;
+}
+
+.desktop .home.second.level h1 {
+    margin: 0 40px;
 }
 
 .wayfare.home.deals-unit .wrapper {
 	padding: 40px;
 	height: 380px;
+	overflow: hidden;
 }
 
 .wayfare.home.deals-unit:before {
@@ -535,6 +549,7 @@ video {
 	display: block;
 	height: 5px;
 }
+
 
 
 @media (max-width: 1090px) {
@@ -567,13 +582,19 @@ video {
 		height: 865px; 
 	}
 	
-}
+} 
+
 
 
 /* heredeb */
 
 
 /* ends desktop wayfare ad units */
+
+.home.second.level h1, 
+.home.third > copy {
+    margin: 0 40px;
+}
 
 .static .home.compare {
 	text-align: left;
@@ -626,14 +647,6 @@ video {
 	list-style-type: none;
 	position: relative;
 	background: url(../images/static/checkmark-static.svg) 0 2px no-repeat;
-}
-
-.home.third > copy {
-	margin: 0 40px;
-}
-
-.home .second.level {
-	padding: 40px 0;
 }
 
 .static-features {
@@ -1539,6 +1552,10 @@ footer.static .bottom {
 		width: 100%;
 	}
 	
+	.try-it .word-to:before {
+		content: 'To';
+	}
+	
 	.try-it .positioner,
 	.react-autosuggest__container {
 		display: block;
@@ -1690,6 +1707,10 @@ footer.static .bottom {
 
 /* iPhone 6, Android */
 @media (max-width: 380px) {
+	
+	.slogan.third {
+		font-size: 36px;
+	}
 	
 	.about.top:after {
 		background-size: 120%;
