@@ -26,7 +26,7 @@ module.exports = {
    ***************************************************************************/
 
   port: 8000,
-  proxyHost: 'https://www.onovya.com',
+  proxyHost: 'https://www.onvoya.com',
   proxyPort: 80,
   explicitHost: '0.0.0.0',
 
