@@ -50,5 +50,9 @@ module.exports = {
         }
       });
     });
+  },
+
+  getByArrayKeys: function (key, callback) {
+    this.get(key, callback);
   }
 };

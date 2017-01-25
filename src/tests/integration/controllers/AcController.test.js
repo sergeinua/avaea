@@ -4,6 +4,8 @@ var cities = require('../../fixtures/citiesVScodes.json');
 
 describe('AcController', function() {
 
+  this.timeout(10000);
+
   describe('#airports()', function () {
     it('should return empty', function (done) {
       request(sails.hooks.http.app)
@@ -30,8 +32,11 @@ describe('AcController', function() {
             if (err) {
               throw err;
             }
+            if (typeof res.body[0] == 'undefined') {
+              return done('Unexpected empty body');
+            }
             res.body[0].value.should.be.eql(city.code);
-            done();
+            return done();
           });
       });
     });
@@ -46,8 +51,11 @@ describe('AcController', function() {
           if (err) {
             throw err;
           }
+          if (typeof res.body[0] == 'undefined') {
+            return done('Unexpected empty body');
+          }
           res.body[0].value.should.be.eql("SFO");
-          done();
+          return done();
         });
     });
   });

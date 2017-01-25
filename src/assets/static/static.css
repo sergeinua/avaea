@@ -116,7 +116,7 @@ footer.static {
 }
 
 .overlay {
-  background: rgba(6, 40, 85, .5);
+  background: rgba(6, 40, 85, .2);
 }
 
 .try-it {
@@ -264,6 +264,8 @@ header,
 	border-bottom: 0px solid transparent;
 }
 
+/* gold */
+
 
 
 
@@ -406,13 +408,14 @@ header.static li.flight-search a:hover {
     top: 0;
 }
 
-.slogan {
-	padding: 0 5px;
+.slogan.first,
+.slotan.second {
+	padding: 0 8px;
 }
 
 .slogan.third {
   font-size: 40px;
-  padding: 10px 0;
+  padding: 0 0 10px 0;
   display: block;
 	position: relative;
 }
@@ -460,6 +463,10 @@ video {
 	font-size: 25px;
 }
 
+.try-it .word-to:before {
+	content: 'to';
+}
+
 .try-it form {
 	display: inline-block;
 	width: 100%; 
@@ -499,7 +506,7 @@ video {
 	background: #ffffff url('../images/static/input-calendar.svg') right 5px no-repeat;
 }
 
-.try-it span {
+.try-it span:not(.slogan) {
 	padding: 0 18px;
 }
 
@@ -509,6 +516,59 @@ video {
 
 .level {
 	margin-bottom: 70px;
+}
+
+
+/* desktop wayfare ad units */
+
+.desktop .home-top-copy {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 30px 0;
+}
+
+.desktop .try-it {
+	margin-top: 0;
+}
+
+.wayfare.home .ti.compare {
+	text-align: left;
+	margin: 10px auto 0 auto;
+}
+
+.wayfare.home .ti.compare,
+.wayfare.home.comparison-unit {
+	max-width: 430px;
+}
+
+.wayfare.home.comparison-unit {
+	margin: -20px auto 30px auto;
+	height: 100px;
+}
+
+.wayfare.home.comparison-unit,
+.wayfare.home.comparison-unit .holder {
+	position: relative;
+	overflow: hidden;
+}
+
+.wayfare.home.comparison-unit iframe {
+	top: -22px;
+	left: -15%;
+	width: 130% !important;
+	background: #ffffff;
+}
+
+
+
+/* heredeb */
+
+
+/* ends desktop wayfare ad units */
+
+.home.second.level h1, 
+.home.third > copy {
+    margin: 0 40px;
 }
 
 .static .home.compare {
@@ -562,11 +622,6 @@ video {
 	list-style-type: none;
 	position: relative;
 	background: url(../images/static/checkmark-static.svg) 0 2px no-repeat;
-}
-
-.home.second.level h1,
-.home.third > copy {
-	margin: 0 40px;
 }
 
 .static-features {
@@ -1472,6 +1527,10 @@ footer.static .bottom {
 		width: 100%;
 	}
 	
+	.try-it .word-to:before {
+		content: 'To';
+	}
+	
 	.try-it .positioner,
 	.react-autosuggest__container {
 		display: block;
@@ -1479,7 +1538,7 @@ footer.static .bottom {
 		position: relative;
 	}
 	
-	.try-it span {
+	.try-it span:not(.slogan) {
 		padding-left: 0px;
 		padding-right: 0px;
 		position: relative;
@@ -1624,6 +1683,10 @@ footer.static .bottom {
 /* iPhone 6, Android */
 @media (max-width: 380px) {
 	
+	.slogan.third {
+		font-size: 36px;
+	}
+	
 	.about.top:after {
 		background-size: 120%;
 	}
@@ -1635,7 +1698,7 @@ footer.static .bottom {
 	}
 	
 	.try-it .ti,
-	.try-it span {
+	.try-it span:not(.slogan) {
 		font-size: 22px;
 		font-family: 'Open-Sans';
 	}
@@ -1772,10 +1835,6 @@ footer.static .bottom {
 
 
 
-/* heredeb */
-
-
-
 /* animations */
 
 
@@ -1814,7 +1873,11 @@ footer.static .bottom {
 }
 
 
+/* ie10 ie11 */
 
+html[data-useragent*='Trident'] .try-it input {
+	height: 37px;
+}
 
 
 
