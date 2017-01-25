@@ -56,14 +56,6 @@ var SearchFormPage = React.createClass({
     multi_city: 'Multi-City',
   },
   
-  //this is used in a couple of places, should it be global?
-  flightClassName: {
-    'E': 'Economy',
-    'P': 'Premium',
-    'B': 'Business',
-    'F': 'First Class',
-  },
-  
   changeForm: function(form) {
     return function () {
       ActionsStore.changeForm(form);
@@ -95,7 +87,7 @@ var SearchFormPage = React.createClass({
 		         </div>{/* ends trip-type */} 
 		         
 		         <div className="wrapper seat-class">
-	         	 	<div id="dropButtonSeatClass" className="dropbutton">{ this.flightClassName[this.props.commonData.searchParams.CabinClass] }</div>
+	         	 	<div id="dropButtonSeatClass" className="dropbutton">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
 		         	 <div className="dropmenu hide">	
 		         	 <ClassChooser searchParams={this.props.commonData.searchParams}/>
 			         </div>{/* ends dropmenu */} 

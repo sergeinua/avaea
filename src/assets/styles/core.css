@@ -45,7 +45,7 @@ body,
 	text-align: center;
 	padding: 30px 30px 100px 30px;
 	min-width: 445px;
-  background: linear-gradient(#f3fbfe, #81d7f7);
+  background: linear-gradient(#fafafa, #e3e4e8); 
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -115,7 +115,9 @@ body:not(.touch) i.icon-mic:before {
 	font-size: 30px
 }
 
-/* heredeb */
+.desktop .big-button {
+	font-family: 'Open-Sans-Light';
+}
 
 .desktop .row {
 	margin-left: 0;
@@ -198,7 +200,6 @@ body:not(.touch) i.icon-mic:before {
 .desktop .offcanvas .navbar-nav > li > a {
 	padding-top: 17px;
 	padding-bottom: 10px;
-	opacity: .7;
 }
 
 .desktop .offcanvas .navbar-nav > li:hover a {
@@ -671,7 +672,6 @@ body.desktop form.profile,
 }
 
 .big-button {
-	font-family: 'Open-Sans-Light';
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
@@ -956,13 +956,13 @@ a:focus,
 
 /* 50% */
 
+.desktop .searchnav .positioner,
 .searchform .open-calendar,
 .searchform .area {
-	background: #88d8f6;
+	background: #bae9ff;
 }
 
 .desktop .searchnav .positioner {
-	background: linear-gradient(#9de0fa, #68c3f2);
 	border-top: 1px solid rgba(255, 255, 255, .5);
 	border-bottom: 1px solid #0192e2;
 }
@@ -1450,7 +1450,7 @@ textarea {
 /* search form */
 
 .searchnav {
-	padding: 10px 10px 0 10px; 
+	padding: 0px 10px 0 10px; 
 	position: relative;
 	z-index: 2;
 }
@@ -1503,6 +1503,10 @@ textarea {
 .searchnav .trip-type .dropbutton {
 	text-align: left;
 	min-width: 105px;
+}
+
+.searchnav .passengers .dropbutton {
+	right: -5px;
 }
 
 .searchnav .dropmenu:not(.robust) {
@@ -1945,7 +1949,7 @@ strong.tt-highlight {
 }
 
 .touch .search-buttons {
-	margin-top: 55px;
+	margin-top: 45px;
 }
 
 
