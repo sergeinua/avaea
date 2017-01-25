@@ -23,12 +23,85 @@ var PassengerChooser = React.createClass({
     var passengers_text = this.props.searchParams.passengers == 1 ? "Adult" : "Adults";
 
     return (
-      <div className="chooser flight-passengers-info-item row">
-        <div className="label-d col-xs-6">Passengers</div>
-        <div id="search-form-passengers" className="text-picker col-xs-6" onClick={this.changePassengersCount}>
-          <span id="passengers_count">{digits[this.props.searchParams.passengers]}</span> <span className="passengers_text">{passengers_text}</span>
-        </div>
-      </div>
+      <span>
+      
+      	<div id="passenger-chooser-close" className="close-x" onClick={() => {$("#passenger-chooser").addClass("hide");return false;}}></div>
+      	
+      	<div className="wrapper">
+      	
+      		<div className="passenger-type">
+      			<div className="label-wrap">
+      				<div className="ti">Adult</div>
+      				<div className="age">12-64</div>
+      			</div>
+      			
+      			<div className="count holder">
+      				<div className="subtract disabled"><span>-</span></div>
+      				<input className="counter" value="1" />
+      				<div className="add"><span>+</span></div>
+      			</div>
+      		</div>{/* ends passenger type */}
+      		
+      		<div className="passenger-type">
+    			<div className="label-wrap">
+    				<div className="ti">Senior</div>
+    				<div className="age">65+</div>
+    			</div>
+    			
+    			<div className="count holder">
+    				<div className="subtract disabled"><span>-</span></div>
+    				<input className="counter" value="0" />
+    				<div className="add"><span>+</span></div>
+    			</div>
+    		</div>{/* ends passenger type */}
+    		
+    		<div className="passenger-type">
+	  			<div className="label-wrap">
+	  				<div className="ti">Child</div>
+	  				<div className="age">2-11</div>
+	  			</div>
+	  			
+	  			<div className="count holder">
+	  				<div className="subtract disabled"><span>-</span></div>
+	  				<input className="counter" value="0" />
+	  				<div className="add"><span>+</span></div>
+	  			</div>
+	  		</div>{/* ends passenger type */}
+  		
+				<div className="passenger-type">
+					<div className="label-wrap">
+						<div className="ti">Seat Infant</div>
+						<div className="age">under 2</div>
+					</div>
+					
+					<div className="count holder">
+						<div className="subtract disabled"><span>-</span></div>
+						<input className="counter" value="0" />
+						<div className="add"><span>+</span></div>
+					</div>
+				</div>{/* ends passenger type */}
+				
+				<div className="passenger-type">
+					<div className="label-wrap">
+						<div className="ti">Lap Infant</div>
+						<div className="age">under 2</div>
+					</div>
+					
+					<div className="count holder">
+						<div className="subtract disabled"><span>-</span></div>
+						<input className="counter" value="0" />
+						<div className="add"><span>+</span></div>
+					</div>
+				</div>{/* ends passenger type */}
+      	
+      	</div>{/* ends wrapper */}
+      	
+      	<div className="buttons double">
+      		<button id="passenger-chooser-cancel-button" type="submit" className="big-button cancel-button" onClick={() => {$("#passenger-chooser").addClass("hide");return false;}}>Cancel</button>
+      		<button id="passenger-chooser-done-button" type="submit" className="big-button">Done</button>
+      	</div>
+      	
+      </span>
     )
   }
 });

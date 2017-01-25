@@ -3,50 +3,109 @@ import * as ReactRedux from 'react-redux';
 import { actionSetCommonVal } from '../../actions.js';
 import { unfocusFormForIos, ActionsStore, getDefaultDateSearch } from '../../functions.js';
 import TripSearchForm from '../searchform/TripSearchForm.jsx';
+import ClassChooser from '../searchform/ClassChooser.jsx'; 
+import PassengerChooser from '../searchform/PassengerChooser.jsx'; 
 import Calendar from '../searchform/Calendar.jsx';
 import MultiCityForm from '../searchform/MultiCityForm.jsx';
 import VoiceForm from '../searchform/VoiceForm.jsx';
 import Typeahead from '../searchform/Typeahead.jsx';
 
+
 var SearchFormPage = React.createClass({
+	
+	componentDidMount: function () {
+		
+		// FIXME - convert to React, opens and closes trip-type, class and passenger menu
+		
+		// on click menu button, prevent other dropmenus from staying open, but toggle the menu controlled by the button
+		$('.dropbutton')
+			.click(function () {
+      if ($('.dropbutton').not(this).next('.dropmenu').not('.hide')) {
+      	$('.dropbutton').not(this).next('.dropmenu').addClass('hide');
+      	$(this).next('.dropmenu').toggleClass('hide');	
+      }
+    });
+  	
+		// close the open dropmenu on selection of a choice (but not passenger chooser, since it requires multiple touches)
+		$('.dropmenu:not(.passenger-chooser)') 
+	    .click(function () {
+	    if (!$(this).hasClass('hide')) {
+	    	$(this).addClass('hide');
+	    }
+	  });
+	},
 
   componentWillMount: function () {
     analytics.page(this.props.location.pathname);
-    // DEMO-800 removed mess after not properly closed modal.
-    // FIXME remove this after removing jquery modal
+    
+    // FIXME - convert to React after removing jquery modal
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
-    // FIXME - had to hide logo for devices only when "flight-info" div is
-    // showing in nav bar - this restores it
-    $("body").removeClass('suppress-logo');
-
+    
+    // FIXME - convert to React, controls when logo should show in navbar
+    $('body').removeClass('suppress-logo');
+    
     actionSetCommonVal('searchParams', getDefaultDateSearch(this.props.commonData.searchParams));
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },
-
+  
+  // this is used in a couple of places, should it be global?
+  flightTypeName: {
+    round_trip: 'Round trip',
+    one_way: 'One way',
+    multi_city: 'Multi-City',
+  },
+  
   changeForm: function(form) {
     return function () {
       ActionsStore.changeForm(form);
     }.bind(this);
   },
+  
+  
+  
   render: function() {
     return (
       <div>
         { this.props.commonData.currentForm != 'voice_search' && this.props.commonData.currentForm != 'calendar'  && this.props.commonData.currentForm != 'airport-search' ?
-        <nav className="navbar navbar-default searchform-top" >
-          <div className="flight-type-form">
-            <div id="one_way"
-                 className={ this.props.commonData.currentForm == 'one_way' ? "flight-type-item one-way active-choice":"flight-type-item one-way"}
-                 onClick={this.changeForm('one_way')}>One way</div>
-            <div id="round_trip"
-                 className={ this.props.commonData.currentForm == 'round_trip' ? "flight-type-item active-choice":"flight-type-item"}
-                 onClick={this.changeForm('round_trip')}>Round trip</div>
-            <div id="multi_city"
-                 className={ this.props.commonData.currentForm == 'multi_city' ? "flight-type-item multi-city active-choice":"flight-type-item multi-city"}
-                 onClick={this.changeForm('multi_city')}>Multi city</div>
-          </div>
-        </nav>:null
+        <div className="searchnav" >
+	        <div className="positioner">
+	        
+	        	<div className="wrapper trip-type">
+	          	<div id="dropbuttonTripType" className="dropbutton">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</div>
+	          	<div className="dropmenu hide">		
+		            <div id="one_way"
+		                 className={["choice "] + [this.props.commonData.currentForm == 'one_way' ? "active":""]}
+		                 onClick={this.changeForm('one_way')}>One Way</div>
+		            <div id="round_trip"
+		                 className={["choice "] + [this.props.commonData.currentForm == 'round_trip' ? "active":""]}
+		                 onClick={this.changeForm('round_trip')}>Round Trip</div>
+		            <div id="multi_city"
+		                 className={["choice "] + [this.props.commonData.currentForm == 'multi_city' ? "active":""]}
+		                 onClick={this.changeForm('multi_city')}>Multi-City</div>
+			         </div>{/* ends dropmenu */}        
+		         </div>{/* ends trip-type */} 
+		         
+		         <div className="wrapper seat-class">
+	         	 	<div id="dropButtonSeatClass" className="dropbutton">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+		         	 <div className="dropmenu hide">	
+		         	 <ClassChooser searchParams={this.props.commonData.searchParams}/>
+			         </div>{/* ends dropmenu */} 
+				     </div>{/* ends seat-class */}
+		           
+	           <div className="wrapper passengers">
+	           		{/* engineer - implement logic to display correct wording where "Adult" is */}
+	         			<div id="dropButtonPassengers" className="dropbutton">{ this.props.commonData.searchParams.passengers } Adult</div>
+		          	<div id="passenger-chooser" className="dropmenu passenger-chooser robust hide">	
+				        	<PassengerChooser searchParams={this.props.commonData.searchParams}/>
+				        </div>{/* ends dropmenu */} 
+		         </div>{/* ends passengers */}
+	           
+	          </div>{/* ends positioner */}         
+	        
+        </div>:null
         }
+        
         { this.props.commonData.currentForm == 'multi_city' ?
           <MultiCityForm />
           : null

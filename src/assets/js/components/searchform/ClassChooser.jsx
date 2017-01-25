@@ -2,33 +2,35 @@ import React from 'react';
 import { ActionsStore } from '../../functions.js';
 
 var ClassChooser = React.createClass({
-
-  changeClass: function() {
-    this.updateCurrentClass();
+	
+	changeClass: function(value) {
+    return function () {
+    	ActionsStore.setFormValue('CabinClass', value);
+    }.bind(this);
   },
 
-  updateCurrentClass: function() {
-    var flagNext = false;
-    var newValue = 'E';
-
-    for(var idx in serviceClass) {
-      if (flagNext) {
-        newValue = idx;
-        break;
-      }
-      if (idx == this.props.searchParams.CabinClass) {
-        flagNext = true;
-      }
-    }
-    ActionsStore.setFormValue('CabinClass', newValue);
-  },
 
   render() {
     return (
-      <div className="chooser flight-class-info-item row">
-        <div className="label-d col-xs-6">Class</div>
-        <div  id="search-form-cabin-class" className="text-picker col-xs-6" onClick={this.changeClass}>{serviceClass[this.props.searchParams.CabinClass]}</div>
-      </div>
+    		<span>
+    		
+        <div id="economy" 
+        		onClick={this.changeClass('E')} className={["choice "] + [this.props.searchParams.CabinClass == 'E' ? "active":""]}>
+		 	 			Economy</div>
+		 	 			
+			 	<div id="premium" 
+			 			onClick={this.changeClass('P')} className={["choice "] + [this.props.searchParams.CabinClass == 'P' ? "active":""]}>
+				 		Premium</div>	
+				 		
+			 	<div id="business" 
+			 			onClick={this.changeClass('B')} className={["choice "] + [this.props.searchParams.CabinClass == 'B' ? "active":""]}>
+						Business</div> 	
+						
+				<div id="first" 
+						onClick={this.changeClass('F')} className={["choice "] + [this.props.searchParams.CabinClass == 'F' ? "active":""]}>
+						First Class</div>	
+						
+				</span>		
     )
   }
 });

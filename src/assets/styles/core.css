@@ -21,7 +21,8 @@
 .booking-success .col-xs-2.date,
 .dimmer .landscape,
 .touch > .copyright,
-.touch footer.app-copy {
+.touch footer.app-copy,
+.dropmenu.hide {
 	display: none;
 }
 
@@ -44,7 +45,7 @@ body,
 	text-align: center;
 	padding: 30px 30px 100px 30px;
 	min-width: 445px;
-  background: linear-gradient(#e8f7fd, #50c5f0);
+  background: linear-gradient(#fafafa, #e3e4e8); 
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -61,7 +62,7 @@ body,
 	max-width: 400px;
 }
 
-.desktop .main.container-fluid {
+.desktop .main-window {
 	height: auto;
 	position: relative;
 }
@@ -79,9 +80,43 @@ body:not(.touch) i.icon-mic:before {
 	content: '';
 }
 
-.desktop .flight-direction-form {
-	padding-left: 0;
-	padding-right: 0;
+.desktop .searchnav {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.desktop .searchnav .positioner {
+	margin-left: auto;
+	margin-right: auto;
+	padding: 0 10px 3px 10px;
+	max-width: 400px;
+  border-radius: 20px;
+}
+
+.desktop .searchnav .dropbutton {
+	padding: 5px 0;
+}
+
+.desktop .searchnav .dropmenu {
+	margin-top: 0;
+}
+
+.searchnav .dropmenu:not(.robust) {
+	left: 2px;
+}
+
+.desktop .flight-direction .area {
+	margin-left: 6%;
+	margin-right: 6%;
+	width: 250px;
+}
+
+.desktop .open-calendar .the-date {
+	font-size: 30px
+}
+
+.desktop .big-button {
+	font-family: 'Open-Sans-Light';
 }
 
 .desktop .row {
@@ -165,7 +200,6 @@ body:not(.touch) i.icon-mic:before {
 .desktop .offcanvas .navbar-nav > li > a {
 	padding-top: 17px;
 	padding-bottom: 10px;
-	opacity: .7;
 }
 
 .desktop .offcanvas .navbar-nav > li:hover a {
@@ -258,8 +292,7 @@ body:not(.touch) i.icon-mic:before {
 
 .desktop .tiles-ui,
 .desktop .profile,
-.desktop .booking,
-.desktop .flight-type-form  {
+.desktop .booking  {
 	margin-top: 0;
 }
 
@@ -555,156 +588,6 @@ body:not(.touch) i.icon-mic:before {
 	width: 10%;
 }
 
-/* wayfare desktop ad units */
-
-.wayfare iframe,
-.wayfare iframe body {
-	overflow: hidden;
-}
-
-.iframe.wayfare::-webkit-scrollbar {
-	display: none;
-}
-
-.desktop #spa-app {
-	min-width: 895px;
-}
-
-.desktop .search-result .results-wrapper {
-	margin-bottom: -12px;
-	padding: 10px 0 70px 20px;
-	display: flex;
-	background: #f3f3f3 url('/images/texture-dk.gif');
-}
-
-.desktop .search-result .flights,
-.wayfare.results.deals-unit {
-	height: 100%;
-}
-
-.desktop .search-result .flights {
-	padding-top: 15px;
-	width: 100%;
-	min-width: 510px;
-	border-top-right-radius: 6px;
-	border-top-left-radius: 6px;
-}
-
-.wayfare.results.deals-unit {
-	margin-top: -45px;
-	padding: 5px 15px 0 15px;
-	min-width: 290px;
-	width: 290px;
-	max-width: 290px;
-}
-
-.desktop .search-result .bottomNav {
-	padding-top: 8px;
-	padding-right: 320px;
-	height: 50px;
-	margin-bottom: -5px;
-}
-
-.desktop .search-result .bottomNav .wrapper {
-	padding: 9px 20px 0 20px;
-	display: inline-block;
-	height: 40px;
-	background: url(/images/texture-btn.gif) 0 -15px repeat-x;
-	border-top: 1px solid rgba(255, 255, 255, .8);
-	border-bottom: 1px solid rgba(0, 0, 0, .3);
-	border-radius: 15px;
-}
-
-.wayfare.results.deals-unit iframe {
-	min-height: 800px;
-}
-
-.desktop .search-result .flights, 
-.desktop .flight-unit {
-	background: #ffffff !important;
-}
-
-.desktop .search-result .itinerary, 
-.desktop .flight-unit .itinerary {
-	width: 90%;
-}
-
-.desktop .search-result {
-	margin-bottom: -80px;
-}
-
-.desktop .search-result .itinerary.wayfare {
-	padding: 0 0 0 0;
-	height: 240px;
-}
-
-.desktop .mycustomtab {
-	color: #ffffff;
-	background: #062868;
-}
-
-.desktop .itinerary-airline.col-from-to {
-	font-family: 'Open-Sans-Semibold';
-}
-
-
-@media (max-width: 1620px) {
-
-	.desktop .search-result .itinerary.wayfare {
-		height: 220px;
-	}
-
-}
-
-@media (max-width: 1255px) {
-
-	.desktop .search-result .itinerary.wayfare {
-		height: 210px;
-	}
-
-}
-
-@media (max-width: 1168px) {
-
-	.desktop .search-result .itinerary.wayfare {
-		height: 320px;
-	}
-
-}
-
-@media (max-width: 1075px) {
-
-	.desktop .search-result .itinerary.wayfare {
-		height: 310px;
-	}
-
-}
-
-@media (max-width: 1000px) {
-
-	.desktop .search-result .itinerary.wayfare {
-		height: 300px;
-	}
-
-}
-
-/* IE10 & IE11 */
-html[data-useragent*='Trident'] .desktop .search-result .results-wrapper {
-	padding-bottom: 0;
-	display: table;
-	width: 100%;
-}
-
-html[data-useragent*='Trident'] .desktop .search-result .flights,
-html[data-useragent*='Trident'] .wayfare.results.deals-unit {
-	display: table-cell;
-	vertical-align: top;
-}
-
-html[data-useragent*='Trident'] .wayfare.results.deals-unit iframe {
-	margin-top: -55px;
-}
-	
 
 
 /* ------- everywhere parts ------- */
@@ -737,9 +620,11 @@ header,
 .content {
   display: flex;
 }
- 
+
 .clear-it,
 .clearit,
+.passenger-chooser .passenger-type:after,
+.searchform .flight-date:after,
 .booking .confirmation:after,
 body.desktop form.profile,
 .confirm-code:after,
@@ -769,9 +654,24 @@ body.desktop form.profile,
 	background: #ffffff;
 }
 
+.buttons.double {
+	text-align: center;
+}
+
+.dropdown .buttons.double {
+	margin-bottom: 15px;
+}
+
+.buttons.double .big-button {
+	width: 45%;
+	display: table-cell;
+}
+
+.dropmenu .buttons.double .big-button {
+	font-size: 18px;
+}
 
 .big-button {
-	font-family: 'Open-Sans-Light';
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
@@ -784,6 +684,12 @@ body.desktop form.profile,
 .big-button:hover,
 .big-button:focus {
 	color: #ffffff;
+}
+
+.big-button.cancel-button,
+.big-button.cancel-button:hover,
+.big-button.cancel-button:focus {
+	background: #ffffff;
 }
 
 .big-button.secondary {
@@ -823,6 +729,10 @@ body.desktop form.profile,
 .small-button.disabled:hover {
 	cursor: default;
 	background: #ffffff;
+}
+
+.close-x {
+	cursor: pointer;
 }
 
 .back-history {
@@ -873,44 +783,34 @@ body.desktop form.profile,
 
 /* dark blue */
 
-.navbar-header,
-.navbar.navbar-fixed-top,
-.navbar-default .navbar-collapse,
-.navbar-default .navbar-form,
-.navmenu-default,
-.navbar-default .navbar-offcanvas,
-.flight-direction {
-	background: #052767;
-}
 
-.flight-type-form,
-.flight-direction-form,
-.multi-city-coming-soon {
-	background: #052767;
-}
 
 .desktop .result-search-info-bar,
 .bottomNav .sort-button button.btn,
 .clear-undo-buttons,
-.flight-date-info-item .the-date span,
-.tap-plus,
 .flight-additional-info .text-picker,
-.flight-direction-item.error-flash,
 legend {
 	color: #052767;
+}
+
+.searchform,
+.desktop .searchnav .dropbutton {
+	color: #05277a;
 }
 
 .mybucket {
 	border-top: 4px solid #052767;
 }
 
-.flight-date-info-item .the-date span {
-  margin-left: 5px;
+.open-calendar .the-date span {
+  margin-left: 2px;
 }
 
 footer.app-copy .top a,
-footer.app-copy .bottom a {
+footer.app-copy .bottom a,
+footer.app-copy a:visited {
 	color: #062868;
+	opacity: 1;
 }
 
 footer.app-copy .top a:hover,
@@ -919,17 +819,12 @@ footer.app-copy .bottom a:focus {
 	color: rgba(6, 40, 104, .6);
 }
 
-footer.app-copy .top a:visited {
-	color: rgba(6, 40, 104, 1);
-}
-
 footer.app-copy a.social {
 	background: #062868;
 }
 
 footer.app-copy a.social:hover,
-footer.app-copy a.social:focus,
-footer.app-copy a.social:visited {
+footer.app-copy a.social:focus {
 	background: rgba(6, 40, 104, .6);
 }
 
@@ -943,8 +838,7 @@ footer.app-copy a.social:visited {
 
 .big-button,
 .btn-primary,
-.navbar-header .small-button,
-.calendar-panel .message.info {
+.navbar-header .small-button {
 	background: #14ca60;
 }
 
@@ -967,6 +861,10 @@ footer.app-copy a.social:visited {
 .btn-primary:focus,
 .btn-primary:active {
 	background: #00a93f;
+}
+
+.message.info {
+	color: #009f36;
 }
 
 .message.info {
@@ -1034,20 +932,43 @@ a,
 a:hover,
 a:focus,
 .tertiary-button,
-.tap-plus:hover,
 .plus:hover,
-.flight-additional-info .text-picker:hover {
-	color: #00b5ff;
+.flight-additional-info .text-picker:hover,
+.dropmenu:not(.robust),
+.passenger-chooser .count div {
+	color: #00a9e7;
 }
 
-.search-from:hover,
-.search-to:hover {
-	color: #ebf9ff;
+.navbar-header,
+.navbar.navbar-fixed-top,
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form,
+.navmenu-default,
+.navbar-default .navbar-offcanvas {
+	background: #001588;
 }
 
-.tertiary-button:before,
-.flight-date-info-item .the-date:hover span {
-	color: rgba(0, 181, 255, .8);
+.searchnav,
+.searchform .flight-direction,
+.multi-city-coming-soon {
+	background: #00a9e7;
+}
+
+/* 50% */
+
+.desktop .searchnav .positioner,
+.searchform .open-calendar,
+.searchform .area {
+	background: #bae9ff;
+}
+
+.desktop .searchnav .positioner {
+	border-top: 1px solid rgba(255, 255, 255, .5);
+	border-bottom: 1px solid #0192e2;
+}
+
+.tertiary-button:before {
+	color: rgba(0, 169, 231, .8);
 }
 
 .flight-extras .buttons-bar:hover,
@@ -1060,24 +981,17 @@ a:focus,
 	background: rgba(229, 247, 254, .9);
 }
 
-.flight-date-info-item {
-	background: rgba(0, 181, 255, .5);
-}
-
 .lil-button {
-	border: 1px solid rgba(0, 181, 255, .1);
+	border: 1px solid rgba(0, 169, 231, .1);
 }
 
 .tertiary-button {
-	border: 1px solid rgba(0, 181, 255, .7);
+	border: 1px solid rgba(0, 169, 231, .7);
 }
 
 
 /* partial blue */
 
-.flight-date-info-item {
-    background: #deeef7;
-}
 
 .panel-default > .panel-heading:hover,
 .panel-default > .panel-heading:focus {
@@ -1104,6 +1018,11 @@ a:focus,
 .tertiary-button:hover,
 .tertiary-button:focus {
 	background-color: rgba(145, 217, 255, .2);
+}
+
+.count .add,
+.count .subtract {
+	background: #cceefa;
 }
 
 
@@ -1160,17 +1079,14 @@ form label.required:before,
 
   /* highlight */
 
-.has-error .form-control {
-	background: #ffffde;
-}
-
+.has-error .form-control,
 .highlight,
 .error-flash {
-	background: #ffffe4;
+	background: #ffffe0;
 }
 
-.form label.error, .has-error label {
-  display: block;
+.form label.error, 
+.has-error label {
   color: #ed2741;
 }
 
@@ -1195,8 +1111,27 @@ form label.required:before,
 
 .big-button.disabled,
 .small-button.disabled,
-.tertiary-button.disabled {
+.tertiary-button.disabled,
+.big-button.cancel-button {
 	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.searchform .label-d,
+.searchform .open-calendar .weekday {
+	color: #3e7589;
+}
+
+.close-x:before,
+.big-button.cancel-button {
+	color: #777777;
+}
+
+.passenger-chooser .age {
+	color: #aaaaaa;
+}
+
+.count .subtract.disabled {
+	background: #e5e5e5;
 }
 
 
@@ -1222,6 +1157,10 @@ form label.required:before,
 	width: 20px;
 }
 
+.navbar {
+	margin-bottom: 0;
+}
+
 
 /* message parts */
 
@@ -1229,8 +1168,8 @@ form label.required:before,
 	padding: 20px;
 }
 
-.calendar-panel .message.info {
-	color: #ffffff;
+.message.info {
+	
 }
 
 
@@ -1250,6 +1189,11 @@ textarea {
 	background: #ffffff;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	border-radius: 3px;
+	box-shadow: none;
+}
+
+.count.holder input {
+	border-radius: 0;
 }
 
 form.label {
@@ -1285,9 +1229,12 @@ textarea {
 	padding: 8px;
 }
 
+/* disabled */
+
 .its-me .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
+.dropmenu .choice.active,
 .ff-miles.none {
 	color: #a2a2a2;
 }
@@ -1315,9 +1262,13 @@ textarea {
 }
 
 .label-d {
-	color: rgba(0, 0, 0, 0.4);
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
+}
+
+.form label.error, 
+.has-error label {
+  display: block;
 }
 
 /* the react select components for
@@ -1331,14 +1282,14 @@ textarea {
     height: 48px !important;
 }
 
+
 /* header nav */
 
 .navbar-header,
 .navbar-default .navbar-nav > li > a,
 .navbar-header,
 .navbar-default .navbar-collapse,
-.navbar-default .navbar-form,
-.flight-type-item {
+.navbar-default .navbar-form {
 	color: #ffffff;
 }
 
@@ -1498,59 +1449,212 @@ textarea {
 
 /* search form */
 
-.navbar {
-	margin-bottom: 0;
-	border: 0px solid transparent;
+.searchnav {
+	padding: 0px 10px 0 10px; 
+	position: relative;
+	z-index: 2;
 }
 
-.main.container-fluid {
-	padding-left: 0;
-	padding-right: 0;
-}
-
-.flight-type-form {
-	margin: 45px 0 -1px 0;
+.searchnav .positioner {
+	padding: 0;
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
+	position: relative;
 }
 
-.flight-type-item:not(.voice-search-button) {
-	font-family: 'Open-Sans-Semibold';
-  font-size: 17px;
-  text-transform: uppercase;
+.searchnav .positioner > .wrapper {
+	position: relative ;
+	display: table-cell;
+}
+
+.wrapper.seat-class {
+	text-align: center;
+}
+
+.wrapper.passengers {
+	text-align: right;
+}
+
+.dropmenu {
+	text-align: left;
+	display: inline-block;
+	background: #ffffff;
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3); 
+}
+
+.dropbutton {
 	cursor: pointer;
-  padding: 25px 12px 15px 12px;
-	opacity: .5;
+	position: relative;
+	/* disallow text-selection */
+	user-select: none;
 }
 
-.flight-type-item.active-choice,
-.flight-type-item:hover,
-.flight-type-item.voice-search-button {
-	opacity: 1;
+.dropbutton:after {
+	font-size: 24px;
+		top: 4px;
 }
+
+.searchnav .dropbutton {
+	color: #ffffff;
+	font-size: 16px;
+	padding: 20px 0;
+}
+
+.searchnav .trip-type .dropbutton {
+	text-align: left;
+	min-width: 105px;
+}
+
+.searchnav .passengers .dropbutton {
+	right: -5px;
+}
+
+.searchnav .dropmenu {
+	margin-top: -12px;
+	width: 150px;
+	position: absolute;
+}
+
+.searchnav .dropmenu:not(.robust) {
+	min-width: 106px;
+		left: -15px;
+}
+
+.dropmenu .choice {
+  font-size: 16px;
+	cursor: pointer;
+  padding: 10px 20px 10px 20px;
+	border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+.dropmenu .choice:last-child {
+	padding-bottom: 20px;
+	border-bottom: 0px solid transparent;
+}
+
+.dropmenu.robust .wrapper {
+	margin-top: 45px;
+	padding: 15px 15px 5px 15px;
+}
+
+.dropmenu.passenger-chooser {
+	min-width: 300px;
+	position: absolute;
+		right: 0;
+}
+
+.dropmenu .close-x {
+	font-size: 18px;
+	padding: 20px;
+	position: absolute;
+		right: 0px;
+		top: 0px;
+ 	z-index: 2;
+}
+
+.passenger-chooser .passenger-type {
+	font-size: 16px;
+	margin-bottom: 18px;
+	position: relative;
+	width: 100%;
+}
+
+.passenger-chooser .passenger-type div {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+}
+
+.passenger-chooser .label-wrap {
+	float: left;
+	top: 12px;
+}
+
+.passenger-chooser .count {
+	float: right;
+	vertical-align: top;
+}
+
+.passenger-chooser .ti {
+	margin-right: 8px;
+}
+
+.passenger-chooser .age {
+	font-size: 14px;
+		top: 2px;
+}
+
+.count.holder .subtract,
+.count.holder .add,
+.count.holder input {
+	text-align: center;
+	height: 40px;
+	width: 40px;
+	position: relative;
+		top: 0;
+}
+
+.count.holder input {
+	display: inline-block;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.count .add,
+.count .subtract {
+	font-size: 40px;
+	line-height: 20px;
+}
+
+.count.holder span {
+	 position: absolute;
+}
+
+.count.holder .add span {
+	right: 8px;
+	top: 10px;
+}
+
+.count.holder .subtract span {
+	left: 15px;
+	top: 7px;
+}
+
+.dropmenu.passenger-chooser .cancel-button {	
+	margin-left: 5px;
+}
+
 
 .multi-city-coming-soon {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	padding-top: 45px;
-  padding-bottom: 100px;
+	padding-top: 50px;
+  padding-bottom: 105px;
 }
 
 
 /* from to destination arrival */
 
-.flight-direction {
-
+.searchform .plus {
+	  font-size: 100px;
+    line-height: 82px;
+		display: inline-block;
+    position: relative;
 }
 
-.flight-direction-form {
-	color: #ffffff;
-  padding: 15px 0 40px 0;
+.searchform .open-calendar .plus {
+    line-height: 72px;
 }
 
-.flight-direction-form .col-xs-6 {
-	padding: 0;
+.searchnav .flight-direction {
+  padding: 10px 10px 40px 10px;
+	display: flex;
+	justify-content: space-around;
+	
+}
+
+.searchform .flight-direction {
+	padding-bottom: 30px;
 }
 
 .flight-direction-item {
@@ -1560,60 +1664,43 @@ textarea {
 	position: relative;
 }
 
-.flight-direction-item:not(.sel) {
-	border: 1px dashed rgba(255, 255, 255, 0.3);
+.flight-direction .label-d,
+.flight-direction .city-name,
+.flight-date .label-d {
+	font-size: 16px;
 }
 
-.flight-direction-item span.plus {
-	  font-size: 70px;
-    line-height: 78px;
-		display: inline-block;
-    position: relative;
-    	top: -12px;
-}
-
-.flight-direction-item-from-to {
-  font-size: 15px;
-  text-transform: uppercase;
+.flight-direction .label-d {
   padding-bottom: 5px;
-	opacity: .5;
 }
 
-.flight-direction-item-from-to-city {
-  font-size: 16px;
-  text-transform: uppercase;
+.flight-direction .city-name {
 	line-height: 1.0;
-	padding-top: 5px;
-}
-
-.flight-direction-item-selected .flight-direction-item-from-to {
-	margin-top: 12px;
-}
-
-.flight-direction-item-from-to-city {
-	font-size: 13px;
+	padding: 8px 8px 0 8px;
 	height: 2em;
 }
 
-#from-airport-selected,
-#to-airport-selected {
+.from-airport-selected,
+.to-airport-selected {
   font-size: 54px;
 	font-family: 'Open-Sans-Bold';
 	letter-spacing: -.02em;
 	line-height: 1em;
 }
 
-.flight-direction-form .row {
-	display: flex;
-	justify-content: space-around;
+.flight-direction .area {
+	margin: 0 5px;
+	padding: 10px 0 0 0;
+	display: inline-block;
+	width: 42%;
+	min-width: 140px;
+	height: 140px;
+	position: relative;
+	transition: all 0.1s ease-in-out;
 }
 
-.flight-direction-form .col-xs-6 {
-	width: 45%;
-}
-
-.flight-direction-form .col-xs-6 div,
-.flight-direction-form .col-xs-6 span {
+.flight-direction .area,
+.searchform .plus {
 	cursor: pointer;
 }
 
@@ -1713,19 +1800,18 @@ strong.tt-highlight {
 	cursor: pointer;
 }
 
-.flight-date-info-item {
-	font-size: 14px;
+.flight-date {
 	text-align: center;
-  padding-top: 20px;
-  height: 95px;
-  float: left;
 }
 
-.flight-date-info-item .col-xs-12,
-.flight-additional-info .col-xs-12,
-.flight-date-info-item {
-	padding-left: 0;
-	padding-right: 0;
+.open-calendar {
+	padding: 23px 0 15px 0;
+	width: 50%;
+	float: left;
+}
+
+.open-calendar.one-way {
+	width: 100%;
 }
 
 .row {
@@ -1733,45 +1819,30 @@ strong.tt-highlight {
 	margin-left: 0;
 }
 
-.flight-date-info-item:first-child,
-.flight-date-info-item.sel.dep {
+.flight-date .open-calendar.dep:not(.one-way) {
   border-right: 2px solid white;
 }
 
-.flight-date-info-item .row {
+.open-calendar .the-date {
+	font-size: 36px;
+	line-height: 65px;
 	margin: 0;
-	padding: 0 10px;
-  text-transform: capitalize;
+	padding: 0 0 10px 0;
 }
 
-.flight-date-info-item .direction,
-.flight-date-info-item .weekday {
+.open-calendar .direction,
+.open-calendar .weekday {
 	display: inline;
 }
 
-.flight-date-info-item .weekday {
-  margin-left: 3px;
+.open-calendar .weekday {
+	text-transform: capitalize;
+	font-family: 'Open-Sans';
+  margin-left: 7px;
 }
 
-.flight-date-info-item.sel .direction {
+.open-calendar.sel .direction {
 	padding-right: 8px;
-}
-
-.flight-date-info-item .the-date {
-	font-size: 22px;
-	letter-spacing: -1px;
-	text-align: center;
-	padding-top: 3px;
-}
-
-.the-date .tap-year {
-	padding-left: 5px;
-}
-
-.tap-plus {
-	font-size: 36px;
-	line-height: 36px;
-	padding-bottom: 19px;
 }
 
 .flight-additional-info .chooser {
@@ -1875,8 +1946,7 @@ strong.tt-highlight {
 }
 
 .touch .search-buttons {
-	position: fixed;
-	bottom: 5px;
+	margin-top: 45px;
 }
 
 
@@ -2033,17 +2103,17 @@ td[data-action*="selectDay"] {
 	border-top: 1px solid rgba(0, 0, 0, 0.3);
 }
 
+.modal-content .buttons-bar.double .big-button {
+	width: 50%;
+	display: inline-block;
+	float: left;
+}
+
 .modal-content .buttons-bar .big-button {
 	margin: 0;
 	border: 0px solid transparent;
 	border-top-right-radius: 0px;
 	border-top-left-radius: 0px;
-}
-
-.modal-content .buttons-bar.double .big-button {
-	width: 50%;
-	display: inline-block;
-	float: left;
 }
 
 .buttons-bar.double .big-button:first-child {
@@ -2414,7 +2484,8 @@ td[data-action*="selectDay"] {
 	background: #ededed;
 }
 
-.tertiary-button.disabled:before, .mybucket .list-group-item.disabled > div.text {
+.tertiary-button.disabled:before, 
+.mybucket .list-group-item.disabled > div.text {
 	color: #aaa;
 }
 
@@ -2740,6 +2811,7 @@ td[data-action*="selectDay"] {
 }
 
 .buy-button {
+	margin: -2px 0 7px 0;
   padding: 0 0 0 8px;
 	text-align: left;
 }
@@ -2820,7 +2892,6 @@ td[data-action*="selectDay"] {
 .notable-area .refundable.row .label-d {
 	text-transform: none;
 	padding-right: 10px;
-	opacity: 1;
 }
 
 .notable-area .refundable.row .icon-spinner {
@@ -2841,7 +2912,6 @@ td[data-action*="selectDay"] {
 .notable-area .refundable.row .label-d,
 .notable-text {
 	font-family: 'Open-Sans-Semibold';
-	opacity: 1;
 }
 
 .notable-area div[class^="col-"] {
@@ -3271,12 +3341,6 @@ td[data-action*="selectDay"] {
 	text-align: left;
 }
 
-
-
-
-/* heredeb */
-
-
 .booking .buttons {
 	margin-top: 30px;
 	width: 100%;
@@ -3602,7 +3666,6 @@ footer.app-copy .bottom a {
 
 /* ------- responsive ------- */
 
-
 .touch .login-holder .graphic {
 	height: 200px;
 	width: 100%;
@@ -3610,6 +3673,10 @@ footer.app-copy .bottom a {
 		bottom: -10px;
 	background: url('/images/static/world.svg') center top no-repeat;
 	background-size: 160%;
+}
+
+.touch .searchnav {
+	margin-top: 50px;
 }
 
 @media (min-width: 1190px) {
@@ -3640,6 +3707,15 @@ footer.app-copy .bottom a {
 
 }
 
+@media (max-width: 776px) {
+
+	body:not(.touch) .navbar-brand {
+		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
+		background-size: 185px;
+	}
+
+}
+
 
 @media (min-width: 767px) {
 
@@ -3663,14 +3739,9 @@ footer.app-copy .bottom a {
 	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
-
-}
-
-@media (max-width: 776px) {
-
-	body:not(.touch) .navbar-brand {
-		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
-		background-size: 185px;
+	
+	.desktop .flight-direction .area {
+		width: 180px;
 	}
 
 }
@@ -3678,7 +3749,7 @@ footer.app-copy .bottom a {
 @media (max-width: 695px) {
 
 	body:not(.touch) .navbar-brand {
-		width: 45px;
+		width: 44px;
 		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
 		background-size: 185px;
 	}
@@ -3725,6 +3796,15 @@ footer.app-copy .bottom a {
 		width: 75%;
 	}
 
+}
+
+@media (max-width: 500px) {
+
+	.desktop .flight-direction .area {
+		margin-left: 3%;
+    margin-right: 3%;
+	}
+	
 }
 
 
@@ -3781,10 +3861,28 @@ footer.app-copy .bottom a {
 
 }
 
+
+/* iPhone 5 phone 5 */
 @media (max-width: 321px) {
 
 	.navbar-toggle .icon-bar {
 		width: 10px;
+	}
+	
+	.searchnav {
+		padding-top: 0;
+	}
+	
+	.searchform .flight-direction {
+		padding-top: 0px;
+	}
+	
+	.touch .search-buttons {
+		margin-top: 35px;
+	}
+	
+	.dropmenu.passenger-chooser {
+		right: -5px;
 	}
 
 }
@@ -3823,65 +3921,47 @@ footer.app-copy .bottom a {
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
-
-	.touch .navbar.searchform-top {
-		min-height: 1px;
+	
+	.touch .searchnav {
+		padding-top: 0;
 	}
-
-	.flight-type-form {
-		padding-top: 5px;
-	}
-
-	.touch .flight-type-item:not(.voice-search-button) {
-		font-size: 15px;
+	
+	.touch .searchnav .dropbutton {
 		padding-top: 10px;
 		padding-bottom: 10px;
 	}
-
-	.touch .flight-direction-form {
-		padding: 0px 15px 5px 15px;
+	
+	.touch .searchform .flight-direction {
+		padding-bottom: 10px;
+		display: flex;
+		justify-content: space-around;
 	}
 
-	.touch .flight-direction-item {
+	.touch .flight-direction .area {
 		padding-top: 5px;
+		width: 35%;
+		height: 120px;
 	}
 
-	.touch .flight-direction-item-from-to {
-		padding-bottom: 0;
-	}
-
-	.touch .flight-direction-item span.plus {
+	.touch .flight-direction .plus {
 		line-height: 74px;
 		margin-bottom: -12px;
 	}
 
-	.touch #from-airport-selected,
-	.touch #to-airport-selected {
+	.touch .from-airport-selected,
+	.touch .to-airport-selected {
 		font-size: 36px;
 		line-height: 40px;
 	}
 
-	.touch .flight-direction-item-from-to-city {
-		line-height: 1em;
-	}
-
-	.touch .flight-date-info-item {
+	.touch .open-calendar {
 		padding-top: 7px;
 		height: 62px;
 	}
 
-	.touch .flight-date-info-item .the-date {
+	.touch .open-calendar .the-date {
 		font-size: 20px;
-		letter-spacing: 0;
-		padding-top: 0;
-	}
-
-	.touch .flight-additional-info .chooser {
-		padding-top: 13px;
-		display: inline-block;
-		width: 50%;
-		height: 40px;
-		float: left;
+		line-height: 25px;
 	}
 
 	.touch .calendar-panel {
@@ -3892,6 +3972,10 @@ footer.app-copy .bottom a {
 	.touch .voice-search-buttons {
 		position: relative;
 			top: 5px;
+	}
+	
+	.touch .search-buttons {
+		margin-top: 0px;
 	}
 
 	.touch .search-buttons .big-button {
@@ -3911,7 +3995,8 @@ footer.app-copy .bottom a {
 		padding-bottom: 50px;
 	}
 
-	.touch .tap-plus {
+	.touch .flight-date .plus {
+		font-size: 50px;
 		line-height: 30px;
 		padding-bottom: 0;
 	}
@@ -4111,26 +4196,18 @@ html[data-useragent*='Trident'] #resultpage {
 	background: #f3f3f3 url('/images/texture-dk.gif');
 }
 
-html[data-useragent*='Trident'] .flight-type-form,
-html[data-useragent*='Trident'] .flight-direction-form .row.clearfix {
-	text-align: center;
-}
-
-html[data-useragent*='Trident'] .flight-direction-form .row.clearfix {
-	margin: 0 auto;
-	display: inline-block;
-	width: auto;
-}
-
-html[data-useragent*='Trident'] .flight-direction-form .col-xs-6 {
-	margin: 0 auto;
-	display: inline-block;
-	width: 385px;
-}
-
 html[data-useragent*='Trident'] #main_title .navbar-header:first-child {
 	height: 51px;
 	max-height: 51px;
+}
+
+html[data-useragent*='Trident'] .searchnav .positioner > .wrapper {
+	display: inline-block;
+	margin-right: 20px;
+}
+
+html[data-useragent*='Trident'] .double.buttons .big-button {
+	display: inline-block;
 }
 
 html[data-useragent*='Trident'] .multi-city-coming-soon {
@@ -4150,8 +4227,11 @@ html[data-useragent*='Trident'] .input-sm {
 	line-height: 1em;
 }
 
-html[data-useragent*='Trident'] .sort-button {
-	position: relative;
+html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
+	display: block;
+	position: absolute;
+	top: 342px;
+	left: 250px;
 }
 
 html[data-useragent*='Trident'] .swiper-container {
@@ -4162,6 +4242,7 @@ html[data-useragent*='Trident'] .swiper-container {
 /* IE 11 ONLY */
 @media all and (-ms-high-contrast:none) {
 
+ /* ie11 */
  *::-ms-backdrop, .mystyle {
 
 	}
