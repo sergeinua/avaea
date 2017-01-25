@@ -188,7 +188,7 @@ var StaticAbout = React.createClass({
 	      	</div> {/* ends second level */}
 	      	
 	      	<div className="button-holder">
-	      		<a className="buttonly" href="#">Contact us</a>
+	      		<a className="buttonly" href="/contact">Contact us</a>
 	      	</div>
 	      
       	</div> {/* ends content */}
