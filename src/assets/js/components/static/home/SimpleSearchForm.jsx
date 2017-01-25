@@ -7,6 +7,7 @@ import { DateRange } from 'react-date-range';
 import ClientApi from '~/_common/api';
 import { clientStore } from '../../../reducers.js';
 import { actionSetCommonVal } from '../../../actions.js';
+import Iframe from 'react-iframe';
 
 import moment from 'moment';
 
@@ -206,7 +207,7 @@ let SimpleSearchForm = React.createClass({
                     focusInputOnSuggestionClick={false}
                   />
                 </div>
-                <div className="react-autosuggest__container copy"><span>to</span></div>
+                <div className="react-autosuggest__container copy"><span className="word-to"></span></div>
                 <div className="positioner">
                   <Autosuggest
                     suggestions={this.state.ArrivalOptions}
@@ -246,6 +247,18 @@ let SimpleSearchForm = React.createClass({
             </div>{/* ends date-holder */}
           </div>{/* ends centerer */}
         </div>{/* ends wrapper */}
+        
+        {!uaMobile ?
+            <div id="wayfare-home-comparison" className="wayfare home comparison-unit">
+        			<div className="ti compare">Compare our results</div>
+	        			<div className="holder">
+		              <Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="/static/adds_home_tryit.html"
+		                    frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
+	            </div>
+            </div>
+            :null
+          }
+        
         <a className="buttonly" onClick={this.submitForm}>Try it</a>
       </form>
     )
