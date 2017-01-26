@@ -7,17 +7,15 @@ before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift.
   this.timeout(512000);
 
+  // Question to ET: 
+  //      why don't we make mocha read DB config from src/config?
+  //      why do we need to rely in this fragile handcoding?
   var useDB = 'etPostgresqlServer'; // default dev
-  if (
-    process.env.NODE_ENV == 'stage' ||
-    process.env.NODE_ENV == 'prod' ||
-    process.env.NODE_ENV == 'staging' ||
-    process.env.NODE_ENV == 'production'
-  ) {
-    useDB = 'productionPostgresqlServer';
+  if ( process.env.NODE_ENV == 'stage' || process.env.NODE_ENV == 'staging' ) {
+    useDB = 'stagePostgresqlServer';
   }
-  if (process.env.NODE_ENV == 'docker') {
-    useDB = 'dockerPostgresqlServer';
+  else if( process.env.NODE_ENV == 'prod' || process.env.NODE_ENV == 'production' ) {
+    useDB = 'productionPostgresqlServer';
   }
 
   Sails.lift({
