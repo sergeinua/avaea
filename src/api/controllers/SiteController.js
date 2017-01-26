@@ -33,10 +33,20 @@ module.exports = {
       //FIXME: add this parameter when ONV-938 is ready
       //req.param('kids') // number of kids, if any
     };
+
+    let departureDate = sails.moment(params.departureDate, 'YYYY-MM-DD');
+    let returnDate = sails.moment(params.returnDate, 'YYYY-MM-DD');
+
+    params.departureDate = departureDate.isValid()?departureDate.format('DD/MM/YYYY'):'';
+    params.returnDate = returnDate.isValid()?returnDate.format('DD/MM/YYYY'):'';
+
     params.flightType = params.returnDate?'round_trip':'one_way';
     let error = Search.validateSearchParams(params);
 
     if (req.params == 'search' && !error ) {
+      params.departureDate = departureDate.isValid()?departureDate.format('YYYY-MM-DD'):'';
+      params.returnDate = returnDate.isValid()?returnDate.format('YYYY-MM-DD'):'';
+
       sails.log.verbose('Found valid parameters for search form');
 
       async.parallel({
