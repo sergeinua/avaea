@@ -124,7 +124,8 @@ module.exports = {
   },
 
   getProviders: function (params, cb) {
-    let providers = sails.config.flightapis.searchProvider;
+    let providers = _.clone(sails.config.flightapis.searchProvider, true);
+
     //check farelogix
     let isCanada = 0,
       isUSA = false;
