@@ -72,7 +72,7 @@ $(document).ready(function() {
     if (hashedParams) {
       //use data from url if exists
       _localSearchParams = hashedParams;
-    } else if (localStorage.getItem('searchParams')) {
+    } else if (localStorage.getItem('searchParams') && !InitData.defaultSearch.forceDefault) {
       //use data from local storage if exists
       _localSearchParams = getDefaultDateSearch(JSON.parse(localStorage.getItem('searchParams')))
     } else if (InitData.defaultSearch) {
