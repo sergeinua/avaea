@@ -6,7 +6,7 @@ module.exports.email = {
     service: 'gmail',
     secure: true, // use SSL
     auth: {
-      user: 'confirmation@onvoya.com',
+      user: 'confirmation@avaea.com',
       pass: 'B4GMrcBjSGfXtcB'
     },
 
