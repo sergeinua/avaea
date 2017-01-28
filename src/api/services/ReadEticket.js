@@ -37,7 +37,22 @@ module.exports = {
   },
 
   execReadEticket: function () {
-    if (!sails.config.email.worker_eticket) {
+    if (!sails.config.email.instance_name) {
+      let _process = require('process');
+      sails.log.error(`The instance with PID=${_process.pid} will not execute e-mail cron jobs, because sails_email__instance_name is not defined by command line.`);
+      sails.log.error('Define it as UNIQUE value, for example:');
+      sails.log.error('sails_email__instance_name=host1_1 sails lift');
+      sails.log.error('Terminating sails app...');
+      sails.lower(
+        function (err) {
+          if (err) {
+            sails.log.error("Error occurred lowering Sails app: ", err);
+          } else {
+            sails.log.info("Sails app lowered successfully. Exiting.");
+          }
+          _process.exit(1);
+        }
+      );
       return;
     }
     sails.log.verbose('Start execReadEticket job');
@@ -50,8 +65,11 @@ module.exports = {
 
     let eticketNumbersStore = {};
     qpromice.nfbind(Booking.query)(
-      `SELECT b.*, u.email FROM ${Booking.tableName} b, "${User.tableName}" u WHERE b.user_id=u.id AND b.status_eticket=1 AND b."createdAt" >= $1 ORDER BY b.id`,
-      [sails.moment().subtract(sails.config.flightapis.execReadEticketPeriod, 'seconds').format('YYYY-MM-DD HH:mm:ss')]
+      `SELECT b.*, u.email FROM ${Booking.tableName} b, "${User.tableName}" u WHERE b.user_id=u.id AND b.status_eticket=1 AND b.instance_name=$1 AND b."createdAt" >= $2 ORDER BY b.id`,
+      [
+        sails.config.email.instance_name,
+        sails.moment().subtract(sails.config.flightapis.execReadEticketPeriod, 'seconds').format('YYYY-MM-DD HH:mm:ss')
+      ]
     )
       .then(function (dbResults) {
         if ((readEticketQueueCounter = dbResults.rows.length) == 0) {
