@@ -26,8 +26,10 @@ module.exports = {
    ***************************************************************************/
 
   port: 8080,
-  proxyHost: 'http://abo.avaea.com',
-  proxyPort: 80,
+ // proxyHost: 'http://abo.avaea.com',
+ proxyHost: 'http://abo.onvoya.com',
+ // proxyPort: 80,
+  proxyPort: 8080,
   explicitHost: '0.0.0.0',
 
   remoteSocket: 'https://www.avaea.com',

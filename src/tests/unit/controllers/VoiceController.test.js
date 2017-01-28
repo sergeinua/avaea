@@ -2,7 +2,7 @@ var request = require('supertest');
 const _TESTS  = require('../../fixtures/AvaeaTextParser');
 
 describe('VoiceController', function() {
-
+  this.timeout(5000);
   describe('#parse()', function() {
     _TESTS.forEach(function( t ) {
       it(t.query, function (done) {

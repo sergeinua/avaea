@@ -27,6 +27,9 @@ migratedevlocalhostup:
 test-integration:
 	./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
 
+test-integration-localhost:
+	@NODE_ENV=localhost ./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
+
 test-unit:
 	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
