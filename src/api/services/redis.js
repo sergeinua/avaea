@@ -39,10 +39,7 @@ module.exports = {
     this.init(() => {
       this.client.get( key, function(err, response) {
         if (!err) {
-          if ( Object.keys(response).length > 1 ) {
-            return callback(null, response);
-          }
-          return callback(null, response[key]);
+          return callback(null, response);
         } else {
           sails.log.error(err);
           let error = 'Key ' + key + ' is not found!';
