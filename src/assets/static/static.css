@@ -102,7 +102,7 @@ body,
 
 /* dark blue */
 .static-nav-button,
-.static.home input,
+.static.about input,
 h1,
 h2,
 .textly .subti,
@@ -147,12 +147,12 @@ header.static li.active a:visited {
 
 /* light blue bg */
 
-.about.second,
-.static .home.compare {
+.team.second,
+.static .about.compare {
 	background: #f9fafe;
 }
 
-.about .person .image {
+.team .person .image {
 	background: #eff0f4;
 }
 
@@ -207,7 +207,7 @@ body,
 header.static a, 
 header.static a:hover, 
 header.static a:visited,
-.about .person .ti {
+.team .person .ti {
 	color: #919191;
 }
 
@@ -220,11 +220,11 @@ header.static .left a:hover {
 }
 
 header,
-.home.level.compare {
+.about.level.compare {
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.home.level.compare {
+.about.level.compare {
 	border-top: 1px solid #d7d7d7;
 }
 
@@ -391,13 +391,13 @@ header.static li.flight-search a:hover {
 }
 
 
-/* home */
+/* about */
 
-.home.top {
+.about.top {
   position: relative;
 }
 
-.home-top-copy {
+.about-top-copy {
   color: #ffffff;
   font-family: 'Open-Sans-Light';
   font-size: 28px;
@@ -510,7 +510,7 @@ video {
 	padding: 0 18px;
 }
 
-.content.static.home h1 {
+.content.static.about h1 {
 	text-align: center;
 }
 
@@ -521,7 +521,7 @@ video {
 
 /* desktop wayfare ad units */
 
-.desktop .home-top-copy {
+.desktop .about-top-copy {
 	margin-top: 0;
 	margin-bottom: 0;
 	padding: 30px 0;
@@ -531,28 +531,28 @@ video {
 	margin-top: 0;
 }
 
-.wayfare.home .ti.compare {
+.wayfare.about .ti.compare {
 	text-align: left;
 	margin: 10px auto 0 auto;
 }
 
-.wayfare.home .ti.compare,
-.wayfare.home.comparison-unit {
+.wayfare.about .ti.compare,
+.wayfare.about.comparison-unit {
 	max-width: 430px;
 }
 
-.wayfare.home.comparison-unit {
+.wayfare.about.comparison-unit {
 	margin: -20px auto 30px auto;
 	height: 100px;
 }
 
-.wayfare.home.comparison-unit,
-.wayfare.home.comparison-unit .holder {
+.wayfare.about.comparison-unit,
+.wayfare.about.comparison-unit .holder {
 	position: relative;
 	overflow: hidden;
 }
 
-.wayfare.home.comparison-unit iframe {
+.wayfare.about.comparison-unit iframe {
 	top: -22px;
 	left: -15%;
 	width: 130% !important;
@@ -566,18 +566,18 @@ video {
 
 /* ends desktop wayfare ad units */
 
-.home.second.level h1, 
-.home.third > copy {
+.about.second.level h1, 
+.about.third > copy {
     margin: 0 40px;
 }
 
-.static .home.compare {
+.static .about.compare {
 	text-align: left;
 	padding: 0 530px 0 0;
 	position: relative;
 }
 
-.static .home.compare:after {
+.static .about.compare:after {
 	content: '';
 	width: 575px;
 	height: 485px;
@@ -588,11 +588,11 @@ video {
 	background: url(../images/static/tickets-compare.svg) 40px 10px no-repeat;
 }
 
-.static .home.compare .wrapper {
+.static .about.compare .wrapper {
 	margin: 60px 0 70px 100px;
 }
 
-.static .home.compare h1 {
+.static .about.compare h1 {
 	font-family: 'Open-Sans-Light';
 	font-size: 36px;
 	line-height: 44px;
@@ -600,24 +600,24 @@ video {
 	position: relative;
 }
 
-.static .home.compare strong,
-.static .home.compare span {
+.static .about.compare strong,
+.static .about.compare span {
 	font-family: 'Open-Sans';
 	font-weight: normal;
 }
 
-.static .home.compare span {
+.static .about.compare span {
 	font-size: 26px;
 	position: relative;
 		top: -10px;
 }
 
-.static .home.compare ul {
+.static .about.compare ul {
 	font-family: 'Open-Sans-Light';
 	margin: 30px 0 0px 30px;
 }
 
-.static .home.compare li {
+.static .about.compare li {
 	padding: 0 0 5px 40px;
 	list-style-type: none;
 	position: relative;
@@ -646,7 +646,7 @@ video {
 }
 
 .static-features h3,
-.static .home.compare ul {
+.static .about.compare ul {
 	font-size: 20px;
 	line-height: 30px;
 }
@@ -682,36 +682,36 @@ video {
 	background: url(../images/static/graphic-price.svg) center no-repeat;
 }
 
-.home.third {
+.about.third {
 	margin-bottom: 0;
 }
 
-.home.third .wrapper {
+.about.third .wrapper {
 	text-align: center;
 	margin: 20px auto 40px;
 	display: inline-block;
 }
 
-.home.third > .copy,
-.home .upcoming .ti,
-.about.top .copy,
+.about.third > .copy,
+.about .upcoming .ti,
+.team.top .copy,
 .static.contact .copy {
 	font-family: 'Open-Sans-Light';
 	font-size: 22px;
 	line-height: 32px;
 }
 
-.home .upcoming .ti {
+.about .upcoming .ti {
 	margin-bottom: 10px;
 }
 
-.home.third > .copy {
+.about.third > .copy {
 	margin: 20px auto;
 	text-align: center;
 	width: 700px;
 }
 
-.home .upcoming {
+.about .upcoming {
 	margin: 15px;
 	text-align: left;
 	padding: 30px;
@@ -721,7 +721,7 @@ video {
 	vertical-align: top;
 }
 
-.home.graphic {
+.about.graphic {
 	width: 100%;
 	height: calc(100vw * .42);
 	position: relative;
@@ -744,12 +744,12 @@ video {
 	display: table-cell;
 }
 
-.home .try-it .date-holder,
-.home .try-it .loc-holder {
+.about .try-it .date-holder,
+.about .try-it .loc-holder {
 	position: relative;
 }
 
-.home .try-it .date-holder {
+.about .try-it .date-holder {
 	max-width: 430px;
 }
 
@@ -916,24 +916,24 @@ video {
 
 
 
-/* about */
+/* team */
 
-.about.top {
+.team.top {
 	text-align: left;
 	padding-top: 35px;
 	padding-right: 420px;
 	position: relative;
 }
 
-.about.top .wrapper {
+.team.top .wrapper {
 	margin: 80px 0 90px 110px;
 }
 
-.about.top .copy {
+.team.top .copy {
 	margin: 20px 0 70px 0;
 }
 
-.about.top:after {
+.team.top:after {
 	content: '';
 	width: 375px;
 	height: 485px;
@@ -944,7 +944,7 @@ video {
 	background: url(../images/static/globe-about.svg) 15px 0px no-repeat;
 }
 
-.about.second:before {
+.team.second:before {
 	content: '';
 	width: 120px;
 	height: 200px;
@@ -955,7 +955,7 @@ video {
 	background: url(../images/static/passport.svg) 20px 0px no-repeat;
 }
 
-.about.second:after {
+.team.second:after {
 	content: '';
 	width: 90px;
 	height: 75px;
@@ -965,17 +965,17 @@ video {
 	background: url(../images/static/tickets.svg) 0px 0px no-repeat;
 }
 
-.about.second {
+.team.second {
 	text-align: center;
 	position: relative;
 	padding-bottom: 100px;
 }
 
-.about.second h2 {
+.team.second h2 {
 	padding: 50px 0;
 }
 
-.about .person {
+.team .person {
 	font-size: 16px;
 	line-height: 28px;
 	display: inline-block;
@@ -991,12 +991,12 @@ video {
 	border-radius: 50%;
 }
 
-.about .person .ti,
-.about .person .bio {
+.team .person .ti,
+.team .person .bio {
 	font-family: 'Open-Sans-Light';
 }
 
-.about .person .bio {
+.team .person .bio {
 	line-height: 24px;
 	margin: 10px 40px 60px 40px;
 }
@@ -1074,7 +1074,7 @@ video {
 	display: none;
 }
 
-.about .button-holder {
+.team .button-holder {
 	text-align: center;
 	margin-bottom: 120px;
 }
@@ -1307,19 +1307,19 @@ footer.static .bottom {
     font-size: 20px;
 	}
 	
-	.static .home.compare .wrapper {
+	.static .about.compare .wrapper {
 		margin-bottom: 0;
 	}
 	
-	.static .home.compare {
+	.static .about.compare {
 		padding-right: 0;
 	}
 	
-	.static .home.compare ul {
+	.static .about.compare ul {
 		margin-bottom: 20px;
 	}
 	
-	.static .home.compare:after {
+	.static .about.compare:after {
 		margin-bottom: -30px;
 		height: calc(77vw * .75);
 		width: 100%;
@@ -1328,7 +1328,7 @@ footer.static .bottom {
 		background-size: 77%;
 	}
 	
-	.home.graphic {
+	.about.graphic {
 		height: calc(100vw * .55);
 		background-size: 135%;
 	}
@@ -1445,12 +1445,12 @@ footer.static .bottom {
 		margin-bottom: 20px;
 	}
 	
-	.home.third h1,
-	.home.third > .copy {
+	.about.third h1,
+	.about.third > .copy {
 		width: 80%;
 	}
 	
-	.home.third h1 {
+	.about.third h1 {
 		margin: 0 auto;
 	}
 	
@@ -1458,27 +1458,27 @@ footer.static .bottom {
 		width: 90%;
 	}
 	
-	.home.graphic {
+	.about.graphic {
     height: 500px;
     background-size: 1200px;
 	}
 	
-	.about.top {
+	.team.top {
 		padding-right: 300px;
 	}
 	
-	.about.top .wrapper {
+	.team.top .wrapper {
 		margin-top: 20px;
 		margin-left: 40px;
 	}
 	
-	.about.top:after {
+	.team.top:after {
 		width: 295px;
-		background: url(../images/static/globe-about.svg) 0px 80px no-repeat;
+		background: url(../images/static/globe-team.svg) 0px 80px no-repeat;
 		background-size: 450px;
 	}
 	
-	.about .person {
+	.team .person {
 		width: 45%;
 	}
 	
@@ -1497,19 +1497,19 @@ footer.static .bottom {
 		padding-right: 40px;
 	}
 	
-	.about.top {
+	.team.top {
 		padding-bottom: 250px;
 		padding-right: 40px;
 	}
 	
-	.about.top .copy {
+	.team.top .copy {
 		margin-bottom: 50px;
 	}
 	
-	.about.top:after {
+	.team.top:after {
 		width: 100%;
 		height: 385px;
-		background: url(../images/static/globe-about.svg) center 0px no-repeat;
+		background: url(../images/static/globe-team.svg) center 0px no-repeat;
 		background-size: 79%;
 	}
 	
@@ -1574,43 +1574,43 @@ footer.static .bottom {
 		width: 85%;
 	}
 	
-	.static .home.compare .wrapper {
+	.static .about.compare .wrapper {
 		margin-left: 40px;
     margin-right: 40px;
 	}
 	
-	.static .home.compare ul {
+	.static .about.compare ul {
 		margin-left: 0;
 		margin-bottom: 20px;
 	}
 	
-	.static .home.compare:after {
+	.static .about.compare:after {
 		height: calc(120vw * .75);
 		background: url(../images/static/tickets-compare.svg) -10px 10px no-repeat;
 		background-size: 120%;
 	}
 	
-	.home.third .wrapper {
+	.about.third .wrapper {
 		margin-bottom: 0;
 	}
 	
-	.home .upcoming {
+	.about .upcoming {
 		width: 90%;
 		height: auto;
 	}
 	
-	.home .graphic {
+	.about .graphic {
 		bottom: -105px;
 	}
 	
-	.about.top:after {
+	.team.top:after {
 		width: 100%;
-		background: url(../images/static/globe-about.svg) 30px 0px no-repeat;
+		background: url(../images/static/globe-team.svg) 30px 0px no-repeat;
 		background-size: 100%;
 	}
 	
 	.static.contact,
-	.about .person {
+	.team .person {
 		padding-left: 40px;
 		padding-right: 40px;
 		width: 100%;
@@ -1637,7 +1637,7 @@ footer.static .bottom {
 		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
 	}
 	
-	.about.top a.buttonly {
+	.team.top a.buttonly {
 		line-height: 30px;
 		padding: 25px 30px 25px 30px;
 	}
@@ -1648,7 +1648,7 @@ footer.static .bottom {
 
 @media (max-width: 500px) {
 	
-	.home-top-copy {
+	.about-top-copy {
 		padding-top: 30px;
 	}
 	
@@ -1687,7 +1687,7 @@ footer.static .bottom {
 		font-size: 36px;
 	}
 	
-	.about.top:after {
+	.team.top:after {
 		background-size: 120%;
 	}
 	
@@ -1744,11 +1744,11 @@ footer.static .bottom {
 		background: #ffffff;
 	}
 	
-	.home-top-copy {
+	.about-top-copy {
 		padding-top: 20px;
 	}
 	
-	.about .person .bio {
+	.team .person .bio {
 		margin-left: 0;
 		margin-right: 0;
 	}
@@ -1768,7 +1768,7 @@ footer.static .bottom {
 
 @media (max-width: 330px) {
 	
-	.about.top:after {
+	.team.top:after {
 		background-size: 120%;
 	}
 	
@@ -1821,7 +1821,7 @@ footer.static .bottom {
 		font-size: 18px;
 	}
 	
-	.touch .home .upcoming {
+	.touch .about .upcoming {
 		width: 270px;
 		height: 250px;
 	}

@@ -11,8 +11,8 @@ import { clientStore, observeStore, storeGetCommonVal, storeInitialState } from 
 import NavBarContainer from '~/_common/NavBar'
 import DisplayAlert from '~/_common/DisplayAlert';
 
-import HomePage from 'components/static/pages/home.jsx';
 import AboutPage from 'components/static/pages/about.jsx';
+import TeamPage from 'components/static/pages/team.jsx';
 import PartnerPage from 'components/static/pages/partner.jsx';
 import JobsPage from 'components/static/pages/jobs.jsx';
 import NewsPage from 'components/static/pages/news.jsx';
@@ -86,8 +86,8 @@ $(document).ready(function() {
           <ReactRedux.Provider store={clientStore}>
             <Router onUpdate={() => window.scrollTo(0, 0)} history={historyStrategy}>
               <Route path="/" component={StaticContainer}>
-                <Route path="/home" component={HomePage}/>
                 <Route path="/about" component={AboutPage}/>
+                <Route path="/team" component={TeamPage}/>
                 <Route path="/jobs" component={JobsPage}/>
                 <Route path="/news" component={NewsPage}/>
                 <Route path="/blog" component={BlogPage}/>
@@ -104,7 +104,7 @@ $(document).ready(function() {
                 <Route path="/result" component={ResultPageContainer}/>
                 <Route path="/order/:itineraryId/:specialOrder" component={OrderPage}/>
                 <Route path="/booking/:bookingId" component={BookingPage}/>
-                {isMobile.any()?<Redirect from="*" to="/search"/>:<Redirect from="*" to="/home"/>}
+                <Redirect from="*" to="/search"/>
               </Route>
             </Router>
           </ReactRedux.Provider>
