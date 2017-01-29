@@ -29,7 +29,7 @@ let StaticAbout = React.createClass({
 	            </div>
 	            
 	            <div className="copy">
-		            Our AI-powered travel app sorts through thousands of choices 
+		            Our AI-powered travel app sorts through thousands of options 
 		      			to find the choices that are best for you. 
 	            </div>
 	            

@@ -20,6 +20,7 @@ module.exports = {
     if (!req.url || req.url.trim() == '/') {
       page = req.isMobile ? '/search':'/home';
     }
+    let page = (!req.url || req.url.trim() == '/') ? '/search' : req.url;
 
     let params = Search.getDefault(req);
     //map parameters to our structure
