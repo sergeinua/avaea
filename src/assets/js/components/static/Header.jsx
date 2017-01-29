@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+
 let StaticHeader = React.createClass({
 	
 	onItemClick: function (event) {
@@ -15,7 +16,7 @@ let StaticHeader = React.createClass({
 			$("header.static nav").removeClass('respond');
 		}
 	},
- 
+	
   render: function () {
     return (
     		<header className="static">

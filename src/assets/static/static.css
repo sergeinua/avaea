@@ -36,6 +36,12 @@ body {
 	padding-bottom: 0;
 }
 
+.desktop #spa-app {
+	/* this one is min-width for Wayfare
+	   take it away if we don't use Wayfare */
+	min-width: 300px;
+}
+
 .desktop {
 	text-align: center;
 	margin: 0;
@@ -120,7 +126,7 @@ footer.static {
 }
 
 .try-it {
-  background: rgba(6, 40, 85, .8);
+  background: rgba(6, 40, 85, .85);
 }
 
 .suggest-container, .suggest-item {
@@ -241,6 +247,7 @@ header,
 
 
 /* ------- everywhere parts ------- */
+
 
 h1,
 h2,
@@ -435,7 +442,7 @@ video {
 
 .try-it .copy {
 	font-size: 26px;
-	margin: 20px 0 40px 0;
+	margin: 10px 0 40px 0;
 }
 
 .try-it span:not(.slogan) {
@@ -983,6 +990,7 @@ footer.static .bottom {
 
 /* ------- responsive ------- */
 
+
 @media (min-width: 970px) and (max-width: 1185px) {
 	
 	.static-features > div {
@@ -1077,11 +1085,10 @@ footer.static .bottom {
 		text-align: left;
 		padding-left: 20px;
 		padding-right: 280px;
-		padding-bottom: 10px;
 	}
 	
-	.touch header.static a.brand {
-		right: -10px;
+	header.static a.brand {
+		right: 0;
 	}
 	
 	.touch header.static {
@@ -1214,13 +1221,17 @@ footer.static .bottom {
 		width: 100%;
 		height: 385px;
 		background: url(../images/static/globe-about.svg) center 0px no-repeat;
-		background-size: 79%;
+		background-size: 92%;
 	}
 	
 }
 
-@media (max-width: 550px) {
+@media (max-width: 565px) {
 	
+	
+	.try-it {
+		width: 90%;
+	}
 	
 	.static-features {
 		padding-left: 0;
@@ -1266,18 +1277,24 @@ footer.static .bottom {
 		bottom: -105px;
 	}
 	
-	.team.top:after {
-		width: 100%;
-		background: url(../images/static/globe-about.svg) 30px 0px no-repeat;
-		background-size: 100%;
-	}
-	
 	.static.contact,
 	.team .person {
 		padding-top: 30px;
 		padding-right: 40px;
 		padding-left: 40px;
 		width: 100%;
+	}
+	
+	.team.second {
+		padding-bottom: 0px;
+	}
+	
+	.team.second:after {
+		bottom: -40px;
+	}
+	
+	.team .button-holder {
+		margin-bottom: 60px;
 	}
 	
 	.static.contact {
@@ -1332,7 +1349,12 @@ footer.static .bottom {
 		font-size: 32px;
 	}
 	
+	.team.top {
+		padding-bottom: 150px;
+	}
+	
 	.team.top:after {
+		height: 270px;
 		background-size: 120%;
 	}
 	
@@ -1348,18 +1370,6 @@ footer.static .bottom {
 	
 	.about-top-copy {
 		padding-bottom: 30px;
-	}
-	
-	.team.second {
-		padding-bottom: 0px;
-	}
-	
-	.team.second:after {
-		bottom: -40px;
-	}
-	
-	.team .button-holder {
-		margin-bottom: 60px;
 	}
 	
 	.team .person .bio {
@@ -1440,6 +1450,20 @@ footer.static .bottom {
 	
 	.team.top {
 		padding-right: 20px;
+		padding-bottom: 150px;
+	}
+	
+	.team.top .wrapper {
+		margin-bottom: 60px;
+	}
+	
+	.team.top .copy {
+		margin-bottom: 40px;
+	}
+	
+	.team.top:after {
+		height: 230px;
+		background-size: 120%;
 	}
 	
 	.team .person .bio {
