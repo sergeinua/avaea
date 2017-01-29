@@ -22,7 +22,7 @@ let StaticHeader = React.createClass({
     		<header className="static">
         <div className="static-nav-button" onClick={this.onItemClick}></div>
         {/* logo managed by CSS for whitelabelling later */}
-        <Link to="/home" className="brand" onClick={this.closeNav}></Link> 
+        <Link to="/search" className="brand" onClick={this.closeNav}></Link> 
           <nav>
           	<div className="left">
   		        <ul className="menu nav">
