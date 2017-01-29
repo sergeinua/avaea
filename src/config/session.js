@@ -41,7 +41,7 @@ module.exports.session = {
   * session store that can be shared across multiple Sails.js servers        *
   ***************************************************************************/
 
-  // adapter: 'redis',
+  adapter: 'redis',
 
   /***************************************************************************
   *                                                                          *
@@ -52,12 +52,12 @@ module.exports.session = {
   *                                                                          *
   ***************************************************************************/
 
-  // host: 'localhost',
-  // port: 6379,
-  // ttl: 600,
-  // db: 0,
-  // pass: '',
-  // prefix: 'sess:',
+  host: 'localhost',
+  port: 6379,
+  ttl: 600,
+  db: 0,
+  pass: '',
+  prefix: 'sess:',
 
 
   /***************************************************************************
@@ -87,5 +87,5 @@ module.exports.session = {
   // auto_reconnect: false,
   // ssl: false,
   // stringify: true
-  adapter: 'sails-pg-session',
+  // adapter: 'sails-pg-session',
 };
