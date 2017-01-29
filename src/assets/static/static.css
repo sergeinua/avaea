@@ -120,7 +120,7 @@ footer.static {
 }
 
 .try-it {
-  background: rgba(6, 40, 85, .9);
+  background: rgba(6, 40, 85, .8);
 }
 
 .suggest-container, .suggest-item {
@@ -232,36 +232,6 @@ header,
 .upcoming .copy,
 .static.contact .form-label {
 	color: #919191;
-}
-
-.rdr-Day.is-passive,
-.rdr-Day.is-selected.is-passive,
-.rdr-Day.is-passive:hover,
-.rdr-Day.is-selected.is-passive:hover {
-	cursor: default;
-	color: #d1d1d1 !important;
-	background: transparent !important;
-}
-
-.rdr-Day:hover {
-	background: #eeeeee !important;
-}
-
-.react-autosuggest__suggestion--focused {
-  background-color: #f7f7f7;
-}
-
-.simple-cal,
-.react-autosuggest__container--open .react-autosuggest__suggestions-container {
-	border: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.react-autosuggest__suggestion {
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.react-autosuggest__suggestion:last-child {
-	border-bottom: 0px solid transparent;
 }
 
 /* gold */
@@ -409,8 +379,8 @@ header.static li.flight-search a:hover {
 }
 
 .slogan.first,
-.slotan.second {
-	padding: 0 8px;
+.slogan.second {
+	padding: 0 4px;
 }
 
 .slogan.third {
@@ -463,47 +433,9 @@ video {
 	font-size: 25px;
 }
 
-.try-it .word-to:before {
-	content: 'to';
-}
-
-.try-it form {
-	display: inline-block;
-	width: 100%; 
-}
-
-.try-it form .centerer {  
-	text-align: center;
-	display: inline-block;
-	width: 100%;
-}
-
-.try-it form .wrapper {
-	text-align: left;
-	margin-bottom: 25px;
-	display: inline-block;
-}
-
-.try-it input {
-	font-size: 19px;
-	text-align: center;
-	padding: 5px;
-	width: 100%;
-	border: 0px solid transparent;
-}
-
-.try-it .loc-holder {
-	margin-bottom: 15px;
-}
-
-.try-it .loc-holder input {
-	width: 188px;
-	background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
-	border: 0px solid transparent;
-}
-
-.try-it .date-holder input {
-	background: #ffffff url('../images/static/input-calendar.svg') right 5px no-repeat;
+.try-it .copy {
+	font-size: 26px;
+	margin: 20px 0 40px 0;
 }
 
 .try-it span:not(.slogan) {
@@ -521,50 +453,6 @@ video {
 
 /* desktop wayfare ad units */
 
-.desktop .about-top-copy {
-	margin-top: 0;
-	margin-bottom: 0;
-	padding: 30px 0;
-}
-
-.desktop .try-it {
-	margin-top: 0;
-}
-
-.wayfare.about .ti.compare {
-	text-align: left;
-	margin: 10px auto 0 auto;
-}
-
-.wayfare.about .ti.compare,
-.wayfare.about.comparison-unit {
-	max-width: 430px;
-}
-
-.wayfare.about.comparison-unit {
-	margin: -20px auto 30px auto;
-	height: 100px;
-}
-
-.wayfare.about.comparison-unit,
-.wayfare.about.comparison-unit .holder {
-	position: relative;
-	overflow: hidden;
-}
-
-.wayfare.about.comparison-unit iframe {
-	top: -22px;
-	left: -15%;
-	width: 130% !important;
-	background: #ffffff;
-}
-
-
-
-/* heredeb */
-
-
-/* ends desktop wayfare ad units */
 
 .about.second.level h1, 
 .about.third > copy {
@@ -729,191 +617,6 @@ video {
 	background: url(../images/static/world.svg) center bottom no-repeat;
 	background-size: 104%
 }
-
-
-
-/*locations and calendar React elements */
-
-
-.try-it .positioner {
-	display: table-cell;
-	position: relative;
-}
-
-.react-autosuggest__container {
-	display: table-cell;
-}
-
-.about .try-it .date-holder,
-.about .try-it .loc-holder {
-	position: relative;
-}
-
-.about .try-it .date-holder {
-	max-width: 430px;
-}
-
-
-
-/* locations */
-
-.react-autosuggest__suggestions-list {
-  list-style-type: none;
-}
-
-.react-autosuggest__container--open .react-autosuggest__input {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.react-autosuggest__suggestions-container {
-  display: none;
-}
-
-.react-autosuggest__container--open .react-autosuggest__suggestions-container {
-	font-size: 16px;
-  display: block;
-	width: 285px;
-  position: absolute;
-  	top: 42px;
-	background-color: #fff;
-  z-index: 2;
-}
-
-.react-autosuggest__suggestions-list {
-  margin: 0;
-  padding: 0;
-  list-style-type: none;
-}
-
-.react-autosuggest__suggestion {
-  cursor: pointer;
-  padding: 10px 20px;
-}
-
-
-/* calendar */
-
-/* overwrite plugin */
-
-#rdr-DateRange {
-	border-radius: 0px !important;
-}
-
-.rdr-MonthAndYear-divider {
-	display: none;
-}
-
-.rdr-MonthAndYear-month:after {
-	content: '';
-	display: inline;
-	padding: 0 5px;
-}
-
-
-.rdr-WeekDays, 
-.rdr-Days {
-	font-family: 'Open-Sans';
-}
-
-.try-it .rdr-Day,
-.try-it .rdr-WeekDay {
-	font-size: 13px !important;
-}
-
-.try-it .rdr-WeekDay {
-	font-family: 'Open-Sans-Semibold';
-	font-weight: 200 !important;
-}
-
-.try-it .rdr-Day {
-	font-size: 13px !important;
-	line-height: 42px !important;
-	height: 42px !important;
-	width: 37.5px !important; 
-	transition: none !important;
-}
-
-.rdr-Day.is-passive {
-	opacity: 1 !important;
-}
-
-.rdr-Day.is-selected,
-.rdr-Day.is-selected.is-inRange {
-	color: #ffffff !important;
-}
-
-.rdr-DateRange,
-.rdr-MonthAndYear,
-.rdr-MonthAndYear-innerWrapper {
-	position: relative;
-}
-
-.rdr-MonthAndYear-button {
-	height: 35px !important;
-	width: 35px !important;
-	position: absolute;
-		top: 0px; 
-}
-
-.rdr-MonthAndYear-button.prev {
-	left: -10px;
-}
-
-.rdr-MonthAndYear-button.next {
-	right: -10px;
-}
-
-.rdr-MonthAndYear-button i:after {
-	font-family: 'icomoon';
-	font-size: 14px;
-	position: absolute;
-	  top: 12px;
-    left: 11px;
-}
-
-.rdr-MonthAndYear-button i {
-	border-width: 0px !important;
-	border-color: transparent !important;
-	border-style: none !important;
-}
-
-.rdr-MonthAndYear-button.prev i:after {
-	content: "\e925";
-}
-
-.rdr-MonthAndYear-button.next i:after {
-	content: "\e926";
-}
-
-
-/* new styles */
-
-.simple-cal {
-	padding: 40px 0 10px 0;
-  display: inline-block;
-	width: 570px;
-  position: absolute;
-		top: 41px;
-		left: 0;
-	background: #ffffff;	
-  z-index: 2;
-	transition: all 0.1s ease-in-out;
-}
-
-.try-it .simple-cal span {
-	padding: 0 0 0 0;
-}
-
-.simple-cal span.close-x {
-	color: #323232;
-	font-size: 22px;
-	padding: 15px;
-	position: absolute;
-    top: 0;
-    right: 8px;
-}
-
 
 
 /* team */
@@ -1373,11 +1076,11 @@ footer.static .bottom {
 	header.static {
 		text-align: left;
 		padding-left: 20px;
-		padding-right: 200px;
+		padding-right: 280px;
 		padding-bottom: 10px;
 	}
 	
-	header.static .brand {
+	.touch header.static a.brand {
 		right: -10px;
 	}
 	
@@ -1455,7 +1158,7 @@ footer.static .bottom {
 	}
 	
 	.try-it {
-		width: 90%;
+		width: 80%;
 	}
 	
 	.about.graphic {
@@ -1474,7 +1177,7 @@ footer.static .bottom {
 	
 	.team.top:after {
 		width: 295px;
-		background: url(../images/static/globe-team.svg) 0px 80px no-repeat;
+		background: url(../images/static/globe-about.svg) 0px 80px no-repeat;
 		background-size: 450px;
 	}
 	
@@ -1498,8 +1201,9 @@ footer.static .bottom {
 	}
 	
 	.team.top {
-		padding-bottom: 250px;
+		padding-top: 10px;
 		padding-right: 40px;
+		padding-bottom: 250px;
 	}
 	
 	.team.top .copy {
@@ -1509,53 +1213,8 @@ footer.static .bottom {
 	.team.top:after {
 		width: 100%;
 		height: 385px;
-		background: url(../images/static/globe-team.svg) center 0px no-repeat;
+		background: url(../images/static/globe-about.svg) center 0px no-repeat;
 		background-size: 79%;
-	}
-	
-}
-
-@media (max-width: 600px) {
-	
-	.try-it .loc-holder input {
-		width: 100%;
-	}
-	
-	.try-it form,
-	.try-it form .wrapper,
-	.try-it .loc-holder input {
-		width: 100%;
-	}
-	
-	.try-it .word-to:before {
-		content: 'To';
-	}
-	
-	.try-it .positioner,
-	.react-autosuggest__container {
-		display: block;
-		width: 100%;
-		position: relative;
-	}
-	
-	.try-it span:not(.slogan) {
-		padding-left: 0px;
-		padding-right: 0px;
-		position: relative;
-			top: 5px;
-	}
-	
-	.simple-cal {
-		width: 285px;
-			left: 0px;
-	}
-	
-	.simple-cal span.close-x {
-		right: 3px;
-	}
-	
-	.rdr-Calendar:first-child {
-		margin-bottom: 15px;
 	}
 	
 }
@@ -1590,6 +1249,10 @@ footer.static .bottom {
 		background-size: 120%;
 	}
 	
+	.about-top-copy {
+		padding-top: 30px;
+	}
+	
 	.about.third .wrapper {
 		margin-bottom: 0;
 	}
@@ -1605,15 +1268,20 @@ footer.static .bottom {
 	
 	.team.top:after {
 		width: 100%;
-		background: url(../images/static/globe-team.svg) 30px 0px no-repeat;
+		background: url(../images/static/globe-about.svg) 30px 0px no-repeat;
 		background-size: 100%;
 	}
 	
 	.static.contact,
 	.team .person {
-		padding-left: 40px;
+		padding-top: 30px;
 		padding-right: 40px;
+		padding-left: 40px;
 		width: 100%;
+	}
+	
+	.static.contact {
+		padding-bottom: 60px;
 	}
 	
 	.static.contact input, 
@@ -1637,41 +1305,54 @@ footer.static .bottom {
 		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
 	}
 	
-	.team.top a.buttonly {
+	.static a.buttonly {
 		line-height: 30px;
-		padding: 25px 30px 25px 30px;
+		padding: 25px 25px 25px 25px;
 	}
 	
 	
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 460px) {
 	
-	.about-top-copy {
-		padding-top: 30px;
+	.about.top.level {
+		margin-bottom: 40px;
+	}
+	
+	.video-holder {
+		height: 500px;
 	}
 	
 	.slogan.third {
-		padding: 0 0 0 0;
+		font-size: 36px;
+	}
+	
+	.team.top:after {
+		background-size: 120%;
 	}
 	
 	.try-it {
-		padding-left: 30px;
-		padding-right: 30px;
+		margin-top: 0;
+    padding-left: 10px;
+    padding-right: 10px;
 	}
-
-	.try-it .date-holder input,
-	.try-it .loc-holder input {
-		font-size: 15px;
-    line-height: 28px;
-    font-family: 'Open-Sans-Semibold';
-    padding-right: 30px;
+	
+	.try-it .copy {
+		font-size: 24px;
 	}
-
-}
-
-@media (max-width: 460px) {
+	
+	.team.second {
+		padding-bottom: 0px;
+	}
+	
+	.team.second:after {
+		bottom: -40px;
+	}
+	
+	.team .button-holder {
+		margin-bottom: 60px;
+	}
 
 	header.static .brand {
 		right: 0;
@@ -1683,24 +1364,18 @@ footer.static .bottom {
 /* iPhone 6, Android */
 @media (max-width: 380px) {
 	
-	.slogan.third {
-		font-size: 36px;
-	}
-	
-	.team.top:after {
-		background-size: 120%;
-	}
-	
-	.try-it {
-    padding-left: 20px;
-    padding-right: 20px;
-		width: 94%;
-	}
-	
 	.try-it .ti,
 	.try-it span:not(.slogan) {
 		font-size: 22px;
 		font-family: 'Open-Sans';
+	}
+	
+	.static-features > div .copy {
+    font-size: 18px;
+	}
+	
+	.static.contact .form-label {
+		line-height: 22px;
 	}
 	
 }
@@ -1722,30 +1397,47 @@ footer.static .bottom {
 		top: 60px;
 	}
 	
-	header.static a.brand {
+	.touch header.static a.brand {
 		width: 235px;
 		height: 55px;
+			right: 0px;
 		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
     background-size: 235px;
 	}
 	
+	.video-holder {
+		height: 480px;
+	}
+	
+	.slogan.first, 
+	.slogan.second {
+    font-size: 22px;
+	}
+	
 	.slogan.third {
-		font-size: 30px;
+		font-size: 26px;
     font-family: 'Open-Sans';	
 	}
 	
 	.try-it {
-		margin-top: 10px;
 		padding-top: 20px;
+		width: 90%;
 	}
 	
-	.try-it .date-holder input {
-		padding-right: 0px;
-		background: #ffffff;
+	.try-it .copy {
+		font-size: 22px;
+	}
+	
+	.static a.buttonly {
+		font-size: 25px;
 	}
 	
 	.about-top-copy {
 		padding-top: 20px;
+	}
+	
+	.team.top {
+		padding-right: 20px;
 	}
 	
 	.team .person .bio {
@@ -1775,14 +1467,6 @@ footer.static .bottom {
 	.try-it {
 		padding-left: 20px;
 		padding-right: 20px;
-	}
-	
-	.simple-cal {
-		left: -18px;
-	}
-	
-	.react-autosuggest__suggestions-container {
-		left: -18px;
 	}
 	
 }
@@ -1856,27 +1540,13 @@ footer.static .bottom {
     -moz-osx-font-smoothing: auto;
 	}
 
-	.desktop .tt-menu {
-		margin-top: 65px;
-	}
-	
-	/* simple form calendar */
-	
-	.try-it .rdr-Calendar {
-		width: 283px !important;
-	}
-	
-	.simple-cal span.close-x {
-		right: 3px;
-	}
-
 }
 
 
 /* ie10 ie11 */
 
-html[data-useragent*='Trident'] .try-it input {
-	height: 37px;
+html[data-useragent*='Trident'] .stylehere {
+ 
 }
 
 

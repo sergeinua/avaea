@@ -27,6 +27,15 @@ let StaticAbout = React.createClass({
 	              <span className="slogan second">Best choice.</span>
 	              <span className="slogan third">Travel Intelligence</span>
 	            </div>
+	            
+	            <div className="copy">
+		            Our AI-powered travel app sorts through thousands of choices 
+		      			to find the choices that are best for you. 
+	            </div>
+	            
+	            <div className="button-holder">
+	            	<a className="buttonly" href="/search">Try a flight search</a>
+	            </div>
               
               </div>{/* ends try-it */}
 
@@ -80,9 +89,7 @@ let StaticAbout = React.createClass({
             <h1>And, this is only Beta. See what's next!</h1>
 
             <div className="copy">
-              Today, we're focused on air travel. Tomorrow we'll tackle
-              hotels, rental cars, Uber, Airbnb... the entire world of
-              travel. Here are features we're developing now.
+              These are features we're developing now.
             </div>
 
             <div className="wrapper">

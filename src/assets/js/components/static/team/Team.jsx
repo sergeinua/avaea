@@ -10,10 +10,7 @@ var StaticTeam = React.createClass({
 	      		<div className="wrapper">
 		      		<h1>About Us</h1>
 		      		<div className="copy">
-		      			Our AI-powered travel app sorts through thousands of choices 
-		      			to find the choices that are best for you. By applying your 
-		      			preferences and comparing everything a flight has to offer, 
-		      			we make picking the right flight a snap.
+		      			Today, we're focused on air travel. Tomorrow we'll tackle hotels, rental cars, Uber, Airbnb... the entire world of travel. 
 		      		</div>
 		      		<a className="buttonly" href="/search">Try a flight search</a>
 	      		</div>
