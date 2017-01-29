@@ -1316,16 +1316,20 @@ footer.static .bottom {
 
 @media (max-width: 460px) {
 	
+	header.static .brand {
+		right: 0;
+	}
+	
 	.about.top.level {
 		margin-bottom: 40px;
 	}
 	
 	.video-holder {
-		height: 500px;
+		height: 480px;
 	}
 	
 	.slogan.third {
-		font-size: 36px;
+		font-size: 32px;
 	}
 	
 	.team.top:after {
@@ -1339,7 +1343,11 @@ footer.static .bottom {
 	}
 	
 	.try-it .copy {
-		font-size: 24px;
+		font-size: 22px;
+	}
+	
+	.about-top-copy {
+		padding-bottom: 30px;
 	}
 	
 	.team.second {
@@ -1353,9 +1361,9 @@ footer.static .bottom {
 	.team .button-holder {
 		margin-bottom: 60px;
 	}
-
-	header.static .brand {
-		right: 0;
+	
+	.team .person .bio {
+		margin: 10px 30px 30px 30px;
 	}
 	
 }
@@ -1364,10 +1372,8 @@ footer.static .bottom {
 /* iPhone 6, Android */
 @media (max-width: 380px) {
 	
-	.try-it .ti,
-	.try-it span:not(.slogan) {
-		font-size: 22px;
-		font-family: 'Open-Sans';
+	.try-it {
+		width: 90%;
 	}
 	
 	.static-features > div .copy {
@@ -1404,11 +1410,7 @@ footer.static .bottom {
 		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
     background-size: 235px;
 	}
-	
-	.video-holder {
-		height: 480px;
-	}
-	
+
 	.slogan.first, 
 	.slogan.second {
     font-size: 22px;
