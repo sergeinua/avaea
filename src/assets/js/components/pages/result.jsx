@@ -421,7 +421,7 @@ let ResultPage = React.createClass({
                    currentSort={this.props.commonData.currentSort}
                    max_filter_items={this.state.max_filter_items}
                  />
-                 <ResultList InitResultData={this.state} />
+                 <ResultList InitResultData={this.state} searchParams={this.props.commonData.searchParams} />
                </span>)
             : <DisplayAlert errorInfo={this.state.errorInfo} />
         )}

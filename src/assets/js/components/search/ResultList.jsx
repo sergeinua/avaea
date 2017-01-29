@@ -1,6 +1,7 @@
 import React from 'react';
 import ResultItemContainer from './ResultItem.jsx';
 import Iframe from 'react-iframe';
+import moment from 'moment';
 
 let ResultList = React.createClass({
   render: function() {
@@ -32,19 +33,32 @@ let ResultList = React.createClass({
           return ad || itin;
         }.bind(this))}
       </div>
-      
+
         : null
       )}
-      
+
       {!uaMobile ?
-        	<div id="wayfare-results-deals" className="wayfare results deals-unit">
-	      		<div className="wrapper">
-	      		<Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ=="
-              frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
-	          </div>
+        <div id="wayfare-results-deals" className="wayfare results deals-unit">
+          <div className="wrapper">
+          <Iframe
+            id="c7aed39b"
+            name="mc79eba9"
+            className="wayfare"
+            url={"//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L2Fmci5waHA/em9uZWlkPTU1NzU4JmFtcDthbXA7Y2I9SU5TRVJUX1JBTkRPTV9OVU1CRVJfSEVSRQ==&Ocity="
+            + this.props.searchParams.DepartureLocationCode
+            + "&Dcity="+this.props.searchParams.ArrivalLocationCode
+            + "&WIN_date1=" + moment(this.props.searchParams.departureDate).format('MM/DD/YYYY')
+            + (this.props.searchParams.returnDate ? "&WIN_date2=" + moment(this.props.searchParams.returnDate).format('MM/DD/YYYY'):'') }
+            frameborder="0"
+            scrolling="no"
+            width="100%"
+            height="100%"
+            position="relative">
+          </Iframe>
           </div>
-        	:null
-        }
+        </div>
+        :null
+      }
       </div>
       </span>
     )
