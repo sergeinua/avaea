@@ -1,5 +1,6 @@
 /* global sails */
 /* global async */
+/* global _ */
 /* global Search */
 /* global Airports */
 /* global UserAction */
@@ -17,7 +18,7 @@ module.exports = {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
     }
-    let page = req.url;
+    let page = _.clone(req.url);
 
     if (!req.url || req.url.trim() == '/') {
       page = req.isMobile ? '/search':'/home';
