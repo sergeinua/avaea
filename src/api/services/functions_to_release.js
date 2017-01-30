@@ -155,6 +155,8 @@ module.exports = {
 
     print_one_itinerary: function (prefix,itin)
     {
+        if (itin === undefined) return; // If undefined, then nothing needs to be done
+
         var d = this.parseTime(itin.citypairs[0].from.time);
 
         var priceRank_str  = (itin.priceRank      ===undefined)?(""):( " (" + itin.priceRank.toFixed(10) + ")" );
