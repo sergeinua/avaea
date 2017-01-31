@@ -316,3 +316,113 @@ var getRowGridOverallStat = function (data) {
 
   return result;
 };
+
+
+var genGridVanityURLs = function () {
+  var isValidURL = function(value){
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
+  };
+
+  var preapareHost = function(host){
+    host = host.trim();
+    if(host.length > 0 && host.substr(-1) !== '/') host += '/';
+    return host;    
+  };
+
+
+  $('#gridVanityURLsAddNew').off('click').on('click', function(){
+    $($('#gridVanityURLsHostname').parents('.form-group').get(0)).removeClass('has-error');
+    
+    if($('#gridVanityURLsUseHostname').is(':checked') && !isValidURL($('#gridVanityURLsHostname').val())){
+      $($('#gridVanityURLsHostname').parents('.form-group').get(0)).addClass('has-error');
+      return false;
+    }
+    
+    var insertTemplate = function() {
+      var input = this.__proto__.insertTemplate.call(this);
+      input.val('');
+      if($('#gridVanityURLsUseHostname').is(':checked')){
+        input.val(preapareHost($('#gridVanityURLsHostname').val()));
+      }
+      return input;
+    };            
+    
+    var grid = $('#gridVanityURLs .grid');
+    grid.jsGrid('fieldOption', 'vanity_url', 'insertTemplate', insertTemplate);
+    grid.jsGrid('fieldOption', 'destination_url', 'insertTemplate', insertTemplate);    
+    grid.jsGrid('option', 'inserting', true);
+    
+    $(this).addClass('hidden');
+    $('#gridVanityURLsCancel').removeClass('hidden');
+  });
+  
+  $('#gridVanityURLsCancel').off('click').on('click', function(){
+    $('#gridVanityURLs .grid').jsGrid('option', 'inserting', false);
+    $(this).addClass('hidden');
+    $('#gridVanityURLsAddNew').removeClass('hidden');
+  });
+
+
+
+  $('#gridVanityURLs .grid').jsGrid('destroy').jsGrid({
+    height: '550px',
+    width: '100%',
+    css: 'cell-ellipsis',
+    
+    inserting: false,
+    editing: true,
+    deleting: true,
+    sorting: true,
+    paging: false,
+    filtering: false,
+    autoload: true,
+ 
+    controller: {
+      loadData: function(data)
+      {
+        return data;
+      },
+      insertItem: function(item)
+      {
+        socketAbo.post('/vanityURLs/create/', item, function(res, jwres){
+          if(res.error){
+            console.log(res.error);
+          }
+        });           
+      },      
+      updateItem: function(item)
+      {
+        socketAbo.post('/vanityURLs/edit/'+item.id+'/', item, function(res, jwres){
+          if(res.error){
+            console.log(res.error);
+          }
+        });            
+      },
+      deleteItem: function(item)
+      {
+        socketAbo.post('/vanityURLs/delete/'+item.id+'/', {}, function(res, jwres){
+          if(res.error){
+            console.log(res.error);
+          }
+        });                
+      },      
+    },
+    fields: [
+      { name: 'id', css: 'hidden', width: 0 },
+      { name: 'vanity_url', title: 'Vanity URL', type: 'text', width: 300, align: 'left',
+        validate: { message: 'Invalid Vanity URL', validator: isValidURL }     
+      },
+      { name: 'destination_url', title: 'Destination URL', type: 'text', width: 300, align: 'left',
+        validate: { message: 'Invalid Destination URL', validator: isValidURL }         
+      },
+      { type: 'control' }
+    ]
+  });
+
+
+  socketAbo.get('/vanityURLs/read/', {}, function(res, jwres){
+    if(res.data){
+      $('#gridVanityURLs .grid').jsGrid('loadData', res.data);      
+    }
+  });      
+};

@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!--STYLES-->
-
+    
     <!--STYLES END-->
     <style  type="text/css">
       body { padding-top: 70px; }
@@ -105,6 +105,7 @@
           <li><a href="javascript:;" class="menu-tab" for="gridUsersStat">Search Log</a></li>
           <li><a href="javascript:;" class="menu-tab" for="gridUsersStatVoiceSearch">Voice Parsing Log</a></li>
           <li><a href="javascript:;" class="menu-tab" for="gridOverallStat">Search Analytics</a></li>
+          <li><a href="javascript:;" class="menu-tab" for="gridVanityURLs">Vanity URLs</a></li>          
           <% if (typeof user != 'undefined') { %>
           <li><a href="/logout">Log out <b><%= user.email %></b></a></li>
           <% } else { %>
@@ -121,7 +122,34 @@
   <div id="gridUsersStat" class="hidden dataContainer"></div>
   <div id="gridOverallStat" class="hidden dataContainer"></div>
   <div id="gridUsersStatVoiceSearch" class="hidden dataContainer"></div>
-
+  <!-- vanity url -->
+  <div id="gridVanityURLs" class="hidden">    
+    <div class="panel panel-default gridVanityURLsBody">
+      <div class="panel-heading">
+        <h3 class="panel-title">Vanity URLs</h3>      
+      </div><!-- .panel-heading -->
+      <div class="panel-body">
+        
+        <form class="form-inline"> 
+            <div class="form-group"> 
+              <label class="control-label"  for="gridVanityURLsHostname">Hostname:</label> 
+              <input type="text" class="form-control" id="gridVanityURLsHostname" placeholder="Hostname" value="http://<%= req.host %>" size="65" /> 
+            </div> 
+            <div class="checkbox"> 
+              <label> <input type="checkbox" id="gridVanityURLsUseHostname" checked /> Use for New Vanity URL </label> 
+            </div>
+            &nbsp;&nbsp;
+            <button id="gridVanityURLsAddNew" type="button" class="btn btn-info">Add New</button> 
+            <button id="gridVanityURLsCancel" type="button" class="btn btn-danger hidden">Cancel</button> 
+        </form>        
+        <br>  
+        <div class="grid"></div><!-- .dataContainer -->          
+      </div><!-- .panel-body -->
+    </div><!-- .panel.panel-default.gridVanityURLsMain -->
+  </div><!-- #gridVanityURLs -->
+  
+  
+  
     <div id="user_search" class="row dataContainer">
         <form class="filter_user">
       <div class="input-group">
@@ -216,7 +244,7 @@
     </div>
 </div>
     <!--SCRIPTS-->
-
+    
     <!--SCRIPTS END-->
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

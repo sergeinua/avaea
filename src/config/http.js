@@ -21,7 +21,7 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
-  // middleware: {
+   middleware: {
 
   /***************************************************************************
   *                                                                          *
@@ -30,34 +30,55 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
-
+     order: [ // default middleware + vanityURLsHandler
+       //'startRequestTimer',
+       'cookieParser',
+       'session',
+       'bodyParser',
+       //'handleBodyParserError',
+       'vanityURLsHandler',
+       'compress',
+       //'methodOverride',
+       'poweredBy',
+       //'$custom',
+       'router',
+       'www',
+       'favicon',
+       '404',
+       '500'
+     ],
   /****************************************************************************
   *                                                                           *
   * Example custom middleware; logs each request to the console.              *
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+     vanityURLsHandler: function (req, res, next) {
+          // Checking for Vanity URL
+        return VanityURLsService.loadCache().then((result)=>{
+            
+            sails.log(result);
+            
+            // skiping of socket requests
+            if(req.isSocket) return next();
+               
+            // skiping of images, js, css, pdf ... files            
+            if(req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)$/)) return next();
+            
+            // checking of request url for vanity url
+            let requestURL = req.headers.host+req.url;          
+            for(var i in result){        
+              //remove protocol info from vanityURL
+              let vanityURL = url = (result[i].vanity_url || '').replace(/^(http|https):\/\//i, '');
+              
+              if(requestURL === vanityURL){
+                req.session.vanityURL = result[i];
+                break;
+              }
+            }
+            return next();
+          });
+     }
 
 
   /***************************************************************************
@@ -71,7 +92,7 @@ module.exports.http = {
 
     // bodyParser: require('skipper')
 
-  // },
+   },
 
   /***************************************************************************
   *                                                                          *

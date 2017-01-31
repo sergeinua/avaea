@@ -8,9 +8,20 @@
  * @description :: Simple site pages
  */
 
+
 module.exports = {
 
   index: function (req, res) {
+        
+    // do redirect if used vanity URL
+    if(req.session.vanityURL){
+      // getting of destination URL from vanityURL
+      let destinationURL = req.session.vanityURL.destination_url;
+      delete req.session.vanityURL;
+      return res.redirect(destinationURL); //redirect to 
+    }
+
+    
     if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
