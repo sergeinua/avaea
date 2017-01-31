@@ -33,6 +33,7 @@ before(function(done) {
       session: false,
       grunt: false
     },
+    cron: false
   }, function(err, server) {
     sails = server;
     if (err) return done(err);
