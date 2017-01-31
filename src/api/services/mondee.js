@@ -501,7 +501,7 @@ module.exports = {
           'No Results Found',
           'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 error types we show for end user
         ];
-        if (typeof err == 'string' && err.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+        if (typeof e == 'string' && e.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
           e = null;
         }
         return _cb(e, []);
