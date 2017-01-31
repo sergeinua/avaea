@@ -1,7 +1,9 @@
 /* global sails */
 /* global async */
+/* global _ */
 /* global Search */
 /* global Airports */
+/* global UserAction */
 /**
  * SiteController
  *
@@ -21,12 +23,12 @@ module.exports = {
       return res.redirect(destinationURL); //redirect to 
     }
 
-    
+    UserAction.saveFirstVisit(req, res);
     if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
     }
-    let page = req.url;
+    let page = _.clone(req.url);
 
     if (!req.url || req.url.trim() == '/') {
       page = req.isMobile ? '/search':'/home';
@@ -38,16 +40,28 @@ module.exports = {
       DepartureLocationCode : req.param('From', ''),   // departure airport code
       ArrivalLocationCode   : req.param('To', ''),     // destination airport code
       CabinClass            : req.param('Class', 'E'), // booking class, if any
-      departureDate         : req.param('Departure'),  // departure date)
-      returnDate            : req.param('Return'), // return date, if any
-      passengers            : req.param('Adults', '1'), // number of adult passengers, if any
-      //FIXME: add this parameter when ONV-938 is ready
+      departureDate         : req.param('Dep'),        // departure date)
+      returnDate            : req.param('Return'),     // return date, if any
+      passengers            : req.param('Pass', '1'),  // number of adult passengers, if any
+      // FIXME: add this parameter when ONV-953 is ready
+      // referrer              : req.param('ref', ''),    // a referrer name; could be a name of a partner, or ad campaign
+      // FIXME: add this parameter when ONV-938 is ready
       //req.param('kids') // number of kids, if any
     };
+
+    let departureDate = sails.moment(params.departureDate, 'YYYY-MM-DD');
+    let returnDate = sails.moment(params.returnDate, 'YYYY-MM-DD');
+
+    params.departureDate = departureDate.isValid()?departureDate.format('DD/MM/YYYY'):'';
+    params.returnDate = returnDate.isValid()?returnDate.format('DD/MM/YYYY'):'';
+
     params.flightType = params.returnDate?'round_trip':'one_way';
     let error = Search.validateSearchParams(params);
 
     if (req.params == 'search' && !error ) {
+      params.departureDate = departureDate.isValid()?departureDate.format('YYYY-MM-DD'):'';
+      params.returnDate = returnDate.isValid()?returnDate.format('YYYY-MM-DD'):'';
+
       sails.log.verbose('Found valid parameters for search form');
 
       async.parallel({
