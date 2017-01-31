@@ -175,7 +175,7 @@ module.exports = {
           if (item.country == 'Canada') {
             isCanada++;
           }
-          isUSA = item.country == 'United States';
+          isUSA = isUSA || (item.country == 'United States');
         });
         if ( isCanada == 2 || (isCanada == 1 && isUSA) ) {
           sails.log.info('CA<->US or CA<->CA flight: using [farelogix]');
