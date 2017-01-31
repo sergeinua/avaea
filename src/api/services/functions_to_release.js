@@ -159,14 +159,15 @@ module.exports = {
 
         var d = this.parseTime(itin.citypairs[0].from.time);
 
-        var priceRank_str  = (itin.priceRank      ===undefined)?(""):( " (" + itin.priceRank.toFixed(10) + ")" );
+        var priceRank_str  = (itin.priceRank      ===undefined)?(""):(" (" + itin.priceRank.toFixed(10) + ")" );
+        var miles_str      = (itin.miles          ===undefined)?(""):(", earning " + itin.miles + " mi" );
         var dep_rank_str   = (itin.best_dep_rank  ===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
         var air_line_str   = (itin.air_line       ===undefined)?(""):(" on " + itin.air_line);
         var airl_rank_str  = (itin.best_airl_rank ===undefined)?(""):(" with airl_rank "  + itin.best_airl_rank);
         var airl_rank2_str = (itin.best_airl_rank2===undefined)?(""):(" with airl_rank2 " + itin.best_airl_rank2);
         var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
 
-        console.log( prefix + "$" + itin.price.toFixed(2) + priceRank_str
+        console.log( prefix + "$" + itin.price.toFixed(2) + priceRank_str + miles_str
                             + ", " + itin.durationMinutes + " mins"
                             + ", departs " + itin.citypairs[0].from.time
                             //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
