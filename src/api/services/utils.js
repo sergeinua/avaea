@@ -144,8 +144,12 @@ module.exports = {
     if (req.user && req.user.id) {
       userId = req.user.id;
     } else {
-      userId = utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') || 0;
+      userId = req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : 0;
     }
     return userId;
+  },
+
+  getAnonymousUserId: function (req) {
+    return req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : false;
   }
 };
