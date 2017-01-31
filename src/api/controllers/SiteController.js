@@ -1,7 +1,9 @@
 /* global sails */
 /* global async */
+/* global _ */
 /* global Search */
 /* global Airports */
+/* global UserAction */
 /**
  * SiteController
  *
@@ -11,11 +13,12 @@
 module.exports = {
 
   index: function (req, res) {
+    UserAction.saveFirstVisit(req, res);
     if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
     }
-    let page = req.url;
+    let page = _.clone(req.url);
 
     if (!req.url || req.url.trim() == '/') {
       page = req.isMobile ? '/search':'/home';
