@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.cue:before,
 .rdr-MonthAndYear-button i:after,
 footer a.social:after, 
 .icon-social-instagram:before,
@@ -263,6 +264,9 @@ footer a.instagram:after,
 .icon-social-instagram:before {
   content: "\e933";
 }
+.cue.info:before,
+.icon-info:before {
+  content: "\e934";
+}
 
 /* end icons.css */
-
