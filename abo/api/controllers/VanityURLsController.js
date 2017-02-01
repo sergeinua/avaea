@@ -4,8 +4,6 @@
  * @description :: Server-side logic for managing Vanityurls
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-let utils = require('../services/utils');
-let VanityURLsService = require('../services/VanityURLsService');
 
 module.exports = {  
   create: function(req, res){

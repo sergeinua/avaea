@@ -9,6 +9,8 @@
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
 
+const url = require('url');
+
 module.exports.http = {
 
   /****************************************************************************
@@ -54,30 +56,31 @@ module.exports.http = {
   ****************************************************************************/
 
      vanityURLsHandler: function (req, res, next) {
-          // Checking for Vanity URL
-        return VanityURLsService.loadCache().then((result)=>{
+        // skiping of socket requests
+        if(req.isSocket) return next();
+
+        // skiping of images, js, css, pdf ... files            
+        if(req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)$/)) return next();
             
-            sails.log(result);
-            
-            // skiping of socket requests
-            if(req.isSocket) return next();
-               
-            // skiping of images, js, css, pdf ... files            
-            if(req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)$/)) return next();
-            
-            // checking of request url for vanity url
-            let requestURL = req.headers.host+req.url;          
-            for(var i in result){        
-              //remove protocol info from vanityURL
-              let vanityURL = url = (result[i].vanity_url || '').replace(/^(http|https):\/\//i, '');
+        let requestURI = req.url.replace(/\/+$/, '');
               
-              if(requestURL === vanityURL){
-                req.session.vanityURL = result[i];
-                break;
+        return VanityURLsService.loadCache().then(
+          (result)=>{
+              for(var i in result){
+                try{
+                  let vanityURI = (''+url.parse(result[i].vanity_url).pathname).replace(/\/+$/, '');
+                  if(requestURI === vanityURI){
+                    req.session.vanityURL = result[i];
+                    break;
+                  }          
+                }catch(ex){}
               }
-            }
+              return next();
+          },
+          (error)=>{
             return next();
-          });
+          }
+        );         
      }
 
 

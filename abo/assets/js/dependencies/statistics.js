@@ -362,9 +362,12 @@ var genGridVanityURLs = function () {
     $('#gridVanityURLsAddNew').removeClass('hidden');
   });
 
+  var showError = function(error){
+    $('#gridVanityURLsErrorMessage .panel-body').html(error);
+    $('#gridVanityURLsErrorMessage').removeClass('hidden');
+  }
 
-
-  $('#gridVanityURLs .grid').jsGrid('destroy').jsGrid({
+  var grid = $('#gridVanityURLs .grid').jsGrid('destroy').jsGrid({
     height: '550px',
     width: '100%',
     css: 'cell-ellipsis',
@@ -384,27 +387,48 @@ var genGridVanityURLs = function () {
       },
       insertItem: function(item)
       {
+        var d = $.Deferred();
+        item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/create/', item, function(res, jwres){
           if(res.error){
+            showError(JSON.stringify(res.error));
             console.log(res.error);
+            d.reject();
+          }else{
+            item.id = jwres.body.data.id;
+            d.resolve();
           }
-        });           
+        });
+        return d.promise();
       },      
       updateItem: function(item)
       {
+        var d = $.Deferred();      
+        item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/edit/'+item.id+'/', item, function(res, jwres){
           if(res.error){
+            showError(JSON.stringify(res.error));
             console.log(res.error);
+            d.reject();
+          }else{
+            d.resolve();
           }
-        });            
+        });
+        return d.promise();          
       },
       deleteItem: function(item)
       {
+        var d = $.Deferred();         
         socketAbo.post('/vanityURLs/delete/'+item.id+'/', {}, function(res, jwres){
           if(res.error){
+            showError(JSON.stringify(res.error));
             console.log(res.error);
+            d.reject();
+          }else{
+            d.resolve();
           }
-        });                
+        });
+        return d.promise();                
       },      
     },
     fields: [

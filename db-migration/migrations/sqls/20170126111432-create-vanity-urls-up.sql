@@ -12,5 +12,3 @@ WITH (
 );
 
 ALTER TABLE "vanity_urls" OWNER TO avaea;
-
-INSERT INTO vanity_urls(vanity_url, destination_url) VALUES ('http://stage.avaea.com/vanityURL/', 'http://stage.avaea.com/');

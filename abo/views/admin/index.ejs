@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!--STYLES-->
-    
+
     <!--STYLES END-->
     <style  type="text/css">
       body { padding-top: 70px; }
@@ -141,7 +141,15 @@
             &nbsp;&nbsp;
             <button id="gridVanityURLsAddNew" type="button" class="btn btn-info">Add New</button> 
             <button id="gridVanityURLsCancel" type="button" class="btn btn-danger hidden">Cancel</button> 
-        </form>        
+        </form>
+        <br>
+        <div id="gridVanityURLsErrorMessage" class="panel panel-danger hidden">
+          <div class="panel-heading">
+            <a class="pull-right text-danger" href="javascript:void(0);" onclick="$('#gridVanityURLsErrorMessage').addClass('hidden');">X Close</a>
+            <h3 class="panel-title">Error</h3>
+          </div>          
+          <div class="panel-body text-danger"></div>
+        </div>
         <br>  
         <div class="grid"></div><!-- .dataContainer -->          
       </div><!-- .panel-body -->
@@ -244,7 +252,7 @@
     </div>
 </div>
     <!--SCRIPTS-->
-    
+
     <!--SCRIPTS END-->
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
