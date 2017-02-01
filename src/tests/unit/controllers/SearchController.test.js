@@ -2,6 +2,7 @@ var request = require('supertest');
 require('should');
 var sinon = require('sinon');
 var assert = require('assert');
+var Q = require("q");
 
 describe('SearchController', function() {
 
@@ -240,11 +241,9 @@ describe('SearchController', function() {
           };
         }
       };
-      FFMPrograms.getMilesProgramsByUserId = function () {
-        return new Promise((resolve, reject) => {
-          resolve(true);
-        });
-      };
+      let savedOriginalFunctionGetMilesProgramsByUserId = FFMPrograms.getMilesProgramsByUserId;
+      var deferred = Q.defer();
+      FFMPrograms.getMilesProgramsByUserId = sinon.stub().returns(deferred.promise);
       ffmapi = {
         milefy : {
           Calculate: function ({itineraries, milesPrograms}, cb) {
@@ -257,7 +256,7 @@ describe('SearchController', function() {
                 "ProgramCodeName": ""
               }
             };*/
-            cb(null, itineraries.map(({id}) => ({id, ffmiles: {miles: 1234, ProgramCodeName: 'Program Name'}})));
+            return cb(null, itineraries.map(({id}) => ({id, ffmiles: {miles: 1234, ProgramCodeName: 'Program Name'}})));
           }
         }
       };
@@ -297,14 +296,18 @@ describe('SearchController', function() {
         }
       };
       sails.controllers.search.result(req, res);
-      done();
-      assert(view.called);
-      var result = require('../../fixtures/searchResult.json');
-      view.args[0].should.be.eql([result, 'search/result']);
-      assert(view.calledWith(result, 'search/result'));
-      view.reset();
-      Search.validateSearchParams = savedOriginalFunction;
-      done();
+
+      deferred.promise.then(function () {
+        assert(view.called);
+        var result = require('../../fixtures/searchResult.json');
+        view.args[0].should.be.eql([result, 'search/result']);
+        assert(view.calledWith(result, 'search/result'));
+        view.reset();
+        Search.validateSearchParams = savedOriginalFunction;
+        FFMPrograms.getMilesProgramsByUserId = savedOriginalFunctionGetMilesProgramsByUserId;
+        done();
+      });
+      deferred.resolve([]);
     });
   });
 
