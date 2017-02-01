@@ -240,6 +240,27 @@ describe('SearchController', function() {
           };
         }
       };
+      FFMPrograms.getMilesProgramsByUserId = function () {
+        return new Promise((resolve, reject) => {
+          resolve(true);
+        });
+      };
+      ffmapi = {
+        milefy : {
+          Calculate: function ({itineraries, milesPrograms}, cb) {
+            /*var exampleItineraryMilesResp = {
+              "id": "bd63919e-e2d1-4c17-ad7b-9f040daf044f",
+              "ffmiles": {
+                "AccrualType": "RDM. Redeemable miles usually by default.",
+                "miles": 15247,
+                "ProgramCode": "BAC",
+                "ProgramCodeName": ""
+              }
+            };*/
+            cb(null, itineraries.map(({id}) => ({id, ffmiles: {miles: 1234, ProgramCodeName: 'Program Name'}})));
+          }
+        }
+      };
       sails.config.globals.bucketizationFunction = 'getTilesDataEmpty';
       Airlines.makeIconSpriteMap = function (cb) {return cb(false, {});};
       Search.getResult = function (params, cb) {
@@ -276,6 +297,7 @@ describe('SearchController', function() {
         }
       };
       sails.controllers.search.result(req, res);
+      done();
       assert(view.called);
       var result = require('../../fixtures/searchResult.json');
       view.args[0].should.be.eql([result, 'search/result']);

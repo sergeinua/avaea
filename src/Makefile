@@ -33,6 +33,12 @@ test-integration-localhost:
 test-unit:
 	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
+test-unit-site:
+	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/SiteController.test.js
+
+test-unit-search:
+	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/SearchController.test.js
+
 test-jest-snapshot:
 	./node_modules/.bin/jest
 
