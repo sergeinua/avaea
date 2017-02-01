@@ -11,11 +11,11 @@ exports[`test Footer component test 1`] = `
           <ul
             className="menu nav">
             <li
-              className="active">
+              className="">
               <a
                 onClick={[Function]}
                 style={Object {}}>
-                Home
+                About
               </a>
             </li>
             <li
@@ -23,7 +23,7 @@ exports[`test Footer component test 1`] = `
               <a
                 onClick={[Function]}
                 style={Object {}}>
-                About
+                Team
               </a>
             </li>
             <li

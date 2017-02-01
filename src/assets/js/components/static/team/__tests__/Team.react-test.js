@@ -3,14 +3,14 @@ xtest('', () => {});
 /*
 
 import React from 'react';
-import StaticHome from '../Home';
+import StaticTeam from '../Team';
 import renderer from 'react-test-renderer';
 
 
-xtest('Home component test', () => {
+xtest('Team component test', () => {
   var mockUser = {email: "test@gmail.com", id: 58};
   var component = renderer.create(
-    <StaticHome user={mockUser} />
+    <StaticTeam user={mockUser} />
   );
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();
