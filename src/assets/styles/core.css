@@ -1,5 +1,5 @@
 /* ---------------
-   onvoya core.css
+   onvoya core.css - 899 epic
 	 --------------- */
 
 /* syntax
@@ -9,6 +9,7 @@
 
 
 .hide,
+.cue.info,
 .device,
 .ie-fixer,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
@@ -124,7 +125,7 @@ body:not(.touch) i.icon-mic:before {
 	margin-right: 0;
 }
 
-.desktop .search-buttons {
+.desktop .search.buttons {
 	margin: 30px 0 0 0;
 }
 
@@ -671,14 +672,25 @@ body.desktop form.profile,
 	font-size: 18px;
 }
 
+button {
+	user-select: none;
+}
+
 .big-button {
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
-	padding: 13px 25px;
+	padding: 13px 28px;
 
 	/* bootstrap */
 	line-height: 1em;
+	
+	transition: all 0.1s ease-in-out;
+}
+
+.big-button,
+.big-button.secondary.disabled {
+	padding: 13px 28px;
 }
 
 .big-button:hover,
@@ -693,14 +705,12 @@ body.desktop form.profile,
 }
 
 .big-button.secondary {
-	margin-right: 0;
+	padding: 12px 27px;
 	background: #ffffff;
 }
 
 .small-button,
-.search_button_top_cancel,
-.tertiary-button,
-.big-button {
+.tertiary-button {
 	cursor: pointer;
 	display: inline-block;
 	border-radius: 3px;
@@ -755,6 +765,51 @@ body.desktop form.profile,
 .message.info strong {
 	font-family: 'Open-Sans-Semibold';
 }
+
+.meri-wrapper {
+	position: relative;
+}
+
+.meri-speaks {
+	margin: 0 auto;
+	position: relative;
+	transition: all 0.1s ease-in-out;
+}
+
+.meri-speaks .bubble {
+	text-align: left;
+	padding: 15px 40px 15px 80px;
+	min-height: 70px;
+	position: relative;
+	background: url('/images/meri.svg') 7px 7px no-repeat;
+	background-size: 55px;
+	border-radius: 10px;
+}
+
+.meri-speaks .bubble:after {
+	content: '';
+	display: block;
+	width: 15px;
+	height: 15px;
+	position: absolute;
+		bottom: -8px;
+		left: calc(73% - 7px);
+	background: #eef7fc;
+	transform: rotate(-45deg);
+}
+
+.meri-speaks .close-x {
+	font-size: 16px;
+	padding: 12px 15px;
+	position: absolute;
+		top: 0;
+		right: 0;
+}
+
+
+
+/* heredeb */
+
 
 
 /* colors */
@@ -838,12 +893,18 @@ footer.app-copy a.social:focus {
 
 .big-button,
 .btn-primary,
-.navbar-header .small-button {
+.navbar-header .small-button,
+.calendar-panel .message.info {
 	background: #14ca60;
 }
 
 .big-button.secondary {
 	border: 1px solid #14ca60;
+}
+
+.meri-speaks .bubble:after {
+	border-top: 0px solid transparent;
+	border-right: 0px solid transparent; 
 }
 
 
@@ -857,10 +918,25 @@ footer.app-copy a.social:focus {
 .buy-button-price.btn-primary:hover,
 .big-button:hover,
 .big-button:focus,
+/* bootstrap */
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
 	background: #00a93f;
+}
+
+.big-button.secondary.disabled:hover,
+.big-button.secondary.disabled:focus,
+.buttons-bar.single.disabled:hover,
+.buttons-bar.single.disabled:focus,
+.buy-button-price.disabled.btn-primary:hover,
+.big-button.disabled:hover,
+.big-button.disabled:focus,
+/* bootstrap */
+.btn-primary.disabled:hover,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:active {
+	background: #ffffff;
 }
 
 .message.info {
@@ -989,10 +1065,19 @@ a:focus,
 	border: 1px solid rgba(0, 169, 231, .7);
 }
 
+.search.buttons .meri-speaks a {
+	color: #009fe1;
+}
+
 
 /* partial blue */
 
+.meri-speaks .bubble:after,
+.flight-date-info-item {
+    background: #deeef7;
+}
 
+.meri-speaks .bubble,
 .panel-default > .panel-heading:hover,
 .panel-default > .panel-heading:focus {
 	background-color: #deeef7;
@@ -1002,6 +1087,7 @@ a:focus,
 .datepicker table td.day.range:not(.disabled) {
 	background-color: #deeef7 !important;
 }
+
 
 /* partial blue hover, #eef6f8 for lighter */
 
@@ -1430,7 +1516,7 @@ textarea {
 .login-holder .big-button {
 	font-size: 19px;
 	text-align: left;
-	padding-left: 70px;
+	padding: 13px 25px 13px 70px;
 	width: 280px;
 	position: relative;
 }
@@ -1623,17 +1709,17 @@ textarea {
 	margin-left: 5px;
 }
 
-
 .multi-city-coming-soon {
 	color: #ffffff;
   font-size: 18px;
 	text-align: center;
-	padding-top: 50px;
-  padding-bottom: 105px;
+	padding-top: 33px;
+  height: 136px;
 }
 
-
-/* from to destination arrival */
+.desktop .multi-city-coming-soon {
+	height: 166px;
+}
 
 .searchform .plus {
 	  font-size: 100px;
@@ -1650,7 +1736,6 @@ textarea {
   padding: 10px 10px 40px 10px;
 	display: flex;
 	justify-content: space-around;
-	
 }
 
 .searchform .flight-direction {
@@ -1845,29 +1930,6 @@ strong.tt-highlight {
 	padding-right: 8px;
 }
 
-.flight-additional-info .chooser {
-	font-family: 'Open-Sans-Semibold';
-	padding-top: 18px;
-  height: 50px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-}
-
-.flight-additional-info .text-picker {
-  text-align: left;
-  padding-left: 15px;
-}
-
-.flight-additional-info .text-picker,
-.flight-additional-info .text-picker span {
-	cursor: pointer;
-}
-
-.flight-additional-info .label-d {
-  font-size: 14px;
-  text-align: right;
-  padding-right: 15px;
-}
-
 
 /* voice search */
 
@@ -1940,7 +2002,7 @@ strong.tt-highlight {
   width: 100%;
 }
 
-.search-buttons {
+.search.buttons {
 	text-align: center;
 	width: 100%;
 }
@@ -1949,6 +2011,34 @@ strong.tt-highlight {
 	margin-top: 45px;
 }
 
+.search.buttons .big-button {
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.search.buttons .big-button.secondary.disabled {
+	border-right: 0px solid transparent;
+}
+
+.search.buttons .meri-speaks {
+	max-width: 330px;
+	position: absolute;
+	bottom: 8px;
+	left: calc(50% - 165px);
+}
+
+.search.buttons .meri-wrapper {
+	margin: 8px auto -3px auto;
+	height: 96px;
+	transition: all .5s ease-out;
+	transition-delay: .5s;
+}
+
+.search.buttons .meri-wrapper.remove {
+	 height: 40px;
+}
+
+/* heredeb */
 
 /* calendar */
 
@@ -3344,7 +3434,7 @@ td[data-action*="selectDay"] {
 .booking .buttons {
 	margin-top: 30px;
 	width: 100%;
-	background: #fff;
+	background: #ffffff;
 }
 
 .booking .buttons .big-button {
@@ -3732,8 +3822,8 @@ footer.app-copy .bottom a {
 @media (max-width: 766px) {
 
 	.touch .navbar-brand {
-		background: url('/images/logo-onvoya-app-2x.png') -45px 3px no-repeat;
-		background-size: 185px;
+		background: url('/images/logo-onvoya-app-2x.png') -40px 3px no-repeat;
+		background-size: 175px;
 	}
 
 	.touch.suppress-logo .navbar-brand {
@@ -3824,8 +3914,18 @@ footer.app-copy .bottom a {
 	.touch .booking .notable-area .refundable  {
 		margin-left: 12%;
 	}
+	
+	.meri-speaks .bubble {
+		padding: 12px 40px 12px 80px;
+	}
+	
+}
 
-
+/* android */
+@media (max-width: 360px) {
+	
+	
+	
 }
 
 @media (min-width: 351px) {
@@ -3885,6 +3985,40 @@ footer.app-copy .bottom a {
 		right: -5px;
 	}
 
+	.flight-direction-form {
+		padding-top: 0;
+		padding-bottom: 10px;
+	}
+	
+	.touch .search.buttons {
+		bottom: 5px;
+	}
+	
+	.big-button,
+	.big-button.secondary {
+		padding-left: 20px;
+		padding-right: 20px;
+	}
+	
+	.search.buttons .meri-wrapper {
+		height: 88px;
+	}
+	
+	.search.buttons .meri-speaks {
+		max-width: 300px;
+		left: calc(50% - 150px);
+	}
+	
+	.meri-speaks .bubble {
+		font-size: 13px;
+		padding-left: 70px;
+		background-size: 50px;
+	}
+	
+	.multi-city-coming-soon {
+		height: 126px;
+	}
+
 }
 
 
@@ -3928,7 +4062,6 @@ footer.app-copy .bottom a {
 	
 	.touch .searchnav .dropbutton {
 		padding-top: 10px;
-		padding-bottom: 10px;
 	}
 	
 	.touch .searchform .flight-direction {
@@ -3962,13 +4095,20 @@ footer.app-copy .bottom a {
 	.touch .open-calendar .the-date {
 		font-size: 20px;
 		line-height: 25px;
+		letter-spacing: 0;
+		padding-top: 0;
+	}
+	
+	.search.buttons .meri-wrapper.remove {
+		margin-top: 5px;
+		height: 1px;
 	}
 
 	.touch .calendar-panel {
 		margin-top: 60px;
 	}
 
-	.touch .search-buttons,
+	.touch .search.buttons,
 	.touch .voice-search-buttons {
 		position: relative;
 			top: 5px;
@@ -3978,7 +4118,7 @@ footer.app-copy .bottom a {
 		margin-top: 0px;
 	}
 
-	.touch .search-buttons .big-button {
+	.touch .search.buttons .big-button {
 		margin: 5px 0 0 0;
 	}
 
@@ -4206,12 +4346,13 @@ html[data-useragent*='Trident'] .searchnav .positioner > .wrapper {
 	margin-right: 20px;
 }
 
+
 html[data-useragent*='Trident'] .double.buttons .big-button {
 	display: inline-block;
 }
 
 html[data-useragent*='Trident'] .multi-city-coming-soon {
-	padding-bottom: 105px;
+	height: 172px;
 }
 
 html[data-useragent*='Trident'] .ie-fixer.placeholder {
@@ -4300,7 +4441,6 @@ html[data-useragent*='Trident'] .swiper-container {
 
 
 /* end onvoya core.css */
-
 
 
 

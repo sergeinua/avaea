@@ -1,13 +1,15 @@
 import React from 'react';
 import moment from 'moment';
-import { ActionsStore } from '../../functions.js';
+import ClassChooser from './ClassChooser.jsx';
+import PassengerChooser from './PassengerChooser.jsx';
+import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
-var flashErrorTimeout = 1000;
+var flashErrorTimeout = 2000;
 
 var TripSearchForm = React.createClass({
 
@@ -50,6 +52,12 @@ var TripSearchForm = React.createClass({
       // so logo does not push the search query down
       $("body").addClass('suppress-logo');
     }.bind(this);
+  },
+  
+  handleMeriHint: function () {
+  	// FIXME - could be React
+  	$('.meri-speaks ').fadeToggle('fast');
+  	$('.meri-wrapper ').toggleClass('remove');
   },
 
   handleSubmitForm: function (submitCounter) {
@@ -201,7 +209,7 @@ var TripSearchForm = React.createClass({
     return resultClass;
   },
 
-  getSubmitButtonDisabledClass: function () {
+  getButtonsDisabledClass: function () {
     let formErrors = this.props.InitSearchFormData.formErrors;
     return formErrors.isError ? 'disabled ': '';
   },
@@ -305,21 +313,41 @@ var TripSearchForm = React.createClass({
           }
         </div>
 
-        <div className="search-buttons">
-	        
-          <button id="search-form-all-flights-button" type="submit" className={
-            "big-button search-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(0)}>
-          	Search
+        <div className="flight-additional-info row">
+          <div className="col-xs-12">
+            <PassengerChooser searchParams={this.props.InitSearchFormData.searchParams}/>
+            <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
+          </div>
+        </div>
+        
+        <div className="search buttons duo">
+        
+		      <div className="meri-wrapper">  
+	        	<div className="meri-speaks">
+			      	<div className="bubble">
+			        	We remove worst flights and factor FF miles.
+				        	{getUser().email ?
+				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
+				              : 
+				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
+			            }
+			        	<div className="close-x" onClick={this.handleMeriHint}></div>
+			      	</div>
+			      </div>
+			    </div>  
+		      
+          <button id="search-form-all-flights-button" 
+          	type="submit" 
+          	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
+          	All Flights
           </button>
            
-				  {/* no 2nd button until we have better agent customization */}
-				  {/*
           <button id="search-form-top-flights-button"
             type="submit"
-            className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>
+            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
           	Top Flights
           </button>
-          */} 
+	          	
         </div>
 
       </div>
