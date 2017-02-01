@@ -39,17 +39,10 @@ module.exports = {
     timestamp: true
   },
 
-  session: {
-    host: 'localhost',
-    user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
-  },
-
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
-      baseEndPoint: 'http://sandbox.trippro.com/api/v2',
+      // baseEndPoint: 'http://sandbox.trippro.com/api/v2', // temporary disabled until Mondee sandox is fixed
       // clientId: 'CFS1017' temporary disabled bc of error from mondee "Please Provide Valid ClientId"
     },
     farelogix: {
