@@ -11,6 +11,7 @@
 .hide,
 .device,
 .ie-fixer,
+.booking label,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
@@ -1284,6 +1285,18 @@ form.form {
 textarea {
 	padding: 8px;
 }
+
+.textfield,
+.dropmenu {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid hsla(240,1%,49%,.25);
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+
+/* heredeb */
 
 .its-me .hint,
 .tertiary-button.disabled:before,
@@ -2815,6 +2828,7 @@ td[data-action*="selectDay"] {
 .notable-area .refundable.row .copy {
 	display: inline-block;
 	float: left;
+	max-width: 90%;
 }
 
 .notable-area .refundable.row .label-d {
@@ -2956,6 +2970,22 @@ td[data-action*="selectDay"] {
 	margin-top: 30px;
 }
 
+.page-ti.people:before {
+	font-size: 25px;
+		top: 2px;
+}
+
+.lil-italics,
+.booking .form .wrapper {
+	padding-left: 18px;
+}
+
+.dropmenu.Country {
+	max-width: 100%;
+}
+
+/* heredeb */
+ 
 .booking .confirmation {
 	font-family: 'Open-Sans-Light';
 	font-size: 20px;
@@ -2986,7 +3016,7 @@ td[data-action*="selectDay"] {
 
 .which-passenger {
 	font-size: 18px;
-	margin-left: -8px;
+	margin-left: 18px;
 	padding-left: 15px;
 	position: relative;
 }

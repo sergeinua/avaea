@@ -13,7 +13,60 @@
 
 --------------- */
 
+/* do integrate */
 
+div.dropmenu:not(.robust) {
+	 
+}
+
+div.dropmenu .choice.active {
+	 
+}
+ 
+
+/* don't integrate (temporary) */
+
+
+
+
+
+.dropmenu {
+	text-align: left;
+	display: inline-block;
+	background: #ffffff;
+}
+
+.dropmenu .choice {
+  font-size: 16px;
+	cursor: pointer;
+  padding: 10px 20px 10px 20px;
+	border-bottom: 1px solid rgba(100, 100, 100, 0.3);
+}
+
+.dropmenu .choice:last-child {
+	padding-bottom: 20px;
+	border-bottom: 0px solid transparent;
+}
+
+.dropmenu.robust .wrapper {
+	margin-top: 45px;
+	padding: 15px 15px 5px 15px;
+}
+
+.dropmenu.passenger-chooser {
+	min-width: 300px;
+	position: absolute;
+		right: 0;
+}
+
+.dropmenu .close-x {
+	font-size: 18px;
+	padding: 20px;
+	position: absolute;
+		right: 0px;
+		top: 0px;
+ 	z-index: 2;
+}
 
 
 

@@ -142,7 +142,7 @@ let OrderPanel = React.createClass({
           requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
         Country: {
-          requiredAndTrim: true
+          requiredAndTrim: true,
         },
         ZipCode: {
           requiredAndTrim: true
@@ -327,9 +327,12 @@ let OrderPanel = React.createClass({
             <div className="form">
 
             <div className="page-ti billing">Billing</div>
-            {this.makeOrderData(this.props.orderData).map(
-                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
-            )}
+	            <div className="lil-italics">All fields are required</div>
+	            <div className="wrapper">
+	            {this.makeOrderData(this.props.orderData).map(
+	                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+	            )}
+	            </div>
 
             <div className="page-ti people">Travellers</div>
             {_passengers}

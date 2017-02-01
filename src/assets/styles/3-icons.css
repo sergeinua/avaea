@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.dropmenu-wrapper:before,
 .rdr-MonthAndYear-button i:after,
 footer a.social:after, 
 .icon-social-instagram:before,
@@ -80,9 +81,11 @@ footer a.social:after,
 /* icons */
 
 .passenger-count:before,
+.page-ti.people:before,
 .icon-account:before {
   content: "\e900";
 }
+.dropmenu-wrapper:before,
 .icon-arr-dropdown:before {
   content: "\e901";
 }
