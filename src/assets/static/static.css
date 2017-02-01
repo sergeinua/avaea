@@ -36,12 +36,6 @@ body {
 	padding-bottom: 0;
 }
 
-.desktop #spa-app {
-	/* this one is min-width for Wayfare
-	   take it away if we don't use Wayfare */
-	min-width: 300px;
-}
-
 .desktop {
 	text-align: center;
 	margin: 0;
@@ -108,7 +102,7 @@ body,
 
 /* dark blue */
 .static-nav-button,
-.static.about input,
+.static.home input,
 h1,
 h2,
 .textly .subti,
@@ -126,7 +120,7 @@ footer.static {
 }
 
 .try-it {
-  background: rgba(6, 40, 85, .85);
+  background: rgba(6, 40, 85, .9);
 }
 
 .suggest-container, .suggest-item {
@@ -153,12 +147,12 @@ header.static li.active a:visited {
 
 /* light blue bg */
 
-.team.second,
-.static .about.compare {
+.about.second,
+.static .home.compare {
 	background: #f9fafe;
 }
 
-.team .person .image {
+.about .person .image {
 	background: #eff0f4;
 }
 
@@ -213,7 +207,7 @@ body,
 header.static a, 
 header.static a:hover, 
 header.static a:visited,
-.team .person .ti {
+.about .person .ti {
 	color: #919191;
 }
 
@@ -226,11 +220,11 @@ header.static .left a:hover {
 }
 
 header,
-.about.level.compare {
+.home.level.compare {
 	border-bottom: 1px solid #d7d7d7;
 }
 
-.about.level.compare {
+.home.level.compare {
 	border-top: 1px solid #d7d7d7;
 }
 
@@ -240,6 +234,36 @@ header,
 	color: #919191;
 }
 
+.rdr-Day.is-passive,
+.rdr-Day.is-selected.is-passive,
+.rdr-Day.is-passive:hover,
+.rdr-Day.is-selected.is-passive:hover {
+	cursor: default;
+	color: #d1d1d1 !important;
+	background: transparent !important;
+}
+
+.rdr-Day:hover {
+	background: #eeeeee !important;
+}
+
+.react-autosuggest__suggestion--focused {
+  background-color: #f7f7f7;
+}
+
+.simple-cal,
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.react-autosuggest__suggestion:last-child {
+	border-bottom: 0px solid transparent;
+}
+
 /* gold */
 
 
@@ -247,7 +271,6 @@ header,
 
 
 /* ------- everywhere parts ------- */
-
 
 h1,
 h2,
@@ -368,13 +391,13 @@ header.static li.flight-search a:hover {
 }
 
 
-/* about */
+/* home */
 
-.about.top {
+.home.top {
   position: relative;
 }
 
-.about-top-copy {
+.home-top-copy {
   color: #ffffff;
   font-family: 'Open-Sans-Light';
   font-size: 28px;
@@ -386,8 +409,8 @@ header.static li.flight-search a:hover {
 }
 
 .slogan.first,
-.slogan.second {
-	padding: 0 4px;
+.slotan.second {
+	padding: 0 8px;
 }
 
 .slogan.third {
@@ -440,16 +463,54 @@ video {
 	font-size: 25px;
 }
 
-.try-it .copy {
-	font-size: 26px;
-	margin: 10px 0 40px 0;
+.try-it .word-to:before {
+	content: 'to';
+}
+
+.try-it form {
+	display: inline-block;
+	width: 100%; 
+}
+
+.try-it form .centerer {  
+	text-align: center;
+	display: inline-block;
+	width: 100%;
+}
+
+.try-it form .wrapper {
+	text-align: left;
+	margin-bottom: 25px;
+	display: inline-block;
+}
+
+.try-it input {
+	font-size: 19px;
+	text-align: center;
+	padding: 5px;
+	width: 100%;
+	border: 0px solid transparent;
+}
+
+.try-it .loc-holder {
+	margin-bottom: 15px;
+}
+
+.try-it .loc-holder input {
+	width: 188px;
+	background: #ffffff url('../images/static/input-map-pin.svg') right 5px no-repeat;
+	border: 0px solid transparent;
+}
+
+.try-it .date-holder input {
+	background: #ffffff url('../images/static/input-calendar.svg') right 5px no-repeat;
 }
 
 .try-it span:not(.slogan) {
 	padding: 0 18px;
 }
 
-.content.static.about h1 {
+.content.static.home h1 {
 	text-align: center;
 }
 
@@ -460,19 +521,63 @@ video {
 
 /* desktop wayfare ad units */
 
+.desktop .home-top-copy {
+	margin-top: 0;
+	margin-bottom: 0;
+	padding: 30px 0;
+}
 
-.about.second.level h1, 
-.about.third > copy {
+.desktop .try-it {
+	margin-top: 0;
+}
+
+.wayfare.home .ti.compare {
+	text-align: left;
+	margin: 10px auto 0 auto;
+}
+
+.wayfare.home .ti.compare,
+.wayfare.home.comparison-unit {
+	max-width: 430px;
+}
+
+.wayfare.home.comparison-unit {
+	margin: -20px auto 30px auto;
+	height: 100px;
+}
+
+.wayfare.home.comparison-unit,
+.wayfare.home.comparison-unit .holder {
+	position: relative;
+	overflow: hidden;
+}
+
+.wayfare.home.comparison-unit iframe {
+	top: -22px;
+	left: -15%;
+	width: 130% !important;
+	background: #ffffff;
+}
+
+
+
+/* heredeb */
+
+
+/* ends desktop wayfare ad units */
+
+.home.second.level h1, 
+.home.third > copy {
     margin: 0 40px;
 }
 
-.static .about.compare {
+.static .home.compare {
 	text-align: left;
 	padding: 0 530px 0 0;
 	position: relative;
 }
 
-.static .about.compare:after {
+.static .home.compare:after {
 	content: '';
 	width: 575px;
 	height: 485px;
@@ -483,11 +588,11 @@ video {
 	background: url(../images/static/tickets-compare.svg) 40px 10px no-repeat;
 }
 
-.static .about.compare .wrapper {
+.static .home.compare .wrapper {
 	margin: 60px 0 70px 100px;
 }
 
-.static .about.compare h1 {
+.static .home.compare h1 {
 	font-family: 'Open-Sans-Light';
 	font-size: 36px;
 	line-height: 44px;
@@ -495,24 +600,24 @@ video {
 	position: relative;
 }
 
-.static .about.compare strong,
-.static .about.compare span {
+.static .home.compare strong,
+.static .home.compare span {
 	font-family: 'Open-Sans';
 	font-weight: normal;
 }
 
-.static .about.compare span {
+.static .home.compare span {
 	font-size: 26px;
 	position: relative;
 		top: -10px;
 }
 
-.static .about.compare ul {
+.static .home.compare ul {
 	font-family: 'Open-Sans-Light';
 	margin: 30px 0 0px 30px;
 }
 
-.static .about.compare li {
+.static .home.compare li {
 	padding: 0 0 5px 40px;
 	list-style-type: none;
 	position: relative;
@@ -541,7 +646,7 @@ video {
 }
 
 .static-features h3,
-.static .about.compare ul {
+.static .home.compare ul {
 	font-size: 20px;
 	line-height: 30px;
 }
@@ -577,36 +682,36 @@ video {
 	background: url(../images/static/graphic-price.svg) center no-repeat;
 }
 
-.about.third {
+.home.third {
 	margin-bottom: 0;
 }
 
-.about.third .wrapper {
+.home.third .wrapper {
 	text-align: center;
 	margin: 20px auto 40px;
 	display: inline-block;
 }
 
-.about.third > .copy,
-.about .upcoming .ti,
-.team.top .copy,
+.home.third > .copy,
+.home .upcoming .ti,
+.about.top .copy,
 .static.contact .copy {
 	font-family: 'Open-Sans-Light';
 	font-size: 22px;
 	line-height: 32px;
 }
 
-.about .upcoming .ti {
+.home .upcoming .ti {
 	margin-bottom: 10px;
 }
 
-.about.third > .copy {
+.home.third > .copy {
 	margin: 20px auto;
 	text-align: center;
 	width: 700px;
 }
 
-.about .upcoming {
+.home .upcoming {
 	margin: 15px;
 	text-align: left;
 	padding: 30px;
@@ -616,7 +721,7 @@ video {
 	vertical-align: top;
 }
 
-.about.graphic {
+.home.graphic {
 	width: 100%;
 	height: calc(100vw * .42);
 	position: relative;
@@ -626,24 +731,209 @@ video {
 }
 
 
-/* team */
 
-.team.top {
+/*locations and calendar React elements */
+
+
+.try-it .positioner {
+	display: table-cell;
+	position: relative;
+}
+
+.react-autosuggest__container {
+	display: table-cell;
+}
+
+.home .try-it .date-holder,
+.home .try-it .loc-holder {
+	position: relative;
+}
+
+.home .try-it .date-holder {
+	max-width: 430px;
+}
+
+
+
+/* locations */
+
+.react-autosuggest__suggestions-list {
+  list-style-type: none;
+}
+
+.react-autosuggest__container--open .react-autosuggest__input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__container--open .react-autosuggest__suggestions-container {
+	font-size: 16px;
+  display: block;
+	width: 285px;
+  position: absolute;
+  	top: 42px;
+	background-color: #fff;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+
+/* calendar */
+
+/* overwrite plugin */
+
+#rdr-DateRange {
+	border-radius: 0px !important;
+}
+
+.rdr-MonthAndYear-divider {
+	display: none;
+}
+
+.rdr-MonthAndYear-month:after {
+	content: '';
+	display: inline;
+	padding: 0 5px;
+}
+
+
+.rdr-WeekDays, 
+.rdr-Days {
+	font-family: 'Open-Sans';
+}
+
+.try-it .rdr-Day,
+.try-it .rdr-WeekDay {
+	font-size: 13px !important;
+}
+
+.try-it .rdr-WeekDay {
+	font-family: 'Open-Sans-Semibold';
+	font-weight: 200 !important;
+}
+
+.try-it .rdr-Day {
+	font-size: 13px !important;
+	line-height: 42px !important;
+	height: 42px !important;
+	width: 37.5px !important; 
+	transition: none !important;
+}
+
+.rdr-Day.is-passive {
+	opacity: 1 !important;
+}
+
+.rdr-Day.is-selected,
+.rdr-Day.is-selected.is-inRange {
+	color: #ffffff !important;
+}
+
+.rdr-DateRange,
+.rdr-MonthAndYear,
+.rdr-MonthAndYear-innerWrapper {
+	position: relative;
+}
+
+.rdr-MonthAndYear-button {
+	height: 35px !important;
+	width: 35px !important;
+	position: absolute;
+		top: 0px; 
+}
+
+.rdr-MonthAndYear-button.prev {
+	left: -10px;
+}
+
+.rdr-MonthAndYear-button.next {
+	right: -10px;
+}
+
+.rdr-MonthAndYear-button i:after {
+	font-family: 'icomoon';
+	font-size: 14px;
+	position: absolute;
+	  top: 12px;
+    left: 11px;
+}
+
+.rdr-MonthAndYear-button i {
+	border-width: 0px !important;
+	border-color: transparent !important;
+	border-style: none !important;
+}
+
+.rdr-MonthAndYear-button.prev i:after {
+	content: "\e925";
+}
+
+.rdr-MonthAndYear-button.next i:after {
+	content: "\e926";
+}
+
+
+/* new styles */
+
+.simple-cal {
+	padding: 40px 0 10px 0;
+  display: inline-block;
+	width: 570px;
+  position: absolute;
+		top: 41px;
+		left: 0;
+	background: #ffffff;	
+  z-index: 2;
+	transition: all 0.1s ease-in-out;
+}
+
+.try-it .simple-cal span {
+	padding: 0 0 0 0;
+}
+
+.simple-cal span.close-x {
+	color: #323232;
+	font-size: 22px;
+	padding: 15px;
+	position: absolute;
+    top: 0;
+    right: 8px;
+}
+
+
+
+/* about */
+
+.about.top {
 	text-align: left;
 	padding-top: 35px;
 	padding-right: 420px;
 	position: relative;
 }
 
-.team.top .wrapper {
+.about.top .wrapper {
 	margin: 80px 0 90px 110px;
 }
 
-.team.top .copy {
+.about.top .copy {
 	margin: 20px 0 70px 0;
 }
 
-.team.top:after {
+.about.top:after {
 	content: '';
 	width: 375px;
 	height: 485px;
@@ -654,7 +944,7 @@ video {
 	background: url(../images/static/globe-about.svg) 15px 0px no-repeat;
 }
 
-.team.second:before {
+.about.second:before {
 	content: '';
 	width: 120px;
 	height: 200px;
@@ -665,7 +955,7 @@ video {
 	background: url(../images/static/passport.svg) 20px 0px no-repeat;
 }
 
-.team.second:after {
+.about.second:after {
 	content: '';
 	width: 90px;
 	height: 75px;
@@ -675,17 +965,17 @@ video {
 	background: url(../images/static/tickets.svg) 0px 0px no-repeat;
 }
 
-.team.second {
+.about.second {
 	text-align: center;
 	position: relative;
 	padding-bottom: 100px;
 }
 
-.team.second h2 {
+.about.second h2 {
 	padding: 50px 0;
 }
 
-.team .person {
+.about .person {
 	font-size: 16px;
 	line-height: 28px;
 	display: inline-block;
@@ -701,12 +991,12 @@ video {
 	border-radius: 50%;
 }
 
-.team .person .ti,
-.team .person .bio {
+.about .person .ti,
+.about .person .bio {
 	font-family: 'Open-Sans-Light';
 }
 
-.team .person .bio {
+.about .person .bio {
 	line-height: 24px;
 	margin: 10px 40px 60px 40px;
 }
@@ -784,7 +1074,7 @@ video {
 	display: none;
 }
 
-.team .button-holder {
+.about .button-holder {
 	text-align: center;
 	margin-bottom: 120px;
 }
@@ -990,7 +1280,6 @@ footer.static .bottom {
 
 /* ------- responsive ------- */
 
-
 @media (min-width: 970px) and (max-width: 1185px) {
 	
 	.static-features > div {
@@ -1018,19 +1307,19 @@ footer.static .bottom {
     font-size: 20px;
 	}
 	
-	.static .about.compare .wrapper {
+	.static .home.compare .wrapper {
 		margin-bottom: 0;
 	}
 	
-	.static .about.compare {
+	.static .home.compare {
 		padding-right: 0;
 	}
 	
-	.static .about.compare ul {
+	.static .home.compare ul {
 		margin-bottom: 20px;
 	}
 	
-	.static .about.compare:after {
+	.static .home.compare:after {
 		margin-bottom: -30px;
 		height: calc(77vw * .75);
 		width: 100%;
@@ -1039,7 +1328,7 @@ footer.static .bottom {
 		background-size: 77%;
 	}
 	
-	.about.graphic {
+	.home.graphic {
 		height: calc(100vw * .55);
 		background-size: 135%;
 	}
@@ -1084,11 +1373,12 @@ footer.static .bottom {
 	header.static {
 		text-align: left;
 		padding-left: 20px;
-		padding-right: 280px;
+		padding-right: 200px;
+		padding-bottom: 10px;
 	}
 	
-	header.static a.brand {
-		right: 0;
+	header.static .brand {
+		right: -10px;
 	}
 	
 	.touch header.static {
@@ -1155,40 +1445,40 @@ footer.static .bottom {
 		margin-bottom: 20px;
 	}
 	
-	.about.third h1,
-	.about.third > .copy {
+	.home.third h1,
+	.home.third > .copy {
 		width: 80%;
 	}
 	
-	.about.third h1 {
+	.home.third h1 {
 		margin: 0 auto;
 	}
 	
 	.try-it {
-		width: 80%;
+		width: 90%;
 	}
 	
-	.about.graphic {
+	.home.graphic {
     height: 500px;
     background-size: 1200px;
 	}
 	
-	.team.top {
+	.about.top {
 		padding-right: 300px;
 	}
 	
-	.team.top .wrapper {
+	.about.top .wrapper {
 		margin-top: 20px;
 		margin-left: 40px;
 	}
 	
-	.team.top:after {
+	.about.top:after {
 		width: 295px;
 		background: url(../images/static/globe-about.svg) 0px 80px no-repeat;
 		background-size: 450px;
 	}
 	
-	.team .person {
+	.about .person {
 		width: 45%;
 	}
 	
@@ -1207,31 +1497,71 @@ footer.static .bottom {
 		padding-right: 40px;
 	}
 	
-	.team.top {
-		padding-top: 10px;
-		padding-right: 40px;
+	.about.top {
 		padding-bottom: 250px;
+		padding-right: 40px;
 	}
 	
-	.team.top .copy {
+	.about.top .copy {
 		margin-bottom: 50px;
 	}
 	
-	.team.top:after {
+	.about.top:after {
 		width: 100%;
 		height: 385px;
 		background: url(../images/static/globe-about.svg) center 0px no-repeat;
-		background-size: 92%;
+		background-size: 79%;
 	}
 	
 }
 
-@media (max-width: 565px) {
+@media (max-width: 600px) {
 	
-	
-	.try-it {
-		width: 90%;
+	.try-it .loc-holder input {
+		width: 100%;
 	}
+	
+	.try-it form,
+	.try-it form .wrapper,
+	.try-it .loc-holder input {
+		width: 100%;
+	}
+	
+	.try-it .word-to:before {
+		content: 'To';
+	}
+	
+	.try-it .positioner,
+	.react-autosuggest__container {
+		display: block;
+		width: 100%;
+		position: relative;
+	}
+	
+	.try-it span:not(.slogan) {
+		padding-left: 0px;
+		padding-right: 0px;
+		position: relative;
+			top: 5px;
+	}
+	
+	.simple-cal {
+		width: 285px;
+			left: 0px;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+	
+	.rdr-Calendar:first-child {
+		margin-bottom: 15px;
+	}
+	
+}
+
+@media (max-width: 550px) {
+	
 	
 	.static-features {
 		padding-left: 0;
@@ -1244,61 +1574,46 @@ footer.static .bottom {
 		width: 85%;
 	}
 	
-	.static .about.compare .wrapper {
+	.static .home.compare .wrapper {
 		margin-left: 40px;
     margin-right: 40px;
 	}
 	
-	.static .about.compare ul {
+	.static .home.compare ul {
 		margin-left: 0;
 		margin-bottom: 20px;
 	}
 	
-	.static .about.compare:after {
+	.static .home.compare:after {
 		height: calc(120vw * .75);
 		background: url(../images/static/tickets-compare.svg) -10px 10px no-repeat;
 		background-size: 120%;
 	}
 	
-	.about-top-copy {
-		padding-top: 30px;
-	}
-	
-	.about.third .wrapper {
+	.home.third .wrapper {
 		margin-bottom: 0;
 	}
 	
-	.about .upcoming {
+	.home .upcoming {
 		width: 90%;
 		height: auto;
 	}
 	
-	.about .graphic {
+	.home .graphic {
 		bottom: -105px;
 	}
 	
-	.static.contact,
-	.team .person {
-		padding-top: 30px;
-		padding-right: 40px;
-		padding-left: 40px;
+	.about.top:after {
 		width: 100%;
+		background: url(../images/static/globe-about.svg) 30px 0px no-repeat;
+		background-size: 100%;
 	}
 	
-	.team.second {
-		padding-bottom: 0px;
-	}
-	
-	.team.second:after {
-		bottom: -40px;
-	}
-	
-	.team .button-holder {
-		margin-bottom: 60px;
-	}
-	
-	.static.contact {
-		padding-bottom: 60px;
+	.static.contact,
+	.about .person {
+		padding-left: 40px;
+		padding-right: 40px;
+		width: 100%;
 	}
 	
 	.static.contact input, 
@@ -1322,58 +1637,44 @@ footer.static .bottom {
 		background: url(../images/static/checkmark-success.svg)  top center no-repeat;
 	}
 	
-	.static a.buttonly {
+	.about.top a.buttonly {
 		line-height: 30px;
-		padding: 25px 25px 25px 25px;
+		padding: 25px 30px 25px 30px;
 	}
 	
 	
 }
 
 
-@media (max-width: 460px) {
+@media (max-width: 500px) {
 	
-	header.static .brand {
-		right: 0;
-	}
-	
-	.about.top.level {
-		margin-bottom: 40px;
-	}
-	
-	.video-holder {
-		height: 480px;
+	.home-top-copy {
+		padding-top: 30px;
 	}
 	
 	.slogan.third {
-		font-size: 32px;
-	}
-	
-	.team.top {
-		padding-bottom: 150px;
-	}
-	
-	.team.top:after {
-		height: 270px;
-		background-size: 120%;
+		padding: 0 0 0 0;
 	}
 	
 	.try-it {
-		margin-top: 0;
-    padding-left: 10px;
-    padding-right: 10px;
+		padding-left: 30px;
+		padding-right: 30px;
 	}
-	
-	.try-it .copy {
-		font-size: 22px;
+
+	.try-it .date-holder input,
+	.try-it .loc-holder input {
+		font-size: 15px;
+    line-height: 28px;
+    font-family: 'Open-Sans-Semibold';
+    padding-right: 30px;
 	}
-	
-	.about-top-copy {
-		padding-bottom: 30px;
-	}
-	
-	.team .person .bio {
-		margin: 10px 30px 30px 30px;
+
+}
+
+@media (max-width: 460px) {
+
+	header.static .brand {
+		right: 0;
 	}
 	
 }
@@ -1382,16 +1683,24 @@ footer.static .bottom {
 /* iPhone 6, Android */
 @media (max-width: 380px) {
 	
+	.slogan.third {
+		font-size: 36px;
+	}
+	
+	.about.top:after {
+		background-size: 120%;
+	}
+	
 	.try-it {
-		width: 90%;
+    padding-left: 20px;
+    padding-right: 20px;
+		width: 94%;
 	}
 	
-	.static-features > div .copy {
-    font-size: 18px;
-	}
-	
-	.static.contact .form-label {
-		line-height: 22px;
+	.try-it .ti,
+	.try-it span:not(.slogan) {
+		font-size: 22px;
+		font-family: 'Open-Sans';
 	}
 	
 }
@@ -1413,60 +1722,33 @@ footer.static .bottom {
 		top: 60px;
 	}
 	
-	.touch header.static a.brand {
+	header.static a.brand {
 		width: 235px;
 		height: 55px;
-			right: 0px;
 		background: #ffffff url(../images/static/logo-beta.svg) 10px 5px no-repeat;
     background-size: 235px;
 	}
-
-	.slogan.first, 
-	.slogan.second {
-    font-size: 22px;
-	}
 	
 	.slogan.third {
-		font-size: 26px;
+		font-size: 30px;
     font-family: 'Open-Sans';	
 	}
 	
 	.try-it {
-		padding-top: 20px;
-		width: 90%;
-	}
-	
-	.try-it .copy {
-		font-size: 22px;
-	}
-	
-	.static a.buttonly {
-		font-size: 25px;
-	}
-	
-	.about-top-copy {
+		margin-top: 10px;
 		padding-top: 20px;
 	}
 	
-	.team.top {
-		padding-right: 20px;
-		padding-bottom: 150px;
+	.try-it .date-holder input {
+		padding-right: 0px;
+		background: #ffffff;
 	}
 	
-	.team.top .wrapper {
-		margin-bottom: 60px;
+	.home-top-copy {
+		padding-top: 20px;
 	}
 	
-	.team.top .copy {
-		margin-bottom: 40px;
-	}
-	
-	.team.top:after {
-		height: 230px;
-		background-size: 120%;
-	}
-	
-	.team .person .bio {
+	.about .person .bio {
 		margin-left: 0;
 		margin-right: 0;
 	}
@@ -1486,13 +1768,21 @@ footer.static .bottom {
 
 @media (max-width: 330px) {
 	
-	.team.top:after {
+	.about.top:after {
 		background-size: 120%;
 	}
 	
 	.try-it {
 		padding-left: 20px;
 		padding-right: 20px;
+	}
+	
+	.simple-cal {
+		left: -18px;
+	}
+	
+	.react-autosuggest__suggestions-container {
+		left: -18px;
 	}
 	
 }
@@ -1531,7 +1821,7 @@ footer.static .bottom {
 		font-size: 18px;
 	}
 	
-	.touch .about .upcoming {
+	.touch .home .upcoming {
 		width: 270px;
 		height: 250px;
 	}
@@ -1566,13 +1856,27 @@ footer.static .bottom {
     -moz-osx-font-smoothing: auto;
 	}
 
+	.desktop .tt-menu {
+		margin-top: 65px;
+	}
+	
+	/* simple form calendar */
+	
+	.try-it .rdr-Calendar {
+		width: 283px !important;
+	}
+	
+	.simple-cal span.close-x {
+		right: 3px;
+	}
+
 }
 
 
 /* ie10 ie11 */
 
-html[data-useragent*='Trident'] .stylehere {
- 
+html[data-useragent*='Trident'] .try-it input {
+	height: 37px;
 }
 
 

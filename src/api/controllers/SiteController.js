@@ -15,7 +15,11 @@ module.exports = {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
     }
-    let page = (!req.url || req.url.trim() == '/') ? '/search' : req.url;
+    let page = req.url;
+
+    if (!req.url || req.url.trim() == '/') {
+      page = req.isMobile ? '/search':'/home';
+    }
 
     let params = Search.getDefault(req);
     //map parameters to our structure
