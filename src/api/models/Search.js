@@ -58,14 +58,12 @@ module.exports = {
   validateSearchParams: function (searchParams) {
     let _Error = false;
     let searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
-    let departureDate = searchParams.departureDate;
     let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
-    let returnDate = searchParams.returnDate;
     let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
     let moment_now = sails.moment();
 
     // Check depart date
-    if (moment_dp &&
+    if (moment_dp.isValid() &&
         (
           moment_dp.isBefore(moment_now, 'day') ||
           moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
@@ -81,13 +79,13 @@ module.exports = {
       }
     }
 
-    if (!searchParams.departureDate) {
+    if (!searchParams.departureDate || !moment_dp.isValid()) {
       _Error = 'Error.Search.Validation.departureDate.Empty';
     }
 
     // Check existence of the return date for the round trip
     if (searchParams.flightType == 'round_trip') {
-      if (!searchParams.returnDate) {
+      if (!searchParams.returnDate || !moment_rp.isValid()) {
         _Error = 'Error.Search.Validation.returnDate.Empty';
       }
 
@@ -156,7 +154,8 @@ module.exports = {
 
 
   getProviders: function (params, cb) {
-    let providers = sails.config.flightapis.searchProvider;
+    let providers = _.clone(sails.config.flightapis.searchProvider, true);
+
     //check farelogix
     let isCanada = 0,
       isUSA = false;
@@ -176,7 +175,7 @@ module.exports = {
           if (item.country == 'Canada') {
             isCanada++;
           }
-          isUSA = item.country == 'United States';
+          isUSA = isUSA || (item.country == 'United States');
         });
         if ( isCanada == 2 || (isCanada == 1 && isUSA) ) {
           sails.log.info('CA<->US or CA<->CA flight: using [farelogix]');
