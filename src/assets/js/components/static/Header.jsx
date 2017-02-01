@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+
 let StaticHeader = React.createClass({
 	
 	onItemClick: function (event) {
@@ -15,7 +16,7 @@ let StaticHeader = React.createClass({
 			$("header.static nav").removeClass('respond');
 		}
 	},
- 
+	
   render: function () {
     return (
     		<header className="static">
@@ -25,8 +26,8 @@ let StaticHeader = React.createClass({
           <nav>
           	<div className="left">
   		        <ul className="menu nav">
-  			        <li className={this.props.location.pathname == '/home'? 'active':''}><Link to="/home" onClick={this.onItemClick}>Home</Link></li>
-  			        <li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about" onClick={this.onItemClick}>About</Link></li>
+  		        	<li className={this.props.location.pathname == '/about'? 'active':''}><Link to="/about" onClick={this.onItemClick}>About</Link></li>
+  			        <li className={this.props.location.pathname == '/team'? 'active':''}><Link to="/team" onClick={this.onItemClick}>Team</Link></li>
   			        <li className={this.props.location.pathname == '/contact'? 'active':''}><Link to="/contact" onClick={this.onItemClick}>Contact</Link></li>
   			      </ul>
   		      </div>
