@@ -12,6 +12,8 @@ module.exports = {
   parse: function (req, res) {
     var _query = _.trim(req.param('q'));
     return AvaeaTextParser.run(_query, function(err, result) {
+      result.query = _query;
+      
       if (err) {
         sails.log.error(err);
         return res.serverError(); //500
@@ -32,6 +34,8 @@ module.exports = {
   parseApiAi: function (req, res) {
     var _query = _.trim(req.param('q'));
     new ApiAiParser().parse(_query, req.sessionID, function(err, result){
+      result.query = _query;
+      
       if (err) {
         sails.log.error(err);
         return res.serverError(); //500
