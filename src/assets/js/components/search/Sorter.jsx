@@ -11,7 +11,7 @@ let Sorter = React.createClass({
         order: 'asc'
       },
       smart: {
-        title: 'Smart Rank',
+        title: 'Best Value',
         current: false,
         order: 'asc'
       },

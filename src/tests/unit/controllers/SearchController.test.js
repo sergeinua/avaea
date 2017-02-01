@@ -2,6 +2,7 @@ var request = require('supertest');
 require('should');
 var sinon = require('sinon');
 var assert = require('assert');
+var Q = require("q");
 
 describe('SearchController', function() {
 
@@ -240,11 +241,30 @@ describe('SearchController', function() {
           };
         }
       };
+      let savedOriginalFunctionGetMilesProgramsByUserId = FFMPrograms.getMilesProgramsByUserId;
+      var deferred = Q.defer();
+      FFMPrograms.getMilesProgramsByUserId = sinon.stub().returns(deferred.promise);
+      ffmapi = {
+        milefy : {
+          Calculate: function ({itineraries, milesPrograms}, cb) {
+            /*var exampleItineraryMilesResp = {
+              "id": "bd63919e-e2d1-4c17-ad7b-9f040daf044f",
+              "ffmiles": {
+                "AccrualType": "RDM. Redeemable miles usually by default.",
+                "miles": 15247,
+                "ProgramCode": "BAC",
+                "ProgramCodeName": ""
+              }
+            };*/
+            return cb(null, itineraries.map(({id}) => ({id, ffmiles: {miles: 1234, ProgramCodeName: 'Program Name'}})));
+          }
+        }
+      };
       sails.config.globals.bucketizationFunction = 'getTilesDataEmpty';
       Airlines.makeIconSpriteMap = function (cb) {return cb(false, {});};
       Search.getResult = function (params, cb) {
-        var ititns = require('../../fixtures/itineraries.json');
-        cb(false, ititns);
+        var itins = require('../../fixtures/itineraries.json');
+        cb(false, itins);
       };
       let savedOriginalFunction = Search.validateSearchParams;
       Search.validateSearchParams = function (params) {
@@ -276,13 +296,18 @@ describe('SearchController', function() {
         }
       };
       sails.controllers.search.result(req, res);
-      assert(view.called);
-      var result = require('../../fixtures/searchResult.json');
-      view.args[0].should.be.eql([result, 'search/result']);
-      assert(view.calledWith(result, 'search/result'));
-      view.reset();
-      Search.validateSearchParams = savedOriginalFunction;
-      done();
+
+      deferred.promise.then(function () {
+        assert(view.called);
+        var result = require('../../fixtures/searchResult.json');
+        view.args[0].should.be.eql([result, 'search/result']);
+        assert(view.calledWith(result, 'search/result'));
+        view.reset();
+        Search.validateSearchParams = savedOriginalFunction;
+        FFMPrograms.getMilesProgramsByUserId = savedOriginalFunctionGetMilesProgramsByUserId;
+        done();
+      });
+      deferred.resolve([]);
     });
   });
 

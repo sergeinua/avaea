@@ -27,9 +27,6 @@ before(function(done) {
       session: false,
       grunt: false
     },
-    email: {
-      instance_name: 'host1_test'
-    },
     cron: false
   }), function(err, server) {
     sails = server;
