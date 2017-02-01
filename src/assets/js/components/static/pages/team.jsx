@@ -1,9 +1,9 @@
 import React from 'react';
-import StaticHome from '../home/Home.jsx';
+import StaticTeam from '../team/Team.jsx';
 import Loader from '../../_common/Loader.jsx';
 import { getUser } from '../../../functions.js';
 
-let HomePage = React.createClass({
+let TeamPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -22,11 +22,11 @@ let HomePage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticHome user={getUser()||{}}/>
+            <StaticTeam user={getUser()||{}}/>
         }
       </div>
     )
   }
 });
 
-export default HomePage;
+export default TeamPage;
