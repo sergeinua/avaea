@@ -49,8 +49,35 @@ var UserAction = {
         callback && callback();
       });
     });
-  }
+  },
 
+  saveFirstVisit: function (req, res) {
+    let anonymous_id = utils.getAnonymousUserId(req);
+
+    if (anonymous_id) {
+      let uaFields = {
+        actionType: "new_user",
+        anonymous_id: anonymous_id
+      };
+      this.findOne(uaFields, (err, found) => {
+        if (!found && !err) {
+          uaFields.logInfo = {
+            landing_page: req.cookies.landing_page || req.url
+          };
+          this.create(uaFields, (err, record) => {
+            if (err) {
+              sails.log.error(err);
+            }
+            sails.log.verbose('landing_page is saved', record);
+            // res.clearCookie('landing_page');
+          });
+        }
+      });
+    } else {
+      //don't have anonymous_id => must be first/incognito visit, saving landing page to cookies
+      res.cookie('landing_page', req.url);
+    }
+  },
 };
 
 module.exports = UserAction;

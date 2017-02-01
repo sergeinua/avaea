@@ -29,7 +29,8 @@ before(function(done) {
     },
     email: {
       instance_name: 'host1_test'
-    }
+    },
+    cron: false
   }), function(err, server) {
     sails = server;
     if (err) return done(err);
