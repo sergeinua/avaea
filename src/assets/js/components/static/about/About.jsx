@@ -1,198 +1,174 @@
 import React from 'react';
 
-var StaticAbout = React.createClass({
 
-  render: function () { 
+let StaticAbout = React.createClass({
+
+  render: function () {
     return (
-    		<div>
-	      <div className="content static about">
-	      	<div className="about top level">
-	      		<div className="wrapper">
-		      		<h1>About Us</h1>
-		      		<div className="copy">
-		      			Our AI-powered travel app sorts through thousands of choices 
-		      			to find the choices that are best for you. By applying your 
-		      			preferences and comparing everything a flight has to offer, 
-		      			we make picking the right flight a snap.
-		      		</div>
-		      		<a className="buttonly" href="/search">Try a flight search</a>
-	      		</div>
-	      	</div> {/* ends about top */}
-	      	
-	      	<div className="about second level">
-	      		<h2>Who We Are</h2>
-	      		
-	      		<div className="wrapper">
-	      		
-		      		<div className="person jafri">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Vajid Jafri</div>
-		      				<div className="ti">CEO</div>
-		      				<div className="bio">
-		      					Proven travel start-up leader and serial entrepreneur. 
-			      				Founder and CEO of cFares and Mondee.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person irina">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Irina Kuznetsova</div>
-		      				<div className="ti">VP Product</div>
-		      				<div className="bio">
-		      					Founder and PM of a portfolio of successful technology startups.
-		      					Executive liason between business goals and product execution.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person willg">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Will Gardenswartz</div>
-		      				<div className="ti">VP Marketing</div>
-		      				<div className="bio">
-		      					Patented high-growth marketer and business  
-		      					development strategist, specializing in consumer engagement. 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person bills">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">William Spillman</div>
-		      				<div className="ti">VP Airline Partnerships</div>
-		      				<div className="bio">
-		      					Industry veteran of 20 years in delivering IT
-		      					solutions to airlines and travel industry. 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person cf">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name"></div>
-		      				<div className="ti">VP Engineering</div>
-		      				<div className="bio">
-		      					Key technology leader with proven delivery of complex 
-		      					applications using cutting-edge technologies.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person cc">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Constantin Chuyeshov</div>
-		      				<div className="ti">Algorithm Architect</div>
-		      				<div className="bio">
-		      					Algorithm architect with patented work, 
-		      					developing customized data strategies for superior 
-		      					consumer experience.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person alext">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Alex Tsyplikhin</div>
-		      				<div className="ti">Sr. Director Data Science</div>
-		      				<div className="bio">
-		      					Experienced data scientist across diverse data types.
-		      					Razor's-edge AI architecture and implementation. 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person deborah">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Deborah Speece</div>
-		      				<div className="ti">Sr. Director UI/UX</div>
-		      				<div className="bio">
-		      					Specialist in leading consumer and business-facing 
-		      					UI/UX for successful high-technology start-ups.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person michael">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Michael McCabe</div>
-		      				<div className="ti">VP Human Resources</div>
-		      				<div className="bio">
-		      					Experienced solutions architect for start-up teams, 
-		      					executive team development and HR management.
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person paul">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Paul Kim</div>
-		      				<div className="ti">Sales and Partnerships</div>
-		      				<div className="bio"> 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person veronica">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Veronica Li</div>
-		      				<div className="ti">Sales and Partnerships</div>
-		      				<div className="bio"> 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person adja">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Adja Ba</div>
-		      				<div className="ti">Administration</div>
-		      				<div className="bio"> 
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		<div className="person aftab">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Aftab Yaqub</div>
-		      				<div className="ti">Customer Service Advisor</div>
-		      				<div className="bio">
-		      				</div>
-		      			</div>
-		      		</div>
-		      		
-		      		{/*<div className="person generic">
-		      			<div className="image"></div>
-		      			<div className="holder">
-		      				<div className="name">Name</div>
-		      				<div className="ti">Title</div>
-		      				<div className="bio">
-		      					Short impressive bio sentence here. Maybe two.
-		      				</div>
-		      			</div>
-		      		</div>*/}
-		      		
-	      		</div> {/* ends team wrapper */}
-	      	</div> {/* ends second level */}
-	      	
-	      	<div className="button-holder">
-	      		<a className="buttonly" href="/contact">Contact us</a>
-	      	</div>
-	      
-      	</div> {/* ends content */}
-      </div>
+      <div>
+        <div className="content static about">
+
+          <div className="about top level">
+
+            <div className="video-holder">
+              <video poster="../images/static/tarmac-placeholder.jpg" id="bgvid" playsInline autoPlay muted loop>
+                <source src="../images/static/Tarmac.mp4" type="video/mp4" />
+                <source src="../images/static/Tarmac.mp4" type="video/ogg" />
+              </video>
+              <div className="overlay"></div>
+            </div>
+
+            <div className="about-top-copy">
+            
+              <div className="try-it">
+              
+              <div className="slogan">
+	              <span className="slogan first">Best price.</span>
+	              <span className="slogan second">Best choice.</span>
+	              <span className="slogan third">Travel Intelligence</span>
+	            </div>
+	            
+	            <div className="copy">
+		            Our AI-powered travel app sorts through thousands of options 
+		      			to find the choices that are best for you. 
+	            </div>
+	            
+	            <div className="button-holder">
+	            	<a className="buttonly" href="/search">Try a flight search</a>
+	            </div>
+              
+              </div>{/* ends try-it */}
+
+            </div> {/* ends about-top-copy */}
+          </div> {/* ends about top level */}
+
+          <div className="about second level">
+            <h1>Finally, tech that makes travel easier.</h1>
+            <div className="static-features">
+
+              <div className="feature-voice">
+                <h2>Talk to us</h2>
+                <h3>when you're on the go</h3>
+                <div className="graphic"></div>
+                <div className="copy">
+                  <span>Book your travel using your voice instead of your thumbs. </span>
+                  Walk, talk, and get your tickets. Our voice agent hears and
+                  searches - you don't need to touch the keyboard.
+                </div>
+              </div>
+
+              <div className="feature-ff">
+                <h2>See FF Miles</h2>
+                <h3>up front value</h3>
+                <div className="graphic"></div>
+                <div className="copy">
+                  <span>We show you what matters to you. </span>
+                  Like how many Frequent Flyer miles each ticket awards.
+                  And, we make it easy to weigh options like price and
+                  duration against airlines, scheduling
+                  and wireless availability.
+                </div>
+              </div>
+
+              <div className="feature-price">
+                <h2>Low Price</h2>
+                <h3>try us and compare</h3>
+                <div className="graphic"></div>
+                <div className="copy">
+                  <span>Your wallet will love our prices. </span>
+                  Your free time will love how much faster it is to
+                  identify the ticket you wanted without
+                  requiring a Ph.D in filtering. Booking is easy now.
+                </div>
+              </div>
+
+            </div>{/* ends features */}
+          </div> {/* ends about second level */}
+
+          <div className="about third level">
+            <h1>And, this is only Beta. See what's next!</h1>
+
+            <div className="copy">
+              These are features we're developing now.
+            </div>
+
+            <div className="wrapper">
+
+              <div className="upcoming">
+                <div className="ti">Watch ticket price</div>
+                <div className="copy">
+                  Choose your price. If your chosen ticket meets
+                  your price, it's bought.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Full voice experience</div>
+                <div className="copy">
+                  Never touch your keyboard. Book easily on the go,
+                  while you walk to lunch or wait for the elevator.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Seat choice</div>
+                <div className="copy">
+                  Choose the seat you like best from a seat map.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Agent experience</div>
+                <div className="copy">
+                  Your travel preferences remembered and calculated,
+                  so you see the tickets you'll love first.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Customized settings</div>
+                <div className="copy">
+                  You know you best. Tell us what you like and we'll search for that.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Your travel history</div>
+                <div className="copy">
+                  See all of your itineraries and easily re-book repeat trips
+                  with the tickets that worked best for you.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Notifications</div>
+                <div className="copy">
+                  Set how you want to receive updates for booked travel. Add
+                  other people who you want to receive notifications.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Hotels, Cars and more</div>
+                <div className="copy">
+                  Leverage our agent to provide full travel support.
+                </div>
+              </div>
+
+              <div className="upcoming">
+                <div className="ti">Smart Watch integration</div>
+                <div className="copy">
+                  Tell it to the hand. Your watch can book your travel
+                  and notify you of updates anywhere you go.
+                </div>
+              </div>
+
+            </div> {/* ends wrapper */}
+          </div> {/* ends about third level */}
+
+      </div> {/* ends content */}
+      <div className="about graphic"></div>
+     </div>
     )
   }
 });
