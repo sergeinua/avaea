@@ -4,7 +4,7 @@ var User = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
   attributes: {
-    user       : {
+    user_id    : {
       model: 'User',
       required: true
     },
@@ -14,7 +14,7 @@ var User = {
 
   saveAction: function (user, actionType, data) {
     var uaFields = {
-      user       : user,
+      user_id    : user,
       actionType : actionType,
       logInfo    : data
     };

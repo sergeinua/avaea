@@ -4,7 +4,7 @@ var UserAction = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
   attributes: {
-    user       : {
+    user_id    : {
       model: 'User'
     },
     actionType : { type: 'string' },
@@ -12,15 +12,15 @@ var UserAction = {
     anonymous_id : { type: 'string' }
   },
 
-  saveAction: function (user, actionType, data, callback) {
+  saveAction: function (user_id, actionType, data, callback) {
     let anonymous_id = '';
 
-    if (user != parseInt(user)) {
-      anonymous_id = user;
+    if (user_id != parseInt(user_id)) {
+      anonymous_id = user_id;
     }
     async.parallel({user: (doneCb) => {
       // this is hook for auto tests
-      if (!user && sails.config.environment =='test') {
+      if (!user_id && sails.config.environment =='test') {
         var uFields = {
           username: 'test',
           email: 'test@onvoya.com',
@@ -30,17 +30,17 @@ var UserAction = {
           return doneCb(err, row);
         });
       } else {
-        return doneCb(null, user);
+        return doneCb(null, user_id);
       }
     }}, (err, results) => {
       var uaFields = {
-        user       : results.user,
+        user_id    : results.user,
         actionType : actionType,
         logInfo    : data
       };
       if (anonymous_id) {
         uaFields.anonymous_id = anonymous_id;
-        uaFields.user = null;
+        uaFields.user_id = null;
       }
       this.create(uaFields, function(err, record) {
         if (err) {
