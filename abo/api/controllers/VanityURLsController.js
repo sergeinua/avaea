@@ -4,16 +4,17 @@
  * @description :: Server-side logic for managing Vanityurls
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+let validator = require('validator');
 
 module.exports = {  
   create: function(req, res){
-    let vanityURL = req.body.vanity_url;
-    let destinationURL = req.body.destination_url;
+    let vanityURL = req.param('vanity_url', '');
+    let destinationURL = req.param('destination_url', '');
     
-    if(!utils.isValidURL(vanityURL)){
+    if(!validator.isURL(vanityURL)){
       return res.json({error: 'Vanity URL is not valid'});
     }          
-    if(!utils.isValidURL(destinationURL)){
+    if(!validator.isURL(destinationURL)){
       return res.json({error: 'Destination URL is not valid'});
     }
     
@@ -53,13 +54,13 @@ module.exports = {
       return res.json({error: 'Id is empty'});
     }
     
-    let vanityURL = req.body.vanity_url;
-    let destinationURL = req.body.destination_url;
+    let vanityURL = req.param('vanity_url', '');
+    let destinationURL = req.param('destination_url', '');
       
-    if(!utils.isValidURL(vanityURL)){
+    if(!validator.isURL(vanityURL)){
       return res.json({error: 'Vanity URL is not valid'});
     }          
-    if(!utils.isValidURL(destinationURL)){
+    if(!validator.isURL(destinationURL)){
       return res.json({error: 'Destination URL is not valid'});
     }    
     
