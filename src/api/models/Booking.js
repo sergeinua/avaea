@@ -26,7 +26,6 @@ module.exports = {
       index: true
     },
     eticket_number   : { type: 'string'},
-    instance_name    : { type: 'string'},
   },
   migrate: 'safe',
 
@@ -45,8 +44,7 @@ module.exports = {
       reference_number : typeof booking_res == 'object' && booking_res ? booking_res.ReferenceNumber : null,
       itinerary_id     : typeof itinerary_res == 'object' && itinerary_res ? itinerary_res.id : null,
       itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res : null,
-      req_params       : req_params,
-      instance_name    : sails.config.email.instance_name
+      req_params       : req_params
     };
 
     Booking.create(_dbFields, function(err, record) {
