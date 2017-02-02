@@ -12,9 +12,9 @@ var User = {
     logInfo    : { type: 'json' }
   },
 
-  saveAction: function (user, actionType, data) {
+  saveAction: function (userId, actionType, data) {
     var uaFields = {
-      user_id    : user,
+      user_id    : userId,
       actionType : actionType,
       logInfo    : data
     };

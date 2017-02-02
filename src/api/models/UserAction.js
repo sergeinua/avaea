@@ -12,15 +12,15 @@ var UserAction = {
     anonymous_id : { type: 'string' }
   },
 
-  saveAction: function (user_id, actionType, data, callback) {
+  saveAction: function (userId, actionType, data, callback) {
     let anonymous_id = '';
 
-    if (user_id != parseInt(user_id)) {
-      anonymous_id = user_id;
+    if (userId != parseInt(userId)) {
+      anonymous_id = userId;
     }
     async.parallel({user: (doneCb) => {
       // this is hook for auto tests
-      if (!user_id && sails.config.environment =='test') {
+      if (!userId && sails.config.environment =='test') {
         var uFields = {
           username: 'test',
           email: 'test@onvoya.com',
@@ -30,7 +30,7 @@ var UserAction = {
           return doneCb(err, row);
         });
       } else {
-        return doneCb(null, user_id);
+        return doneCb(null, userId);
       }
     }}, (err, results) => {
       var uaFields = {
