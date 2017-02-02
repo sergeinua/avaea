@@ -144,7 +144,7 @@ module.exports = {
     if (req.user && req.user.id) {
       userId = req.user.id;
     } else {
-      userId = req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : 0;
+      userId = req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id.replace(/["]/g, '')) : 0;
     }
     return userId;
   },
