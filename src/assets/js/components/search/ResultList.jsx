@@ -57,6 +57,23 @@ let ResultList = React.createClass({
           </Iframe>
           </div>
         </div>
+        
+        <div id="wayfare-results-cross-sell" className="wayfare results cross-sell">
+	        <div className="wrapper">
+		        <Iframe
+			        id="cross-sell-2-1-2017"
+			        name="cross-sell"
+			        className="wayfare"
+			        url={"//x.wayfareinteractive.com/x/ob/?L3gvd3d3L2RlbGl2ZXJ5L3NwY2pzLnBocD9pZD04NDMmYW1wO3pvbmVzPTU2Mjk3JmFtcDtjYWxsYmFja1pvbmU9NTYyOTc=&amp;cb=BiXXYXbe"}
+			        frameborder="0"
+			        scrolling="no"
+			        width="100%"
+			        height="100%"
+			        position="relative">
+			      </Iframe>
+		      <div className="wrapper">
+        </div>
+        
         :null
       }
       </div>
