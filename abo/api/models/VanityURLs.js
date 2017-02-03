@@ -10,8 +10,6 @@ module.exports = {
     id:               { type: 'integer', primaryKey: true, autoIncrement: true },
     vanity_url:       { type: 'string', unique: true },
     destination_url:  { type: 'string' }
-  },
-  autoCreatedAt: false,
-  autoUpdatedAt: false
+  }
 };
 
