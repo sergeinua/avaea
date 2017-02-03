@@ -388,6 +388,7 @@ var genGridVanityURLs = function () {
       insertItem: function(item)
       {
         var d = $.Deferred();
+        $('#gridVanityURLsErrorMessage').addClass('hidden');
         item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/create/', item, function(res, jwres){
           if(res.error){
@@ -403,7 +404,8 @@ var genGridVanityURLs = function () {
       },      
       updateItem: function(item)
       {
-        var d = $.Deferred();      
+        var d = $.Deferred();
+        $('#gridVanityURLsErrorMessage').addClass('hidden');
         item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/edit/'+item.id+'/', item, function(res, jwres){
           if(res.error){
@@ -418,7 +420,8 @@ var genGridVanityURLs = function () {
       },
       deleteItem: function(item)
       {
-        var d = $.Deferred();         
+        var d = $.Deferred();
+        $('#gridVanityURLsErrorMessage').addClass('hidden');
         socketAbo.post('/vanityURLs/delete/'+item.id+'/', {}, function(res, jwres){
           if(res.error){
             showError(JSON.stringify(res.error));
