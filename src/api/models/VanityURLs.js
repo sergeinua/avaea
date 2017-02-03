@@ -9,23 +9,9 @@ module.exports = {
   attributes: {
     id:               { type: 'integer', primaryKey: true, autoIncrement: true },
     vanity_url:       { type: 'string', unique: true },
-    destination_url:  { type: 'string' },
-    creationDate: {
-        columnName: 'created_at',
-        type: 'datetime',
-        defaultsTo: function() {return new Date();}
-    },
-    updateDate: {
-        columnName: 'updated_at',
-        type: 'datetime',
-        defaultsTo: function() {return new Date();}
-    }
+    destination_url:  { type: 'string' }
   },
-  beforeUpdate:function(values,next) {
-      values.updateDate = new Date();
-      next();
-  },
-  autoCreatedAt: 'created_at',
-  autoUpdatedAt: 'updated_at'
+  autoCreatedAt: false,
+  autoUpdatedAt: false
 };
 
