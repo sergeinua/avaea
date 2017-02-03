@@ -1,4 +1,3 @@
-/* global memcache */
 /* global async */
 /* global sails */
 const
@@ -612,7 +611,7 @@ module.exports = {
         if (err) {
           throw err;
         } else {
-          let resArr = [], errors = null;
+          let errors;
           if (result.InfoGroup && (errors = result.InfoGroup.Error)) {
             if (!lodash.isArray(errors)) {
               errors = [errors];
@@ -626,7 +625,8 @@ module.exports = {
           } else {
             utils.timeLog(_api_name + '_prepare_result');
             if (!result.FareGroup) {
-              throw 'No Results Found';
+              // No Results Found
+              return callback(null, []);
             }
             let isBrandedFareGroup = (result.FareGroup.TotalHighestPrice && result.FareGroup.TotalLowestPrice);
 
@@ -707,21 +707,28 @@ module.exports = {
 
             async.map(itineraries, function (itinerary, doneCb) {
 
-              let mappedItinerary = mapItinerary(itinerary);
-              resArr.push( mappedItinerary );
-
-              return doneCb(null);
-            }, function (err) {
+              return doneCb(null, mapItinerary(itinerary));
+            }, function (err, resArr) {
               if ( err ) {
                 sails.log.error( err );
               }
               sails.log.info(_api_name + ': Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr(_api_name + '_prepare_result'));
-              return callback(errors, resArr);
+              return callback(null, resArr);
             });
           }
         }
       } catch (e) {
         sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
+        // Assume 'International Flights Searches are restricted' and 'No Schedule availability' errors
+        // are the same as 'No Results Found' error
+        let no_flights_errors = [
+          'International Flights Searches are restricted',
+          'No Schedule availability',
+          'Date should be (within|between|(greater|lesser) than)' // temporary as 'No Results Found' error due to only 2 errors type we show for end user
+        ];
+        if (typeof e == 'string' && e.match(new RegExp('(' + no_flights_errors.join('|') + ')', 'gi'))) {
+          e = null;
+        }
         return callback(e, []);
       }
     });
