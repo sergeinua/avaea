@@ -345,10 +345,9 @@ var TripSearchForm = React.createClass({
         </div>
         
         <div className="search buttons duo">
-        
-        { !getCookie('showMeriHint') ? 
-        		
-		      <div className="meri-wrapper">  
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
+		      
+		      { !getCookie('showMeriHint') ? 
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
@@ -360,9 +359,11 @@ var TripSearchForm = React.createClass({
 			        	<div className="close-x" onClick={this.handleMeriHint}></div>
 			      	</div>
 			      </div>
+			      : null
+        	}
+			      
 			    </div>  
-			    : null
-        }
+			    
 		      
           <button id="search-form-all-flights-button" 
           	type="submit" 
