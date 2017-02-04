@@ -48,9 +48,6 @@ var TripSearchForm = React.createClass({
         .then(function () {
           ActionsStore.submitTripSearchForm();
         });
-      // FIXME - hides logo for devices only when navbar shows "flight-info" div
-      // so logo does not push the search query down
-      $("body").addClass('suppress-logo');
     }.bind(this);
   },
   
@@ -62,10 +59,16 @@ var TripSearchForm = React.createClass({
 
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
+    	
       if (submitCounter && this.validateForm()) {
+      	
+      	// FIXME - could be React
+      	$("body").addClass('suppress-logo');
+      	
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
+        
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
