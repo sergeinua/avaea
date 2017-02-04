@@ -586,13 +586,36 @@ body:not(.touch) i.icon-mic:before {
 	border-top-left-radius: 6px;
 }
 
+.results-wrapper .wayfare-wrapper {
+	vertical-align: top;
+}
+
 .wayfare.results.deals-unit {
 	margin-top: -45px;
+	min-width: 290px;
+	width: 290px;
+	max-width: 290px;
+}
+
+.wayfare.results.deals-unit iframe {
+	min-height: 790px;
+}
+
+.wayfare.results.cross-sell,
+.wayfare.results.deals-unit {
 	padding: 5px 15px 0 15px;
 	min-width: 290px;
 	width: 290px;
 	max-width: 290px;
 }
+
+.wayfare.results.cross-sell .wrapper {
+	height: 470px;
+}
+
+
+
+/* end wayfare */
 
 .desktop .search-result .bottomNav {
 	padding-top: 8px;
@@ -609,10 +632,6 @@ body:not(.touch) i.icon-mic:before {
 	border-top: 1px solid rgba(255, 255, 255, .8);
 	border-bottom: 1px solid rgba(0, 0, 0, .3);
 	border-radius: 15px;
-}
-
-.wayfare.results.deals-unit iframe {
-	min-height: 800px;
 }
 
 .desktop .search-result .flights, 
