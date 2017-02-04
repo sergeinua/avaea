@@ -166,8 +166,9 @@ module.exports = {
         var airl_rank_str  = (itin.best_airl_rank ===undefined)?(""):(" with airl_rank "  + itin.best_airl_rank);
         var airl_rank2_str = (itin.best_airl_rank2===undefined)?(""):(" with airl_rank2 " + itin.best_airl_rank2);
         var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
+        var why_this_str   = (itin.why_this       ===undefined)?(""):(", " + itin.why_this );
 
-        console.log( prefix + "$" + itin.price.toFixed(2) + priceRank_str + miles_str
+        console.log( prefix + "$" + Number(itin.price).toFixed(2) + priceRank_str + miles_str
                             + ", " + itin.durationMinutes + " mins"
                             + ", departs " + itin.citypairs[0].from.time
                             //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
@@ -177,6 +178,7 @@ module.exports = {
                             + airl_rank_str
                             + airl_rank2_str
                             + smartRank_str
+                            + why_this_str
                    );
     }, // end of function print_one_itinerary
 
@@ -672,8 +674,6 @@ module.exports = {
 
         if ( price_preference==0 && duration_preference==0) return itins;
 
-        //var MAD_price    = this.median_absolute_deviation_in_price   (itins) + 1; console.log("MAD_price = "    + MAD_price   );
-        //var MAD_duration = this.median_absolute_deviation_in_duration(itins) + 1; console.log("MAD_duration = " + MAD_duration);
         var Median_price    = this.median_in_price     (itins) + 1; //console.log("Median_price = "    + Median_price);
         var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
 
@@ -1330,8 +1330,6 @@ module.exports = {
         if ( duration_preference  == 0 ) return itins;
         if ( airline_preference   == 0 ) return itins;
 
-        //var MAD_duration = this.median_absolute_deviation_in_duration  (itins) + 1; console.log("MAD_duration = " + MAD_duration);
-        //var MAD_airline  = this.median_absolute_deviation_in_airl_rank2(itins) + 1; console.log("MAD_airline = " + MAD_airline);
         var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
         var Median_airline  = this.median_in_airl_rank2(itins) + 1; //console.log("Median_airline = "  + Median_airline);
 
