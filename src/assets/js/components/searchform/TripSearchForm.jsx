@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
-import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
@@ -55,8 +55,9 @@ var TripSearchForm = React.createClass({
   	// FIXME - could be React
   	$('.meri-speaks ').fadeToggle('fast');
   	$('.meri-wrapper ').toggleClass('remove');
+  	setCookie('showMeriHint', false);
   },
-
+  
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
     	
@@ -345,6 +346,8 @@ var TripSearchForm = React.createClass({
         
         <div className="search buttons duo">
         
+        { !getCookie('showMeriHint') ? 
+        		
 		      <div className="meri-wrapper">  
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
@@ -358,6 +361,8 @@ var TripSearchForm = React.createClass({
 			      	</div>
 			      </div>
 			    </div>  
+			    : null
+        }
 		      
           <button id="search-form-all-flights-button" 
           	type="submit" 
