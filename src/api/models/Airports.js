@@ -44,18 +44,7 @@ module.exports = {
         "FROM "+
         Airports.tableName+" "+
         "WHERE "+
-        " (iata_3code ~* $1) "+
-        " ORDER BY "+
-        "   (CASE WHEN name=$2 THEN 0 ELSE 1 END) ASC, "+
-        "   pax DESC, "+
-        "   levenshtein($3, city) ASC "+
-        "LIMIT " + (_limit ? _limit : 8),
-
-      mainSelect2 = "SELECT "+
-        "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
-        "FROM "+
-        Airports.tableName+" "+
-        "WHERE "+
+        " (iata_3code ~* $1) OR "+
         "   (name ~* $1) OR "+
         "   (city ~* $1) OR "+
         "   (alternative_name ~* $3) " +
@@ -65,7 +54,7 @@ module.exports = {
         "   levenshtein($3, city) ASC "+
         "LIMIT " + (_limit ? _limit : 8),
 
-      mainSelect3 = "SELECT "+
+      mainSelect2 = "SELECT "+
         "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
         "FROM "+
         Airports.tableName+" "+
@@ -107,10 +96,6 @@ module.exports = {
             makeQuery(mainSelect2, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
               if (rows.length) {
                 callback(null, rows);
-              } else {
-                makeQuery(mainSelect3, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
-                  callback(null, rows);
-                })
               }
             })
           }
