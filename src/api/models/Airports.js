@@ -38,6 +38,7 @@ module.exports = {
   ALL_AIRPORTS_NAME: 'All Airports', // Generic airport name in DB
 
   getAirports: function (_query, _limit, _callback) {
+    //
     var mainSelect = "SELECT "+
         "   name, city, country, iata_3code, state, state_short, neighbors, concat(city,',',state) as city_state, pax "+
         "FROM "+
