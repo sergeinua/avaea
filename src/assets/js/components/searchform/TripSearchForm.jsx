@@ -1,7 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import ClassChooser from './ClassChooser.jsx';
-import PassengerChooser from './PassengerChooser.jsx';
 import { ActionsStore, getUser, setCookie } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
@@ -313,13 +311,6 @@ var TripSearchForm = React.createClass({
           }
         </div>
 
-        <div className="flight-additional-info row">
-          <div className="col-xs-12">
-            <PassengerChooser searchParams={this.props.InitSearchFormData.searchParams}/>
-            <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
-          </div>
-        </div>
-        
         <div className="search buttons duo">
         
 		      <div className="meri-wrapper">  
