@@ -23,7 +23,7 @@ let StaticAbout = React.createClass({
               <div className="try-it">
               
               <div className="slogan">
-	              <span className="slogan first">Best price.</span>
+	              <span className="slogan first">Great price.</span>
 	              <span className="slogan second">Best choice.</span>
 	              <span className="slogan third">Travel Intelligence</span>
 	            </div>
