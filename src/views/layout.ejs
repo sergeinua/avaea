@@ -31,7 +31,7 @@
   <script src="https://www.google.com/recaptcha/api.js"></script>
 
 
-  <link rel="stylesheet" href="/js/styles.css">
+  <link rel="stylesheet" href="/js/styles.css?v=<%=sails.buildTime%>">
 
   <!--STYLES-->
 
@@ -77,8 +77,8 @@
         <script type="text/javascript" src="/js/dependencies/jquery.slimscroll.js"></script>
         <script type="text/javascript" src="/js/dependencies/jquery.validate.min.js"></script>
         <script type="text/javascript" src="/js/dependencies/typeahead.bundle.min.js"></script>
-        <script src="/js/common.js"></script>
-        <script src="/js/bundle.js"></script>
+        <script src="/js/common.js?v=<%=sails.buildTime%>"></script>
+        <script src="/js/bundle.js?v=<%=sails.buildTime%>"></script>
 
         <% if (!isMobile) { %>
         <script type="text/javascript" src="//x.wayfareinteractive.com/x/www/delivery/spcjs.php?id=843&amp;zones=54861&amp;callbackZone=54861&amp;cb=XwXr3nQS"></script>

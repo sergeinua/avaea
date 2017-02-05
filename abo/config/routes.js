@@ -67,7 +67,13 @@ module.exports.routes = {
   'post /getbyuser/:user_id': 'AboController.getByUser',
   'post /gettilesbyuser/:user_id': 'AboController.getTilesByUser',
   'get /:selectedAirline': 'AboController.index',
-  'get /': 'AuthController.login'
+  'get /': 'AuthController.login',
+
+  // Vanity URLs routes
+  'post /vanityURLs/create/': 'VanityURLsController.create',
+  'get /vanityURLs/read/:id': 'VanityURLsController.read',
+  'post /vanityURLs/edit/:id': 'VanityURLsController.edit',
+  'post /vanityURLs/delete/:id': 'VanityURLsController.delete' 
 
   /***************************************************************************
   *                                                                          *

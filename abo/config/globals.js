@@ -60,4 +60,5 @@ module.exports.globals = {
   ****************************************************************************/
 
 	// models: true
+  cacheStore: 'redis', //<redis|memcache>        
 };
