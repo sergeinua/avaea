@@ -229,7 +229,7 @@ function _setMilesInfoLoadingState(isLoading, isLoaded, isError, milesInfosObjec
   return clientStore.dispatch(actionMergeCommonVal(loadingMilesFailed));
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   var matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
