@@ -23,7 +23,7 @@ module.exports = {
     E:'Economy',
     P:'Premium',
     B:'Business',
-    F:'First'
+    F:'First Class'
   },
 
   getDefault: function (req) {
