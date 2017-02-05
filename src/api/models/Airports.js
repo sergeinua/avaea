@@ -44,7 +44,7 @@ module.exports = {
         "FROM "+
         Airports.tableName+" "+
         "WHERE "+
-        " (iata_3code ~* $1) OR "+
+        "   (iata_3code ~* $1) OR "+
         "   (name ~* $1) OR "+
         "   (city ~* $1) OR "+
         "   (alternative_name ~* $3) " +
@@ -94,9 +94,7 @@ module.exports = {
             callback(null, rows);
           } else {
             makeQuery(mainSelect2, ["^"+_query, Airports.ALL_AIRPORTS_NAME, _query], function(rows) {
-              if (rows.length) {
-                callback(null, rows);
-              }
+              callback(null, rows);
             })
           }
         })
