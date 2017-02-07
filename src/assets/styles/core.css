@@ -809,7 +809,7 @@ button {
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
-	padding: 13px 28px;
+	padding: 13px 27px;
 
 	/* bootstrap */
 	line-height: 1em;
@@ -817,9 +817,9 @@ button {
 	transition: all 0.1s ease-in-out;
 }
 
-.big-button,
-.big-button.secondary.disabled {
-	padding: 13px 28px;
+.big-button.secondary,
+.big-button.disabled {
+	padding: 12px 27px;
 }
 
 .big-button:hover,
@@ -828,7 +828,6 @@ button {
 }
 
 .big-button.secondary {
-	padding: 12px 27px;
 	background: #ffffff;
 }
 
@@ -1425,6 +1424,10 @@ textarea {
 	color: #a2a2a2 !important;
 }
 
+.search.buttons .info.cue.disabled {
+	background: #a2a2a2;
+}
+
 .label-d {
 	color: rgba(0, 0, 0, 0.4);
 	font-family: 'Open-Sans-Semibold';
@@ -2007,6 +2010,11 @@ strong.tt-highlight {
 	left: calc(50% - 165px);
 }
 
+.desktop .search.buttons .meri-speaks {
+	max-width: 360px;
+	left: calc(50% - 180px);
+}
+
 .search.buttons .meri-wrapper {
 	margin: 40px auto -3px auto;
 	height: 20px;
@@ -2035,9 +2043,9 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 .search.buttons .info.cue {
 	cursor: pointer;
 	font-size: 18px;
-	line-height: 50px;
+	line-height: 48px;
 	margin: 10px 0;
-	padding: 0 3px;
+	padding: 1px 3px;
 	height: 100%;
 	width: 32px;
 	display: inline-block;
@@ -2066,7 +2074,11 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 	display: inline-block;
 	position: absolute;
 		top: 15px;
-		left: 6px;
+		left: 7px;
+}
+
+.search.buttons .info.cue.disabled:before {
+	background: rgba(255, 255, 255, .4);
 }
 
 
@@ -3962,7 +3974,7 @@ footer.app-copy .bottom a {
 @media (max-width: 390px) {
 	
 	.search.buttons .big-button,
-	.search.buttons .big-button.secondary {
+	.search.buttons .big-button.disabled {
 		padding-left: 19px;
 		padding-right: 19px;
 	}
@@ -4027,12 +4039,12 @@ footer.app-copy .bottom a {
 	}
 	
 	.search.buttons .meri-wrapper {
-		margin-top: 20px;
+		margin-top: 30px;
 		height: 0px;
 	}
 	
 	.search.buttons .big-button,
-	.search.buttons .big-button.secondary {
+	.search.buttons .big-button.disabled {
 		padding-left: 11px;
 		padding-right: 12px;
 	}

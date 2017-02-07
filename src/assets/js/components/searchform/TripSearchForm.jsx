@@ -398,7 +398,7 @@ var TripSearchForm = React.createClass({
 	            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
 	          	Top Flights
 	          </button>
-	          <div id="info-cue" className="info cue" onClick={this.handleMeriHint}></div>	
+	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>	
           </div>
         </div>
         
