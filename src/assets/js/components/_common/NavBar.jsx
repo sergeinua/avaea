@@ -56,15 +56,11 @@ let NavBar = React.createClass({
   },
 
   handleBackToSearch: function () {
-    ActionsStore.changeForm('round_trip');
+    ActionsStore.changeForm(this.props.commonData.searchParams.flightType || 'round_trip');
   },
 
   handleCalendar: function () {
     ActionsStore.changeCalendarDate();
-  },
-
-  handleCancelAirport: function () {
-    ActionsStore.changeForm(this.props.commonData.searchParams.flightType || 'round_trip');
   },
 
   handleClearVoice: function () {
@@ -178,7 +174,7 @@ let NavBar = React.createClass({
             <div className="navbar-header">
               <div className="airport-search-header">
                 <input id="airport-input" type="text" name="airport" placeholder="City, airport code or airport name"/>
-                <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleCancelAirport}>Cancel</button>
+                <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleBackToSearch}>Cancel</button>
               </div>
             </div>
           </div>:null
