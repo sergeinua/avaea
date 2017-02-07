@@ -1035,7 +1035,7 @@ footer.app-copy a.social:visited {
 }
 
 .search.buttons .info.cue {
-	background: rgba(13, 200, 88, .6);
+	background: rgba(13, 200, 88, .5);
 }
 
 
@@ -2007,40 +2007,66 @@ strong.tt-highlight {
 	left: calc(50% - 165px);
 }
 
-.search.buttons .meri-speaks.showing {
-	display: block;
-}
-
 .search.buttons .meri-wrapper {
-	margin: 8px auto -3px auto;
-	height: 0;
+	margin: 40px auto -3px auto;
+	height: 20px;
 	transition: all .5s ease-out;
 	transition-delay: .5s;
 }
 
+body:not(.touch) .search.buttons .meri-wrapper {
+	margin-top: 8px;
+	height: 0px;
+}
+
+body:not(.touch) .search.buttons .meri-wrapper.showing {
+	height: 90px;
+}
+
 .search.buttons .meri-wrapper.showing {
-	 height: 80px;
+	 height: 70px;
 }
 
 .search-buttons .holder {
 	display: inline-block;
+	position: relative;
 }
 
 .search.buttons .info.cue {
 	cursor: pointer;
-	font-size: 24px;
-	padding: 8px 5px;
+	font-size: 18px;
+	line-height: 50px;
+	margin: 10px 0;
+	padding: 0 3px;
 	height: 100%;
+	width: 32px;
 	display: inline-block;
 	position: relative;
+		top: -2px;
+}
+
+.touch.android .search.buttons .info.cue {
+	top: -1px;
 }
 
 .search.buttons .info.cue:before {
-	color: #ffffff;
+	content: '';
+	height:26px;
+	width: 26px;
 	display: inline-block;
 	position: relative;
-		top: 1px;
-		left: -1px;
+	 top: 6px;
+	 left: 0;
+	background: rgba(13, 200, 88, .4);
+	border-radius: 50%;
+}
+
+.search.buttons .info.cue:after {
+	color: #ffffff;
+	display: inline-block;
+	position: absolute;
+		top: 15px;
+		left: 6px;
 }
 
 
@@ -3933,6 +3959,16 @@ footer.app-copy .bottom a {
 	
 }
 
+@media (max-width: 390px) {
+	
+	.search.buttons .big-button,
+	.search.buttons .big-button.secondary {
+		padding-left: 19px;
+		padding-right: 19px;
+	}
+	
+}
+
 /* android */
 @media (max-width: 360px) {
 	
@@ -3990,14 +4026,15 @@ footer.app-copy .bottom a {
 		bottom: 5px;
 	}
 	
-	.big-button,
-	.big-button.secondary {
-		padding-left: 20px;
-		padding-right: 20px;
+	.search.buttons .meri-wrapper {
+		margin-top: 20px;
+		height: 0px;
 	}
 	
-	.search.buttons .meri-wrapper {
-		height: 88px;
+	.search.buttons .big-button,
+	.search.buttons .big-button.secondary {
+		padding-left: 11px;
+		padding-right: 12px;
 	}
 	
 	.search.buttons .meri-speaks {
