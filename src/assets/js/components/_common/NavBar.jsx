@@ -81,9 +81,9 @@ let NavBar = React.createClass({
 
   handleHomeLink: function () {
     if (!this.props.location) {
-    	window.location.assign('/home');
+    	window.location.assign('/search');
     } else {
-      historyStrategy.push('/home');
+      historyStrategy.push('/search');
     }
   },
 
@@ -158,7 +158,7 @@ let NavBar = React.createClass({
               className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
               role="navigation">
               <ul className="nav navbar-nav">
-                <li>{this.showLink("/home","Home")}</li>
+                <li>{this.showLink("/about","About")}</li>
                 <li>{this.showLink("/search","Search")}</li>
                 <li>{this.showLinkProfile("/profile", "Profile")}</li>
                 <li>

@@ -10,9 +10,9 @@ module.exports = {
     counter       : sails.config.prediction.tiles.default.counter
   },
 
-  recalculate: function (user, uuid, params, tile) {
-    tilePrediction.getPrev(user, uuid, tile, function (data) {
-      tilePrediction.save(user, uuid, params, tile, {
+  recalculate: function (userId, uuid, params, tile) {
+    tilePrediction.getPrev(userId, uuid, tile, function (data) {
+      tilePrediction.save(userId, uuid, params, tile, {
         tile_position : (data.result.tile_position * ( 1 - tilePrediction.alpha ) + data.result.counter * tilePrediction.alpha),
         confidence    : (data.result.confidence * ( 1 - tilePrediction.alpha ) + tilePrediction.alpha),
         counter       : (data.result.counter + 1)
@@ -20,11 +20,11 @@ module.exports = {
     });
   },
 
-  getPrev: function (user, uuid, tile, cb) {
-    tPrediction.findOne({user: user, uuid: uuid, tile_name: tile}).exec(function (err, info) {
+  getPrev: function (userId, uuid, tile, cb) {
+    tPrediction.findOne({user_id: userId, uuid: uuid, tile_name: tile}).exec(function (err, info) {
       if (err || _.isEmpty(info)) {
         return cb({
-          user      : user,
+          user_id   : userId,
           uuid      : uuid,
           tile_name : tile,
           result    : _.clone(tilePrediction.default, true)
@@ -35,12 +35,12 @@ module.exports = {
     });
   },
 
-  save: function (user, uuid, params, tile, data) {
-      tPrediction.update({user : user, uuid: uuid, tile_name : tile}, {search_params: params, result:data}).exec(function (err, record) {
+  save: function (userId, uuid, params, tile, data) {
+      tPrediction.update({user_id : userId, uuid: uuid, tile_name : tile}, {search_params: params, result:data}).exec(function (err, record) {
       if (err || _.isEmpty(record)) {
         tPrediction.create(
           {
-            user          : user,
+            user_id       : userId,
             uuid          : uuid,
             search_params : params,
             tile_name     : tile,
@@ -50,11 +50,11 @@ module.exports = {
             if (err) {
               sails.log.error(err);
             } else {
-              UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
+              UserAction.saveAction(userId, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
             }
         });
       } else {
-        UserAction.saveAction(user, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
+        UserAction.saveAction(userId, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
       }
     });
   }

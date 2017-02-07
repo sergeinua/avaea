@@ -4,7 +4,7 @@ var UserAction = {
   // Enforce model schema in the case of schemaless databases
   schema: true,
   attributes: {
-    user       : {
+    user_id    : {
       model: 'User'
     },
     actionType : { type: 'string' },
@@ -12,15 +12,15 @@ var UserAction = {
     anonymous_id : { type: 'string' }
   },
 
-  saveAction: function (user, actionType, data, callback) {
+  saveAction: function (userId, actionType, data, callback) {
     let anonymous_id = '';
 
-    if (user != parseInt(user)) {
-      anonymous_id = user;
+    if (userId != parseInt(userId)) {
+      anonymous_id = userId;
     }
     async.parallel({user: (doneCb) => {
       // this is hook for auto tests
-      if (!user && sails.config.environment =='test') {
+      if (!userId && sails.config.environment =='test') {
         var uFields = {
           username: 'test',
           email: 'test@onvoya.com',
@@ -30,17 +30,17 @@ var UserAction = {
           return doneCb(err, row);
         });
       } else {
-        return doneCb(null, user);
+        return doneCb(null, userId);
       }
     }}, (err, results) => {
       var uaFields = {
-        user       : results.user,
+        user_id    : results.user,
         actionType : actionType,
         logInfo    : data
       };
       if (anonymous_id) {
         uaFields.anonymous_id = anonymous_id;
-        uaFields.user = null;
+        uaFields.user_id = null;
       }
       this.create(uaFields, function(err, record) {
         if (err) {
@@ -49,8 +49,35 @@ var UserAction = {
         callback && callback();
       });
     });
-  }
+  },
 
+  saveFirstVisit: function (req, res) {
+    let anonymous_id = utils.getAnonymousUserId(req);
+
+    if (anonymous_id) {
+      let uaFields = {
+        actionType: "new_user",
+        anonymous_id: anonymous_id
+      };
+      this.findOne(uaFields, (err, found) => {
+        if (!found && !err) {
+          uaFields.logInfo = {
+            landing_page: req.cookies.landing_page || req.url
+          };
+          this.create(uaFields, (err, record) => {
+            if (err) {
+              sails.log.error(err);
+            }
+            sails.log.verbose('landing_page is saved', record);
+            // res.clearCookie('landing_page');
+          });
+        }
+      });
+    } else {
+      //don't have anonymous_id => must be first/incognito visit, saving landing page to cookies
+      res.cookie('landing_page', req.url);
+    }
+  },
 };
 
 module.exports = UserAction;

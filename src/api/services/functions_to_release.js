@@ -1,5 +1,57 @@
 module.exports = {
 
+    compute_priceRank: function (itins)
+    // adds a new field to the array of itineraries: priceRank
+    {
+        if (itins.length == 0) return; // If empty, then nothing needs to be done
+
+        for(var i=0; i<itins.length; i++)
+        {
+            itins[i].priceRank = +itins[i].price; // convert string to float
+            if ( itins[i].hasOwnProperty('miles') ) itins[i].priceRank -= 0.02*itins[i].miles; // discount the price by $0.02 for each earned FF mile
+        }
+    }, // end of function compute_priceRank
+
+    compare_priceRank: function (a, b)
+    {
+        if (a.priceRank > b.priceRank) return 1;
+        else if (a.priceRank < b.priceRank) return -1;
+        return 0;
+    }, // end of function compare_priceRank
+
+    median_priceRank: function (itins)
+    // https://en.wikipedia.org/wiki/Median
+    {
+        if (itins.length == 0) return undefined; // If empty, then median is not defined
+
+        if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
+
+        var itins_loc = _.clone(itins,true) // make a copy // TO DO: avoid copying or even sorting
+                         .sort(this.compare_priceRank);
+
+        var center_index = Math.floor(itins_loc.length/2);
+
+        if(itins_loc.length % 2)
+            return +itins_loc[center_index].priceRank;
+        else
+            return (+itins_loc[center_index-1].priceRank + +itins_loc[center_index].priceRank) / 2.0;
+    }, // end of function median_priceRank
+
+    normalize_priceRank: function (itins)
+    // normalizes priceRank
+    {
+        if (itins.length == 0) return; // If empty, then nothing needs to be done
+
+        if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
+
+        var Median_priceRank = this.median_priceRank(itins); // compute median in priceRank
+
+        for(var i=0; i<itins.length; i++)
+        {
+            itins[i].priceRank /= Median_priceRank;
+        }
+    }, // end of function normalize_priceRank
+
     parseTime: function (timeString)
     // parses a string into a Date/Time object
     {
@@ -103,15 +155,20 @@ module.exports = {
 
     print_one_itinerary: function (prefix,itin)
     {
+        if (itin === undefined) return; // If undefined, then nothing needs to be done
+
         var d = this.parseTime(itin.citypairs[0].from.time);
 
-        var dep_rank_str   = (itin.best_dep_rank===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
-        var air_line_str   = (itin.air_line===undefined)?(""):(" on " + itin.air_line);
+        var priceRank_str  = (itin.priceRank      ===undefined)?(""):(" (" + itin.priceRank.toFixed(10) + ")" );
+        var miles_str      = (itin.miles          ===undefined)?(""):(", earning " + itin.miles + " mi" );
+        var dep_rank_str   = (itin.best_dep_rank  ===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
+        var air_line_str   = (itin.air_line       ===undefined)?(""):(" on " + itin.air_line);
         var airl_rank_str  = (itin.best_airl_rank ===undefined)?(""):(" with airl_rank "  + itin.best_airl_rank);
         var airl_rank2_str = (itin.best_airl_rank2===undefined)?(""):(" with airl_rank2 " + itin.best_airl_rank2);
-        var smartRank_str  = (itin.smartRank ===undefined)?(""):(", smartRank = "  + itin.smartRank );
+        var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
+        var why_this_str   = (itin.why_this       ===undefined)?(""):(", " + itin.why_this );
 
-        console.log( prefix + "$" + itin.price
+        console.log( prefix + "$" + Number(itin.price).toFixed(2) + priceRank_str + miles_str
                             + ", " + itin.durationMinutes + " mins"
                             + ", departs " + itin.citypairs[0].from.time
                             //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
@@ -121,6 +178,7 @@ module.exports = {
                             + airl_rank_str
                             + airl_rank2_str
                             + smartRank_str
+                            + why_this_str
                    );
     }, // end of function print_one_itinerary
 
@@ -129,8 +187,14 @@ module.exports = {
         if (itins.length == 0) console.log("No itineraries");
         if (itins.length == 1) this.print_one_itinerary("Itinerary : ", itins[0]);
         if (itins.length > 1)
-            for(var i=0; i<itins.length; i++)
+        {
+            for(var i=0; i<10; i++)
+                this.print_one_itinerary("Itinerary   " + i + " of " + itins.length + ": ", itins[i]);
+            for(var i=10; i<100; i++)
+                this.print_one_itinerary("Itinerary  " + i + " of " + itins.length + ": ", itins[i]);
+            for(var i=100; i<itins.length; i++)
                 this.print_one_itinerary("Itinerary " + i + " of " + itins.length + ": ", itins[i]);
+        }
     }, // end of function print_many_itineraries
 
     compare_price: function (a, b) // price is a string
@@ -567,8 +631,8 @@ module.exports = {
             if(duration_pref  == 0.0) { return 0; } // ERROR: the function is undefinded when one of the preferences is zero
             if(airline_pref   == 0.0) { return 0; } // ERROR: the function is undefinded when one of the preferences is zero
 
-            var a_linear_combination = (+a.price)/price_pref + a.durationMinutes/duration_pref + a.best_airl_rank2/airline_pref; // convert price from string to float
-            var b_linear_combination = (+b.price)/price_pref + b.durationMinutes/duration_pref + b.best_airl_rank2/airline_pref; // convert price from string to float
+            var a_linear_combination = a.priceRank/price_pref + a.durationMinutes/duration_pref + a.best_airl_rank2/airline_pref;
+            var b_linear_combination = b.priceRank/price_pref + b.durationMinutes/duration_pref + b.best_airl_rank2/airline_pref;
 
             if (a_linear_combination > b_linear_combination) return 1;
             else if (a_linear_combination < b_linear_combination) return -1;
@@ -610,8 +674,6 @@ module.exports = {
 
         if ( price_preference==0 && duration_preference==0) return itins;
 
-        //var MAD_price    = this.median_absolute_deviation_in_price   (itins) + 1; console.log("MAD_price = "    + MAD_price   );
-        //var MAD_duration = this.median_absolute_deviation_in_duration(itins) + 1; console.log("MAD_duration = " + MAD_duration);
         var Median_price    = this.median_in_price     (itins) + 1; //console.log("Median_price = "    + Median_price);
         var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
 
@@ -1255,7 +1317,11 @@ module.exports = {
         if ( duration_preference  === undefined ) { duration_preference  = 1.0; } // default value is 1
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
-        sails.log.info("Ranking based price, duration, and airline preference for the following airlines: " + preferred_airlines);
+        sails.log.info("Ranking based on price preference " + price_preference + ", duration preference " + duration_preference +
+                                    ", airline preference " + airline_preference + " while emphasing the following airlines: " + preferred_airlines);
+
+        if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
+        this.normalize_priceRank(itins);
 
         // appends best_airl_rank2 field if needed
         if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, price_preference, duration_preference);
@@ -1264,15 +1330,12 @@ module.exports = {
         if ( duration_preference  == 0 ) return itins;
         if ( airline_preference   == 0 ) return itins;
 
-        //var MAD_price    = this.median_absolute_deviation_in_price     (itins) + 1; console.log("MAD_price = " + MAD_price);
-        //var MAD_duration = this.median_absolute_deviation_in_duration  (itins) + 1; console.log("MAD_duration = " + MAD_duration);
-        //var MAD_airline  = this.median_absolute_deviation_in_airl_rank2(itins) + 1; console.log("MAD_airline = " + MAD_airline);
-        var Median_price    = this.median_in_price     (itins) + 1; //console.log("Median_price = "    + Median_price);
         var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
         var Median_airline  = this.median_in_airl_rank2(itins) + 1; //console.log("Median_airline = "  + Median_airline);
 
         return _.clone(itins,true) // make a copy
-                .sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference*Median_price,duration_preference*Median_duration,airline_preference*Median_airline) ); // sort in 3D by linear combination of price, duration, and airline_rank2
+                .sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) ); // sort in 3D by linear combination of price, duration, and airline_rank2
     } // end of function rank_itineraries_in_3D_by_price_duration_airline2
+
 
 };
