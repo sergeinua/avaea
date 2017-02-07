@@ -22,7 +22,8 @@
 .booking-success .col-xs-2.date,
 .dimmer .landscape,
 .touch > .copyright,
-.touch footer.app-copy {
+.touch footer.app-copy,
+.meri-wrapper .meri-speaks {
 	display: none;
 }
 
@@ -50,9 +51,15 @@ body,
   background-attachment: fixed;
 }
 
+.desktop,
+.desktop #spa-app {
+	min-width: 895px;
+}
+
 .desktop #spa-app {
 	min-height: 585px;
 }
+
 
 .desktop .login-holder {
 	margin: 80px auto 0 auto;
@@ -562,10 +569,6 @@ body:not(.touch) i.icon-mic:before {
 	display: none;
 }
 
-.desktop #spa-app {
-	min-width: 895px;
-}
-
 .desktop .search-result .results-wrapper {
 	margin-bottom: -12px;
 	padding: 10px 0 70px 20px;
@@ -613,6 +616,18 @@ body:not(.touch) i.icon-mic:before {
 	height: 470px;
 }
 
+.wayfare.search .ti.compare {
+	margin: 30px auto -30px auto;
+}
+
+.wayfare.search .holder {
+	height: 70px;
+	overflow: hidden;
+}
+
+.wayfare.search iframe {
+	height: 100px !important;
+}
 
 
 /* end wayfare */
@@ -894,18 +909,6 @@ button {
 	border-radius: 10px;
 }
 
-.meri-speaks .bubble:after {
-	content: '';
-	display: block;
-	width: 15px;
-	height: 15px;
-	position: absolute;
-		bottom: -8px;
-		left: calc(73% - 7px);
-	background: #eef7fc;
-	transform: rotate(-45deg);
-}
-
 .meri-speaks .close-x {
 	font-size: 16px;
 	padding: 12px 15px;
@@ -952,7 +955,7 @@ button {
 .navbar-default .navbar-form,
 .navmenu-default,
 .navbar-default .navbar-offcanvas,
-.flight-direction {
+.flight-direction{
 	background: #052767;
 }
 
@@ -969,7 +972,8 @@ button {
 .tap-plus,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-legend {
+legend,
+.wayfare.search .ti {
 	color: #052767;
 }
 
@@ -1028,6 +1032,10 @@ footer.app-copy a.social:visited {
 .meri-speaks .bubble:after {
 	border-top: 0px solid transparent;
 	border-right: 0px solid transparent; 
+}
+
+.search.buttons .info.cue {
+	background: rgba(13, 200, 88, .6);
 }
 
 
@@ -1999,16 +2007,43 @@ strong.tt-highlight {
 	left: calc(50% - 165px);
 }
 
+.search.buttons .meri-speaks.showing {
+	display: block;
+}
+
 .search.buttons .meri-wrapper {
 	margin: 8px auto -3px auto;
-	height: 96px;
+	height: 0;
 	transition: all .5s ease-out;
 	transition-delay: .5s;
 }
 
-.search.buttons .meri-wrapper.remove {
-	 height: 40px;
+.search.buttons .meri-wrapper.showing {
+	 height: 80px;
 }
+
+.search-buttons .holder {
+	display: inline-block;
+}
+
+.search.buttons .info.cue {
+	cursor: pointer;
+	font-size: 24px;
+	padding: 8px 5px;
+	height: 100%;
+	display: inline-block;
+	position: relative;
+}
+
+.search.buttons .info.cue:before {
+	color: #ffffff;
+	display: inline-block;
+	position: relative;
+		top: 1px;
+		left: -1px;
+}
+
+
 
 /* heredeb */
 
@@ -3774,6 +3809,7 @@ footer.app-copy .bottom a {
 
 
 @media (min-width: 767px) {
+	
 
 	.touch .navbar-brand {
 		display: block;
@@ -3782,6 +3818,7 @@ footer.app-copy .bottom a {
 	.touch .navbar-brand {
 		left: 12px;
 	}
+	
 
 }
 
@@ -3800,20 +3837,32 @@ footer.app-copy .bottom a {
 
 @media (max-width: 776px) {
 
+	
+	/*
+	--- has to stay wide for Wayfare ad min-width ---
+	--- keep in case we don't use Wayfare ---
+	
 	body:not(.touch) .navbar-brand {
 		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
-		background-size: 185px;
+		background-size: 188px;
 	}
+	
+	*/
 
 }
 
 @media (max-width: 695px) {
+	
+	/*
+	--- has to stay wide for Wayfare ad min-width ---
+	--- keep in case we don't use Wayfare ---
 
 	body:not(.touch) .navbar-brand {
 		width: 45px;
 		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
-		background-size: 185px;
+		background-size: 188px;
 	}
+	*/
 
 }
 
@@ -3821,24 +3870,25 @@ footer.app-copy .bottom a {
 @media (max-width: 675px) {
 
 
-	footer .left,
-	footer .right {
+	.touch footer .left,
+	.touch footer .right {
     display: block;
     width: 100%;
     float: none;
 	}
-
-	footer .holder {
+	
+	.touch footer .holder {
 		text-align: center;
 	}
 
-	footer .right {
+	.touch footer .right {
     margin: 15px 0 15px 0;
 	}
 
-	footer .left nav {
+	.touch footer .left nav {
 		text-align: center;
 	}
+	
 
 }
 
