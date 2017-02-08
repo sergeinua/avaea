@@ -639,38 +639,16 @@ module.exports = {
           }
         }
       }
-      itineraries = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines);
-      //cicstanford.print_many_itineraries(itineraries);
 
-      // append the incremental smartRank, starting from 1
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = i+1;
-      }
+      var top_flights_only = false; // full un-prunned set of itins
+      if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) top_flights_only = true; // top flights only (the best half of the itins)
 
-      // append explanations
-      if (itineraries.length >0 ) {
-        itineraries[0].why_this = 'the best trade-off';
-      }
-      var cheapest_itin = itineraries[cicstanford.find_the_cheapest_itinerary(itineraries)]; // TODO: there can be several cheapest itins
-      cheapest_itin.why_this = (cheapest_itin.why_this ===undefined)?("the cheapest"):(cheapest_itin.why_this + ", the cheapest");
-      var shortest_itin = itineraries[cicstanford.find_the_shortest_itinerary(itineraries)]; // TODO: there can be several shortest itins
-      shortest_itin.why_this = (shortest_itin.why_this ===undefined)?("the shortest"):(shortest_itin.why_this + ", the shortest");
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines, top_flights_only);
+
       break;
     default:
       // do nothing
       break;
-    }
-    //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
-      sails.log.info('params.topSearchOnly', params.topSearchOnly);
-      itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
-      var tmp = [];
-      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-        tmp.push(itineraries[i]);
-      }
-      sails.log.info('before DEMO-285', itineraries.length);
-      itineraries = tmp;
-      sails.log.info('after DEMO-285', itineraries.length);
     }
     cicstanford.print_many_itineraries(itineraries);
 

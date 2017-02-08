@@ -1307,15 +1307,19 @@ module.exports = {
 
     }, // end of function append_1D_airline_rank2
 
-    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, price_preference, duration_preference, airline_preference, preferred_airlines)
+    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, price_preference, duration_preference, airline_preference, preferred_airlines, top_flights_only)
     {
-        if (itins.length == 0) return itins; // If empty, then nothing to rank
-        if (itins.length == 1) return itins; // If just one itinerary, then nothing to rank
+        if (itins.length == 0) return; // If empty, then nothing to rank
+        if (itins.length == 1) { // If just one itinerary, then ranking is easy
+          itins[0].smartRank = 1;
+          itins[0].why_this = 'the cheapest, the shortest, the best trade-off';
+          return;
+        }
 
         // if price_preference < duration_preference, then low price is more important than low duration
-        if ( price_preference     === undefined ) { price_preference     = 1.0; } // default value is 1
-        if ( duration_preference  === undefined ) { duration_preference  = 1.0; } // default value is 1
-        if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
+        if ( price_preference    === undefined ) { price_preference    = 1.0; } // default value is 1
+        if ( duration_preference === undefined ) { duration_preference = 1.0; } // default value is 1
+        if ( airline_preference  === undefined ) { airline_preference  = 1.0; } // default value is 1
 
         sails.log.info("Ranking based on price preference " + price_preference + ", duration preference " + duration_preference +
                                     ", airline preference " + airline_preference + ", while emphasizing the following airlines: " + preferred_airlines);
@@ -1326,16 +1330,50 @@ module.exports = {
         // appends best_airl_rank2 field if needed
         if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, price_preference, duration_preference);
 
-        if ( price_preference     == 0 ) return itins;
-        if ( duration_preference  == 0 ) return itins;
-        if ( airline_preference   == 0 ) return itins;
+        if ( price_preference    == 0 ) return;
+        if ( duration_preference == 0 ) return;
+        if ( airline_preference  == 0 ) return;
 
         var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
         var Median_airline  = this.median_in_airl_rank2(itins) + 1; //console.log("Median_airline = "  + Median_airline);
 
-        return _.clone(itins,true) // make a copy
-                .sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) ); // sort in 3D by linear combination of price, duration, and airline_rank2
-    } // end of function rank_itineraries_in_3D_by_price_duration_airline2
+        // sort in 3D by linear combination of price, duration, and airline_rank2
+        itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) );
 
+        // append the incremental smartRank, starting from 1
+        for (var i = 0; i < itins.length; i++) {
+          itins[i].smartRank = i+1;
+        }
 
+        // append explanations as to why each particular itin is recommended
+        this.append_explanation_to_ranked_itins(itins);
+
+        // keep only the best half of itins, if needed
+        if (top_flights_only) {
+          var full_length = itins.length;
+          var half_length = Math.floor(full_length/2);
+          itins.length = half_length;
+          sails.log.info("Returning top flights only (" + half_length + " of " + full_length + ")");
+        }
+
+        return;
+
+    }, // end of function rank_itineraries_in_3D_by_price_duration_airline2
+
+    append_explanation_to_ranked_itins: function (itins)
+    {
+        var lowest_price     = Math.min.apply(null,itins.map(function(it) { return +it.price          ; })); // convert string to float
+        var lowest_duration  = Math.min.apply(null,itins.map(function(it) { return  it.durationMinutes; }));
+        var lowest_smartRank = Math.min.apply(null,itins.map(function(it) { return  it.smartRank      ; }));
+
+        // append explanations
+        for (var i = 0; i < itins.length; i++) {
+          delete itins[i].why_this; // delete previous explanations
+          if ( +itins[i].price           == lowest_price     ) itins[i].why_this = (itins[i].why_this ===undefined)?("the cheapest"      ):(itins[i].why_this + ", the cheapest"      );
+          if (  itins[i].durationMinutes == lowest_duration  ) itins[i].why_this = (itins[i].why_this ===undefined)?("the shortest"      ):(itins[i].why_this + ", the shortest"      );
+          if (  itins[i].smartRank       == lowest_smartRank ) itins[i].why_this = (itins[i].why_this ===undefined)?("the best trade-off"):(itins[i].why_this + ", the best trade-off");
+        }
+
+        return;
+    } // end of function append_explanation_to_ranked_itins
 };
