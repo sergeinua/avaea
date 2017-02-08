@@ -184,16 +184,15 @@ module.exports = {
 
     print_many_itineraries: function (itins)
     {
-        if (itins === undefined) console.log("No itineraries");
         if (itins.length == 0) console.log("No itineraries");
         if (itins.length == 1) console.log(this.itin_to_string("Itinerary : ", itins[0]));
         if (itins.length > 1)
         {
-            for(var i=0; i<10; i++)
+            for(var i=  0; i < Math.min(itins.length,  10); i++)
                 console.log(this.itin_to_string("Itinerary   " + i + " of " + itins.length + ": ", itins[i]));
-            for(var i=10; i<100; i++)
+            for(var i= 10; i < Math.min(itins.length, 100); i++)
                 console.log(this.itin_to_string("Itinerary  "  + i + " of " + itins.length + ": ", itins[i]));
-            for(var i=100; i<itins.length; i++)
+            for(var i=100; i < Math.min(itins.length,1000); i++)
                 console.log(this.itin_to_string("Itinerary "   + i + " of " + itins.length + ": ", itins[i]));
         }
     }, // end of function print_many_itineraries
