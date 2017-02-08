@@ -642,7 +642,7 @@ module.exports = {
       itineraries = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines);
       //cicstanford.print_many_itineraries(itineraries);
 
-      // append the default zero smartRank
+      // append the incremental smartRank, starting from 1
       for (var i = 0; i < itineraries.length; i++) {
         itineraries[i].smartRank = i+1;
       }
