@@ -169,7 +169,7 @@ module.exports = {
       }
     }).exec((err, result) => {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
       } else {
         result.map(function(item) {
           if (item.country == 'Canada') {
@@ -178,9 +178,9 @@ module.exports = {
           isUSA = isUSA || (item.country == 'United States');
         });
         if ( isCanada == 2 || (isCanada == 1 && isUSA) ) {
-          sails.log.info('CA<->US or CA<->CA flight: using [farelogix]');
+          onvoya.log.info('CA<->US or CA<->CA flight: using [farelogix]');
         } else {
-          sails.log.info('Need to remove [farelogix]');
+          onvoya.log.info('Need to remove [farelogix]');
           _.remove(providers, function(item) {
             return item == 'farelogix';
           });
@@ -209,7 +209,7 @@ module.exports = {
         }, 30000);
         // run async API search
         global[provider].flightSearch(guid, params, (err, result) => {
-          sails.log.info(provider + ' search finished!');
+          onvoya.log.info(provider + ' search finished!');
           if (err) {
             errors.push(err);
             result = [];
@@ -226,7 +226,7 @@ module.exports = {
             err = errors.join("\n");
           } else {
             // show errors in log but continue processing if at least one API works correctly
-            sails.log.error("Some errors have occurred on search:\n%s", errors.join("\n"));
+            onvoya.log.error("Some errors have occurred on search:\n%s", errors.join("\n"));
           }
         }
         if (!err) {
@@ -290,14 +290,14 @@ module.exports = {
           };
           row.params = params;
 
-          sails.log.info('Get search data from API');
+          onvoya.log.info('Get search data from API');
 
           this.cache(guid, row);
 
           resArr.guid = guid;
           return callback(null, resArr);
         } else {
-          sails.log.error(err);
+          onvoya.log.error(err);
           let result = [];
 
           result.guid = guid;
@@ -362,7 +362,7 @@ module.exports = {
         'api': text || 'Undefined API error',
         'not_found': 'Cancelations were not found in Fare Rules'
       };
-      sails.log.error(errors[error]);
+      onvoya.log.error(errors[error]);
       return callback(errors[error], res);
     };
     // if no data in DB and APIs doesn't respond over 30 sec then stop searching
@@ -377,13 +377,13 @@ module.exports = {
       utils.timeLog('getRefundType_' + params.service);
       // run async API search
       global[params.service].fareRules(guid, params, (err, result) => {
-        sails.log.info(params.service + ' get Fare Rules finished!');
+        onvoya.log.info(params.service + ' get Fare Rules finished!');
         if (err) {
           if (!done) {
             done = true;
             return errorResult('api', err);
           } else {
-            sails.log.error(err);
+            onvoya.log.error(err);
           }
         } else {
           if (result.SubSection && result.SubSection.Text) {

@@ -39,25 +39,25 @@ module.exports = {
   execReadEticket: function () {
     if (!sails.config.email.instance_name) {
       let _process = require('process');
-      sails.log.error(`The instance with PID=${_process.pid} will not execute e-mail cron jobs, because sails_email__instance_name is not defined by command line.`);
-      sails.log.error('Define it as UNIQUE value, for example:');
-      sails.log.error('sails_email__instance_name=host1_1 sails lift');
-      sails.log.error('Terminating sails app...');
+      onvoya.log.error(`The instance with PID=${_process.pid} will not execute e-mail cron jobs, because sails_email__instance_name is not defined by command line.`);
+      onvoya.log.error('Define it as UNIQUE value, for example:');
+      onvoya.log.error('sails_email__instance_name=host1_1 sails lift');
+      onvoya.log.error('Terminating sails app...');
       sails.lower(
         function (err) {
           if (err) {
-            sails.log.error("Error occurred lowering Sails app: ", err);
+            onvoya.log.error("Error occurred lowering Sails app: ", err);
           } else {
-            sails.log.info("Sails app lowered successfully. Exiting.");
+            onvoya.log.info("Sails app lowered successfully. Exiting.");
           }
           _process.exit(1);
         }
       );
       return;
     }
-    sails.log.verbose('Start execReadEticket job');
+    onvoya.log.verbose('Start execReadEticket job');
     if (readEticketQueueCounter > 0) {
-      sails.log.warn(`readEticket queue did not spooled by previous job. Queue counter=${readEticketQueueCounter}. Stop current job`);
+      onvoya.log.warn(`readEticket queue did not spooled by previous job. Queue counter=${readEticketQueueCounter}. Stop current job`);
       return;
     }
     readEticketQueueCounter = 1; // Up queue flag for concurrent jobs
@@ -126,7 +126,7 @@ module.exports = {
             })
 
             .then(function () {
-              sails.log.info('Mail with e-ticket confirmation was sent to '+ _cur_rec.email);
+              onvoya.log.info('Mail with e-ticket confirmation was sent to '+ _cur_rec.email);
               return Booking.update(
                 {id: _cur_rec.id},
                 {
@@ -142,7 +142,7 @@ module.exports = {
 
             .catch(function (error) {
               if (error) {
-                sails.log.error('in readEticket chain:', error);
+                onvoya.log.error('in readEticket chain:', error);
               }
               readEticketQueueCounter = (ii == readEticketQueueCounter-1) ? 0 : readEticketQueueCounter - 1;
             });
@@ -151,9 +151,9 @@ module.exports = {
 
       .catch(function (error) {
         if (error) {
-          sails.log.error('in Booking query chain:', error);
+          onvoya.log.error('in Booking query chain:', error);
         } else {
-          sails.log.verbose('Nothing to readEticket');
+          onvoya.log.verbose('Nothing to readEticket');
         }
         readEticketQueueCounter = 0;
       });

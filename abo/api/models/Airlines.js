@@ -36,7 +36,7 @@ module.exports = {
 
     this.find(criteria).exec(function (err, records) {
       if (err) {
-        sails.log.error(err);
+        sails.onvoyaLog.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(records);
@@ -55,7 +55,7 @@ makeIconSpriteMap: function(cbSpriteMap) {
                 callback(null, JSON.parse(data));
               } else {
                 callback(null, null);
-                sails.log.info('Sprite map for the airlines icons not found, try to make..');
+                sails.onvoyaLog.info('Sprite map for the airlines icons not found, try to make..');
               }
             });
           },
@@ -85,13 +85,13 @@ makeIconSpriteMap: function(cbSpriteMap) {
 
               fs.writeFile(getSpriteMapFileName(), JSON.stringify(sprite_map), {mode: 0o644}, (err) => {
                 if (err) {
-                  sails.log.error(err);
+                  sails.onvoyaLog.error(err);
                   callback(err);
                   return;
                 }
               });
 
-              sails.log.info('Sprite map for the airlines icons was made successfully');
+              sails.onvoyaLog.info('Sprite map for the airlines icons was made successfully');
               callback(null, sprite_map);
             });
           }

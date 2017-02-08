@@ -190,9 +190,9 @@ module.exports = {
           } else {
 
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             } else {
-              // sails.log.info('nothing is found for query', _query);
+              // onvoya.log.info('nothing is found for query', _query);
             }
 
             callback([]);

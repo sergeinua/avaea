@@ -170,11 +170,11 @@ class MondeeClient {
     utils.timeLog(op);
 
     let wsdlUrl = this.getWsdlUrl();
-    sails.log.info(op + ': (SOAP) Trying to connect to ' + wsdlUrl);
+    onvoya.log.info(op + ': (SOAP) Trying to connect to ' + wsdlUrl);
     soap.createClient(wsdlUrl, {endpoint: this.getEndPointUrl()}, (err, client) => {
 
       if (err) {
-        sails.log.error(op + ": (SOAP) An error occurs:\n" + err);
+        onvoya.log.error(op + ": (SOAP) An error occurs:\n" + err);
         return callback( err, null );
       } else {
         let req = this.getRequest(guid, params);
@@ -182,7 +182,7 @@ class MondeeClient {
           return callback( req, null );
         }
 
-        sails.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -190,7 +190,7 @@ class MondeeClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            sails.log.info(op + ' request time: %s, request=%s, response=%s', apiCallTimeHr, JSON.stringify(req), raw);
+            onvoya.log.verbose(op + ' request time: '+apiCallTimeHr+', request='+JSON.stringify(req)+', response=' + raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }
@@ -211,7 +211,7 @@ class MondeeClient {
             }
             _res = result[responseKey];
           } catch (e) {
-            sails.log.error(op + ": " + e);
+            onvoya.log.error(op + ": " + e);
             _err = e;
           }
           return callback(_err, _res);
@@ -238,9 +238,9 @@ class Mapper {
       return doneCb(null, this.mapItinerary(itinerary));
     }, (err, resArr) => {
       if ( err ) {
-        sails.log.error( err );
+        onvoya.log.error( err );
       }
-      sails.log.info(serviceName + ': Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr(serviceName + '_prepare_result'));
+      onvoya.log.info(serviceName + ': Map result data ('+resArr.length+' itineraries) to our structure time: ' + utils.timeLogGetHr(serviceName + '_prepare_result'));
       return callback( null, resArr );
     });
 
@@ -473,10 +473,10 @@ module.exports = {
       _api_name = serviceName + '.' + api;
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = (err, result) => {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return callback(err, result);
     };
 
@@ -522,7 +522,7 @@ module.exports = {
       api = 'flightBooking',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       return callback(err, result || {});
@@ -541,7 +541,7 @@ module.exports = {
       api = 'readEticket',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       if (err) {
@@ -567,7 +567,7 @@ module.exports = {
       api = 'cancelPnr',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       return callback(err, result || {});
@@ -579,7 +579,7 @@ module.exports = {
       api = 'fareRules',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       return callback(err, result || null);

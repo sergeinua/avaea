@@ -27,7 +27,7 @@ module.exports = {
       if (!err && !_.isEmpty(row)) {
         Tile.itineraryPredictedRank = _.clone(row.prediction);
       } else {
-        sails.log.info('didn\'t find local rank ['+userId+']['+params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode+']');
+        onvoya.log.info('didn\'t find local rank ['+userId+']['+params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode+']');
         iPrediction.findOne({
           user_id: userId,
           uuid: params.CabinClass,
@@ -36,8 +36,8 @@ module.exports = {
           if (!err && !_.isEmpty(row)) {
             Tile.itineraryPredictedRank = _.clone(row.prediction);
           } else {
-            sails.log.info('didn\'t find global rank ['+userId+']['+params.CabinClass + ']');
-            sails.log.info(itineraryPrediction.default_predicted_rank);
+            onvoya.log.info('didn\'t find global rank ['+userId+']['+params.CabinClass + ']');
+            onvoya.log.info(itineraryPrediction.default_predicted_rank);
             Tile.itineraryPredictedRank = _.clone(itineraryPrediction.default_predicted_rank);
           }
         });

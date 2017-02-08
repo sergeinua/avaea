@@ -289,7 +289,7 @@ const callFarelogixApi = function (api, apiParams, apiCb) {
     throw 'callback required and should be a function';
   }
   let request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
-  sails.log.info(util.inspect(request, {showHidden: true, depth: null}));
+  onvoya.log.info(util.inspect(request, {showHidden: true, depth: null}));
 
   let post_options = sails.config.flightapis.farelogix.post_options;
   post_options.headers['Content-Length'] = Buffer.byteLength(request);
@@ -587,16 +587,16 @@ module.exports = {
       farelogixApi = 'fareSearch';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, resArr) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, resArr);
     };
 
     let endPoint = getEndPoint();
-    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    onvoya.log.info(_api_name + ': Trying to connect to ' + endPoint);
     let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params.searchParams], function (err, result, raw) {
@@ -607,7 +607,7 @@ module.exports = {
         if (apiCallTime > 7000) {
           params.session.time_log.push(op + ' took %s to respond', apiCallTimeHr);
         }
-        sails.log.info(op + ' request time: %s', apiCallTimeHr);
+        onvoya.log.info(op + ' request time: ' + apiCallTimeHr);
         if (err) {
           throw err;
         } else {
@@ -710,15 +710,17 @@ module.exports = {
               return doneCb(null, mapItinerary(itinerary));
             }, function (err, resArr) {
               if ( err ) {
-                sails.log.error( err );
+                onvoya.log.error( err );
               }
-              sails.log.info(_api_name + ': Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr(_api_name + '_prepare_result'));
+              onvoya.log.info(
+                _api_name + ': Map result data (' + resArr.length + ' itineraries) to our structure time: '
+                + utils.timeLogGetHr(_api_name + '_prepare_result'));
               return callback(null, resArr);
             });
           }
         }
       } catch (e) {
-        sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
+        onvoya.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
         // Assume 'International Flights Searches are restricted' and 'No Schedule availability' errors
         // are the same as 'No Results Found' error
         let no_flights_errors = [
@@ -747,16 +749,16 @@ module.exports = {
       farelogixApi = 'PNRCreate';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
     let endPoint = getEndPoint();
-    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    onvoya.log.info(_api_name + ': Trying to connect to ' + endPoint);
     let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params], function (err, result, raw) {
@@ -778,7 +780,7 @@ module.exports = {
           });
         }
       } catch (e) {
-        sails.log.error(op + ': An error occurs: ' + e);
+        onvoya.log.error(op + ': An error occurs: ' + e);
         return callback(e, null);
       }
     });
@@ -802,11 +804,11 @@ module.exports = {
       farelogixApi = 'cancelPnr';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -819,11 +821,11 @@ module.exports = {
       farelogixApi = 'fareRules';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 

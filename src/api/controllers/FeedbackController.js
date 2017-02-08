@@ -39,7 +39,7 @@ module.exports = {
         .then(function () {
           return res.json({"responseCode" : 0,"responseDesc" : "Success"});
         }).catch(function (error) {
-          sails.log.error(error);
+          onvoya.log.error(error);
           console.log('Error: Can\'t send email:', error, emailParams, comment);
           return res.ok({
             error: true,

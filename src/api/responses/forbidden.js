@@ -24,9 +24,9 @@ module.exports = function forbidden (data, options) {
 
   // Log error to console
   if (data !== undefined) {
-    sails.log.verbose('Sending 403 ("Forbidden") response: \n',data);
+    onvoya.log.verbose('Sending 403 ("Forbidden") response: \n',data);
   }
-  else sails.log.verbose('Sending 403 ("Forbidden") response');
+  else onvoya.log.verbose('Sending 403 ("Forbidden") response');
 
   // Only include errors in response if application environment
   // is not set to 'production'.  In production, we shouldn't
@@ -69,7 +69,7 @@ module.exports = function forbidden (data, options) {
         }
         // Otherwise, if this was a more serious error, log to the console with the details.
         else {
-          sails.log.warn('res.forbidden() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err);
+          onvoya.log.warn('res.forbidden() :: When attempting to render error page view, an error occured (sending JSON instead).  Details: ', err);
         }
         return res.jsonx(data);
       }

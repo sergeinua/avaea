@@ -16,14 +16,13 @@ module.exports = {
   index: function (req, res) {
 
     UserAction.saveFirstVisit(req, res);
-    sails.log(sails.config.routes);
-    
+
     if(req.session){
       if(req.session.vanityURL){  // do redirect if used vanity URL
         // getting of destination URL from vanityURL
         let destinationURL = req.session.vanityURL.destination_url;
         delete req.session.vanityURL;
-        return res.redirect(destinationURL); //redirect to 
+        return res.redirect(destinationURL); //redirect to
       }else{
         VanityURLsService.updateCache();
       }
@@ -63,13 +62,13 @@ module.exports = {
       params.departureDate = departureDate.isValid()?departureDate.format('YYYY-MM-DD'):'';
       params.returnDate = returnDate.isValid()?returnDate.format('YYYY-MM-DD'):'';
 
-      sails.log.verbose('Found valid parameters for search form');
+      onvoya.log.verbose('Found valid parameters for search form');
 
       async.parallel({
         departure: (doneCb) => {
           Airports.findOne({iata_3code: params.DepartureLocationCode}).exec((_err, _row) => {
             if (_err) {
-              sails.log.error(_err);
+              onvoya.log.error(_err);
             }
             return doneCb(_err, _row);
           });
@@ -77,7 +76,7 @@ module.exports = {
         arrival: (doneCb) => {
           Airports.findOne({iata_3code: params.ArrivalLocationCode}).exec((_err, _row) => {
             if (_err) {
-              sails.log.error(_err);
+              onvoya.log.error(_err);
             }
             return doneCb(_err, _row);
           });

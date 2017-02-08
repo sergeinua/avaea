@@ -30,7 +30,7 @@ module.exports = {
     };
 
     if (!req.user) {
-      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      onvoya.log.info(utils.showError('Error.User.NotAuthorised'));
       return res.ok({
         error: true,
         errorInfo: utils.showError('Error.User.NotAuthorised')
@@ -41,7 +41,7 @@ module.exports = {
 
     Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         return res.ok({
           error: true,
           errorInfo: utils.showError('Error.Passport.User.Profile.NotFound')
@@ -130,7 +130,7 @@ module.exports = {
           );
         })
         .catch((error) => {
-          sails.log.error(error);
+          onvoya.log.error(error);
           return onIllegalResult();
         });
     });
@@ -188,7 +188,7 @@ module.exports = {
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
       .catch((error) => {
-        sails.log.error(error);
+        onvoya.log.error(error);
 
         return res.ok({
           error: true,
@@ -211,7 +211,7 @@ module.exports = {
         });
       }
       segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
-      sails.log.info("Itinerary booked successfully:", result);
+      onvoya.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';
 
@@ -243,10 +243,10 @@ module.exports = {
             return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
           })
           .then(function () {
-            sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
+            onvoya.log.info('Mail with booking confirmation was sent to '+ req.user.email);
           })
           .catch(function (error) {
-            sails.log.error('in booking sendMail chain:', error);
+            onvoya.log.error('in booking sendMail chain:', error);
           });
       });
 
@@ -256,7 +256,7 @@ module.exports = {
           return res.ok({bookingId: record.id_pub});
         })
         .catch(function (error) {
-          sails.log.error(error);
+          onvoya.log.error(error);
           return res.ok({
             error: true,
             flashMsg: req.__('Error.Search.Booking.Failed')
@@ -267,7 +267,7 @@ module.exports = {
 
   booking: function (req, res) {
     if (! /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(req.param('bookingId'))) {
-      sails.log.error('Invalid bookingId format:', req.param('bookingId'));
+      onvoya.log.error('Invalid bookingId format:', req.param('bookingId'));
       return res.ok({
         error: true,
         errorInfo: utils.showError('Error.Search.Booking.NotFound')
@@ -278,11 +278,11 @@ module.exports = {
     Booking.query(
       `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 AND user_id=$2`, [req.param('bookingId'), req.user.id], function (err, dbResults) {
         if (err) {
-          sails.log.error('Booking.query: '+ req.param('bookingId'), err);
+          onvoya.log.error('Booking.query: ' + req.param('bookingId'), err);
           return res.ok({error: true});
         }
         if (dbResults.rows.length == 0) {
-          sails.log.error('Could not find by bookingId:', req.param('bookingId'));
+          onvoya.log.error('Could not find by bookingId:', req.param('bookingId'));
           return res.ok({
             error: true,
             errorInfo: utils.showError('Error.Search.Booking.NotFound')
