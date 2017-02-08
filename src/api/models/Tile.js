@@ -627,14 +627,20 @@ module.exports = {
       break;
     case 7: // number of itineraries stays the same
       sails.log.info('Scenario 7:');
-      var temp_itins;
-      if ( Tile.userPreferredAirlines.length == 0 ) {
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 20, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
-      } else {
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 6, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
+      var local_price_pref    =  1; // most important
+      var local_duration_pref =  6; // less important
+      var local_airline_pref  = 20; // least important
+      if (!_.isUndefined(Tile.profileFoundAsync)) { // if profile is present
+        if (Tile.profileFoundAsync != null) { // and is non-empty
+          if (!_.isUndefined(Tile.profileFoundAsync.preferred_airlines)) { // and some preferred airlines are specified
+            if (Tile.profileFoundAsync.preferred_airlines.length > 0) {
+              local_airline_pref = 6; // make airline preference as important as duration (but still less important, than price)
+            }
+          }
+        }
       }
+      var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines);
+      //cicstanford.print_many_itineraries(temp_itins);
 
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
@@ -649,7 +655,12 @@ module.exports = {
         var itin_id = temp_itins[i].id;
         var itin_index = ID.indexOf(itin_id);
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
+        if (i == 0) itineraries[itin_index].why_this = 'the best trade-off';
       }
+      var cheapest_itin = itineraries[cicstanford.find_the_cheapest_itinerary(itineraries)];
+      cheapest_itin.why_this = (cheapest_itin.why_this ===undefined)?("the cheapest"):(cheapest_itin.why_this + ", the cheapest");
+      var shortest_itin = itineraries[cicstanford.find_the_shortest_itinerary(itineraries)];
+      shortest_itin.why_this = (shortest_itin.why_this ===undefined)?("the shortest"):(shortest_itin.why_this + ", the shortest");
       break;
     default:
       // do nothing
@@ -668,6 +679,9 @@ module.exports = {
       sails.log.info('after DEMO-285', itineraries.length);
     }
     cicstanford.print_many_itineraries(itineraries);
+
+    //sails.log.info("User profile:");
+    //sails.log.info(Tile.profileFoundAsync);
 
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
