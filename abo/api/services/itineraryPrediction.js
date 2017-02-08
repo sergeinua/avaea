@@ -14,7 +14,7 @@ module.exports = {
   },
   rankMin : 0,
   rankMax : 0,
-  updateRank : function (user, searchUuid, price)
+  updateRank : function (userId, searchUuid, price)
   {
     memcache.get(searchUuid, function(err, result) {
       if (!err && !_.isEmpty(result)) {
@@ -50,8 +50,8 @@ module.exports = {
                 calculatedRankMax: itineraryPrediction.rankMax
               }
             );
-            itineraryPrediction.recalculateRank(user, searchData.searchParams, 'local');
-            itineraryPrediction.recalculateRank(user, searchData.searchParams, 'global');
+            itineraryPrediction.recalculateRank(userId, searchData.searchParams, 'local');
+            itineraryPrediction.recalculateRank(userId, searchData.searchParams, 'global');
 
           } else {
             sails.log.error('Can\'t find itineraries in memcache for search uuid ', searchUuid);
@@ -63,7 +63,7 @@ module.exports = {
     })
   },
 
-  recalculateRank: function (user, params, type) {
+  recalculateRank: function (userId, params, type) {
     var uuid = null;
     if (type == 'global') {
       uuid = params.CabinClass;
@@ -74,7 +74,7 @@ module.exports = {
       return false;
     }
 
-    iPrediction.getUserItinerariesRank(user, uuid, type, function (current) {
+    iPrediction.getUserItinerariesRank(userId, uuid, type, function (current) {
       var data = {
         rankMin: EMGA.update(itineraryPrediction.rankMin, current.rankMin, itineraryPrediction.alpha),
         rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, itineraryPrediction.alpha)
@@ -83,12 +83,12 @@ module.exports = {
       sails.log.info('Current rank ( from DB or default )', type, current);
       sails.log.info('Recalculated rank (after EMGA(N))', type, data);
 
-      iPrediction.update({user: user, uuid: uuid, type: type}, {prediction: data}).exec(function (err, record) {
+      iPrediction.update({user_id: userId, uuid: uuid, type: type}, {prediction: data}).exec(function (err, record) {
 
         if (err || _.isEmpty(record)) {
           iPrediction.create(
             {
-              user          : user,
+              user_id       : userId,
               uuid          : uuid,
               search_params : params,
               type          : type,
@@ -98,11 +98,11 @@ module.exports = {
               if (err) {
                 sails.log.error(err);
               } else {
-                UserAction.saveAction(user, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
+                UserAction.saveAction(userId, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
               }
           });// end of iPrediction.create
         } else {
-          UserAction.saveAction(user, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
+          UserAction.saveAction(userId, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
         }
 
       });// end of iPrediction.update

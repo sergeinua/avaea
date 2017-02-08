@@ -302,7 +302,6 @@ let ResultPage = React.createClass({
       } else {
         filters.push(filterNew.id);
       }
-      swiper.slideTo($('#' + filterNew.id.replace(/(tile).+/, '$1') ).parents('.swiper-slide').index());
       this.setState({filter: filters});
     }
     this.resetResultVisibility();

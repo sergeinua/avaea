@@ -195,6 +195,10 @@ $(document).ready(function () {
         window.location.hash = 'VoiceParsingLog';
         getUsersStatVoiceSearch();
       break;
+      case 'gridVanityURLs':
+        window.location.hash = 'VanityURLs';
+        genGridVanityURLs(); // dependencies/statistics.js
+      break;      
     }
   };
 
@@ -529,6 +533,9 @@ $(document).ready(function () {
       case '#VoiceParsingLog':
         activeTab =  'gridUsersStatVoiceSearch';
         break;
+      case '#VanityURLs':
+        activeTab =  'gridVanityURLs';
+        break;        
     }
     changeTabNav(activeTab);
   }

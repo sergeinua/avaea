@@ -76,7 +76,7 @@ module.exports = {
         id: {
           '>': req.param('lastUpdated', 0)
         },
-        user: userId
+        user_id: userId
       },
       sort : 'id ASC'
     }).exec(function (err, found) {
@@ -88,7 +88,7 @@ module.exports = {
         return res.json({
             userActions:[{
               actionType: 'empty',
-              user: userId,
+              user_id: userId,
               createdAt: 0,
               id: 0,
               logInfo: {error: 'Cant find actions data for user id #' + userId}
