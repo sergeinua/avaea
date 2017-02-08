@@ -1318,7 +1318,7 @@ module.exports = {
         if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
 
         sails.log.info("Ranking based on price preference " + price_preference + ", duration preference " + duration_preference +
-                                    ", airline preference " + airline_preference + " while emphasing the following airlines: " + preferred_airlines);
+                                    ", airline preference " + airline_preference + " while emphasizing the following airlines: " + preferred_airlines);
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
