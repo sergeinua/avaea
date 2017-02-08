@@ -639,27 +639,21 @@ module.exports = {
           }
         }
       }
-      var temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines);
-      //cicstanford.print_many_itineraries(temp_itins);
+      itineraries = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines);
+      //cicstanford.print_many_itineraries(itineraries);
 
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
+        itineraries[i].smartRank = i+1;
       }
-      // extract all the itinerary IDs into a separate array
-      var ID = itineraries.map(function (it) {
-        return it.id
-      });
-      // the itineraries in temp_itins are ordered according to a smartRank, copy their ranks to the original itineraries
-      for (var i = 0; i < temp_itins.length; i++) {
-        var itin_id = temp_itins[i].id;
-        var itin_index = ID.indexOf(itin_id);
-        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-        if (i == 0) itineraries[itin_index].why_this = 'the best trade-off';
+
+      // append explanations
+      if (itineraries.length >0 ) {
+        itineraries[0].why_this = 'the best trade-off';
       }
-      var cheapest_itin = itineraries[cicstanford.find_the_cheapest_itinerary(itineraries)];
+      var cheapest_itin = itineraries[cicstanford.find_the_cheapest_itinerary(itineraries)]; // TODO: there can be several cheapest itins
       cheapest_itin.why_this = (cheapest_itin.why_this ===undefined)?("the cheapest"):(cheapest_itin.why_this + ", the cheapest");
-      var shortest_itin = itineraries[cicstanford.find_the_shortest_itinerary(itineraries)];
+      var shortest_itin = itineraries[cicstanford.find_the_shortest_itinerary(itineraries)]; // TODO: there can be several shortest itins
       shortest_itin.why_this = (shortest_itin.why_this ===undefined)?("the shortest"):(shortest_itin.why_this + ", the shortest");
       break;
     default:
