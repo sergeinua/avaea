@@ -1354,6 +1354,8 @@ module.exports = {
           var half_length = Math.floor(full_length/2);
           itins.length = half_length;
           sails.log.info("Returning top flights only (" + half_length + " of " + full_length + ")");
+        } else {
+          sails.log.info("Returning the full set of flights (" + itins.length + " itins)");
         }
 
         return;

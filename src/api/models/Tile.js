@@ -630,18 +630,17 @@ module.exports = {
       var local_price_pref    =  1; // most important
       var local_duration_pref =  6; // less important
       var local_airline_pref  = 20; // least important
+      var top_flights_only = false; // return  full un-prunned set of itins
       if (!_.isUndefined(Tile.profileFoundAsync)) { // if profile is present
         if (Tile.profileFoundAsync != null) { // and is non-empty
-          if (!_.isUndefined(Tile.profileFoundAsync.preferred_airlines)) { // and some preferred airlines are specified
+          if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) top_flights_only = true; // return top flights only (the best half of the itins)
+          if (!_.isUndefined(Tile.profileFoundAsync.preferred_airlines)) { // if some preferred airlines are specified
             if (Tile.profileFoundAsync.preferred_airlines.length > 0) {
               local_airline_pref = 6; // make airline preference as important as duration (but still less important, than price)
             }
           }
         }
       }
-
-      var top_flights_only = false; // full un-prunned set of itins
-      if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) top_flights_only = true; // top flights only (the best half of the itins)
 
       cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines, top_flights_only);
 
