@@ -153,7 +153,7 @@ module.exports = {
         return preferred_airline_indices;
     }, // end of function determine_airline_preferences
 
-    itin_to_string: function (prefix,itin)
+    one_itin_to_string: function (prefix,itin)
     {
         if (itin === undefined) return ''; // If undefined, then return empty sting
 
@@ -180,21 +180,25 @@ module.exports = {
                         + smartRank_str
                         + why_this_str
                );
-    }, // end of function itin_to_string
+    }, // end of function one_itin_to_string
+
+    many_itins_to_string: function (itins)
+    {
+        if (itins.length == 0) return "No itineraries";
+        if (itins.length == 1) return this.one_itin_to_string("Itinerary : ", itins[0]);
+        var result = "";
+        if (itins.length > 1)
+        {
+            for(var i=  0; i < Math.min(itins.length,  10); i++) result += ("\n" + this.one_itin_to_string("Itinerary   " + i + " of " + itins.length + ": ", itins[i]));
+            for(var i= 10; i < Math.min(itins.length, 100); i++) result += ("\n" + this.one_itin_to_string("Itinerary  "  + i + " of " + itins.length + ": ", itins[i]));
+            for(var i=100; i < Math.min(itins.length,1000); i++) result += ("\n" + this.one_itin_to_string("Itinerary "   + i + " of " + itins.length + ": ", itins[i]));
+        }
+        return result;
+    }, // end of function many_itins_to_string
 
     print_many_itineraries: function (itins)
     {
-        if (itins.length == 0) console.log("No itineraries");
-        if (itins.length == 1) console.log(this.itin_to_string("Itinerary : ", itins[0]));
-        if (itins.length > 1)
-        {
-            for(var i=  0; i < Math.min(itins.length,  10); i++)
-                console.log(this.itin_to_string("Itinerary   " + i + " of " + itins.length + ": ", itins[i]));
-            for(var i= 10; i < Math.min(itins.length, 100); i++)
-                console.log(this.itin_to_string("Itinerary  "  + i + " of " + itins.length + ": ", itins[i]));
-            for(var i=100; i < Math.min(itins.length,1000); i++)
-                console.log(this.itin_to_string("Itinerary "   + i + " of " + itins.length + ": ", itins[i]));
-        }
+        sails.log.info(this.many_itins_to_string(itins));
     }, // end of function print_many_itineraries
 
     compare_price: function (a, b) // price is a string
@@ -854,11 +858,11 @@ module.exports = {
 
         if (light_output)
         {
-            console.log(this.itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
-            console.log(this.itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
-            console.log(this.itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
+            console.log(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            console.log(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            console.log(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            console.log(this.itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            console.log(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
             console.log();
         }
 
@@ -904,7 +908,7 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        console.log(this.itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        console.log(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
                         console.log("is removed because it is worse than");
                     }
                     else
@@ -914,7 +918,7 @@ module.exports = {
                         console.log("are removed because they are worse than");
                     }
 
-                    console.log(this.itin_to_string("Itinerary : ", loc_itins[i]));
+                    console.log(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
                     console.log();
                 }
             }
@@ -1031,14 +1035,14 @@ module.exports = {
 
         if (light_output)
         {
-            console.log(this.itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
-            console.log(this.itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
-            console.log(this.itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
+            console.log(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            console.log(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            console.log(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            console.log(this.itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
-            console.log(this.itin_to_string("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]));
+            console.log(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            console.log(this.one_itin_to_string("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]));
             var next_best_airl_idx = preferred_airline_indices[1];
-            console.log(this.itin_to_string("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]));
+            console.log(this.one_itin_to_string("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]));
             console.log();
         }
 
@@ -1098,7 +1102,7 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        console.log(this.itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        console.log(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
                         console.log("is removed because it is worse than");
                     }
                     else
@@ -1108,7 +1112,7 @@ module.exports = {
                         console.log("are removed because they are worse than");
                     }
 
-                    console.log(this.itin_to_string("Itinerary : ", loc_itins[i]));
+                    console.log(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
                     console.log();
                 }
             }
