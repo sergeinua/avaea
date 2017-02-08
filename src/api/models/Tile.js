@@ -625,8 +625,8 @@ module.exports = {
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
       break;
-    case 7: // number of itineraries stays the same
-      sails.log.info('Scenario 7:');
+    case 7: // number of itineraries can change
+      sails.log.info('Ranking Scenario 7:');
       var local_price_pref    =  1; // most important
       var local_duration_pref =  6; // less important
       var local_airline_pref  = 20; // least important
@@ -642,6 +642,7 @@ module.exports = {
         }
       }
 
+      // it would only keep the best half of itins, if top_flights_only == true
       cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines, top_flights_only);
 
       break;
