@@ -2065,7 +2065,7 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 	position: relative;
 	 top: 6px;
 	 left: 0;
-	background: rgba(13, 200, 88, .4);
+	background: rgba(13, 200, 88, .6);
 	border-radius: 50%;
 }
 
