@@ -53,7 +53,7 @@ module.exports = {
   db: 0,
   pass: '',
   prefix: 'sess:'
-}.
+},
   connections: {
    /* memcacheConf: {
     host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
