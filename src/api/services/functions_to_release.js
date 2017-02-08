@@ -101,23 +101,23 @@ module.exports = {
         var AL = itins.map(function(it){return it.air_line}); // extract all the airlines into a separate array
         if (light_output)
         {
-            console.log("Decoded airlines in the original order :");
-            console.log(AL);
+            sails.log.info("Decoded airlines in the original order :");
+            sails.log.info(AL);
         }
 
         var AL_counts = {};
         AL.forEach(function(x) { AL_counts[x] = (AL_counts[x] || 0)+1; });
         if (light_output)
         {
-            console.log("Their repetitions :");
-            console.log(AL_counts);
+            sails.log.info("Their repetitions :");
+            sails.log.info(AL_counts);
         }
 
         var AL_counts_keysSorted = Object.keys(AL_counts).sort(function(a,b){return AL_counts[b]-AL_counts[a]});
         if (light_output)
         {
-            console.log("Airlines sorted by popularity:");
-            console.log(AL_counts_keysSorted); // array of 2-letter airline name strings, sorted by popularity
+            sails.log.info("Airlines sorted by popularity:");
+            sails.log.info(AL_counts_keysSorted); // array of 2-letter airline name strings, sorted by popularity
         }
 
         // Now loop through AL_counts_keysSorted and take 1 airline from each key at a time (and decrease counts) until all the counts are zero.
@@ -142,12 +142,12 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("Preferred airline indices :");
-            console.log(preferred_airline_indices);
+            sails.log.info("Preferred airline indices :");
+            sails.log.info(preferred_airline_indices);
 
-            console.log("Preferred airlines :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = itins[preferred_airline_indices[i]].air_line; }; console.log(temp);
-            console.log();
+            sails.log.info("Preferred airlines :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = itins[preferred_airline_indices[i]].air_line; }; sails.log.info(temp);
+            sails.log.info();
         }
 
         return preferred_airline_indices;
@@ -678,8 +678,8 @@ module.exports = {
 
         if ( price_preference==0 && duration_preference==0) return itins;
 
-        var Median_price    = this.median_in_price     (itins) + 1; //console.log("Median_price = "    + Median_price);
-        var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
+        var Median_price    = this.median_in_price     (itins) + 1; //sails.log.info("Median_price = "    + Median_price);
+        var Median_duration = this.median_in_duration  (itins) + 1; //sails.log.info("Median_duration = " + Median_duration);
 
         return _.clone(itins,true) // make a copy
                 .sort(this.compare_in_2D_by_linear_combination(price_preference/Median_duration,duration_preference/Median_price) ); // sort in 2D by linear combination of price and duration
@@ -721,12 +721,12 @@ module.exports = {
         if (data.length == 1) return [0]; // If one element, then nothing to do
         if (data.length == 2) return [0,1]; // If two elements, then nothing to do
 
-        //console.log("data length = " + data.length);
+        //sails.log.info("data length = " + data.length);
 
         var data_loc = _.clone(data,true) // make a copy
                         .sort(function(a, b){return a-b});
 
-        //console.log("data_loc length = "+ data_loc.length);
+        //sails.log.info("data_loc length = "+ data_loc.length);
 
         if (axis_start > data[0] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
         if (axis_end   < data[data.length-1] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
@@ -815,7 +815,7 @@ module.exports = {
         if (itins.length == 0) return itins; // If empty, then nothing to prune
         if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
-        if (light_output) console.log("================  Output from prune_itineraries_in_3D(..)  ================");
+        if (light_output) sails.log.info("================  Output from prune_itineraries_in_3D(..)  ================");
 
         // Find the index of the cheapest itinerary
         var cheapest_idx = this.find_the_cheapest_itinerary(itins);
@@ -827,20 +827,20 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-            console.log("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
-            console.log(array_of_departures);
+            sails.log.info("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
+            sails.log.info(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
-            console.log(array_of_departures);
+            sails.log.info("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
+            sails.log.info(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-            console.log("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
-            console.log(preferred_departures_indices);
+            sails.log.info("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
+            sails.log.info(preferred_departures_indices);
         }
         var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
@@ -849,21 +849,21 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted by departure preference :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; console.log(temp);
-            console.log("Indices of the above departures into the original itinerary array :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; console.log(temp);
-            console.log();
+            sails.log.info("Decoded departures in minutes, sorted by departure preference :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; sails.log.info(temp);
+            sails.log.info("Indices of the above departures into the original itinerary array :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; sails.log.info(temp);
+            sails.log.info();
         }
 
         if (light_output)
         {
-            console.log(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
-            console.log(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
-            console.log(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
+            sails.log.info(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            sails.log.info(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            sails.log.info(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            console.log(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
-            console.log();
+            sails.log.info(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            sails.log.info();
         }
 
         var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
@@ -890,9 +890,9 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("3D-semipruned itineraries :");
+            sails.log.info("3D-semipruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            console.log();
+            sails.log.info();
         }
 
         // Now we need to finish the pruning by examining itineraries pairwise and removing the ones that are guaranteed worse in all dimensions (in all attributes) in 3D
@@ -908,18 +908,18 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        console.log(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
-                        console.log("is removed because it is worse than");
+                        sails.log.info(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        sails.log.info("is removed because it is worse than");
                     }
                     else
                     {
-                        console.log("Itineraries :");
+                        sails.log.info("Itineraries :");
                         this.print_many_itineraries(temp_to_remove);
-                        console.log("are removed because they are worse than");
+                        sails.log.info("are removed because they are worse than");
                     }
 
-                    console.log(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
-                    console.log();
+                    sails.log.info(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
+                    sails.log.info();
                 }
             }
 
@@ -934,10 +934,10 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("3D-fully-pruned itineraries :");
+            sails.log.info("3D-fully-pruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            console.log("===========================================================================");
-            console.log();
+            sails.log.info("===========================================================================");
+            sails.log.info();
         }
 
         return loc_itins;
@@ -973,7 +973,7 @@ module.exports = {
         if (itins.length == 0) return itins; // If empty, then nothing to prune
         if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
-        if (light_output) console.log("================  Output from prune_itineraries_in_4D(..)  ================");
+        if (light_output) sails.log.info("================  Output from prune_itineraries_in_4D(..)  ================");
 
         // Find the index of the cheapest itinerary
         var cheapest_idx = this.find_the_cheapest_itinerary(itins);
@@ -985,45 +985,45 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-            console.log("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
-            console.log(array_of_departures);
+            sails.log.info("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
+            sails.log.info(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
-            console.log(array_of_departures);
+            sails.log.info("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
+            sails.log.info(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-            console.log("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
-            console.log(preferred_departures_indices);
+            sails.log.info("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
+            sails.log.info(preferred_departures_indices);
         }
         var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
-        //console.log("best_dep_idx = " + best_dep_idx);
-        //console.log("i is changing from 0 to < " + array_of_departures.length);
-        //console.log("preferred_departures_indices (length " + preferred_departures_indices.length + ") =");
-        //console.log(preferred_departures_indices);
-        //console.log("array_of_departures.sortIndices (length " + array_of_departures.sortIndices.length + ") =");
-        //console.log(array_of_departures.sortIndices);
-        //console.log("itins length is " + itins.length);
+        //sails.log.info("best_dep_idx = " + best_dep_idx);
+        //sails.log.info("i is changing from 0 to < " + array_of_departures.length);
+        //sails.log.info("preferred_departures_indices (length " + preferred_departures_indices.length + ") =");
+        //sails.log.info(preferred_departures_indices);
+        //sails.log.info("array_of_departures.sortIndices (length " + array_of_departures.sortIndices.length + ") =");
+        //sails.log.info(array_of_departures.sortIndices);
+        //sails.log.info("itins length is " + itins.length);
 
         // append the departure ranking information to itineraries: the smaller best_dep_rank is, the better the itinerary is
         for(var i=0; i<array_of_departures.length; i++)
         {
-            //console.log("i = " + i + ", pdi = " + preferred_departures_indices[i] + " aod.sI = " + array_of_departures.sortIndices[preferred_departures_indices[i]]);
+            //sails.log.info("i = " + i + ", pdi = " + preferred_departures_indices[i] + " aod.sI = " + array_of_departures.sortIndices[preferred_departures_indices[i]]);
             itins[array_of_departures.sortIndices[preferred_departures_indices[i]]].best_dep_rank = i;
         };
 
         if (light_output)
         {
-            console.log("Decoded departures in minutes, sorted by departure preference :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; console.log(temp);
-            console.log("Indices of the above departures into the original itinerary array :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; console.log(temp);
-            console.log();
+            sails.log.info("Decoded departures in minutes, sorted by departure preference :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; sails.log.info(temp);
+            sails.log.info("Indices of the above departures into the original itinerary array :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; sails.log.info(temp);
+            sails.log.info();
         }
 
         // Find the index of the best airline itinerary
@@ -1035,15 +1035,15 @@ module.exports = {
 
         if (light_output)
         {
-            console.log(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
-            console.log(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
-            console.log(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
+            sails.log.info(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            sails.log.info(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            sails.log.info(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            console.log(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
-            console.log(this.one_itin_to_string("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]));
+            sails.log.info(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            sails.log.info(this.one_itin_to_string("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]));
             var next_best_airl_idx = preferred_airline_indices[1];
-            console.log(this.one_itin_to_string("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]));
-            console.log();
+            sails.log.info(this.one_itin_to_string("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]));
+            sails.log.info();
         }
 
         var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
@@ -1084,9 +1084,9 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("4D-semipruned itineraries :");
+            sails.log.info("4D-semipruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            console.log();
+            sails.log.info();
         }
 
         // Now we need to finish the pruning by examining itineraries pairwise and removing the ones that are guaranteed worse in all dimensions (in all attributes) in 3D
@@ -1102,18 +1102,18 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        console.log(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
-                        console.log("is removed because it is worse than");
+                        sails.log.info(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        sails.log.info("is removed because it is worse than");
                     }
                     else
                     {
-                        console.log("Itineraries :");
+                        sails.log.info("Itineraries :");
                         this.print_many_itineraries(temp_to_remove);
-                        console.log("are removed because they are worse than");
+                        sails.log.info("are removed because they are worse than");
                     }
 
-                    console.log(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
-                    console.log();
+                    sails.log.info(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
+                    sails.log.info();
                 }
             }
 
@@ -1128,10 +1128,10 @@ module.exports = {
 
         if (light_output)
         {
-            console.log("4D-fully-pruned itineraries :");
+            sails.log.info("4D-fully-pruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            console.log("===========================================================================");
-            console.log();
+            sails.log.info("===========================================================================");
+            sails.log.info();
         }
 
         return loc_itins;
@@ -1158,7 +1158,7 @@ module.exports = {
             airline_preference   += 0.1;
         }
 
-        //console.log("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
+        //sails.log.info("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
 
         var MAD_price     = this.median_absolute_deviation_in_price    (itins);
         var MAD_duration  = this.median_absolute_deviation_in_duration (itins);
@@ -1221,10 +1221,10 @@ module.exports = {
         other_airlines = _.uniq(other_airlines); // keeps one copy of each airline
         other_airlines = _.difference(other_airlines,preferred_airlines); // remove the preferred airlines
 
-        //console.log("Preferred airlines :");
-        //console.log(preferred_airlines);
-        //console.log("Other airlines :");
-        //console.log(other_airlines);
+        //sails.log.info("Preferred airlines :");
+        //sails.log.info(preferred_airlines);
+        //sails.log.info("Other airlines :");
+        //sails.log.info(other_airlines);
 
         var self = this; // needed as a workaround to use this in no-name functions
         var itins_preferred = _.clone(itins,true) // make a copy
@@ -1234,7 +1234,7 @@ module.exports = {
                            .filter( function(it){return(!self.is_in_array(preferred_airlines,it.air_line))} ); // on other airlines
 
         // prune and rank itins for each preferred airline individually
-        //console.log("The whole set of preferred itins before ranking :");
+        //sails.log.info("The whole set of preferred itins before ranking :");
         //this.print_many_itineraries(itins_preferred);
         var itins_on_airline = [];
         var number_of_itins_on_airline = [];
@@ -1253,14 +1253,14 @@ module.exports = {
 
             itins_on_airline[preferred_airlines[i]] = ranked_itins_from_one_airline.concat(other__itins_from_one_airline); // pruned-out appended at the end
 
-            //console.log("Preferred itins on airline " + preferred_airlines[i] + " after ranking (" + number_of_itins_on_airline[preferred_airlines[i]] + " total) :");
+            //sails.log.info("Preferred itins on airline " + preferred_airlines[i] + " after ranking (" + number_of_itins_on_airline[preferred_airlines[i]] + " total) :");
             //this.print_many_itineraries(itins_on_airline[preferred_airlines[i]]);
         }
-        //console.log("Number of itins per preferred airline :");
-        //console.log(number_of_itins_on_airline);
+        //sails.log.info("Number of itins per preferred airline :");
+        //sails.log.info(number_of_itins_on_airline);
 
         // prune and rank itins for each remaining airline together
-        //console.log("Other itins before ranking :");
+        //sails.log.info("Other itins before ranking :");
         //this.print_many_itineraries(itins_other);
         var pruned_itins_other = this.prune_itineraries_in_2D(itins_other); // pruned
         var ranked_itins_other = this.rank_itineraries_in_2D(pruned_itins_other, price_pref, duration_pref); // ranked
@@ -1269,7 +1269,7 @@ module.exports = {
                                  });
         other__itins_other = this.rank_itineraries_in_2D(other__itins_other, price_pref, duration_pref); // ranked in-place
         itins_other = ranked_itins_other.concat(other__itins_other); // pruned-out appended at the end
-        //console.log("Other itins after ranking :");
+        //sails.log.info("Other itins after ranking :");
         //this.print_many_itineraries(itins_other);
 
         // mix together the itins from preferred airlines, assign the airline_rank2
@@ -1338,8 +1338,8 @@ module.exports = {
         if ( duration_preference == 0 ) return;
         if ( airline_preference  == 0 ) return;
 
-        var Median_duration = this.median_in_duration  (itins) + 1; //console.log("Median_duration = " + Median_duration);
-        var Median_airline  = this.median_in_airl_rank2(itins) + 1; //console.log("Median_airline = "  + Median_airline);
+        var Median_duration = this.median_in_duration  (itins) + 1; //sails.log.info("Median_duration = " + Median_duration);
+        var Median_airline  = this.median_in_airl_rank2(itins) + 1; //sails.log.info("Median_airline = "  + Median_airline);
 
         // sort in 3D by linear combination of price, duration, and airline_rank2
         itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) );
