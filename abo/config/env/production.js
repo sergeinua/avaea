@@ -50,11 +50,6 @@ module.exports = {
     database: 'avaea'
   },
    connections: {
-   /* memcacheConf: {
-    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
-    port: '11211',
-    exptime: 60*30 // 30 minutes
-  }, */
    redisConf: {
     host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
     port: 6379,

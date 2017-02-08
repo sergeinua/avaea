@@ -210,7 +210,9 @@ module.exports = {
           flashMsg: req.__('Error.Search.Booking.Failed')
         });
       }
-      segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
+      if( req.user ) {
+        segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
+      }
       sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';
