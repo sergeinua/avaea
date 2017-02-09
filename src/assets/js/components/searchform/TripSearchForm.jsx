@@ -350,25 +350,6 @@ var TripSearchForm = React.createClass({
           </div>
         </div>
         
-        {!uaMobile ?
-	         <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
-	     			<div className="ti compare">Compare our results</div>
-      			<div className="holder">
-              <Iframe 
-              	id="c7aed39b" 
-              	name="mc79eba9" 
-              	className="wayfare" 
-              	url="/static/adds_search_buttons.html"
-                frameborder="0" 
-                scrolling="no" 
-                width="100%"
-                position="relative">
-              </Iframe>
-	          </div>
-	         </div>
-	         : null
-	       }
-        
         <div className="search buttons duo">
 		      <div className='meri-wrapper'> 
 		      
@@ -401,6 +382,25 @@ var TripSearchForm = React.createClass({
 	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>	
           </div>
         </div>
+        
+        {!uaMobile ?
+ 	         <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
+ 	     			<div className="ti compare">Compare our results</div>
+      			<div className="holder">
+              <Iframe 
+              	id="c7aed39b" 
+              	name="mc79eba9" 
+              	className="wayfare" 
+              	url="/static/adds_search_buttons.html"
+                frameborder="0" 
+                scrolling="no" 
+                width="100%"
+                position="relative">
+              </Iframe>
+ 	          </div>
+ 	         </div>
+ 	         : null
+ 	       }
         
       </div>
     )
