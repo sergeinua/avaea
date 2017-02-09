@@ -29,6 +29,7 @@ module.exports = {
       });
     };
 
+    //FIXME in ONV-1012
     if (!req.user) {
       sails.log.info(utils.showError('Error.User.NotAuthorised'));
       return res.ok({
@@ -140,6 +141,15 @@ module.exports = {
     let booking_itinerary = {};
     let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
+
+    //FIXME in ONV-1012
+    if (!req.user) {
+      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.User.NotAuthorised')
+      });
+    }
 
     qpromice.nfbind(cache.get)(cacheId)
       .then((resItinerary) => {
