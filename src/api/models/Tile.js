@@ -627,23 +627,32 @@ module.exports = {
       break;
     case 7: // number of itineraries can change
       sails.log.info('Ranking Scenario 7:');
-      var local_price_pref    =  1; // most important
-      var local_duration_pref =  6; // less important
-      var local_airline_pref  = 20; // least important
-      var top_flights_only = false; // return  full un-prunned set of itins
-      if (!_.isUndefined(Tile.profileFoundAsync)) { // if profile is present
-        if (Tile.profileFoundAsync != null) { // and is non-empty
-          if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) top_flights_only = true; // return top flights only (the best half of the itins)
-          if (!_.isUndefined(Tile.profileFoundAsync.preferred_airlines)) { // if some preferred airlines are specified
-            if (Tile.profileFoundAsync.preferred_airlines.length > 0) {
-              local_airline_pref = 6; // make airline preference as important as duration (but still less important, than price)
+
+      // assemble the crude snowflake
+      var snowflake = {
+        profile    : Tile.profileFoundAsync,
+        preference : { price    :  1, // most important
+                       duration :  6, // less important
+                       airline  : 20  // least important
+                     },
+        top_flights_only : false // return  full un-prunned set of itins
+      }
+      if (!_.isUndefined(snowflake.profile)) { // if profile is present
+        if (snowflake.profile != null) { // and is non-empty
+          if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) snowflake.top_flights_only = true; // return top flights only (the best half of the itins)
+          if (!_.isUndefined(snowflake.profile.preferred_airlines)) { // if some preferred airlines are specified
+            if (snowflake.profile.preferred_airlines.length > 0) {
+              snowflake.preference.airline = 6; // make airline preference as important as duration (but still less important, than price)
             }
           }
         }
       }
 
       // it would only keep the best half of itins, if top_flights_only == true
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, local_price_pref, local_duration_pref, local_airline_pref, Tile.userPreferredAirlines, top_flights_only);
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, Tile.userPreferredAirlines);
+
+      //sails.log.info("User profile:");
+      //sails.log.info(snowflake.profile);
 
       break;
     default:
@@ -652,8 +661,6 @@ module.exports = {
     }
     cicstanford.print_many_itineraries(itineraries);
 
-    //sails.log.info("User profile:");
-    //sails.log.info(Tile.profileFoundAsync);
 
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */

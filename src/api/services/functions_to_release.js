@@ -1311,7 +1311,7 @@ module.exports = {
 
     }, // end of function append_1D_airline_rank2
 
-    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, price_preference, duration_preference, airline_preference, preferred_airlines, top_flights_only)
+    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake, preferred_airlines)
     {
         if (itins.length == 0) return; // If empty, then nothing to rank
         if (itins.length == 1) { // If just one itinerary, then ranking is easy
@@ -1321,28 +1321,31 @@ module.exports = {
         }
 
         // if price_preference < duration_preference, then low price is more important than low duration
-        if ( price_preference    === undefined ) { price_preference    = 1.0; } // default value is 1
-        if ( duration_preference === undefined ) { duration_preference = 1.0; } // default value is 1
-        if ( airline_preference  === undefined ) { airline_preference  = 1.0; } // default value is 1
+        if ( snowflake.preference.price    === undefined ) { snowflake.preference.price    = 1.0; } // default value is 1
+        if ( snowflake.preference.duration === undefined ) { snowflake.preference.duration = 1.0; } // default value is 1
+        if ( snowflake.preference.airline  === undefined ) { snowflake.preference.airline  = 1.0; } // default value is 1
 
-        sails.log.info("Ranking based on price preference " + price_preference + ", duration preference " + duration_preference +
-                                    ", airline preference " + airline_preference + ", while emphasizing the following airlines: " + preferred_airlines);
+        sails.log.info("Ranking based on price preference " + snowflake.preference.price +
+                                   ", duration preference " + snowflake.preference.duration +
+                                    ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: " + preferred_airlines);
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
 
         // appends best_airl_rank2 field if needed
-        if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, price_preference, duration_preference);
+        if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, snowflake.preference.price, snowflake.preference.duration);
 
-        if ( price_preference    == 0 ) return;
-        if ( duration_preference == 0 ) return;
-        if ( airline_preference  == 0 ) return;
+        if ( snowflake.preference.price    == 0 ) return;
+        if ( snowflake.preference.duration == 0 ) return;
+        if ( snowflake.preference.airline  == 0 ) return;
 
         var Median_duration = this.median_in_duration  (itins) + 1; //sails.log.info("Median_duration = " + Median_duration);
         var Median_airline  = this.median_in_airl_rank2(itins) + 1; //sails.log.info("Median_airline = "  + Median_airline);
 
         // sort in 3D by linear combination of price, duration, and airline_rank2
-        itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) );
+        itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(snowflake.preference.price,
+                                                                                        snowflake.preference.duration*Median_duration,
+                                                                                        snowflake.preference.airline*Median_airline) );
 
         // append the incremental smartRank, starting from 1
         for (var i = 0; i < itins.length; i++) {
@@ -1353,7 +1356,7 @@ module.exports = {
         this.append_explanation_to_ranked_itins(itins);
 
         // keep only the best half of itins, if needed
-        if (top_flights_only) {
+        if (snowflake.top_flights_only) {
           var full_length = itins.length;
           var half_length = Math.floor(full_length/2);
           itins.length = half_length;
