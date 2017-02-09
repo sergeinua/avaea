@@ -661,7 +661,6 @@ module.exports = {
     }
     cicstanford.print_many_itineraries(itineraries);
 
-
     sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
