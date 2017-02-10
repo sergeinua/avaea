@@ -39,18 +39,26 @@ module.exports = {
     timestamp: true
   },
 
-  session: {
-    host: 'db1',
-    user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
-  },
+  session:{
+  adapter: 'redis',
+  host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
+  port: 6379,
+  ttl: 600,
+  db: 0,
+  pass: '',
+  prefix: 'sess:'
+},
   connections: {
-    memcacheConf: {
-    host: 'cache1.5suwap.cfg.usw2.cache.amazonaws.com',
-    port: '11211',
+  redisConf: {
+    host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
+    port: 6379,
+    ttl: 600,
+    db: 0,
+    pass: '',
+    prefix: 'cache:',
     exptime: 60*30 // 30 minutes
   },
+
 },
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
