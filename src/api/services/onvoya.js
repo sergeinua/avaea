@@ -101,7 +101,7 @@ let onvoya = {
     setInterval(() => {
       fs.readFile(process.cwd() + '/config/onvoya-log.json', 'utf8', (err, data) => {
         onvoya.config = (typeof data == 'object') ? data : JSON.parse(data);
-        sails.log.verbose('Config file was re-read');
+        onvoya.log.verbose('Config file was re-read');
       });
     }, sails.config.log.refreshConfig || 30000);
     return done();

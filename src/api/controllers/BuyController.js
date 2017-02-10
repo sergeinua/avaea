@@ -144,7 +144,7 @@ module.exports = {
 
     //FIXME in ONV-1012
     if (!req.user) {
-      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      onvoya.log.info(utils.showError('Error.User.NotAuthorised'));
       return res.ok({
         error: true,
         errorInfo: utils.showError('Error.User.NotAuthorised')

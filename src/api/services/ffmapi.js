@@ -106,7 +106,7 @@ module.exports = {
           onvoya.log.error('30K api', body);
           return callback({msg: result.Status.Message}, body);
         }
-        onvoya.log.info('Response 30K api:', JSON.stringify(body));
+        onvoya.log.verbose('Response 30K api:', JSON.stringify(body));
         // return only one result
 
         var filteredResults = [];

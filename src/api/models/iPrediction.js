@@ -17,7 +17,7 @@ module.exports = {
       if (!err && !_.isEmpty(row)) {
         predicted_rank = _.clone(row.prediction);
       } else {
-        sails.log.info('didnt find itineraries '+type+' rank prediction for uuid: [' + uuid + '] userId #'+userId);
+        onvoya.log.info('didnt find itineraries '+type+' rank prediction for uuid: [' + uuid + '] userId #'+userId);
       }
       return cb(predicted_rank);
     });

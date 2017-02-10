@@ -36,7 +36,7 @@ module.exports = {
   get: function (key, callback) {
     this.init(function() {
       memcache.client.get( key, function(err, response) {
-        // sails.log.info(Object.keys(response).length);
+        // onvoya.log.info(Object.keys(response).length);
         if (!err) {
           if ( Object.keys(response).length > 1 ) {
             return callback(null, response);
