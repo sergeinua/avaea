@@ -28,7 +28,7 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch } from './functions.js';
+import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch, fixStorageAvailability } from './functions.js';
 import { actionSetCommonVal } from './actions.js';
 import { isMobile } from './legacyJquery.js';
 
@@ -48,6 +48,7 @@ require('../styles/react-select.css');
 
 $(document).ready(function() {
 
+  fixStorageAvailability();
   if (document.getElementById('spa-app')) {
 
 
