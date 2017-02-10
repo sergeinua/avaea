@@ -42,7 +42,7 @@ module.exports = {
   flightapis: {
     searchProvider: ['mondee', 'farelogix'/*, 'mystifly'*/],
     mondee: {
-      // baseEndPoint: 'http://sandbox.trippro.com/api/v2', // temporary disabled until Mondee sandox is fixed
+      baseEndPoint: 'http://sandbox.trippro.com/api/v2',
       // clientId: 'CFS1017' temporary disabled bc of error from mondee "Please Provide Valid ClientId"
     },
     farelogix: {
