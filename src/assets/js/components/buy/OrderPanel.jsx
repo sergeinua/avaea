@@ -112,6 +112,11 @@ let OrderPanel = React.createClass({
       return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
     });
 
+    $.validator.addMethod("luhnChecksum", function( value, element ) {
+      /* TODO: somehow call luhn checksum from https://www.npmjs.com/package/luhn */
+      return true;
+    }, 'Please double check the credit card number');
+
     /**
      * Client validation during booking of itinerary
      */
@@ -153,6 +158,7 @@ let OrderPanel = React.createClass({
         CardNumber: {
           required: true,
           digits: true,
+          luhnChecksum : true,
           minlength: 16,
           maxlength: 16
         },
