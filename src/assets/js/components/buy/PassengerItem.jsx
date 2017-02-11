@@ -37,6 +37,8 @@ let PassengerItem = React.createClass({
         )}
 
         {/* TODO: The lap disabled because is not applied yet with any APIs */}
+        {/* engineer -- enable and require seat/lap choice for infant < 2 years */}
+        
         { false && this.props.orderData.fieldsData
         && this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth']
         && moment().diff(this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'], 'years') < 2 ?

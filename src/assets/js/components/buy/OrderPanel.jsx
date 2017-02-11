@@ -282,11 +282,18 @@ let OrderPanel = React.createClass({
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
+          	
+          	
+          {/* DEBORAH start test paste */}
+          
+          
+          
+          {/* DEBORAH end test paste */}
+          	
 
         <form id="form_booking" className="booking">
-          <div>
 
-            <div className="confirmation persons-class-price">
+        		<div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
                 <div className="class">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
@@ -307,58 +314,48 @@ let OrderPanel = React.createClass({
 
             <div className="form">
 
-            <div className="page-ti billing">Billing</div>
+            	<div className="page-ti billing">Billing</div>
 	            <div className="lil-italics">All fields are required</div>
-	            <div className="wrapper">
-	            
-	            {/* engineer -- populate all available data for Billing from user's profile */}
-	            
-	            {this.makeOrderData(this.props.orderData).map(
-	                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
-	            )}
-	            
-	            {this.showCvvModal()}
-	            
+		            <div className="wrapper">
+		            
+		            {/* engineer -- populate all available data for Billing from user's profile */}
+		            
+		            {this.makeOrderData(this.props.orderData).map(
+		                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+		            )}
+		            
+		            {this.showCvvModal()}
+		            
+		            </div>{/* ENDS billing wrapper */}
+
+	            <div className="page-ti people">Travellers</div>
+	            <div className="passengers-wrapper">
+	            	{_passengers}
 	            </div>
 
-            <div className="page-ti people">Travellers</div>
-            <div className="passengers-wrapper">
-            	{_passengers}
-            </div>
 
+	            <div className="buttons">
+	
+		            {/* engineer -- create new logic for "continue" button
+		            
+		                1) refreshes and recalculates price, with adjustment for age 
+		                2) goes to a "confirmation" view of the form
+		                   --- this form is in OrderConfirmation.jsx but needs logic
+		                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
+		                       or complete purchase
+		                3) save to user's profile:
+		                   + First Name, Last Name
+		                   + All address info
+		                   
+		             */}
+		            
+		            <button id="continue_order_button" className="big-button">
+		            	Continue
+		            </button>
+		            
+	            </div>{/* ENDS travellers wrapper */}
 
-            <div className="buttons">
-
-	            {/* engineer -- create new logic for "continue" button
-	            
-	                1) refreshes and recalculates price, with adjustment for age 
-	                2) goes to a "confirmation" view of the form
-	                   --- this form is in OrderConfirmation.jsx but needs logic
-	                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
-	                       or complete purchase
-	                3) save to user's profile:
-	                   + First Name, Last Name
-	                   + All address info
-	                   
-	             */}
-	            
-	            <button id="continue_order_button" className="big-button">
-	            	Continue
-	            </button>
-	            
-	            <button id="booking_button" className="big-button" onClick={this.execReq}>
-                {this.props.orderData.itineraryData.orderPrice}
-              </button>
-	            
-	            {/* 
-	            ----- old button for price ----- 
-	              
-	            */}
-            
-            </div>
-
-            </div>{/* ends div.form */}
-          </div>
+            </div>{/* ENDS div.form */}
         </form>
         </span>
 

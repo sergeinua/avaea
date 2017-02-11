@@ -3545,7 +3545,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking .confirmation .wrapper div {
+.booking .confirmation .wrapper div:not(.copy) {
 	display: inline-block;
 }
 
