@@ -242,6 +242,8 @@ let OrderPanel = React.createClass({
           //scroll to page top to show error message after components re-render
           window.scrollTo(0, 0);
           this.props.loadSuccess(savedData.orderData);
+        } else {
+          this.props.loadFailed(resData);
         }
       }.bind(this))
       .catch(function (error) {
