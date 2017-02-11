@@ -4,7 +4,7 @@ import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
 import ResultItemContainer from '../search/ResultItem.jsx';
-import OrderSpecialModal from './OrderSpecialModal.jsx';
+import ModalCvvInfo from './ModalCvvInfo.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
@@ -29,7 +29,8 @@ let OrderPanel = React.createClass({
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
       {id:'State', required: (STATES.STATES[this.props.orderData.fieldsData.Country] && true), title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
-      {id:'CardType', required: true, title: 'Card Type', data: ''},
+      // detect card type from the card number
+      // {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
@@ -70,7 +71,7 @@ let OrderPanel = React.createClass({
         required: true,
         type: "date",
         title: 'Birthday',
-        placeholder: 'YYYY-MM-DD',
+        placeholder: 'Birth Date ',
         data: fields_data['passengers['+index+'].DateOfBirth'] || '',
         forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
       }
@@ -132,6 +133,9 @@ let OrderPanel = React.createClass({
           minlength: 10,
           maxlength: 10
         },
+        Country: {
+          requiredAndTrim: true,
+        },
         Address1: {
           requiredAndTrim: true
         },
@@ -141,15 +145,11 @@ let OrderPanel = React.createClass({
         State: {
           requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
-        Country: {
-          requiredAndTrim: true,
-        },
         ZipCode: {
           requiredAndTrim: true
         },
-        CardType: {
-          required: true
-        },
+        // detect card type from the card number
+        // CardType: {  required: true },
         CardNumber: {
           required: true,
           digits: true,
@@ -181,7 +181,7 @@ let OrderPanel = React.createClass({
         $(input).parent().removeClass('has-error');
       },
 
-      // booking modal
+      // please delete the booking modal, we won't use it
       submitHandler: function(form) {
         let _isError = false;
 
@@ -226,6 +226,8 @@ let OrderPanel = React.createClass({
     if (!$("#form_booking").valid()) {
       return;
     }
+    
+    // please delete the booking modal, we won't use it
     $("#bookingModal").modal({
       backdrop: 'static',
       keyboard: false
@@ -249,6 +251,13 @@ let OrderPanel = React.createClass({
         //FIXME jquery mess
         $("#bookingModal").modal('hide');
       });
+  },
+  
+  showCvvModal: function() {
+      return  <span data-toggle="modal" data-target={"[data-id='modal-cvv-info']"}>
+      	<ModalCvvInfo /> 
+      	<div id="info-cue-cvv" className="info cue cvv"></div>
+      </span>
   },
 
   componentWillMount: function () {
@@ -332,24 +341,26 @@ let OrderPanel = React.createClass({
 	            {this.makeOrderData(this.props.orderData).map(
 	                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
 	            )}
+	            
+	            {this.showCvvModal()}
+	            
 	            </div>
 
             <div className="page-ti people">Travellers</div>
-            {_passengers}
+            <div className="passengers-wrapper">
+            	{_passengers}
+            </div>
 
 
             <div className="buttons">
               <button id="booking_button" className="big-button" onClick={this.execReq}>
-                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+                {this.props.orderData.itineraryData.orderPrice}
               </button>
             </div>
 
             </div>{/* ends div.form */}
           </div>
         </form>
-          {this.props.specialOrder ?
-            <OrderSpecialModal />:null
-          }
         </span>
 
       );

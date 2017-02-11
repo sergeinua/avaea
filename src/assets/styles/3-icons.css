@@ -39,7 +39,7 @@
   font-style: normal;
 }
 
-.dropmenu-wrapper:before,
+.cue:after,
 .dropbutton:after,
 .cue:before,
 footer a.social:after, 
@@ -86,7 +86,6 @@ footer a.social:after,
 .icon-account:before {
   content: "\e900";
 }
-.dropmenu-wrapper:before,
 .icon-arr-dropdown:before {
   content: "\e901";
 }
@@ -268,7 +267,7 @@ footer a.instagram:after,
 .icon-social-instagram:before {
   content: "\e933";
 }
-.cue.info:before,
+.cue.info:after,
 .icon-info:before {
   content: "\e934";
 }

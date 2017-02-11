@@ -54,7 +54,7 @@ let PassengerItem = React.createClass({
             id: 'passengers[' + this.props.index + '].phone',
             required: true,
             title: 'Phone',
-            placeholder: '+1 123 555 6789',
+            placeholder: 'Phone +1 123 555 6789',
             data: phone,
             forcedUpdate: phone
           }} key={'elem-passenger-phone'} panelType="fields"/>:null}
