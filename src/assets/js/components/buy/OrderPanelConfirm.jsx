@@ -58,21 +58,37 @@ let OrderPanelConfirm = React.createClass({
 		            
 			            {/* engineer -- each passenger (loop) */}
 			            
-			            
-			            <div className="which-passenger">FirstName LastName</div>
-			            <div className="gender static">Male</div>
-			            <div className="birthday static">November 9, 1977</div>
-			            
-			            {/* engineer -- include IF birthday is < 2 years */}
-			            <div className="lap-seat static">Seat infant</div>
-			            
-			            <div className="phone static">Seat infant</div>
+				            <div className="which-passenger">FirstName LastName</div>
+				            <div className="gender static">Male</div>
+				            <div className="birthday static">November 9, 1977</div>
+				            
+				            {/* engineer -- include IF birthday is < 2 years */}
+				            <div className="lap-seat static">Seat infant</div>
+				            
+				            <div className="phone static">(803) 754-5818</div>
+				            
+				            {/* engineer -- include IF birthday is < 2 years */}
+				            
+				            <div className="passenger-price">$NNN.NN</div>
+				            
+				            {/* engineer -- include IF (price is different from adult price) AND IF (it is less than adult price) */}
+				            <div className="passenger-discount">
+				            
+				            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior) */}
+				            	<span className="airline">Delta Airlines</span> 
+				            		<span className="copy">  has provided a </span>
+				            	<span className="discount">$NNN.NN</span>
+				            		<span className="copy">  for a </span>
+				            	<span className="age-discount">Senior</span> 
+				            		<span className="copy">  ticket.</span>
+				            		
+				            </div>
 			            
 			            {/* ENDS each passenger (loop) */}
 		            
 		            </div>{/* ENDS people wrapper */}
             
-		            <div className="price-confirm">
+		            <div className="total-price">
 		            
 			            {/* engineer -- populate this div with "N" and exact total calculated $$ for all passengers */}
 			            <span>N </span>tickets for <span> $NNN.NN</span>
