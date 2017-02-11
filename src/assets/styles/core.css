@@ -1348,11 +1348,9 @@ form label.required:before,
 	background: #f3f3f3 url('/images/texture-dk.gif');
 }
 
-.meri-speaks .bubble {
-	background: #f8f8f8;
-}
-
 /* .desktop.search-result .itinerary:hover, */
+.meri-speaks .bubble,
+.meri-speaks .bubble:after,
 .desktop .sort-button .dropdown-menu li:not(.selected):hover,
 .desktop .flight-info,
 .notable-area,
@@ -1388,9 +1386,7 @@ form label.required:before,
 	background: #e5e5e5;
 }
  
-.meri-speaks .bubble:after {
-	background-color: #f8f8f8;
-}
+
 
 
 /* social */
