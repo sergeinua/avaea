@@ -76,7 +76,7 @@ let OrderPanel = React.createClass({
         forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
       },
       
-      // engineer please hook up the logic to display seat or lap infant radio buttons
+      // engineer -- please hook up the logic to display seat or lap infant radio buttons
       // IF the birthdate is < 2 years from now
       // there is disabled logic in PassengerItem.jsx
       
@@ -130,6 +130,8 @@ let OrderPanel = React.createClass({
         LastName: {
           requiredAndTrim: true
         },
+        // engineer -- if there is error in validation, only the first radio input's label is receiving the "has-error" class
+        // please fix so each radio input's label is assigned the "has-error" class 
         Gender: {
           required: true
         },
@@ -140,7 +142,7 @@ let OrderPanel = React.createClass({
           maxlength: 10
         },
         Country: {
-          requiredAndTrim: true,
+          requiredAndTrim: true
         },
         Address1: {
           requiredAndTrim: true
@@ -154,8 +156,7 @@ let OrderPanel = React.createClass({
         ZipCode: {
           requiredAndTrim: true
         },
-        // detect card type from the card number
-        // CardType: {  required: true },
+        // engineer -- detect card type from the card number
         CardNumber: {
           required: true,
           digits: true,
@@ -289,7 +290,11 @@ let OrderPanel = React.createClass({
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
                 <div className="class">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
-                <div className="price"><span>{this.props.orderData.itineraryData.orderPrice}</span> each</div>
+                {/* 
+    	            engineer -- calculate total price: (N travellers) x (price for 1 adult ticket)
+    	          */}
+                <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+                <div className="copy">Preliminary price for each traveller</div>
               </div>
             </div>
             <div className="flight-unit">
@@ -305,6 +310,9 @@ let OrderPanel = React.createClass({
             <div className="page-ti billing">Billing</div>
 	            <div className="lil-italics">All fields are required</div>
 	            <div className="wrapper">
+	            
+	            {/* engineer -- populate all available data for Billing from user's profile */}
+	            
 	            {this.makeOrderData(this.props.orderData).map(
 	                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
 	            )}
@@ -321,24 +329,30 @@ let OrderPanel = React.createClass({
 
             <div className="buttons">
 
-	            {/* engineer - please create new logic for "continue" button
+	            {/* engineer -- create new logic for "continue" button
 	            
 	                1) refreshes and recalculates price, with adjustment for age 
 	                2) goes to a "confirmation" view of the form
 	                   --- this form is in OrderConfirmation.jsx but needs logic
 	                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
 	                       or complete purchase
+	                3) save to user's profile:
+	                   + First Name, Last Name
+	                   + All address info
+	                   
 	             */}
 	            
 	            <button id="continue_order_button" className="big-button">
 	            	Continue
 	            </button>
 	            
+	            <button id="booking_button" className="big-button" onClick={this.execReq}>
+                {this.props.orderData.itineraryData.orderPrice}
+              </button>
+	            
 	            {/* 
 	            ----- old button for price ----- 
-	              <button id="booking_button" className="big-button" onClick={this.execReq}>
-	                {this.props.orderData.itineraryData.orderPrice}
-	              </button>
+	              
 	            */}
             
             </div>

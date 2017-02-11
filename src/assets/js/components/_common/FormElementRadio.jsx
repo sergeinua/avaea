@@ -36,7 +36,7 @@ class FormElementRadio extends React.Component {
       );
     });
 
-    return  <div className="radio-buttons-block">{_nodes}</div>
+    return  <div className='radio-buttons-block'>{_nodes}</div>
 
   }
 

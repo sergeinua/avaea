@@ -13,6 +13,8 @@
 .device,
 .ie-fixer,
 .booking label,
+.booking .has-error label,
+.booking .form label.error,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
@@ -26,6 +28,10 @@
 .touch footer.app-copy,
 .dropmenu.hide {
 	display: none;
+}
+
+.booking .form label.error {
+	display: none !important;
 }
 
 /* page settings */
@@ -1331,14 +1337,23 @@ form label.required:before,
 
 .has-error .form-control,
 .highlight,
-.error-flash {
+.error-flash, 
+.has-error input {
 	background: #ffffe0;
 }
 
+.dropmenu-wrapper.has-error {
+	background-color: #ffffe0 !important;
+}
+
 .form label.error, 
-.has-error label {
+.has-error label,
+.radio-buttons-block label.has-error,
+.dropmenu-wrapper.has-error select,
+.booking .has-error .dropmenu:not(.robust) {
   color: #ed2741;
 }
+
 
 /* grays */
 
@@ -1494,7 +1509,7 @@ textarea {
 }
 
 .booking .dropmenu-wrapper {
-	background: #ffffff url('/images/arr-dropdown.svg') right 9px no-repeat;
+	background: url('/images/arr-dropdown.svg') right 9px no-repeat;
 	background-size: 34px;
 }
 
@@ -1508,6 +1523,10 @@ textarea {
 
 select:focus {
 	outline-color: #00b5ff;
+}
+
+select:-webkit-autofill {
+	background-image: url('/images/arr-dropdown.svg');
 }
 
 select,
@@ -1565,10 +1584,26 @@ input[type="date"]:not(.has-value):before {
 	color: #a2a2a2 !important;
 }
 
-::-webkit-input-placeholder,
-:-ms-input-placeholder,
+/* placeholders - can not be grouped */
+
+::-webkit-input-placeholder {
+	color: #a2a2a2 !important;
+}
+:-ms-input-placeholder {
+	color: #a2a2a2 !important;
+}
 ::-ms-input-placeholder {
 	color: #a2a2a2 !important;
+}
+
+.has-error ::-webkit-input-placeholder {
+	color: #ed2741 !important;
+}
+.has-error :-ms-input-placeholder {
+	color: #ed2741 !important;
+}
+.has-error ::-ms-input-placeholder {
+	color: #ed2741 !important;
 }
 
 .label-d {
@@ -3510,13 +3545,23 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking .confirmation div {
-	padding-right: 20px;
+.booking .confirmation .wrapper div {
 	display: inline-block;
 }
 
-.booking .confirmation div:last-child {
+.booking .confirmation .people,
+.booking .confirmation .class {
+	padding-right: 20px;
+}
+
+.booking .confirmation .price {
 	padding-right: 0;
+}
+
+.booking .confirmation .copy {
+	font-size: 13px;
+	text-align: center;
+	display: block;
 }
 
 .which-passenger {

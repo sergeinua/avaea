@@ -22,7 +22,7 @@ let OrderPanelConfirm = React.createClass({
         
         <SearchBanner id="bookingModal" text="Booking your trip!"/>
 
-          <div className="booking-confirm">
+          <div className="booking confirm">
 
             <div className="flight-unit">
               <div className="booking-flight-unit">
@@ -40,35 +40,36 @@ let OrderPanelConfirm = React.createClass({
 	            <div className="page-ti people">Travellers</div>
 		            <div className="wrapper">
 		            
+		            {/* engineer -- each passenger (loop) */}
+		            
+		            {/* ENDS each passenger (loop) */}
+		            
 		            </div>
             
-            </div>{/* ends form */}
+            </div>{/* ENDS form */}
+            	
+            <div className="price-confirm">
+            
+	            {/* engineer -- populate this div with "N" and exact total calculated $$ for all passengers */}
+	            <span>N </span>tickets for <span> $NNN.NN</span>
+            
+            </div>
 
 
             <div className="buttons duo">
 
-	            {/* engineer - please create new logic for "continue" button
-	            
-	                1) refreshes and recalculates price, with adjustment for age 
-	                2) goes to a "confirmation" view of the form
-	                   --- this form is in OrderConfirmation.jsx but needs logic
-	                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
-	                       or complete purchase
-	             */}
-	            
 	            <button id="booking_button" className="big-button">
+	            	{/* engineer -- "Edit" returns to OrderPanel.jsx editable form */}
 	            	Edit
 	            </button>
 	            
-	            {/* engineer please populate this button with the total for all the passengers*/}
-	              <button id="complete_order_button" className="big-button">
-	                Buy Tickets
-	              </button>
-	            
+              <button id="complete_order_button" className="big-button">
+                Buy Tickets
+              </button>
             
-            </div>
+            </div> 
 
-            </div>{/* ends div.form */}
+            </div>{/* ENDS div.form */}
           </div>
         </span>
 

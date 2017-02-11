@@ -25,6 +25,9 @@ let PassengerItem = React.createClass({
 
         {this.props.index == 1 ?
         <div className="its-me">
+        
+          {/* engineer -- populate all available data for "It's me" from user's profile */}
+          
           <div className="tertiary-button" onClick={this.props.populateUserData}>It's me</div>
           <div className="hint">Tap if traveller is the person being billed</div>
         </div>:null}

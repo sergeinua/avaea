@@ -9,7 +9,8 @@ let FormElement = React.createClass({
     if (this.props.profileStructure && this.props.profileStructure[this.props.item.id]) {
 
       if ($.isArray(this.props.profileStructure[this.props.item.id]) || $.isPlainObject(this.props.profileStructure[this.props.item.id])) {
-
+      	
+      	
         if (this.props.item.type === 'radio') {
           return <span>
           <div 
