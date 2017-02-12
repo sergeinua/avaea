@@ -20,7 +20,7 @@ module.exports = {
 
     _transport.sendMail(params, function (err, res) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(res);
@@ -36,7 +36,7 @@ module.exports = {
 
     sails.hooks.views.render("emails/"+tplName, tplVars, function(err, html) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(html);

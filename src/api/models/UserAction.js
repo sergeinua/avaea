@@ -44,7 +44,7 @@ var UserAction = {
       }
       this.create(uaFields, function(err, record) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
         }
         callback && callback();
       });
@@ -66,9 +66,9 @@ var UserAction = {
           };
           this.create(uaFields, (err, record) => {
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             }
-            sails.log.verbose('landing_page is saved', record);
+            onvoya.log.verbose('landing_page is saved', record);
             // res.clearCookie('landing_page');
           });
         }
