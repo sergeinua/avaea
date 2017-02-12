@@ -39,12 +39,12 @@ module.exports = {
 
             //rank_min = rank_min + 1 (this is to avoid zeros in the EMGA computation)
             itineraryPrediction.rankMin = (rankMin + 1)/searchData.itineraryKeys.length;
-            sails.log('rankMin: ' + itineraryPrediction.rankMin + ' / ' + searchData.itineraryKeys.length);
+            onvoya.log.debug('rankMin: ' + itineraryPrediction.rankMin + ' / ' + searchData.itineraryKeys.length);
             //rank_max = rank_max + 1 (this is for consistency)
             itineraryPrediction.rankMax = (rankMax + 1)/searchData.itineraryKeys.length;
-            sails.log('rankMax: ' + itineraryPrediction.rankMax + ' / ' + searchData.itineraryKeys.length);
+            onvoya.log.debug('rankMax: ' + itineraryPrediction.rankMax + ' / ' + searchData.itineraryKeys.length);
 
-            sails.log.info(
+            onvoya.log.info(
               {
                 calculatedRankMin: itineraryPrediction.rankMin,
                 calculatedRankMax: itineraryPrediction.rankMax
@@ -54,11 +54,11 @@ module.exports = {
             itineraryPrediction.recalculateRank(userId, searchData.searchParams, 'global');
 
           } else {
-            sails.log.error('Can\'t find itineraries in cache for search uuid ', searchUuid);
+            onvoya.log.error('Can\'t find itineraries in cache for search uuid ', searchUuid);
           }
         });
       } else {
-        sails.log.error('Can\'t find search result for uuid ', searchUuid);
+        onvoya.log.error('Can\'t find search result for uuid ', searchUuid);
       }
     })
   },
@@ -70,7 +70,7 @@ module.exports = {
     } else if (type == 'local') {
       uuid = params.CabinClass + '_' + params.DepartureLocationCode + '_' + params.ArrivalLocationCode;
     } else {
-      sails.log.error('Unsupported rank type!');
+      onvoya.log.error('Unsupported rank type!');
       return false;
     }
 
@@ -80,8 +80,8 @@ module.exports = {
         rankMax: EMGA.update(itineraryPrediction.rankMax, current.rankMax, itineraryPrediction.alpha)
       };
 
-      sails.log.info('Current rank ( from DB or default )', type, current);
-      sails.log.info('Recalculated rank (after EMGA(N))', type, data);
+      onvoya.log.info('Current rank ( from DB or default )', type, current);
+      onvoya.log.info('Recalculated rank (after EMGA(N))', type, data);
 
       iPrediction.update({user_id: userId, uuid: uuid, type: type}, {prediction: data}).exec(function (err, record) {
 
@@ -96,7 +96,7 @@ module.exports = {
             },
             function(err, record) {
               if (err) {
-                sails.log.error(err);
+                onvoya.log.error(err);
               } else {
                 UserAction.saveAction(userId, 'itinerary_prediction', {uuid: uuid, type: type, data: data});
               }

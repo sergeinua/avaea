@@ -18,7 +18,7 @@ module.exports = {
         prefix : sails.config.connections.redisConf.prefix
       }
     );
-    sails.log.info('Connected to redis');
+    onvoya.log.info('Connected to redis');
 
     return cb();
   },
@@ -27,8 +27,8 @@ module.exports = {
     this.init(() => {
       this.client.setex( key, sails.config.connections.redisConf.exptime, JSON.stringify(value), function(err, status) {
         if (err) {
-          sails.log.error( 'Key ' + key + ' can\'t be saved!' );
-          sails.log.error( err );
+          onvoya.log.error( 'Key ' + key + ' can\'t be saved!' );
+          onvoya.log.error( err );
         }
       });
     });
@@ -41,9 +41,9 @@ module.exports = {
         if (!err) {
           return callback(null, response);
         } else {
-          sails.log.error(err);
+          onvoya.log.error(err);
           let error = 'Key ' + key + ' is not found!';
-          sails.log.error(error);
+          onvoya.log.error(error);
           return callback(error, false);
         }
       });
@@ -56,7 +56,7 @@ module.exports = {
         if (!err) {
           return callback(null, response);
         } else {
-          sails.log.error(err);
+          onvoya.log.error(err);
           return callback(error, false);
         }
       });

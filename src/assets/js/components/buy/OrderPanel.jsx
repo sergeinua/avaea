@@ -12,6 +12,7 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
+import luhn from 'luhn';
 import { ActionsStore } from '../../functions.js';
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
@@ -112,6 +113,10 @@ let OrderPanel = React.createClass({
       return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
     });
 
+    $.validator.addMethod("luhnChecksum", function( value, element ) {
+      return luhn.validate(value);
+    }, 'Please double check the credit card number');
+
     /**
      * Client validation during booking of itinerary
      */
@@ -153,6 +158,7 @@ let OrderPanel = React.createClass({
         CardNumber: {
           required: true,
           digits: true,
+          luhnChecksum : true,
           minlength: 16,
           maxlength: 16
         },

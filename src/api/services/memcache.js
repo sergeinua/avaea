@@ -16,7 +16,7 @@ module.exports = {
       + ':' + sails.config.connections.memcacheConf.port
     );
     this.client.connect(function () {
-      sails.log.info('Connected to memcache');
+      onvoya.log.info('Connected to memcache');
       return cb();
     });
   },
@@ -25,8 +25,8 @@ module.exports = {
     this.init(function () {
       memcache.client.set( key, JSON.stringify(value), { flags: 0, exptime: sails.config.connections.memcacheConf.exptime}, function(err, status) {
         if (err && err.type != 'NOT_STORED') {
-          sails.log.error( 'Key ' + key + ' can\'t be saved!' );
-          sails.log.error( err );
+          onvoya.log.error( 'Key ' + key + ' can\'t be saved!' );
+          onvoya.log.error( err );
         }
       });
     });
@@ -36,16 +36,16 @@ module.exports = {
   get: function (key, callback) {
     this.init(function() {
       memcache.client.get( key, function(err, response) {
-        // sails.log.info(Object.keys(response).length);
+        // onvoya.log.info(Object.keys(response).length);
         if (!err) {
           if ( Object.keys(response).length > 1 ) {
             return callback(null, response);
           }
           return callback(null, response[key]);
         } else {
-          sails.log.error(err);
+          onvoya.log.error(err);
           var error = 'Key ' + key + ' is not found!';
-          sails.log.error(error);
+          onvoya.log.error(error);
           return callback(error, false);
         }
       });

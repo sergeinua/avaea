@@ -169,13 +169,13 @@ var AuthController = {
     passport.callback(req, res, function (err, user, challenges, statuses) {
       if (err || !user) {
         segmentio.track('', 'Login Failed', {error: err}, 'anonymous');
-        sails.log.error(err);
+        onvoya.log.error(err);
         return tryAgain(challenges);
       }
 
       req.login(user, function (err) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
           return tryAgain(err);
         }
 
