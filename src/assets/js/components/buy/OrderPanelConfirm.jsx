@@ -30,24 +30,26 @@ let OrderPanelConfirm = React.createClass({
               </div>
             </div>
 
-            <div className="holder">
+            <div className="form">
 
 	            <div className="page-ti billing">Billing</div>
 	            <div className="wrapper billing">
 	            
-	            	<div className="name static">Indiana Jones</div>
+	            	<div className="name static">FirstName LastName</div>
 		            
 		            <div className="address static">
-		            		<div className="street1">2020 Campus History Building</div>
-		            		<span className="city">Boston</span>, 
-		            		<span className="state">MA</span>
-		            		<span className="zip-code">02215</span>
+		            		<div className="street1">Address Street</div>
+		            		<div>
+			            		<span className="city">City</span>, 
+			            		<span className="state">CA</span>
+			            		<span className="zip-code">00000</span>
+		            		</div>
 		            		<div className="country">United States</div>
 		            </div>
 		            
 		            <div className="payment static">
 		            	<span className="card-type">American Express</span>
-		            	<span className="copy"> with last 4 digits ending in </span>
+		            	<span className="copy"> ending in </span>
 		            	<span className="last-4">1234</span>
 		            </div>
 		            
@@ -57,49 +59,77 @@ let OrderPanelConfirm = React.createClass({
 		            <div className="wrapper people">
 		            
 			            {/* engineer -- each passenger (loop) */}
+		            	
+			            <div className="card passenger-loop">
+				            
+					            <div className="which-passenger">FirstName LastName</div>
+					            
+					            <div className="gender static">
+					            	<span className="label-no-bs">Gender</span>
+					            	<span className="value">Male</span>
+					            </div>
+					            
+					            <div className="birthday static">
+						            <span className="label-no-bs">Birthday</span>
+						            {/* engineer -- display long date format */}
+					            	<span className="value">September 29, 2008</span>
+					            </div>
+					            
+					            {/* engineer -- include IF birthday is < 2 years */}
+					            <div className="lap-seat static">
+						            <span className="label-no-bs">Infant Seat Type</span>
+					            	<span className="value">Lap infant</span>
+					            </div>
+					            
+					            <div className="phone static">
+						            <span className="label-no-bs">Telephone</span>
+					            	<span className="value">(803) 754-5818</span>
+					            </div>
+					            
+					            <div className="passenger-price static">
+						            <span className="label-no-bs">Ticket Price</span>
+					            	<span className="value">$NNN.NN</span>
+					            </div>
+					            
+					            {/* engineer -- include IF (price is different from adult price) AND IF (it is less than adult price) */}
+					            <div className="passenger-discount">
+					            
+					            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior) */}
+					            	<span className="airline">Delta Airlines</span> 
+					            		<span className="copy">  has provided a </span>
+					            	<span className="discount">$NNN.NN</span>
+					            		<span className="copy"> discount for a </span>
+					            	<span className="age-discount">Senior</span> 
+					            		<span className="copy">  ticket.</span>
+					            		
+					            </div>
+				            
+				            </div>{/* ENDS each passenger (loop) */}
+				            
 			            
-				            <div className="which-passenger">FirstName LastName</div>
-				            <div className="gender static">Male</div>
-				            <div className="birthday static">November 9, 1977</div>
+			            <div className="totals">
+		              
+			              {/* engineer -- populate value with "N" (total passengers) */}
+			              <div className="tickets">
+				              <span className="label-no-bs">Tickets</span>
+				            	<span className="value">N</span>
+			            	</div>
 				            
-				            {/* engineer -- include IF birthday is < 2 years */}
-				            <div className="lap-seat static">Seat infant</div>
-				            
-				            <div className="phone static">(803) 754-5818</div>
-				            
-				            {/* engineer -- include IF birthday is < 2 years */}
-				            
-				            <div className="passenger-price">$NNN.NN</div>
-				            
-				            {/* engineer -- include IF (price is different from adult price) AND IF (it is less than adult price) */}
-				            <div className="passenger-discount">
-				            
-				            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior) */}
-				            	<span className="airline">Delta Airlines</span> 
-				            		<span className="copy">  has provided a </span>
-				            	<span className="discount">$NNN.NN</span>
-				            		<span className="copy">  for a </span>
-				            	<span className="age-discount">Senior</span> 
-				            		<span className="copy">  ticket.</span>
-				            		
+			            	{/* engineer -- populate value with exact total calculated $$ for all passengers */}
+			            	<div className="cost">
+				            	<span className="label-no-bs">Total Cost</span>
+				            	<span className="value">$NNN.NN</span>
 				            </div>
 			            
-			            {/* ENDS each passenger (loop) */}
+			            </div>
 		            
 		            </div>{/* ENDS people wrapper */}
-            
-		            <div className="total-price">
 		            
-			            {/* engineer -- populate this div with "N" and exact total calculated $$ for all passengers */}
-			            <span>N </span>tickets for <span> $NNN.NN</span>
-		            
-		            </div>
-		            
-		          </div>{/* ENDS holder */}
+		          </div>{/* ENDS div.form */}
 
             <div className="buttons duo">
 
-	            <button id="booking_button" className="big-button">
+	            <button id="edit_order_button" className="big-button secondary">
 	            	{/* engineer -- "Edit" returns to OrderPanel.jsx editable form */}
 	            	Edit
 	            </button>

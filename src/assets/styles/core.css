@@ -535,12 +535,22 @@ body:not(.touch) i.icon-mic:before {
 
 .desktop .booking .buttons {
 	text-align: left;
+	padding-bottom: 45px;
 	position: relative;
 	border-top: 0px solid transparent;
 }
 
 .desktop .booking .form {
-	padding-bottom: 45px;
+	padding-left: 45px;
+	max-width: 620px;
+}
+
+.desktop .booking.confirming .totals {
+	margin-left: 0;
+}
+
+.desktop .info.cue.cvv {
+	right: 15px;
 }
 
 .desktop .ti:before {
@@ -982,6 +992,14 @@ button {
 		right: 0;
 }
 
+.card {
+	background: #ffffff;
+	border: 1px solid hsla(240,1%,49%,.25);
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(100, 100, 100, .2);
+}
+
+
 
 /* colors */
 
@@ -1393,12 +1411,17 @@ form label.required:before,
 	color: #777777;
 }
 
-.passenger-chooser .age {
+.passenger-chooser .age,
+.confirming .people .label-no-bs {
 	color: #aaaaaa;
 }
 
 .count .subtract.disabled {
 	background: #e5e5e5;
+}
+
+chrome {
+	background: #fafafa;
 }
  
 
@@ -3523,6 +3546,68 @@ td[data-action*="selectDay"] {
 	background-size: 80%;
 }
 
+/* booking confirming panel confirm */
+
+.booking.confirming .static {
+	line-height: 22px;
+}
+
+.confirming .address .state,
+.confirming .address .zip-code {
+	padding-left: 5px;
+}
+
+.confirming .payment {
+	margin: 10px 0 20px 0;
+}
+
+.confirming .passenger-discount {
+	margin: 20px 0 0 0;
+}
+
+.confirming .payment span:not(.copy),
+.confirming .passenger-discount span:not(.copy),
+.confirming .total-price span:not(.copy),
+.confirming .passenger-price .value {
+	font-family: 'Open-Sans-Bold';
+}
+
+.confirming .totals .value {
+	font-family: 'Open-Sans-Semibold';
+}
+
+.confirming .people {
+	position: relative;
+}
+
+.confirming .which-passenger {
+	margin-bottom: 10px;
+}
+
+.confirming .people .label-no-bs {
+	display: inline-block;
+	width: 120px;
+}
+
+.confirming .people .value {
+	 display: inline-block;
+}
+
+.confirming .totals {
+	font-size: 20px;
+	margin:  40px 0 0 20px;
+}
+
+.booking.confirming .form .wrapper.people {
+	padding-left: 0;
+}
+
+.booking.confirming .card {
+	margin: 0 0 10px -15px;
+	padding: 15px 15px;
+}
+
+ 
 
 /* heredeb */
  
@@ -3567,7 +3652,7 @@ td[data-action*="selectDay"] {
 .which-passenger {
 	font-size: 18px;
 	margin-left: 5px;
-	padding-left: 15px;
+	padding-left: 20px;
 	position: relative;
 }
 
@@ -3856,12 +3941,16 @@ td[data-action*="selectDay"] {
 }
 
 .booking .buttons {
-	width: 100%;
-	background: #ffffff;
+	margin-left: 20px;
+}
+
+.booking .buttons.duo {
+	text-align: left;
+	margin: 20px 0 0 40px;
 }
 
 .booking .buttons .big-button {
-	margin-left: 20px;
+	margin: 0 0 0 0;
 }
 
 .warning {
@@ -4460,6 +4549,13 @@ footer.app-copy .bottom a {
 	
 	.multi-city-coming-soon {
 		height: 126px;
+	}
+	
+	.booking.confirming .card {
+		margin-right: -8px;
+		margin-left: -15px;
+		padding-left: 12px;
+		padding-right: 12px;
 	}
 
 }
