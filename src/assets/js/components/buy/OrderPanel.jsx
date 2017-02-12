@@ -342,9 +342,16 @@ let OrderPanel = React.createClass({
 		                   
 		             */}
 		            
+		            {/* engineer -- make sure this uses the same validation method as the booking button below */}
 		            <button id="continue_order_button" className="big-button">
 		            	Continue
 		            </button>
+		            
+		            {/* engineer -- this is the old booking button 
+			            <button id="booking_button" className="big-button" onClick={this.execReq}>
+		                {this.props.orderData.itineraryData.orderPrice}
+		              </button>
+		            */}
 		            
 	            </div>{/* ENDS buttons */}
 

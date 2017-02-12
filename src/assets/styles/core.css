@@ -12,6 +12,9 @@
 .cue.info,
 .device,
 .ie-fixer,
+.booking label,
+.booking .has-error label,
+.booking .form label.error,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
@@ -1324,7 +1327,8 @@ a:focus,
 
 form label.required:before,
 .warning,
-.remove-fieldset {
+.remove-fieldset,
+.message.error {
 	color: #ed2741;
 }
 
@@ -1706,6 +1710,10 @@ input[type="date"]:not(.has-value):before {
 ::-ms-input-placeholder {
 	color: #a2a2a2 !important;
 }
+::-moz-placeholder {
+	color: #a2a2a2 !important;
+	opacity: 1;
+}
 
 .has-error ::-webkit-input-placeholder {
 	color: #ed2741 !important;
@@ -1716,6 +1724,11 @@ input[type="date"]:not(.has-value):before {
 .has-error ::-ms-input-placeholder {
 	color: #ed2741 !important;
 }
+.has-error ::-moz-placeholder {
+	color: #ed2741 !important;
+	opacity: 1;
+}
+
 
 .label-d {
 	font-family: 'Open-Sans-Semibold';
@@ -4066,6 +4079,8 @@ td[data-action*="selectDay"] {
 
 /* create profile */
 
+
+
 .create .button-holder {
 	padding-top: 10px;
 	padding-left: 20px;
@@ -4226,6 +4241,10 @@ input[value="F"] {
 
 .panel-group .button-holder {
 	padding-left: 30px;
+}
+
+.profile .message.error {
+	margin-left: -15px;
 }
 
 

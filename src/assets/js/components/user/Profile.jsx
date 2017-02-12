@@ -71,7 +71,7 @@ let UserProfile = React.createClass({
         },
         validated: []
       },
-      {id:'personal_info.birthday', type: "date", title: 'Date of Birth', placeholder: 'YYYY-MM-DD', data: profile_fields.personal_info.birthday || ''},
+      {id:'personal_info.birthday', type: "date", title: 'Date of Birth', placeholder: 'Birth Date ', data: profile_fields.personal_info.birthday || ''},
       {id:'personal_info.address.country_code', title: 'Country', data: profile_fields.personal_info.address.country_code || ''},
       {id:'personal_info.address.street', title: 'Address', data: profile_fields.personal_info.address.street || ''},
       {id:'personal_info.address.city', title: 'City', data: profile_fields.personal_info.address.city || ''},
@@ -192,7 +192,7 @@ let UserProfile = React.createClass({
           </div>
           <div className={"button-holder " + (this.state.isValid ? null : 'has-error')}>
             <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
-            {this.state.isValid ? null : <div className="error-message">Error saving the form data</div>}
+            {this.state.isValid ? null : <div className="message error">Profile didn not save. Are all required fields filled out?</div>}
           </div>
         </div>
       </form>;

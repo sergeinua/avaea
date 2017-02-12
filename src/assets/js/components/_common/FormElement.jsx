@@ -48,6 +48,7 @@ let FormElement = React.createClass({
       <div 
       className={['text-holder '] + [this.props.item.id] + [this.props.item.validated && this.props.item.validated.length ? ' has-error' : '']}>
       
+      <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
         <input
           type={this.props.item.type ? this.props.item.type : "text"}
           id={this.props.item.id}
