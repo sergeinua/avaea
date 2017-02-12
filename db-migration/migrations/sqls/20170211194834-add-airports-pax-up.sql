@@ -714,10 +714,3 @@ UPDATE airports SET pax=2860874 /*was 2588175*/ WHERE iata_3code='WMI';
 UPDATE airports SET pax=774074 /*was 697729*/ WHERE iata_3code='GNY';
 UPDATE airports SET pax=36624 /*was 38306*/ WHERE iata_3code='BJP';
 UPDATE airports SET pax=498 /*was 776*/ WHERE iata_3code='KJP';
-avaea=> update aiports[K_updatesS[K SET a1_pax=1 WHERE[1P WHEREa WHERE3 WHERE_ WHEREp WHEREa WHEREx WHERE[1P WHERE[1P WHERE[1P WHERE[1P WHERE[1P WHERE1 WHERE_ WHEREa WHERE[1P WHEREp WHEREa WHEREx WHERE[C[C[C[C[C[C iata_3code='K[KKJP';[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@ [1@/[1@*[1@*[1@/[1@ [1@t[1@e[1@s[1@t[1@c[1@o[1@m[1@m[1@e[1@n[1@t[1@ 
-ERROR:  relation "aiport_updates" does not exist
-LINE 1: update aiport_updates SET a1_pax=a1_pax /* testcomment */ WH...
-               ^
-avaea=> update aiport_updates SET a1_pax=a1_pax /* testcomment */ WHERE iata_3code='KJP';[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[1@r
-UPDATE 1
-avaea=> 
