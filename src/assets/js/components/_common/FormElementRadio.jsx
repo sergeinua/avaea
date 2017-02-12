@@ -26,8 +26,8 @@ class FormElementRadio extends React.Component {
 
     _options.map(function(option, index) {
       _nodes.push(
-        <label key={index} className="">
-          <input type="radio" name={self.props.item.id}
+        <label className="radio" key={index}>
+          <input type="radio" className="radio" name={self.props.item.id}
                  id={self.props.id}
                  value={option.key} onChange={self.props.handleChangeValue}
                  checked={(self.props.item.data === option.key)}

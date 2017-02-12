@@ -15,7 +15,7 @@ let FormElement = React.createClass({
           return <span>
           <div 
           className={['radio-holder '] + [this.props.item.id] + [this.props.item.validated ? ' has-error' : '']}>
-            <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
+            <label className={['radio '] + [this.props.item.required ? "required" : ""]}>{this.props.item.title}</label>
             <FormElementRadioContainer
               id={this.props.item.id}
               panelType={this.props.panelType}
@@ -29,7 +29,7 @@ let FormElement = React.createClass({
           return <span>
           <div 
           className={['select-holder '] + [this.props.item.id] + [this.props.item.validated ? ' has-error' : '']}>
-            <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
+            <label className={['select '] + [this.props.item.required ? "required" : ""]}>{this.props.item.title}</label>
             <FormElementDropdownContainer
               id={this.props.item.id}
               panelType={this.props.panelType}

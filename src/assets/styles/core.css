@@ -1083,12 +1083,14 @@ footer.app-copy a.social:focus {
 
 .big-button,
 .btn-primary,
+input[type=radio]:checked:after,
 .navbar-header .small-button,
 .calendar-panel .message.info {
 	background: #14ca60;
 }
 
-.big-button.secondary {
+.big-button.secondary,
+input[type=radio]:checked:after {
 	border: 1px solid #14ca60;
 }
 
@@ -1540,6 +1542,21 @@ textarea {
 	background-color: transparent;
 }
 
+/* remove bootstrap form no-bs */
+
+.radio input[type="radio"], 
+.radio-inline input[type="radio"], 
+.checkbox input[type="checkbox"], 
+.checkbox-inline input[type="checkbox"] {
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+}
+
+.radio-buttons-block .radio {
+	display: inline-block;
+}
+
 /* remove browser input styling */
 
 ::-ms-clear { }
@@ -1548,16 +1565,64 @@ select:focus {
 	outline-color: #00b5ff;
 }
 
+input[type=radio]:not(:checked):focus:before {
+	border-color: #00b5ff;
+}
+
 select:-webkit-autofill {
 	background-image: url('/images/arr-dropdown.svg');
 }
 
 select,
+select:focus,
+input,
+input:focus,
 input[type=number],
-input[type=date] {
+input[type=number]:focus,
+input[type=date],
+input[type=date]:focus {
 	-webkit-appearance: none;
 	-moz-appearance: textfield;
   appearance: textfield;
+}
+
+input[type=radio],
+input[type=radio]:focus {
+	-webkit-appearance: radio;
+	-moz-appearance: radio;
+	position: relative;
+}
+
+.radio-holder label input {
+	margin-right: 12px;
+}
+
+.radio-buttons-block label {
+	margin: 0 20px 0 10px;
+}
+
+input[type=radio]:after {
+	content: '';
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	position: relative;
+		top: -7px;
+		left: -7px;
+	background: #ffffff;
+	border: 1px solid hsla(240, 1%, 49%,.25);
+	border-radius: 50%;
+}
+
+input[type=radio],
+input[type=radio]:focus {
+	-webkit-appearance: radio;
+	-moz-appearance: radio;
+	appearance: radio;
+}
+
+input[type=radio]:focus {
+	border-color: #00b5ff;
 }
 
 select::-ms-expand { 
@@ -3447,14 +3512,14 @@ td[data-action*="selectDay"] {
 .booking .passengers-wrapper .text-holder input[class*="LastName"],
 .booking .text-holder input[class*="DateOfBirth"],
 .booking .radio-holder {
-	border-top: 0px solid transparent;
+	border-top-width: 0px;
 	border-radius: 0;
 }
 
 .booking .text-holder .LastName,
 .booking .text-holder input[class*="LastName"],
 .booking .text-holder input[class*="phone"] {
-	border-top: 0px solid transparent;
+	border-top-width: 0px;
 }
 
 .booking .text-holder .LastName,
@@ -3474,14 +3539,15 @@ td[data-action*="selectDay"] {
 
 .booking .dropmenu.State,
 .booking .text-holder .ExpiryDate {
-	border-top: 0px solid transparent;
+	border-top-width: 0px;
 	border-radius: 0px;
 	border-bottom-left-radius: 3px;
+	position: relative;
 }
 
 .booking .text-holder .ZipCode,
 .booking .text-holder .CVV {
-	border-top: 0px solid transparent;
+	border-top-width: 0px;
 	border-radius: 0px;
 	border-bottom-right-radius: 3px;
 }
@@ -3494,15 +3560,19 @@ td[data-action*="selectDay"] {
 	width: 25%;
 }
 
+.booking .text-holder.ZipCode:focus,
+.booking .text-holder.CVV .textfield:focus {
+	position: relative;
+}
+
 .booking .select-holder.State,
 .booking .text-holder.ExpiryDate {
 	width: 65%;
 }
 
-
 .booking .text-holder.ZipCode .textfield,
 .booking .text-holder.CVV .textfield {
-	border-left: 0px solid transparent;
+	border-left-width: 0px;
 }
 
 .booking input.FirstName:focus,
@@ -3532,12 +3602,7 @@ td[data-action*="selectDay"] {
 
 .booking .radio-holder label:not(.required) {
 	font-size: 14px;
-	margin: 0 20px 0 0;
 	display: inline-block;
-}
-
-.booking .radio-holder label input {
-	margin-right: 5px;
 }
 
 .modal.cvv-info .modal-body {
@@ -4062,20 +4127,24 @@ legend {
 	font-family: 'Open-Sans-Semibold';
 }
 
-.panel-group label,
-.form-group label,
-.booking label {
+.panel-group .radio-buttons-block label,
+.form-group .radio-buttons-block label {
+	font-family: 'Open-Sans';
+}
+
+.panel-group .radio-buttons-block input,
+.form-group .radio-buttons-block input {
+	margin-right: 10px;
+}
+
+.panel-group label:not(.radio),
+.form-group label:not(.radio),
+.booking label:not(.radio) {
 	font-weight: normal;
 	font-size: 16px;
 	margin-top: 15px;
 	margin-bottom: 0;
 	position: relative;
-}
-
-.radio-buttons-block label {
-  font-weight: lighter;
-  margin-right: 10px;
-  font-family: inherit;
 }
 
 .profile-country.Select--single > .Select-control .Select-value, .profile-country .Select-placeholder,
@@ -4847,6 +4916,55 @@ footer.app-copy .bottom a {
 /* safari ignoring flex basis */
 nav {
 	-webkit-flex-shrink: 0;
+}
+
+/* safari */
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) 
+{ 
+	@media {
+		.booking input:focus,
+		.booking select:focus {
+			border: 2px solid #00b5ff;
+			box-shadow: none;
+			outline: 0px solid transparent !important;
+		}
+		
+		.booking .text-holder .LastName:focus,
+		.booking .text-holder input[class*="LastName"]:focus,
+		.booking .text-holder input[class*="phone"]:focus,
+		.booking .textfield.Address1:focus,
+		.booking .textfield.City:focus,
+		.booking .passengers-wrapper:focus,
+		.booking .text-holder input[class*="LastName"]:focus,
+		.booking .text-holder input[class*="DateOfBirth"]:focus,
+		.booking .radio-holder:focus,
+		.booking .dropmenu.State:focus, 
+		.booking .text-holder .ExpiryDate:focus {
+			border-top-width: 2px;
+		}
+		
+		.booking input.FirstName:focus, 
+		.booking input.Address1:focus, 
+		.booking input.City:focus, 
+		.booking input.CardNumber:focus, 
+		.booking select.Country:focus, 
+		.booking .text-holder input[class*="FirstName"]:focus, 
+		.booking .text-holder input[class*="DateOfBirth"]:focus, 
+		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+			margin-bottom: 0px;
+		}
+		
+		.booking .dropmenu.State:focus, 
+		.booking .text-holder .ExpiryDate:focus {
+			border-right-width: 2px;
+		}
+		
+		.booking .text-holder.ZipCode .textfield:focus, 
+		.booking .text-holder.CVV .textfield:focus {
+			border-left-width: 2px;
+		}
+		
+	}
 }
 
 /* firefox rendering font too thin */
