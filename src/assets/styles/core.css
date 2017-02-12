@@ -832,6 +832,14 @@ body.desktop form.profile,
 	clear: both;
 }
 
+.page-loader {
+	text-align: center;
+	vertical-align: middle;
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
 .circle {
 	width: 110px;
 	height: 110px;
@@ -1078,7 +1086,9 @@ footer.app-copy a.social:focus {
 
 .big-button.secondary,
 .big-button.secondary:hover,
-.big-button.secondary:focus {
+.big-button.secondary:focus,
+.booking .passenger-type .value:before,
+.confirming .passenger-discount span.age-discount {
 	color: #14ca60;
 }
 
@@ -2446,6 +2456,7 @@ strong.tt-highlight {
 }
 
 .calendar-panel .message.info {
+	color: #ffffff;
 	margin: 0 auto 10px auto;
 	padding: 10px;
 	width: 90%;
@@ -3714,6 +3725,30 @@ td[data-action*="selectDay"] {
 .booking.confirming .card {
 	margin: 0 0 10px -15px;
 	padding: 15px 15px;
+}
+
+.booking .passenger-type .value {
+	position: relative;
+	padding-left: 23px;
+}
+
+.booking:not(.confirming) .passenger-type .value {
+	font-size: 18px;
+	margin: -5px 0 30px 0;
+	padding-left: 28px;
+}
+
+.booking .passenger-type .value:before {
+	font-size: 30px;
+	display: inline-block;
+	position: absolute;
+		top: -5px;
+		left: -5px;
+}
+
+.booking:not(.confirming) .passenger-type .value:before {
+	font-size: 36px;
+		top: -8px;
 }
 
  

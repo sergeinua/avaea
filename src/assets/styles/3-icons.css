@@ -39,6 +39,7 @@
   font-style: normal;
 }
 
+.booking .passenger-type .value:before,
 .cue:after,
 .dropbutton:after,
 .cue:before,
@@ -131,6 +132,7 @@ footer a.social:after,
 .icon-checkmark-circle:before {
   content: "\e905";
 }
+.booking .passenger-type .value:before,
 .icon-checkmark:before {
   content: "\e906";
 }

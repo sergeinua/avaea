@@ -282,7 +282,7 @@ let OrderPanel = React.createClass({
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
-
+          	
           <form id="form_booking" className="booking">
 
         		<div className="confirmation persons-class-price">
@@ -323,6 +323,23 @@ let OrderPanel = React.createClass({
 	            <div className="page-ti people">Travellers</div>
 	            <div className="passengers-wrapper">
 	            	{_passengers}
+	            
+	            
+	            
+            	{/* engineer -- 
+			            		1) ajax check birthdate
+			            		2) include this div IF birthday is < 2 years OR 2-12 years OR > 65 years 
+              */}
+	            <div className="passenger-type">
+		            {/* engineer -- 
+                            if <2 years, "Infant"
+                            if 2-12 years, "Child"
+                            if >65 years, "Senior"
+                 */}
+	            	<span className="value">Infant</span>
+	            </div>
+	            
+	            
 	            </div>{/* ENDS travellers wrapper */}
 
 

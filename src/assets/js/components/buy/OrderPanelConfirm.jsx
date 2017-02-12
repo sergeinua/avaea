@@ -75,6 +75,17 @@ let OrderPanelConfirm = React.createClass({
 					            	<span className="value">September 29, 2008</span>
 					            </div>
 					            
+					            {/* engineer -- include IF birthday is < 2 years OR 2-12 years OR > 65 years */}
+					            <div className="passenger-type static">
+						            <span className="label-no-bs">Passenger Type</span>
+						            {/* engineer -- 
+				                            if <2 years, "Infant"
+				                            if 2-12 years, "Child"
+				                            if >65 years, "Senior"
+                         */}
+					            	<span className="value">Infant</span>
+					            </div>
+					            
 					            {/* engineer -- include IF birthday is < 2 years */}
 					            <div className="lap-seat static">
 						            <span className="label-no-bs">Infant Seat Type</span>
@@ -94,11 +105,19 @@ let OrderPanelConfirm = React.createClass({
 					            {/* engineer -- include IF (price is different from adult price) AND IF (it is less than adult price) */}
 					            <div className="passenger-discount">
 					            
-					            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior, Child) */}
+					            	{/* engineer -- fill in Airline name */}
 					            	<span className="airline">Delta Airlines</span> 
 					            		<span className="copy">  has provided a </span>
+					            		
+					            	{/* engineer -- fill in $ discount amount */}
 					            	<span className="discount">$NNN.NN</span>
-					            		<span className="copy"> discount for a </span>
+					            		<span className="copy"> discount for this </span>
+					            		
+					            	{/* engineer -- fill type of age discount
+																if <2 years, "Infant"
+		                            if 2-12 years, "Child"
+		                            if >65 years, "Senior"
+                        */}
 					            	<span className="age-discount">Senior</span> 
 					            		<span className="copy">  ticket.</span>
 					            		
