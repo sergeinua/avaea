@@ -16,15 +16,15 @@ module.exports = {
   index: function (req, res) {
 
     UserAction.saveFirstVisit(req, res);
-    sails.log(sails.config.routes);
-    
-    if(req.session){
-      if(req.session.vanityURL){  // do redirect if used vanity URL
+
+    if (req.session) {
+      if (req.session.vanityURL) {  // do redirect if used vanity URL
         // getting of destination URL from vanityURL
         let destinationURL = req.session.vanityURL.destination_url;
         delete req.session.vanityURL;
-        return res.redirect(destinationURL); //redirect to 
-      }else{
+        sails.log.verbose('vanityURL redirected to', destinationURL);
+        return res.redirect(destinationURL); //redirect to
+      } else {
         VanityURLsService.updateCache();
       }
     }
