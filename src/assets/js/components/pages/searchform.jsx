@@ -73,7 +73,7 @@ var SearchFormPage = React.createClass({
 	        
 	        	<div className="wrapper trip-type">
 	          	<div id="dropbuttonTripType" className="dropbutton">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</div>
-	          	<div className="dropmenu hide">		
+	          	<div className="dropmenu pretty hide">		
 		            <div id="one_way"
 		                 className={["choice "] + [this.props.commonData.currentForm == 'one_way' ? "active":""]}
 		                 onClick={this.changeForm('one_way')}>One Way</div>
@@ -88,7 +88,7 @@ var SearchFormPage = React.createClass({
 		         
 		         <div className="wrapper seat-class">
 	         	 	<div id="dropButtonSeatClass" className="dropbutton">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
-		         	 <div className="dropmenu hide">	
+		         	 <div className="dropmenu pretty hide">	
 		         	 <ClassChooser searchParams={this.props.commonData.searchParams}/>
 			         </div>{/* ends dropmenu */} 
 				     </div>{/* ends seat-class */}
@@ -96,7 +96,7 @@ var SearchFormPage = React.createClass({
 	           <div className="wrapper passengers">
 	           		{/* engineer - implement logic to display correct wording where "Adult" is */}
 	         			<div id="dropButtonPassengers" className="dropbutton">{ this.props.commonData.searchParams.passengers } Adult</div>
-		          	<div id="passenger-chooser" className="dropmenu passenger-chooser robust hide">	
+		          	<div id="passenger-chooser" className="dropmenu pretty passenger-chooser robust hide">	
 				        	<PassengerChooser searchParams={this.props.commonData.searchParams}/>
 				        </div>{/* ends dropmenu */} 
 		         </div>{/* ends passengers */}

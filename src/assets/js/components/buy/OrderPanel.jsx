@@ -4,7 +4,7 @@ import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
 import ResultItemContainer from '../search/ResultItem.jsx';
-import OrderSpecialModal from './OrderSpecialModal.jsx';
+import ModalCvvInfo from './ModalCvvInfo.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
@@ -30,7 +30,8 @@ let OrderPanel = React.createClass({
       {id:'City', required: true, title: 'City', data: fields_data.City || ''},
       {id:'State', required: (STATES.STATES[this.props.orderData.fieldsData.Country] && true), title: 'State', data: fields_data.State || ''},
       {id:'ZipCode', required: true, title: 'Zip Code', data: fields_data.ZipCode || ''},
-      {id:'CardType', required: true, title: 'Card Type', data: ''},
+      // engineer please detect card type from the card number
+      // {id:'CardType', required: true, title: 'Card Type', data: ''},
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
@@ -71,10 +72,15 @@ let OrderPanel = React.createClass({
         required: true,
         type: "date",
         title: 'Birthday',
-        placeholder: 'YYYY-MM-DD',
+        placeholder: 'Birth Date ',
         data: fields_data['passengers['+index+'].DateOfBirth'] || '',
         forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
-      }
+      },
+      
+      // engineer -- please hook up the logic to display seat or lap infant radio buttons
+      // IF the birthdate is < 2 years from now
+      // there is disabled logic in PassengerItem.jsx
+      
     ];
   },
 
@@ -91,7 +97,8 @@ let OrderPanel = React.createClass({
         FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
         LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
         Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
-        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
+        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"],
+        SeatType: this.props.orderData.fieldsData["passengers["+i+"].lap"]
       });
     }
     fieldsData.passengers = passengers;
@@ -128,6 +135,8 @@ let OrderPanel = React.createClass({
         LastName: {
           requiredAndTrim: true
         },
+        // engineer -- if there is error in validation, only the first radio input's label is receiving the "has-error" class
+        // please fix so each radio input's label is assigned the "has-error" class 
         Gender: {
           required: true
         },
@@ -136,6 +145,9 @@ let OrderPanel = React.createClass({
           date: true,
           minlength: 10,
           maxlength: 10
+        },
+        Country: {
+          requiredAndTrim: true
         },
         Address1: {
           requiredAndTrim: true
@@ -146,15 +158,10 @@ let OrderPanel = React.createClass({
         State: {
           requiredAndTrim: STATES.STATES[this.props.orderData.fieldsData.Country] && true
         },
-        Country: {
-          requiredAndTrim: true
-        },
         ZipCode: {
           requiredAndTrim: true
         },
-        CardType: {
-          required: true
-        },
+        // engineer -- detect card type from the card number
         CardNumber: {
           required: true,
           digits: true,
@@ -185,23 +192,8 @@ let OrderPanel = React.createClass({
       },
       unhighlight: function(input) {
         $(input).parent().removeClass('has-error');
-      },
-
-      // booking modal
-      submitHandler: function(form) {
-        let _isError = false;
-
-        if ($('.booking .form input').parent().hasClass('has-error')) {
-          _isError = true;
-          return false;
-        }  else {
-          $("#bookingModal").modal({
-            backdrop: 'static',
-            keyboard: false
-          });
-          return true;
-        }
       }
+
     };
 
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
@@ -232,31 +224,14 @@ let OrderPanel = React.createClass({
     if (!$("#form_booking").valid()) {
       return;
     }
-    $("#bookingModal").modal({
-      backdrop: 'static',
-      keyboard: false
-    });
-    let savedData = JSON.parse(JSON.stringify(this.props));
-    this.postOrder()
-      .then(function (resData) {
-        //FIXME jquery mess
-        $("#bookingModal").modal('hide');
-        if (!resData.error && resData.bookingId) {
-          historyStrategy.push('/booking/' + resData.bookingId);
-        } else if (resData.flashMsg) {
-          savedData.orderData.flashMsg = resData.flashMsg;
-          //scroll to page top to show error message after components re-render
-          window.scrollTo(0, 0);
-          this.props.loadSuccess(savedData.orderData);
-        } else {
-          this.props.loadFailed(resData);
-        }
-      }.bind(this))
-      .catch(function (error) {
-        console.error(error);
-        //FIXME jquery mess
-        $("#bookingModal").modal('hide');
-      });
+    
+  },
+  
+  showCvvModal: function() {
+      return  <span data-toggle="modal" data-target={"[data-id='modal-cvv-info']"}>
+      	<ModalCvvInfo /> 
+      	<div id="info-cue-cvv" className="info cue cvv"></div>
+      </span>
   },
 
   componentWillMount: function () {
@@ -313,15 +288,18 @@ let OrderPanel = React.createClass({
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
+          	
+          <form id="form_booking" className="booking">
 
-        <form id="form_booking" className="booking">
-          <div>
-
-            <div className="confirmation persons-class-price">
+        		<div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
                 <div className="class">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
+                {/* 
+    	            engineer -- calculate total price: (N travellers) x (price for 1 adult ticket)
+    	          */}
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+                <div className="copy">Preliminary price for each traveller</div>
               </div>
             </div>
             <div className="flight-unit">
@@ -334,27 +312,74 @@ let OrderPanel = React.createClass({
 
             <div className="form">
 
-            <div className="page-ti billing">Billing</div>
-            {this.makeOrderData(this.props.orderData).map(
-                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
-            )}
+            	<div className="page-ti billing">Billing</div>
+	            <div className="lil-italics">All fields are required</div>
+		            <div className="wrapper">
+		            
+		            {/* engineer -- populate all available data for Billing from user's profile  */}
+		            
+		            {this.makeOrderData(this.props.orderData).map(
+		                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+		            )}
+		            
+		            {this.showCvvModal()}
+		            
+		            </div>{/* ENDS billing wrapper */}
 
-            <div className="page-ti people">Travellers</div>
-            {_passengers}
+	            <div className="page-ti people">Travellers</div>
+	            <div className="passengers-wrapper">
+	            	{_passengers}
+	            
+	            
+	            
+            	{/* engineer -- 
+			            		1) ajax check birthdate
+			            		2) include this div IF birthday is < 2 years OR 2-12 years OR > 65 years 
+              */}
+	            <div className="passenger-type">
+		            {/* engineer -- 
+                            if <2 years, "Infant"
+                            if 2-12 years, "Child"
+                            if >65 years, "Senior"
+                 */}
+	            	<span className="value">Infant</span>
+	            </div>
+	            
+	            
+	            </div>{/* ENDS travellers wrapper */}
 
 
-            <div className="buttons">
-              <button id="booking_button" className="big-button" onClick={this.execReq}>
-                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
-              </button>
-            </div>
+	            <div className="buttons">
+	
+		            {/* engineer -- create new logic for "continue" button
+		            	
+		            		1) add className "disabled" until required fields are valid
+		                2) refreshes and recalculates price, with adjustment for age 
+		                3) goes to a "confirmation" view of the form
+		                   --- this form is in OrderConfirmation.jsx but needs logic
+		                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
+		                       or complete purchase
+		                4) save to user's profile:
+		                   + First Name, Last Name
+		                   + All address info
+		                   
+		             */}
+		            
+		            {/* engineer -- make sure this uses the same validation method as the booking button below */}
+		            <button id="continue_order_button" className="big-button">
+		            	Continue
+		            </button>
+		            
+		            {/* engineer -- this is the old booking button 
+			            <button id="booking_button" className="big-button" onClick={this.execReq}>
+		                {this.props.orderData.itineraryData.orderPrice}
+		              </button>
+		            */}
+		            
+	            </div>{/* ENDS buttons */}
 
-            </div>{/* ends div.form */}
-          </div>
+            </div>{/* ENDS div.form */}
         </form>
-          {this.props.specialOrder ?
-            <OrderSpecialModal />:null
-          }
         </span>
 
       );
