@@ -833,11 +833,7 @@ body.desktop form.profile,
 }
 
 .page-loader {
-	text-align: center;
-	vertical-align: middle;
-	display: table;
-	width: 100%;
-	height: 100%;
+	padding: 200px 0;
 }
 
 .circle {
@@ -3732,9 +3728,12 @@ td[data-action*="selectDay"] {
 	padding-left: 23px;
 }
 
+.booking:not(.confirming) .passenger-type {
+	margin: -8px 0 30px 0;
+}
+
 .booking:not(.confirming) .passenger-type .value {
 	font-size: 18px;
-	margin: -5px 0 30px 0;
 	padding-left: 28px;
 }
 
