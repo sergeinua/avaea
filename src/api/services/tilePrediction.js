@@ -48,7 +48,7 @@ module.exports = {
           },
           function(err, record) {
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             } else {
               UserAction.saveAction(userId, 'tile_prediction', {uuid: uuid, tile_name: tile, data: data});
             }

@@ -33,10 +33,10 @@ module.exports = {
     let qdefer = qpromice.defer();
 
     if (typeof booking_res != 'object') {
-      sails.log.error('saveBooking: got unexpected type of booking_res='+(typeof booking_res)+'; user='+user.id);
+      onvoya.log.error('saveBooking: got unexpected type of booking_res='+(typeof booking_res)+'; user='+user.id);
     }
     if (typeof itinerary_res != 'object') {
-      sails.log.error('saveBooking: got unexpected type of itinerary_res='+(typeof itinerary_res)+'; user='+user.id);
+      onvoya.log.error('saveBooking: got unexpected type of itinerary_res='+(typeof itinerary_res)+'; user='+user.id);
     }
     let _dbFields = { // fields sequence must be equal to sequence of the db req
       user_id          : user.id,
@@ -49,7 +49,7 @@ module.exports = {
 
     Booking.create(_dbFields, function(err, record) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(record);
