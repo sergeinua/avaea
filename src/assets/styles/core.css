@@ -1557,6 +1557,10 @@ textarea {
 	display: inline-block;
 }
 
+label {
+	font-weight: normal;
+}
+
 /* remove browser input styling */
 
 ::-ms-clear { }
@@ -1565,7 +1569,8 @@ select:focus {
 	outline-color: #00b5ff;
 }
 
-input[type=radio]:not(:checked):focus:before {
+input[type=radio]:focus,
+input[type=radio]:not(:checked):focus:after {
 	border-color: #00b5ff;
 }
 
@@ -1621,8 +1626,8 @@ input[type=radio]:focus {
 	appearance: radio;
 }
 
-input[type=radio]:focus {
-	border-color: #00b5ff;
+input[type=radio]:focus:after {
+	border-width: 2px;
 }
 
 select::-ms-expand { 
@@ -4939,8 +4944,17 @@ nav {
 		.booking .text-holder input[class*="DateOfBirth"]:focus,
 		.booking .radio-holder:focus,
 		.booking .dropmenu.State:focus, 
-		.booking .text-holder .ExpiryDate:focus {
+		.booking .text-holder .ExpiryDate:focus,
+		.booking .text-holder.ZipCode .textfield:focus, 
+		.booking .text-holder.CVV .textfield:focus {
 			border-top-width: 2px;
+			padding-top: 6px;
+			padding-bottom: 7px;
+			padding-left: 7px;
+		}
+		
+		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+			padding-top: 7px;
 		}
 		
 		.booking input.FirstName:focus, 
