@@ -12,9 +12,6 @@
 .cue.info,
 .device,
 .ie-fixer,
-.booking label,
-.booking .has-error label,
-.booking .form label.error,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
@@ -1534,6 +1531,10 @@ textarea {
 	box-shadow: none;
 }
 
+.dropmenu.pretty {
+	padding: 0px;
+}
+
 .booking .dropmenu-wrapper {
 	background: url('/images/arr-dropdown.svg') right 9px no-repeat;
 	background-size: 34px;
@@ -1566,6 +1567,18 @@ label {
 
 ::-ms-clear { }
 
+select::-ms-expand {
+   display: none;
+}
+
+select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	text-indent: 0.01px;
+	text-overflow: '';
+}
+
 /* input focus color */
 
 select:focus {
@@ -1581,8 +1594,6 @@ select:-webkit-autofill {
 	background-image: url('/images/arr-dropdown.svg');
 }
 
-select,
-select:focus,
 input,
 input:focus,
 input[type=number],
@@ -1620,6 +1631,10 @@ input[type=radio]:after {
 	background: #ffffff;
 	border: 1px solid hsla(240, 1%, 49%,.25);
 	border-radius: 50%;
+}
+
+.touch input[type=radio]:after {
+	top: -5px;
 }
 
 input[type=radio],
@@ -1872,7 +1887,7 @@ input[type="date"]:not(.has-value):before {
 	font-size: 19px;
 	text-align: left;
 	padding: 13px 25px 13px 70px;
-	width: 280px;
+	width: 290px;
 	position: relative;
 }
 
@@ -4994,68 +5009,69 @@ nav {
 		margin-top: 65px;
 	}
 	
+	.seat-class .dropbutton {
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+	
 	/* exact copy of Safari form element adjustments */
 	
 	select,
 	select:focus {
-    -moz-appearance: none;
-		appearance: none;
-		height: 38px;
-    text-indent: 0.01px;
-    text-overflow: '';
+		height: 37px;
 		background-color: transparent;
 	}
 	
 	.booking input:focus,
-		.booking select:focus {
-			border: 2px solid #00b5ff;
-			box-shadow: none;
-			outline: 0px solid transparent !important;
-		}
-		
-		.booking .text-holder .LastName:focus,
-		.booking .text-holder input[class*="LastName"]:focus,
-		.booking .text-holder input[class*="phone"]:focus,
-		.booking .textfield.Address1:focus,
-		.booking .textfield.City:focus,
-		.booking .passengers-wrapper:focus,
-		.booking .text-holder input[class*="LastName"]:focus,
-		.booking .text-holder input[class*="DateOfBirth"]:focus,
-		.booking .radio-holder:focus,
-		.booking .dropmenu.State:focus, 
-		.booking .text-holder .ExpiryDate:focus,
-		.booking .text-holder.ZipCode .textfield:focus, 
-		.booking .text-holder.CVV .textfield:focus {
-			border-top-width: 2px;
-			padding-top: 6px;
-			padding-bottom: 7px;
-			padding-left: 7px;
-		}
-		
-		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
-			padding-top: 7px;
-		}
-		
-		.booking input.FirstName:focus, 
-		.booking input.Address1:focus, 
-		.booking input.City:focus, 
-		.booking input.CardNumber:focus, 
-		.booking select.Country:focus, 
-		.booking .text-holder input[class*="FirstName"]:focus, 
-		.booking .text-holder input[class*="DateOfBirth"]:focus, 
-		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
-			margin-bottom: 0px;
-		}
-		
-		.booking .dropmenu.State:focus, 
-		.booking .text-holder .ExpiryDate:focus {
-			border-right-width: 2px;
-		}
-		
-		.booking .text-holder.ZipCode .textfield:focus, 
-		.booking .text-holder.CVV .textfield:focus {
-			border-left-width: 2px;
-		}
+	.booking select:focus {
+		border: 2px solid #00b5ff;
+		box-shadow: none;
+		outline: 0px solid transparent !important;
+	}
+	
+	.booking .text-holder .LastName:focus,
+	.booking .text-holder input[class*="LastName"]:focus,
+	.booking .text-holder input[class*="phone"]:focus,
+	.booking .textfield.Address1:focus,
+	.booking .textfield.City:focus,
+	.booking .passengers-wrapper:focus,
+	.booking .text-holder input[class*="LastName"]:focus,
+	.booking .text-holder input[class*="DateOfBirth"]:focus,
+	.booking .radio-holder:focus,
+	.booking .dropmenu.State:focus, 
+	.booking .text-holder .ExpiryDate:focus,
+	.booking .text-holder.ZipCode .textfield:focus, 
+	.booking .text-holder.CVV .textfield:focus {
+		border-top-width: 2px;
+		padding-top: 6px;
+		padding-bottom: 7px;
+		padding-left: 7px;
+	}
+	
+	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+		padding-top: 7px;
+	}
+	
+	.booking input.FirstName:focus, 
+	.booking input.Address1:focus, 
+	.booking input.City:focus, 
+	.booking input.CardNumber:focus, 
+	.booking select.Country:focus, 
+	.booking .text-holder input[class*="FirstName"]:focus, 
+	.booking .text-holder input[class*="DateOfBirth"]:focus, 
+	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+		margin-bottom: 0px;
+	}
+	
+	.booking .dropmenu.State:focus, 
+	.booking .text-holder .ExpiryDate:focus {
+		border-right-width: 2px;
+	}
+	
+	.booking .text-holder.ZipCode .textfield:focus, 
+	.booking .text-holder.CVV .textfield:focus {
+		border-left-width: 2px;
+	}
 
 }
 
@@ -5114,6 +5130,74 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
+}
+
+html[data-useragent*='Trident'] input {
+	line-height: 1em;
+}
+
+html[data-useragent*='Trident'] input[type=radio] {
+	border-color: transparent;
+}
+
+html[data-useragent*='Trident'] select,
+html[data-useragent*='Trident']	select:focus {
+		max-height: 38px;
+}
+
+/* most are exact copies of Safari form adjustments */
+	
+html[data-useragent*='Trident'] select,
+html[data-useragent*='Trident']	select:focus,
+html[data-useragent*='Trident'] .booking .text-holder .ZipCode {
+		height: 38px !important;
+}
+
+html[data-useragent*='Trident'] .booking input:focus,
+html[data-useragent*='Trident'] .booking select:focus {
+	border: 2px solid #00b5ff;
+	box-shadow: none;
+	outline: 0px solid transparent !important;
+}
+
+html[data-useragent*='Trident'] .booking .text-holder .LastName:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="LastName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="phone"]:focus,
+html[data-useragent*='Trident'] .booking .textfield.Address1:focus,
+html[data-useragent*='Trident'] .booking .textfield.City:focus,
+html[data-useragent*='Trident'] .booking .passengers-wrapper:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="LastName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus,
+html[data-useragent*='Trident'] .booking .radio-holder:focus,
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus, 
+html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus,
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus, 
+html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
+	border-top-width: 2px;
+	padding-top: 6px;
+	padding-bottom: 7px;
+	padding-left: 7px;
+}
+
+html[data-useragent*='Trident'] .booking input.FirstName:focus, 
+html[data-useragent*='Trident'] .booking input.Address1:focus, 
+html[data-useragent*='Trident'] .booking input.City:focus, 
+html[data-useragent*='Trident'] .booking input.CardNumber:focus, 
+html[data-useragent*='Trident'] .booking select.Country:focus, 
+html[data-useragent*='Trident'] .booking .text-holder input[class*="FirstName"]:focus, 
+html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus, 
+html[data-useragent*='Trident'] .booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+	margin-bottom: 0px;
+}
+
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus, 
+html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus {
+	border-right-width: 2px;
+}
+
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus, 
+html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
+	border-left-width: 2px;
 }
 
 

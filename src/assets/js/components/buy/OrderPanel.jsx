@@ -282,16 +282,8 @@ let OrderPanel = React.createClass({
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
-          	
-          	
-          {/* DEBORAH start test paste */}
-          
-          
-          
-          {/* DEBORAH end test paste */}
-          	
 
-        <form id="form_booking" className="booking">
+          <form id="form_booking" className="booking">
 
         		<div className="confirmation persons-class-price">
               <div className="wrapper">
@@ -318,7 +310,7 @@ let OrderPanel = React.createClass({
 	            <div className="lil-italics">All fields are required</div>
 		            <div className="wrapper">
 		            
-		            {/* engineer -- populate all available data for Billing from user's profile */}
+		            {/* engineer -- populate all available data for Billing from user's profile  */}
 		            
 		            {this.makeOrderData(this.props.orderData).map(
 		                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
@@ -331,19 +323,20 @@ let OrderPanel = React.createClass({
 	            <div className="page-ti people">Travellers</div>
 	            <div className="passengers-wrapper">
 	            	{_passengers}
-	            </div>
+	            </div>{/* ENDS travellers wrapper */}
 
 
 	            <div className="buttons">
 	
 		            {/* engineer -- create new logic for "continue" button
-		            
-		                1) refreshes and recalculates price, with adjustment for age 
-		                2) goes to a "confirmation" view of the form
+		            	
+		            		1) add className "disabled" until required fields are valid
+		                2) refreshes and recalculates price, with adjustment for age 
+		                3) goes to a "confirmation" view of the form
 		                   --- this form is in OrderConfirmation.jsx but needs logic
 		                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
 		                       or complete purchase
-		                3) save to user's profile:
+		                4) save to user's profile:
 		                   + First Name, Last Name
 		                   + All address info
 		                   
@@ -353,7 +346,7 @@ let OrderPanel = React.createClass({
 		            	Continue
 		            </button>
 		            
-	            </div>{/* ENDS travellers wrapper */}
+	            </div>{/* ENDS buttons */}
 
             </div>{/* ENDS div.form */}
         </form>
