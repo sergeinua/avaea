@@ -192,7 +192,7 @@ let UserProfile = React.createClass({
           </div>
           <div className={"button-holder " + (this.state.isValid ? null : 'has-error')}>
             <button type="button" className="big-button" onClick={this.execUpdate}>Save</button>
-            {this.state.isValid ? null : <div className="message error">Profile didn not save. Are all required fields filled out?</div>}
+            {this.state.isValid ? null : <div className="message error">Profile did not save. Are all required fields filled out?</div>}
           </div>
         </div>
       </form>;

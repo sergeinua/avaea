@@ -94,7 +94,7 @@ let OrderPanelConfirm = React.createClass({
 					            {/* engineer -- include IF (price is different from adult price) AND IF (it is less than adult price) */}
 					            <div className="passenger-discount">
 					            
-					            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior) */}
+					            	{/* engineer -- fill in Airline name, $ discount amount, and type of age discount (seat infant, lap infant, Senior, Child) */}
 					            	<span className="airline">Delta Airlines</span> 
 					            		<span className="copy">  has provided a </span>
 					            	<span className="discount">$NNN.NN</span>
