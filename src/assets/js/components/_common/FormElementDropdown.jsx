@@ -28,15 +28,17 @@ class FormElementDropdown extends React.Component {
       _nodes.push(<option key={index} value={option.key}>{option.data}</option>);
     });
 
-    return <select
+    return <div className="dropmenu-wrapper">
+    <select
       name={this.props.item.id}
-      className="form-control input-sm"
+      className={"dropmenu "  + [this.props.item.id]}
       defaultValue={self.props.item.data}
       onChange={this.props.handleChangeValue}
     >
-      <option value="">---</option>
+      <option className="choice" value="">{this.props.item.id}</option>
       { _nodes }
     </select>
+    </div> 
 
   }
 

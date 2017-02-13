@@ -12,6 +12,9 @@
 .cue.info,
 .device,
 .ie-fixer,
+.booking label,
+.booking .has-error label,
+.booking .form label.error,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .search-result .static-price,
 .search-result .long-wrapper,
@@ -25,6 +28,10 @@
 .touch footer.app-copy,
 .dropmenu.hide {
 	display: none;
+}
+
+.booking .form label.error {
+	display: none !important;
 }
 
 /* page settings */
@@ -46,7 +53,7 @@ body,
 	text-align: center;
 	padding: 30px 30px 100px 30px;
 	min-width: 445px;
-  background: linear-gradient(#fafafa, #e3e4e8); 
+  background: linear-gradient(#fafafa, #e3e4e8);
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -528,12 +535,23 @@ body:not(.touch) i.icon-mic:before {
 
 .desktop .booking .buttons {
 	text-align: left;
+	margin-top: 20px;
+	padding-bottom: 45px;
 	position: relative;
 	border-top: 0px solid transparent;
 }
 
 .desktop .booking .form {
-	padding-bottom: 45px;
+	padding-left: 45px;
+	max-width: 620px;
+}
+
+.desktop .booking.confirming .totals {
+	margin-left: 0;
+}
+
+.desktop .info.cue.cvv {
+	right: 15px;
 }
 
 .desktop .ti:before {
@@ -672,12 +690,12 @@ body:not(.touch) i.icon-mic:before {
 	border-radius: 15px;
 }
 
-.desktop .search-result .flights, 
+.desktop .search-result .flights,
 .desktop .flight-unit {
 	background: #ffffff !important;
 }
 
-.desktop .search-result .itinerary, 
+.desktop .search-result .itinerary,
 .desktop .flight-unit .itinerary {
 	width: 90%;
 }
@@ -813,6 +831,10 @@ body.desktop form.profile,
 	clear: both;
 }
 
+.page-loader {
+	padding: 200px 0;
+}
+
 .circle {
 	width: 110px;
 	height: 110px;
@@ -852,7 +874,7 @@ button {
 
 	/* bootstrap */
 	line-height: 1em;
-	
+
 	transition: all 0.1s ease-in-out;
 }
 
@@ -974,9 +996,12 @@ button {
 		right: 0;
 }
 
-
-
-/* heredeb */
+.card {
+	background: #ffffff;
+	border: 1px solid hsla(240,1%,49%,.25);
+	border-radius: 3px;
+	box-shadow: 0 1px 2px rgba(100, 100, 100, .2);
+}
 
 
 
@@ -989,6 +1014,7 @@ button {
   box-shadow: none;
 }
 
+.booking .dropmenu:not(.robust),
 .mycustomtab,
 .mybucket .badge,
 .notable-area .refundable.row .label-d,
@@ -1055,24 +1081,28 @@ footer.app-copy a.social:focus {
 
 .big-button.secondary,
 .big-button.secondary:hover,
-.big-button.secondary:focus {
+.big-button.secondary:focus,
+.booking .passenger-type .value:before,
+.confirming .passenger-discount span.age-discount {
 	color: #14ca60;
 }
 
 .big-button,
 .btn-primary,
+input[type=radio]:checked:after,
 .navbar-header .small-button,
 .calendar-panel .message.info {
 	background: #14ca60;
 }
 
-.big-button.secondary {
+.big-button.secondary,
+input[type=radio]:checked:after {
 	border: 1px solid #14ca60;
 }
 
 .meri-speaks .bubble:after {
 	border-top: 0px solid transparent;
-	border-right: 0px solid transparent; 
+	border-right: 0px solid transparent;
 }
 
 
@@ -1302,7 +1332,8 @@ a:focus,
 
 form label.required:before,
 .warning,
-.remove-fieldset {
+.remove-fieldset,
+.message.error {
 	color: #ed2741;
 }
 
@@ -1333,14 +1364,27 @@ form label.required:before,
 
 .has-error .form-control,
 .highlight,
-.error-flash {
+.error-flash,
+.has-error input {
 	background: #ffffe0;
 }
 
-.form label.error, 
-.has-error label {
+.dropmenu-wrapper.has-error {
+	background-color: #ffffe0 !important;
+}
+
+.form label.error,
+.has-error label,
+.radio-buttons-block label.has-error,
+.dropmenu-wrapper.has-error select,
+.booking .has-error .dropmenu:not(.robust) {
   color: #ed2741;
 }
+
+.has-error input[type="date"]:before {
+  color: #ed2741 !important;
+}
+
 
 /* grays */
 
@@ -1351,6 +1395,8 @@ form label.required:before,
 }
 
 /* .desktop.search-result .itinerary:hover, */
+.meri-speaks .bubble,
+.meri-speaks .bubble:after,
 .desktop .sort-button .dropdown-menu li:not(.selected):hover,
 .desktop .flight-info,
 .notable-area,
@@ -1378,7 +1424,8 @@ form label.required:before,
 	color: #777777;
 }
 
-.passenger-chooser .age {
+.passenger-chooser .age,
+.confirming .people .label-no-bs {
 	color: #aaaaaa;
 }
 
@@ -1386,9 +1433,9 @@ form label.required:before,
 	background: #e5e5e5;
 }
 
-.meri-speaks .bubble:after,
-.meri-speaks .bubble {
-	background-color: #f5f5f7;
+.meri-speaks .bubble,
+chrome {
+	background: #fafafa;
 }
 
 
@@ -1426,7 +1473,7 @@ form label.required:before,
 }
 
 .message.info {
-	
+
 }
 
 
@@ -1486,13 +1533,165 @@ textarea {
 	padding: 8px;
 }
 
+.textfield,
+.dropmenu,
+.booking .radio-holder {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid hsla(240,1%,49%,.25);
+	border-radius: 3px;
+	box-shadow: none;
+}
+
+.dropmenu.pretty {
+	padding: 0px;
+}
+
+.booking .dropmenu-wrapper {
+	background: url('/images/arr-dropdown.svg') right 9px no-repeat;
+	background-size: 34px;
+}
+
+.booking select {
+	background-color: transparent;
+}
+
+/* remove bootstrap form no-bs */
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+	margin-left: 0;
+	margin-top: 0;
+	position: relative;
+}
+
+.radio-buttons-block .radio {
+	display: inline-block;
+}
+
+label {
+	font-weight: normal;
+}
+
+/* remove browser input styling */
+
+::-ms-clear { }
+
+select::-ms-expand {
+   display: none;
+}
+
+select {
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	text-indent: 0.01px;
+	text-overflow: '';
+}
+
+/* input focus color */
+
+select:focus {
+	outline-color: #00b5ff;
+}
+
+input[type=radio]:focus,
+input[type=radio]:not(:checked):focus:after {
+	border-color: #00b5ff;
+}
+
+select:-webkit-autofill {
+	background-image: url('/images/arr-dropdown.svg');
+}
+
+input,
+input:focus,
+input[type=number],
+input[type=number]:focus,
+input[type=date],
+input[type=date]:focus {
+	-webkit-appearance: none;
+	-moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input[type=radio],
+input[type=radio]:focus {
+	-webkit-appearance: radio;
+	-moz-appearance: radio;
+	position: relative;
+}
+
+.radio-holder label input {
+	margin-right: 12px;
+}
+
+.radio-buttons-block label {
+	margin: 0 20px 0 10px;
+}
+
+input[type=radio]:after {
+	content: '';
+	display: inline-block;
+	width: 25px;
+	height: 25px;
+	position: relative;
+		top: -7px;
+		left: -7px;
+	background: #ffffff;
+	border: 1px solid hsla(240, 1%, 49%,.25);
+	border-radius: 50%;
+}
+
+.touch input[type=radio]:after {
+	top: -5px;
+}
+
+input[type=radio],
+input[type=radio]:focus {
+	-webkit-appearance: radio;
+	-moz-appearance: radio;
+	appearance: radio;
+}
+
+input[type=radio]:focus:after {
+	border-width: 2px;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+input[type=date]::-webkit-calendar-picker-indicator,
+input[type=date]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	display: none;
+}
+
+input[type="date"]:before {
+  content: attr(placeholder);
+	padding-right: 5px;
+}
+
+.text-holder[class*="DateOfBirth"] {
+	position: relative;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 0;
+}
+
 /* disabled */
 
 .its-me .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .dropmenu .choice.active,
-.ff-miles.none {
+.ff-miles.none,
+input[type="date"]:before {
 	color: #a2a2a2;
 }
 
@@ -1512,18 +1711,43 @@ textarea {
 	color: #a2a2a2 !important;
 }
 
-::-webkit-input-placeholder,
-:-ms-input-placeholder,
+/* placeholders - can not be grouped */
+
+::-webkit-input-placeholder {
+	color: #a2a2a2 !important;
+}
+:-ms-input-placeholder {
+	color: #a2a2a2 !important;
+}
 ::-ms-input-placeholder {
 	color: #a2a2a2 !important;
 }
+::-moz-placeholder {
+	color: #a2a2a2 !important;
+	opacity: 1;
+}
+
+.has-error ::-webkit-input-placeholder {
+	color: #ed2741 !important;
+}
+.has-error :-ms-input-placeholder {
+	color: #ed2741 !important;
+}
+.has-error ::-ms-input-placeholder {
+	color: #ed2741 !important;
+}
+.has-error ::-moz-placeholder {
+	color: #ed2741 !important;
+	opacity: 1;
+}
+
 
 .label-d {
 	font-family: 'Open-Sans-Semibold';
 	text-transform: uppercase;
 }
 
-.form label.error, 
+.form label.error,
 .has-error label {
   display: block;
 }
@@ -1688,7 +1912,7 @@ textarea {
 	font-size: 19px;
 	text-align: left;
 	padding: 13px 25px 13px 70px;
-	width: 280px;
+	width: 290px;
 	position: relative;
 }
 
@@ -1707,7 +1931,7 @@ textarea {
 /* search form */
 
 .searchnav {
-	padding: 0px 10px 0 10px; 
+	padding: 0px 10px 0 10px;
 	position: relative;
 	z-index: 2;
 }
@@ -1736,7 +1960,7 @@ textarea {
 	text-align: left;
 	display: inline-block;
 	background: #ffffff;
-	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3); 
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
 }
 
 .dropbutton {
@@ -1876,7 +2100,7 @@ textarea {
 	top: 7px;
 }
 
-.dropmenu.passenger-chooser .cancel-button {	
+.dropmenu.passenger-chooser .cancel-button {
 	margin-left: 5px;
 }
 
@@ -2209,7 +2433,6 @@ strong.tt-highlight {
 	 height: 40px;
 }
 
-/* heredeb */
 
 /* calendar */
 
@@ -2227,6 +2450,7 @@ strong.tt-highlight {
 }
 
 .calendar-panel .message.info {
+	color: #ffffff;
 	margin: 0 auto 10px auto;
 	padding: 10px;
 	width: 90%;
@@ -2335,7 +2559,10 @@ td[data-action*="selectDay"] {
 }
 
 .modal-content .close-x {
-	top: 5px;
+	font-size: 20px;
+	position: absolute;
+		top: 17px;
+		right: 15px;
 }
 
 .modal-content .title-bar {
@@ -2368,6 +2595,11 @@ td[data-action*="selectDay"] {
 	width: 50%;
 	display: inline-block;
 	float: left;
+}
+
+.modal-content .buttons-bar.single .big-button {
+	width: 100%;
+	display: inline-block;
 }
 
 .modal-content .buttons-bar .big-button {
@@ -2745,7 +2977,7 @@ td[data-action*="selectDay"] {
 	background: #ededed;
 }
 
-.tertiary-button.disabled:before, 
+.tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text {
 	color: #aaa;
 }
@@ -3148,6 +3380,7 @@ td[data-action*="selectDay"] {
 .notable-area .refundable.row .copy {
 	display: inline-block;
 	float: left;
+	max-width: 90%;
 }
 
 .notable-area .refundable.row .label-d {
@@ -3261,7 +3494,6 @@ td[data-action*="selectDay"] {
 }
 
 
-
 /* booking */
 
 .booking,
@@ -3284,14 +3516,247 @@ td[data-action*="selectDay"] {
 }
 
 .page-ti.people {
-	margin-top: 30px;
+	margin-top: 10px;
 }
+
+.page-ti.people:before {
+	font-size: 25px;
+		top: 2px;
+}
+
+.booking .form .wrapper {
+	position: relative;
+}
+
+.lil-italics,
+.booking .form .wrapper,
+.passengers-wrapper {
+	padding-left: 18px;
+}
+
+.lil-italics {
+	margin-bottom: 5px;
+}
+
+.dropmenu.Country {
+	max-width: 100%;
+}
+
+.booking .dropmenu:not(.robust) {
+	box-shadow: none;
+}
+
+/* stacked fields, fieldgroups */
+
+.booking .text-holder .FirstName,
+.booking .text-holder input[class*="FirstName"],
+.booking .dropmenu.Country,
+.booking .text-holder .CardNumber {
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+}
+
+.booking .textfield.Address1,
+.booking .textfield.City,
+.booking .passengers-wrapper .text-holder input[class*="LastName"],
+.booking .text-holder input[class*="DateOfBirth"],
+.booking .radio-holder {
+	border-top-width: 0px;
+	border-radius: 0;
+}
+
+.booking .text-holder .LastName,
+.booking .text-holder input[class*="LastName"],
+.booking .text-holder input[class*="phone"] {
+	border-top-width: 0px;
+}
+
+.booking .text-holder .LastName,
+.booking .text-holder input[class*="phone"] {
+	margin-bottom: 20px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+}
+
+.booking .select-holder.State,
+.booking .text-holder.ZipCode,
+.booking .text-holder.CVV,
+.booking .text-holder.ExpiryDate {
+	margin-bottom: 20px;
+	display: inline-block;
+}
+
+.booking .dropmenu.State,
+.booking .text-holder .ExpiryDate {
+	border-top-width: 0px;
+	border-radius: 0px;
+	border-bottom-left-radius: 3px;
+	position: relative;
+}
+
+.booking .text-holder .ZipCode,
+.booking .text-holder .CVV {
+	border-top-width: 0px;
+	border-radius: 0px;
+	border-bottom-right-radius: 3px;
+}
+
+.booking .text-holder.ZipCode {
+	width: 35%;
+}
+
+.booking .text-holder.CVV {
+	width: 25%;
+}
+
+.booking .text-holder.ZipCode:focus,
+.booking .text-holder.CVV .textfield:focus {
+	position: relative;
+}
+
+.booking .select-holder.State,
+.booking .text-holder.ExpiryDate {
+	width: 65%;
+}
+
+.booking .text-holder.ZipCode .textfield,
+.booking .text-holder.CVV .textfield {
+	border-left-width: 0px;
+}
+
+.booking input.FirstName:focus,
+.booking input.Address1:focus,
+.booking input.City:focus,
+.booking input.CardNumber:focus,
+.booking select.Country:focus,
+.booking .text-holder input[class*="FirstName"]:focus,
+.booking .text-holder input[class*="DateOfBirth"]:focus,
+.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+	padding-bottom: 6px;
+	margin-bottom: 2px;
+}
+
+.booking select.State:focus {
+	border-right: 1px solid #00a9e7;
+}
+
+.booking .dropmenu.State,
+.booking .dropmenu.Country {
+	padding-right: 45px;
+}
+
+.booking .radio-holder {
+	height: 35px;
+}
+
+.booking .radio-holder label:not(.required) {
+	font-size: 14px;
+	display: inline-block;
+}
+
+.modal.cvv-info .modal-body {
+	height: 300px;
+	background: url('/images/cvv.svg') center no-repeat;
+	background-size: 80%;
+}
+
+/* booking confirming panel confirm */
+
+.booking.confirming .static {
+	line-height: 22px;
+}
+
+.confirming .address .state,
+.confirming .address .zip-code {
+	padding-left: 5px;
+}
+
+.confirming .payment {
+	margin: 10px 0 20px 0;
+}
+
+.confirming .passenger-discount {
+	margin: 20px 0 0 0;
+}
+
+.confirming .payment span:not(.copy),
+.confirming .passenger-discount span:not(.copy),
+.confirming .total-price span:not(.copy),
+.confirming .passenger-price .value {
+	font-family: 'Open-Sans-Bold';
+}
+
+.confirming .totals .value {
+	font-family: 'Open-Sans-Semibold';
+}
+
+.confirming .people {
+	position: relative;
+}
+
+.confirming .which-passenger {
+	margin-bottom: 10px;
+}
+
+.confirming .people .label-no-bs {
+	display: inline-block;
+	width: 120px;
+}
+
+.confirming .people .value {
+	 display: inline-block;
+}
+
+.confirming .totals {
+	font-size: 20px;
+	margin:  40px 0 0 20px;
+}
+
+.booking.confirming .form .wrapper.people {
+	padding-left: 0;
+}
+
+.booking.confirming .card {
+	margin: 0 0 10px -15px;
+	padding: 15px 15px;
+}
+
+.booking .passenger-type .value {
+	position: relative;
+	padding-left: 23px;
+}
+
+.booking:not(.confirming) .passenger-type {
+	margin: -8px 0 30px 0;
+}
+
+.booking:not(.confirming) .passenger-type .value {
+	font-size: 18px;
+	padding-left: 28px;
+}
+
+.booking .passenger-type .value:before {
+	font-size: 30px;
+	display: inline-block;
+	position: absolute;
+		top: -5px;
+		left: -5px;
+}
+
+.booking:not(.confirming) .passenger-type .value:before {
+	font-size: 36px;
+		top: -8px;
+}
+
+
+
+/* heredeb */
 
 .booking .confirmation {
 	font-family: 'Open-Sans-Light';
 	font-size: 20px;
 	text-align: center;
-	padding: 15px; 
+	padding: 15px;
 }
 
 .booking .confirmation:after {
@@ -3306,19 +3771,29 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking .confirmation div {
-	padding-right: 20px;
+.booking .confirmation .wrapper div:not(.copy) {
 	display: inline-block;
 }
 
-.booking .confirmation div:last-child {
+.booking .confirmation .people,
+.booking .confirmation .class {
+	padding-right: 20px;
+}
+
+.booking .confirmation .price {
 	padding-right: 0;
+}
+
+.booking .confirmation .copy {
+	font-size: 13px;
+	text-align: center;
+	display: block;
 }
 
 .which-passenger {
 	font-size: 18px;
-	margin-left: -8px;
-	padding-left: 15px;
+	margin-left: 5px;
+	padding-left: 20px;
 	position: relative;
 }
 
@@ -3330,7 +3805,11 @@ td[data-action*="selectDay"] {
 
 .its-me .hint {
 	font-family: 'Open-Sans-Light';
-	margin-left: 9px;
+	margin-bottom: 10px;
+}
+
+.passengers-wrapper .tertiary-button {
+	margin-left: 0px;
 }
 
 .booking-success {
@@ -3488,7 +3967,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking-success .notable-area .ff-miles, 
+.booking-success .notable-area .ff-miles,
 .booking-success .notable-area .ff-miles.no-value {
     margin-left: -20px;
 }
@@ -3603,13 +4082,16 @@ td[data-action*="selectDay"] {
 }
 
 .booking .buttons {
-	margin-top: 30px;
-	width: 100%;
-	background: #ffffff;
+	margin-left: 20px;
+}
+
+.booking .buttons.duo {
+	text-align: left;
+	margin: 20px 0 0 40px;
 }
 
 .booking .buttons .big-button {
-	margin-left: 0;
+	margin: 0 0 0 0;
 }
 
 .warning {
@@ -3636,6 +4118,8 @@ td[data-action*="selectDay"] {
 }
 
 /* create profile */
+
+
 
 .create .button-holder {
 	padding-top: 10px;
@@ -3721,20 +4205,24 @@ legend {
 	font-family: 'Open-Sans-Semibold';
 }
 
-.panel-group label,
-.form-group label,
-.booking label {
+.panel-group .radio-buttons-block label,
+.form-group .radio-buttons-block label {
+	font-family: 'Open-Sans';
+}
+
+.panel-group .radio-buttons-block input,
+.form-group .radio-buttons-block input {
+	margin-right: 10px;
+}
+
+.panel-group label:not(.radio),
+.form-group label:not(.radio),
+.booking label:not(.radio) {
 	font-weight: normal;
 	font-size: 16px;
 	margin-top: 15px;
 	margin-bottom: 0;
 	position: relative;
-}
-
-.radio-buttons-block label {
-  font-weight: lighter;
-  margin-right: 10px;
-  font-family: inherit;
 }
 
 .profile-country.Select--single > .Select-control .Select-value, .profile-country .Select-placeholder,
@@ -3793,6 +4281,10 @@ input[value="F"] {
 
 .panel-group .button-holder {
 	padding-left: 30px;
+}
+
+.profile .message.error {
+	margin-left: -15px;
 }
 
 
@@ -4000,7 +4492,7 @@ footer.app-copy .bottom a {
 	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
-	
+
 	.desktop .flight-direction .area {
 		width: 180px;
 	}
@@ -4065,7 +4557,7 @@ footer.app-copy .bottom a {
 		margin-left: 3%;
     margin-right: 3%;
 	}
-	
+
 }
 
 
@@ -4085,18 +4577,38 @@ footer.app-copy .bottom a {
 	.touch .booking .notable-area .refundable  {
 		margin-left: 12%;
 	}
-	
+
 	.meri-speaks .bubble {
 		padding: 12px 40px 12px 80px;
 	}
-	
+
 }
 
 /* android */
 @media (max-width: 360px) {
-	
-	
-	
+
+	.searchnav .dropbutton {
+		padding-top: 12px;
+		padding-bottom: 15px;
+	}
+
+	.searchform .flight-direction {
+		padding-bottom: 20px;
+	}
+
+	.open-calendar {
+		padding-top: 18px;
+		padding-bottom: 5px;
+	}
+
+	.open-calendar .the-date {
+		line-height: 45px;
+	}
+
+	.open-calendar .the-date {
+		font-size: 30px;
+	}
+
 }
 
 @media (min-width: 351px) {
@@ -4139,19 +4651,19 @@ footer.app-copy .bottom a {
 	.navbar-toggle .icon-bar {
 		width: 10px;
 	}
-	
+
 	.searchnav {
 		padding-top: 0;
 	}
-	
+
 	.searchform .flight-direction {
 		padding-top: 0px;
 	}
-	
+
 	.touch .search-buttons {
 		margin-top: 35px;
 	}
-	
+
 	.dropmenu.passenger-chooser {
 		right: -5px;
 	}
@@ -4160,34 +4672,41 @@ footer.app-copy .bottom a {
 		padding-top: 0;
 		padding-bottom: 10px;
 	}
-	
+
 	.touch .search.buttons {
 		bottom: 5px;
 	}
-	
+
 	.big-button,
 	.big-button.secondary {
 		padding-left: 20px;
 		padding-right: 20px;
 	}
-	
+
 	.search.buttons .meri-wrapper {
 		height: 88px;
 	}
-	
+
 	.search.buttons .meri-speaks {
 		max-width: 300px;
 		left: calc(50% - 150px);
 	}
-	
+
 	.meri-speaks .bubble {
 		font-size: 13px;
 		padding-left: 70px;
 		background-size: 50px;
 	}
-	
+
 	.multi-city-coming-soon {
 		height: 126px;
+	}
+
+	.booking.confirming .card {
+		margin-right: -8px;
+		margin-left: -15px;
+		padding-left: 12px;
+		padding-right: 12px;
 	}
 
 }
@@ -4226,15 +4745,15 @@ footer.app-copy .bottom a {
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
-	
+
 	.touch .searchnav {
 		padding-top: 0;
 	}
-	
+
 	.touch .searchnav .dropbutton {
 		padding-top: 10px;
 	}
-	
+
 	.touch .searchform .flight-direction {
 		padding-bottom: 10px;
 		display: flex;
@@ -4269,7 +4788,7 @@ footer.app-copy .bottom a {
 		letter-spacing: 0;
 		padding-top: 0;
 	}
-	
+
 	.search.buttons .meri-wrapper.remove {
 		margin-top: 5px;
 		height: 1px;
@@ -4284,7 +4803,7 @@ footer.app-copy .bottom a {
 		position: relative;
 			top: 5px;
 	}
-	
+
 	.touch .search-buttons {
 		margin-top: 0px;
 	}
@@ -4481,6 +5000,78 @@ nav {
 	-webkit-flex-shrink: 0;
 }
 
+/* safari */
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0)
+{
+	@media {
+
+		.text-holder[class*="Date"]:before {
+			content: 'mm/dd/yyyy';
+			color: #a2a2a2;
+			display: inline-block;
+			position: absolute;
+				top: 8px;
+				right: 12px;
+		}
+
+	 .text-holder[class*="Date"].has-error:before {
+			color: #ed2741 !important;
+		}
+
+		.booking input:focus,
+		.booking select:focus {
+			border: 2px solid #00b5ff;
+			box-shadow: none;
+			outline: 0px solid transparent !important;
+		}
+
+		.booking .text-holder .LastName:focus,
+		.booking .text-holder input[class*="LastName"]:focus,
+		.booking .text-holder input[class*="phone"]:focus,
+		.booking .textfield.Address1:focus,
+		.booking .textfield.City:focus,
+		.booking .passengers-wrapper:focus,
+		.booking .text-holder input[class*="LastName"]:focus,
+		.booking .text-holder input[class*="DateOfBirth"]:focus,
+		.booking .radio-holder:focus,
+		.booking .dropmenu.State:focus,
+		.booking .text-holder .ExpiryDate:focus,
+		.booking .text-holder.ZipCode .textfield:focus,
+		.booking .text-holder.CVV .textfield:focus {
+			border-top-width: 2px;
+			padding-top: 6px;
+			padding-bottom: 7px;
+			padding-left: 7px;
+		}
+
+		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+			padding-top: 7px;
+		}
+
+		.booking input.FirstName:focus,
+		.booking input.Address1:focus,
+		.booking input.City:focus,
+		.booking input.CardNumber:focus,
+		.booking select.Country:focus,
+		.booking .text-holder input[class*="FirstName"]:focus,
+		.booking .text-holder input[class*="DateOfBirth"]:focus,
+		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+			margin-bottom: 0px;
+		}
+
+		.booking .dropmenu.State:focus,
+		.booking .text-holder .ExpiryDate:focus {
+			border-right-width: 2px;
+		}
+
+		.booking .text-holder.ZipCode .textfield:focus,
+		.booking .text-holder.CVV .textfield:focus {
+			border-left-width: 2px;
+		}
+
+	}
+}
+
 /* firefox rendering font too thin */
 @-moz-document url-prefix() {
 	body {
@@ -4489,6 +5080,83 @@ nav {
 
 	.desktop .tt-menu {
 		margin-top: 65px;
+	}
+
+	.seat-class .dropbutton {
+		margin-right: 20px;
+		margin-left: 20px;
+	}
+
+	.text-holder[class*="Date"]:before {
+			content: 'mm/dd/yyyy';
+			color: #a2a2a2;
+			display: inline-block;
+			position: absolute;
+				top: 8px;
+				right: 12px;
+		}
+
+	 .text-holder[class*="Date"].has-error:before {
+			color: #ed2741 !important;
+		}
+
+	/* exact copy of Safari form element adjustments */
+
+	select,
+	select:focus {
+		height: 37px;
+		background-color: transparent;
+	}
+
+	.booking input:focus,
+	.booking select:focus {
+		border: 2px solid #00b5ff;
+		box-shadow: none;
+		outline: 0px solid transparent !important;
+	}
+
+	.booking .text-holder .LastName:focus,
+	.booking .text-holder input[class*="LastName"]:focus,
+	.booking .text-holder input[class*="phone"]:focus,
+	.booking .textfield.Address1:focus,
+	.booking .textfield.City:focus,
+	.booking .passengers-wrapper:focus,
+	.booking .text-holder input[class*="LastName"]:focus,
+	.booking .text-holder input[class*="DateOfBirth"]:focus,
+	.booking .radio-holder:focus,
+	.booking .dropmenu.State:focus,
+	.booking .text-holder .ExpiryDate:focus,
+	.booking .text-holder.ZipCode .textfield:focus,
+	.booking .text-holder.CVV .textfield:focus {
+		border-top-width: 2px;
+		padding-top: 6px;
+		padding-bottom: 7px;
+		padding-left: 7px;
+	}
+
+	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+		padding-top: 7px;
+	}
+
+	.booking input.FirstName:focus,
+	.booking input.Address1:focus,
+	.booking input.City:focus,
+	.booking input.CardNumber:focus,
+	.booking select.Country:focus,
+	.booking .text-holder input[class*="FirstName"]:focus,
+	.booking .text-holder input[class*="DateOfBirth"]:focus,
+	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+		margin-bottom: 0px;
+	}
+
+	.booking .dropmenu.State:focus,
+	.booking .text-holder .ExpiryDate:focus {
+		border-right-width: 2px;
+	}
+
+	.booking .text-holder.ZipCode .textfield:focus,
+	.booking .text-holder.CVV .textfield:focus {
+		border-left-width: 2px;
 	}
 
 }
@@ -4548,6 +5216,87 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
+}
+
+html[data-useragent*='Trident'] input {
+	line-height: 1em;
+}
+
+html[data-useragent*='Trident'] input[type=radio] {
+	border-color: transparent;
+}
+
+html[data-useragent*='Trident'] select,
+html[data-useragent*='Trident']	select:focus {
+		max-height: 38px;
+}
+
+html[data-useragent*='Trident'] .text-holder[class*="Date"]:before {
+	content: 'mm/dd/yyyy';
+	color: #a2a2a2;
+	display: inline-block;
+	position: absolute;
+		top: 8px;
+		right: 12px;
+}
+
+html[data-useragent*='Trident'] .text-holder[class*="Date"].has-error:before {
+	color: #ed2741 !important;
+}
+
+/* most are exact copies of Safari form adjustments */
+
+html[data-useragent*='Trident'] select,
+html[data-useragent*='Trident']	select:focus,
+html[data-useragent*='Trident'] .booking .text-holder .ZipCode {
+		height: 38px !important;
+}
+
+html[data-useragent*='Trident'] .booking input:focus,
+html[data-useragent*='Trident'] .booking select:focus {
+	border: 2px solid #00b5ff;
+	box-shadow: none;
+	outline: 0px solid transparent !important;
+}
+
+html[data-useragent*='Trident'] .booking .text-holder .LastName:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="LastName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="phone"]:focus,
+html[data-useragent*='Trident'] .booking .textfield.Address1:focus,
+html[data-useragent*='Trident'] .booking .textfield.City:focus,
+html[data-useragent*='Trident'] .booking .passengers-wrapper:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="LastName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus,
+html[data-useragent*='Trident'] .booking .radio-holder:focus,
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus,
+html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus,
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus,
+html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
+	border-top-width: 2px;
+	padding-top: 6px;
+	padding-bottom: 7px;
+	padding-left: 7px;
+}
+
+html[data-useragent*='Trident'] .booking input.FirstName:focus,
+html[data-useragent*='Trident'] .booking input.Address1:focus,
+html[data-useragent*='Trident'] .booking input.City:focus,
+html[data-useragent*='Trident'] .booking input.CardNumber:focus,
+html[data-useragent*='Trident'] .booking select.Country:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="FirstName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus,
+html[data-useragent*='Trident'] .booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
+	margin-bottom: 0px;
+}
+
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus,
+html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus {
+	border-right-width: 2px;
+}
+
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus,
+html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
+	border-left-width: 2px;
 }
 
 

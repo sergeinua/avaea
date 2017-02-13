@@ -95,18 +95,18 @@ module.exports = {
         _30kparams.tgp.push(convertMilesProgramTo30kFormat(milesProgram));
       });
 
-      sails.log.info('Request to 30K api: ', JSON.stringify(_30kparams));
+      onvoya.log.verbose('Request to 30K api: ', JSON.stringify(_30kparams));
       ffmapi.get('milefy', apiUrl, 'POST', _30kparams, function (error, response, body) {
         if (error) {
-          sails.log.error('30K api', error);
+          onvoya.log.error('30K api', error);
           return callback(error, body);
         }
         var result = (typeof body == 'object') ? body : JSON.parse(body || '{}');
         if (result.Success == false) {
-          sails.log.error('30K api', body);
+          onvoya.log.error('30K api', body);
           return callback({msg: result.Status.Message}, body);
         }
-        sails.log.info('Response 30K api:', JSON.stringify(body));
+        onvoya.log.verbose('Response 30K api:', JSON.stringify(body));
         // return only one result
 
         var filteredResults = [];

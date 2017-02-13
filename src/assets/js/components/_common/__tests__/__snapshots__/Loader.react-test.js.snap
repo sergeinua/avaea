@@ -1,7 +1,10 @@
 exports[`test Loader component test 1`] = `
 <div
-  className="spinner-holder">
+  className="page-loader">
   <div
-    className="icon-spinner" />
+    className="spinner-holder">
+    <div
+      className="icon-spinner" />
+  </div>
 </div>
 `;

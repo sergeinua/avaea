@@ -13,10 +13,10 @@ installdev:
 	@NODE_ENV=development npm install -verbose
 
 rundev:
-	@NODE_ENV=development sails lift --dev --verbose
+	@NODE_ENV=development sails_email__instance_name=development1_1 sails lift --dev --verbose
 
 rundevlocalhost:
-	@NODE_ENV=localhost sails lift --localhost
+	@NODE_ENV=localhost sails_email__instance_name=localhost1_1 sails lift --localhost
 
 migratedevup:
 	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e dev

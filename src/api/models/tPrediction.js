@@ -21,7 +21,7 @@ module.exports = {
           return item;
         });
       } else {
-        sails.log.error('didnt find tiles prediction for uuid: ['+uuid+'] userId #'+userId);
+        onvoya.log.error('didnt find tiles prediction for uuid: ['+uuid+'] userId #'+userId);
       }
       Tile.tiles = tiles;
     });

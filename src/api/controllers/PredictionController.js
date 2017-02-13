@@ -80,7 +80,7 @@ module.exports = {
             User.publishCreate(userId);
           });
         } else {
-          sails.log.error('Something wrong. Can not find itinerary');
+          onvoya.log.error('Something wrong. Can not find itinerary');
         }
       });
     }
