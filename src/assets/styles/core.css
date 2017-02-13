@@ -1,5 +1,5 @@
 /* ---------------
-   onvoya core.css - ONV-940-child-booking
+   onvoya core.css - ONV-899-child-booking
 	 --------------- */
 
 /* syntax
@@ -1434,11 +1434,10 @@ form label.required:before,
 	background: #e5e5e5;
 }
 
+.meri-speaks .bubble,
 chrome {
 	background: #fafafa;
 }
- 
-
 
 
 /* social */
