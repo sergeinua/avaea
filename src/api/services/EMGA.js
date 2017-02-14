@@ -5,7 +5,7 @@ module.exports = {
     alpha = typeof alpha !== 'undefined' ? parseFloat(alpha) : sails.config.prediction.itineraries.alpha;
     var current = (typeof emga !== 'undefined' || parseFloat(emga) != 0.0) ? parseFloat(emga) : sails.config.prediction.itineraries.rankMin;
 
-    sails.log.silly({
+    onvoya.log.silly({
       module: 'EMGA',
       N: N,
       emga: emga,
@@ -14,12 +14,12 @@ module.exports = {
 
     if ( (alpha <= 0.0) || ( alpha >= 1.0 ) ) {
       //   1 - error: parameter alpha is not strictly between 0 and 1
-      sails.log.error('parameter alpha is not strictly between 0 and 1');
+      onvoya.log.error('parameter alpha is not strictly between 0 and 1');
       return sails.config.prediction.itineraries.rankMin;
     }
     if ( parseFloat(N) < 0.0) {
       //   2 - error: N is not positive. Return default
-      sails.log.error('N is not positive');
+      onvoya.log.error('N is not positive');
       return sails.config.prediction.itineraries.rankMin;
     }
     if ( parseFloat(N) == 0) {
@@ -28,7 +28,7 @@ module.exports = {
     }
     if ( current <= 0.0 ) {
       //   3 - error: the current value of EMGA is not positive. Return default
-      sails.log.error('the current value of EMGA is not positive ['+current+'] emga: ['+emga+']');
+      onvoya.log.error('the current value of EMGA is not positive ['+current+'] emga: ['+emga+']');
       return sails.config.prediction.itineraries.rankMin;
     }
 

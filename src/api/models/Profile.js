@@ -78,7 +78,7 @@ module.exports = {
     var qdefer = qpromice.defer();
     this.findOne({user:id}).exec(function (err, record) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else if (record) {
         qdefer.resolve(record.miles_programs);
@@ -94,7 +94,7 @@ module.exports = {
 
     this.findOne(criteria).exec(function (err, record) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(record);

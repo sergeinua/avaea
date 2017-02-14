@@ -357,7 +357,7 @@
   },
   {
     "name": "Delta",
-    "code": "DTA"
+    "code": "ESC"
   },
   {
     "name": "Mariposa",
@@ -489,7 +489,7 @@
   },
   {
     "name": "DC",
-    "code": "DCA"
+    "code": "WAS"
   },
   {
     "name": "Leningrad",

@@ -158,11 +158,11 @@ passport.connect = function (req, query, profile, next) {
                     .then(function (msgContent) {
                       Mailer.sendMail({to: user.email, subject: 'Welcome to OnVoya'}, msgContent)
                         .then(function () {
-                          sails.log.info('Mail was sent to '+ user.email);
+                          onvoya.log.info('Mail was sent to '+ user.email);
                         })
                     })
                     .catch(function (error) {
-                      sails.log.error(error);
+                      onvoya.log.error(error);
                     });
 
                   callback(null, user);
@@ -254,7 +254,7 @@ passport.connect = function (req, query, profile, next) {
         return next(null, result);
       } else {
         var _errstr = "Unknown result in the passport.connect";
-        sails.log.error(_errstr);
+        onvoya.log.error(_errstr);
         return next(new Error(_errstr));
       }
     }

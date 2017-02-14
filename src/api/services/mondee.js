@@ -78,17 +78,22 @@ class MondeeClient {
             });
           }
 
+          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future  
+          let paxContactInfo = {
+            PhoneNumber: (''+params['passengers[1].phone']).replace(/[\s+]/g, ''), // contains only digits
+            AlternatePhoneNumber: '',
+            DestinationPhoneNumber: '',
+            Email: params.user.email        // email from table User
+          };
+
           req.BookItineraryRequest = {
             ItineraryId: params.itineraryId,
             PaxDetails: paxDetails,
+            PaxContactInfo: paxContactInfo,
             // Optional fields, but may be need
             //MarkUp: {
             //  PaxType: params.PaxDetails.PaxType,
             //  Agent: 20 // unknown param
-            //},
-            //PaxContactInfo: {
-            //  PhoneNumber: "9888854785",
-            //  Email: "apibookingtest@gmail.com"
             //},
             PaymentDetails: {
               PaymentType: "CC",
@@ -102,7 +107,7 @@ class MondeeClient {
                 Name: params.FirstName+' '+params.LastName,
                 Address1: params.Address1,
                 City: params.City,
-                State: params.State,
+                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by 
                 Country: params.Country,
                 ZipCode: params.ZipCode
               }
@@ -111,6 +116,20 @@ class MondeeClient {
           return req;
         }
       },
+      ticketPnr:{
+        url: 'ticketPnr',
+        method: 'TicketPnr',
+        request: (req, params) => {
+          req.TicketPnrRequest = {
+            RecordLocator: params.pnr,
+            OtherInfo: {
+              RequestedIP: params.ip,
+              TransactionId: new Date().getTime()
+            }
+          };
+          return req;
+        }        
+      },      
       readEticket: {
         url: 'readEticket',
         method: 'ReadETicket',
@@ -170,11 +189,11 @@ class MondeeClient {
     utils.timeLog(op);
 
     let wsdlUrl = this.getWsdlUrl();
-    sails.log.info(op + ': (SOAP) Trying to connect to ' + wsdlUrl);
+    onvoya.log.info(op + ': (SOAP) Trying to connect to ' + wsdlUrl);
     soap.createClient(wsdlUrl, {endpoint: this.getEndPointUrl()}, (err, client) => {
 
       if (err) {
-        sails.log.error(op + ": (SOAP) An error occurs:\n" + err);
+        onvoya.log.error(op + ": (SOAP) An error occurs:\n" + err);
         return callback( err, null );
       } else {
         let req = this.getRequest(guid, params);
@@ -182,7 +201,7 @@ class MondeeClient {
           return callback( req, null );
         }
 
-        sails.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -190,7 +209,7 @@ class MondeeClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            sails.log.info(op + ' request time: %s, request=%s, response=%s', apiCallTimeHr, JSON.stringify(req), raw);
+            onvoya.log.verbose(op + ' request time: '+apiCallTimeHr+', request='+JSON.stringify(req)+', response=' + raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }
@@ -211,7 +230,7 @@ class MondeeClient {
             }
             _res = result[responseKey];
           } catch (e) {
-            sails.log.error(op + ": " + e);
+            onvoya.log.error(op + ": " + e);
             _err = e;
           }
           return callback(_err, _res);
@@ -238,9 +257,9 @@ class Mapper {
       return doneCb(null, this.mapItinerary(itinerary));
     }, (err, resArr) => {
       if ( err ) {
-        sails.log.error( err );
+        onvoya.log.error( err );
       }
-      sails.log.info(serviceName + ': Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr(serviceName + '_prepare_result'));
+      onvoya.log.info(serviceName + ': Map result data ('+resArr.length+' itineraries) to our structure time: ' + utils.timeLogGetHr(serviceName + '_prepare_result'));
       return callback( null, resArr );
     });
 
@@ -473,10 +492,10 @@ module.exports = {
       _api_name = serviceName + '.' + api;
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = (err, result) => {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return callback(err, result);
     };
 
@@ -522,13 +541,89 @@ module.exports = {
       api = 'flightBooking',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-      return callback(err, result || {});
+      
+      sails.log(result);
+      sails.log.error(err);
+      
+      let bookingResult = result;
+       
+      if(!err){ // do request ticket PNR
+        
+        let attempt = 0; // count of attempts of TicketPNR requests 
+        
+        let doTicketPNR = function(){
+          let api = 'ticketPnr', 
+            _api_name = serviceName + '.' + api;
+
+          sails.log.info(_api_name + ' started');
+
+          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);          
+        };
+        
+        let calbackTicketPNR = function(err, result){
+          // return result = { Remarks:
+          //   [ { StatusCode: 'WA',
+          //       MessageNumber: 'TI004',
+          //       MessageText: 'CREDIT CARD DENIAL' } ] }          
+          // or err = Getting error while ticket the pnr, please try again        
+          
+          //Status Code: INFO (Successful Ticketing)
+          //Message: 
+            // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
+
+          //Status Code: WA  (Failure Ticketing)
+          //Messages: 
+            // TICKETING PROCESS FAILED
+            // CREDIT CARD DENIAL
+            // ERROR IDENTIFYING PNR INFO
+            // ERROR IDENTIFYING FOP IN THE PNR
+
+          if(!err && result && result.Remarks){
+            for(let i in result.Remarks){
+              let remark = result.Remarks[i];
+              if(remark.StatusCode === 'WA'){
+                err = remark.MessageText;                
+                break;
+              }
+            }
+          }
+
+          sails.log(result);
+          sails.log.error(err);          
+          
+          if(err && attempt < 3){ // max count of attemts is 3
+            attempt ++;
+            sails.log('....... waiting '+3*attempt+' seconds time: '+new Date());
+            setTimeout(doTicketPNR, 3*1000*attempt);
+          }else{
+            return callback(err, bookingResult || {});
+          }
+        };
+        
+        return doTicketPNR();
+     
+      }else{
+        return callback(err, bookingResult);
+      }
     });
   },
-
+  ticketPnr:{
+    url: 'ticketPnr',
+    method: 'TicketPnr',
+    request: (req, params) => {
+      req.TicketPnrRequest = {
+        RecordLocator: params.pnr,
+        OtherInfo: {
+          RequestedIP: params.ip,
+          TransactionId: new Date().getTime()
+        }
+      };
+      return req;
+    }        
+  },
   /**
    * Read e-ticker after booking
    *
@@ -541,17 +636,11 @@ module.exports = {
       api = 'readEticket',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-      if (err) {
-        // Temporary fake - return reference_number as e-ticket number. Because this action does not work on the mondee side at this moment
-        err = null;
-        result = {
-          ETicketNumber: params.reference_number
-        };
-      }
-      return callback(err, result.ETicketNumber || '');
+      let eTicketNumber = (result && result.ETicketNumber)? result.ETicketNumber: '';
+      return callback(err, eTicketNumber);
     });
   },
 
@@ -567,7 +656,7 @@ module.exports = {
       api = 'cancelPnr',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       return callback(err, result || {});
@@ -579,7 +668,7 @@ module.exports = {
       api = 'fareRules',
       _api_name = serviceName + '.' + api;
 
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       return callback(err, result || null);
