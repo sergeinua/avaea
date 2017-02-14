@@ -78,9 +78,9 @@ class MondeeClient {
             });
           }
 
-          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future  
+          // params.passengers[0].Phone is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
-            PhoneNumber: (''+params['passengers[1].phone']).replace(/[\s+]/g, ''), // contains only digits
+            PhoneNumber: (''+params.passengers[0].Phone).replace(/[\s+]/g, ''), // contains only digits
             AlternatePhoneNumber: '',
             DestinationPhoneNumber: '',
             Email: params.user.email        // email from table User
@@ -107,7 +107,7 @@ class MondeeClient {
                 Name: params.FirstName+' '+params.LastName,
                 Address1: params.Address1,
                 City: params.City,
-                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by 
+                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by
                 Country: params.Country,
                 ZipCode: params.ZipCode
               }
@@ -128,8 +128,8 @@ class MondeeClient {
             }
           };
           return req;
-        }        
-      },      
+        }
+      },
       readEticket: {
         url: 'readEticket',
         method: 'ReadETicket',
@@ -544,38 +544,38 @@ module.exports = {
     sails.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-      
+
       sails.log(result);
       sails.log.error(err);
-      
+
       let bookingResult = result;
-       
+
       if(!err){ // do request ticket PNR
-        
-        let attempt = 0; // count of attempts of TicketPNR requests 
-        
+
+        let attempt = 0; // count of attempts of TicketPNR requests
+
         let doTicketPNR = function(){
-          let api = 'ticketPnr', 
+          let api = 'ticketPnr',
             _api_name = serviceName + '.' + api;
 
           sails.log.info(_api_name + ' started');
 
-          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);          
+          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
-        
+
         let calbackTicketPNR = function(err, result){
           // return result = { Remarks:
           //   [ { StatusCode: 'WA',
           //       MessageNumber: 'TI004',
-          //       MessageText: 'CREDIT CARD DENIAL' } ] }          
-          // or err = Getting error while ticket the pnr, please try again        
-          
+          //       MessageText: 'CREDIT CARD DENIAL' } ] }
+          // or err = Getting error while ticket the pnr, please try again
+
           //Status Code: INFO (Successful Ticketing)
-          //Message: 
+          //Message:
             // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
 
           //Status Code: WA  (Failure Ticketing)
-          //Messages: 
+          //Messages:
             // TICKETING PROCESS FAILED
             // CREDIT CARD DENIAL
             // ERROR IDENTIFYING PNR INFO
@@ -585,15 +585,15 @@ module.exports = {
             for(let i in result.Remarks){
               let remark = result.Remarks[i];
               if(remark.StatusCode === 'WA'){
-                err = remark.MessageText;                
+                err = remark.MessageText;
                 break;
               }
             }
           }
 
           sails.log(result);
-          sails.log.error(err);          
-          
+          sails.log.error(err);
+
           if(err && attempt < 3){ // max count of attemts is 3
             attempt ++;
             sails.log('....... waiting '+3*attempt+' seconds time: '+new Date());
@@ -602,28 +602,17 @@ module.exports = {
             return callback(err, bookingResult || {});
           }
         };
-        
+
         return doTicketPNR();
-     
+
       }else{
         return callback(err, bookingResult);
       }
     });
   },
-  ticketPnr:{
-    url: 'ticketPnr',
-    method: 'TicketPnr',
-    request: (req, params) => {
-      req.TicketPnrRequest = {
-        RecordLocator: params.pnr,
-        OtherInfo: {
-          RequestedIP: params.ip,
-          TransactionId: new Date().getTime()
-        }
-      };
-      return req;
-    }        
-  },
+  // ticketPnr:  function(guid, params, callback) {
+  //
+  // },
   /**
    * Read e-ticker after booking
    *
