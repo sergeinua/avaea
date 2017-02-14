@@ -16,7 +16,7 @@ Googleapis.prototype.run = function( argv, asyncsCounter, airports ) {
     var quota_exceeded = false;
     for( var iata_3code in airports ) {
 	var data = airports[iata_3code];
-	if( data.country=='United States' ) {
+	if( true || data.country=='United States' ) {
 	    var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' +
 		data.latitude + ',' + data.longitude +
 		'&key=AIzaSyASMByFEx-M1HAtPIRchtC7YxmD5_Cc-VU';
