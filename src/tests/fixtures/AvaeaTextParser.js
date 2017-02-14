@@ -1106,7 +1106,7 @@ function get_avaea_parser_tests() {
                             "SFO",
                             "JFK",
                             get_future_date(2,14), // Feb 14
-                            get_date_of_next_weekday(get_future_date(2,15),"monday"), // third Monday in Feb
+                            get_date_of_next_weekday(get_future_date(2,15,get_future_date(2,14)),"monday"), // third Monday in Feb
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Purim, back on St. Patrick's Day",
                             "SFO",

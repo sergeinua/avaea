@@ -90,7 +90,8 @@ let OrderPanel = React.createClass({
         FirstName: this.props.orderData.fieldsData["passengers["+i+"].FirstName"],
         LastName: this.props.orderData.fieldsData["passengers["+i+"].LastName"],
         Gender: this.props.orderData.fieldsData["passengers["+i+"].Gender"],
-        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"]
+        DateOfBirth: this.props.orderData.fieldsData["passengers["+i+"].DateOfBirth"],
+        Phone: this.props.orderData.fieldsData["passengers["+i+"].Phone"] || ''
       });
     }
     fieldsData.passengers = passengers;
@@ -215,7 +216,7 @@ let OrderPanel = React.createClass({
         maxlength: 10
       };
       if (i == 1) {
-        validationRules.rules["passengers["+i+"].phone"] = {
+        validationRules.rules["passengers["+i+"].Phone"] = {
           requiredPhone: true
         };
       }

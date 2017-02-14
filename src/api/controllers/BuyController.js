@@ -194,6 +194,7 @@ module.exports = {
 
         req.session.time_log = [];
         reqParamsApi.session = reqParams.session = req.session;
+        reqParamsApi.ip = req.ip;        
 
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
