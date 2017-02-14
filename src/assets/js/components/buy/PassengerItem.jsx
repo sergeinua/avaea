@@ -8,7 +8,7 @@ let PassengerItem = React.createClass({
 
   render() {
     const phone = (this.props.orderData && this.props.orderData.fieldsData)
-      ? this.props.orderData.fieldsData['passengers[' + this.props.index + '].Phone']:'';
+      ? this.props.orderData.fieldsData['passengers[' + this.props.index + '].phone']:'';
     let lapRadioStructure = {};
     let genderStructure = {};
 
@@ -51,7 +51,7 @@ let PassengerItem = React.createClass({
         }
         {this.props.index == 1 ?
           <OrderPanelElement item={{
-            id: 'passengers[' + this.props.index + '].Phone',
+            id: 'passengers[' + this.props.index + '].phone',
             required: true,
             title: 'Phone',
             placeholder: '+1 123 555 6789',
@@ -71,7 +71,7 @@ const mapDispatchPassengerItem = (dispatch, ownProps) => {
       dispatch(actionSetOrderFieldVal('passengers[1].LastName', ownProps.orderData.fieldsData.LastName));
       dispatch(actionSetOrderFieldVal('passengers[1].Gender', ownProps.orderData.fieldsData.Gender));
       dispatch(actionSetOrderFieldVal('passengers[1].DateOfBirth', ownProps.orderData.fieldsData.DateOfBirth));
-      dispatch(actionSetOrderFieldVal('passengers[1].Phone', ownProps.orderData.fieldsData.Phone));
+      dispatch(actionSetOrderFieldVal('passengers[1].phone', ownProps.orderData.fieldsData.Phone));
     },
   }
 };
