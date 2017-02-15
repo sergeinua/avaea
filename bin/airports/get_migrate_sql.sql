@@ -1,7 +1,22 @@
 /* 
-use with --tuples-only option 
-COPY(...) TO STDOUT does not work well because of the quotes
-TODO: change the script to insert NEW records from the new table
+If you run script ./airports.js with parameter --table then the script will produce this new table of airports 
+based on the contents of different public airport databases, Wikipedia and plus a few hardcoded information 
+such as "marketing destinations", see https://avaeaeng.atlassian.net/browse/ONV-1066
+
+So a question arises how to apply this new information to the existing airports table. You cannot just replace
+the old airports table with the new one because the old airports table might contain "on the flight" changes
+that the new airports table just do not have. 
+
+One way to do this is to run an sophisticatdd SQL query that updates old table of airports with the information
+in the new airports table but only if is makes sure that the information in the new table is not NULL. Below
+is such a query. The output of this query can make the contents of the database "up migration" scripts.
+
+A couple of notes:
+1/ when you run this query with psl command, please use psql --tuples-only option. This is because 
+   using COPY (...) tp STDOUT escapes more than it should and it does not really work. This is why you
+   should just use the output of straight SELECT
+2/ The query needs to be improved to insert into old airports table records from new airports table for 
+   iata_3codes that do not yet exist in the old airports table
 */ 
 SELECT
    'UPDATE airports SET iata_3code=iata_3code '||
