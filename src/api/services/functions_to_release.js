@@ -1368,6 +1368,8 @@ module.exports = {
         // append explanations as to why each particular itin is recommended
         this.append_explanation_to_ranked_itins(itins);
 
+        this.print_many_itineraries(itins);
+
         // keep only the best half of itins, if needed
         if (snowflake.top_flights_only) {
           var full_length = itins.length;
@@ -1377,6 +1379,9 @@ module.exports = {
         } else {
           onvoya.log.info("Returning the full set of flights (" + itins.length + " itins)");
         }
+
+        //onvoya.log.info("User profile:");
+        //onvoya.log.info(snowflake.profile);
 
         return;
 
