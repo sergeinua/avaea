@@ -1324,7 +1324,7 @@ module.exports = {
 
     }, // end of function append_1D_airline_rank2
 
-    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake, preferred_airlines)
+    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake)
     {
         if (itins.length == 0) return; // If empty, then nothing to rank
         if (itins.length == 1) { // If just one itinerary, then ranking is easy
@@ -1332,6 +1332,12 @@ module.exports = {
           itins[0].why_this = 'the cheapest, the shortest, the best trade-off';
           return;
         }
+
+        var preferred_airlines = '';
+        if ( !( snowflake === undefined ) )
+          if ( !( snowflake.profile === undefined ) )
+            if ( !( snowflake.profile.preferred_airlines_iata === undefined ) )
+              preferred_airlines = snowflake.profile.preferred_airlines_iata;
 
         // if price_preference < duration_preference, then low price is more important than low duration
         if ( snowflake.preference.price    === undefined ) { snowflake.preference.price    = 1.0; } // default value is 1
@@ -1379,9 +1385,6 @@ module.exports = {
         } else {
           onvoya.log.info("Returning the full set of flights (" + itins.length + " itins)");
         }
-
-        //onvoya.log.info("User profile:");
-        //onvoya.log.info(snowflake.profile);
 
         return;
 

@@ -125,16 +125,15 @@ module.exports = {
             });
         })
         .then(function (iata2codes) {
+          profileFoundAsync.preferred_airlines_iata = iata2codes;
           Tile.profileFoundAsync = profileFoundAsync;
-          Tile.userPreferredAirlines = iata2codes;
-          onvoya.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
         })
         .catch(function (error) {
-          Tile.userPreferredAirlines = [];
+          Tile.profileFoundAsync = [];
           onvoya.log.info("Error was occurred. Preferred airlines not found: ");
         });
     } else {
-      Tile.userPreferredAirlines = [];
+      Tile.profileFoundAsync = [];
     }
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
