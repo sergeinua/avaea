@@ -623,9 +623,8 @@ module.exports = {
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
       break;
-<<<<<<< HEAD
     case 7: // number of itineraries can change
-      sails.log.info('Ranking Scenario 7:');
+      onvoya.log.info('Ranking Scenario 7:');
 
       // assemble the crude snowflake
       var snowflake = {
@@ -635,22 +634,6 @@ module.exports = {
                        airline  : 20  // least important
                      },
         top_flights_only : false // return  full un-prunned set of itins
-=======
-    case 7: // number of itineraries stays the same
-      onvoya.log.info('Scenario 7:');
-      var temp_itins;
-      if ( Tile.userPreferredAirlines.length == 0 ) {
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 20, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
-      } else {
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 6, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
-      }
-
-      // append the default zero smartRank
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
->>>>>>> remotes/origin/master
       }
       if (!_.isUndefined(snowflake.profile)) { // if profile is present
         if (snowflake.profile != null) { // and is non-empty
@@ -666,33 +649,17 @@ module.exports = {
       // it would only keep the best half of itins, if top_flights_only == true
       cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, Tile.userPreferredAirlines);
 
-      //sails.log.info("User profile:");
-      //sails.log.info(snowflake.profile);
+      //onvoya.log.info("User profile:");
+      //onvoya.log.info(snowflake.profile);
 
       break;
     default:
       // do nothing
       break;
     }
-<<<<<<< HEAD
     cicstanford.print_many_itineraries(itineraries);
-=======
-    //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
-      onvoya.log.info('params.topSearchOnly', params.topSearchOnly);
-      itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
-      var tmp = [];
-      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-        tmp.push(itineraries[i]);
-      }
-      onvoya.log.info('before DEMO-285', itineraries.length);
-      itineraries = tmp;
-      onvoya.log.info('after DEMO-285', itineraries.length);
-    }
-    // cicstanford.print_many_itineraries(itineraries);
->>>>>>> remotes/origin/master
 
-    onvoya.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
+    onvoya.log.info('Smart Ranking time: ' + utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
 

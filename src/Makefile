@@ -33,6 +33,9 @@ test-integration-localhost:
 test-unit:
 	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/**/*.test.js
 
+test-cc:
+	./node_modules/.bin/mocha ./tests/bootstrap.unit.test.js ./tests/unit/models/Tile.test.js
+
 test-jest-snapshot:
 	./node_modules/.bin/jest
 
