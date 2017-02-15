@@ -5,7 +5,7 @@ describe('VoiceController', function() {
   this.timeout(5000);
   describe('#parse()', function() {
     _TESTS.forEach(function( t ) {
-      it(_TESTS[0].query, function (done) {
+      it(t.query, function (done) {
 	request(sails.hooks.http.app)
 	  .post('/voice/parse')
 	  .set('Accept', 'application/json')
