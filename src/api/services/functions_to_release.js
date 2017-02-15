@@ -101,23 +101,23 @@ module.exports = {
         var AL = itins.map(function(it){return it.air_line}); // extract all the airlines into a separate array
         if (light_output)
         {
-          onvoya.log.debug("Decoded airlines in the original order :");
-          onvoya.log.debug(AL);
+            onvoya.log.info("Decoded airlines in the original order :");
+            onvoya.log.info(AL);
         }
 
         var AL_counts = {};
         AL.forEach(function(x) { AL_counts[x] = (AL_counts[x] || 0)+1; });
         if (light_output)
         {
-          onvoya.log.debug("Their repetitions :");
-          onvoya.log.debug(AL_counts);
+            onvoya.log.info("Their repetitions :");
+            onvoya.log.info(AL_counts);
         }
 
         var AL_counts_keysSorted = Object.keys(AL_counts).sort(function(a,b){return AL_counts[b]-AL_counts[a]});
         if (light_output)
         {
-          onvoya.log.debug("Airlines sorted by popularity:");
-          onvoya.log.debug(AL_counts_keysSorted); // array of 2-letter airline name strings, sorted by popularity
+            onvoya.log.info("Airlines sorted by popularity:");
+            onvoya.log.info(AL_counts_keysSorted); // array of 2-letter airline name strings, sorted by popularity
         }
 
         // Now loop through AL_counts_keysSorted and take 1 airline from each key at a time (and decrease counts) until all the counts are zero.
@@ -142,26 +142,36 @@ module.exports = {
 
         if (light_output)
         {
-          onvoya.log.debug("Preferred airline indices :");
-          onvoya.log.debug(preferred_airline_indices);
+            onvoya.log.info("Preferred airline indices :");
+            onvoya.log.info(preferred_airline_indices);
 
-          onvoya.log.debug("Preferred airlines :");
-          temp=[];
-          for (var i=0; i<array_of_departures.length; i++) {
-            temp[i] = itins[preferred_airline_indices[i]].air_line;
-          }
-          onvoya.log.debug(temp);
+            onvoya.log.info("Preferred airlines :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = itins[preferred_airline_indices[i]].air_line; }; onvoya.log.info(temp);
+            onvoya.log.info();
         }
 
         return preferred_airline_indices;
     }, // end of function determine_airline_preferences
 
-    print_one_itinerary: function (prefix,itin)
+    num2str: function(number,width) // prepend the number with leading spaces up to a required width
     {
-        if (itin === undefined) return; // If undefined, then nothing needs to be done
+      if (width === undefined) return number;
+      return (Array(width).join(" ") + number).slice(-width);
+    }, // end of function num2str
+
+    number_of_digits: function(number) // compute the number of digits in an integer part of a number
+    {
+      return Math.log(Math.floor(number)) * Math.LOG10E + 1 | 0; // for positive numbers
+    }, // end of function number_of_digits
+
+    one_itin_to_string: function (prefix,itin,price_digits)
+    // price_digits --- number of digits in the rounded-down price.
+    {
+        if (itin === undefined) return ''; // If undefined, then return empty sting
 
         var d = this.parseTime(itin.citypairs[0].from.time);
 
+        var price_str      = "$" + this.num2str(Number(itin.price).toFixed(2),price_digits+3);
         var priceRank_str  = (itin.priceRank      ===undefined)?(""):(" (" + itin.priceRank.toFixed(10) + ")" );
         var miles_str      = (itin.miles          ===undefined)?(""):(", earning " + itin.miles + " mi" );
         var dep_rank_str   = (itin.best_dep_rank  ===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
@@ -171,51 +181,45 @@ module.exports = {
         var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
         var why_this_str   = (itin.why_this       ===undefined)?(""):(", " + itin.why_this );
 
-      onvoya.log.debug( prefix + "$" + Number(itin.price).toFixed(2) + priceRank_str + miles_str
-                            + ", " + itin.durationMinutes + " mins"
-                            + ", departs " + itin.citypairs[0].from.time
-                            //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
-                            + " (" + itin.depatureMinutes + " mins)"
-                            + dep_rank_str
-                            + air_line_str
-                            + airl_rank_str
-                            + airl_rank2_str
-                            + smartRank_str
-                            + why_this_str
-                   );
-    }, // end of function print_one_itinerary
+        return ( prefix + price_str + priceRank_str + miles_str
+                        + ", " + itin.durationMinutes + " mins"
+                        + ", departs " + itin.citypairs[0].from.time
+                        //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
+                        + " (" + itin.depatureMinutes + " mins)"
+                        + dep_rank_str
+                        + air_line_str
+                        + airl_rank_str
+                        + airl_rank2_str
+                        + smartRank_str
+                        + why_this_str
+               );
+    }, // end of function one_itin_to_string
+
+    many_itins_to_string: function (itins)
+    {
+        if (itins.length == 0) return "No itineraries";
+        if (itins.length == 1) return this.one_itin_to_string("Itinerary : ", itins[0]);
+        var result = "";
+        var N = this.number_of_digits(itins.length);
+        var P = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return +it.price; }))); // convert string to float
+
+        for(var i=0; i < itins.length; i++) {
+          result += ("\n" + this.one_itin_to_string("Itinerary " + this.num2str(i,N) + " of " + itins.length + ": ", itins[i], P));
+        }
+        return result;
+    }, // end of function many_itins_to_string
 
     print_many_itineraries: function (itins)
     {
-        if (itins.length == 0) {
-          onvoya.log.debug("No itineraries");
-        }
-        if (itins.length == 1) {
-          this.print_one_itinerary("Itinerary : ", itins[0]);
-        }
-        if (itins.length > 1)
-        {
-            for (var i=0; i<10; i++) {
-              this.print_one_itinerary("Itinerary   " + i + " of " + itins.length + ": ", itins[i]);
-            }
-            for (var i=10; i<100; i++) {
-              this.print_one_itinerary("Itinerary  " + i + " of " + itins.length + ": ", itins[i]);
-            }
-            for (var i=100; i<itins.length; i++) {
-              this.print_one_itinerary("Itinerary " + i + " of " + itins.length + ": ", itins[i]);
-            }
-        }
+        onvoya.log.info(this.many_itins_to_string(itins));
     }, // end of function print_many_itineraries
 
     compare_price: function (a, b) // price is a string
     {
         var a_price = +a.price; // convert string to float
         var b_price = +b.price; // convert string to float
-        if (a_price > b_price) {
-          return 1;
-        } else if (a_price < b_price) {
-          return -1;
-        }
+        if (a_price > b_price) return  1;
+        if (a_price < b_price) return -1;
         return 0;
     }, // end of function compare_price
 
@@ -687,8 +691,8 @@ module.exports = {
 
         if ( price_preference==0 && duration_preference==0) return itins;
 
-        var Median_price    = this.median_in_price     (itins) + 1; //onvoya.log.debug("Median_price = "    + Median_price);
-        var Median_duration = this.median_in_duration  (itins) + 1; //onvoya.log.debug("Median_duration = " + Median_duration);
+        var Median_price    = this.median_in_price     (itins) + 1; //onvoya.log.info("Median_price = "    + Median_price);
+        var Median_duration = this.median_in_duration  (itins) + 1; //onvoya.log.info("Median_duration = " + Median_duration);
 
         return _.clone(itins,true) // make a copy
                 .sort(this.compare_in_2D_by_linear_combination(price_preference/Median_duration,duration_preference/Median_price) ); // sort in 2D by linear combination of price and duration
@@ -730,12 +734,12 @@ module.exports = {
         if (data.length == 1) return [0]; // If one element, then nothing to do
         if (data.length == 2) return [0,1]; // If two elements, then nothing to do
 
-        //onvoya.log.debug("data length = " + data.length);
+        //onvoya.log.info("data length = " + data.length);
 
         var data_loc = _.clone(data,true) // make a copy
                         .sort(function(a, b){return a-b});
 
-        //onvoya.log.debug("data_loc length = "+ data_loc.length);
+        //onvoya.log.info("data_loc length = "+ data_loc.length);
 
         if (axis_start > data[0] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
         if (axis_end   < data[data.length-1] ) return data; // ERROR: the interval [axis_start,axis_end] does not contain all the data
@@ -824,9 +828,7 @@ module.exports = {
         if (itins.length == 0) return itins; // If empty, then nothing to prune
         if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
-        if (light_output) {
-          onvoya.log.debug("================  Output from prune_itineraries_in_3D(..)  ================");
-        }
+        if (light_output) onvoya.log.info("================  Output from prune_itineraries_in_3D(..)  ================");
 
         // Find the index of the cheapest itinerary
         var cheapest_idx = this.find_the_cheapest_itinerary(itins);
@@ -838,20 +840,20 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-          onvoya.log.debug("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
-          onvoya.log.debug(array_of_departures);
+            onvoya.log.info("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
+            onvoya.log.info(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-          onvoya.log.debug("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
-          onvoya.log.debug(array_of_departures);
+            onvoya.log.info("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
+            onvoya.log.info(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-          onvoya.log.debug("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
-          onvoya.log.debug(preferred_departures_indices);
+            onvoya.log.info("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
+            onvoya.log.info(preferred_departures_indices);
         }
         var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
@@ -860,19 +862,21 @@ module.exports = {
 
         if (light_output)
         {
-            onvoya.log.debug("Decoded departures in minutes, sorted by departure preference :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; onvoya.log.debug(temp);
-            onvoya.log.debug("Indices of the above departures into the original itinerary array :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; onvoya.log.debug(temp);
+            onvoya.log.info("Decoded departures in minutes, sorted by departure preference :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; onvoya.log.info(temp);
+            onvoya.log.info("Indices of the above departures into the original itinerary array :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; onvoya.log.info(temp);
+            onvoya.log.info();
         }
 
         if (light_output)
         {
-            this.print_one_itinerary("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]);
-            this.print_one_itinerary("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]);
-            this.print_one_itinerary("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]);
+            onvoya.log.info(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            onvoya.log.info(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            onvoya.log.info(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            this.print_one_itinerary("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]);
+            onvoya.log.info(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            onvoya.log.info();
         }
 
         var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
@@ -899,8 +903,9 @@ module.exports = {
 
         if (light_output)
         {
-            onvoya.log.debug("3D-semipruned itineraries :");
+            onvoya.log.info("3D-semipruned itineraries :");
             this.print_many_itineraries(loc_itins);
+            onvoya.log.info();
         }
 
         // Now we need to finish the pruning by examining itineraries pairwise and removing the ones that are guaranteed worse in all dimensions (in all attributes) in 3D
@@ -916,17 +921,18 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        this.print_one_itinerary("Itinerary : ", temp_to_remove[0]);
-                        onvoya.log.debug("is removed because it is worse than");
+                        onvoya.log.info(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        onvoya.log.info("is removed because it is worse than");
                     }
                     else
                     {
-                        onvoya.log.debug("Itineraries :");
+                        onvoya.log.info("Itineraries :");
                         this.print_many_itineraries(temp_to_remove);
-                        onvoya.log.debug("are removed because they are worse than");
+                        onvoya.log.info("are removed because they are worse than");
                     }
 
-                    this.print_one_itinerary("Itinerary : ", loc_itins[i]);
+                    onvoya.log.info(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
+                    onvoya.log.info();
                 }
             }
 
@@ -941,9 +947,10 @@ module.exports = {
 
         if (light_output)
         {
-            onvoya.log.debug("3D-fully-pruned itineraries :");
+            onvoya.log.info("3D-fully-pruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            onvoya.log.debug("===========================================================================");
+            onvoya.log.info("===========================================================================");
+            onvoya.log.info();
         }
 
         return loc_itins;
@@ -979,7 +986,7 @@ module.exports = {
         if (itins.length == 0) return itins; // If empty, then nothing to prune
         if (itins.length == 1) return itins; // If just one itinerary, then nothing to prune
 
-        if (light_output) onvoya.log.debug("================  Output from prune_itineraries_in_4D(..)  ================");
+        if (light_output) onvoya.log.info("================  Output from prune_itineraries_in_4D(..)  ================");
 
         // Find the index of the cheapest itinerary
         var cheapest_idx = this.find_the_cheapest_itinerary(itins);
@@ -991,44 +998,45 @@ module.exports = {
         array_of_departures = itins.map(function(it){return it.depatureMinutes}); // extract all the departure values into a separate array
         if (light_output)
         {
-          onvoya.log.debug("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
-          onvoya.log.debug(array_of_departures);
+            onvoya.log.info("Decoded departures in minutes, in the original order (length "+array_of_departures.length+") :");
+            onvoya.log.info(array_of_departures);
         }
         array_of_departures = this.order_by_increasing_values(array_of_departures); // sort while saving permutation indices
         if (light_output)
         {
-          onvoya.log.debug("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
-          onvoya.log.debug(array_of_departures);
+            onvoya.log.info("Decoded departures in minutes, sorted, permutation indices saved (length "+array_of_departures.length+", sortIndices length "+array_of_departures.sortIndices.length+") :");
+            onvoya.log.info(array_of_departures);
         }
         preferred_departures_indices = this.order_by_diversity(array_of_departures, 0, 24*60); // order by diversity
         if (light_output)
         {
-          onvoya.log.debug("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
-          onvoya.log.debug(preferred_departures_indices);
+            onvoya.log.info("Indices of the best departures, ordered by diversity (length "+preferred_departures_indices.length+"):");
+            onvoya.log.info(preferred_departures_indices);
         }
         var best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[0]];
 
-        //onvoya.log.debug("best_dep_idx = " + best_dep_idx);
-        //onvoya.log.debug("i is changing from 0 to < " + array_of_departures.length);
-        //onvoya.log.debug("preferred_departures_indices (length " + preferred_departures_indices.length + ") =");
-        //onvoya.log.debug(preferred_departures_indices);
-        //onvoya.log.debug("array_of_departures.sortIndices (length " + array_of_departures.sortIndices.length + ") =");
-        //onvoya.log.debug(array_of_departures.sortIndices);
-        //onvoya.log.debug("itins length is " + itins.length);
+        //onvoya.log.info("best_dep_idx = " + best_dep_idx);
+        //onvoya.log.info("i is changing from 0 to < " + array_of_departures.length);
+        //onvoya.log.info("preferred_departures_indices (length " + preferred_departures_indices.length + ") =");
+        //onvoya.log.info(preferred_departures_indices);
+        //onvoya.log.info("array_of_departures.sortIndices (length " + array_of_departures.sortIndices.length + ") =");
+        //onvoya.log.info(array_of_departures.sortIndices);
+        //onvoya.log.info("itins length is " + itins.length);
 
         // append the departure ranking information to itineraries: the smaller best_dep_rank is, the better the itinerary is
         for(var i=0; i<array_of_departures.length; i++)
         {
-            //onvoya.log.debug("i = " + i + ", pdi = " + preferred_departures_indices[i] + " aod.sI = " + array_of_departures.sortIndices[preferred_departures_indices[i]]);
+            //onvoya.log.info("i = " + i + ", pdi = " + preferred_departures_indices[i] + " aod.sI = " + array_of_departures.sortIndices[preferred_departures_indices[i]]);
             itins[array_of_departures.sortIndices[preferred_departures_indices[i]]].best_dep_rank = i;
         };
 
         if (light_output)
         {
-            onvoya.log.debug("Decoded departures in minutes, sorted by departure preference :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; onvoya.log.debug(temp);
-            onvoya.log.debug("Indices of the above departures into the original itinerary array :");
-            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; onvoya.log.debug(temp);
+            onvoya.log.info("Decoded departures in minutes, sorted by departure preference :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = array_of_departures[preferred_departures_indices[i]]; }; onvoya.log.info(temp);
+            onvoya.log.info("Indices of the above departures into the original itinerary array :");
+            temp=[]; for(var i=0; i<array_of_departures.length; i++) { temp[i] = preferred_departures_indices[i]; }; onvoya.log.info(temp);
+            onvoya.log.info();
         }
 
         // Find the index of the best airline itinerary
@@ -1040,14 +1048,15 @@ module.exports = {
 
         if (light_output)
         {
-            this.print_one_itinerary("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]);
-            this.print_one_itinerary("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]);
-            this.print_one_itinerary("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]);
+            onvoya.log.info(this.one_itin_to_string("The cheapest itinerary is # " + cheapest_idx + " of " + itins.length + " : ", itins[cheapest_idx]));
+            onvoya.log.info(this.one_itin_to_string("The shortest itinerary is # " + shortest_idx + " of " + itins.length + " : ", itins[shortest_idx]));
+            onvoya.log.info(this.one_itin_to_string("The best-departure itinerary is # " + best_dep_idx + " of " + itins.length + " : ", itins[best_dep_idx]));
             var next_best_dep_idx = array_of_departures.sortIndices[preferred_departures_indices[1]];
-            this.print_one_itinerary("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]);
-            this.print_one_itinerary("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]);
+            onvoya.log.info(this.one_itin_to_string("The next best-departure itinerary is # " + next_best_dep_idx + " of " + itins.length + " : ", itins[next_best_dep_idx]));
+            onvoya.log.info(this.one_itin_to_string("The best-airline itinerary is # " + best_airl_idx + " of " + itins.length + " : ", itins[best_airl_idx]));
             var next_best_airl_idx = preferred_airline_indices[1];
-            this.print_one_itinerary("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]);
+            onvoya.log.info(this.one_itin_to_string("The next best-airline itinerary is # " + next_best_airl_idx + " of " + itins.length + " : ", itins[next_best_airl_idx]));
+            onvoya.log.info();
         }
 
         var cheapest_price     = +itins[cheapest_idx].price; // convert string to float // not needed
@@ -1088,8 +1097,9 @@ module.exports = {
 
         if (light_output)
         {
-            onvoya.log.debug("4D-semipruned itineraries :");
+            onvoya.log.info("4D-semipruned itineraries :");
             this.print_many_itineraries(loc_itins);
+            onvoya.log.info();
         }
 
         // Now we need to finish the pruning by examining itineraries pairwise and removing the ones that are guaranteed worse in all dimensions (in all attributes) in 3D
@@ -1105,17 +1115,18 @@ module.exports = {
                 {
                     if (temp_to_remove.length==1)
                     {
-                        this.print_one_itinerary("Itinerary : ", temp_to_remove[0]);
-                        onvoya.log.debug("is removed because it is worse than");
+                        onvoya.log.info(this.one_itin_to_string("Itinerary : ", temp_to_remove[0]));
+                        onvoya.log.info("is removed because it is worse than");
                     }
                     else
                     {
-                        onvoya.log.debug("Itineraries :");
+                        onvoya.log.info("Itineraries :");
                         this.print_many_itineraries(temp_to_remove);
-                        onvoya.log.debug("are removed because they are worse than");
+                        onvoya.log.info("are removed because they are worse than");
                     }
 
-                    this.print_one_itinerary("Itinerary : ", loc_itins[i]);
+                    onvoya.log.info(this.one_itin_to_string("Itinerary : ", loc_itins[i]));
+                    onvoya.log.info();
                 }
             }
 
@@ -1130,9 +1141,10 @@ module.exports = {
 
         if (light_output)
         {
-            onvoya.log.debug("4D-fully-pruned itineraries :");
+            onvoya.log.info("4D-fully-pruned itineraries :");
             this.print_many_itineraries(loc_itins);
-            onvoya.log.debug("===========================================================================");
+            onvoya.log.info("===========================================================================");
+            onvoya.log.info();
         }
 
         return loc_itins;
@@ -1159,7 +1171,7 @@ module.exports = {
             airline_preference   += 0.1;
         }
 
-        //onvoya.log.debug("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
+        //onvoya.log.info("Ranking base on the following preferences: price " + price_preference + ", duration " + duration_preference + ", departure " + departure_preference + ", airline " + airline_preference);
 
         var MAD_price     = this.median_absolute_deviation_in_price    (itins);
         var MAD_duration  = this.median_absolute_deviation_in_duration (itins);
@@ -1222,10 +1234,10 @@ module.exports = {
         other_airlines = _.uniq(other_airlines); // keeps one copy of each airline
         other_airlines = _.difference(other_airlines,preferred_airlines); // remove the preferred airlines
 
-        //onvoya.log.debug("Preferred airlines :");
-        //onvoya.log.debug(preferred_airlines);
-        //onvoya.log.debug("Other airlines :");
-        //onvoya.log.debug(other_airlines);
+        //onvoya.log.info("Preferred airlines :");
+        //onvoya.log.info(preferred_airlines);
+        //onvoya.log.info("Other airlines :");
+        //onvoya.log.info(other_airlines);
 
         var self = this; // needed as a workaround to use this in no-name functions
         var itins_preferred = _.clone(itins,true) // make a copy
@@ -1235,7 +1247,7 @@ module.exports = {
                            .filter( function(it){return(!self.is_in_array(preferred_airlines,it.air_line))} ); // on other airlines
 
         // prune and rank itins for each preferred airline individually
-        //onvoya.log.debug("The whole set of preferred itins before ranking :");
+        //onvoya.log.info("The whole set of preferred itins before ranking :");
         //this.print_many_itineraries(itins_preferred);
         var itins_on_airline = [];
         var number_of_itins_on_airline = [];
@@ -1254,14 +1266,14 @@ module.exports = {
 
             itins_on_airline[preferred_airlines[i]] = ranked_itins_from_one_airline.concat(other__itins_from_one_airline); // pruned-out appended at the end
 
-            //onvoya.log.debug("Preferred itins on airline " + preferred_airlines[i] + " after ranking (" + number_of_itins_on_airline[preferred_airlines[i]] + " total) :");
+            //onvoya.log.info("Preferred itins on airline " + preferred_airlines[i] + " after ranking (" + number_of_itins_on_airline[preferred_airlines[i]] + " total) :");
             //this.print_many_itineraries(itins_on_airline[preferred_airlines[i]]);
         }
-        //onvoya.log.debug("Number of itins per preferred airline :");
-        //onvoya.log.debug(number_of_itins_on_airline);
+        //onvoya.log.info("Number of itins per preferred airline :");
+        //onvoya.log.info(number_of_itins_on_airline);
 
         // prune and rank itins for each remaining airline together
-        //onvoya.log.debug("Other itins before ranking :");
+        //onvoya.log.info("Other itins before ranking :");
         //this.print_many_itineraries(itins_other);
         var pruned_itins_other = this.prune_itineraries_in_2D(itins_other); // pruned
         var ranked_itins_other = this.rank_itineraries_in_2D(pruned_itins_other, price_pref, duration_pref); // ranked
@@ -1270,7 +1282,7 @@ module.exports = {
                                  });
         other__itins_other = this.rank_itineraries_in_2D(other__itins_other, price_pref, duration_pref); // ranked in-place
         itins_other = ranked_itins_other.concat(other__itins_other); // pruned-out appended at the end
-        //onvoya.log.debug("Other itins after ranking :");
+        //onvoya.log.info("Other itins after ranking :");
         //this.print_many_itineraries(itins_other);
 
         // mix together the itins from preferred airlines, assign the airline_rank2
@@ -1312,35 +1324,83 @@ module.exports = {
 
     }, // end of function append_1D_airline_rank2
 
-    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, price_preference, duration_preference, airline_preference, preferred_airlines)
+    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake, preferred_airlines)
     {
-        if (itins.length == 0) return itins; // If empty, then nothing to rank
-        if (itins.length == 1) return itins; // If just one itinerary, then nothing to rank
+        if (itins.length == 0) return; // If empty, then nothing to rank
+        if (itins.length == 1) { // If just one itinerary, then ranking is easy
+          itins[0].smartRank = 1;
+          itins[0].why_this = 'the cheapest, the shortest, the best trade-off';
+          return;
+        }
 
         // if price_preference < duration_preference, then low price is more important than low duration
-        if ( price_preference     === undefined ) { price_preference     = 1.0; } // default value is 1
-        if ( duration_preference  === undefined ) { duration_preference  = 1.0; } // default value is 1
-        if ( airline_preference   === undefined ) { airline_preference   = 1.0; } // default value is 1
+        if ( snowflake.preference.price    === undefined ) { snowflake.preference.price    = 1.0; } // default value is 1
+        if ( snowflake.preference.duration === undefined ) { snowflake.preference.duration = 1.0; } // default value is 1
+        if ( snowflake.preference.airline  === undefined ) { snowflake.preference.airline  = 1.0; } // default value is 1
 
-        onvoya.log.info("Ranking based on price preference " + price_preference + ", duration preference " + duration_preference +
-                                    ", airline preference " + airline_preference + " while emphasing the following airlines: " + preferred_airlines);
+        onvoya.log.info("Ranking based on price preference " + snowflake.preference.price +
+                                   ", duration preference " + snowflake.preference.duration +
+                                    ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: " + preferred_airlines);
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
 
         // appends best_airl_rank2 field if needed
-        if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, price_preference, duration_preference);
+        if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, snowflake.preference.price, snowflake.preference.duration);
 
-        if ( price_preference     == 0 ) return itins;
-        if ( duration_preference  == 0 ) return itins;
-        if ( airline_preference   == 0 ) return itins;
+        if ( snowflake.preference.price    == 0 ) return;
+        if ( snowflake.preference.duration == 0 ) return;
+        if ( snowflake.preference.airline  == 0 ) return;
 
-        var Median_duration = this.median_in_duration  (itins) + 1; //onvoya.log.debug("Median_duration = " + Median_duration);
-        var Median_airline  = this.median_in_airl_rank2(itins) + 1; //onvoya.log.debug("Median_airline = "  + Median_airline);
+        var Median_duration = this.median_in_duration  (itins) + 1; //onvoya.log.info("Median_duration = " + Median_duration);
+        var Median_airline  = this.median_in_airl_rank2(itins) + 1; //onvoya.log.info("Median_airline = "  + Median_airline);
 
-        return _.clone(itins,true) // make a copy
-                .sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(price_preference,duration_preference*Median_duration,airline_preference*Median_airline) ); // sort in 3D by linear combination of price, duration, and airline_rank2
-    } // end of function rank_itineraries_in_3D_by_price_duration_airline2
+        // sort in 3D by linear combination of price, duration, and airline_rank2
+        itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(snowflake.preference.price,
+                                                                                        snowflake.preference.duration*Median_duration,
+                                                                                        snowflake.preference.airline*Median_airline) );
 
+        // append the incremental smartRank, starting from 1
+        for (var i = 0; i < itins.length; i++) {
+          itins[i].smartRank = i+1;
+        }
 
+        // append explanations as to why each particular itin is recommended
+        this.append_explanation_to_ranked_itins(itins);
+
+        this.print_many_itineraries(itins);
+
+        // keep only the best half of itins, if needed
+        if (snowflake.top_flights_only) {
+          var full_length = itins.length;
+          var half_length = Math.floor(full_length/2);
+          itins.length = half_length;
+          onvoya.log.info("Returning top flights only (" + half_length + " of " + full_length + ")");
+        } else {
+          onvoya.log.info("Returning the full set of flights (" + itins.length + " itins)");
+        }
+
+        //onvoya.log.info("User profile:");
+        //onvoya.log.info(snowflake.profile);
+
+        return;
+
+    }, // end of function rank_itineraries_in_3D_by_price_duration_airline2
+
+    append_explanation_to_ranked_itins: function (itins)
+    {
+        var lowest_price     = Math.min.apply(null,itins.map(function(it) { return +it.price          ; })); // convert string to float
+        var lowest_duration  = Math.min.apply(null,itins.map(function(it) { return  it.durationMinutes; }));
+        var lowest_smartRank = Math.min.apply(null,itins.map(function(it) { return  it.smartRank      ; }));
+
+        // append explanations
+        for (var i = 0; i < itins.length; i++) {
+          delete itins[i].why_this; // delete previous explanations
+          if ( +itins[i].price           == lowest_price     ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the cheapest";
+          if (  itins[i].durationMinutes == lowest_duration  ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the shortest";
+          if (  itins[i].smartRank       == lowest_smartRank ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the best trade-off";
+        }
+
+        return;
+    } // end of function append_explanation_to_ranked_itins
 };
