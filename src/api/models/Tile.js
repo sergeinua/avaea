@@ -635,6 +635,7 @@ module.exports = {
                      },
         top_flights_only : false // return  full un-prunned set of itins
       }
+
       if (!_.isUndefined(snowflake.profile)) { // if profile is present
         if (snowflake.profile != null) { // and is non-empty
           if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) snowflake.top_flights_only = true; // return top flights only (the best half of the itins)
@@ -646,18 +647,12 @@ module.exports = {
         }
       }
 
-      // it would only keep the best half of itins, if top_flights_only == true
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, Tile.userPreferredAirlines);
-
-      //onvoya.log.info("User profile:");
-      //onvoya.log.info(snowflake.profile);
-
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, Tile.userPreferredAirlines); // rank and prune in-place
       break;
     default:
       // do nothing
       break;
     }
-    cicstanford.print_many_itineraries(itineraries);
 
     onvoya.log.info('Smart Ranking time: ' + utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
