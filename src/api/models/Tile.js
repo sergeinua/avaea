@@ -29,7 +29,6 @@ module.exports = {
     return this.tiles;
   },
   tiles: {},
-  userPreferredAirlines: [],
   default_tiles: {
     sourceArrival: {
       name: 'Arrival',
@@ -218,7 +217,7 @@ module.exports = {
         onvoya.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
         cicstanford.compute_departure_times_in_minutes(itineraries);
         cicstanford.determine_airline(itineraries);
-        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, []);
         // append the default zero smartRank
         for (var i = 0; i < itineraries.length; i++) {
           itineraries[i].smartRank = 0;
@@ -606,7 +605,7 @@ module.exports = {
       break;
     case 6: // number of itineraries stays the same
       onvoya.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, []);
 
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
@@ -647,7 +646,7 @@ module.exports = {
         }
       }
 
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, Tile.userPreferredAirlines); // rank and prune in-place
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
       break;
     default:
       // do nothing
