@@ -203,10 +203,10 @@ module.exports = {
         setTimeout(() => {
           if (!done) {
             done = true;
-            errors.push(provider + ' API does not respond over 60s');
+            errors.push(provider + ' API does not respond over 30s');
             return doneCb(null, []);
           }
-        }, 60000);
+        }, 30000);
         // run async API search
         global[provider].flightSearch(guid, params, (err, result) => {
           onvoya.log.info(provider + ' search finished!');
