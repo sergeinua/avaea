@@ -20,7 +20,7 @@
       "level": "error"
     },
     "functions_to_release": {
-      "level": "error"
+      "level": "info"
     }
   },
   "responses": {
