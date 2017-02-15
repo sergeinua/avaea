@@ -22,7 +22,7 @@ migratedevup:
 	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e dev
 
 migratedevlocalhostup:
-	cd ../db-migration && NODE_ENV=localhost ./node_modules/db-migrate/bin/db-migrate up -e localhost
+	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e localhost
 
 test-integration:
 	./node_modules/.bin/mocha ./tests/bootstrap.integration.test.js ./tests/integration/**/*.test.js
