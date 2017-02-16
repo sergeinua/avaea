@@ -320,7 +320,7 @@ var getRowGridOverallStat = function (data) {
 
 var genGridVanityURLs = function () {
   
-  var isValidURL = function(value, item, param){
+  var isValidURL = function(value){
     return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
   };
 
@@ -331,7 +331,12 @@ var genGridVanityURLs = function () {
   };
 
   var showError = function(error){
-    $('#gridVanityURLsErrorMessage .panel-body').html(error);
+    var error_msg = 'Error occured. Can\'t save vanity URL into database.';
+    if(error && error.invalidAttributes && error.invalidAttributes['vanity_url']){
+      error_msg = error.invalidAttributes['vanity_url'][0]['message'];
+    }
+    
+    $('#gridVanityURLsErrorMessage .panel-body').html(error_msg);
     $('#gridVanityURLsErrorMessage').removeClass('hidden');
   }
 
@@ -386,7 +391,7 @@ var genGridVanityURLs = function () {
         item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/create/', item, function(res, jwres){
           if(res.error){
-            showError(JSON.stringify(res.error));
+            showError(res.error);
             d.reject();
           }else{
             item.id = jwres.body.data.id;
@@ -402,7 +407,7 @@ var genGridVanityURLs = function () {
         item.vanity_url = item.vanity_url.replace(/\/+$/, '');
         socketAbo.post('/vanityURLs/edit/'+item.id+'/', item, function(res, jwres){
           if(res.error){
-            showError(JSON.stringify(res.error));
+            showError(res.error);
             d.reject();
           }else{
             d.resolve();
@@ -416,7 +421,7 @@ var genGridVanityURLs = function () {
         $('#gridVanityURLsErrorMessage').addClass('hidden');
         socketAbo.post('/vanityURLs/delete/'+item.id+'/', {}, function(res, jwres){
           if(res.error){
-            showError(JSON.stringify(res.error));
+            showError(res.error);
             d.reject();
           }else{
             d.resolve();
@@ -512,7 +517,6 @@ var genGridVanityURLs = function () {
                 destinationURL = entryFieldDestinationURL.val() || '';
             
             // validating of empty values and URL formats 
-            console.log(vanityURLPath, vanityURLPath.length);
             if(vanityURLPath.length === 0 || !isValidURL(vanityURLHost+vanityURLPath)){
               entryFieldVanityURL.off('focus').on( "focus", function(){
                 $(this).parents('td').removeClass('jsgrid-invalid');
