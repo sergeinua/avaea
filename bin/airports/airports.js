@@ -31,6 +31,8 @@ var modules       = [
     ,'./annaaero'
     ,'./wikipedia'
     ,'./neighbors'  // has to be after other modules counting the pax
+    ,'./all_airports'
+    ,'./alternative_names'
 ];
 modules.forEach(function( moduleName ) {
     // run the module
@@ -65,61 +67,43 @@ if( argv.hasOwnProperty("table") ) {
         ["alternative_name", "varchar"]
     ];
     asyncsCounter.sql_query(
-    pgclient,
-    "BEGIN;\n"+
-        "DROP TABLE IF EXISTS "+argv.table+" CASCADE;\n"+
-        "CREATE TABLE "+argv.table+" (\n"+fields.map(function(f){return f[0]+" "+f[1];}).join(",\n")+");\n"+
+	pgclient,
+	"BEGIN;\n"+
+            "DROP TABLE IF EXISTS "+argv.table+" CASCADE;\n"+
+            "CREATE TABLE "+argv.table+" (\n"+fields.map(function(f){return f[0]+" "+f[1];}).join(",\n")+");\n"+
             "CREATE INDEX ON "+argv.table+"(lower(iata_3code));");
     var airport_count = 0;
     for( var iata_3code in airports ) {
-    var data = airports[iata_3code];
-    if( !data.hasOwnProperty('iata_3code') || !data.hasOwnProperty('id') ) {
-        if( argv.loglevel>0 ) {
-        console.log("Skipping an incomplete airport record %j",data);
-        }
-    }
-    else {
+	var data = airports[iata_3code];
+	if( !data.hasOwnProperty('iata_3code') || !data.hasOwnProperty('id') ) {
+            if( argv.loglevel>0 ) {
+		console.log("Skipping an incomplete airport record %j",data);
+            }
+	}
+	else {
             switch( iata_3code ) {
             case 'TLL':
             case 'ZQN':
-        // see http://prntscr.com/bafap0
-        var tmp = data.city;
-        data.city = data.name;
-        data.name = tmp;
-        break;
-        }
+		// see http://prntscr.com/bafap0
+		var tmp = data.city;
+		data.city = data.name;
+		data.name = tmp;
+		break;
+            }
             asyncsCounter.sql_query(
-        pgclient,
-        {
-            'text'  : "INSERT INTO "+argv.table+"("+fields.map(function(f){return f[0];}).join(",")+") VALUES("+fields.map(function(f,ndx){return ("$"+(ndx+1));}).join(",")+");",
+		pgclient,
+		{
+		    'text'  : "INSERT INTO "+argv.table+"("+fields.map(function(f){return f[0];}).join(",")+") VALUES("+fields.map(function(f,ndx){return ("$"+(ndx+1));}).join(",")+");",
                     'values': fields.map(function( f ) {
-            if( !this.hasOwnProperty(f[0]) ) return null;
-            if( this[f[0]]=='\\N' ) return null;
-            return this[f[0]];
-            },data)
-        });
+			if( !this.hasOwnProperty(f[0]) ) return null;
+			if( this[f[0]]=='\\N' ) return null;
+                        // TODO: replace ' with `
+			return this[f[0]];
+		    },data)
+		});
+	}
     }
-    }
-    // Those "All Airports" need to be updated with sum of the PAXes of all the airports in the same city
-    // Make sure to handle Virginia vs. District of Columbia specially
-    asyncsCounter.sql_query(pgclient,
-                "UPDATE\n" +
-                "  "+argv.table+"\n" +
-                "SET\n"+
-                "  pax=s.pax\n" +
-                "FROM \n" +
-                "  (select city,state,country,sum(pax) pax from "+argv.table+" where lower(name)!='all airports' group by 1,2,3) s\n" +
-                "WHERE\n" +
-                "  (lower("+argv.table+".name)='all airports')\n"+
-                "  AND ("+argv.table+".city=s.city)\n" +
-                "  AND (\n" +
-                "    CASE WHEN COALESCE("+argv.table+".state,'')!='' THEN\n" +
-                "      ((CASE WHEN "+argv.table+".state='District of Columbia' THEN 'Virginia' ELSE "+argv.table+".state END)=COALESCE(s.state,'') "+
-                "       AND "+argv.table+".country=COALESCE(s.country,''))\n" +
-                "    ELSE\n"+
-                "      "+argv.table+".country=COALESCE(s.country,'')\n" +
-                "    END);\n"+
-                "COMMIT;");
+    asyncsCounter.sql_query(pgclient,"COMMIT;");
     asyncsCounter.wait();
     pgclient.end();
 }
