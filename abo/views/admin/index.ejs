@@ -129,20 +129,16 @@
         <h3 class="panel-title">Vanity URLs</h3>      
       </div><!-- .panel-heading -->
       <div class="panel-body">
-        
-        <form class="form-inline"> 
+        <form class="form-inline">
             <div class="form-group"> 
               <label class="control-label"  for="gridVanityURLsHostname">Hostname:</label> 
               <input type="text" class="form-control" id="gridVanityURLsHostname" placeholder="Hostname" value="http://<%= req.host %>" size="65" /> 
             </div> 
             <div class="checkbox"> 
-              <label> <input type="checkbox" id="gridVanityURLsUseHostname" checked /> Use for New Vanity URL </label> 
+              <label> <input type="checkbox" id="gridVanityURLsUseHostname" checked /> Use It </label> 
             </div>
             &nbsp;&nbsp;
-            <button id="gridVanityURLsAddNew" type="button" class="btn btn-info">Add New</button> 
-            <button id="gridVanityURLsCancel" type="button" class="btn btn-danger hidden">Cancel</button> 
         </form>
-        <br>
         <div id="gridVanityURLsErrorMessage" class="panel panel-danger hidden">
           <div class="panel-heading">
             <a class="pull-right text-danger" href="javascript:void(0);" onclick="$('#gridVanityURLsErrorMessage').addClass('hidden');">X Close</a>
