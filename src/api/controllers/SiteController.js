@@ -17,13 +17,14 @@ module.exports = {
 
     UserAction.saveFirstVisit(req, res);
 
-    if(req.session){
-      if(req.session.vanityURL){  // do redirect if used vanity URL
+    if (req.session) {
+      if (req.session.vanityURL) {  // do redirect if used vanity URL
         // getting of destination URL from vanityURL
         let destinationURL = req.session.vanityURL.destination_url;
         delete req.session.vanityURL;
+        sails.log.verbose('vanityURL redirected to', destinationURL);
         return res.redirect(destinationURL); //redirect to
-      }else{
+      } else {
         VanityURLsService.updateCache();
       }
     }
