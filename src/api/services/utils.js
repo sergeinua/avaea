@@ -147,5 +147,9 @@ module.exports = {
       userId = utils.convertType(req.cookies.ajs_anonymous_id) ? req.cookies.ajs_anonymous_id.replace(/["]/g, '') : 0;
     }
     return userId;
+  },
+
+  getAnonymousUserId: function (req) {
+    return req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : false;
   }
 };

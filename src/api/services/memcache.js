@@ -23,7 +23,7 @@ module.exports = {
 
   store: function (key, value) {
     this.init(function () {
-      memcache.client.add( key, JSON.stringify(value), { flags: 0, exptime: sails.config.connections.memcacheConf.exptime}, function(err, status) {
+      memcache.client.set( key, JSON.stringify(value), { flags: 0, exptime: sails.config.connections.memcacheConf.exptime}, function(err, status) {
         if (err && err.type != 'NOT_STORED') {
           sails.log.error( 'Key ' + key + ' can\'t be saved!' );
           sails.log.error( err );

@@ -39,7 +39,7 @@ module.exports = {
         createdAt: {'>=' : new Date(_.now() - 1000 * 60 * 60 * 24 * 31).toISOString()}
       },
       sort : 'id DESC'
-    }).populate('user').exec(function (err, found) {
+    }).populate('user_id').exec(function (err, found) {
       if (!err && found.length) {
         return res.json(found);
       } else {
@@ -76,7 +76,7 @@ module.exports = {
         id: {
           '>': req.param('lastUpdated', 0)
         },
-        user: userId
+        user_id: userId
       },
       sort : 'id ASC'
     }).exec(function (err, found) {
@@ -88,7 +88,7 @@ module.exports = {
         return res.json({
             userActions:[{
               actionType: 'empty',
-              user: userId,
+              user_id: userId,
               createdAt: 0,
               id: 0,
               logInfo: {error: 'Cant find actions data for user id #' + userId}

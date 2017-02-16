@@ -1,16 +1,34 @@
 /* global sails */
 /* global async */
+/* global _ */
 /* global Search */
 /* global Airports */
+/* global UserAction */
 /**
  * SiteController
  *
  * @description :: Simple site pages
  */
 
+
 module.exports = {
 
   index: function (req, res) {
+
+    UserAction.saveFirstVisit(req, res);
+
+    if (req.session) {
+      if (req.session.vanityURL) {  // do redirect if used vanity URL
+        // getting of destination URL from vanityURL
+        let destinationURL = req.session.vanityURL.destination_url;
+        delete req.session.vanityURL;
+        sails.log.verbose('vanityURL redirected to', destinationURL);
+        return res.redirect(destinationURL); //redirect to
+      } else {
+        VanityURLsService.updateCache();
+      }
+    }
+
     if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
