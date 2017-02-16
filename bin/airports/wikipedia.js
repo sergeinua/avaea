@@ -98,12 +98,17 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
 	    for( var n=1; n<matches.length; n+=2 ) {
 		if( matches[n] ) {
 		    // Just grab the first number even if the triples in it are separated with commas ot periods
-		    properties[matches[n]] = matches[n+1].replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,"");
+		    properties[matches[n]] = matches[n+1];
 		    if( matches[n].toLowerCase().indexOf("passenger")>=0 ) {
 			// There can be several "passenger" properties, i.e. "Domestic Passengers","International Passengers", etc
-			// Choose the largest one
-			var new_pax  = Number(properties[matches[n]])
+                        // However watch out for those "between X and Y numbers" as in https://en.wikipedia.org/wiki/R%C3%BCgen_Airport
+                        var convert_to_number = function( s ) {
+			  return Number(s.replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,""));
+		        }
+  		        var between_submatches = matches[n+1].match(/\s*between\s+([\d,\.]+)\s+and\s+([\d,\.]+)\s*/i);
+		        var new_pax = between_submatches ? ((convert_to_number(between_submatches[1])+convert_to_number(between_submatches[2]))/2) : convert_to_number(matches[n+1]);
 			if( new_pax>pax )
+                            // Choose the largest one
 			    pax = new_pax;
 		    }
 		}
