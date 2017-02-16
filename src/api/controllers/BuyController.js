@@ -29,6 +29,7 @@ module.exports = {
       });
     };
 
+    //FIXME in ONV-1012
     if (!req.user) {
       sails.log.info(utils.showError('Error.User.NotAuthorised'));
       return res.ok({
@@ -141,6 +142,15 @@ module.exports = {
     let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
+    //FIXME in ONV-1012
+    if (!req.user) {
+      sails.log.info(utils.showError('Error.User.NotAuthorised'));
+      return res.ok({
+        error: true,
+        errorInfo: utils.showError('Error.User.NotAuthorised')
+      });
+    }
+
     qpromice.nfbind(cache.get)(cacheId)
       .then((resItinerary) => {
 
@@ -184,6 +194,7 @@ module.exports = {
 
         req.session.time_log = [];
         reqParamsApi.session = reqParams.session = req.session;
+        reqParamsApi.ip = req.ip;        
 
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
@@ -210,7 +221,9 @@ module.exports = {
           flashMsg: req.__('Error.Search.Booking.Failed')
         });
       }
-      segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
+      if( req.user ) {
+        segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
+      }
       sails.log.info("Itinerary booked successfully:", result);
       // Clear flash errors
       req.session.flash = '';

@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
-import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
@@ -48,9 +48,6 @@ var TripSearchForm = React.createClass({
         .then(function () {
           ActionsStore.submitTripSearchForm();
         });
-      // FIXME - hides logo for devices only when navbar shows "flight-info" div
-      // so logo does not push the search query down
-      $("body").addClass('suppress-logo');
     }.bind(this);
   },
   
@@ -58,14 +55,21 @@ var TripSearchForm = React.createClass({
   	// FIXME - could be React
   	$('.meri-speaks ').fadeToggle('fast');
   	$('.meri-wrapper ').toggleClass('remove');
+  	setCookie('showMeriHint', false);
   },
-
+  
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
+    	
       if (submitCounter && this.validateForm()) {
+      	
+      	// FIXME - could be React
+      	$("body").addClass('suppress-logo');
+      	
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
+        
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
@@ -341,8 +345,9 @@ var TripSearchForm = React.createClass({
         </div>
         
         <div className="search buttons duo">
-        
-		      <div className="meri-wrapper">  
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
+		      
+		      { !getCookie('showMeriHint') ? 
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
@@ -354,7 +359,11 @@ var TripSearchForm = React.createClass({
 			        	<div className="close-x" onClick={this.handleMeriHint}></div>
 			      	</div>
 			      </div>
+			      : null
+        	}
+			      
 			    </div>  
+			    
 		      
           <button id="search-form-all-flights-button" 
           	type="submit" 

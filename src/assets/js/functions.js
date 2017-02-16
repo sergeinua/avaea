@@ -229,7 +229,7 @@ function _setMilesInfoLoadingState(isLoading, isLoaded, isError, milesInfosObjec
   return clientStore.dispatch(actionMergeCommonVal(loadingMilesFailed));
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   var matches = document.cookie.match(new RegExp(
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
@@ -299,9 +299,9 @@ export function setAirportData(target, data) {
 }
 
 export let getDefaultDateSearch = (defaultParams) => {
-  let moment_now = moment()
-  let tmpDefaultDepDate = moment().add(2, 'w')
-  let tmpDefaultRetDate = moment().add(4, 'w')
+  let moment_now = moment();
+  let tmpDefaultDepDate = moment().add(2, 'w');
+  let tmpDefaultRetDate = moment().add(4, 'w');
   let nextFirstDateMonth = moment().add(1, 'M').startOf('month');
 
   if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
@@ -313,7 +313,7 @@ export let getDefaultDateSearch = (defaultParams) => {
   }
 
   if (defaultParams.departureDate) {
-    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD");
 
     // Check depart date
     if (moment_dp &&
@@ -322,14 +322,13 @@ export let getDefaultDateSearch = (defaultParams) => {
         moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
       )
     ) {
-      defaultParams.departureDate = tmpDefaultDepDate.format('YYYY-MM-DD')
+      defaultParams.departureDate = tmpDefaultDepDate.format('YYYY-MM-DD');
     }
   }
 
   if (defaultParams.returnDate) {
-    let moment_rp = moment(defaultParams.returnDate, "YYYY-MM-DD")
-    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD")
-
+    let moment_rp = moment(defaultParams.returnDate, "YYYY-MM-DD");
+    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD");
     // Check return date
     if (moment_rp &&
       (
@@ -337,13 +336,32 @@ export let getDefaultDateSearch = (defaultParams) => {
         moment_rp.isBefore(moment_dp, 'day')
       )
     ) {
-      defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD')
+      defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD');
     }
   }
 
-  return defaultParams
+  return defaultParams;
 };
 
 export function getUser() {
   return InitData.user || false;
 }
+
+export function fixStorageAvailability() {
+  //fix for ios safari incognito mode
+  try {
+    localStorage.setItem('StorageTest', 1);
+    localStorage.getItem('StorageTest');
+    localStorage.removeItem('StorageTest');
+    sessionStorage.setItem('StorageTest', 1);
+    sessionStorage.getItem('StorageTest');
+    sessionStorage.removeItem('StorageTest');
+  } catch (e) {
+    console.log("sessionStorage and localStorage mocked");
+    sessionStorage.setItem = function() {};
+    sessionStorage.getItem = function() {};
+    localStorage.setItem = function() {};
+    localStorage.getItem = function() {};
+  }
+}
+

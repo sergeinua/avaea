@@ -586,13 +586,36 @@ body:not(.touch) i.icon-mic:before {
 	border-top-left-radius: 6px;
 }
 
+.results-wrapper .wayfare-wrapper {
+	vertical-align: top;
+}
+
 .wayfare.results.deals-unit {
 	margin-top: -45px;
+	min-width: 290px;
+	width: 290px;
+	max-width: 290px;
+}
+
+.wayfare.results.deals-unit iframe {
+	min-height: 790px;
+}
+
+.wayfare.results.cross-sell,
+.wayfare.results.deals-unit {
 	padding: 5px 15px 0 15px;
 	min-width: 290px;
 	width: 290px;
 	max-width: 290px;
 }
+
+.wayfare.results.cross-sell .wrapper {
+	height: 470px;
+}
+
+
+
+/* end wayfare */
 
 .desktop .search-result .bottomNav {
 	padding-top: 8px;
@@ -609,10 +632,6 @@ body:not(.touch) i.icon-mic:before {
 	border-top: 1px solid rgba(255, 255, 255, .8);
 	border-bottom: 1px solid rgba(0, 0, 0, .3);
 	border-radius: 15px;
-}
-
-.wayfare.results.deals-unit iframe {
-	min-height: 800px;
 }
 
 .desktop .search-result .flights, 
@@ -1153,12 +1172,10 @@ a:focus,
 
 /* partial blue */
 
-.meri-speaks .bubble:after,
 .flight-date-info-item {
     background: #deeef7;
 }
 
-.meri-speaks .bubble,
 .panel-default > .panel-heading:hover,
 .panel-default > .panel-heading:focus {
 	background-color: #deeef7;
@@ -1278,6 +1295,11 @@ form label.required:before,
 .small-button.disabled,
 .tertiary-button.disabled {
 	border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.meri-speaks .bubble:after,
+.meri-speaks .bubble {
+	background-color: #f5f5f7;
 }
 
 
