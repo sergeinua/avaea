@@ -49,6 +49,8 @@ let User = {
             onvoya.log.error(err);
           }
         });
+      } else {
+        sails.log.verbose('already have landing page saved: ', found_user.landing_page);
       }
     });
   }
