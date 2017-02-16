@@ -24,6 +24,7 @@ module.exports = {
   result: function (req, res) {
     utils.timeLog('search_result');
     var savedParams = {};
+    var profileFoundAsync = null;
     res.locals.searchId = null;
     if (req.param('s')) {
       try {
@@ -91,6 +92,9 @@ module.exports = {
       Profile.findOneByCriteria({user: req.user.id})
         .then(function (found) {
           var _airline_name = [];
+          if (found) {
+            profileFoundAsync = found;
+          }
           // Collect all airline names
           if (found && !_.isEmpty(found.preferred_airlines)) {
             found.preferred_airlines.forEach(function (curVal) {
@@ -121,15 +125,15 @@ module.exports = {
             });
         })
         .then(function (iata2codes) {
-          Tile.userPreferredAirlines = iata2codes;
-          onvoya.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
+          profileFoundAsync.preferred_airlines_iata = iata2codes;
+          Tile.profileFoundAsync = profileFoundAsync;
         })
         .catch(function (error) {
-          Tile.userPreferredAirlines = [];
+          Tile.profileFoundAsync = [];
           onvoya.log.info("Error was occurred. Preferred airlines not found: ");
         });
     } else {
-      Tile.userPreferredAirlines = [];
+      Tile.profileFoundAsync = [];
     }
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
