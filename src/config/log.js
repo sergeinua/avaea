@@ -18,13 +18,14 @@ module.exports.log = {
   * sails.log.*()                                                            *
   *                                                                          *
   * The order of precedence for log levels from lowest to highest is:        *
-  * silly, verbose, info, debug, warn, error                                 *
+  * silly, verbose, info, debug, warn, error, silent                         *
   *                                                                          *
   * You may also set the level to "silent" to suppress all logs.             *
   *                                                                          *
   ***************************************************************************/
 
   level: 'info',
-  timestamp: true
+  timestamp: false,
 
+  refreshConfig: 30*1000, //refresh config rate in milliseconds
 };

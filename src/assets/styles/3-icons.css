@@ -39,8 +39,10 @@
   font-style: normal;
 }
 
+.booking .passenger-type .value:before,
+.cue:after,
 .dropbutton:after,
-.rdr-MonthAndYear-button i:after,
+.cue:before,
 footer a.social:after, 
 .icon-social-instagram:before,
 .static-nav-button:before,
@@ -81,6 +83,7 @@ footer a.social:after,
 /* icons */
 
 .passenger-count:before,
+.page-ti.people:before,
 .icon-account:before {
   content: "\e900";
 }
@@ -129,6 +132,7 @@ footer a.social:after,
 .icon-checkmark-circle:before {
   content: "\e905";
 }
+.booking .passenger-type .value:before,
 .icon-checkmark:before {
   content: "\e906";
 }
@@ -265,6 +269,9 @@ footer a.instagram:after,
 .icon-social-instagram:before {
   content: "\e933";
 }
+.cue.info:after,
+.icon-info:before {
+  content: "\e934";
+}
 
 /* end icons.css */
-

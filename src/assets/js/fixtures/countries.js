@@ -1,5 +1,9 @@
 exports.COUNTRIES = [
   {
+    "value": "US",
+    "label": "United States"
+  },
+  {
     "value": "AF",
     "label": "Afghanistan"
   },

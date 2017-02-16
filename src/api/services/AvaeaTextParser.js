@@ -359,7 +359,7 @@ function AvaeaTextParser() {
 	// JavaScript counts months from 0 to 11. January is 0. December is 11.
 	return (matches[2]=='/') ?
 	  // 01/13/2017, 01/13/17, 1/13
-	  get_date_from_matches(min_date,matches[4],matches[1],matches[3]) : 
+	  get_date_from_matches(min_date,matches[4],matches[1],matches[3]) :
 	  // 13.01.2017, 13.01.17, 13.1
 	  get_date_from_matches(min_date,matches[4],matches[3],matches[1]) ;
       }
@@ -383,7 +383,7 @@ function AvaeaTextParser() {
       }
     ];
   });
-  
+
   // Handle "St. ", "Ft. ", and "Pt. " leading in the city names or handle three letter airport codes
   this.city_pattern = "(?:[A-Z][A-z\\-,]+ (?:\\b[SsFfPp]t\\.?|de|am|upon|on)(?: [A-Z][A-z\\-]+,?))|" +
     "(?:(?:\\b[SsFfPp]t\\.? *)?[A-Z][A-z\\-,]+(?: [A-Z][A-z\\-]+,?){0,3})";
@@ -598,8 +598,8 @@ function AvaeaTextParser() {
             number_of_tickets   : parser.number_of_tickets  ? parser.number_of_tickets.value  : undefined,
             class_of_service    : parser.class_of_service   ? parser.class_of_service.value   : undefined
           };
-          //sails.log.verbose("Parser success: "+JSON.stringify(result));
-          sails.log.verbose("Parsing query : '" + result.query + "'"
+          //onvoya.log.verbose("Parser success: "+JSON.stringify(result));
+          onvoya.log.verbose("Parsing query : '" + result.query + "'"
             + "\n                                                 Parsing result:       from '" + result.origin_airport + "' to '" + result.return_airport + "'"
             + "\n                                                 Parsing result:       leaving on '" + result.origin_date + "' returning on '" + result.return_date + "'"
             + "\n                                                 Parsing result:       '" + result.number_of_tickets + "' tickets in '" + result.class_of_service + "' class"
@@ -609,7 +609,7 @@ function AvaeaTextParser() {
             );
         } catch (e) {
           err = e;
-          sails.log.error("Parser error: "+JSON.stringify(err));
+          onvoya.log.error("Parser error: "+JSON.stringify(err));
         }
         return callback(err, result);
       }

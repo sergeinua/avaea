@@ -158,11 +158,11 @@ passport.connect = function (req, query, profile, next) {
                     .then(function (msgContent) {
                       Mailer.sendMail({to: user.email, subject: 'Welcome to OnVoya'}, msgContent)
                         .then(function () {
-                          sails.log.info('Mail was sent to '+ user.email);
+                          onvoya.log.info('Mail was sent to '+ user.email);
                         })
                     })
                     .catch(function (error) {
-                      sails.log.error(error);
+                      onvoya.log.error(error);
                     });
 
                   callback(null, user);
@@ -185,10 +185,11 @@ passport.connect = function (req, query, profile, next) {
                   return;
                 }
 
-                // Fetch the user associated with the Passport
-                //User.findOne(passport.user.id, next);
-                User.findOne({id: passport.user})
-                  .exec(function (err, result) {
+                // Fetch the user associated with the Passport or re-create lost one
+                User.findOrCreate(
+                  {id: passport.user},
+                  {id: passport.user, email: user.email},
+                  function (err, result) {
                     if (err) {
                       callback(err);
                       return;
@@ -227,30 +228,6 @@ passport.connect = function (req, query, profile, next) {
       },
 
       /**
-       * Check whitelist access
-       *
-       * @param {object} user
-       * @param {function} callback
-       */
-      function(user, callback) {
-        User.findOne({email: user.email})
-          .exec(function (err, result) {
-
-            if (err || !result) {
-              if ((user.id !== undefined) && (user.id !== null && user.id !== '')) { // all these values will cause segmetion.track(...) to fail
-                segmentio.track(user.id, 'Login Failed', {error: 'Email ' + user.email + ' is not in the whitelist'});
-                callback('Email ' + user.email + ' is not in the whitelist');
-              } else {
-                segmentio.track(null, 'Login Failed', {error: 'Email ' + user.email + ' is not registered'}, 'anonymous');
-                callback('Email ' + user.email + ' is not registered');
-              }
-            } else {
-              callback(null, user);
-            }
-          });
-      },
-
-      /**
        * Check existence of the username and email
        *
        * @param {object} user
@@ -277,7 +254,7 @@ passport.connect = function (req, query, profile, next) {
         return next(null, result);
       } else {
         var _errstr = "Unknown result in the passport.connect";
-        sails.log.error(_errstr);
+        onvoya.log.error(_errstr);
         return next(new Error(_errstr));
       }
     }

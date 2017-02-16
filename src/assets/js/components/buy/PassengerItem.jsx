@@ -25,6 +25,9 @@ let PassengerItem = React.createClass({
 
         {this.props.index == 1 ?
         <div className="its-me">
+        
+          {/* engineer -- populate all available data for "It's me" from user's profile */}
+          
           <div className="tertiary-button" onClick={this.props.populateUserData}>It's me</div>
           <div className="hint">Tap if traveller is the person being billed</div>
         </div>:null}
@@ -34,9 +37,11 @@ let PassengerItem = React.createClass({
         )}
 
         {/* TODO: The lap disabled because is not applied yet with any APIs */}
+        {/* engineer -- enable and require seat/lap choice for infant < 2 years */}
+        
         { false && this.props.orderData.fieldsData
         && this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth']
-        && moment().diff(this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'], 'years') < 12 ?
+        && moment().diff(this.props.orderData.fieldsData['passengers['+ this.props.index +'].DateOfBirth'], 'years') < 2 ?
           <OrderPanelElement
             item={{
               id: 'passengers[' + this.props.index + '].lap',
@@ -54,7 +59,7 @@ let PassengerItem = React.createClass({
             id: 'passengers[' + this.props.index + '].phone',
             required: true,
             title: 'Phone',
-            placeholder: '+1 123 555 6789',
+            placeholder: 'Phone +1 123 555 6789',
             data: phone,
             forcedUpdate: phone
           }} key={'elem-passenger-phone'} panelType="fields"/>:null}

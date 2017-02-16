@@ -56,15 +56,11 @@ let NavBar = React.createClass({
   },
 
   handleBackToSearch: function () {
-    ActionsStore.changeForm('round_trip');
+    ActionsStore.changeForm(this.props.commonData.searchParams.flightType || 'round_trip');
   },
 
   handleCalendar: function () {
     ActionsStore.changeCalendarDate();
-  },
-
-  handleCancelAirport: function () {
-    ActionsStore.changeForm($('#search_form').data('flight-type') || 'round_trip');
   },
 
   handleClearVoice: function () {
@@ -78,12 +74,12 @@ let NavBar = React.createClass({
   handleBackToSearchForm: function () {
     historyStrategy.push('/search');
   },
-  
+
   handleHomeLink: function () {
     if (!this.props.location) {
-    	window.location.assign('/home');
+    	window.location.assign('/search');
     } else {
-      historyStrategy.push('/home');
+      historyStrategy.push('/search');
     }
   },
 
@@ -158,7 +154,7 @@ let NavBar = React.createClass({
               className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
               role="navigation">
               <ul className="nav navbar-nav">
-                <li>{this.showLink("/home","Home")}</li>
+                <li>{this.showLink("/about","About")}</li>
                 <li>{this.showLink("/search","Search")}</li>
                 <li>{this.showLinkProfile("/profile", "Profile")}</li>
                 <li>
@@ -178,7 +174,7 @@ let NavBar = React.createClass({
             <div className="navbar-header">
               <div className="airport-search-header">
                 <input id="airport-input" type="text" name="airport" placeholder="City, airport code or airport name"/>
-                <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleCancelAirport}>Cancel</button>
+                <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleBackToSearch}>Cancel</button>
               </div>
             </div>
           </div>:null

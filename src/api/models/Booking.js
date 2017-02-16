@@ -26,6 +26,7 @@ module.exports = {
       index: true
     },
     eticket_number   : { type: 'string'},
+    instance_name    : { type: 'string'},
   },
   migrate: 'safe',
 
@@ -33,10 +34,10 @@ module.exports = {
     let qdefer = qpromice.defer();
 
     if (typeof booking_res != 'object') {
-      sails.log.error('saveBooking: got unexpected type of booking_res='+(typeof booking_res)+'; user='+user.id);
+      onvoya.log.error('saveBooking: got unexpected type of booking_res='+(typeof booking_res)+'; user='+user.id);
     }
     if (typeof itinerary_res != 'object') {
-      sails.log.error('saveBooking: got unexpected type of itinerary_res='+(typeof itinerary_res)+'; user='+user.id);
+      onvoya.log.error('saveBooking: got unexpected type of itinerary_res='+(typeof itinerary_res)+'; user='+user.id);
     }
     let _dbFields = { // fields sequence must be equal to sequence of the db req
       user_id          : user.id,
@@ -44,12 +45,13 @@ module.exports = {
       reference_number : typeof booking_res == 'object' && booking_res ? booking_res.ReferenceNumber : null,
       itinerary_id     : typeof itinerary_res == 'object' && itinerary_res ? itinerary_res.id : null,
       itinerary_data   : typeof itinerary_res == 'object' ? itinerary_res : null,
-      req_params       : req_params
+      req_params       : req_params,
+      instance_name    : sails.config.email.instance_name
     };
 
     Booking.create(_dbFields, function(err, record) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         qdefer.reject(err);
       } else {
         qdefer.resolve(record);

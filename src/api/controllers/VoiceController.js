@@ -12,8 +12,10 @@ module.exports = {
   parse: function (req, res) {
     var _query = _.trim(req.param('q'));
     return AvaeaTextParser.run(_query, function(err, result) {
+      result.query = _query;
+
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
@@ -32,8 +34,10 @@ module.exports = {
   parseApiAi: function (req, res) {
     var _query = _.trim(req.param('q'));
     new ApiAiParser().parse(_query, req.sessionID, function(err, result){
+      result.query = _query;
+
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         return res.serverError(); //500
       }
       if (req.wantsJSON) {
@@ -57,7 +61,7 @@ module.exports = {
         searchParams: req.param('q'),
         queryResult: queryResult
       };
-      sails.log.info('Search Voice Params:', params);
+      onvoya.log.info('Search Voice Params:', params);
       let userId = utils.getUser(req);
       UserAction.saveAction(userId, 'voice_search', params, function () {
         User.publishCreate(userId);

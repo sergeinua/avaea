@@ -29,7 +29,6 @@ module.exports = {
     return this.tiles;
   },
   tiles: {},
-  userPreferredAirlines: [],
   default_tiles: {
     sourceArrival: {
       name: 'Arrival',
@@ -88,7 +87,7 @@ module.exports = {
       ]
     },
     // suppressing fake merchandising until we have real data
-    /* 
+    /*
       Merchandising: { // Merchandising Fake data Issue #39
       name: 'Merchandising',
       id: 'merchandising_tile',
@@ -114,15 +113,13 @@ module.exports = {
     */
   },
   getTilesData: function (itineraries, params, callback) {
-    sails.log.info('Using default bucketization algorithm');
+    onvoya.log.info('Using default bucketization algorithm');
 
     if (!itineraries) {
-      sails.log.info('Itineraries not found');
+      onvoya.log.info('Itineraries not found');
       return callback(null, itineraries, []);
     }
     var tileArr = _.clone(this.tiles, true);
-
-    // sails.log.error(JSON.stringify(itineraries));
 
     var index = null;
     var filterClass = '';
@@ -150,16 +147,16 @@ module.exports = {
       if (false) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
-          sails.log.info('Scenario 1 : Prune and rank all together');
+          onvoya.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
-          sails.log.info('Pruned itineraries to ', pruned.length);
+          onvoya.log.info('Pruned itineraries to ', pruned.length);
           // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
           // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
           var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
-          sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
+          onvoya.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
           var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} );  // only keep the ones departing midnight-6am
           var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} );  // only keep the ones departing 6am-noon
           var itineraries_departing_Q3 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==3);} );  // only keep the ones departing noon-6pm
@@ -173,7 +170,7 @@ module.exports = {
           // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
           var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
-          sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
+          onvoya.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;
@@ -181,13 +178,13 @@ module.exports = {
     }
     Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
     Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
-    sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):');
-    sails.log.info(Tile.itineraryPredictedRank);
+    onvoya.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):');
+    onvoya.log.info(Tile.itineraryPredictedRank);
     if (itineraries) {
       /* Smart Ranking {{{ */
       utils.timeLog('smart_ranking');
       if (false) {
-        sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+        onvoya.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
         cicstanford.compute_departure_times_in_minutes(itineraries);
         cicstanford.determine_airline(itineraries);
         var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
@@ -217,10 +214,10 @@ module.exports = {
           }
         }
       } else {
-        sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+        onvoya.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
         cicstanford.compute_departure_times_in_minutes(itineraries);
         cicstanford.determine_airline(itineraries);
-        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+        var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, []);
         // append the default zero smartRank
         for (var i = 0; i < itineraries.length; i++) {
           itineraries[i].smartRank = 0;
@@ -237,7 +234,7 @@ module.exports = {
         }
       }
       //cicstanford.print_many_itineraries(itineraries);
-      sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
+      onvoya.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
       /* }}} Smart Ranking */
       utils.timeLog('tile_generation');
       var currentNum = 1; // itinerary number ( starts with 1 )
@@ -314,46 +311,46 @@ module.exports = {
         id: 'duration_tile_' + i,
         count : 0
       });
-      sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
+      onvoya.log.info('Tiles Generation time: ' + utils.timeLogGetHr('tile_generation'));
 
       var orderBy = _.min(tileArr, 'order').id;
       orderBy = 'smart';
       switch (orderBy) {
         case 'duration_tile':
-          sails.log.info('Ordered by Duration');
+          onvoya.log.info('Ordered by Duration');
           itineraries = _.sortBy(itineraries, 'durationMinutes');
           break;
         case 'price_tile':
-          sails.log.info('Ordered by Price');
+          onvoya.log.info('Ordered by Price');
           itineraries = _.sortBy(itineraries, 'price');
           break;
         case 'airline_tile':
-          sails.log.info('Ordered by Airline');
+          onvoya.log.info('Ordered by Airline');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].flights[0].airline;
           });
           break;
         case 'arrival_tile':
-          sails.log.info('Ordered by Arrival');
+          onvoya.log.info('Ordered by Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].to.quarter;
           });
           break;
         case 'departure_tile':
-          sails.log.info('Ordered by Departure');
+          onvoya.log.info('Ordered by Departure');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].from.quarter;
           });
           break;
         case 'destination_departure_tile':
-          sails.log.info('Ordered by Destination Departure');
+          onvoya.log.info('Ordered by Destination Departure');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
             return item.citypairs[lastElement].from.quarter;
           });
           break;
         case 'source_arrival_tile':
-          sails.log.info('Ordered by Source Arrival');
+          onvoya.log.info('Ordered by Source Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
             return item.citypairs[lastElement].to.quarter;
@@ -361,7 +358,7 @@ module.exports = {
           break;
         case 'smart':
         default:
-          sails.log.info('Ordered by smartRank');
+          onvoya.log.info('Ordered by smartRank');
           itineraries = _.sortBy(itineraries, 'smartRank');
       }
 
@@ -504,7 +501,7 @@ module.exports = {
         return doneCallback(null);
       }, function (err) {
         if ( err ) {
-          sails.log.error( err );
+          onvoya.log.error( err );
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
@@ -525,9 +522,9 @@ module.exports = {
    * @returns {*}
    */
   getTilesDataAlternative: function (itineraries, params, callback) {
-    sails.log.info('Using alternative bucketization algorithm');
+    onvoya.log.info('Using alternative bucketization algorithm');
     if (!itineraries) {
-      sails.log.info('Itineraries not found');
+      onvoya.log.info('Itineraries not found');
       return callback(null, itineraries, []);
     }
 
@@ -552,16 +549,16 @@ module.exports = {
     var scenario = 7; // this is purposely hardcoded to allow easy switching between scenarios
     switch (scenario) {
     case 1: // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
-      sails.log.info('Scenario 1 : Prune and rank all together');
+      onvoya.log.info('Scenario 1 : Prune and rank all together');
       var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
-      sails.log.info('Pruned itineraries to ', pruned.length);
+      onvoya.log.info('Pruned itineraries to ', pruned.length);
       // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
       // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
       var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
       itineraries = ranked;
       break;
     case 2: // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
-      sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
+      onvoya.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
       var itineraries_departing_Q1 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==1);} ); // only keep the ones departing midnight-6am
       var itineraries_departing_Q2 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==2);} ); // only keep the ones departing 6am-noon
       var itineraries_departing_Q3 = itineraries.filter( function(it){return(it.citypairs[0].from.quarter==3);} ); // only keep the ones departing noon-6pm
@@ -575,10 +572,10 @@ module.exports = {
       // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
       var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
       itineraries = ranked_departing_Q1234;
-      sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
+      onvoya.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
       break;
     case 5: // number of itineraries stays the same
-      sails.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
+      onvoya.log.info('Scenario 5 : Prune in 4D, rank in 4D, append the pruned-out ones at the end');
       var temp_pruned_in_4D = cicstanford.prune_itineraries_in_4D(itineraries);
       // var temp_ranked_in_4D = cicstanford.rank_itineraries_in_4D(temp_pruned_in_4D, tileArr['Price'].order, tileArr['Duration'].order, tileArr['Departure'].order, tileArr['Airline'].order);
       // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
@@ -607,8 +604,8 @@ module.exports = {
       }
       break;
     case 6: // number of itineraries stays the same
-      sails.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
-      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, Tile.userPreferredAirlines);
+      onvoya.log.info('Scenario 6 : Sort while emphasizing preferred airlines');
+      var temp_itins = cicstanford.sort_by_preferred_airlines(itineraries, []);
 
       // append the default zero smartRank
       for (var i = 0; i < itineraries.length; i++) {
@@ -625,56 +622,38 @@ module.exports = {
         itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
       }
       break;
-    case 7: // number of itineraries stays the same
-      sails.log.info('Scenario 7 : Sort in price and number of stops while emphasizing preferred airlines');
-      var temp_itins;
-      //sails.log.info('ranking using 1 1 1');
-      //temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 1, 1, Tile.userPreferredAirlines);
-      //cicstanford.print_many_itineraries(temp_itins);
-      if ( Tile.userPreferredAirlines.length == 0 ) {
-        sails.log.info('ranking using 1 6 20');
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 20, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
-      } else {
-        sails.log.info('ranking using 1 6 6');
-        temp_itins = cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, 1, 6, 6, Tile.userPreferredAirlines);
-        //cicstanford.print_many_itineraries(temp_itins);
+    case 7: // number of itineraries can change
+      onvoya.log.info('Ranking Scenario 7:');
+
+      // assemble the crude snowflake
+      var snowflake = {
+        profile    : Tile.profileFoundAsync,
+        preference : { price    :  1, // most important
+                       duration :  6, // less important
+                       airline  : 20  // least important
+                     },
+        top_flights_only : false // return  full un-prunned set of itins
       }
 
-      // append the default zero smartRank
-      for (var i = 0; i < itineraries.length; i++) {
-        itineraries[i].smartRank = 0;
+      if (!_.isUndefined(snowflake.profile)) { // if profile is present
+        if (snowflake.profile != null) { // and is non-empty
+          if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) snowflake.top_flights_only = true; // return top flights only (the best half of the itins)
+          if (!_.isUndefined(snowflake.profile.preferred_airlines)) { // if some preferred airlines are specified
+            if (snowflake.profile.preferred_airlines.length > 0) {
+              snowflake.preference.airline = 6; // make airline preference as important as duration (but still less important, than price)
+            }
+          }
+        }
       }
-      // extract all the itinerary IDs into a separate array
-      var ID = itineraries.map(function (it) {
-        return it.id
-      });
-      // the itineraries in temp_itins are ordered according to a smartRank, copy their ranks to the original itineraries
-      for (var i = 0; i < temp_itins.length; i++) {
-        var itin_id = temp_itins[i].id;
-        var itin_index = ID.indexOf(itin_id);
-        itineraries[itin_index].smartRank = i + 1; // smartRank starts from 1
-      }
+
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
       break;
     default:
       // do nothing
       break;
     }
-    //DEMO-285 temporary shrink result based on smart rank
-    if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
-      sails.log.info('params.topSearchOnly', params.topSearchOnly);
-      itineraries = itineraries.sort(function(a,b){return a.smartRank-b.smartRank});
-      var tmp = [];
-      for (i = 0; i < Math.floor(itineraries.length / 2); i++) {
-        tmp.push(itineraries[i]);
-      }
-      sails.log.info('before DEMO-285', itineraries.length);
-      itineraries = tmp;
-      sails.log.info('after DEMO-285', itineraries.length);
-    }
-    cicstanford.print_many_itineraries(itineraries);
 
-    sails.log.info('Smart Ranking time: %s', utils.timeLogGetHr('smart_ranking'));
+    onvoya.log.info('Smart Ranking time: ' + utils.timeLogGetHr('smart_ranking'));
     /* }}} Smart Ranking */
     utils.timeLog('tile_generation');
 
@@ -701,16 +680,16 @@ module.exports = {
       if (false) { // Pruning itineraries experiment
         if (false) { // Scenario 1 : Prune and rank all together
           // Note: this is a very aggressive pruning.  It keeps only 3-5 itineraries.  In extreme cases it can only keep a single itinerary.
-          sails.log.info('Scenario 1 : Prune and rank all together');
+          onvoya.log.info('Scenario 1 : Prune and rank all together');
           var pruned = cicstanford.prune_itineraries_in_2D(itineraries);
-          sails.log.info('Pruned itineraries to ', pruned.length);
+          onvoya.log.info('Pruned itineraries to ', pruned.length);
           // var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Duration'].order);
           // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
           var ranked = cicstanford.rank_itineraries_in_2D(pruned, tileArr['Price'].order, tileArr['Price'].order);
           itineraries = ranked;
         } else if (false) { // Scenario 2 : Prune and rank without mixing departure buckets
           // Note: this is a less agressive pruning.  It would keep itineraries from diverse departure times.  It should keep 8-20 itineraries.
-          sails.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
+          onvoya.log.info('Scenario 2 : Prune and rank without mixing departure buckets');
           var itineraries_departing_Q1 = itineraries.filter(function (it) {
             return (it.citypairs[0].from.quarter == 1);
           });  // only keep the ones departing midnight-6am
@@ -732,7 +711,7 @@ module.exports = {
           // The line above has been replaced with the line below, since the Duration tile was replaced by the Stops tile and tileArr['Duration'].order is not defined.
           var ranked_departing_Q1234 = cicstanford.rank_itineraries_in_2D(pruned_departing_Q1234, tileArr['Price'].order, tileArr['Price'].order); // rank them all together
           itineraries = ranked_departing_Q1234;
-          sails.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
+          onvoya.log.info('Pruned itineraries to ', ranked_departing_Q1234.length);
         }
         itineraries.priceRange = systemData.priceRange;
         itineraries.durationRange = systemData.durationRange;
@@ -744,7 +723,7 @@ module.exports = {
 
       Tile.itineraryPredictedRank['rankMin'] = Math.round(Tile.itineraryPredictedRank['rankMin'] * itineraries.length);
       Tile.itineraryPredictedRank['rankMax'] = Math.round(Tile.itineraryPredictedRank['rankMax'] * itineraries.length);
-      sails.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):', Tile.itineraryPredictedRank);
+      onvoya.log.info('Tile itinerary predicted rank (multiplied by '+itineraries.length+'):', Tile.itineraryPredictedRank);
       var currentNum = 1; // itinerary number ( starts with 1 )
       // prepare Price tile
       var priceNameArr = [];
@@ -811,7 +790,7 @@ module.exports = {
       delete tmp.priceNameArrTmp;
 
 
-      sails.log.info('Tiles Generation time: %s', utils.timeLogGetHr('tile_generation'));
+      onvoya.log.info('Tiles Generation time: ' + utils.timeLogGetHr('tile_generation'));
       var orderBy = _.min(tileArr, 'order').id;
       if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) {
         orderBy = 'smart';
@@ -820,36 +799,36 @@ module.exports = {
       }
       switch (orderBy) {
         case 'price_tile':
-          sails.log.info('Ordered by Price');
+          onvoya.log.info('Ordered by Price');
           itineraries = _.sortBy(itineraries, 'price');
           break;
         case 'airline_tile':
-          sails.log.info('Ordered by Airline');
+          onvoya.log.info('Ordered by Airline');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].flights[0].airline;
           });
           break;
         case 'arrival_tile':
-          sails.log.info('Ordered by Arrival');
+          onvoya.log.info('Ordered by Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].to.minutes;
           });
           break;
         case 'departure_tile':
-          sails.log.info('Ordered by Departure');
+          onvoya.log.info('Ordered by Departure');
           itineraries = _.sortBy(itineraries, function (item) {
             return item.citypairs[0].from.minutes;
           });
           break;
         case 'destination_departure_tile':
-          sails.log.info('Ordered by Destination Departure');
+          onvoya.log.info('Ordered by Destination Departure');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
             return item.citypairs[lastElement].from.minutes;
           });
           break;
         case 'source_arrival_tile':
-          sails.log.info('Ordered by Source Arrival');
+          onvoya.log.info('Ordered by Source Arrival');
           itineraries = _.sortBy(itineraries, function (item) {
             var lastElement = item.citypairs.length - 1;
             return item.citypairs[lastElement].to.minutes;
@@ -857,7 +836,7 @@ module.exports = {
           break;
         case 'smart':
         default:
-          sails.log.info('Ordered by smartRank');
+          onvoya.log.info('Ordered by smartRank');
           itineraries = _.sortBy(itineraries, 'smartRank');
       }
 
@@ -1055,14 +1034,14 @@ module.exports = {
         return doneCallback(null);
       }, function (err) {
         if ( err ) {
-          sails.log.error( err );
+          onvoya.log.error( err );
           tileArr = [];
         } else {
           tileArr['Airline'].filters = _.sortBy(tileArr['Airline'].filters, 'count').reverse();
-          
+
           // suppressing fake merchandising data until we have real data
           //tileArr['Merchandising'].order = 1000;
-          
+
           //the tiles are ordered in the increasing order of database.tile_position
           tileArr = _.sortBy(tileArr, 'order');
           tileArr.forEach(function (tile) {

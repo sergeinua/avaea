@@ -36,11 +36,7 @@
     "code": "HON"
   },
   {
-    "name": "Robinson",
-    "code": "RBM"
-  },
-  {
-    "name": "Robinson",
+    "name": "Straubing",
     "code": "RBM"
   },
   {
@@ -169,7 +165,7 @@
   },
   {
     "name": "Meridian",
-    "code": "NMM"
+    "code": "BJS"
   },
   {
     "name": "Islip",
@@ -257,7 +253,7 @@
   },
   {
     "name": "Pierre",
-    "code": "YUL"
+    "code": "PIR"
   },
   {
     "name": "Salina",
@@ -288,7 +284,7 @@
     "code": "SDP"
   },
   {
-    "name": "Marquette",
+    "name": "Gwinn",
     "code": "MQT"
   },
   {
@@ -357,7 +353,7 @@
   },
   {
     "name": "Delta",
-    "code": "DTA"
+    "code": "ESC"
   },
   {
     "name": "Mariposa",
@@ -400,7 +396,7 @@
     "code": "BID"
   },
   {
-    "name": "Alexandria, Virginia",
+    "name": "Thomas C Russell",
     "code": "ALX"
   },
   {
@@ -489,22 +485,28 @@
   },
   {
     "name": "DC",
-    "code": "DCA"
+    "code": "WAS"
   },
   {
-    "name": "Leningrad",
+    "name": "Pulkovo",
     "code": "LED"
   },
   {
-    "name": "Vegas",
+    "name": "McCarran",
     "code": "LAS"
   },
   {
     "name": "Silicon Valley",
     "code": "SJC"
+  },
+  {
+    "name": "Kremlin",
+    "code": "MOW"
+  },
+  {
+    "name": "Tahiti",
+    "code": "PPT"
   }
-
-
 ]
 
 

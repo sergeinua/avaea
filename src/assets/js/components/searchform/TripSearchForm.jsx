@@ -1,13 +1,13 @@
 import React from 'react';
 import moment from 'moment';
-import { ActionsStore } from '../../functions.js';
+import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
 import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
-var flashErrorTimeout = 1000;
+var flashErrorTimeout = 2000;
 
 var TripSearchForm = React.createClass({
 
@@ -46,18 +46,28 @@ var TripSearchForm = React.createClass({
         .then(function () {
           ActionsStore.submitTripSearchForm();
         });
-      // FIXME - hides logo for devices only when navbar shows "flight-info" div
-      // so logo does not push the search query down
-      $("body").addClass('suppress-logo');
     }.bind(this);
   },
-
+  
+  handleMeriHint: function () {
+  	// FIXME - could be React
+  	$('.meri-speaks ').fadeToggle('fast');
+  	$('.meri-wrapper ').toggleClass('remove');
+  	setCookie('showMeriHint', false);
+  },
+  
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
+    	
       if (submitCounter && this.validateForm()) {
+      	
+      	// FIXME - could be React
+      	$("body").addClass('suppress-logo');
+      	
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
+        
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
@@ -201,7 +211,7 @@ var TripSearchForm = React.createClass({
     return resultClass;
   },
 
-  getSubmitButtonDisabledClass: function () {
+  getButtonsDisabledClass: function () {
     let formErrors = this.props.InitSearchFormData.formErrors;
     return formErrors.isError ? 'disabled ': '';
   },
@@ -305,21 +315,39 @@ var TripSearchForm = React.createClass({
           }
         </div>
 
-        <div className="search-buttons">
-	        
-          <button id="search-form-all-flights-button" type="submit" className={
-            "big-button search-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(0)}>
-          	Search
+        <div className="search buttons duo">
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
+		      
+		      { !getCookie('showMeriHint') ? 
+	        	<div className="meri-speaks">
+			      	<div className="bubble">
+			        	We remove worst flights and factor FF miles.
+				        	{getUser().email ?
+				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
+				              : 
+				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
+			            }
+			        	<div className="close-x" onClick={this.handleMeriHint}></div>
+			      	</div>
+			      </div>
+			      : null
+        	}
+			      
+			    </div>  
+			    
+		      
+          <button id="search-form-all-flights-button" 
+          	type="submit" 
+          	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
+          	All Flights
           </button>
            
-				  {/* no 2nd button until we have better agent customization */}
-				  {/*
           <button id="search-form-top-flights-button"
             type="submit"
-            className={"big-button search-top-button " + this.getSubmitButtonDisabledClass()} onClick={this.submitSearchForm(1)}>
+            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
           	Top Flights
           </button>
-          */} 
+	          	
         </div>
 
       </div>

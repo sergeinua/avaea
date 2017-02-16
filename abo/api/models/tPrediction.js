@@ -3,14 +3,14 @@
 /* global _ */
 module.exports = {
   attributes: {
-    user          : { model: 'User' },
+    user_id       : { model: 'User' },
     uuid          : { type: 'string' },
     search_params : { type: 'json' },
     tile_name     : { type: 'string' },
     result        : { type: 'json' }
   },
-  getUserTiles: function (user, uuid) {
-    this.find({user: user, uuid: uuid}).exec(function (err, rows) {
+  getUserTiles: function (userId, uuid) {
+    this.find({user_id: userId, uuid: uuid}).exec(function (err, rows) {
       var tiles = _.clone(Tile.default_tiles, true);
       if (!err && !_.isEmpty(rows)) {
         _.map(tiles, function (item) {
@@ -21,14 +21,14 @@ module.exports = {
           return item;
         });
       } else {
-        sails.log.error('didnt find tiles prediction for uuid: ['+uuid+'] userId #'+user);
+        sails.log.error('didnt find tiles prediction for uuid: ['+uuid+'] userId #'+userId);
       }
       Tile.tiles = tiles;
     });
   },
   adminTiles: [],
-  getUserTilesCb: function (user, uuid, cb) {
-    this.find({user: user, uuid: uuid}).exec(function (err, rows) {
+  getUserTilesCb: function (userId, uuid, cb) {
+    this.find({user_id: userId, uuid: uuid}).exec(function (err, rows) {
       var tiles = _.clone(Tile.default_tiles, true);
       if (!err && !_.isEmpty(rows)) {
         var newtiles = _.map(tiles, function (item) {
@@ -46,7 +46,7 @@ module.exports = {
         result[uuid] = newtiles;
         return cb(null, result);
       } else {
-        sails.log.error('did not find tiles prediction for uuid: ['+uuid+'] userId #'+user);
+        sails.log.error('did not find tiles prediction for uuid: ['+uuid+'] userId #'+userId);
 
         var newtiles = _.map(Tile.default_tiles, function (item) {
           var r = {};
