@@ -616,7 +616,9 @@ var genGridTransactionsReport = function(){
         if(resData && resData.data && resData.data.rows) rows = resData.data.rows;
 
         var grid = $('#gridTransactionsReport .grid');
-        grid.jsGrid('loadData', rows).done(function() {});
+        grid.jsGrid('loadData', rows).done(function() {
+          grid.jsGrid('openPage', 1);
+        });
         ctrl.removeClass('disabled');
     });
   });
