@@ -7,7 +7,7 @@ import ResultItemContainer from '../search/ResultItem.jsx';
 import OrderSpecialModal from './OrderSpecialModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
-import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
+import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
@@ -100,22 +100,28 @@ let OrderPanel = React.createClass({
 
   execReq: function (event) {
     event.preventDefault();
+    this.props.actionSetOrderVal('flashMsg', '');
 
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
-    }, 'This field is required');
+    });
+
+    $.validator.addMethod("validateUserNames", function(value, element) {
+      value = value.trim();
+      return (value.length > 1) && /^[a-z\-']+$/i.test(value);
+    });
 
     $.validator.addMethod("Trim", function(value, element) {
       return value.trim();
     });
 
     $.validator.addMethod("requiredPhone", function(value, element) {
-      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
+      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value) && value.replace(/[^0-9]/g,'').length >= 10;
     });
 
     $.validator.addMethod("luhnChecksum", function( value, element ) {
       return luhn.validate(value);
-    }, 'Please double check the credit card number');
+    });
 
     /**
      * Client validation during booking of itinerary
@@ -123,10 +129,10 @@ let OrderPanel = React.createClass({
     let validationRules = {
       rules: {
         FirstName: {
-          requiredAndTrim: true
+          validateUserNames: true
         },
         LastName: {
-          requiredAndTrim: true
+          validateUserNames: true
         },
         Gender: {
           required: true
@@ -150,7 +156,8 @@ let OrderPanel = React.createClass({
           requiredAndTrim: true
         },
         ZipCode: {
-          requiredAndTrim: true
+          requiredAndTrim: true,
+          digits: true
         },
         CardType: {
           required: true
@@ -174,11 +181,24 @@ let OrderPanel = React.createClass({
           maxlength: 3
         }
       },
+      messages: {
+        FirstName: "First name contains some invalid characters or is too short",
+        LastName: "Last name contains some invalid characters or is too short",
+        ZipCode: "Please enter digits only",
+        CardNumber: "There seems to be a typo in credit card number",
+        CVV: "Please enter 3 digits",
+        "passengers[1].phone": "Phone contains some invalid characters or has too few digits"
+      },
       errorPlacement: function(error, element) {
-        if (element.attr("name") == "FirstName" || element.attr("name") == "LastName" ) {
+        let _elem_name = element.attr('name');
+        if (['Country','Address1','City','State','CardType','ExpiryDate'].indexOf(_elem_name) != -1 || /DateOfBirth/.test(_elem_name)) {
+          return; // Skip custom error message
+        }
+        if (/Gender/.test(_elem_name)) {
+          error.insertBefore(element)
+        } else {
           error.insertAfter(element);
         }
-        // Skip other error messages
       },
       highlight: function(input) {
         $(input).parent().addClass('has-error');
@@ -206,11 +226,15 @@ let OrderPanel = React.createClass({
 
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
       validationRules.rules["passengers["+i+"].FirstName"] = {
-        requiredAndTrim: true
+        validateUserNames: true
       };
+      validationRules.messages["passengers["+i+"].FirstName"] = validationRules.messages.FirstName;
+
       validationRules.rules["passengers["+i+"].LastName"] = {
-        requiredAndTrim: true
+        validateUserNames: true
       };
+      validationRules.messages["passengers["+i+"].LastName"] = validationRules.messages.LastName;
+
       validationRules.rules["passengers["+i+"].Gender"] = {
         required: true
       };
@@ -230,6 +254,10 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
+      this.props.actionSetOrderVal('flashMsg',
+        'We have found some errors in your input. Please review the fields highlighted with red color below and make corrections.'
+      );
+      window.scrollTo(0, 0);
       return;
     }
     $("#bookingModal").modal({
@@ -384,6 +412,9 @@ const mapDispatchOrder = (dispatch) => {
     },
     loadFailed: (data) => {
       dispatch(actionLoadOrderFailed(data))
+    },
+    actionSetOrderVal: (fieldName, fieldValue) => {
+      dispatch(actionSetOrderVal(fieldName, fieldValue))
     },
   }
 };

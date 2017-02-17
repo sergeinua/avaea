@@ -105,6 +105,9 @@ function orderReducer(curState = storeInitialState.orderData, action) {
     case actionTypesOrder.SET_ORDER_FIELD_VAL:
       return storeSetFieldsDataVal(curState, action.fieldName, action.fieldValue);
 
+    case actionTypesOrder.SET_ORDER_VAL:
+      return storeSetVal(curState, action.fieldName, action.fieldValue);
+
     default:
       return curState;
   }
