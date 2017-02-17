@@ -12,6 +12,7 @@
     "db-migrate": "^0.9.25",
     "debug": "^2.2.0",
     "ejs": "~0.8.4",
+    "excel4node": "^1.2.1",
     "forever": "^0.15.1",
     "grunt": "^0.4.2",
     "grunt-cli": "^1.2.0",

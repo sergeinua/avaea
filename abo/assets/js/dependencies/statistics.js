@@ -319,15 +319,15 @@ var getRowGridOverallStat = function (data) {
 
 
 var genGridVanityURLs = function () {
-  
+
   var isValidURL = function(value, item, param){
-    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
   };
 
   var preapareHost = function(host){
     host = host.trim();
     if(host.length > 0 && host.substr(-1) !== '/') host += '/';
-    return host;    
+    return host;
   };
 
   var showError = function(error){
@@ -339,14 +339,14 @@ var genGridVanityURLs = function () {
     var a = document.createElement('a');
     a.href = value.trim();
     var host = preapareHost(a.protocol+'//'+a.host);
-    var path = a.pathname.replace(/^\//,'');   
+    var path = a.pathname.replace(/^\//,'');
     return $('<div style="overflow:hidden; width:480px;"><span style="padding:.5em .3em;">'+host+'</span><input data-host="'+host+'" type="text" style="width:250px!important;" value="'+path+'"/></div>');
   }
 
   var insertTemplateVanityURL = function(){
     var entryField = this.__proto__.insertTemplate.call(this);
     entryField.addClass('entryFieldVanityURL');
-    var host = $('#gridVanityURLsUseHostname').is(':checked')? preapareHost($('#gridVanityURLsHostname').val()).trim(): ''; 
+    var host = $('#gridVanityURLsUseHostname').is(':checked')? preapareHost($('#gridVanityURLsHostname').val()).trim(): '';
     if(host.length > 0){
       entryField = customFieldURL(host);
       entryField.find('input').addClass('entryFieldVanityURL');
@@ -357,15 +357,15 @@ var genGridVanityURLs = function () {
 
   var insertTemplateDestinationURL = function(){
     var host = $('#gridVanityURLsUseHostname').is(':checked')? preapareHost($('#gridVanityURLsHostname').val()).trim(): '';
-    var entryField = this.__proto__.insertTemplate.call(this);          
-    return entryField.val(host).addClass('entryFieldDestinationURL');    
+    var entryField = this.__proto__.insertTemplate.call(this);
+    return entryField.val(host).addClass('entryFieldDestinationURL');
   };
 
   var grid = $('#gridVanityURLs .grid').jsGrid('destroy').jsGrid({
     height: '550px',
     width: '100%',
     css: 'cell-ellipsis',
-    
+
     inserting: false,
     editing: true,
     deleting: true,
@@ -373,7 +373,7 @@ var genGridVanityURLs = function () {
     paging: false,
     filtering: false,
     autoload: true,
- 
+
     controller: {
       loadData: function(data)
       {
@@ -394,7 +394,7 @@ var genGridVanityURLs = function () {
           }
         });
         return d.promise();
-      },      
+      },
       updateItem: function(item)
       {
         var d = $.Deferred();
@@ -408,7 +408,7 @@ var genGridVanityURLs = function () {
             d.resolve();
           }
         });
-        return d.promise();          
+        return d.promise();
       },
       deleteItem: function(item)
       {
@@ -422,25 +422,25 @@ var genGridVanityURLs = function () {
             d.resolve();
           }
         });
-        return d.promise();                
-      },      
-    },   
+        return d.promise();
+      },
+    },
     fields: [
       { name: 'id', css: 'hidden', width: 0 },
       { name: 'vanity_url', title: 'Vanity URL', type: 'text', width: 300, align: 'left',
         editTemplate: function(value, item) {
-          var entryField = customFieldURL(value);          
+          var entryField = customFieldURL(value);
           entryField.find('input').addClass('entryFieldVanityURL');
-          return entryField;       
+          return entryField;
         }
       },
       { name: 'destination_url', title: 'Destination URL', type: 'text', width: 300, align: 'left',
         editTemplate: function(value, item){
-          var entryField = this.__proto__.insertTemplate.call(this);         
+          var entryField = this.__proto__.insertTemplate.call(this);
           return entryField.val(value).addClass('entryFieldDestinationURL');
-        }             
+        }
       },
-      { type: 'control', 
+      { type: 'control',
         headerTemplate: function() {
           return $('<button class="btn btn-info"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add</button>').off('click').on('click', function(){
             $($('#gridVanityURLsHostname').parents('.form-group').get(0)).removeClass('has-error');
@@ -453,101 +453,209 @@ var genGridVanityURLs = function () {
             var grid = $('#gridVanityURLs .grid');
             grid.jsGrid('fieldOption', 'vanity_url', 'insertTemplate', insertTemplateVanityURL);
             grid.jsGrid('fieldOption', 'destination_url', 'insertTemplate', insertTemplateDestinationURL);
-            grid.jsGrid('option', 'inserting', true);            
+            grid.jsGrid('option', 'inserting', true);
           });
         },
-        insertTemplate: function(){         
+        insertTemplate: function(){
           var ph = $('<div/>');
           $('<input type="button" title="Save" class="jsgrid-button jsgrid-update-button"/>').off('click').on('click', function(){
 
-            var tr = $($(this).parents('tr').get(0)), 
+            var tr = $($(this).parents('tr').get(0)),
                 entryFieldVanityURL = tr.find('.entryFieldVanityURL'),
                 vanityURLHost = entryFieldVanityURL.data('host') || '',
-                vanityURLPath = entryFieldVanityURL.val() || '',                
+                vanityURLPath = entryFieldVanityURL.val() || '',
                 entryFieldDestinationURL = tr.find('.entryFieldDestinationURL'),
                 destinationURL = entryFieldDestinationURL.val() || '';
-            
+
             // validating of empty values and URL formats
             if(vanityURLPath.length === 0 || !isValidURL(vanityURLHost+vanityURLPath)){
               entryFieldVanityURL.off('focus').on( "focus", function(){
                 $(this).parents('td').removeClass('jsgrid-invalid');
-              }).parents('td').addClass('jsgrid-invalid'); 
+              }).parents('td').addClass('jsgrid-invalid');
               return false;
             }
-            
+
             if(entryFieldDestinationURL.length === 0 || !isValidURL(destinationURL)){
               entryFieldDestinationURL.off('focus').on( "focus", function(){
                 $(this).parents('td').removeClass('jsgrid-invalid');
-              }).parents('td').addClass('jsgrid-invalid'); 
+              }).parents('td').addClass('jsgrid-invalid');
               return false;
-            }            
-            
+            }
+
             // add new jsGrid item
             var item = {
               'vanity_url': vanityURLHost+vanityURLPath,
               'destination_url': destinationURL
             };
-            
+
             $('#gridVanityURLs .grid').jsGrid('insertItem', item).done(function() {
                 console.log('item: ', item,' insertion completed');
                 entryFieldVanityURL.val('');
                 entryFieldDestinationURL.val('');
                 $('#gridVanityURLs .grid').jsGrid('option', 'inserting', false);
-            });            
+            });
           }).appendTo(ph);
           $('<input type="button" title="Cancel" class="jsgrid-button jsgrid-cancel-button"/>').off('click').on('click', function(){
             $('#gridVanityURLs .grid').jsGrid('option', 'inserting', false);
-          }).appendTo(ph);          
+          }).appendTo(ph);
           return ph;
         },
         editTemplate: function(value, item){
           var ph = $('<div/>');
           $('<input type="button" title="Save" class="jsgrid-button jsgrid-update-button"/>').off('click').on('click', function(){
 
-            var tr = $($(this).parents('tr').get(0)), 
+            var tr = $($(this).parents('tr').get(0)),
                 entryFieldVanityURL = tr.find('.entryFieldVanityURL'),
                 vanityURLHost = entryFieldVanityURL.data('host') || '',
-                vanityURLPath = entryFieldVanityURL.val() || '',                
+                vanityURLPath = entryFieldVanityURL.val() || '',
                 entryFieldDestinationURL = tr.find('.entryFieldDestinationURL'),
                 destinationURL = entryFieldDestinationURL.val() || '';
-            
-            // validating of empty values and URL formats 
-            console.log(vanityURLPath, vanityURLPath.length);
+
+            // validating of empty values and URL formats
             if(vanityURLPath.length === 0 || !isValidURL(vanityURLHost+vanityURLPath)){
               entryFieldVanityURL.off('focus').on( "focus", function(){
                 $(this).parents('td').removeClass('jsgrid-invalid');
-              }).parents('td').addClass('jsgrid-invalid'); 
+              }).parents('td').addClass('jsgrid-invalid');
               return false;
             }
-            
+
             if(entryFieldDestinationURL.length === 0 || !isValidURL(destinationURL)){
               entryFieldDestinationURL.off('focus').on( "focus", function(){
                 $(this).parents('td').removeClass('jsgrid-invalid');
-              }).parents('td').addClass('jsgrid-invalid'); 
+              }).parents('td').addClass('jsgrid-invalid');
               return false;
-            } 
-            
+            }
+
             // update jsGrid item
             item['vanity_url'] = entryFieldVanityURL.data('host')+entryFieldVanityURL.val(),
             item['destination_url'] = entryFieldDestinationURL.val();
-            
+
             $('#gridVanityURLs .grid').jsGrid('updateItem', item).done(function() {
                 console.log('item: ', item,' update completed');
-            });             
+            });
           }).appendTo(ph);
           $('<input type="button" title="Cancel" class="jsgrid-button jsgrid-cancel-button"/>').off('click').on('click', function(){
-            $('#gridVanityURLs .grid').jsGrid("cancelEdit"); 
-          }).appendTo(ph);          
+            $('#gridVanityURLs .grid').jsGrid("cancelEdit");
+          }).appendTo(ph);
           return ph;
         }
       }
     ]
   });
 
-
   socketAbo.get('/vanityURLs/read/', {}, function(res, jwres){
     if(res.data){
-      $('#gridVanityURLs .grid').jsGrid('loadData', res.data);      
+      $('#gridVanityURLs .grid').jsGrid('loadData', res.data);
     }
-  });      
+  });
+};
+
+
+var genGridTransactionsReport = function(){
+
+  // initialize datetimepickers
+  $('#gridTransactionsReportStartDate').datetimepicker({
+    format: 'MM/DD/YYYY'
+  });
+  $('#gridTransactionsReportEndDate').datetimepicker({
+    format: 'MM/DD/YYYY',
+    useCurrent: false //Important! See issue #1075
+  });
+  $('#gridTransactionsReportStartDate').on('dp.change', function (e) {
+    $('#gridTransactionsReportStartDate').removeClass('has-error');
+    $('#gridTransactionsReportStartDate').data('DateTimePicker').maxDate(e.date);
+  });
+  $('#gridTransactionsReportEndDate').on('dp.change', function (e) {
+    $('#gridTransactionsReportEndDate').removeClass('has-error');
+    $('#gridTransactionsReportEndDate').data('DateTimePicker').minDate(e.date);
+  });
+
+  $('#gridTransactionsReportGenerateReportXLS').off().on('click', function(){
+    var dateStart = $('#gridTransactionsReportStartDate input').val(),
+        dateEnd = $('#gridTransactionsReportEndDate input').val();
+    // validation
+    if(!dateStart || !dateEnd){
+      if(!dateStart){
+        $('#gridTransactionsReportStartDate').addClass('has-error');
+      }
+      if(!dateEnd){
+        $('#gridTransactionsReportEndDate').addClass('has-error');
+      }
+      return false;
+    }
+    // create report name
+    $('#gridTransactionsReport form input[name=xlsx]').val('report_'+moment(dateStart,'MM/DD/YYYY').format('YYYY-MM-DD')+'-'+moment(dateEnd,'MM/DD/YYYY').format('YYYY-MM-DD')+'.xlsx');
+
+    $('#gridTransactionsReport form').submit();
+  });
+
+  $('#gridTransactionsReportGenerateReport').off().on('click', function(){
+      var q = {
+        dateStart: $('#gridTransactionsReportStartDate input').val(),
+        dateEnd: $('#gridTransactionsReportEndDate input').val(),
+      };
+
+      // validation
+      if(!q.dateStart || !q.dateEnd){
+        if(!q.dateStart){
+          $('#gridTransactionsReportStartDate').addClass('has-error');
+        }
+       if(!q.dateEnd){
+        $('#gridTransactionsReportEndDate').addClass('has-error');
+        }
+        return false;
+      }
+
+      // disable button
+      var ctrl = $(this);
+      if(ctrl.hasClass('disabled')) return false;
+      ctrl.addClass('disabled');
+
+      socketAbo.post('/report/transactions', q, function (resData, jwres) {
+        var rows = [];
+        if(resData && resData.data && resData.data.rows) rows = resData.data.rows;
+
+        var grid = $('#gridTransactionsReport .grid');
+        grid.jsGrid('loadData', rows).done(function() {
+            // sort after the data loaded
+            $('#gridUsersStat').jsGrid('sort', grid.jsGrid('getSorting'));
+        });
+        ctrl.removeClass('disabled');
+    });
+  });
+
+  // initialize grid
+  $('#gridTransactionsReport .grid').jsGrid('destroy').jsGrid({
+    height: '550px',
+    width: '100%',
+    css: 'cell-ellipsis',
+    inserting: false,
+    editing: false,
+    sorting: true,
+    paging: true,
+    filtering: false,
+    autoload: true,
+    controller: {
+      loadData: function (data){ return data;}
+    },
+    fields: [
+      {name: 'A', title: 'Date', type: 'text', width: 80, align: 'center'},
+      {name: 'B', title: 'ID', type: 'text', width: 60, align: 'center'},
+      {name: 'C', title: 'SKU', type: 'text', width: 60, align: 'center', 'visible': false},
+      {name: 'D', title: 'Customer', type: 'text', width: 60, align: 'center'},
+      {name: 'E', title: 'PNR', type: 'text', width: 50, align: 'center'},
+      {name: 'F', title: 'Provider', type: 'text', align: 'center'},
+      {name: 'G', title: 'Currency', type: 'text', align: 'center'},
+      {name: 'H', title: 'Base Fare, $', type: 'text', align: 'center'},
+      {name: 'J', title: 'Taxes & Fees, $', type: 'text', align: 'center'},
+      {name: 'K', title: 'Total, $', type: 'text', align: 'center'},
+      {name: 'L', title: 'Status', type: 'text', align: 'center'},
+      {name: 'M', title: 'Method of Payment', type: 'text', align: 'center', 'visible': false},
+      {name: 'N', title: 'Tax Country', type: 'text', align: 'center', 'visible': false},
+      {name: 'O', title: 'Tax City', type: 'text', align: 'center', 'visible': false},
+      {name: 'P', title: 'Tax Zip', type: 'text', align: 'center', 'visible': false},
+      {name: 'Q', title: 'Device', type: 'text', align: 'center', 'visible': false},
+      {name: 'R', title: 'Referrer', type: 'text', align: 'center'},
+    ]
+  });
 };
