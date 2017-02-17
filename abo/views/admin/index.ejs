@@ -125,19 +125,19 @@
   <div id="gridOverallStat" class="hidden dataContainer"></div>
   <div id="gridUsersStatVoiceSearch" class="hidden dataContainer"></div>
   <!-- vanity url -->
-  <div id="gridVanityURLs" class="hidden dataContainer">    
+  <div id="gridVanityURLs" class="hidden dataContainer">
     <div class="panel panel-default gridVanityURLsBody">
       <div class="panel-heading">
-        <h3 class="panel-title">Vanity URLs</h3>      
+        <h3 class="panel-title">Vanity URLs</h3>
       </div><!-- .panel-heading -->
       <div class="panel-body">
         <form class="form-inline">
-            <div class="form-group"> 
-              <label class="control-label"  for="gridVanityURLsHostname">Hostname:</label> 
-              <input type="text" class="form-control" id="gridVanityURLsHostname" placeholder="Hostname" value="http://<%= req.host %>" size="65" /> 
-            </div> 
-            <div class="checkbox"> 
-              <label> <input type="checkbox" id="gridVanityURLsUseHostname" checked /> Use It </label> 
+            <div class="form-group">
+              <label class="control-label"  for="gridVanityURLsHostname">Hostname:</label>
+              <input type="text" class="form-control" id="gridVanityURLsHostname" placeholder="Hostname" value="http://<%= req.host %>" size="65" />
+            </div>
+            <div class="checkbox">
+              <label> <input type="checkbox" id="gridVanityURLsUseHostname" checked /> Use It </label>
             </div>
             &nbsp;&nbsp;
         </form>
@@ -146,11 +146,11 @@
           <div class="panel-heading">
             <a class="pull-right text-danger" href="javascript:void(0);" onclick="$('#gridVanityURLsErrorMessage').addClass('hidden');">X Close</a>
             <h3 class="panel-title">Error</h3>
-          </div>          
+          </div>
           <div class="panel-body text-danger"></div>
         </div>
-        <br>  
-        <div class="grid"></div><!-- .dataContainer -->          
+        <br>
+        <div class="grid"></div><!-- .dataContainer -->
       </div><!-- .panel-body -->
     </div><!-- .panel.panel-default.gridVanityURLsMain -->
   </div><!-- #gridVanityURLs -->
@@ -159,9 +159,9 @@
     <div class="gridTransactionsReport filter">
       <div class="container">
         <form action="/report/transactions/" method="post" target="_blank" class="form-inline">
-          <input type="hidden" name="xlsx" value=""/>  
+          <input type="hidden" name="xlsx" value=""/>
         <div class="form-group">
-          <label>Start Date</label>            
+          <label>Start Date</label>
           <div id="gridTransactionsReportStartDate" class="input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy">
               <input name="dateStart" type="text" class="form-control" />
               <div class="input-group-addon">
@@ -171,18 +171,19 @@
         </div><!-- .form-group -->
         &nbsp;&nbsp; <!-- spacing without css -->
         <div class="form-group">
-          <label>End date</label>            
+          <label>End date</label>
           <div id="gridTransactionsReportEndDate" class="input-group date" data-provide="datepicker" data-date-format="mm/dd/yyyy">
               <input name="dateEnd" type="text" class="form-control" />
               <div class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
               </div>
           </div>
-        </div><!-- .form-group --> 
+        </div><!-- .form-group -->
         &nbsp;&nbsp;&nbsp; <!-- spacing without css -->
         <button id="gridTransactionsReportGenerateReport" type="button" class="btn btn-default">Generate Report</button>
         <a id="gridTransactionsReportGenerateReportXLS" href="javascript:void(0);">Download in XLS format</a>
-      </form>  
+      </form>
+      </div>
     </div><!-- .gridTransactionStat.filter -->
     <br>
     <div class="grid"></div><!-- .dataContainer -->
@@ -282,7 +283,7 @@
     </div>
 </div>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-      
+
     <!--SCRIPTS-->
 
     <!--SCRIPTS END-->

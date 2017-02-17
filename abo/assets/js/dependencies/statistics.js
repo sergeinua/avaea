@@ -563,11 +563,11 @@ var genGridTransactionsReport = function(){
   });
   $('#gridTransactionsReportStartDate').on('dp.change', function (e) {
     $('#gridTransactionsReportStartDate').removeClass('has-error');
-    $('#gridTransactionsReportStartDate').data('DateTimePicker').maxDate(e.date);
+    $('#gridTransactionsReportStartDate').data('DateTimePicker');
   });
   $('#gridTransactionsReportEndDate').on('dp.change', function (e) {
     $('#gridTransactionsReportEndDate').removeClass('has-error');
-    $('#gridTransactionsReportEndDate').data('DateTimePicker').minDate(e.date);
+    $('#gridTransactionsReportEndDate').data('DateTimePicker');
   });
 
   $('#gridTransactionsReportGenerateReportXLS').off().on('click', function(){
@@ -584,7 +584,7 @@ var genGridTransactionsReport = function(){
       return false;
     }
     // create report name
-    $('#gridTransactionsReport form input[name=xlsx]').val('report_'+moment(dateStart,'MM/DD/YYYY').format('YYYY-MM-DD')+'-'+moment(dateEnd,'MM/DD/YYYY').format('YYYY-MM-DD')+'.xlsx');
+    $('#gridTransactionsReport form input[name=xlsx]').val('Onv_transactions('+moment(dateStart,'MM/DD/YYYY').format('YYYY-MM-DD')+'_'+moment(dateEnd,'MM/DD/YYYY').format('YYYY-MM-DD')+').xlsx');
 
     $('#gridTransactionsReport form').submit();
   });
@@ -617,8 +617,7 @@ var genGridTransactionsReport = function(){
 
         var grid = $('#gridTransactionsReport .grid');
         grid.jsGrid('loadData', rows).done(function() {
-            // sort after the data loaded
-            $('#gridUsersStat').jsGrid('sort', grid.jsGrid('getSorting'));
+          grid.jsGrid('openPage', 1);
         });
         ctrl.removeClass('disabled');
     });
@@ -639,23 +638,23 @@ var genGridTransactionsReport = function(){
       loadData: function (data){ return data;}
     },
     fields: [
-      {name: 'A', title: 'Date', type: 'text', width: 80, align: 'center'},
-      {name: 'B', title: 'ID', type: 'text', width: 60, align: 'center'},
-      {name: 'C', title: 'SKU', type: 'text', width: 60, align: 'center', 'visible': false},
-      {name: 'D', title: 'Customer', type: 'text', width: 60, align: 'center'},
-      {name: 'E', title: 'PNR', type: 'text', width: 50, align: 'center'},
-      {name: 'F', title: 'Provider', type: 'text', align: 'center'},
-      {name: 'G', title: 'Currency', type: 'text', align: 'center'},
-      {name: 'H', title: 'Base Fare, $', type: 'text', align: 'center'},
-      {name: 'J', title: 'Taxes & Fees, $', type: 'text', align: 'center'},
-      {name: 'K', title: 'Total, $', type: 'text', align: 'center'},
-      {name: 'L', title: 'Status', type: 'text', align: 'center'},
-      {name: 'M', title: 'Method of Payment', type: 'text', align: 'center', 'visible': false},
-      {name: 'N', title: 'Tax Country', type: 'text', align: 'center', 'visible': false},
-      {name: 'O', title: 'Tax City', type: 'text', align: 'center', 'visible': false},
-      {name: 'P', title: 'Tax Zip', type: 'text', align: 'center', 'visible': false},
-      {name: 'Q', title: 'Device', type: 'text', align: 'center', 'visible': false},
-      {name: 'R', title: 'Referrer', type: 'text', align: 'center'},
+      {name: 'A', title: 'Date', type: 'text', width: 80, align: 'center', sorting: false },
+      {name: 'B', title: 'ID', type: 'text', width: 60, align: 'center', sorting: false },
+      {name: 'C', title: 'SKU', type: 'text', width: 60, align: 'center', sorting: false },
+      {name: 'D', title: 'Customer', type: 'number', width: 80, align: 'center', sorting: false },
+      {name: 'E', title: 'PNR', type: 'number', width: 80, align: 'center', sorting: false },
+      {name: 'F', title: 'Provider', type: 'text', align: 'center', sorting: true, sorter: 'string'},
+      {name: 'G', title: 'Currency', type: 'text', align: 'center', sorting: false },
+      {name: 'H', title: 'Base Fare, $', type: 'number', align: 'center', sorting: true, sorter: 'number'},
+      {name: 'J', title: 'Taxes & Fees, $', type: 'number', align: 'center', sorting: true, sorter: 'number'},
+      {name: 'K', title: 'Total, $', type: 'number', align: 'center', sorting: true, sorter: 'number'},
+      {name: 'L', title: 'Status', type: 'text', align: 'center', sorting: false },
+      {name: 'M', title: 'Method of Payment', type: 'text', align: 'center', sorting: false },
+      {name: 'N', title: 'Tax Country', type: 'text', align: 'center', sorting: false },
+      {name: 'O', title: 'Tax City', type: 'text', align: 'center', sorting: false },
+      {name: 'P', title: 'Tax Zip', type: 'text', align: 'center', sorting: false },
+      {name: 'Q', title: 'Device', type: 'text', align: 'center', sorting: false },
+      {name: 'R', title: 'Referrer', type: 'text', width: 200, align: 'center', sorting: true, sorter: 'string'},
     ]
   });
 };
