@@ -218,7 +218,7 @@ module.exports = {
             // Device: '',
             Q: '',
             // Referrer: '',
-            R: user.landing_page || 'n/d'
+            R: user.landing_page || ''
           }
         );
       }
@@ -239,7 +239,7 @@ module.exports = {
           { title: 'Provider', type: 'string' },
           { title: 'Currency', type: 'string' },
           { title: 'Base Fare, $', type: 'number' },
-          { title: 'Taxes, $', type: 'number' },
+          { title: 'Taxes & Fees, $', type: 'number' },
           { title: 'Total, $', type: 'number' },
           { title: 'Status', type: 'string' },
           { title: 'Method of Payment', type: 'string' },
@@ -283,7 +283,7 @@ module.exports = {
         });
 
         ws.cell(1,1)
-          .string('Transaction report from '+moment(dateStart).format('MM/DD/YYYY')+' to '+moment(dateEnd).format('MM/DD/YYYY'))
+          .string('Transactions Report from '+moment(dateStart).format('MM/DD/YYYY')+' to '+moment(dateEnd).format('MM/DD/YYYY'))
           .style({font:{size: 12}});
 
         let styleHeader = wb.createStyle({
