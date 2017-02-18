@@ -62,7 +62,7 @@ module.exports = {
   },
 
   flightapis: {
-    searchProvider: ['mondee'/*, 'farelogix'*//*, 'mystifly'*/],
+    searchProvider: ['mondee', /*'farelogix'*//*, 'mystifly',*/ 'cheapoair'],
     mondee: {
       baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
       clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
