@@ -183,12 +183,12 @@ $(document).ready(function () {
         window.location.hash = 'UserInfo';
       break;
       case 'gridUsersStat':
-        window.location.hash = 'SearchesLog';
+        window.location.hash = 'SearchLog';
         $('#gridUsersStat').jsGrid('refresh');
         getUsersStatistics();
       break;
       case 'gridOverallStat':
-        window.location.hash = 'SearchesPerformance';
+        window.location.hash = 'SearchPerformance';
         getUsersStatistics();
       break;
       case 'gridUsersStatVoiceSearch':
@@ -198,7 +198,11 @@ $(document).ready(function () {
       case 'gridVanityURLs':
         window.location.hash = 'VanityURLs';
         genGridVanityURLs(); // dependencies/statistics.js
-      break;      
+      break;
+      case 'gridTransactionsReport':
+        window.location.hash = 'TransactionsReport';
+        genGridTransactionsReport();
+      break;
     }
   };
 
@@ -510,6 +514,7 @@ $(document).ready(function () {
   generateGridUsersStat();
   generateGridOverallStat();
   genGridUsersStatVoiceSearch();
+  //genGridTransactionsReport();
 
   // Simple log function to keep the example simple
   function log() {
@@ -524,10 +529,10 @@ $(document).ready(function () {
       case '#UserInfo':
         activeTab = 'user_search';
         break;
-      case '#SearchesLog':
+      case '#SearchLog':
         activeTab = 'gridUsersStat';
         break;
-      case '#SearchesPerformance':
+      case '#SearchPerformance':
         activeTab = 'gridOverallStat';
         break;
       case '#VoiceParsingLog':
@@ -535,7 +540,10 @@ $(document).ready(function () {
         break;
       case '#VanityURLs':
         activeTab =  'gridVanityURLs';
-        break;        
+        break;
+      case '#TransactionsReport':
+        activeTab = 'gridTransactionsReport';
+        break;
     }
     changeTabNav(activeTab);
   }
