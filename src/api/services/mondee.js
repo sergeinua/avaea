@@ -78,9 +78,9 @@ class MondeeClient {
             });
           }
 
-          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future  
+          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
-            PhoneNumber: (''+params['passengers[1].phone']).replace(/[\s+]/g, ''), // contains only digits
+            PhoneNumber: (''+params['passengers[1].phone']).replace(/[^0-9]/g,''), // contains only digits
             AlternatePhoneNumber: '',
             DestinationPhoneNumber: '',
             Email: params.user.email        // email from table User
@@ -107,7 +107,7 @@ class MondeeClient {
                 Name: params.FirstName+' '+params.LastName,
                 Address1: params.Address1,
                 City: params.City,
-                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by 
+                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by
                 Country: params.Country,
                 ZipCode: params.ZipCode
               }
@@ -128,8 +128,8 @@ class MondeeClient {
             }
           };
           return req;
-        }        
-      },      
+        }
+      },
       readEticket: {
         url: 'readEticket',
         method: 'ReadETicket',
@@ -451,6 +451,8 @@ class Mapper {
       id: itinerary.ItineraryId,
       service: 'mondee',
       price: parseFloat((parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes)).toFixed(2)),
+      fare: parseFloat(itinerary.Fares[0].BaseFare).toFixed(2), // for transactions report
+      taxes: parseFloat(itinerary.Fares[0].Taxes).toFixed(2), // for transactions report
       currency: itinerary.Fares[0].CurrencyCode,
       duration: '',
       durationMinutes: 0,
@@ -561,22 +563,22 @@ module.exports = {
 
           onvoya.log.info(_api_name + ' started');
 
-          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);          
+          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
-        
+
         let calbackTicketPNR = function(err, result){
           // return result = { Remarks:
           //   [ { StatusCode: 'WA',
           //       MessageNumber: 'TI004',
-          //       MessageText: 'CREDIT CARD DENIAL' } ] }          
-          // or err = Getting error while ticket the pnr, please try again        
-          
+          //       MessageText: 'CREDIT CARD DENIAL' } ] }
+          // or err = Getting error while ticket the pnr, please try again
+
           //Status Code: INFO (Successful Ticketing)
-          //Message: 
+          //Message:
             // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
 
           //Status Code: WA  (Failure Ticketing)
-          //Messages: 
+          //Messages:
             // TICKETING PROCESS FAILED
             // CREDIT CARD DENIAL
             // ERROR IDENTIFYING PNR INFO
@@ -586,7 +588,7 @@ module.exports = {
             for(let i in result.Remarks){
               let remark = result.Remarks[i];
               if(remark.StatusCode === 'WA'){
-                err = remark.MessageText;                
+                err = remark.MessageText;
                 break;
               }
             }
@@ -629,7 +631,7 @@ module.exports = {
         }
       };
       return req;
-    }        
+    }
   },
   /**
    * Read e-ticker after booking
