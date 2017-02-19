@@ -201,7 +201,7 @@ class MondeeClient {
           return callback( req, null );
         }
 
-        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:\n", req);
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -546,15 +546,13 @@ module.exports = {
     onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-      
-      onvoya.log.info(result);
-      
+
       let bookingResult = result;
        
       if(!err) { // do request ticket PNR
 	
-	onvoya.log.error(err);
-        
+	onvoya.log.debug(result);
+
         let attempt = 0; // count of attempts of TicketPNR requests 
         
         let doTicketPNR = function() {
@@ -566,7 +564,7 @@ module.exports = {
           return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
 
-        let calbackTicketPNR = function(err, result){
+        let calbackTicketPNR = function(err, result) {
           // return result = { Remarks:
           //   [ { StatusCode: 'WA',
           //       MessageNumber: 'TI004',
@@ -593,7 +591,9 @@ module.exports = {
               }
             }
           }
-          onvoya.log.info(result);
+	  
+          onvoya.log.debug(result);
+	  
 	  if( err ) {
             onvoya.log.error(err);
             if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
@@ -612,14 +612,16 @@ module.exports = {
 	    return callback(err, bookingResult || {});
 	  }
         };
+	
         return doTicketPNR();
       }
       else {
+	onvoya.log.error(err);
         return callback(err, bookingResult);
       }
     });
   },
-  ticketPnr:{
+  ticketPnr: {
     url: 'ticketPnr',
     method: 'TicketPnr',
     request: (req, params) => {
