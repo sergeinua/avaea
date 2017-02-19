@@ -1228,6 +1228,7 @@ a:focus,
 /* red */
 
 form label.required:before,
+form.booking .has-error label.hint,
 .warning,
 .remove-fieldset {
 	color: #ed2741;
@@ -1388,7 +1389,7 @@ textarea {
 	padding: 8px;
 }
 
-.its-me .hint,
+form.booking .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .ff-miles.none {

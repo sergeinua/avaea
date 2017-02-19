@@ -366,6 +366,50 @@ let OrderPanel = React.createClass({
             {this.makeOrderData(this.props.orderData).map(
                   (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
             )}
+            
+            
+            {/* engineer -- 
+                This begins the email signup flow
+                  - remove the login screen from the booking flow (when user clicks "buy" button, skip login and go to this form)
+            */}
+            <div className="signup-option">
+	          	<label className="required">Where should we send the Confirmation email?</label>
+	          	
+	          	{/* engineer -- 
+	                  - check if user is logged in
+	                    -- if they are, pre-fill the email field but leave it editable
+	                  - on blur (user leaves the field), validate if it is a valid email address
+	                    -- if it isn't, add class "has-error" to div "signup-option" and show error message in label
+	             */}
+	          	<input type="text" id="email" name="email" className="form-control input-sm" placeholder="Email address" required=""/>
+	          	<label className="error">Please enter valid email address</label> 
+	          	
+	          	<label className="checkbox">
+		          	<input type="checkbox" id="booking-signup-affirm" name="booking-signup-affirm" className="checkbox-no-bs" required=""/>
+		          	<span>Sign up to save your information</span>
+	          	</label>
+	          	
+		          	{/* engineer -- 
+	                  - if sign up checkbox above is checked, show div "sign-up-requirements"
+	                    -- require password
+		          	*/}
+	          		<div className="sign-up-requirements">
+	          			{/* engineer -- 
+	          					- Ajax validate password field has 6 characters on blur 
+	          					- if it doesn't, add class "has-error" to div "sign-up-requirements"
+	          			*/}
+	          			<input type="text" id="password" name="booking-signup-password" className="form-control input-sm" placeholder="Create Password" required=""/>
+	          		  <label className="hint">6 characters or more</label>
+	          		  
+	          		</div>{/* ends sign up requirements */}
+	          	
+	          	{/* engineer -- 
+	                  - on submit the validated form with this area validated also
+	           					-- send Welcome email
+	           					-- if user is new user, save the email to their Profile (we will expose it on Profile page in a later task)
+	            */}
+          
+            </div>{/* ends email signup flow */}
 
             <div className="page-ti people">Travellers</div>
             {_passengers}

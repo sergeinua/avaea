@@ -31,6 +31,32 @@
 
 
 
+/* booking form sign up div */
+
+form.booking label.hint,
+form.booking label.error {
+	font-size: 14px;
+	margin-top: 5px;
+}
+
+form.booking label.checkbox {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+form.booking label.checkbox,
+form.booking label.checkbox span,
+form.booking label.checkbox input {
+	position: relative;
+}
+
+form.booking label.checkbox span {
+	left: 30px;
+}
+
+form.booking label.checkbox input {
+	left: 20px;
+}
 
 
 /* end for-integration.css */
