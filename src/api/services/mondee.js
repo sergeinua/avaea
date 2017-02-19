@@ -592,6 +592,8 @@ module.exports = {
             }
           }
 	  
+          onvoya.log.debug(result);
+	  
 	  if( err ) {
             onvoya.log.error(err);
             if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
@@ -607,7 +609,6 @@ module.exports = {
 	    }
 	  }
 	  else {
-            onvoya.log.debug(result);
 	    return callback(err, bookingResult || {});
 	  }
         };
