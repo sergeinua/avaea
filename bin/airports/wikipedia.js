@@ -45,7 +45,7 @@ WikipediaScraper.prototype.query = function( params, subpage_callback ) {
     }
     const complete_url = _WIKIPEDIA_API_BASE+url_params.join("&");
     if( this.argv.loglevel>1 ) {
-	console.log("Querying "+complete_url);
+	console.log("Wikipedia: Querying "+complete_url);
     }
     return this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
 	// Handle pages returned by generator
@@ -57,14 +57,14 @@ WikipediaScraper.prototype.query = function( params, subpage_callback ) {
 	}
 	else {
 	    if( this.argv.loglevel>0 ) {
-		console.log("ERROR: Cannot parse JSON of "+complete_url);
+		console.log("Wikipedia: ERROR: Cannot parse JSON of "+complete_url);
 	    }
 	}
 	// See if we have to continue to generate
 	if( json.batchcomplete=='' && json['continue'] && json['continue']['continue']!='' ) {
 	    var continue_name = json['continue']['continue'].replace(/^([a-z]+)[^a-z]+$/i,"$1");
 	    if( this.argv.loglevel>1 ) {
-		console.log("Continuting with "+continue_name+"="+json['continue'][continue_name]);
+		console.log("Wikipedia: Continuting with "+continue_name+"="+json['continue'][continue_name]);
 	    }
 	    var continue_params = _LODASH.clone(params);
 	    continue_params[continue_name] = json['continue'][continue_name];
@@ -72,7 +72,7 @@ WikipediaScraper.prototype.query = function( params, subpage_callback ) {
 	}
 	else {
 	    if( this.argv.loglevel>1 ) {
-		console.log("Stopping, batchcomplete="+json.batchcomplete+",continue.gcmcontinue="+(json['continue'] ? json['continue'].gcmcontinue : 'n/a'));
+		console.log("Wikipedia: Stopping, batchcomplete="+json.batchcomplete+",continue.gcmcontinue="+(json['continue'] ? json['continue'].gcmcontinue : 'n/a'));
 	    }
 	}
     }.bind(this));
@@ -82,12 +82,12 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
     var iata_3code = matches ? matches[1].toUpperCase() : undefined;
     if( !iata_3code ) {
 	if( this.argv.loglevel>0 ) {
-	    console.log("Cannot find iata_3code for "+complete_url);
+	    console.log("Wikipedia: Cannot find iata_3code for "+complete_url);
 	}
     }
     else if( !airports.hasOwnProperty(iata_3code) ) {
 	if( this.argv.loglevel>1 ) {
-	    console.log("Found airport %s but is it unknown to the rest of the code",iata_3code);
+	    console.log("Wikipedia: Found airport %s but is it unknown to the rest of the code",iata_3code);
 	}
     }
     else {
@@ -98,12 +98,17 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
 	    for( var n=1; n<matches.length; n+=2 ) {
 		if( matches[n] ) {
 		    // Just grab the first number even if the triples in it are separated with commas ot periods
-		    properties[matches[n]] = matches[n+1].replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,"");
+		    properties[matches[n]] = matches[n+1];
 		    if( matches[n].toLowerCase().indexOf("passenger")>=0 ) {
 			// There can be several "passenger" properties, i.e. "Domestic Passengers","International Passengers", etc
-			// Choose the largest one
-			var new_pax  = Number(properties[matches[n]])
+                        // However watch out for those "between X and Y numbers" as in https://en.wikipedia.org/wiki/R%C3%BCgen_Airport
+                        var convert_to_number = function( s ) {
+			  return Number(s.replace(/^([\d,\.\s]+).*$/,"$1").replace(/[^\d]/g,""));
+		        }
+  		        var between_submatches = matches[n+1].match(/\s*between\s+([\d,\.]+)\s+and\s+([\d,\.]+)\s*/i);
+		        var new_pax = between_submatches ? ((convert_to_number(between_submatches[1])+convert_to_number(between_submatches[2]))/2) : convert_to_number(matches[n+1]);
 			if( new_pax>pax )
+                            // Choose the largest one
 			    pax = new_pax;
 		    }
 		}
@@ -113,15 +118,15 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
 	    }
 	    else {
 		if( this.argv.loglevel>0 ) {
-		    console.log("Cannot find any passengers in %s,properties=%j",complete_url,properties);
+		    console.log("Wikipedia: Cannot find any passengers in %s,properties=%j",complete_url,properties);
 		}
 	    }
 	    airports[iata_3code].wikipedia = JSON.stringify(properties);
-	    console.log("Set properties for %s: %j",iata_3code,properties);
+	    console.log("Wikipedia: Set properties for %s: %j",iata_3code,properties);
 	}
 	else {
 	    if( this.argv.loglevel>0 ) {
-		console.log("Cannot find statistical properties for airport %s (%s) ",iata_3code,complete_url);
+		console.log("Wikipedia: Cannot find statistical properties for airport %s (%s) ",iata_3code,complete_url);
 	    }
 	}
     }
@@ -129,21 +134,21 @@ WikipediaScraper.prototype.parse_text = function( airports, complete_url, text )
 WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_count ) {
     if( redirect_count>3 ) {
 	if( this.argv.loglevel>0 ) {
-	    console.log("Got to parse %s with redirect_count=%d, ignoring it",complete_url,redirect_count);
+	    console.log("Wikipedia: Got to parse %s with redirect_count=%d, ignoring it",complete_url,redirect_count);
 	}
     }
     else {
 	// complete_url = 'https://en.wikipedia.org/w/api.php?action=parse&pageid=266327&format=json&prop=text';
 	this.ac.http_request(_REQUEST,complete_url,function( error, response, body ) {
 	    if( this.argv.loglevel>1 ) {
-		console.log("Parsing "+complete_url);
+		console.log("Wikipedia: Parsing "+complete_url);
 	    }
 	    var json = {};
 	    try {
 		json = JSON.parse(body);
 	    }
 	    catch( err ) {
-		console.log("JSON cannot parse the body of %s (%j)",complete_url,err);
+		console.log("Wikipedia: JSON cannot parse the body of %s (%j)",complete_url,err);
 		return;
 	    }
 	    if( json.parse && json.parse.text && json.parse.text['*']) {
@@ -154,7 +159,7 @@ WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_co
 		if( matches ) {
 		    var redirect_url = _WIKIPEDIA_API_BASE+"action=parse&page="+matches[1]+"&format=json&prop=text";
 		    if( this.argv.loglevel>0 ) {
-			console.log("Got redirect from %s to %s",complete_url,redirect_url);
+			console.log("Wikipedia: Got redirect from %s to %s",complete_url,redirect_url);
 		    }
 		    this.parse(airports,redirect_url,redirect_count+1);
 		}
@@ -164,7 +169,7 @@ WikipediaScraper.prototype.parse = function( airports, complete_url, redirect_co
 	    }
 	    else {
 		if( this.argv.loglevel>0 ) {
-		    console.log("ERROR: cannot parse JSON of "+complete_url);
+		    console.log("Wikipedia: ERROR: cannot parse JSON of "+complete_url);
 		}
 	    }
 	    // process.exit(0);
@@ -189,7 +194,7 @@ WikipediaScraper.prototype.run = function( argv, asyncsCounter, airports ) {
 		return; // see http://prntscr.com/bmu301
 	    if( this.parsed_pageids.hasOwnProperty(pageid) ) {
 		if( this.argv.loglevel>0 ) {
-		    console.log("Pageid "+pageid+" has already been parsed at %s",this.parsed_pageids[pageid]);
+		    console.log("Wikipedia: Pageid "+pageid+" has already been parsed at %s",this.parsed_pageids[pageid]);
 		}
 	    }
 	    else if( /^.+airport$/i.exec(page.title) ) {

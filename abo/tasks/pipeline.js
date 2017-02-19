@@ -15,6 +15,11 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
+  'styles/bootstrap.min.css',
+  'styles/bootstrap.css',     // I think it need to remove this css cause it's dublicate of bootstrap.min.css
+  'styles/bootstrap-theme.min.css',
+  'styles/bootstrap-theme.css', // The story like bootstrap.css
+  'styles/bootstrap-datetimepicker.min.js',
   'styles/**/*.css'
 ];
 
@@ -26,6 +31,10 @@ var jsFilesToInject = [
   // Load sails.io before everything else
   // 'js/dependencies/sails.io.js',
   'js/dependencies/jquery.js',
+  'js/dependencies/moment-with-locales.min.js',      
+  'js/dependencies/bootstrap.js',
+  'js/dependencies/bootstrap-datetimepicker.min.js',
+
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',
