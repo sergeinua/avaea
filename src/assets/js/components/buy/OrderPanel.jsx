@@ -101,6 +101,8 @@ let OrderPanel = React.createClass({
   execReq: function (event) {
     event.preventDefault();
     this.props.actionSetOrderVal('flashMsg', '');
+    
+    this.props.actionSetOrderVal('formMsg', '');
 
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
@@ -182,12 +184,12 @@ let OrderPanel = React.createClass({
         }
       },
       messages: {
-        FirstName: "First name contains some invalid characters or is too short",
-        LastName: "Last name contains some invalid characters or is too short",
+        FirstName: "Must not have be empty or have invalid characters",
+        LastName: "Must not have be empty or have invalid characters",
         ZipCode: "Please enter digits only",
-        CardNumber: "There seems to be a typo in credit card number",
+        CardNumber: "Please enter a valid credit card number",
         CVV: "Please enter 3 digits",
-        "passengers[1].phone": "Phone contains some invalid characters or has too few digits"
+        "passengers[1].phone": "Please enter a valid phone number"
       },
       errorPlacement: function(error, element) {
         let _elem_name = element.attr('name');
@@ -254,10 +256,9 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
-      this.props.actionSetOrderVal('flashMsg',
-        'We have found some errors in your input. Please review the fields highlighted with red color below and make corrections.'
+      this.props.actionSetOrderVal('formMsg',
+        'Please correct the fields above.'
       );
-      window.scrollTo(0, 0);
       return;
     }
     $("#bookingModal").modal({
@@ -414,8 +415,8 @@ let OrderPanel = React.createClass({
             <div className="page-ti people">Travellers</div>
             {_passengers}
 
-
             <div className="buttons">
+            	<div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
                 {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
               </button>

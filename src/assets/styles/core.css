@@ -1229,6 +1229,7 @@ a:focus,
 
 form label.required:before,
 form.booking .has-error label.hint,
+form.booking div.error,
 .warning,
 .remove-fieldset {
 	color: #ed2741;
