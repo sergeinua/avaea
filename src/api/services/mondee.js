@@ -80,7 +80,7 @@ class MondeeClient {
 
           // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
-            PhoneNumber: (''+params['passengers[1].phone']).replace(/[\s+]/g, ''), // contains only digits
+            PhoneNumber: (''+params['passengers[1].phone']).replace(/[^0-9]/g,''), // contains only digits
             AlternatePhoneNumber: '',
             DestinationPhoneNumber: '',
             Email: params.user.email        // email from table User
