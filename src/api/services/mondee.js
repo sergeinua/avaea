@@ -548,16 +548,15 @@ module.exports = {
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
 
       onvoya.log.debug(result);
-      onvoya.log.error(err);
 
       let bookingResult = result;
-
-      if(!err){ // do request ticket PNR
-
-        let attempt = 0; // count of attempts of TicketPNR requests
-
-        let doTicketPNR = function(){
-          let api = 'ticketPnr',
+       
+      if(!err) { // do request ticket PNR
+	
+        let attempt = 0; // count of attempts of TicketPNR requests 
+        
+        let doTicketPNR = function() {
+          let api = 'ticketPnr', 
             _api_name = serviceName + '.' + api;
 
           onvoya.log.info(_api_name + ' started');
@@ -565,7 +564,7 @@ module.exports = {
           return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
 
-        let calbackTicketPNR = function(err, result){
+        let calbackTicketPNR = function(err, result) {
           // return result = { Remarks:
           //   [ { StatusCode: 'WA',
           //       MessageNumber: 'TI004',
@@ -592,27 +591,35 @@ module.exports = {
               }
             }
           }
-
-          onvoya.log.debug(result);
-          onvoya.log.error(err);
-
-          if(err && attempt < 3){ // max count of attemts is 3
-            attempt ++;
-            onvoya.log.debug('....... waiting '+3*attempt+' seconds time: '+new Date());
-            setTimeout(doTicketPNR, 3*1000*attempt);
-          }else{
-            return callback(err, bookingResult || {});
-          }
+          onvoya.log.info(result);
+	  if( err ) {
+            onvoya.log.error(err);
+            if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
+	      return callback(0,bookingResult ||{});
+	    }
+	    else if( ++attempt<=3 ) {
+	      const seconds_per_attempt = 3;
+              onvoya.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
+              setTimeout(doTicketPNR,attempt*seconds_per_attempt*1000);
+	    }
+	    else {
+	      return callback(err, bookingResult || {});
+	    }
+	  }
+	  else {
+	    return callback(err, bookingResult || {});
+	  }
         };
-
+	
         return doTicketPNR();
-
-      }else{
+      }
+      else {
+	onvoya.log.error(err);
         return callback(err, bookingResult);
       }
     });
   },
-  ticketPnr:{
+  ticketPnr: {
     url: 'ticketPnr',
     method: 'TicketPnr',
     request: (req, params) => {
