@@ -201,7 +201,7 @@ class MondeeClient {
           return callback( req, null );
         }
 
-        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:\n", req);
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -547,8 +547,8 @@ module.exports = {
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
 
-      sails.log(result);
-      sails.log.error(err);
+      onvoya.log.debug(result);
+      onvoya.log.error(err);
 
       let bookingResult = result;
 
@@ -560,7 +560,7 @@ module.exports = {
           let api = 'ticketPnr',
             _api_name = serviceName + '.' + api;
 
-          sails.log.info(_api_name + ' started');
+          onvoya.log.info(_api_name + ' started');
 
           return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
@@ -593,12 +593,12 @@ module.exports = {
             }
           }
 
-          sails.log(result);
-          sails.log.error(err);
+          onvoya.log.debug(result);
+          onvoya.log.error(err);
 
           if(err && attempt < 3){ // max count of attemts is 3
             attempt ++;
-            sails.log('....... waiting '+3*attempt+' seconds time: '+new Date());
+            onvoya.log.debug('....... waiting '+3*attempt+' seconds time: '+new Date());
             setTimeout(doTicketPNR, 3*1000*attempt);
           }else{
             return callback(err, bookingResult || {});
