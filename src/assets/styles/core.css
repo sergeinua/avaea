@@ -4341,6 +4341,10 @@ html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
 }
 
+html[data-useragent*='Trident'] input[type="checkbox"] {
+	outline: none;
+}
+
 
 /* IE 11 ONLY */
 @media all and (-ms-high-contrast:none) {
