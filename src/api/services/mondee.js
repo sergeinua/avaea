@@ -548,15 +548,15 @@ module.exports = {
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
 
       let bookingResult = result;
-       
-      if(!err) { // do request ticket PNR
-	
-	onvoya.log.debug(result);
 
-        let attempt = 0; // count of attempts of TicketPNR requests 
-        
+      if(!err) { // do request ticket PNR
+
+        onvoya.log.debug(result);
+
+        let attempt = 0; // count of attempts of TicketPNR requests
+
         let doTicketPNR = function() {
-          let api = 'ticketPnr', 
+          let api = 'ticketPnr',
             _api_name = serviceName + '.' + api;
 
           onvoya.log.info(_api_name + ' started');
@@ -591,32 +591,30 @@ module.exports = {
               }
             }
           }
-	  
+
           onvoya.log.debug(result);
-	  
-	  if( err ) {
+          if( err ) {
             onvoya.log.error(err);
             if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
-	      return callback(0,bookingResult ||{});
-	    }
-	    else if( ++attempt<=3 ) {
-	      const seconds_per_attempt = 3;
+              return callback(0,bookingResult ||{});
+            }
+            else if( ++attempt<=3 ) {
+              const seconds_per_attempt = 3;
               onvoya.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
               setTimeout(doTicketPNR,attempt*seconds_per_attempt*1000);
-	    }
-	    else {
-	      return callback(err, bookingResult || {});
-	    }
-	  }
-	  else {
-	    return callback(err, bookingResult || {});
-	  }
+            }
+            else {
+              return callback(err, bookingResult || {});
+            }
+          }
+          else {
+            return callback(err, bookingResult || {});
+          }
         };
-	
         return doTicketPNR();
       }
       else {
-	onvoya.log.error(err);
+        onvoya.log.error(err);
         return callback(err, bookingResult);
       }
     });
