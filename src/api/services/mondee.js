@@ -592,22 +592,28 @@ module.exports = {
               }
             }
           }
-
-          sails.log(result);
-          sails.log.error(err);
-
-          if(err && attempt < 3){ // max count of attemts is 3
-            attempt ++;
-            sails.log('....... waiting '+3*attempt+' seconds time: '+new Date());
-            setTimeout(doTicketPNR, 3*1000*attempt);
-          }else{
-            return callback(err, bookingResult || {});
-          }
+          sails.log.info(result);
+	  if( err ) {
+            sails.log.error(err);
+            if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
+	      return callback(0,bookingResult ||{});
+	    }
+	    else if( ++attempt<=3 ) {
+	      const seconds_per_attempt = 3;
+              sails.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
+              setTimeout(doTicketPNR,attempt*seconds_per_attempt*1000);
+	    }
+	    else {
+	      return callback(err, bookingResult || {});
+	    }
+	  }
+	  else {
+	    return callback(err, bookingResult || {});
+	  }
         };
-
         return doTicketPNR();
-
-      }else{
+      }
+      else{
         return callback(err, bookingResult);
       }
     });
