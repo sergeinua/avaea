@@ -209,7 +209,7 @@ module.exports = {
       });
 
       if (err) {
-        segmentio.track(req.user.id, 'Booking Failed', {error: err, params: _segmParams});
+        segmentio.track(user.id, 'Booking Failed', {error: err, params: _segmParams});
         return res.ok({
           error: true,
           flashMsg: req.__('Error.Search.Booking.Failed')
