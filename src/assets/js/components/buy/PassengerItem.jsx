@@ -3,6 +3,7 @@ import * as ReactRedux from 'react-redux';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import { actionSetOrderFieldVal } from '../../actions.js';
 import moment from 'moment';
+import { getUser } from '../../functions.js';
 
 let PassengerItem = React.createClass({
 
@@ -23,7 +24,7 @@ let PassengerItem = React.createClass({
       <div>
         <div className="which-passenger">Passenger {this.props.index}</div>
 
-        {this.props.index == 1 ?
+        {this.props.index == 1 && getUser() ?
         <div className="its-me">
           <div className="tertiary-button" onClick={this.props.populateUserData}>It's me</div>
           <div className="hint">Tap if traveller is the person being billed</div>

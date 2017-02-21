@@ -29,7 +29,7 @@ module.exports = {
       }
     }
 
-    if (req.url.match(/(profile|order|booking)/) && (!req.session.authenticated || !req.user)) {
+    if (req.url.match(/(profile)/) && (!req.session.authenticated || !req.user)) {
       req.session.redirectTo = req.url;
       return res.redirect('/login');
     }
