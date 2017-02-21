@@ -194,7 +194,20 @@ module.exports = {
 
         req.session.time_log = [];
         reqParamsApi.session = reqParams.session = req.session;
-        reqParamsApi.ip = req.ip;        
+
+        reqParamsApi.ip = '127.0.0.1'; // ONV-1106
+        if(req.ip && req.ip !== '127.0.0.1'){
+          reqParamsApi.ip = req.ip;
+        }
+        else if(req.headers['X-Forwarded-For'] && req.headers['X-Forwarded-For'] !== '127.0.0.1'){
+          reqParamsApi.ip = req.headers['X-Forwarded-For'];
+        }
+        else if(req.headers['X-Real-IP'] && req.headers['X-Real-IP'] !== '127.0.0.1'){
+          reqParamsApi.ip = req.headers['X-Real-IP'];
+        }
+        // checking results
+        sails.log.info(req.headers);
+        sails.log.info('Found IP: %s', reqParamsApi.ip);
 
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
