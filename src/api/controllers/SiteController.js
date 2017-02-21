@@ -22,7 +22,7 @@ module.exports = {
         // getting of destination URL from vanityURL
         let destinationURL = req.session.vanityURL.destination_url;
         delete req.session.vanityURL;
-        sails.log.verbose('vanityURL redirected to', destinationURL);
+        onvoya.log.verbose('vanityURL redirected to', destinationURL);
         return res.redirect(destinationURL); //redirect to
       } else {
         VanityURLsService.updateCache();

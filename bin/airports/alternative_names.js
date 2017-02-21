@@ -62,7 +62,11 @@ const _ALTERNATIVE_NAMES = {
   'VCE' : 'Grand Canal,Saint Marks Basilica,Piazza San Marco ,Rialto Bridge,Doges Palace,Murano',
   'WAS' : 'White House,Smithsonian,United States Capitol,National Mall,Lincoln Memorial',
   'XIY' : 'Terracotta Army,Giant Wild Goose Pagoda,Mausoleum of the First Qin Emperor',
-  'PPT' : 'Tahiti'
+  'PPT' : 'Tahiti,Matira Point,Bora Bora,Monte Otemanu',
+  'BOB' : 'Matira Point,Bora Bora,Monte Otemanu',
+  'CPT' : 'Cape of Good Hope Table Mountain National Park, Table Mountain National Park, Cape of Good Hope, Cape Point National Park, Cape Point, Robben Island',
+  'TLV' : 'Western Wall, Church of the Holy Sepulchre, City of David, Mount of Olives, Dome of the Rock',
+  'DYG' : 'Zhangjiajie National Forest Park, Tianmen Mountain, Wulingyuan'
 };
 /////////////////////////////////////////////////////////////////
 // module prototype

@@ -461,6 +461,8 @@ const mapFlights = function(flights, priceSettings) {
 const mapCitypairs = function(citypairs) {
   let res = {
     price: 0,
+    fare: 0,
+    taxes: 0,
     durationMinutes: 0,
     citypairs: [],
     key: ''
@@ -472,6 +474,9 @@ const mapCitypairs = function(citypairs) {
       throw 'Wrong response format. No PriceGroup was found in flight';
     }
     res.price += parseInt(pair.PriceGroup.PriceClass[0].Price.Total) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals));
+    res.fare += parseInt(pair.PriceGroup.PriceClass[0].Price.Fare) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals)); // for transactions report onv-897
+    res.taxes += parseInt(pair.PriceGroup.PriceClass[0].Price.Taxes) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals)); // for transactions report onv-897
+
     if (!lodash.isArray(pair.Segment)) {
       pair.Segment = [pair.Segment];
     }
@@ -548,6 +553,8 @@ const mapItinerary = function(itinerary) {
     service: serviceName,
     currency: currency,
     price: 0,
+    fare: 0, // for transactions report
+    taxes: 0, // for transactions report
     duration: '',
     durationMinutes: 0,
     citypairs: [],
@@ -555,7 +562,10 @@ const mapItinerary = function(itinerary) {
   };
 
   let mCitypairs = mapCitypairs(itinerary);
+
   res.price = mCitypairs.price.toFixed(2);
+  res.fare = mCitypairs.fare.toFixed(2); // for transactions report onv-897
+  res.taxes = mCitypairs.taxes.toFixed(2); // for transactions report onv-897
   res.duration = utils.minutesToDuration(mCitypairs.durationMinutes);
   res.durationMinutes = mCitypairs.durationMinutes;
   res.citypairs = mCitypairs.citypairs;
@@ -666,7 +676,9 @@ module.exports = {
                     result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup = {
                       PriceClass: {
                         Price: {
-                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total
+                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total,
+                          Fare: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Fare, // for transactions report onv-897
+                          Taxes: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Taxes.Amount  // for transactions report onv-897
                         },
                         PriceSegment: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment
                       }
@@ -706,7 +718,6 @@ module.exports = {
             _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
             async.map(itineraries, function (itinerary, doneCb) {
-
               return doneCb(null, mapItinerary(itinerary));
             }, function (err, resArr) {
               if ( err ) {
