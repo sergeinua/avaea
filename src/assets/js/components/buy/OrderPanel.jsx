@@ -10,17 +10,18 @@ import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
-const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
 import luhn from 'luhn';
 import { ActionsStore } from '../../functions.js';
+
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
-    var fields_data = incData.fieldsData ? incData.fieldsData : {};
+    let fields_data = incData.fieldsData ? incData.fieldsData : {};
 
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
@@ -34,12 +35,13 @@ let OrderPanel = React.createClass({
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
+      {id:'email', required: true, title: 'Where should we send the Confirmation email?', placeholder: 'Email address', data: fields_data.email || ''}
     ];
   },
 
   makePassengerData: function(incData, index) {
 
-    var fields_data = incData ? incData : {};
+    let fields_data = incData ? incData : {};
 
     return [
       {
@@ -101,6 +103,8 @@ let OrderPanel = React.createClass({
   execReq: function (event) {
     event.preventDefault();
     this.props.actionSetOrderVal('flashMsg', '');
+
+    this.props.actionSetOrderVal('formMsg', '');
 
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
@@ -179,15 +183,20 @@ let OrderPanel = React.createClass({
           digits: true,
           minlength: 3,
           maxlength: 3
+        },
+        email: {
+          required: true,
+          email: true
         }
       },
       messages: {
-        FirstName: "First name contains some invalid characters or is too short",
-        LastName: "Last name contains some invalid characters or is too short",
+        FirstName: "Must not have be empty or have invalid characters",
+        LastName: "Must not have be empty or have invalid characters",
         ZipCode: "Please enter digits only",
-        CardNumber: "There seems to be a typo in credit card number",
+        CardNumber: "Please enter a valid credit card number",
         CVV: "Please enter 3 digits",
-        "passengers[1].phone": "Phone contains some invalid characters or has too few digits"
+        "passengers[1].phone": "Please enter a valid phone number",
+        email: "Please enter valid email address"
       },
       errorPlacement: function(error, element) {
         let _elem_name = element.attr('name');
@@ -254,10 +263,9 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
-      this.props.actionSetOrderVal('flashMsg',
-        'We have found some errors in your input. Please review the fields highlighted with red color below and make corrections.'
+      this.props.actionSetOrderVal('formMsg',
+        'Please correct the fields above.'
       );
-      window.scrollTo(0, 0);
       return;
     }
     $("#bookingModal").modal({
@@ -370,8 +378,8 @@ let OrderPanel = React.createClass({
             <div className="page-ti people">Travellers</div>
             {_passengers}
 
-
             <div className="buttons">
+              <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
                 {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
               </button>
