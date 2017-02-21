@@ -188,7 +188,7 @@ module.exports = {
 
         req.session.time_log = [];
         reqParamsApi.session = reqParams.session = req.session;
-        reqParamsApi.ip = req.ip;
+        reqParamsApi.ip = utils.getIP(req);
 
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
@@ -209,7 +209,7 @@ module.exports = {
       });
 
       if (err) {
-        segmentio.track(user.id, 'Booking Failed', {error: err, params: _segmParams});
+        segmentio.track(req.user.id, 'Booking Failed', {error: err, params: _segmParams});
         return res.ok({
           error: true,
           flashMsg: req.__('Error.Search.Booking.Failed')

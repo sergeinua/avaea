@@ -151,5 +151,24 @@ module.exports = {
 
   getAnonymousUserId: function (req) {
     return req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : false;
+  },
+
+  getIP: function (req) {
+    let ip = '127.0.0.1'; // ONV-1106
+    
+    if(req.ip && req.ip !== '127.0.0.1'){
+      ip = req.ip;
+    }
+    else if(req.headers && req.headers['X-Forwarded-For'] && req.headers['X-Forwarded-For'] !== '127.0.0.1'){
+      ip = req.headers['X-Forwarded-For'];
+    }
+    else if(req.headers && req.headers['X-Real-IP'] && req.headers['X-Real-IP'] !== '127.0.0.1'){
+      ip = req.headers['X-Real-IP'];
+    }
+    // checking results
+    sails.log.info(req.headers);
+    sails.log.info('Found IP: %s', ip);
+
+    return ip;
   }
 };
