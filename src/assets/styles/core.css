@@ -1,5 +1,5 @@
 /* ---------------
-   onvoya core.css - ONV-899-child-booking
+   onvoya core.css
 	 --------------- */
 
 /* syntax
@@ -53,7 +53,7 @@ body,
 	text-align: center;
 	padding: 30px 30px 100px 30px;
 	min-width: 445px;
-  background: linear-gradient(#fafafa, #e3e4e8); 
+  background: linear-gradient(#fafafa, #e3e4e8);
 	background-repeat: no-repeat;
   background-attachment: fixed;
 }
@@ -607,7 +607,6 @@ body:not(.touch) i.icon-mic:before {
 	width: 10%;
 }
 
-
 /* wayfare desktop ad units */
 
 .wayfare iframe,
@@ -691,12 +690,12 @@ body:not(.touch) i.icon-mic:before {
 	border-radius: 15px;
 }
 
-.desktop .search-result .flights, 
+.desktop .search-result .flights,
 .desktop .flight-unit {
 	background: #ffffff !important;
 }
 
-.desktop .search-result .itinerary, 
+.desktop .search-result .itinerary,
 .desktop .flight-unit .itinerary {
 	width: 90%;
 }
@@ -875,7 +874,7 @@ button {
 
 	/* bootstrap */
 	line-height: 1em;
-	
+
 	transition: all 0.1s ease-in-out;
 }
 
@@ -1034,17 +1033,14 @@ button {
 /* dark blue */
 
 
-
 .desktop .result-search-info-bar,
 .bottomNav .sort-button button.btn,
 .clear-undo-buttons,
 .flight-additional-info .text-picker,
-legend {
-	color: #052767;
-}
-
+legend,
 .searchform,
-.desktop .searchnav .dropbutton {
+.desktop .searchnav .dropbutton,
+.searchform .flight-direction .error-flash  {
 	color: #05277a;
 }
 
@@ -1103,7 +1099,7 @@ input[type=radio]:checked:after {
 
 .meri-speaks .bubble:after {
 	border-top: 0px solid transparent;
-	border-right: 0px solid transparent; 
+	border-right: 0px solid transparent;
 }
 
 
@@ -1220,21 +1216,18 @@ a:focus,
 .navbar-default .navbar-form,
 .navmenu-default,
 .navbar-default .navbar-offcanvas {
-	background: #001588;
+	background: #052767;
 }
 
 .searchnav,
 .searchform .flight-direction,
 .multi-city-coming-soon {
-	background: #00a9e7;
+	background: #052767;
 }
 
-/* 50% */
-
-.desktop .searchnav .positioner,
 .searchform .open-calendar,
-.searchform .area {
-	background: #bae9ff;
+.desktop .searchnav .positioner {
+	background: #cbecfb;
 }
 
 .desktop .searchnav .positioner {
@@ -1365,7 +1358,7 @@ form label.required:before,
 
 .has-error .form-control,
 .highlight,
-.error-flash, 
+.error-flash,
 .has-error input {
 	background: #ffffe0;
 }
@@ -1374,7 +1367,7 @@ form label.required:before,
 	background-color: #ffffe0 !important;
 }
 
-.form label.error, 
+.form label.error,
 .has-error label,
 .radio-buttons-block label.has-error,
 .dropmenu-wrapper.has-error select,
@@ -1415,7 +1408,7 @@ form label.required:before,
 	border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.searchform .label-d,
+/* .searchform .label-d, */
 .searchform .open-calendar .weekday {
 	color: #3e7589;
 }
@@ -1434,9 +1427,12 @@ form label.required:before,
 	background: #e5e5e5;
 }
 
-.meri-speaks .bubble,
 chrome {
 	background: #fafafa;
+}
+
+.meri-speaks .bubble {
+	background-color: #fafafa;
 }
 
 
@@ -1474,7 +1470,7 @@ chrome {
 }
 
 .message.info {
-	
+
 }
 
 
@@ -1559,9 +1555,9 @@ textarea {
 
 /* remove bootstrap form no-bs */
 
-.radio input[type="radio"], 
-.radio-inline input[type="radio"], 
-.checkbox input[type="checkbox"], 
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
 .checkbox-inline input[type="checkbox"] {
 	margin-left: 0;
 	margin-top: 0;
@@ -1661,9 +1657,9 @@ input[type=radio]:focus:after {
 	border-width: 2px;
 }
 
-select::-ms-expand { 
-  display: none; 
-} 
+select::-ms-expand {
+  display: none;
+}
 
 input[type=date]::-webkit-calendar-picker-indicator,
 input[type=date]::-webkit-inner-spin-button {
@@ -1680,8 +1676,8 @@ input[type="date"]:before {
 	position: relative;
 }
 
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
   opacity: 0;
 }
 
@@ -1748,7 +1744,7 @@ input[type="date"]:before {
 	text-transform: uppercase;
 }
 
-.form label.error, 
+.form label.error,
 .has-error label {
   display: block;
 }
@@ -1932,7 +1928,7 @@ input[type="date"]:before {
 /* search form */
 
 .searchnav {
-	padding: 0px 10px 0 10px; 
+	padding: 0px 10px 0 10px;
 	position: relative;
 	z-index: 2;
 }
@@ -1961,7 +1957,7 @@ input[type="date"]:before {
 	text-align: left;
 	display: inline-block;
 	background: #ffffff;
-	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3); 
+	box-shadow: 2px 2px 2px rgba(0, 0, 0, .3);
 }
 
 .dropbutton {
@@ -2101,7 +2097,7 @@ input[type="date"]:before {
 	top: 7px;
 }
 
-.dropmenu.passenger-chooser .cancel-button {	
+.dropmenu.passenger-chooser .cancel-button {
 	margin-left: 5px;
 }
 
@@ -2135,6 +2131,10 @@ input[type="date"]:before {
 }
 
 .searchform .flight-direction {
+	color: #ffffff;
+}
+
+.searchform .flight-direction {
 	padding-bottom: 30px;
 }
 
@@ -2153,6 +2153,7 @@ input[type="date"]:before {
 
 .flight-direction .label-d {
   padding-bottom: 5px;
+	opacity: .5;
 }
 
 .flight-direction .city-name {
@@ -2978,7 +2979,7 @@ td[data-action*="selectDay"] {
 	background: #ededed;
 }
 
-.tertiary-button.disabled:before, 
+.tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text {
 	color: #aaa;
 }
@@ -3550,7 +3551,7 @@ td[data-action*="selectDay"] {
 /* stacked fields, fieldgroups */
 
 .booking .text-holder .FirstName,
-.booking .text-holder input[class*="FirstName"], 
+.booking .text-holder input[class*="FirstName"],
 .booking .dropmenu.Country,
 .booking .text-holder .CardNumber {
 	border-bottom-right-radius: 0px;
@@ -3749,15 +3750,15 @@ td[data-action*="selectDay"] {
 		top: -8px;
 }
 
- 
+
 
 /* heredeb */
- 
+
 .booking .confirmation {
 	font-family: 'Open-Sans-Light';
 	font-size: 20px;
 	text-align: center;
-	padding: 15px; 
+	padding: 15px;
 }
 
 .booking .confirmation:after {
@@ -3968,7 +3969,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking-success .notable-area .ff-miles, 
+.booking-success .notable-area .ff-miles,
 .booking-success .notable-area .ff-miles.no-value {
     margin-left: -20px;
 }
@@ -4493,7 +4494,7 @@ footer.app-copy .bottom a {
 	.touch.suppress-logo .navbar-brand {
 		display: none;
 	}
-	
+
 	.desktop .flight-direction .area {
 		width: 180px;
 	}
@@ -4558,7 +4559,7 @@ footer.app-copy .bottom a {
 		margin-left: 3%;
     margin-right: 3%;
 	}
-	
+
 }
 
 
@@ -4578,38 +4579,38 @@ footer.app-copy .bottom a {
 	.touch .booking .notable-area .refundable  {
 		margin-left: 12%;
 	}
-	
+
 	.meri-speaks .bubble {
 		padding: 12px 40px 12px 80px;
 	}
-	
+
 }
 
 /* android */
 @media (max-width: 360px) {
-	
+
 	.searchnav .dropbutton {
 		padding-top: 12px;
-		padding-bottom: 15px; 
+		padding-bottom: 15px;
 	}
-	
+
 	.searchform .flight-direction {
 		padding-bottom: 20px;
 	}
-	
+
 	.open-calendar {
 		padding-top: 18px;
 		padding-bottom: 5px;
 	}
-	
+
 	.open-calendar .the-date {
 		line-height: 45px;
 	}
-	
+
 	.open-calendar .the-date {
 		font-size: 30px;
 	}
-	
+
 }
 
 @media (min-width: 351px) {
@@ -4652,19 +4653,19 @@ footer.app-copy .bottom a {
 	.navbar-toggle .icon-bar {
 		width: 10px;
 	}
-	
+
 	.searchnav {
 		padding-top: 0;
 	}
-	
+
 	.searchform .flight-direction {
 		padding-top: 0px;
 	}
-	
+
 	.touch .search-buttons {
 		margin-top: 35px;
 	}
-	
+
 	.dropmenu.passenger-chooser {
 		right: -5px;
 	}
@@ -4673,36 +4674,36 @@ footer.app-copy .bottom a {
 		padding-top: 0;
 		padding-bottom: 10px;
 	}
-	
+
 	.touch .search.buttons {
 		bottom: 5px;
 	}
-	
+
 	.big-button,
 	.big-button.secondary {
 		padding-left: 20px;
 		padding-right: 20px;
 	}
-	
+
 	.search.buttons .meri-wrapper {
 		height: 88px;
 	}
-	
+
 	.search.buttons .meri-speaks {
 		max-width: 300px;
 		left: calc(50% - 150px);
 	}
-	
+
 	.meri-speaks .bubble {
 		font-size: 13px;
 		padding-left: 70px;
 		background-size: 50px;
 	}
-	
+
 	.multi-city-coming-soon {
 		height: 126px;
 	}
-	
+
 	.booking.confirming .card {
 		margin-right: -8px;
 		margin-left: -15px;
@@ -4746,15 +4747,15 @@ footer.app-copy .bottom a {
 	.touch.android .login-holder .big-button {
 		margin: 5px 5px 5px 5px;
 	}
-	
+
 	.touch .searchnav {
 		padding-top: 0;
 	}
-	
+
 	.touch .searchnav .dropbutton {
 		padding-top: 10px;
 	}
-	
+
 	.touch .searchform .flight-direction {
 		padding-bottom: 10px;
 		display: flex;
@@ -4789,7 +4790,7 @@ footer.app-copy .bottom a {
 		letter-spacing: 0;
 		padding-top: 0;
 	}
-	
+
 	.search.buttons .meri-wrapper.remove {
 		margin-top: 5px;
 		height: 1px;
@@ -4804,7 +4805,7 @@ footer.app-copy .bottom a {
 		position: relative;
 			top: 5px;
 	}
-	
+
 	.touch .search-buttons {
 		margin-top: 0px;
 	}
@@ -5002,10 +5003,10 @@ nav {
 }
 
 /* safari */
-@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0) 
-{ 
+@media screen and (min-color-index:0) and(-webkit-min-device-pixel-ratio:0)
+{
 	@media {
-		
+
 		.text-holder[class*="Date"]:before {
 			content: 'mm/dd/yyyy';
 			color: #a2a2a2;
@@ -5014,18 +5015,18 @@ nav {
 				top: 8px;
 				right: 12px;
 		}
-		
+
 	 .text-holder[class*="Date"].has-error:before {
 			color: #ed2741 !important;
 		}
-		
+
 		.booking input:focus,
 		.booking select:focus {
 			border: 2px solid #00b5ff;
 			box-shadow: none;
 			outline: 0px solid transparent !important;
 		}
-		
+
 		.booking .text-holder .LastName:focus,
 		.booking .text-holder input[class*="LastName"]:focus,
 		.booking .text-holder input[class*="phone"]:focus,
@@ -5035,41 +5036,41 @@ nav {
 		.booking .text-holder input[class*="LastName"]:focus,
 		.booking .text-holder input[class*="DateOfBirth"]:focus,
 		.booking .radio-holder:focus,
-		.booking .dropmenu.State:focus, 
+		.booking .dropmenu.State:focus,
 		.booking .text-holder .ExpiryDate:focus,
-		.booking .text-holder.ZipCode .textfield:focus, 
+		.booking .text-holder.ZipCode .textfield:focus,
 		.booking .text-holder.CVV .textfield:focus {
 			border-top-width: 2px;
 			padding-top: 6px;
 			padding-bottom: 7px;
 			padding-left: 7px;
 		}
-		
+
 		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
 			padding-top: 7px;
 		}
-		
-		.booking input.FirstName:focus, 
-		.booking input.Address1:focus, 
-		.booking input.City:focus, 
-		.booking input.CardNumber:focus, 
-		.booking select.Country:focus, 
-		.booking .text-holder input[class*="FirstName"]:focus, 
-		.booking .text-holder input[class*="DateOfBirth"]:focus, 
+
+		.booking input.FirstName:focus,
+		.booking input.Address1:focus,
+		.booking input.City:focus,
+		.booking input.CardNumber:focus,
+		.booking select.Country:focus,
+		.booking .text-holder input[class*="FirstName"]:focus,
+		.booking .text-holder input[class*="DateOfBirth"]:focus,
 		.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
 			margin-bottom: 0px;
 		}
-		
-		.booking .dropmenu.State:focus, 
+
+		.booking .dropmenu.State:focus,
 		.booking .text-holder .ExpiryDate:focus {
 			border-right-width: 2px;
 		}
-		
-		.booking .text-holder.ZipCode .textfield:focus, 
+
+		.booking .text-holder.ZipCode .textfield:focus,
 		.booking .text-holder.CVV .textfield:focus {
 			border-left-width: 2px;
 		}
-		
+
 	}
 }
 
@@ -5082,12 +5083,12 @@ nav {
 	.desktop .tt-menu {
 		margin-top: 65px;
 	}
-	
+
 	.seat-class .dropbutton {
 		margin-right: 20px;
 		margin-left: 20px;
 	}
-	
+
 	.text-holder[class*="Date"]:before {
 			content: 'mm/dd/yyyy';
 			color: #a2a2a2;
@@ -5096,26 +5097,26 @@ nav {
 				top: 8px;
 				right: 12px;
 		}
-		
+
 	 .text-holder[class*="Date"].has-error:before {
 			color: #ed2741 !important;
 		}
-	
+
 	/* exact copy of Safari form element adjustments */
-	
+
 	select,
 	select:focus {
 		height: 37px;
 		background-color: transparent;
 	}
-	
+
 	.booking input:focus,
 	.booking select:focus {
 		border: 2px solid #00b5ff;
 		box-shadow: none;
 		outline: 0px solid transparent !important;
 	}
-	
+
 	.booking .text-holder .LastName:focus,
 	.booking .text-holder input[class*="LastName"]:focus,
 	.booking .text-holder input[class*="phone"]:focus,
@@ -5125,37 +5126,37 @@ nav {
 	.booking .text-holder input[class*="LastName"]:focus,
 	.booking .text-holder input[class*="DateOfBirth"]:focus,
 	.booking .radio-holder:focus,
-	.booking .dropmenu.State:focus, 
+	.booking .dropmenu.State:focus,
 	.booking .text-holder .ExpiryDate:focus,
-	.booking .text-holder.ZipCode .textfield:focus, 
+	.booking .text-holder.ZipCode .textfield:focus,
 	.booking .text-holder.CVV .textfield:focus {
 		border-top-width: 2px;
 		padding-top: 6px;
 		padding-bottom: 7px;
 		padding-left: 7px;
 	}
-	
+
 	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
 		padding-top: 7px;
 	}
-	
-	.booking input.FirstName:focus, 
-	.booking input.Address1:focus, 
-	.booking input.City:focus, 
-	.booking input.CardNumber:focus, 
-	.booking select.Country:focus, 
-	.booking .text-holder input[class*="FirstName"]:focus, 
-	.booking .text-holder input[class*="DateOfBirth"]:focus, 
+
+	.booking input.FirstName:focus,
+	.booking input.Address1:focus,
+	.booking input.City:focus,
+	.booking input.CardNumber:focus,
+	.booking select.Country:focus,
+	.booking .text-holder input[class*="FirstName"]:focus,
+	.booking .text-holder input[class*="DateOfBirth"]:focus,
 	.booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
 		margin-bottom: 0px;
 	}
-	
-	.booking .dropmenu.State:focus, 
+
+	.booking .dropmenu.State:focus,
 	.booking .text-holder .ExpiryDate:focus {
 		border-right-width: 2px;
 	}
-	
-	.booking .text-holder.ZipCode .textfield:focus, 
+
+	.booking .text-holder.ZipCode .textfield:focus,
 	.booking .text-holder.CVV .textfield:focus {
 		border-left-width: 2px;
 	}
@@ -5246,7 +5247,7 @@ html[data-useragent*='Trident'] .text-holder[class*="Date"].has-error:before {
 }
 
 /* most are exact copies of Safari form adjustments */
-	
+
 html[data-useragent*='Trident'] select,
 html[data-useragent*='Trident']	select:focus,
 html[data-useragent*='Trident'] .booking .text-holder .ZipCode {
@@ -5269,9 +5270,9 @@ html[data-useragent*='Trident'] .booking .passengers-wrapper:focus,
 html[data-useragent*='Trident'] .booking .text-holder input[class*="LastName"]:focus,
 html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus,
 html[data-useragent*='Trident'] .booking .radio-holder:focus,
-html[data-useragent*='Trident'] .booking .dropmenu.State:focus, 
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus,
 html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus,
-html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus, 
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus,
 html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
 	border-top-width: 2px;
 	padding-top: 6px;
@@ -5279,23 +5280,23 @@ html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
 	padding-left: 7px;
 }
 
-html[data-useragent*='Trident'] .booking input.FirstName:focus, 
-html[data-useragent*='Trident'] .booking input.Address1:focus, 
-html[data-useragent*='Trident'] .booking input.City:focus, 
-html[data-useragent*='Trident'] .booking input.CardNumber:focus, 
-html[data-useragent*='Trident'] .booking select.Country:focus, 
-html[data-useragent*='Trident'] .booking .text-holder input[class*="FirstName"]:focus, 
-html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus, 
+html[data-useragent*='Trident'] .booking input.FirstName:focus,
+html[data-useragent*='Trident'] .booking input.Address1:focus,
+html[data-useragent*='Trident'] .booking input.City:focus,
+html[data-useragent*='Trident'] .booking input.CardNumber:focus,
+html[data-useragent*='Trident'] .booking select.Country:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="FirstName"]:focus,
+html[data-useragent*='Trident'] .booking .text-holder input[class*="DateOfBirth"]:focus,
 html[data-useragent*='Trident'] .booking .passengers-wrapper .text-holder input[class*="LastName"]:focus {
 	margin-bottom: 0px;
 }
 
-html[data-useragent*='Trident'] .booking .dropmenu.State:focus, 
+html[data-useragent*='Trident'] .booking .dropmenu.State:focus,
 html[data-useragent*='Trident'] .booking .text-holder .ExpiryDate:focus {
 	border-right-width: 2px;
 }
 
-html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus, 
+html[data-useragent*='Trident'] .booking .text-holder.ZipCode .textfield:focus,
 html[data-useragent*='Trident'] .booking .text-holder.CVV .textfield:focus {
 	border-left-width: 2px;
 }
