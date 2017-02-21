@@ -1,4 +1,5 @@
 let fs = require('fs');
+let util = require('util');
 
 function getCaller(currentStackPosition){
   let fileName = "";
@@ -68,7 +69,7 @@ let onvoya = {
   },
 
   initialize: function(done) {
-    let pattern = sails.config.log.timestamp?"%[[%d{ISO8601}] [%-5p] [%x{module}]%]\t%m%n":"%[[%-5p] [%x{module}]%]\t%m%n";
+    let pattern = sails.config.log.timestamp?"%[[%d{ISO8601_WITH_TZ_OFFSET}][%-5p][%x{module}]%] %x{message}":"%[[%-5p] [%x{module}]%] %x{message}";
     // Draft for ONV-673
     // let pattern = sails.config.log.timestamp?"%[[%d{ISO8601}] [%-5p] [%x{user}] [%x{module}]%]\t%m%n":"%[[%-5p] [%x{user}] [%x{module}]%]\t%m%n";
     let config = {
@@ -86,6 +87,16 @@ let onvoya = {
             user: () => {
               let userId = _.clone(this.userId);
               return 'UserID: ' + userId;
+            },
+            message: (mess) => {
+              let customMessage = '';
+              for (let i = 0; i < mess.data.length; i++) {
+                for (let k = 0; k < mess.data[i].length; k++) {
+                  customMessage = customMessage + ' ' + (typeof mess.data[i][k] == 'object' ? util.inspect(mess.data[i][k], { showHidden: true, depth: null, maxArrayLength:20, colors:true }):mess.data[i][k]);
+                }
+              }
+              // console.log(mess);
+              return customMessage;
             }
           }
         }
@@ -98,12 +109,15 @@ let onvoya = {
     let logger = log4js.getLogger();
     logger.setLevel('ALL');
     onvoya.logger = logger;
-    setInterval(() => {
+    let readConf = () => {
       fs.readFile(process.cwd() + '/config/onvoya-log.json', 'utf8', (err, data) => {
         onvoya.config = (typeof data == 'object') ? data : JSON.parse(data);
-        onvoya.log.verbose('Config file was re-read');
+        //log level FATAL to make sure it will get to logs
+        onvoya.log.crit('Config file was re-read');
       });
-    }, sails.config.log.refreshConfig || 30000);
+    };
+    readConf();
+    fs.watchFile(process.cwd() + '/config/onvoya-log.json', readConf);
     return done();
   },
 
@@ -112,9 +126,6 @@ let onvoya = {
       let filename = getCaller();
       let level = getFileLevelConfig(filename, onvoya.config || {});
       onvoya.logger.setLevel(onvoya.levels[level]);
-      copyArgs.map((item) => {
-        return JSON.stringify(item);
-      });
       onvoya.logger[loggerType](copyArgs);
     },
 
