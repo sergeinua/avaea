@@ -147,16 +147,13 @@ module.exports = {
     if(dateStart === 'Invalid date' || dateEnd === 'Invalid date'){
       return res.json({error: 'Invalid date'});
     }
-
-    // remove timezone
-    dateStart = moment(dateStart).add(dateStart.utcOffset(), 'm').utc().toDate();
-    dateEnd = moment(dateEnd).add(dateEnd.utcOffset(), 'm').utc().toDate();
+    dateEnd = dateEnd.add(60*24-1, 'm');
 
     // create criteria for booking request
     let data = {
           rows: [],
           criteria: {
-            where: { updatedAt: { '>=': dateStart, '<=': dateEnd } },
+            where: { updatedAt: { '>=': dateStart.toDate(), '<=': dateEnd.toDate() } },
             sort: 'updatedAt ASC'
           }
         };
