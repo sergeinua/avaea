@@ -2,6 +2,8 @@ var path     = require('path')
   , url      = require('url')
   , passport = require('passport');
 
+const executeGenerator = require('./utils').executeGenerator;
+
 /**
  * Passport Service
  *
@@ -94,13 +96,8 @@ passport.connect = function (req, query, profile, next) {
   if (profile.hasOwnProperty('emails')) {
     user.email = profile.emails[0].value;
   }
-  // If the profile object contains a username, add it to the user.
-  if (profile.hasOwnProperty('username')) {
-    user.username = profile.username;
-  }
 
   async.waterfall([
-
       /**
        * Check user and passport data. Create or save in DB
        *
@@ -180,27 +177,10 @@ passport.connect = function (req, query, profile, next) {
                 }
 
                 callback(null, selectedUser);
-
                 return true;
               }
 
-              // Service method. Generator executor.
-              function execute(generator, yieldValue) {
-                let next = generator.next(yieldValue);
-                if (!next.done) {
-                  next.value.then(
-                    result => execute(generator, result),
-                    err => generator.throw(err)
-                  ).catch(
-                      err => generator.throw(err)
-                  );
-                } else {
-                  return true;
-                }
-              }
-
-              execute(getUserPassport());
-
+              executeGenerator(getUserPassport());
               return true;
             }
             // Scenario: An existing user is trying to log in using an already
