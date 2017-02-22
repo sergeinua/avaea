@@ -111,6 +111,10 @@ module.exports = {
       _Error = 'Error.Search.Validation.Passengers.Empty';
     }
 
+    if (searchParams.passengers < 1 || searchParams.passengers > 4 ) {
+      _Error = 'Error.Search.Validation.Passengers.OutOfRange';
+    }
+
     if (!searchParams.CabinClass || !Search.serviceClass[searchParams.CabinClass]) {
       _Error = 'Error.Search.Validation.CabinClass.Empty';
     }
