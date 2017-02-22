@@ -95,7 +95,7 @@ module.exports = {
         _30kparams.tgp.push(convertMilesProgramTo30kFormat(milesProgram));
       });
 
-      onvoya.log.verbose('Request to 30K api: ', JSON.stringify(_30kparams));
+      onvoya.log.verbose('Request to 30K api: ', _30kparams);
       ffmapi.get('milefy', apiUrl, 'POST', _30kparams, function (error, response, body) {
         if (error) {
           onvoya.log.error('30K api', error);
@@ -106,7 +106,7 @@ module.exports = {
           onvoya.log.error('30K api', body);
           return callback({msg: result.Status.Message}, body);
         }
-        onvoya.log.verbose('Response 30K api:', JSON.stringify(body));
+        onvoya.log.verbose('Response 30K api:', body);
         // return only one result
 
         var filteredResults = [];

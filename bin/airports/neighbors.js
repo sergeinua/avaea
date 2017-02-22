@@ -38,7 +38,7 @@ Neighbors.prototype.run = function( argv, asyncsCounter, airports ) {
 	}
 	else {
 	    if( argv.loglevel>0 ) {
-		console.log("Skipping an incomplete aiports %s: %j",iata_3code,data);
+		console.log("Neighbors: Skipping an incomplete aiports %s: %j",iata_3code,data);
 	    }
 	}
     }
