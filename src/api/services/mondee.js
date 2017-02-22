@@ -71,12 +71,14 @@ class MondeeClient {
             }
             paxDetails.push({
               PaxType: paxType,
-              FirstName: params.passengers[i].FirstName,
-              LastName: params.passengers[i].LastName,
+              FirstName: params.passengers[i].FirstName.replace(/[^a-z]/ig,''), // remains alphabet only
+              LastName: params.passengers[i].LastName.replace(/[^a-z]/ig,''),
               Gender: params.passengers[i].Gender,
               DateOfBirth: params.passengers[i].DateOfBirth
             });
           }
+          params.FirstName = params.FirstName.replace(/[^a-z]/ig,'');
+          params.LastName = params.LastName.replace(/[^a-z]/ig,'');
 
           // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
