@@ -92,7 +92,7 @@ const Calendar = React.createClass({
       $('#dr_picker').data("DateTimePicker").clear = function () {
         this.range = {
           start: null,
-          end: null,
+          end: null
         };
         $('.range', '#dr_picker').removeClass('range');
         return dpPxClear.apply(this);
@@ -179,7 +179,9 @@ const Calendar = React.createClass({
   render() {
     return (
       <div id="date_select_main" className="clearfix calendar-panel">
-        {this.props.searchParams.flightType == 'round_trip' ? <div className="message info">Select {this.props.calendarType == 'dep'? "departure" : "return"} date.</div> : null}
+        {this.props.searchParams.flightType == 'round_trip' ? <div className="message info">
+            Select {this.props.calendarType == 'dep' ? "departure" : "return"} date.
+        </div> : null}
         <div className="row">
           <div className="row">
             <div id="dr_picker"></div>
