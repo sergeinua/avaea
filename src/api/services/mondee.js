@@ -209,7 +209,7 @@ class MondeeClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            onvoya.log.verbose(op + ' request time: '+apiCallTimeHr+', request='+JSON.stringify(req)+', response=' + raw);
+            onvoya.log.verbose(op + ' request time: '+apiCallTimeHr+', request=', req, ', response=', raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }

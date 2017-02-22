@@ -26,4 +26,5 @@ module.exports.log = {
 
   level: 'info',
   timestamp: false,
+  colorOutput: false
 };
