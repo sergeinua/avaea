@@ -660,7 +660,7 @@ module.exports = {
           actionType: 'on_tile_choice'
         },
         sort : 'id ASC'
-      }).then(function (data) {
+      }).exec(function (err,data) {
         if (data && data.length > 0) {
           //sails.log.info(JSON.stringify(data,null,'  '));
           //fs.writeFile('/media/sf_Downloads/data.json',JSON.stringify(data,null,'  '),function(err){if(err) throw err;});
@@ -697,12 +697,10 @@ module.exports = {
 
           return data;
         }
-      }).then(function() {
-        cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
       });
 
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
 
-      //cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
       break;
     default:
       // do nothing
