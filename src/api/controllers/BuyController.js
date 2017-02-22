@@ -143,6 +143,7 @@ module.exports = {
           errorInfo: utils.showError('Error.Search.Booking.Failed')
         });
       }
+      User.saveLandingPage(user.id, req);
       sails.log.debug(user);
 
     qpromice.nfbind(cache.get)(cacheId)
