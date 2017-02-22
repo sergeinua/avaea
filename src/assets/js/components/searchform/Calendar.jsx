@@ -3,6 +3,8 @@ import * as ReactRedux from 'react-redux';
 import { ActionsStore, searchApiMaxDays } from '../../functions.js';
 import moment from 'moment';
 
+const $ = jQuery;
+
 //FIXME get rid from jquery
 const drawDateRange = function(datepicker, range) {
   if (!range.start || !range.end) {
@@ -55,13 +57,14 @@ const drawDateRange = function(datepicker, range) {
 };
 
 export function finalizeValues(searchParams) {
+  let picker = $('#dr_picker');
   let flightType = searchParams.flightType,
-    moment_dp = $('#dr_picker').data("DateTimePicker").date(),
+    moment_dp = picker.data("DateTimePicker").date(),
     moment_rp = null;
 
   if (flightType == 'round_trip') {
-    moment_dp = $('#dr_picker').data("DateTimePicker").range.start;
-    moment_rp = $('#dr_picker').data("DateTimePicker").range.end;
+    moment_dp = picker.data("DateTimePicker").range.start;
+    moment_rp = picker.data("DateTimePicker").range.end;
   }
 
   // cache values
@@ -74,22 +77,23 @@ export function finalizeValues(searchParams) {
 
 const Calendar = React.createClass({
   componentDidMount: function () {
+    let picker = $('#dr_picker');
 
     let flightType = this.props.searchParams.flightType || 'round_trip',
       calendarType = this.props.calendarType || 'dep';
 
     // init datetimepicker {{{
-    if ($('#dr_picker').length) {
+    if (picker.length) {
       let curMoment = moment(0, "HH");
-      $('#dr_picker').datetimepicker({
+      picker.datetimepicker({
         inline: true,
         format: "YYYY-MM-DD",
-        minDate: curMoment.clone(),
+        minDate: curMoment.clone().startOf('day'),
         maxDate: curMoment.clone().add(searchApiMaxDays, 'days').subtract(1, 'seconds')
       });
       // extends "clear" datepicker method, adding possibility to clear range
-      let dpPxClear = $('#dr_picker').data("DateTimePicker").clear;
-      $('#dr_picker').data("DateTimePicker").clear = function () {
+      let dpPxClear = picker.data("DateTimePicker").clear;
+      picker.data("DateTimePicker").clear = function () {
         this.range = {
           start: null,
           end: null
@@ -98,33 +102,35 @@ const Calendar = React.createClass({
         return dpPxClear.apply(this);
       };
       // initially clear datepicker state
-      $('#dr_picker').data("DateTimePicker").clear();
+      picker.data("DateTimePicker").clear();
     }
     // }}} init datetimepicker
 
-    $("#dr_picker").on("dp.change", function (e) {
+    picker.on("dp.change", function (e) {
       if (e.date) {
+        let btn_container = $('#date_select');
+        let eDate = moment(e.date).startOf('day');
         if (flightType == 'round_trip') {
           // enable range functionality for round trip flight type
 
           // range manipulation {{{
           let range = $(this).data("DateTimePicker").range;
           if (!range.start || !range.end) {
-            if (range.start && !range.end && e.date.isAfter(range.start)) {
-              range.end = e.date.clone().startOf('day');
+            if (range.start && !range.end && eDate.isSameOrAfter(range.start)) {
+              range.end = eDate;
             } else {
-              range.start = e.date.clone().startOf('day');
+              range.start = eDate;
               range.end = null;
             }
           } else {
             if (calendarType == 'dep') {
-              if (e.date.isBefore(range.end)) {
-                range.start = e.date.clone().startOf('day');
+              if (eDate.isSameOrBefore(range.end)) {
+                range.start = eDate;
               }
             }
             if (calendarType == 'ret') {
-              if (e.date.isAfter(range.start)) {
-                range.end = e.date.clone().startOf('day');
+              if (eDate.isSameOrAfter(range.start)) {
+                range.end = eDate;
               }
             }
           }
@@ -133,41 +139,41 @@ const Calendar = React.createClass({
           // draw new date range
           drawDateRange(this, range);
           // draw info bar dates
-          $('#date_select .info .dep').text(range.start.format('DD MMM ddd'));
-          $('#date_select .info .ret').text(range.end ? range.end.format('DD MMM ddd') : '');
+          btn_container.find('.info .dep').text(range.start.format('DD MMM ddd'));
+          btn_container.find('.info .ret').text(range.end ? range.end.format('DD MMM ddd') : '');
         } else if (flightType == 'one_way') {
-          $('#date_select .info .dep').text(moment(e.date).format('DD MMM ddd'));
+          btn_container.find('.info .dep').text(eDate.format('DD MMM ddd'));
         }
       }
     });
 
-    $("#dr_picker").on("dp.update", function (e) {
+    picker.on("dp.update", function (e) {
       // redraw date range on each picker update
       drawDateRange(this, $(this).data("DateTimePicker").range);
     });
 
-    $("#dr_picker").hammer().bind("swipeleft", function (e) {
+    picker.hammer().bind("swipeleft", function (e) {
       $(this).data("DateTimePicker").next();
     }).bind("swiperight", function (e) {
       $(this).data("DateTimePicker").previous();
     });
 
-    $('#dr_picker').data("DateTimePicker").clear();
-    let depDate = this.props.searchParams.departureDate ? moment(this.props.searchParams.departureDate, 'YYYY-MM-DD') : moment();
-    $('#dr_picker').data("DateTimePicker").date(depDate);
+    picker.data("DateTimePicker").clear();
+    let depDate = this.props.searchParams.departureDate ? moment(this.props.searchParams.departureDate, 'YYYY-MM-DD').startOf('day') : moment().startOf('day');
+    picker.data("DateTimePicker").date(depDate);
 
     // force dp.change event hook for round trip {{{
     if (flightType == 'round_trip') {
-      let retDate = this.props.searchParams.returnDate ? moment(this.props.searchParams.returnDate, 'YYYY-MM-DD') : depDate.clone().add(14, 'days');
-      if (retDate.isAfter($('#dr_picker').data("DateTimePicker").maxDate())) {
-        retDate = $('#dr_picker').data("DateTimePicker").maxDate().clone();
+      let retDate = this.props.searchParams.returnDate ? moment(this.props.searchParams.returnDate, 'YYYY-MM-DD').startOf('day') : depDate.clone().add(14, 'days');
+      if (retDate.isAfter(picker.data("DateTimePicker").maxDate())) {
+        retDate = picker.data("DateTimePicker").maxDate().clone().startOf('day');
       }
       if (calendarType == 'dep') {
-        $('#dr_picker').data("DateTimePicker").maxDate(retDate.clone());
+        picker.data("DateTimePicker").maxDate(retDate.clone().add(1, 'days').subtract(1, 'seconds'));
       } else if (calendarType == 'ret') {
-        $('#dr_picker').data("DateTimePicker").minDate(depDate.clone());
+        picker.data("DateTimePicker").minDate(depDate.clone().startOf('day'));
       }
-      $('#dr_picker').trigger({
+      picker.trigger({
         type: 'dp.change',
         date: retDate,
         oldDate: depDate
