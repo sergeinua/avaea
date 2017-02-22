@@ -78,9 +78,9 @@ class MondeeClient {
             });
           }
 
-          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future  
+          // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
-            PhoneNumber: (''+params['passengers[1].phone']).replace(/[\s+]/g, ''), // contains only digits
+            PhoneNumber: (''+params['passengers[1].phone']).replace(/[^0-9]/g,''), // contains only digits
             AlternatePhoneNumber: '',
             DestinationPhoneNumber: '',
             Email: params.user.email        // email from table User
@@ -107,7 +107,7 @@ class MondeeClient {
                 Name: params.FirstName+' '+params.LastName,
                 Address1: params.Address1,
                 City: params.City,
-                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by 
+                State: ((''+params.State).length !== 2? 'OT': params.State), // recomended by
                 Country: params.Country,
                 ZipCode: params.ZipCode
               }
@@ -128,8 +128,8 @@ class MondeeClient {
             }
           };
           return req;
-        }        
-      },      
+        }
+      },
       readEticket: {
         url: 'readEticket',
         method: 'ReadETicket',
@@ -201,7 +201,7 @@ class MondeeClient {
           return callback( req, null );
         }
 
-        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:\n", req);
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -451,6 +451,8 @@ class Mapper {
       id: itinerary.ItineraryId,
       service: 'mondee',
       price: parseFloat((parseFloat(itinerary.Fares[0].BaseFare) + parseFloat(itinerary.Fares[0].Taxes)).toFixed(2)),
+      fare: parseFloat(itinerary.Fares[0].BaseFare).toFixed(2), // for transactions report
+      taxes: parseFloat(itinerary.Fares[0].Taxes).toFixed(2), // for transactions report
       currency: itinerary.Fares[0].CurrencyCode,
       duration: '',
       durationMinutes: 0,
@@ -544,38 +546,37 @@ module.exports = {
     onvoya.log.info(_api_name + ' started');
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-      
-      sails.log(result);
-      sails.log.error(err);
-      
+
       let bookingResult = result;
-       
-      if(!err){ // do request ticket PNR
-        
-        let attempt = 0; // count of attempts of TicketPNR requests 
-        
-        let doTicketPNR = function(){
-          let api = 'ticketPnr', 
+
+      if(!err) { // do request ticket PNR
+
+        onvoya.log.debug(result);
+
+        let attempt = 0; // count of attempts of TicketPNR requests
+
+        let doTicketPNR = function() {
+          let api = 'ticketPnr',
             _api_name = serviceName + '.' + api;
 
-          sails.log.info(_api_name + ' started');
+          onvoya.log.info(_api_name + ' started');
 
-          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);          
+          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
         };
-        
-        let calbackTicketPNR = function(err, result){
+
+        let calbackTicketPNR = function(err, result) {
           // return result = { Remarks:
           //   [ { StatusCode: 'WA',
           //       MessageNumber: 'TI004',
-          //       MessageText: 'CREDIT CARD DENIAL' } ] }          
-          // or err = Getting error while ticket the pnr, please try again        
-          
+          //       MessageText: 'CREDIT CARD DENIAL' } ] }
+          // or err = Getting error while ticket the pnr, please try again
+
           //Status Code: INFO (Successful Ticketing)
-          //Message: 
+          //Message:
             // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
 
           //Status Code: WA  (Failure Ticketing)
-          //Messages: 
+          //Messages:
             // TICKETING PROCESS FAILED
             // CREDIT CARD DENIAL
             // ERROR IDENTIFYING PNR INFO
@@ -585,32 +586,40 @@ module.exports = {
             for(let i in result.Remarks){
               let remark = result.Remarks[i];
               if(remark.StatusCode === 'WA'){
-                err = remark.MessageText;                
+                err = remark.MessageText;
                 break;
               }
             }
           }
 
-          sails.log(result);
-          sails.log.error(err);          
-          
-          if(err && attempt < 3){ // max count of attemts is 3
-            attempt ++;
-            sails.log('....... waiting '+3*attempt+' seconds time: '+new Date());
-            setTimeout(doTicketPNR, 3*1000*attempt);
-          }else{
+          onvoya.log.debug(result);
+          if( err ) {
+            onvoya.log.error(err);
+            if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
+              return callback(0,bookingResult ||{});
+            }
+            else if( ++attempt<=3 ) {
+              const seconds_per_attempt = 3;
+              onvoya.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
+              setTimeout(doTicketPNR,attempt*seconds_per_attempt*1000);
+            }
+            else {
+              return callback(err, bookingResult || {});
+            }
+          }
+          else {
             return callback(err, bookingResult || {});
           }
         };
-        
         return doTicketPNR();
-     
-      }else{
+      }
+      else {
+        onvoya.log.error(err);
         return callback(err, bookingResult);
       }
     });
   },
-  ticketPnr:{
+  ticketPnr: {
     url: 'ticketPnr',
     method: 'TicketPnr',
     request: (req, params) => {
@@ -622,7 +631,7 @@ module.exports = {
         }
       };
       return req;
-    }        
+    }
   },
   /**
    * Read e-ticker after booking

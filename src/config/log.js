@@ -26,6 +26,4 @@ module.exports.log = {
 
   level: 'info',
   timestamp: false,
-
-  refreshConfig: 30*1000, //refresh config rate in milliseconds
 };
