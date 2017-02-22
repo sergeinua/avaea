@@ -59,11 +59,11 @@ module.exports = {
     params.flightType = params.returnDate?'round_trip':'one_way';
     let error = Search.validateSearchParams(params);
 
-    if (( req.params == 'search' || req.params == 'result') && !error ) {
+    if ((req.params == 'search'  && !error) || (req.params == 'result' && !req.param('s'))) {
       params.departureDate = departureDate.isValid()?departureDate.format('YYYY-MM-DD'):'';
       params.returnDate = returnDate.isValid()?returnDate.format('YYYY-MM-DD'):'';
 
-      onvoya.log.verbose('Found valid parameters for search form');
+      onvoya.log.verbose('Found deeplinking parameters for search form/result');
 
       async.parallel({
         departure: (doneCb) => {
