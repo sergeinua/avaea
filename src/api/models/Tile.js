@@ -695,11 +695,11 @@ module.exports = {
                                           arrival   :    arrival_bucket_selections
                                          };
 
+          cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
+
           return data;
         }
       });
-
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
 
       break;
     default:
