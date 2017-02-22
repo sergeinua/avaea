@@ -36,7 +36,7 @@ module.exports = {
         onvoya.log.error(err);
       }
 
-      sails.log.debug(found);
+      onvoya.log.debug(found);
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
         let userData = {
@@ -76,7 +76,7 @@ module.exports = {
           reqParams['email'] = req.user.email;
         }
       } else {
-        sails.log.info("Can't find profile. Anonymous booking.");
+        onvoya.log.info("Can't find profile. Anonymous booking.");
       }
 
       let itinerary_id = req.param('itineraryId');

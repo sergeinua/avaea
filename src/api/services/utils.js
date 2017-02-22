@@ -171,8 +171,8 @@ module.exports = {
       ip = headers['x-real-ip'];
     }
     // checking results
-    sails.log.info(headers);
-    sails.log.info('Found IP: %s', ip);
+    onvoya.log.info(headers);
+    onvoya.log.info('Found IP: %s', ip);
 
     return ip;
   }
