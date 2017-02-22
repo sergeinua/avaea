@@ -108,7 +108,7 @@ let ResultItem = React.createClass({
 
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
-      return <span className="arr-connects"><span className="connections">{pair.noOfStops}</span></span>
+      return <span className="arr-connects">{pair.noOfStops}</span>
     }
     return <span className="arr-connects-none"></span>
   },
@@ -128,49 +128,34 @@ let ResultItem = React.createClass({
   render() {
     var showNoStops = this.showNoStops;
     return (
-      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
+      <div id={"container-" + this.props.itinerary.id} className={"itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
 
-    <div className="summary">
-      <div className="row title">
-        <div className="col-xs-12 itinerary-airline col-from-to">
-          <span className="itinerary-airline-icon"
-                style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.itinerary.citypairs[0].from.airlineCode] * 15 + "px"}}
-                alt={ this.props.itinerary.citypairs[0].from.airlineCode }
-                title={ this.props.itinerary.citypairs[0].from.airline }>
-          </span>
-          <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-          {/* remove extras until we have real ones to show */}
-          {/* {this.showThumbsUp()} */}
-          <span className="static-price">{this.showPrice()}</span>
+      <div className="summary top-row">
+      	<div className="wrapper">
+	        <span className="airline-icon"
+	              style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.itinerary.citypairs[0].from.airlineCode] * 15 + "px"}}
+	              alt={ this.props.itinerary.citypairs[0].from.airlineCode }
+	              title={ this.props.itinerary.citypairs[0].from.airline }>
+	        </span>
+	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
         </div>
+        {/* remove extras until we have real ones to show */}
+        {/* {this.showThumbsUp()} */}
+        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
+      </div>{/* ends top row */}
+
+      <div className="summary short-itin"  id={ this.props.itinerary.id }>
+        { this.props.itinerary.citypairs.map(function (pair, i) {
+        return <div className="itinerary-info" key={"itin-info-" +  i}>
+          <span className="departTime">{pair.from.time}</span>
+          <span className="departLoc">{pair.from.code}</span>
+          <span className="connections">{showNoStops(pair)}</span>
+          <span className="arriveTime">{ pair.to.time}</span>
+          <span className="arriveLoc">{ pair.to.code}</span>
+          <span className="duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></span>
+        </div>
+        }) }
       </div>
-
-      <div className="row">
-        <div className="col-xs-9"  id={ this.props.itinerary.id }>
-          { this.props.itinerary.citypairs.map(function (pair, i) {
-          return <div className="itinerary-info" key={"itin-info-" +  i}>
-            <div className="col-xs-3 departLoc">
-              {pair.from.time + ' ' + pair.from.code}</div>
-            <div className="col-xs-2 connections text-center">{showNoStops(pair)}</div>
-            <div className="col-xs-3 arriveLoc">{ pair.to.time + ' ' + pair.to.code }</div>
-            <div className="col-xs-3 duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
-          </div>
-          }) }
-        </div>
-
-        <div className="col-xs-3 buy-button">
-          <div className="btn-group text-nowrap buy-button-group">
-            <button id={"buy-button-" + this.props.itinerary.id } className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
-            <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span className="caret"></span>
-            </button>
-            <ul className="dropdown-menu">
-              <li><a id={ "buy-cron-button-" + this.props.itinerary.id } href="#" onClick={this.handleBuyButton(this.props.itinerary.id, true)} className="our-dropdown text-center">or better</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
 
     { (this.state.fullinfo ?
       <Citypairs citypairs={this.props.itinerary.citypairs}

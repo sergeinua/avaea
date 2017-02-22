@@ -34,17 +34,17 @@ let Citypairs = React.createClass({
 
   render: function() {
     return (
-      <div className="row notable-area">
+      <div className="detail-itin">
         {this.props.citypairs.map(function (pair, i) {
             i++;
-            return  <div className="section" key={i}><div className="row title">
+            return  <div className="section" key={i}><div className="title">
 
-              <div className="col-xs-3 direction">
+              <div className="direction">
                 { pair.direction }
               </div>
 
               {/*
-              <div className="col-xs-9 extras">
+              <div className="extras">
                 <MerchandisingInfo flights={pair.flights}/>
               </div>
               */}
@@ -56,8 +56,8 @@ let Citypairs = React.createClass({
             </div>
           })}
         {this.showFMiles(this.props.miles)}
-        <div className="refundable row">
-          <div className="label-d">Refund Type:</div>
+        <div className="refundable">
+          <div className="title">Refund Type:</div>
           <div className="copy">{this.showRefundType(this.props.refundType)}</div>
         </div>
       </div>
