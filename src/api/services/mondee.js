@@ -649,6 +649,14 @@ module.exports = {
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       let eTicketNumber = (result && result.ETicketNumber)? result.ETicketNumber: '';
+
+      // test environments
+      if(process.env.NODE_ENV !== 'production' && eTicketNumber.length === 0){
+        // Temporary fake - return reference_number as e-ticket number. Because this action does not work on the mondee side at this moment
+        err = null;
+        eTicketNumber = params.reference_number;
+      }
+
       return callback(err, eTicketNumber);
     });
   },

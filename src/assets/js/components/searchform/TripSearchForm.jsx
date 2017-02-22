@@ -2,8 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
+import { actionSetCommonVal } from '../../actions.js';
 import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
-import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
@@ -36,8 +37,9 @@ var TripSearchForm = React.createClass({
     }
   },
 
-  showCalendar: function () {
+  showCalendar: function (calendarType) {
     return function () {
+      clientStore.dispatch(actionSetCommonVal('calendarType', calendarType));
       ActionsStore.changeForm('calendar');
     }.bind(this);
   },
@@ -50,26 +52,26 @@ var TripSearchForm = React.createClass({
         });
     }.bind(this);
   },
-  
+
   handleMeriHint: function () {
   	// FIXME - could be React
   	$('.meri-speaks ').fadeToggle('fast');
   	$('.meri-wrapper ').toggleClass('remove');
   	setCookie('showMeriHint', false);
   },
-  
+
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
-    	
+
       if (submitCounter && this.validateForm()) {
-      	
+
       	// FIXME - could be React
       	$("body").addClass('suppress-logo');
-      	
+
         if (this.props.InitSearchFormData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        
+
         let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
@@ -343,17 +345,17 @@ var TripSearchForm = React.createClass({
             <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
           </div>
         </div>
-        
+
         <div className="search buttons duo">
-		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
-		      
-		      { !getCookie('showMeriHint') ? 
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}>
+
+		      { !getCookie('showMeriHint') ?
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
 				        	{getUser().email ?
 				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
-				              : 
+				              :
 				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
 			            }
 			        	<div className="close-x" onClick={this.handleMeriHint}></div>
@@ -361,22 +363,22 @@ var TripSearchForm = React.createClass({
 			      </div>
 			      : null
         	}
-			      
-			    </div>  
-			    
-		      
-          <button id="search-form-all-flights-button" 
-          	type="submit" 
+
+			    </div>
+
+
+          <button id="search-form-all-flights-button"
+          	type="submit"
           	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
           	All Flights
           </button>
-           
+
           <button id="search-form-top-flights-button"
             type="submit"
             className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
           	Top Flights
           </button>
-	          	
+
         </div>
 
       </div>

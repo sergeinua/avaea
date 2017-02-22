@@ -60,7 +60,7 @@ var SearchFormPage = React.createClass({
           : null
         }
         { this.props.commonData.currentForm == 'calendar' ?
-          <Calendar searchParams={this.props.commonData.searchParams}/>
+          <Calendar />
           : null
         }
         { this.props.commonData.currentForm == 'airport-search' ?

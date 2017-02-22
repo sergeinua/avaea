@@ -333,7 +333,7 @@ export let getDefaultDateSearch = (defaultParams) => {
     if (moment_rp &&
       (
         moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1 ||
-        moment_rp.isBefore(moment_dp, 'day')
+        moment_rp.isSameOrBefore(moment_dp, 'day')
       )
     ) {
       defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD');
