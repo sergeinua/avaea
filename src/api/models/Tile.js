@@ -11,6 +11,7 @@ var util = require('util');
  * @docs        :: http://sailsjs.org/#!documentation/models
  */
 var cicstanford = require('../services/functions_to_release');
+var fs = require('fs');
 module.exports = {
 
   attributes: {
@@ -627,12 +628,18 @@ module.exports = {
 
       // assemble the crude snowflake
       var snowflake = {
-        profile    : Tile.profileFoundAsync,
-        preference : { price    :  1, // most important
-                       duration :  6, // less important
-                       airline  : 20  // least important
-                     },
-        top_flights_only : false // return  full un-prunned set of itins
+        profile           : Tile.profileFoundAsync,
+        preference        : { price    :  1, // most important
+                              duration :  6, // less important
+                              airline  : 20  // least important
+                            },
+        bucket_selections : { price     : [],
+                              stops     : [],
+                              airline   : [],
+                              departure : [],
+                              arrival   : []
+                            },
+        top_flights_only  : false // return  full un-prunned set of itins
       }
 
       if (!_.isUndefined(snowflake.profile)) { // if profile is present
@@ -646,7 +653,56 @@ module.exports = {
         }
       }
 
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
+      var tmp3 = UserAction.find({
+        where:{
+          //limit: 10,
+          user_id: snowflake.profile.user,
+          actionType: 'on_tile_choice'
+        },
+        sort : 'id ASC'
+      }).then(function (data) {
+        if (data && data.length > 0) {
+          //sails.log.info(JSON.stringify(data,null,'  '));
+          //fs.writeFile('/media/sf_Downloads/data.json',JSON.stringify(data,null,'  '),function(err){if(err) throw err;});
+
+          var     price_bucket_selections = [];
+          var     stops_bucket_selections = [];
+          var   airline_bucket_selections = [];
+          var departure_bucket_selections = [];
+          var   arrival_bucket_selections = [];
+
+          for (var i = 0; i < data.length; i++) {
+              if (data[i].logInfo.tileName ==     'price_tile')     price_bucket_selections.push(data[i].logInfo.tileValue);
+              if (data[i].logInfo.tileName ==     'stops_tile')     stops_bucket_selections.push(data[i].logInfo.tileValue);
+              if (data[i].logInfo.tileName ==   'airline_tile')   airline_bucket_selections.push(data[i].logInfo.tileValue);
+              if (data[i].logInfo.tileName == 'departure_tile') departure_bucket_selections.push(data[i].logInfo.tileValue);
+              if (data[i].logInfo.tileName ==   'arrival_tile')   arrival_bucket_selections.push(data[i].logInfo.tileValue);
+          }
+          onvoya.log.info('===============================================');
+          onvoya.log.info("For user: " + snowflake.profile.user);
+          onvoya.log.info("Total     bucket selections: " + data.length);
+          onvoya.log.info("Price     bucket selections: " +     price_bucket_selections.length);
+          onvoya.log.info("Stops     bucket selections: " +     stops_bucket_selections.length);
+          onvoya.log.info("Airline   bucket selections: " +   airline_bucket_selections.length);
+          onvoya.log.info("Departure bucket selections: " + departure_bucket_selections.length);
+          onvoya.log.info("Arrival   bucket selections: " +   arrival_bucket_selections.length);
+          onvoya.log.info('===============================================');
+
+          snowflake.bucket_selections = { price     :      price_bucket_selections,
+                                          stops     :      stops_bucket_selections,
+                                          airline   :    airline_bucket_selections,
+                                          departure :  departure_bucket_selections,
+                                          arrival   :    arrival_bucket_selections
+                                         };
+
+          return data;
+        }
+      }).then(function() {
+        cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
+      });
+
+
+      //cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
       break;
     default:
       // do nothing

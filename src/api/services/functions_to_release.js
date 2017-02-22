@@ -1386,6 +1386,17 @@ module.exports = {
           onvoya.log.info("Returning the full set of flights (" + itins.length + " itins)");
         }
 
+        //onvoya.log.info("User snowflake:\n" + JSON.stringify(snowflake,null,'  '));
+        //onvoya.log.info("User profile:\n" + JSON.stringify(snowflake.profile,null,'  '));
+        //onvoya.log.info("User bucket selections:\n" + JSON.stringify(snowflake.bucket_selections,null,'  '));
+        onvoya.log.info("User bucket selections:\n" +
+          //"Total    : " + data.length                        + "\n" +
+          "Price    : " + snowflake.bucket_selections.    price.length + "\n" +
+          "Stops    : " + snowflake.bucket_selections.    stops.length + "\n" +
+          "Airline  : " + snowflake.bucket_selections.  airline.length + "\n" +
+          "Departure: " + snowflake.bucket_selections.departure.length + "\n" +
+          "Arrival  : " + snowflake.bucket_selections.  arrival.length );
+
         return;
 
     }, // end of function rank_itineraries_in_3D_by_price_duration_airline2
