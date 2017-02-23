@@ -69,15 +69,15 @@ var UserAction = {
             if (err) {
               onvoya.log.error(err);
             }
-            onvoya.log.verbose('landing_page is saved', record);
+            onvoya.log.silly('landing_page is saved', record);
             // res.clearCookie('landing_page');
           });
         } else {
-          onvoya.log.verbose('found previous landing_page in actions', found.logInfo );
+          onvoya.log.silly('found previous landing_page in actions', found.logInfo );
         }
       });
     } else {
-      onvoya.log.verbose('don\'t have anonymous_id => must be first/incognito visit, saving landing page to cookies', landing_page );
+      onvoya.log.silly('don\'t have anonymous_id => must be first/incognito visit, saving landing page to cookies', landing_page );
       //don't have anonymous_id => must be first/incognito visit, saving landing page to cookies
       res.cookie('landing_page', landing_page);
     }

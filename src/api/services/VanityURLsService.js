@@ -18,7 +18,7 @@ module.exports = {
       }
       // store data in cache
       cache.store(vanityURLsCacheKey, result);
-      onvoya.log.verbose('vanity URLs loaded to the cache');
+      onvoya.log.silly('vanity URLs loaded to the cache');
     });
   },
 
