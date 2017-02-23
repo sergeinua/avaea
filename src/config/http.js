@@ -57,8 +57,10 @@ module.exports.http = {
   ****************************************************************************/
 
      refreshSessionCookie: function(req, res, next) {
-       req.session._garbage = Date();
-       req.session.touch();
+       if (req.session) {
+         req.session._garbage = Date();
+         req.session.touch();
+       }
        return next();
      },
 
