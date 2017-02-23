@@ -36,6 +36,7 @@ module.exports.http = {
        //'startRequestTimer',
        'cookieParser',
        'session',
+       'refreshSessionCookie',
        'bodyParser',
        //'handleBodyParserError',
        'vanityURLsHandler',
@@ -54,6 +55,12 @@ module.exports.http = {
   * Example custom middleware; logs each request to the console.              *
   *                                                                           *
   ****************************************************************************/
+
+     refreshSessionCookie: function(req, res, next) {
+       req.session._garbage = Date();
+       req.session.touch();
+       return next();
+     },
 
      vanityURLsHandler: function (req, res, next) {
         // skiping of socket requests
