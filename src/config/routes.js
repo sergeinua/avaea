@@ -49,6 +49,7 @@ module.exports.routes = {
 
   'post /profile/get': 'UserController.profile',
   'post /profile/update': 'UserController.update',
+  'post /user/removeFieldSet': 'UserController.removeFieldSet',
 
   'post /prediction/order_tiles': 'PredictionController.order_tiles',
   'post /prediction/order_itineraries': 'PredictionController.order_itineraries',
@@ -56,11 +57,19 @@ module.exports.routes = {
   'post /prediction/on_itinerary_purchase': 'PredictionController.on_itinerary_purchase',
 
   'post /ac/airports': 'AcController.airports',
-
+  'post /ac/ffm_programs': 'AcController.ffm_programs',
+  'post /ac/ffm_airlines': 'AcController.ffm_airlines',
+  'post /ac/ffpcalculateMany': 'AcController.ffpcalculateMany',
+  'post /ac/airlines': 'AcController.airlines',
+  'post /ac/getRefundType': 'AcController.getRefundType',
+  'post /ac/getNearestAirport': 'AcController.getNearestAirport',
   // 'post /voicesearch': 'VoicesearchController.index',
 
   'post /voice/parse': 'VoiceController.parse',
   'post /voice/parse_api_ai': 'VoiceController.parseApiAi',
+  'post /voice/logger': 'VoiceController.logger',
+
+  'post /feedback/verify': 'FeedbackController.verify',
 
 //  'post /abo/getaction': 'AboController.getaction',
 //  'post /abo/getbyuser/:user_id': 'AboController.getByUser',
