@@ -50,11 +50,11 @@ module.exports = {
       //req.param('kids') // number of kids, if any
     };
 
-    let departureDate = sails.moment(params.departureDate, 'YYYY-MM-DD');
-    let returnDate = sails.moment(params.returnDate, 'YYYY-MM-DD');
+    let departureDate = sails.moment(params.departureDate, 'YYYY-MM-DD', true);
+    let returnDate = sails.moment(params.returnDate, 'YYYY-MM-DD', true);
 
-    params.departureDate = departureDate.isValid()?departureDate.format('DD/MM/YYYY'):'';
-    params.returnDate = returnDate.isValid()?returnDate.format('DD/MM/YYYY'):'';
+    params.departureDate = departureDate.isValid() ? departureDate.format('DD/MM/YYYY'):params.departureDate;
+    params.returnDate = returnDate.isValid() ? returnDate.format('DD/MM/YYYY'):params.returnDate;
 
     params.flightType = params.returnDate?'round_trip':'one_way';
     let error = Search.validateSearchParams(params);
