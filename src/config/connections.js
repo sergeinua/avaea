@@ -41,34 +41,6 @@ module.exports.connections = {
   *                                                                          *
   *                                                                          *
   ***************************************************************************/
-  etPostgresqlServer: {
-    adapter: 'sails-postgresql',
-    host: '127.0.0.1',
-    user: 'avaea',
-    password: 'avaea',
-    database: 'avaea_db'
-  },
-  productionPostgresqlServer: {
-    adapter: 'sails-postgresql',
-    host: 'db1',
-    user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
-  },
-  stagePostgresqlServer: {
-    adapter: 'sails-postgresql',
-    host: '127.0.0.1',
-    user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
-  },
-  dockerPostgresqlServer: {
-    adapter: 'sails-postgresql',
-    host: 'postgres',
-    user: 'avaea',
-    password: 'a1v2a3e4a5',
-    database: 'avaea'
-  },
   memcacheConf: {
     host: 'localhost',
     port: '11211',
@@ -82,9 +54,6 @@ module.exports.connections = {
     pass: '',
     prefix: 'cache:',
     exptime: 60*30 // 30 minutes
-  },
-  testMemoryDb: {
-    adapter   : 'sails-memory'
   },
 
   /***************************************************************************

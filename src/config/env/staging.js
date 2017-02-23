@@ -16,7 +16,15 @@ module.exports = {
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
-
+  connection: {
+    stagePostgresqlServer: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'a1v2a3e4a5',
+      database: 'avaea'
+    }
+  },
   models: {
     connection: 'stagePostgresqlServer'
   },

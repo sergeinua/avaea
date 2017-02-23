@@ -49,6 +49,13 @@ module.exports = {
   prefix: 'sess:'
 },
   connections: {
+    productionPostgresqlServer: {
+      adapter: 'sails-postgresql',
+      host: 'db1',
+      user: 'avaea',
+      password: 'a1v2a3e4a5',
+      database: 'avaea'
+    },
   redisConf: {
     host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
     port: 6379,

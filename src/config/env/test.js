@@ -1,6 +1,14 @@
 module.exports = {
 
-
+  connection: {
+    etPostgresqlServer: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'avaea',
+      database: 'avaea_db'
+    }
+  },
   models: {
     connection: 'etPostgresqlServer'
   },
