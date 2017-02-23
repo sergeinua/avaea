@@ -50,7 +50,7 @@ let User = {
           }
         });
       } else {
-        sails.log.verbose('already have landing page saved: ', found_user.landing_page);
+        sails.log.silly('already have landing page saved: ', found_user.landing_page);
       }
     });
   }
