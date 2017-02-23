@@ -7,20 +7,21 @@ import ResultItemContainer from '../search/ResultItem.jsx';
 import OrderSpecialModal from './OrderSpecialModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
-import {actionLoadOrderSuccess, actionLoadOrderFailed} from '../../actions.js';
+import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
-const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
 import luhn from 'luhn';
 import { ActionsStore } from '../../functions.js';
+
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
-    var fields_data = incData.fieldsData ? incData.fieldsData : {};
+    let fields_data = incData.fieldsData ? incData.fieldsData : {};
 
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
@@ -34,12 +35,13 @@ let OrderPanel = React.createClass({
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
+      {id:'email', required: true, title: 'Where should we send the Confirmation email?', placeholder: 'Email address', data: fields_data.email || ''}
     ];
   },
 
   makePassengerData: function(incData, index) {
 
-    var fields_data = incData ? incData : {};
+    let fields_data = incData ? incData : {};
 
     return [
       {
@@ -100,22 +102,30 @@ let OrderPanel = React.createClass({
 
   execReq: function (event) {
     event.preventDefault();
+    this.props.actionSetOrderVal('flashMsg', '');
+
+    this.props.actionSetOrderVal('formMsg', '');
 
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
-    }, 'This field is required');
+    });
+
+    $.validator.addMethod("validateUserNames", function(value, element) {
+      value = value.trim();
+      return (value.length > 1) && /^[a-z\-']+$/i.test(value);
+    });
 
     $.validator.addMethod("Trim", function(value, element) {
       return value.trim();
     });
 
     $.validator.addMethod("requiredPhone", function(value, element) {
-      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value);
+      return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value) && value.replace(/[^0-9]/g,'').length >= 10;
     });
 
     $.validator.addMethod("luhnChecksum", function( value, element ) {
       return luhn.validate(value);
-    }, 'Please double check the credit card number');
+    });
 
     /**
      * Client validation during booking of itinerary
@@ -123,10 +133,10 @@ let OrderPanel = React.createClass({
     let validationRules = {
       rules: {
         FirstName: {
-          requiredAndTrim: true
+          validateUserNames: true
         },
         LastName: {
-          requiredAndTrim: true
+          validateUserNames: true
         },
         Gender: {
           required: true
@@ -150,7 +160,8 @@ let OrderPanel = React.createClass({
           requiredAndTrim: true
         },
         ZipCode: {
-          requiredAndTrim: true
+          requiredAndTrim: true,
+          digits: true
         },
         CardType: {
           required: true
@@ -172,13 +183,31 @@ let OrderPanel = React.createClass({
           digits: true,
           minlength: 3,
           maxlength: 3
+        },
+        email: {
+          required: true,
+          email: true
         }
       },
+      messages: {
+        FirstName: "Must not have be empty or have invalid characters",
+        LastName: "Must not have be empty or have invalid characters",
+        ZipCode: "Please enter digits only",
+        CardNumber: "Please enter a valid credit card number",
+        CVV: "Please enter 3 digits",
+        "passengers[1].phone": "Please enter a valid phone number",
+        email: "Please enter valid email address"
+      },
       errorPlacement: function(error, element) {
-        if (element.attr("name") == "FirstName" || element.attr("name") == "LastName" ) {
+        let _elem_name = element.attr('name');
+        if (['Country','Address1','City','State','CardType','ExpiryDate'].indexOf(_elem_name) != -1 || /DateOfBirth/.test(_elem_name)) {
+          return; // Skip custom error message
+        }
+        if (/Gender/.test(_elem_name)) {
+          error.insertBefore(element)
+        } else {
           error.insertAfter(element);
         }
-        // Skip other error messages
       },
       highlight: function(input) {
         $(input).parent().addClass('has-error');
@@ -206,11 +235,15 @@ let OrderPanel = React.createClass({
 
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
       validationRules.rules["passengers["+i+"].FirstName"] = {
-        requiredAndTrim: true
+        validateUserNames: true
       };
+      validationRules.messages["passengers["+i+"].FirstName"] = validationRules.messages.FirstName;
+
       validationRules.rules["passengers["+i+"].LastName"] = {
-        requiredAndTrim: true
+        validateUserNames: true
       };
+      validationRules.messages["passengers["+i+"].LastName"] = validationRules.messages.LastName;
+
       validationRules.rules["passengers["+i+"].Gender"] = {
         required: true
       };
@@ -230,6 +263,9 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
+      this.props.actionSetOrderVal('formMsg',
+        'Please correct the fields above.'
+      );
       return;
     }
     $("#bookingModal").modal({
@@ -342,8 +378,8 @@ let OrderPanel = React.createClass({
             <div className="page-ti people">Travellers</div>
             {_passengers}
 
-
             <div className="buttons">
+              <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
                 {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
               </button>
@@ -384,6 +420,9 @@ const mapDispatchOrder = (dispatch) => {
     },
     loadFailed: (data) => {
       dispatch(actionLoadOrderFailed(data))
+    },
+    actionSetOrderVal: (fieldName, fieldValue) => {
+      dispatch(actionSetOrderVal(fieldName, fieldValue))
     },
   }
 };

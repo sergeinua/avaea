@@ -73,7 +73,10 @@ module.exports.routes = {
   'post /vanityURLs/create/': 'VanityURLsController.create',
   'get /vanityURLs/read/:id': 'VanityURLsController.read',
   'post /vanityURLs/edit/:id': 'VanityURLsController.edit',
-  'post /vanityURLs/delete/:id': 'VanityURLsController.delete' 
+  'post /vanityURLs/delete/:id': 'VanityURLsController.delete',
+
+  // Transactions Report routes
+  'post /report/transactions': 'AboController.getTransactions'
 
   /***************************************************************************
   *                                                                          *

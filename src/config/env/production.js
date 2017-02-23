@@ -36,7 +36,7 @@ module.exports = {
 
   log: {
     level: 'verbose',
-    timestamp: true
+    timestamp: false
   },
 
   session:{

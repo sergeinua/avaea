@@ -21,6 +21,7 @@
   "Error.Search.Validation.ArrivalLocationCode.Empty": ["Validation error. Arrival code is empty"],
   "Error.Search.Validation.LocationCode.Same": ["Validation error. Departure and arrival are same"],
   "Error.Search.Validation.Passengers.Empty": ["Validation error. Passengers empty"],
+  "Error.Search.Validation.Passengers.OutOfRange": ["Validation error. Passengers should be in range 1 to 4"],
   "Error.Search.Validation.CabinClass.Empty": ["Validation error. Wrong cabin class"],
 
   "Error.Search.Generic": ["Your request cannot be processed", "at the moment due to technical problems.", "Please try again later"],
