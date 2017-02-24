@@ -58,8 +58,8 @@ module.exports = {
   validateSearchParams: function (searchParams) {
     let _Error = false;
     let searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
-    let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY");
-    let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY");
+    let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY", true);
+    let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY", true);
     let moment_now = sails.moment();
 
     // Check depart date

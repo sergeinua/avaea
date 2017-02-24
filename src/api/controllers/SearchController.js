@@ -54,13 +54,16 @@ module.exports = {
 
     if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
       depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
+      params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
+      req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
     } else {
       if (!isNaN(Date.parse(req.param('departureDate')))) {
         depDate = sails.moment(req.param('departureDate'), 'YYYY-MM-DD').toDate();
+        params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
+        req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
       }
     }
-    params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
-    req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
+
     if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
       var retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
@@ -230,7 +233,7 @@ module.exports = {
                   errStat.push(error);
                   error = null;
                 }
-                var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+                var jdata = body;
                 let itineraryMilesInfosObject = {};
                 jdata.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
                   itineraryMilesInfosObject[id] = {
