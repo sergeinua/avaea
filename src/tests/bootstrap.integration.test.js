@@ -27,22 +27,6 @@ before(function(done) {
       session: false,
       grunt: false
     },
-    connections: {
-      memcacheConf: {
-        host: 'localhost',
-        port: '11211',
-        exptime: 60*30 // 30 minutes
-      },
-      redisConf: {
-        host: 'localhost',
-        port: 6379,
-        ttl: 600,
-        db: 0,
-        pass: '',
-        prefix: 'cache:',
-        exptime: 60*30 // 30 minutes
-      }
-    },
     globals: {
       cacheStore: 'redis', //<redis|memcache>
     },
