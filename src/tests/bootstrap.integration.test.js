@@ -7,7 +7,7 @@ before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift.
   this.timeout(512000);
 
-  let env_config = require('../config/env/' + (process.env.NODE_ENV || 'staging') + '.js');
+  let env_config = require('../config/env/' + (process.env.NODE_ENV || 'development') + '.js');
   Sails.lift(Object.assign({}, env_config, {
     // configuration for testing purposes
     port: 4000,
