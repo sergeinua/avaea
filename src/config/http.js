@@ -82,10 +82,10 @@ module.exports.http = {
             for (var i in result) {
               try {
                 let vanityURI = (''+url.parse(result[i].vanity_url).pathname).replace(/\/+$/, '');
-                onvoya.log.verbose('vanityURI from cache ', vanityURI, 'requestURI', requestURI);
+                onvoya.log.silly('vanityURI from cache ', vanityURI, 'requestURI', requestURI);
                 if (requestURI === vanityURI) {
                   req.session.vanityURL = result[i];
-                  onvoya.log.verbose('req.session.vanityURL added', result[i]);
+                  onvoya.log.silly('req.session.vanityURL added', result[i]);
                   break;
                 }
               } catch(ex) {}

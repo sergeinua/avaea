@@ -52,7 +52,7 @@ var SearchFormPage = React.createClass({
           : null
         }
         { this.props.commonData.currentForm == 'one_way' || this.props.commonData.currentForm == 'round_trip' ?
-          <TripSearchForm InitSearchFormData={this.props.commonData} />
+          <TripSearchForm />
           : null
         }
         { this.props.commonData.currentForm == 'voice_search' ?
