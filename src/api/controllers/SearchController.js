@@ -233,7 +233,7 @@ module.exports = {
                   errStat.push(error);
                   error = null;
                 }
-                var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+                var jdata = body;
                 let itineraryMilesInfosObject = {};
                 jdata.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
                   itineraryMilesInfosObject[id] = {
