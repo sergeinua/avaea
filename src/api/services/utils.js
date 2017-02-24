@@ -149,6 +149,25 @@ module.exports = {
     return userId;
   },
 
+  /**
+   * Generator executor.
+   * Method is useful for run generator with bunch async requests, which should be execute one by one.
+   * Latest requests could be based on results of earliest.
+   */
+  executeGenerator: function executeGenerator(generator, yieldValue) {
+    let next = generator.next(yieldValue);
+    if (!next.done) {
+      next.value.then(
+        result => executeGenerator(generator, result),
+        err => generator.throw(err)
+      ).catch(
+        err => generator.throw(err)
+      );
+    } else {
+      return next.value;
+    }
+  },
+
   getAnonymousUserId: function (req) {
     return req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : false;
   },
