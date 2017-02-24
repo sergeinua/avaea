@@ -71,12 +71,14 @@ class MondeeClient {
             }
             paxDetails.push({
               PaxType: paxType,
-              FirstName: params.passengers[i].FirstName,
-              LastName: params.passengers[i].LastName,
+              FirstName: params.passengers[i].FirstName.replace(/[^a-z]/ig,''), // remains alphabet only
+              LastName: params.passengers[i].LastName.replace(/[^a-z]/ig,''),
               Gender: params.passengers[i].Gender,
               DateOfBirth: params.passengers[i].DateOfBirth
             });
           }
+          params.FirstName = params.FirstName.replace(/[^a-z]/ig,'');
+          params.LastName = params.LastName.replace(/[^a-z]/ig,'');
 
           // params['passengers[1].phone'] is using for  Contact Phone by default, may will changed in future
           let paxContactInfo = {
@@ -649,6 +651,14 @@ module.exports = {
 
     return new MondeeClient(api).getResponse(guid, params, function(err, result) {
       let eTicketNumber = (result && result.ETicketNumber)? result.ETicketNumber: '';
+
+      // test environments
+      if(process.env.NODE_ENV !== 'production' && eTicketNumber.length === 0){
+        // Temporary fake - return reference_number as e-ticket number. Because this action does not work on the mondee side at this moment
+        err = null;
+        eTicketNumber = params.reference_number;
+      }
+
       return callback(err, eTicketNumber);
     });
   },

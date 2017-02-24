@@ -151,5 +151,29 @@ module.exports = {
 
   getAnonymousUserId: function (req) {
     return req.cookies.ajs_anonymous_id ? utils.convertType(req.cookies.ajs_anonymous_id).replace(/["]/g, '') : false;
+  },
+
+  getIP: function (req) {
+    let ip = '127.0.0.1'; // ONV-1106
+
+    let headers = {};
+    _.each(req.headers, (value, key)=>{
+      headers[key.toLowerCase()] = value;
+    });
+
+    if(req.ip && req.ip !== '127.0.0.1'){
+      ip = req.ip;
+    }
+    else if(headers['x-forwarded-for'] && headers['x-forwarded-for'] !== '127.0.0.1'){
+      ip = headers['x-forwarded-for'];
+    }
+    else if(headers['x-real-ip'] && headers['x-real-ip'] !== '127.0.0.1'){
+      ip = headers['x-real-ip'];
+    }
+    // checking results
+    onvoya.log.info(headers);
+    onvoya.log.info('Found IP: %s', ip);
+
+    return ip;
   }
 };
