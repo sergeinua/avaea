@@ -161,15 +161,16 @@ module.exports = {
       headers[key.toLowerCase()] = value;
     });
 
-    if(req.ip && req.ip !== '127.0.0.1'){
-      ip = req.ip;
-    }
-    else if(headers['x-forwarded-for'] && headers['x-forwarded-for'] !== '127.0.0.1'){
+    if(headers['x-forwarded-for'] && headers['x-forwarded-for'] !== '127.0.0.1'){
       ip = headers['x-forwarded-for'];
     }
     else if(headers['x-real-ip'] && headers['x-real-ip'] !== '127.0.0.1'){
       ip = headers['x-real-ip'];
     }
+    else if(req.ip && req.ip !== '127.0.0.1'){
+      ip = req.ip;
+    }
+
     // checking results
     sails.log.info(headers);
     sails.log.info('Found IP: %s', ip);
