@@ -7,7 +7,7 @@ before(function(done) {
   // Increase the Mocha timeout so that Sails has enough time to lift.
   this.timeout(512000);
 
-  let env_config = require('../config/env/' + (process.env.NODE_ENV || 'development') + '.js');
+  let env_config = require('../config/env/' + (process.env.NODE_ENV || 'staging') + '.js');
   Sails.lift(Object.assign({}, env_config, {
     // configuration for testing purposes
     port: 4000,
@@ -27,7 +27,7 @@ before(function(done) {
       session: false,
       grunt: false
     },
-    connections:{
+    connections: {
       memcacheConf: {
         host: 'localhost',
         port: '11211',
@@ -41,7 +41,7 @@ before(function(done) {
         pass: '',
         prefix: 'cache:',
         exptime: 60*30 // 30 minutes
-      }      
+      }
     },
     globals: {
       cacheStore: 'redis', //<redis|memcache>
