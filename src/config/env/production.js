@@ -40,14 +40,14 @@ module.exports = {
   },
 
   session:{
-  adapter: 'redis',
-  host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
-  port: 6379,
-  ttl: 600,
-  db: 0,
-  pass: '',
-  prefix: 'sess:'
-},
+    adapter: 'redis',
+    host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
+    port: 6379,
+    ttl: 60*60*24,
+    db: 0,
+    pass: '',
+    prefix: 'sess:'
+  },
   connections: {
     productionPostgresqlServer: {
       adapter: 'sails-postgresql',
@@ -56,17 +56,16 @@ module.exports = {
       password: 'a1v2a3e4a5',
       database: 'avaea'
     },
-  redisConf: {
-    host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
-    port: 6379,
-    ttl: 600,
-    db: 0,
-    pass: '',
-    prefix: 'cache:',
-    exptime: 60*30 // 30 minutes
+    redisConf: {
+      host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
   },
-
-},
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
 

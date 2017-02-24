@@ -2,6 +2,8 @@ var path     = require('path')
   , url      = require('url')
   , passport = require('passport');
 
+const executeGenerator = require('./utils').executeGenerator;
+
 /**
  * Passport Service
  *
@@ -94,13 +96,8 @@ passport.connect = function (req, query, profile, next) {
   if (profile.hasOwnProperty('emails')) {
     user.email = profile.emails[0].value;
   }
-  // If the profile object contains a username, add it to the user.
-  if (profile.hasOwnProperty('username')) {
-    user.username = profile.username;
-  }
 
   async.waterfall([
-
       /**
        * Check user and passport data. Create or save in DB
        *
@@ -121,8 +118,20 @@ passport.connect = function (req, query, profile, next) {
             //           authentication provider.
             // Action:   Create a new user and assign them a passport.
             if (!passport) {
-              User.findOrCreate(user, user, function (err, user) {
-                if (err) {
+
+              // Generator creates new user, passport and send email for new users.
+              function * getUserPassport() {
+                let selectedUser;
+                let newUser = false;
+                // try to find existing user or create new one
+                try {
+                  selectedUser = yield User.findOne(user);
+
+                  if(!selectedUser) {
+                    selectedUser = yield User.create(user);
+                    newUser = true;
+                  }
+                } catch (err) {
                   if (err.code === 'E_VALIDATION') {
                     if (err.invalidAttributes.email) {
                       err = 'Error.Passport.Email.Exists';
@@ -133,41 +142,46 @@ passport.connect = function (req, query, profile, next) {
                   }
 
                   callback(err);
-                  return;
+                  return false;
                 }
-                segmentio.identify(user.id, user);
 
-                query.user = user.id;
+                segmentio.identify(selectedUser.id, selectedUser);
+                query.user = selectedUser.id;
 
-                Passport.create(query, function (err, passport) {
-                  // If a passport wasn't created, bail out
-                  if (err) {
-                    segmentio.track(user.id, 'Registration Failed', {error: err});
-                    callback(err);
-                    return;
-                  }
-                  segmentio.track(user.id, 'Registration', {email: user.email});
+                //Try to create passport
+                try {
+                  const passport  = yield Passport.create(query);
+                  segmentio.track(selectedUser.id, 'Registration', {email: selectedUser.email});
+                } catch(err) {
+                  segmentio.track(selectedUser.id, 'Registration Failed', {error: err});
+                  callback(err);
+                  return false;
+                }
 
-                  // E-mail notification
-                  var tpl_vars = {
-                    user: user,
+                // Send E-mail notification only for new users.
+                if (newUser) {
+                  const tpl_vars = {
+                    user: selectedUser,
                     replyTo: sails.config.email.replyTo,
                     callTo: sails.config.email.callTo
                   };
-                  Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars)
-                    .then(function (msgContent) {
-                      Mailer.sendMail({to: user.email, subject: 'Welcome to OnVoya'}, msgContent)
-                        .then(function () {
-                          onvoya.log.info('Mail was sent to '+ user.email);
-                        })
-                    })
-                    .catch(function (error) {
-                      onvoya.log.error(error);
-                    });
 
-                  callback(null, user);
-                });
-              });
+                  try {
+                    const messageContent = yield Mailer.makeMailTemplate(sails.config.email.tpl_profile_create, tpl_vars);
+                    if (yield Mailer.sendMail({to: selectedUser.email, subject: 'Welcome to OnVoya'}, messageContent)) {
+                      onvoya.log.info(`Mail was sent to ${selectedUser.email}`);
+                    }
+                  } catch(err) {
+                    onvoya.log.error(err);
+                  }
+                }
+
+                callback(null, selectedUser);
+                return true;
+              }
+
+              executeGenerator(getUserPassport());
+              return true;
             }
             // Scenario: An existing user is trying to log in using an already
             //           connected passport.
