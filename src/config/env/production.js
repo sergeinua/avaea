@@ -66,6 +66,9 @@ module.exports = {
       exptime: 60*30 // 30 minutes
     },
   },
+  globals: {
+    cacheStore: 'redis'
+  },
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
 

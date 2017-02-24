@@ -1,6 +1,15 @@
 module.exports = {
 
   connection: {
+    redisConf: {
+      host: 'localhost',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
     etPostgresqlServer: {
       adapter: 'sails-postgresql',
       host: '127.0.0.1',
@@ -11,6 +20,9 @@ module.exports = {
   },
   models: {
     connection: 'etPostgresqlServer'
+  },
+  globals: {
+    cacheStore: 'redis'
   },
 
 
@@ -29,7 +41,7 @@ module.exports = {
     database: 'avaea',
     port: 5432
   },
-flightapis: {
+  flightapis: {
 //    mondee: {
 //      baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
 //      clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
