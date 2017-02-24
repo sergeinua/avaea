@@ -289,7 +289,7 @@ const callFarelogixApi = function (api, apiParams, apiCb) {
     throw 'callback required and should be a function';
   }
   let request = farelogixRqGetters[farelogixRqGetter].apply(this, apiParams || []);
-  sails.log.info(util.inspect(request, {showHidden: true, depth: null}));
+  onvoya.log.info(util.inspect(request, {showHidden: true, depth: null}));
 
   let post_options = sails.config.flightapis.farelogix.post_options;
   post_options.headers['Content-Length'] = Buffer.byteLength(request);
@@ -461,6 +461,8 @@ const mapFlights = function(flights, priceSettings) {
 const mapCitypairs = function(citypairs) {
   let res = {
     price: 0,
+    fare: 0,
+    taxes: 0,
     durationMinutes: 0,
     citypairs: [],
     key: ''
@@ -472,6 +474,9 @@ const mapCitypairs = function(citypairs) {
       throw 'Wrong response format. No PriceGroup was found in flight';
     }
     res.price += parseInt(pair.PriceGroup.PriceClass[0].Price.Total) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals));
+    res.fare += parseInt(pair.PriceGroup.PriceClass[0].Price.Fare) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals)); // for transactions report onv-897
+    res.taxes += parseInt(pair.PriceGroup.PriceClass[0].Price.Taxes) / Math.pow(10, parseInt(pair.CurrencyCode.NumberOfDecimals)); // for transactions report onv-897
+
     if (!lodash.isArray(pair.Segment)) {
       pair.Segment = [pair.Segment];
     }
@@ -548,6 +553,8 @@ const mapItinerary = function(itinerary) {
     service: serviceName,
     currency: currency,
     price: 0,
+    fare: 0, // for transactions report
+    taxes: 0, // for transactions report
     duration: '',
     durationMinutes: 0,
     citypairs: [],
@@ -555,7 +562,10 @@ const mapItinerary = function(itinerary) {
   };
 
   let mCitypairs = mapCitypairs(itinerary);
+
   res.price = mCitypairs.price.toFixed(2);
+  res.fare = mCitypairs.fare.toFixed(2); // for transactions report onv-897
+  res.taxes = mCitypairs.taxes.toFixed(2); // for transactions report onv-897
   res.duration = utils.minutesToDuration(mCitypairs.durationMinutes);
   res.durationMinutes = mCitypairs.durationMinutes;
   res.citypairs = mCitypairs.citypairs;
@@ -587,16 +597,16 @@ module.exports = {
       farelogixApi = 'fareSearch';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, resArr) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, resArr);
     };
 
     let endPoint = getEndPoint();
-    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    onvoya.log.info(_api_name + ': Trying to connect to ' + endPoint);
     let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params.searchParams], function (err, result, raw) {
@@ -607,7 +617,7 @@ module.exports = {
         if (apiCallTime > 7000) {
           params.session.time_log.push(op + ' took %s to respond', apiCallTimeHr);
         }
-        sails.log.info(op + ' request time: %s', apiCallTimeHr);
+        onvoya.log.info(op + ' request time: ' + apiCallTimeHr);
         if (err) {
           throw err;
         } else {
@@ -666,7 +676,9 @@ module.exports = {
                     result.FareGroup[fg].OriginDestination[od].Flight[fl].PriceGroup = {
                       PriceClass: {
                         Price: {
-                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total
+                          Total: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Total,
+                          Fare: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Fare, // for transactions report onv-897
+                          Taxes: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].FareComponent.Taxes.Amount  // for transactions report onv-897
                         },
                         PriceSegment: result.FareGroup[fg].TravelerGroup.FareRules.FareInfo[od].RelatedSegment
                       }
@@ -706,19 +718,20 @@ module.exports = {
             _keysMerchandisingPrioritySeat = lodash.sampleSize( lodash.shuffle(itineraryIds), Math.round(itineraryIds.length * 25 / 100) );
 
             async.map(itineraries, function (itinerary, doneCb) {
-
               return doneCb(null, mapItinerary(itinerary));
             }, function (err, resArr) {
               if ( err ) {
-                sails.log.error( err );
+                onvoya.log.error( err );
               }
-              sails.log.info(_api_name + ': Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr(_api_name + '_prepare_result'));
+              onvoya.log.info(
+                _api_name + ': Map result data (' + resArr.length + ' itineraries) to our structure time: '
+                + utils.timeLogGetHr(_api_name + '_prepare_result'));
               return callback(null, resArr);
             });
           }
         }
       } catch (e) {
-        sails.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
+        onvoya.log.error(op + ': An error occurs: ' + e + ',raw='+raw);
         // Assume 'International Flights Searches are restricted' and 'No Schedule availability' errors
         // are the same as 'No Results Found' error
         let no_flights_errors = [
@@ -747,16 +760,16 @@ module.exports = {
       farelogixApi = 'PNRCreate';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
     let endPoint = getEndPoint();
-    sails.log.info(_api_name + ': Trying to connect to ' + endPoint);
+    onvoya.log.info(_api_name + ': Trying to connect to ' + endPoint);
     let op = _api_name + ': ' + farelogixApi;
     utils.timeLog(op);
     callFarelogixApi(farelogixApi, [guid, params], function (err, result, raw) {
@@ -778,7 +791,7 @@ module.exports = {
           });
         }
       } catch (e) {
-        sails.log.error(op + ': An error occurs: ' + e);
+        onvoya.log.error(op + ': An error occurs: ' + e);
         return callback(e, null);
       }
     });
@@ -802,11 +815,11 @@ module.exports = {
       farelogixApi = 'cancelPnr';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -819,11 +832,11 @@ module.exports = {
       farelogixApi = 'fareRules';
 
     utils.timeLog(_api_name);
-    sails.log.info(_api_name + ' started');
+    onvoya.log.info(_api_name + ' started');
     // re-init callback for adding final measure of api processing time and show info in log
     let _cb = callback;
     callback = function (errors, result) {
-      sails.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time: ' + utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 

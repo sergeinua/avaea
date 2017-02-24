@@ -12,6 +12,7 @@ export const actionTypesOrder = {
   LOAD_ORDER_SUCCESS: 'LOAD_ORDER_SUCCESS',
   LOAD_ORDER_FAILED: 'LOAD_ORDER_FAILED',
   SET_ORDER_FIELD_VAL: 'SET_ORDER_FIELD_VAL',
+  SET_ORDER_VAL: 'SET_ORDER_VAL',
 };
 export const actionTypesCommon = {
   SET_COMMON_VAL: 'SET_COMMON_VAL',
@@ -89,6 +90,14 @@ export function actionLoadOrderSuccess (data) {
 export function actionSetOrderFieldVal (fieldName, fieldValue) {
   return {
     type: actionTypesOrder.SET_ORDER_FIELD_VAL,
+    fieldName: fieldName,
+    fieldValue: fieldValue
+  }
+}
+
+export function actionSetOrderVal (fieldName, fieldValue) {
+  return {
+    type: actionTypesOrder.SET_ORDER_VAL,
     fieldName: fieldName,
     fieldValue: fieldValue
   }

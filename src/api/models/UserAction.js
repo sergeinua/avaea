@@ -44,7 +44,7 @@ var UserAction = {
       }
       this.create(uaFields, function(err, record) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
         }
         callback && callback();
       });
@@ -53,6 +53,7 @@ var UserAction = {
 
   saveFirstVisit: function (req, res) {
     let anonymous_id = utils.getAnonymousUserId(req);
+    let landing_page = _.clone( req.cookies.landing_page || req.url );
 
     if (anonymous_id) {
       let uaFields = {
@@ -62,20 +63,23 @@ var UserAction = {
       this.findOne(uaFields, (err, found) => {
         if (!found && !err) {
           uaFields.logInfo = {
-            landing_page: req.cookies.landing_page || req.url
+            landing_page: landing_page
           };
           this.create(uaFields, (err, record) => {
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             }
-            sails.log.verbose('landing_page is saved', record);
+            onvoya.log.silly('landing_page is saved', record);
             // res.clearCookie('landing_page');
           });
+        } else {
+          onvoya.log.silly('found previous landing_page in actions', found.logInfo );
         }
       });
     } else {
+      onvoya.log.silly('don\'t have anonymous_id => must be first/incognito visit, saving landing page to cookies', landing_page );
       //don't have anonymous_id => must be first/incognito visit, saving landing page to cookies
-      res.cookie('landing_page', req.url);
+      res.cookie('landing_page', landing_page);
     }
   },
 };

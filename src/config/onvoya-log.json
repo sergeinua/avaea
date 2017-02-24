@@ -1,0 +1,32 @@
+{
+  "models": {
+    "level": "error",
+    "Search": {
+      "level": "info"
+    },
+    "Tile": {
+      "level": "info"
+    }
+  },
+  "controllers": {
+    "level": "error",
+    "SiteController": {
+      "level": "info"
+    }
+  },
+  "services": {
+    "level": "debug",
+    "mondee": {
+      "level": "verbose"
+    },
+    "functions_to_release": {
+      "level": "info"
+    }
+  },
+  "responses": {
+    "level": "debug",
+    "ok": {
+      "level": "silent"
+    }
+  }
+}

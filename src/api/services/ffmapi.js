@@ -5,8 +5,9 @@
  *
  */
 /* global sails */
-var _REQUEST = require('request');
-var lodash = require('lodash');
+const _REQUEST = require('request');
+const lodash = require('lodash');
+const qpromice = require('q');
 
 module.exports = {
   AccrualTypes: {
@@ -65,7 +66,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/programs/
      * */
     Programs: function (cb) {
-      var apiUrl = 'api/miles/programs';
+      let apiUrl = 'api/miles/programs';
       ffmapi.get('milefy', apiUrl, 'GET', {}, cb);
     },
 
@@ -79,94 +80,6 @@ module.exports = {
      *
      * */
     Calculate: function ({itineraries = [], milesPrograms = []}, callback) {
-      var apiUrl = 'api/miles/calculate';
-
-      // map itinerary to 30K request
-      var _30kparams = {
-        flts: [],
-        tgp:[],
-      };
-
-      itineraries.forEach((itinerary) => {
-        _30kparams.flts.push(convertItineraryTo30kFlightFormat(itinerary));
-      });
-
-      milesPrograms.forEach((milesProgram) => {
-        _30kparams.tgp.push(convertMilesProgramTo30kFormat(milesProgram));
-      });
-
-      sails.log.info('Request to 30K api: ', JSON.stringify(_30kparams));
-      ffmapi.get('milefy', apiUrl, 'POST', _30kparams, function (error, response, body) {
-        if (error) {
-          sails.log.error('30K api', error);
-          return callback(error, body);
-        }
-        var result = (typeof body == 'object') ? body : JSON.parse(body || '{}');
-        if (result.Success == false) {
-          sails.log.error('30K api', body);
-          return callback({msg: result.Status.Message}, body);
-        }
-        sails.log.info('Response 30K api:', JSON.stringify(body));
-        // return only one result
-
-        var filteredResults = [];
-        var programCodesAsObject = {};
-
-        if (result.Value && !lodash.isEmpty(result.Value.flts)) {
-
-          let nonEmptyFlights = result.Value.flts.filter((flight) => !lodash.isEmpty(flight.aprg[0].mi));
-          filteredResults = nonEmptyFlights.map(function (flight) {
-            var filteredResult = {
-              AccrualType: ffmapi.AccrualTypes[0],
-              miles: 0,
-              ProgramCode:'',
-              ProgramCodeName:''
-            };
-
-            flight.aprg[0].mi.forEach(function (miles, i) {
-              if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
-                filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
-                filteredResult.miles = miles.val;
-                filteredResult.ProgramCode = flight.aprg[0].pc;
-                programCodesAsObject[filteredResult.ProgramCode] = true;
-              }
-            });
-            return {
-              id: flight.fid,
-              ffmiles: filteredResult
-            };
-          });
-        }
-        var programCodesAsArray = Object.keys(programCodesAsObject);
-        if (programCodesAsArray.length) {
-
-          var queryArray = programCodesAsArray.map((code) => ({program_code: code}));
-          FFMPrograms.find(queryArray).exec(function findCB(err, foundPrograms) {
-              if (foundPrograms && foundPrograms.length) {
-                foundPrograms.forEach((foundItem) => {
-                  programCodesAsObject[foundItem.program_code] = foundItem.program_name;
-                });
-
-                let definedProgramCodesAsObject = {};
-                Object.keys(programCodesAsObject)
-                  .filter((program) => programCodesAsObject[program] !== true)
-                  .forEach((program) => { definedProgramCodesAsObject[program] = programCodesAsObject[program] });
-
-                filteredResults.forEach((flight) => {
-                  if (definedProgramCodesAsObject[flight.ffmiles.ProgramCode]) {
-                    flight.ffmiles.ProgramCodeName = definedProgramCodesAsObject[flight.ffmiles.ProgramCode];
-                  }
-                });
-              }
-              return callback(null, filteredResults);
-
-            }
-          );
-
-        } else {
-          return callback(null, filteredResults);
-        }
-      });
 
       /**
        * Convert data to 30kApi format __version 2.5__ or lover for request "/api/miles/calculate"
@@ -192,17 +105,17 @@ module.exports = {
 
       function convertItineraryTo30kFlightFormat(itinerary) {
         //Mapping our structure to 30K api request
-        var RequestFlight = {
+        let RequestFlight = {
           fid: itinerary.id,
           lg: []
         };
         if (itinerary.citypairs) {
           itinerary.citypairs.forEach(function (citypair) {
-            var FlightLeg = {
+            let FlightLeg = {
               sg: []
             };
             citypair.flights.forEach(function (flight) {
-              var FlightSegment = {
+              let FlightSegment = {
                 mac: flight.airlineCode,
                 oac: flight.airlineCode,
                 dac: flight.from.code,
@@ -219,6 +132,132 @@ module.exports = {
 
         return RequestFlight;
       }
+
+      let apiUrl = 'api/miles/calculate';
+
+      // map itinerary to 30K request
+      let _30kparams = {
+        flts: [],
+        tgp:[],
+      };
+
+      itineraries.forEach((itinerary) => {
+        _30kparams.flts.push(convertItineraryTo30kFlightFormat(itinerary));
+      });
+
+      milesPrograms.forEach((milesProgram) => {
+        _30kparams.tgp.push(convertMilesProgramTo30kFormat(milesProgram));
+      });
+
+      onvoya.log.verbose('Request to 30K api: ', _30kparams);
+      let _calculate = () => {
+        return new Promise((resolve, reject) => {
+          ffmapi.get('milefy', apiUrl, 'POST', _30kparams, (error, response, body) => {
+            onvoya.log.verbose('Response 30K api:', body);
+            if (error) {
+              return reject(error);
+            }
+            let result;
+            try {
+              result = (typeof body == 'object') ? body : JSON.parse(body || '{}');
+            } catch (e) {
+              return reject(e);
+            }
+            if (result && result.Success == false) {
+              return reject(result.Status.Message);
+            }
+            return resolve(result);
+          });
+        });
+      };
+      return _calculate()
+        .then(result => {
+
+          let filteredResults = [],
+            programCodesAsObject = {};
+
+          if (result.Value && !lodash.isEmpty(result.Value.flts)) {
+
+            let nonEmptyFlights = result.Value.flts.filter((flight) => !lodash.isEmpty(flight.aprg[0].mi));
+            filteredResults = nonEmptyFlights.map(function (flight) {
+              let filteredResult = {
+                AccrualType: ffmapi.AccrualTypes[0],
+                miles: 0,
+                ProgramCode:'',
+                ProgramCodeName:''
+              };
+
+              flight.aprg[0].mi.forEach(function (miles, i) {
+                if (filteredResult.miles < miles.val && (miles.at == '1' || miles.at == '2')) {
+                  filteredResult.AccrualType = ffmapi.AccrualTypes[miles.at];
+                  filteredResult.miles = miles.val;
+                  filteredResult.ProgramCode = flight.aprg[0].pc;
+                  programCodesAsObject[filteredResult.ProgramCode] = true;
+                }
+              });
+              return {
+                id: flight.fid,
+                ffmiles: filteredResult
+              };
+            });
+
+          }
+          return {results: filteredResults, programCodes: programCodesAsObject};
+
+        })
+        .then(filtered => {
+
+          return new Promise((resolve, reject) => {
+
+            let programCodesAsArray = Object.keys(filtered.programCodes);
+            if (programCodesAsArray.length) {
+
+              let queryArray = programCodesAsArray.map((code) => ({program_code: code}));
+              FFMPrograms.find(queryArray)
+                .then((foundPrograms) => {
+
+                  if (foundPrograms && foundPrograms.length) {
+                    foundPrograms.forEach((foundItem) => {
+                      filtered.programCodes[foundItem.program_code] = foundItem.program_name;
+                    });
+
+                    let definedProgramCodesAsObject = {};
+                    Object.keys(filtered.programCodes)
+                      .filter((program) => filtered.programCodes[program] !== true)
+                      .forEach((program) => { definedProgramCodesAsObject[program] = filtered.programCodes[program] });
+
+                    filtered.results.forEach((flight) => {
+                      if (definedProgramCodesAsObject[flight.ffmiles.ProgramCode]) {
+                        flight.ffmiles.ProgramCodeName = definedProgramCodesAsObject[flight.ffmiles.ProgramCode];
+                      }
+                    });
+                  }
+                  return resolve(filtered.results);
+
+                })
+                .catch((e) => {
+                  return reject(e);
+                });
+
+            } else {
+              return resolve(filtered.results);
+            }
+
+          });
+
+        })
+        .then(filtered => {
+          try {
+            return callback(null, filtered);
+          } catch (e) {
+            // avoid double callback call on errors
+            return;
+          }
+        })
+        .catch(e => {
+          onvoya.log.error('Error 30K api:', e);
+          return callback(e, []);
+        })
     },
 
     /**
@@ -229,7 +268,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculateone/
      * */
     CalculateOne: function (params, cb) {
-      var apiUrl = 'api/miles/calculateone';
+      let apiUrl = 'api/miles/calculateone';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -241,7 +280,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculate-upgrades/
      * */
     CalculateUpgrades: function (params, cb) {
-      var apiUrl = 'api/upgrades/calculate';
+      let apiUrl = 'api/upgrades/calculate';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -253,7 +292,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculateone-upgrades/
      * */
     CalculateOneUpgrades: function (params, cb) {
-      var apiUrl = 'api/upgrades/calculateone';
+      let apiUrl = 'api/upgrades/calculateone';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -266,7 +305,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculate-mixed/
      * */
     CalculateMixed: function (params, cb) {
-      var apiUrl = 'api/mixed/calculate';
+      let apiUrl = 'api/mixed/calculate';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -279,7 +318,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/milefy-api/calculateone-mixed/
      * */
     CalculateOneMixed: function (params, cb) {
-      var apiUrl = 'api/mixed/calculateone';
+      let apiUrl = 'api/mixed/calculateone';
       cb({msg: 'not implemented'}, {}, {});
     }
   },
@@ -299,7 +338,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/wallet-api/checkaccounts/
      * */
     CheckAccounts: function (params, cb) {
-      var apiUrl = 'api/checkaccounts';
+      let apiUrl = 'api/checkaccounts';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -311,7 +350,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/wallet-api/accountsmanualinput/
      * */
     AccountsManualInput: function (params, cb) {
-      var apiUrl = 'api/accountsmanual';
+      let apiUrl = 'api/accountsmanual';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -323,7 +362,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/wallet-api/memberships/
      * */
     Memberships: function (params, cb) {
-      var apiUrl = 'api/memberships';
+      let apiUrl = 'api/memberships';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -335,7 +374,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/wallet-api/deletemembership/
      * */
     DeleteMembership: function (params, cb) {
-      var apiUrl = 'api/memberships';
+      let apiUrl = 'api/memberships';
       cb({msg: 'not implemented'}, {}, {});
     },
 
@@ -347,7 +386,7 @@ module.exports = {
      * @docs http://www.30k.com/30k-api/wallet-api/providers/
      * */
     Providers: function (params, cb) {
-      var apiUrl = 'api/providers';
+      let apiUrl = 'api/providers';
       cb({msg: 'not implemented'}, {}, {});
     }
   }

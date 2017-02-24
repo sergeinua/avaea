@@ -25,7 +25,7 @@ let User = {
   saveLandingPage: function (user_id, req) {
     this.findOne({id: user_id}, (err, found_user) => {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
       }
       if (!found_user.landing_page) {
         //landing page is empty, trying to save one
@@ -46,9 +46,11 @@ let User = {
             segmentio.track(found_user.id, 'User landing page', {landing_page: found_user.landing_page});
             found_user.save();
           } else {
-            sails.log.error(err);
+            onvoya.log.error(err);
           }
         });
+      } else {
+        onvoya.log.silly('already have landing page saved: ', found_user.landing_page);
       }
     });
   }

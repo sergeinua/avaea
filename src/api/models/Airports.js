@@ -173,9 +173,9 @@ module.exports = {
           } else {
 
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             } else {
-              // sails.log.info('nothing is found for query', _query);
+              // onvoya.log.info('nothing is found for query', _query);
             }
 
             callback([]);
@@ -204,7 +204,7 @@ module.exports = {
               "distance": 0
             }
           ],
-        tokens: row.city.toLowerCase().split(/\s+/).concat(row.name.toLowerCase().split(/\s+/).concat([row.iata_3code.toLowerCase()]))
+        tokens: (row.city||'').toLowerCase().split(/\s+/).concat((row.name||'').toLowerCase().split(/\s+/).concat([(row.iata_3code||'').toLowerCase()]))
       };
     }
   }

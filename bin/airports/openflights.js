@@ -13,7 +13,7 @@ function Openflights() {
 };
 Openflights.prototype.run = function( argv, asyncsCounter, airports ) {
     if( argv.loglevel>0 ) {
-        console.log("Reading %s",this.datfile);
+        console.log("Openflights: Reading %s",this.datfile);
     }
     const datStream = _CSVPARSER({
         'separator': ',',
@@ -42,7 +42,7 @@ Openflights.prototype.run = function( argv, asyncsCounter, airports ) {
 	})
 	.on('end',function() {
             if( argv.loglevel>0 ) {
-                console.log("Datfile reading is done");
+                console.log("Openflights: Datfile reading is done");
             }
 	    asyncsCounter.finished_asyncs++;
 	});

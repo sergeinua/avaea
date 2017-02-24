@@ -68,7 +68,7 @@ module.exports = {
 
       Profile.findOneByUserId(req.user.id).exec(function findOneCB(err, found) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
           return res.ok({user: user_out, error: true});
         }
 
@@ -98,13 +98,13 @@ module.exports = {
 
       Profile.update({user:req.user.id}, profileFields).exec(function (err, record) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
           return res.ok({user: user_out, error: true});
         }
         else if (_.isEmpty(record)) {
           Profile.create(profileFields).exec(function(err, record) {
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
               return res.ok({user: user_out, error: true});
             }
             else {
@@ -147,7 +147,7 @@ module.exports = {
 
       if (!found) {
 
-        sails.log.error('User not found', JSON.stringify(req.user));
+        onvoya.log.error('User not found', JSON.stringify(req.user));
         return res.json({error: 'User not found'});
 
       } else {
@@ -166,7 +166,7 @@ module.exports = {
 
         } else {
 
-          sails.log.error('Fieldset "' + fieldset + '" not found', JSON.stringify(found));
+          onvoya.log.error('Fieldset "' + fieldset + '" not found', JSON.stringify(found));
           return res.json({error: 'Fieldset not found'});
 
         }

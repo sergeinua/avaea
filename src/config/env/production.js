@@ -36,30 +36,29 @@ module.exports = {
 
   log: {
     level: 'verbose',
-    timestamp: true
+    timestamp: false
   },
 
   session:{
-  adapter: 'redis',
-  host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
-  port: 6379,
-  ttl: 600,
-  db: 0,
-  pass: '',
-  prefix: 'sess:'
-},
-  connections: {
-  redisConf: {
+    adapter: 'redis',
     host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
     port: 6379,
-    ttl: 600,
+    ttl: 60*60*24,
     db: 0,
     pass: '',
-    prefix: 'cache:',
-    exptime: 60*30 // 30 minutes
+    prefix: 'sess:'
   },
-
-},
+  connections: {
+    redisConf: {
+      host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
+  },
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',
 

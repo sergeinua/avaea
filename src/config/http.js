@@ -36,6 +36,7 @@ module.exports.http = {
        //'startRequestTimer',
        'cookieParser',
        'session',
+       'refreshSessionCookie',
        'bodyParser',
        //'handleBodyParserError',
        'vanityURLsHandler',
@@ -55,32 +56,46 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
+     refreshSessionCookie: function(req, res, next) {
+       if (req.session) {
+         req.session._garbage = Date();
+         req.session.touch();
+       }
+       return next();
+     },
+
      vanityURLsHandler: function (req, res, next) {
         // skiping of socket requests
-        if(req.isSocket) return next();
+        if (req.isSocket) {
+          return next();
+        }
 
-        // skiping of images, js, css, pdf ... files            
-        if(req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)$/)) return next();
-            
+        // skiping of images, js, css, pdf ... files
+        if (req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)(\?.+?)?$/)) {
+          return next();
+        }
+
         let requestURI = req.url.replace(/\/+$/, '');
-              
+
         return VanityURLsService.loadCache().then(
           (result)=>{
-              for(var i in result){
-                try{
-                  let vanityURI = (''+url.parse(result[i].vanity_url).pathname).replace(/\/+$/, '');
-                  if(requestURI === vanityURI){
-                    req.session.vanityURL = result[i];
-                    break;
-                  }          
-                }catch(ex){}
-              }
-              return next();
+            for (var i in result) {
+              try {
+                let vanityURI = (''+url.parse(result[i].vanity_url).pathname).replace(/\/+$/, '');
+                onvoya.log.silly('vanityURI from cache ', vanityURI, 'requestURI', requestURI);
+                if (requestURI === vanityURI) {
+                  req.session.vanityURL = result[i];
+                  onvoya.log.silly('req.session.vanityURL added', result[i]);
+                  break;
+                }
+              } catch(ex) {}
+            }
+            return next();
           },
           (error)=>{
             return next();
           }
-        );         
+        );
      }
 
 
