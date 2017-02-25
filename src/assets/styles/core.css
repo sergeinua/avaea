@@ -241,6 +241,15 @@ body:not(.touch) i.icon-mic:before {
 	padding-bottom: 70px;
 }
 
+.desktop .flight-info {		
+	margin-left: -15px;		
+	width: 100%;		
+	height: 50px;		
+	position: absolute;		
+		top: 51px;		
+	border-bottom: 1px solid rgba(100, 100, 100, .2);		
+}
+
 .desktop .result-search-info-bar {
 	font-size: 16px;
 	text-align: center;
@@ -617,6 +626,7 @@ nav {
  
 .clear-it,
 .clearit,
+.itinerary .top-row:after,
 .booking .confirmation:after,
 body.desktop form.profile,
 .confirm-code:after,
@@ -1084,6 +1094,8 @@ a:focus,
 /* red */
 
 form label.required:before,
+	form.booking .has-error label.hint,
+form.booking div.error,
 form.booking .has-error label.hint,
 form.booking div.error,
 .warning,
@@ -1139,6 +1151,7 @@ form.booking div.error,
 }
 
 chrome,
+.itinerary-value,
 .results-wrapper {
 	background: #fafafa;
 }
@@ -1250,9 +1263,11 @@ textarea {
 	padding: 8px;
 }
 
+.its-me .hint,
 form.booking .hint,
 .tertiary-button.disabled:before,
-.mybucket .list-group-item.disabled > div.text {
+.mybucket .list-group-item.disabled > div.text,
+.itinerary .provider {
 	color: #a2a2a2;
 }
 
@@ -2615,8 +2630,16 @@ td[data-action*="selectDay"] {
 
 .itinerary .top-row .wrapper {
 	text-align: left;
+	display: inline-block;		
+	float: left;		
+	width: 50%;
 	position: relative;
-		top: 2px;
+}
+
+.itinerary .top-row .wrapper.buy-button {		
+	display: inline-block;		
+	float: right;		
+	width: 50%;
 }
 
 .airline-icon {
@@ -2634,18 +2657,40 @@ td[data-action*="selectDay"] {
 
 .buy-button-price {
 	color: #ffffff;
-	padding: 3px;
+	padding: 3px 3px 2px 3px;
 	min-width: 60px;
 	position: absolute;
-		top: 12px;
+		top: 9px;
 		right: 12px;
+}
+
+.itinerary .provider {		
+	text-align: right;		
+	display: inline-block;		
+  width: 90%;		
 }
 
 .itinerary-info {
 	text-align: left;
 }
 
-.departLoc {
+.itinerary-info .departTime,
+.itinerary-info .arriveTime {		
+	padding-right: 8px;		
+}
+		
+.itinerary-info .arriveTime {		
+	padding-left: 5px;		
+}
+		
+.itinerary-info .departLoc,		
+.itinerary-info .arriveLoc {		
+	text-align: center;		
+	display: inline-block;		
+	width: 40px;		
+}
+		
+.itinerary-info.departLoc {
 	padding-right: 5px;
 }
 
@@ -2656,7 +2701,19 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
-.arr-connects-none:before,
+.arr-connects-none {		
+	display: inline-block;		
+	width: 40px;		
+}
+
+.arr-connects-none:before {
+	font-size: 40px;		
+	line-height: 5px;		
+	position: absolute;		
+		top: -7px;
+}
+
+
 .arr-connects:before,
 .arr-connects:after {
 	font-size: 16px;
@@ -3469,6 +3526,27 @@ footer.app-copy .bottom a {
 	
 	.multi-city-coming-soon {
 		height: 126px;
+	}
+	
+	.results-wrapper .itinerary {		
+    margin: 8px 8px 0 8px;		
+	}		
+			
+	.itinerary {		
+		font-size: 12px;		
+	}		
+			
+	.itinerary .summary {		
+    padding-left: 8px;		
+		padding-right: 8px;		
+	}		
+			
+	.itinerary .summary.short-itin {		
+		padding-left: 28px;		
+	}		
+			
+	.itinerary-info .departTime, .itinerary-info .arriveTime {		
+    padding-right: 4px;		
 	}
 
 }

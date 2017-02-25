@@ -126,7 +126,7 @@ let ResultItem = React.createClass({
       <div id={"container-" + this.props.itinerary.id} className={"itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
 
       <div className="summary top-row">
-      	<div className="wrapper">
+      	<div className="wrapper airline">
 	        <span className="airline-icon"
 	              style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.itinerary.citypairs[0].from.airlineCode] * 15 + "px"}}
 	              alt={ this.props.itinerary.citypairs[0].from.airlineCode }
@@ -136,7 +136,10 @@ let ResultItem = React.createClass({
         </div>
         {/* remove extras until we have real ones to show */}
         {/* {this.showThumbsUp()} */}
-        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
+	      <div className="wrapper buy-button">   
+	      <span className="provider">via Travelocity</span>
+	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
+	      </div>
       </div>{/* ends top row */}
 
       <div className="summary short-itin"  id={ this.props.itinerary.id }>
@@ -159,6 +162,24 @@ let ResultItem = React.createClass({
                  refundType={this.state.refundType} />
       : null
     )}
+    
+    <div className="itinerary-value">		
+			<div className="extras">		
+				<span className="copy">Extras </span>		
+				<span className="amount">$56</span>		
+				<span className="extra wireless"></span>		
+				<span className="extra baggage"></span>		
+				<span className="extra priority"></span>		
+				<span className="extra lounge"></span>		
+			</div>		
+					
+			<div className="ff-value">		
+				<span className="how-many">10K Miles </span>		
+				{/* number of miles x $.02 */}		
+				<span className="value">$200</span>		
+				<span className="disclaimer">*</span>		
+			</div>		
+		</div>{/* ends itinerary value */}
 
   </div>
     )
