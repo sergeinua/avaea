@@ -3,31 +3,6 @@
 	 --------------- */
 
 
-/* soon to be removed - glyphicons */
-
-@font-face {
-  font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.woff') format('woff');
-}
-.glyphicon {
-  position: relative;
-  top: 1px;
-  display: inline-block;
-  font-family: 'Glyphicons Halflings';
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-
-.glyphicon.glyphicon-remove:before {
-  content: "\e014";
-}
-
-
 @font-face {
   font-family: 'icomoon';
   src:  url('../fonts/icomoon.eot?2wiwcx');
@@ -40,6 +15,9 @@
 }
 
 .cue:before,
+.extras .extra:before,
+.glyphicon.glyphicon-chevron-left:before,
+.glyphicon.glyphicon-chevron-right:after,
 .rdr-MonthAndYear-button i:after,
 footer a.social:after, 
 .icon-social-instagram:before,
@@ -267,6 +245,22 @@ footer a.instagram:after,
 .cue.info:before,
 .icon-info:before {
   content: "\e934";
+}
+.extra.baggage:before,
+.icon-extra-baggage:before {
+  content: "\e935";
+}
+.extra.lounge:before,
+.icon-extra-lounge:before {
+  content: "\e936";
+}
+.extra.priority:before,
+.icon-extra-priority:before {
+  content: "\e937";
+}
+.extra.wireless:before,
+.icon-extra-wireless:before {
+  content: "\e938";
 }
 
 /* end icons.css */

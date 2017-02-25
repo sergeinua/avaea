@@ -108,7 +108,7 @@ let ResultItem = React.createClass({
 
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
-      return <span className="arr-connects">{pair.noOfStops}</span>
+      return <span className="arr-connects"><span>{pair.noOfStops}</span></span>
     }
     return <span className="arr-connects-none"></span>
   },
@@ -133,11 +133,11 @@ let ResultItem = React.createClass({
 	              title={ this.props.itinerary.citypairs[0].from.airline }>
 	        </span>
 	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
+	        <span className="provider">via Travelocity</span>
         </div>
         {/* remove extras until we have real ones to show */}
         {/* {this.showThumbsUp()} */}
 	      <div className="wrapper buy-button">   
-	      	<span className="provider">via Travelocity</span>
 	      	<span className="price">{this.showPrice()}</span>
 	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-itin" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>Buy</button>
 	      </div>
@@ -164,21 +164,20 @@ let ResultItem = React.createClass({
       : null
     )}
     
-    <div className="itinerary-value">		
+    <div className="itinerary-value-bar">		
 			<div className="extras">		
 				<span className="copy">Extras </span>		
 				<span className="amount">$56</span>		
 				<span className="extra wireless"></span>		
-				<span className="extra baggage"></span>		
+				<span className="extra baggage"></span>	
+				<span className="extra lounge"></span>	
 				<span className="extra priority"></span>		
-				<span className="extra lounge"></span>		
 			</div>		
 					
 			<div className="ff-value">		
 				<span className="how-many">10K Miles </span>		
 				{/* number of miles x $.02 */}		
-				<span className="value">$200</span>		
-				<span className="disclaimer">*</span>		
+				<span className="value">~$200</span>		
 			</div>		
 		</div>{/* ends itinerary value */}
 
