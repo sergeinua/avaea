@@ -687,7 +687,7 @@ button {
 	background: #ffffff;
 }
 
-.buy-button-price,
+.buy-button-itin,
 .small-button,
 .tertiary-button {
 	cursor: pointer;
@@ -818,7 +818,8 @@ button {
 .navbar-default .navbar-form,
 .navmenu-default,
 .navbar-default .navbar-offcanvas,
-.flight-direction {
+.flight-direction,
+.touch .result-search-info-bar {
 	background: #052767;
 }
 
@@ -884,7 +885,7 @@ footer.app-copy a.social:visited {
 .btn-primary,
 .navbar-header .small-button,
 .calendar-panel .message.info,
-.buy-button-price {
+.buy-button-itin {
 	background: #14ca60;
 }
 
@@ -905,7 +906,7 @@ footer.app-copy a.social:visited {
 	background: rgba(21, 203, 97, .2);
 }
 
-.buy-button-price:hover,
+.buy-button-itin:hover,
 .big-button:hover,
 .big-button:focus,
 /* bootstrap */
@@ -2604,7 +2605,6 @@ td[data-action*="selectDay"] {
 
 .results-wrapper .itinerary {
 	margin: 10px 10px 0 10px;
-	padding-bottom: 10px;
 }
 
 /* card */
@@ -2655,7 +2655,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.buy-button-price {
+.buy-button-itin {
 	color: #ffffff;
 	padding: 3px 3px 2px 3px;
 	min-width: 60px;
@@ -3354,9 +3354,13 @@ footer.app-copy .bottom a {
 		background: url('/images/logo-onvoya-app-2x.png') -40px 3px no-repeat;
 		background-size: 175px;
 	}
-
-	.touch.suppress-logo .navbar-brand {
-		display: none;
+	
+	.touch .result-search-info-bar {
+		padding: 17px 0 15px 10px;
+		width: calc(100% - 32px);
+		position: absolute;
+			left: 32px;
+			top: 0px;
 	}
 
 }

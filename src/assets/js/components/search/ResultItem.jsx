@@ -137,8 +137,9 @@ let ResultItem = React.createClass({
         {/* remove extras until we have real ones to show */}
         {/* {this.showThumbsUp()} */}
 	      <div className="wrapper buy-button">   
-	      <span className="provider">via Travelocity</span>
-	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
+	      	<span className="provider">via Travelocity</span>
+	      	<span className="price">{this.showPrice()}</span>
+	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-itin" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>Buy</button>
 	      </div>
       </div>{/* ends top row */}
 
