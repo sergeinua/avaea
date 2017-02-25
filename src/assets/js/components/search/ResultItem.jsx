@@ -115,13 +115,8 @@ let ResultItem = React.createClass({
 
   handleBuyButton: function(itineraryId, isSpecial) {
     return function(e) {
-    	e.stopPropagation();
-      if (!getUser()) {
-        setCookie('redirectTo', '/order/' + itineraryId + '/' + (!!isSpecial), {expires: 300});
-        window.location = '/login';
-      } else {
-        historyStrategy.push('/order/' + itineraryId + '/' + (!!isSpecial));
-      }
+      e.stopPropagation();
+      historyStrategy.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
 

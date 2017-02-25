@@ -1084,6 +1084,8 @@ a:focus,
 /* red */
 
 form label.required:before,
+form.booking .has-error label.hint,
+form.booking div.error,
 .warning,
 .remove-fieldset {
 	color: #ed2741;
@@ -1248,7 +1250,7 @@ textarea {
 	padding: 8px;
 }
 
-.its-me .hint,
+form.booking .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text {
 	color: #a2a2a2;
@@ -3809,6 +3811,10 @@ html[data-useragent*='Trident'] .sort-button {
 
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
+}
+
+html[data-useragent*='Trident'] input[type="checkbox"] {
+	outline: none;
 }
 
 

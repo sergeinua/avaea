@@ -50,7 +50,7 @@ let User = {
           }
         });
       } else {
-        onvoya.log.verbose('already have landing page saved: ', found_user.landing_page);
+        onvoya.log.silly('already have landing page saved: ', found_user.landing_page);
       }
     });
   }

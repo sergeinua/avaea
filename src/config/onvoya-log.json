@@ -17,7 +17,7 @@
   "services": {
     "level": "debug",
     "mondee": {
-      "level": "error"
+      "level": "verbose"
     },
     "functions_to_release": {
       "level": "info"

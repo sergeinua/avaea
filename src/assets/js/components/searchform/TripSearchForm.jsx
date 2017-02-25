@@ -1,17 +1,19 @@
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
+import { actionSetCommonVal } from '../../actions.js';
 import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
-import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
-var flashErrorTimeout = 2000;
+const flashErrorTimeout = 2000;
 
-var TripSearchForm = React.createClass({
+const TripSearchForm = React.createClass({
 
   getInitialState: function () {
     observeStore(storeGetCommonVal, 'formSubmitCount', this.handleSubmitForm);
@@ -36,8 +38,9 @@ var TripSearchForm = React.createClass({
     }
   },
 
-  showCalendar: function () {
+  showCalendar: function (calendarType) {
     return function () {
+      clientStore.dispatch(actionSetCommonVal('calendarType', calendarType));
       ActionsStore.changeForm('calendar');
     }.bind(this);
   },
@@ -50,27 +53,27 @@ var TripSearchForm = React.createClass({
         });
     }.bind(this);
   },
-  
+
   handleMeriHint: function () {
   	// FIXME - could be React
   	$('.meri-speaks ').fadeToggle('fast');
   	$('.meri-wrapper ').toggleClass('remove');
   	setCookie('showMeriHint', false);
   },
-  
+
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
-    	
+
       if (submitCounter && this.validateForm()) {
-      	
+
       	// FIXME - could be React
       	$("body").addClass('suppress-logo');
-      	
-        if (this.props.InitSearchFormData.currentForm != 'round_trip') {
+
+        if (this.props.commonData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        
-        let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
+
+        let searchParams = JSON.stringify(this.props.commonData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
         historyStrategy.push(
@@ -91,7 +94,7 @@ var TripSearchForm = React.createClass({
 
   setErrorElement: function (stateFieldName) {
     function createStateFieldsUpdate(state, propertyName, toUpdate) {
-      var newStateUpdate = {};
+      let newStateUpdate = {};
       newStateUpdate[propertyName] = {};
       Object.keys(state[propertyName]).forEach(function (oldProperty) {
         newStateUpdate[propertyName][oldProperty] = state[propertyName][oldProperty];
@@ -109,9 +112,9 @@ var TripSearchForm = React.createClass({
       );
     }
 
-    var self = this;
-    var removeFlashErrorCallback = function () {
-      var property = self.state[stateFieldName];
+    let self = this;
+    let removeFlashErrorCallback = function () {
+      let property = self.state[stateFieldName];
       if (self.isMounted() && property) {
         self.setState(createStateFieldsUpdate(self.state, stateFieldName, {isErrorFlash: false}));
       }
@@ -124,7 +127,7 @@ var TripSearchForm = React.createClass({
 
   // not used currently, maybe it should be removed.
   unsetErrorElement: function (stateFieldName) {
-    var property = this.state[stateFieldName];
+    let property = this.state[stateFieldName];
     if (property) {
       this.setState(
         createStateFieldsUpdate(this.state, stateFieldName, {isError: false, isErrorFlash: false})
@@ -135,8 +138,8 @@ var TripSearchForm = React.createClass({
   validateForm: function () {
     let _executeValidate = function () {
       let _isError = false;
-      let formErrors = this.props.InitSearchFormData.formErrors;
-      let searchParams = this.props.InitSearchFormData.searchParams;
+      let formErrors = this.props.commonData.formErrors;
+      let searchParams = this.props.commonData.searchParams;
 
       if (formErrors.isError) {
         _isError = true;
@@ -197,10 +200,10 @@ var TripSearchForm = React.createClass({
   },
 
   getErrorClass: function (propertyName) {
-    var resultClass = '';
-    var property = this.state[propertyName];
-    var errorElemClass = 'error-elem';
-    var errorFlashClass = 'error-flash';
+    let resultClass = '';
+    let property = this.state[propertyName];
+    let errorElemClass = 'error-elem';
+    let errorFlashClass = 'error-flash';
     if (!property) {
       console.log('Uninitialized search form state property found: "' + propertyName + '"')
     }
@@ -214,7 +217,7 @@ var TripSearchForm = React.createClass({
   },
 
   getButtonsDisabledClass: function () {
-    let formErrors = this.props.InitSearchFormData.formErrors;
+    let formErrors = this.props.commonData.formErrors;
     return formErrors.isError ? 'disabled ': '';
   },
 
@@ -241,17 +244,17 @@ var TripSearchForm = React.createClass({
 
               <div className="col-xs-6">
                 <div id="from-area"
-                     className={(this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from") + " " + this.getErrorClass('#from-area')}
+                     className={(this.props.commonData.searchParams.DepartureLocationCode ? "flight-direction-item from sel" : "flight-direction-item from") + " " + this.getErrorClass('#from-area')}
                      onClick={this.handleAirportSearch('DepartureLocationCode')}>
                   <div className="flight-direction-item-from-to">From</div>
-                  {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
+                  {!this.props.commonData.searchParams.DepartureLocationCode ?
                     <span className="plus">+</span>
                     :
                     <div className="search-from">
                       <span
-                        id="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
+                        id="from-airport-selected">{this.props.commonData.searchParams.DepartureLocationCode}</span>
                       <div id="from-city-selected"
-                           className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
+                           className="flight-direction-item-from-to-city">{this.props.commonData.searchParams.DepartureLocationCodeCity}</div>
                     </div>
                   }
                 </div>
@@ -259,18 +262,18 @@ var TripSearchForm = React.createClass({
 
               <div className="col-xs-6">
                 <div id="to-area"
-                     className={(this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to") +
+                     className={(this.props.commonData.searchParams.ArrivalLocationCode ? "flight-direction-item to sel" : "flight-direction-item to") +
                      " " + this.getErrorClass('#to-area')}
                      onClick={this.handleAirportSearch('ArrivalLocationCode')}>
                   <div className="flight-direction-item-from-to">To</div>
-                  {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
+                  {!this.props.commonData.searchParams.ArrivalLocationCode ?
                     <span className="plus">+</span>
                     :
                     <div className="search-to">
                       <span
-                        id="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
+                        id="to-airport-selected">{this.props.commonData.searchParams.ArrivalLocationCode}</span>
                       <div id="to-city-selected"
-                           className="flight-direction-item-from-to-city">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
+                           className="flight-direction-item-from-to-city">{this.props.commonData.searchParams.ArrivalLocationCodeCity}</div>
                     </div>
                   }
                 </div>
@@ -289,25 +292,25 @@ var TripSearchForm = React.createClass({
               <div className="col-xs-12">
                 <div className="direction label-d">Depart</div>
                 <div id="search-form-depart-date"
-                  className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.departureDate)}</div>
+                  className="weekday">{this.getDatePart('weekday', this.props.commonData.searchParams.departureDate)}</div>
               </div>
             </div>
-            {!this.props.InitSearchFormData.searchParams.departureDate ?
+            {!this.props.commonData.searchParams.departureDate ?
               <div className="tap-plus">+</div>
               :
               <div className="row the-date">
                 <span
-                  className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+                  className="tap-date">{this.getDatePart('date', this.props.commonData.searchParams.departureDate)}</span>
                 <span
-                  className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+                  className="tap-month">{this.getDatePart('month', this.props.commonData.searchParams.departureDate)}</span>
                 <span
-                  className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+                  className="tap-year">{this.getDatePart('year', this.props.commonData.searchParams.departureDate)}</span>
               </div>
             }
 
           </div>
 
-          { this.props.InitSearchFormData.currentForm == 'round_trip' ?
+          { this.props.commonData.currentForm == 'round_trip' ?
             <div id="flight-date-ret-open-calendar" className={
               "flight-date-info-item ret col-xs-6 open-calendar" +
               " " + this.getErrorClass('.flight-date-info-item.ret')
@@ -317,19 +320,19 @@ var TripSearchForm = React.createClass({
                 <div className="col-xs-12">
                   <div className="direction label-d">Return</div>
                   <div id="search-form-return-date"
-                    className="weekday">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.returnDate)}</div>
+                    className="weekday">{this.getDatePart('weekday', this.props.commonData.searchParams.returnDate)}</div>
                 </div>
               </div>
-              {!this.props.InitSearchFormData.searchParams.returnDate ?
+              {!this.props.commonData.searchParams.returnDate ?
                 <div className="tap-plus">+</div>
                 :
                 <div className="row the-date">
                   <span
-                    className="tap-date">{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+                    className="tap-date">{this.getDatePart('date', this.props.commonData.searchParams.returnDate)}</span>
                   <span
-                    className="tap-month">{this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+                    className="tap-month">{this.getDatePart('month', this.props.commonData.searchParams.returnDate)}</span>
                   <span
-                    className="tap-year">{this.getDatePart('year', this.props.InitSearchFormData.searchParams.returnDate)}</span>
+                    className="tap-year">{this.getDatePart('year', this.props.commonData.searchParams.returnDate)}</span>
                 </div>
               }
 
@@ -339,21 +342,21 @@ var TripSearchForm = React.createClass({
 
         <div className="flight-additional-info row">
           <div className="col-xs-12">
-            <PassengerChooser searchParams={this.props.InitSearchFormData.searchParams}/>
-            <ClassChooser searchParams={this.props.InitSearchFormData.searchParams}/>
+            <PassengerChooser searchParams={this.props.commonData.searchParams}/>
+            <ClassChooser searchParams={this.props.commonData.searchParams}/>
           </div>
         </div>
-        
+
         <div className="search buttons duo">
-		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
-		      
-		      { !getCookie('showMeriHint') ? 
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}>
+
+		      { !getCookie('showMeriHint') ?
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
 				        	{getUser().email ?
 				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
-				              : 
+				              :
 				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
 			            }
 			        	<div className="close-x" onClick={this.handleMeriHint}></div>
@@ -361,22 +364,22 @@ var TripSearchForm = React.createClass({
 			      </div>
 			      : null
         	}
-			      
-			    </div>  
-			    
-		      
-          <button id="search-form-all-flights-button" 
-          	type="submit" 
+
+			    </div>
+
+
+          <button id="search-form-all-flights-button"
+          	type="submit"
           	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
           	All Flights
           </button>
-           
+
           <button id="search-form-top-flights-button"
             type="submit"
             className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
           	Top Flights
           </button>
-	          	
+
         </div>
 
       </div>
@@ -384,4 +387,12 @@ var TripSearchForm = React.createClass({
   }
 });
 
-export default TripSearchForm;
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const TripSearchFormContainer = ReactRedux.connect(mapStateCommon)(TripSearchForm);
+
+export default TripSearchFormContainer;
