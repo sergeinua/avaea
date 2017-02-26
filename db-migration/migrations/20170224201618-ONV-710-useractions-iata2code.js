@@ -1,11 +1,6 @@
 var dbm = global.dbm || require('db-migrate');
 var type = dbm.dataType;
 
-
-function updateUseractions(db) {
-
-}
-
 exports.up = function(db, callback) {
     db.runSql(`
         select
