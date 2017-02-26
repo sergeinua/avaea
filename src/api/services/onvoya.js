@@ -110,7 +110,7 @@ let onvoya = {
                       }) : mess.data[i]);
                 }
                 customMessage = customMessage.replace(/\d{16}/ig, 'XXXXXXXXXXXXXXXX');
-                customMessage = customMessage.replace(/(['])\d{3}(['])/ig, '$1XXX$2');
+                customMessage = customMessage.replace(/(CVV:.*?['])\d{3}(['])/ig, '$1XXX$2');
               }
               return customMessage;
             }
