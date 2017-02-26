@@ -139,7 +139,6 @@ module.exports = {
       },
       Airline: {
         name: 'Airline',
-        iata_2code: '',
         id: 'airline_tile',
         order: 0,
         filters: [

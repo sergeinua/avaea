@@ -2,9 +2,8 @@ var dbm = global.dbm || require('db-migrate');
 var type = dbm.dataType;
 
 exports.up = function(db, callback) {
-
     function commitLine(id, preferredAirlines) {
-        db.runSql(`update profile set preferred_airlines='${JSON.stringify(preferredAirlines)}' where id = '${id}'`);
+        db.runSql(`begin; update profile set preferred_airlines='${JSON.stringify(preferredAirlines)}' where id = '${id}'; commit;`);
     }
 
     db.runSql(`select p.id, p.pa, a.iata_2code from (
@@ -41,8 +40,7 @@ exports.up = function(db, callback) {
         if (result.rowCount && lineChanged) {
             commitLine(activeId, airlines);
         }
-
-        callback('something wrong');
+        callback();
     });
 };
 

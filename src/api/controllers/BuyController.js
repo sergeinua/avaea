@@ -98,6 +98,9 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
+          logData.itinerary.price = parseFloat(logData.itinerary.price);
+          logData.itinerary.fare = parseFloat(logData.itinerary.fare);
+
           if (req.user) {
             itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
           }
