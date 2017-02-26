@@ -57,7 +57,7 @@ module.exports = {
             action    : 'itinerary_expanded',
             itinerary : JSON.parse(result)
           };
-          
+
           logData.itinerary.price = parseFloat(logData.itinerary.price);
           logData.itinerary.fare = parseFloat(logData.itinerary.fare);
 

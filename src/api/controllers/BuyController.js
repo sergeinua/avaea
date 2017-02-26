@@ -157,6 +157,9 @@ module.exports = {
         }
         booking_itinerary = JSON.parse(resItinerary);
 
+        booking_itinerary.price = parseFloat(booking_itinerary.price);
+        booking_itinerary.fare = parseFloat(booking_itinerary.fare);
+
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
         if (typeof reqParams.DateOfBirth == 'object') {
           reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
