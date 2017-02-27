@@ -1,7 +1,6 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
 import Citypairs from './Citypairs.jsx';
-import ModalFlightInfo from './ModalFlightInfo.jsx';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
@@ -18,8 +17,9 @@ let ResultItem = React.createClass({
 
   componentDidMount: function () {
     if (this.state.fullinfo) {
-      this.getMilesInfo();
       this.getRefundType();
+    } else {
+    	this.getMilesInfo();
     }
   },
 
@@ -66,7 +66,8 @@ let ResultItem = React.createClass({
         console.error(error);
       });
   },
-
+  
+  
   toggleFullInfo: function () {
     var itineraryId = this.props.itinerary.id;
     return function() {
@@ -96,16 +97,6 @@ let ResultItem = React.createClass({
     }
   },
 
-  showThumbsUp: function() {
-    if (this.props.itinerary.smartRank <= 3 && this.props.itinerary.information && this.props.itinerary.information.length) {
-      return <span data-toggle="modal" data-target={'[data-id=' + this.props.itinerary.id + ']'}><ModalFlightInfo id={this.props.itinerary.id} info={this.props.itinerary}/>
-        {/* remove extras until we have real ones to show */}
-        {/* <span className="extras-flag"></span> */}
-      </span>
-    }
-    return null;
-  },
-
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
       return <span className="arr-connects"><span>{pair.noOfStops}</span></span>
@@ -119,6 +110,8 @@ let ResultItem = React.createClass({
       historyStrategy.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
+  
+ 
 
   render() {
     var showNoStops = this.showNoStops;
@@ -133,15 +126,15 @@ let ResultItem = React.createClass({
 	              title={ this.props.itinerary.citypairs[0].from.airline }>
 	        </span>
 	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-	        <span className="provider">via Travelocity</span>
+	        <span className="provider">via Travelocity{/* engineer - please populate with provider name */}</span>
+	        
         </div>
-        {/* remove extras until we have real ones to show */}
-        {/* {this.showThumbsUp()} */}
-	      <div className="wrapper buy-button">   
+	      <div className="wrapper buy-button" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>   
 	      	<span className="price">{this.showPrice()}</span>
-	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-itin" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>Buy</button>
+	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-itin">Buy</button>
 	      </div>
       </div>{/* ends top row */}
+      
 
       <div className="summary short-itin"  id={ this.props.itinerary.id }>
         { this.props.itinerary.citypairs.map(function (pair, i) {
@@ -192,6 +185,7 @@ const mapStateCommon = function (store) {
     ffmiles: store.commonData.ffmiles,
   };
 };
+
 
 const ResultItemContainer = ReactRedux.connect(mapStateCommon)(ResultItem);
 

@@ -13,6 +13,7 @@
 .device,
 .ie-fixer,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
+.detail-info .arr-connects:after,
 .search-result .static-price,
 .booking .buy-button,
 .buy-button-arrow,
@@ -1072,8 +1073,6 @@ a:focus,
 }
 
 
-
-
 /* bright green */
 
 .success.ti:before,
@@ -1091,6 +1090,33 @@ a:focus,
 .booking .confirmation {
 	color: #00a93f;
 }
+
+
+/* gold */
+
+gold {
+	color: #ffb401;
+}
+
+.detail-itin .details .long-date:after,
+.detail-itin .change-planes .direction:after {
+	border: 3px solid #ffb401;
+}
+
+.detail-itin .details .long-date:after {
+	background: #ffb401;
+}
+
+.detail-itin .change-planes .direction:before {
+	border-left: 2px dotted #ffb401;
+}
+
+.itinerary-value-bar {
+	background: rgba(255, 181, 2, .1);
+	border-top: 1px solid rgba(255, 181, 2, .2);
+}
+
+
 
 /* red */
 
@@ -1127,7 +1153,7 @@ form.booking div.error,
   font-weight: bold;
 }
 
-  /* highlight */
+/* highlight */
 
 .has-error .form-control {
 	background: #ffffde;
@@ -1152,7 +1178,6 @@ form.booking div.error,
 }
 
 chrome,
-.itinerary-value-bar,
 .results-wrapper {
 	background: #fafafa;
 }
@@ -1268,11 +1293,12 @@ textarea {
 form.booking .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
-.itinerary .provider {
+.itinerary .duration,
+.itinerary .provider,
+.itinerary .ff-miles.none .count {
 	color: #a2a2a2;
 }
 
-.itinerary-info .duration,
 .tt-hint,
 .big-button.disabled,
 .small-button.disabled,
@@ -2598,7 +2624,7 @@ td[data-action*="selectDay"] {
 }
 
 .results-wrapper {
-	padding: 8px 0;
+ 
 }
 
 .results-wrapper .itinerary {
@@ -2615,6 +2641,7 @@ td[data-action*="selectDay"] {
 .itinerary {
 	cursor: pointer;
 	font-size: 13px;
+	text-align: left;
 }
 
 .itinerary .summary {
@@ -2622,16 +2649,19 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary .short-itin {
-	padding-top: 5px;
+	padding-top: 3px;
+	padding-left: 30px;
 }
 
 .itinerary .top-row {
+	padding-top: 10px;
 	position: relative;
 }
 
-.itinerary .top-row .wrapper.airline {
-	text-align: left;
-	display: inline-block;			
+.itinerary .top-row .wrapper.airline { 
+	padding-right: 5px;
+	display: inline-block;		
+	float: left;	
 	width: 70%;
 	position: relative;
 }
@@ -2641,6 +2671,7 @@ td[data-action*="selectDay"] {
 	display: inline-block;			
 	width: 30%;
 	position: relative;
+		top: -3px;
 }
 
 .airline-icon {
@@ -2664,19 +2695,14 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary .provider {	
-	font-family: 'Open-Sans-Light';	
-	padding-left: 5px;	
-	display: inline-block;		
-	
-}
-
-.itinerary-info {
+	padding-left: 20px;
 	text-align: left;
+	display: block;
 }
 
 .itinerary-info .departTime,
 .itinerary-info .arriveTime {		
-	padding-right: 8px;		
+	padding-right: 5px;		
 }
 		
 .itinerary-info .arriveTime {		
@@ -2695,7 +2721,6 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary-info .duration {
-	font-family: 'Open-Sans-Light';
 	padding-left: 5px;
 }
 
@@ -2740,21 +2765,20 @@ td[data-action*="selectDay"] {
 
 .itinerary-value-bar {
 	margin-top: 8px;
-	padding: 5px 12px;
-	border-top: 1px solid hsla(240,1%,49%,.25);
+	padding: 4px 12px 3px 12px;
 }
 
 .itinerary .extras {
 	text-align: left;
 	display: inline-block;
-	width: 60%;
+	width: 65%;
 	position: relative;
 }
 
 .itinerary .ff-value {
 	text-align: right;
 	display: inline-block;
-	width: 40%;
+	width: 35%;
 }
 
 .extras .amount {
@@ -2783,24 +2807,129 @@ td[data-action*="selectDay"] {
 
 .extras .extra.priority {
 	font-size: 18px;
+		top: -13px;
+}
+
+.itinerary .long-date .airline {
+	padding-left: 8px;
+}
+
+.itinerary .detail-itin {
+	text-align: left;
+	margin-top: 8px;
+	border-top: 1px solid hsla(240,1%,49%,.25);
+}
+
+.detail-itin .holder {
+	padding-left: 18px;
+}
+
+.detail-itin .wrapper {
+	padding: 3px 0;
+}
+
+.deetail-itin .wrapper.airline {
+	padding-bottom: 0;
+}
+
+.detail-itin .wrapper.detail-info {
+	padding-top: 0;
+	padding-left: 20px;
+}
+
+.itinerary .detail-itin .Return,
+.itinerary .detail-itin .change-planes {
+	padding-top: 8px;
+}
+
+.detail-itin .details .long-date,
+.detail-itin .change-planes .direction {
+	position: relative;
+}
+
+/* itin dots */
+.detail-itin .details .long-date:after,
+.detail-itin .change-planes .direction:after {
+	content: ''; 
+	display: inline-block;
+	height: 11px;
+	width: 11px;
+	position: absolute;
+		left: -17px;
+		top: 5px;
+	border-radius: 50%;
+}
+
+.detail-itin .change-planes .direction:after {
+	top: 3px;
+	background: #ffffff;
+}
+
+.detail-itin .change-planes .direction:before {
+	content: ''; 
+	display: inline-block;
+	height: 80px;
+	width: 1px;
+	position: absolute;
+		left: -12px;
+		top: -70px;
+}
+
+.itinerary .detail-info {
+	position: relative;
+}
+
+.itinerary .detail-info span,
+.itinerary .switch-loc {
+	padding: 0 5px 0 0;
+}
+
+.detail-info .arr-connects {
+	width: 15px;
+}
+
+.detail-info .arr-connects:before {
+	top: -12px;
+	left: -2px;
+}
+
+.itinerary .direction {
+	text-transform: uppercase;
+	display: inline-block;
+	min-width: 60px;
+}
+
+.itinerary .change-planes .direction {
+	padding-right: 10px;
+}
+
+.itinerary .benefits {
+	margin-top: 8px;
+	border-top: 1px solid hsla(240,1%,49%,.25);
+}
+
+.benefit .icon-spinner {
+	top: 2px;
+}
+
+.benefit .icon-spinner:before {
+	height: 15px;
+	width: 15px;
+  background: url(/images/spinner.svg) no-repeat;
+	background-size: 15px;
 }
 
 
 /* heredeb */
 
+.refundable .ti {
+	padding: 10px 0 0 0;
+}
+
 .detail-itin .icon-spinner:before {
   height: 25px;
 	width: 25px;
 	background-size: 25px;
-}
-
-.switch-planes {
-	text-align: left;
-	padding: 8px 0;
-}
-
-.switch-loc {
-	padding-right: 8px;
 }
 
 .touch .results #searchResultData {
@@ -3599,6 +3728,13 @@ footer.app-copy .bottom a {
 		height: 126px;
 	}
 	
+	.touch .result-search-info-bar {
+		font-size: 11px;
+    padding-left: 8px;
+    width: calc(100% - 22px);
+			left: 22px;
+	}
+	
 	.results-wrapper .itinerary {		
     margin: 8px 8px 0 8px;		
 	}		
@@ -3613,7 +3749,7 @@ footer.app-copy .bottom a {
 	}		
 			
 	.itinerary .summary.short-itin {		
-		padding-left: 28px;		
+		padding-left: 10px;		
 	}		
 			
 	.itinerary-info .departTime, .itinerary-info .arriveTime {		
