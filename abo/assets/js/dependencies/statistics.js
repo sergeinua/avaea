@@ -321,7 +321,7 @@ var getRowGridOverallStat = function (data) {
 var genGridVanityURLs = function () {
 
   var isValidURL = function(value){
-    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
   };
 
   var preapareHost = function(host){
@@ -335,7 +335,7 @@ var genGridVanityURLs = function () {
     if(error && error.invalidAttributes && error.invalidAttributes['vanity_url']){
       error_msg = error.invalidAttributes['vanity_url'][0]['message'];
     }
-    
+
     $('#gridVanityURLsErrorMessage .panel-body').html(error_msg);
     $('#gridVanityURLsErrorMessage').removeClass('hidden');
   }
@@ -372,7 +372,7 @@ var genGridVanityURLs = function () {
     css: 'cell-ellipsis',
 
     inserting: false,
-    editing: true,
+    editing: false,
     deleting: true,
     sorting: true,
     paging: false,
@@ -430,6 +430,8 @@ var genGridVanityURLs = function () {
         return d.promise();
       },
     },
+    rowClick: function(args) {},
+    rowDoubleClick: function(args) {},
     fields: [
       { name: 'id', css: 'hidden', width: 0 },
       { name: 'vanity_url', title: 'Vanity URL', type: 'text', width: 300, align: 'left',
@@ -460,6 +462,20 @@ var genGridVanityURLs = function () {
             grid.jsGrid('fieldOption', 'destination_url', 'insertTemplate', insertTemplateDestinationURL);
             grid.jsGrid('option', 'inserting', true);
           });
+        },
+        itemTemplate: function(value, item) {
+          //var template = this.__proto__.itemTemplate.call(this, value, item); //the default buttons
+          var ph = $('<div/>');
+          $('<input class="jsgrid-button jsgrid-edit-button" type="button" title="Edit"/>').off().on('click', function(){
+            console.log('edit', item);
+            $('#gridVanityURLs .grid').jsGrid('option', 'editing', true);
+            $('#gridVanityURLs .grid').jsGrid("editItem", item);
+          }).appendTo(ph);
+          $('<input class="jsgrid-button jsgrid-delete-button" type="button" title="Delete"/>').off().on('click', function(){
+            $('#gridVanityURLs .grid').jsGrid("deleteItem", item);
+          }).appendTo(ph);
+
+          return ph;
         },
         insertTemplate: function(){
           var ph = $('<div/>');
@@ -508,7 +524,6 @@ var genGridVanityURLs = function () {
         editTemplate: function(value, item){
           var ph = $('<div/>');
           $('<input type="button" title="Save" class="jsgrid-button jsgrid-update-button"/>').off('click').on('click', function(){
-
             var tr = $($(this).parents('tr').get(0)),
                 entryFieldVanityURL = tr.find('.entryFieldVanityURL'),
                 vanityURLHost = entryFieldVanityURL.data('host') || '',
@@ -536,11 +551,13 @@ var genGridVanityURLs = function () {
             item['destination_url'] = entryFieldDestinationURL.val();
 
             $('#gridVanityURLs .grid').jsGrid('updateItem', item).done(function() {
+                $('#gridVanityURLs .grid').jsGrid('option', 'editing', false);
                 console.log('item: ', item,' update completed');
             });
           }).appendTo(ph);
           $('<input type="button" title="Cancel" class="jsgrid-button jsgrid-cancel-button"/>').off('click').on('click', function(){
-            $('#gridVanityURLs .grid').jsGrid("cancelEdit");
+            $('#gridVanityURLs .grid').jsGrid('option', 'editing', false);
+            $('#gridVanityURLs .grid').jsGrid('cancelEdit');
           }).appendTo(ph);
           return ph;
         }
