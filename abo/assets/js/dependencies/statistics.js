@@ -321,7 +321,7 @@ var getRowGridOverallStat = function (data) {
 var genGridVanityURLs = function () {
 
   var isValidURL = function(value){
-    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
   };
 
   var preapareHost = function(host){
@@ -335,7 +335,7 @@ var genGridVanityURLs = function () {
     if(error && error.invalidAttributes && error.invalidAttributes['vanity_url']){
       error_msg = error.invalidAttributes['vanity_url'][0]['message'];
     }
-    
+
     $('#gridVanityURLsErrorMessage .panel-body').html(error_msg);
     $('#gridVanityURLsErrorMessage').removeClass('hidden');
   }
@@ -560,11 +560,12 @@ var genGridTransactionsReport = function(){
 
   // initialize datetimepickers
   $('#gridTransactionsReportStartDate').datetimepicker({
-    format: 'MM/DD/YYYY'
+    format: 'MM/DD/YYYY',
+    defaultDate: moment(new Date()).subtract(30, 'd').format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportEndDate').datetimepicker({
     format: 'MM/DD/YYYY',
-    useCurrent: false //Important! See issue #1075
+    defaultDate: moment(new Date()).format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportStartDate').on('dp.change', function (e) {
     $('#gridTransactionsReportStartDate').removeClass('has-error');
@@ -662,4 +663,7 @@ var genGridTransactionsReport = function(){
       {name: 'R', title: 'Referrer', type: 'text', width: 200, align: 'center', sorting: true, sorter: 'string'},
     ]
   });
+
+
+  $('#gridTransactionsReportGenerateReport').click();   // load the report for last 30 days
 };
