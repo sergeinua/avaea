@@ -884,6 +884,10 @@ footer.app-copy a.social:visited {
 	color: #14ca60;
 }
 
+.itinerary .benefit .savings .value {
+	color: #18ba48;
+}
+
 .big-button,
 .btn-primary,
 .navbar-header .small-button,
@@ -2966,12 +2970,12 @@ td[data-action*="selectDay"] {
 	width: 55%;
 }
 
-.benefit.ff-miles .program.no-value {
+.benefit.ff-miles .double.no-value {
 	height: 0px;
 	transition: all 0.1s ease-in-out;
 }
 
-.benefit.ff-miles .program {
+.benefit.ff-miles .double {
 	height: auto;
 }
 

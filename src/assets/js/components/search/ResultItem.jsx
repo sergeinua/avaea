@@ -96,6 +96,10 @@ let ResultItem = React.createClass({
       return Math.round(this.props.itinerary.price) + ' ' +  this.props.itinerary.currency;
     }
   },
+  
+  showMilesPrice: function () {
+  	return ' ~$' + Math.round((this.props.itinerary.miles)*.02);
+  },
 
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
@@ -111,8 +115,6 @@ let ResultItem = React.createClass({
     }.bind(this);
   },
   
- 
-
   render() {
     var showNoStops = this.showNoStops;
     return (
@@ -157,22 +159,40 @@ let ResultItem = React.createClass({
       : null
     )}
     
+    {/* engineer --
+        include IF there are extras OR fF miles */}
     <div className="itinerary-value-bar">		
-			<div className="extras">		
-				<span className="copy">Extras </span>		
+    
+      {/* include IF free wireless, bag, lounge or priority boarding */}
+			<div className="extras">
+				<span className="copy">Extras </span>
+				{/* populate with total value of free extras */}
 				<span className="amount">$56</span>		
+				
+				{/* include extra if it exists */}
 				<span className="extra wireless"></span>		
 				<span className="extra baggage"></span>	
 				<span className="extra lounge"></span>	
 				<span className="extra priority"></span>		
 			</div>		
 					
+			{/* include IF ff miles */}
 			<div className="ff-value">		
-				<span className="how-many">10K Miles </span>		
-				{/* number of miles x $.02 */}		
-				<span className="value">~$200</span>		
+				<span className="how-many">
+					{/* engineer - 
+					    please abbreviate any round thousand miles as NK
+					    for example, 10,000 as "10K"
+					 */}
+					{this.props.itinerary.miles} Miles
+				</span>		
+				
+				{/* number of miles x $.02 
+				    '~$' + (miles.value.rounded)  *.02 - then round this off to nearest $ amount
+				*/}		
+				<span className="value">{this.showMilesPrice()}</span>		
 			</div>		
-		</div>{/* ends itinerary value */}
+			
+		</div>{/* ends itinerary value bar */}
 
   </div>
     )

@@ -16,6 +16,7 @@ let Citypairs = React.createClass({
 		    	   </span>
 		    	 </div>
 		    	 <div className="wrapper double program no-value">{/* animates IF there is a value */}</div>
+		    	 <div className="wrapper double savings no-value">{/* animates IF there is a value */}</div>
 		   </div>     
         
     } else if (miles.value > 0) {
@@ -29,6 +30,10 @@ let Citypairs = React.createClass({
 		        <span className="sub-ti"><span>Program</span></span>
 		        <span className="value">{miles.name}</span>
 	        </div>
+	        <div className="wrapper double savings">
+		        <span className="sub-ti"><span>Estimated Value</span></span>
+		        <span className="value">{ '$' + Math.round(miles.value *.02) }</span>
+          </div>
 	      </div>  
     }
     // 0 result or error
