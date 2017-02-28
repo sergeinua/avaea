@@ -50,8 +50,8 @@ var getRowGridSearch = function (row) {
   return {
     email: (row.user && row.user.email) ? row.user.email : '--na--',
     createdAt: new Date(row.createdAt).toLocaleString(),
-    createdDt: new Date(row.createdAt).toLocaleString("en-US", {month: 'short', day: '2-digit', year: '2-digit'}),
-    createdTime: new Date(row.createdAt).toLocaleString("en-US", {hour: '2-digit', minute: '2-digit', second: '2-digit'}),
+    createdDt: moment(row.createdAt).format('MMM DD, YY'),
+    createdTime: moment(row.createdAt).format('h:mm:ss Z'),
     id: row.id,
     DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
     ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
@@ -111,10 +111,10 @@ var generateGridUsersStat = function () {
       }
     },
     fields: [
-      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 100, align: "center"},
-      {name: 'email', title: 'Email', type: 'text', width: 100, align: "center"},
-      {name: 'createdDt', title: 'Date', type: 'date', width: 100, align: "center"},
-      {name: 'createdTime', title: 'Time', type: 'date', width: 100, align: "center"},
+      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 80, align: "center"},
+      {name: 'email', title: 'Email', type: 'text', width: 150, align: "center"},
+      {name: 'createdDt', title: 'Date', type: 'date', width: 90, align: "center"},
+      {name: 'createdTime', title: 'Time', type: 'date', width: 120, align: "center"},
       {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true, width: 100, align: "center"},
       {name: 'ArrivalLocationCode', title: 'To', type: 'text', width: 100, align: "center"},
       {name: 'departureDate', title: 'Departing', type: 'date', width: 100, align: "center"},
@@ -321,7 +321,7 @@ var getRowGridOverallStat = function (data) {
 var genGridVanityURLs = function () {
 
   var isValidURL = function(value){
-    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);     
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
   };
 
   var preapareHost = function(host){
@@ -335,7 +335,7 @@ var genGridVanityURLs = function () {
     if(error && error.invalidAttributes && error.invalidAttributes['vanity_url']){
       error_msg = error.invalidAttributes['vanity_url'][0]['message'];
     }
-    
+
     $('#gridVanityURLsErrorMessage .panel-body').html(error_msg);
     $('#gridVanityURLsErrorMessage').removeClass('hidden');
   }
