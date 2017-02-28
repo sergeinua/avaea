@@ -16,7 +16,8 @@
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
 .detail-info .arr-connects:after,
 .search-result .static-price,
-.booking .buy-button,
+.booking .buy-button-itin,
+.booking-success .buy-button-itin,
 .buy-button-arrow,
 .booking-success .flight-unit .summary .buy-button,
 .dimmer .landscape,
@@ -338,8 +339,7 @@ body:not(.touch) i.icon-mic:before {
 .desktop .search-result .itinerary,
 .desktop .flight-unit .itinerary {
 	font-size: 14px;
-	margin: 5px auto;
-	padding: 20px 20px 20px 40px;
+	margin: 15px auto;
 	float: none;
 	width: 60%;
 	background: #ffffff;
@@ -347,18 +347,24 @@ body:not(.touch) i.icon-mic:before {
 	border-radius: 6px;
 }
 
+.desktop .itinerary .top-row {
+	font-size: 16px;
+}
+
+.desktop .itinerary .top-row .provider {
+	font-size: 13px;
+}
 
 .desktop .modal {
 	width: 400px;
 }
 
-.desktop .flight-unit {
+.desktop .search-result .flight-unit {
 	margin: 0;
 	text-align: left;
 	padding: 20px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
-
 
 .desktop .booking .buttons {
 	text-align: left;
@@ -403,12 +409,13 @@ body:not(.touch) i.icon-mic:before {
 	font-size: 16px;
 }
 
-.desktop .booking-success .trip.ti {
-	margin-bottom: 0;
-}
-
 .booking-success .passengers .wrapper {
 	margin-top: 15px;
+}
+
+.desktop .booked-flight-unit .itinerary,
+.desktop .booking-flight-unit .itinerary {
+	max-width: 500px;
 }
 
 .desktop .booking-success .flight-unit .summary {
@@ -445,6 +452,10 @@ body:not(.touch) i.icon-mic:before {
 .desktop .search-result .flights,
 .wayfare.results.deals-unit {
 	height: 100%;
+}
+
+.desktop .search-result .itinerary.wayfare {
+	background: #fafafa;
 }
 
 .desktop .search-result .flights {
@@ -1187,7 +1198,9 @@ form.booking div.error,
 }
 
 chrome,
-.search-result {
+.search-result,
+.booking-flight-unit,
+.booked-flight-unit {
 	background: #fafafa;
 }
 
@@ -3079,7 +3092,6 @@ td[data-action*="selectDay"] {
 
 .booking-success .confirm-code,
 .booking-success .confirm-message,
-.booking-success .flight-unit .itinerary,
 .booking-success .trip.ti,
 .booking-success .passengers {
 	padding: 0 20px 0 25px;
@@ -3091,11 +3103,6 @@ td[data-action*="selectDay"] {
 	float: left;
 	position: relative;
 		left: 28px;
-}
-
-.booking-success .refundable,
-.booking-success .ff-miles {
-	font-size: 12px;
 }
 
 .booking-success .success.ti:before {
@@ -3158,40 +3165,23 @@ td[data-action*="selectDay"] {
 	padding-right: 10px;
 }
 
-.booking-success .flight-unit .itinerary {
-	font-size: 14px;
-	width: 100%;
-}
-
 .booking-success .trip.ti {
 	line-height: 1em;
 	text-align: left;
-	margin: 15px 0;
+	margin: 15px 0 0 0;
 	padding-top: 10px;
 	padding-bottom: 10px;
 	border-top: 1px solid rgba(0, 0, 0, 0.3);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
 
-.booking-success .notable-area .details {
-	font-size: 13px;
+.booking-flight-unit,
+.booked-flight-unit {
+	padding: 6px 10px 10px 10px;
 }
 
-.booking .ff-miles,
-.booking .refundable {
-	margin-left: 0;
-}
-
-.booking-success .long-date {
-	display: inline-block;
-	float: left;
-	text-align: left;
-}
-
-.booking-success .long-airline {
-	padding-left: 17px;
-	display: inline-block;
-	float: left;
+.booked-flight-unit {
+	padding-top: 10px;
 }
 
 .help-contact {
@@ -3212,23 +3202,6 @@ td[data-action*="selectDay"] {
 
 /* flight unit details */
 
-
-.flight-unit .notable-area {
-	margin: 0 -14%;
-	margin-bottom: -5px;
-	padding-right: 7px;
-	padding-bottom: 10px;
-	padding-left: 0;
-	border-bottom: 0px solid transparent;
-}
-
-.flight-unit .notable-area .section {
-	padding-left: 11%;
-}
-
-.flight-unit .notable-area .title {
-	text-align: left;
-}
 
 .booking .buttons {
 	margin-top: 30px;
@@ -3694,13 +3667,14 @@ footer.app-copy .bottom a {
 		background-size: 305%;
 	}
 
-	.flight-unit .itinerary {
-		width: 90%;
+	/* .touch .booking-flight-unit,
+	.touch .booked-flight-unit {
+		padding: 6px 10px 10px 10px;
 	}
 
-	.touch .booking .notable-area .refundable  {
-		margin-left: 12%;
-	}
+	.touch .booked-flight-unit {
+		padding-top: 10px;
+	} */
 	
 	.meri-speaks .bubble {
 		padding: 12px 40px 12px 80px;
@@ -3733,7 +3707,6 @@ footer.app-copy .bottom a {
 	}
 
 	.booking-success .confirm-message,
-	.booking-success .flight-unit .itinerary,
 	.booking-success .trip.ti {
 		padding-left: 20px;
 	}

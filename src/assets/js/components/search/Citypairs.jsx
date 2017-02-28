@@ -9,7 +9,7 @@ let Citypairs = React.createClass({
     if (miles === undefined || miles.isLoading) {
       // spinner here
       return <div className="holder">
-      		<div className="wrapper miles no-value">
+      		<div className="wrapper double miles no-value">
 		    		 <span className="sub-ti"><span>Miles</span></span>
 		    		 <span className="value">
 		    		 	 <span className="icon-spinner"></span>
@@ -130,6 +130,10 @@ let Citypairs = React.createClass({
 		      
 		    </div>
 		    {/* end benefits */}
+		    
+		    <div className="summary price-disclosure">
+		    	Price shown is for one adult. 
+		    </div>
 		    
 	    </span>
     )
