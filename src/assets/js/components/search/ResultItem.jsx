@@ -98,7 +98,11 @@ let ResultItem = React.createClass({
   },
   
   showMilesPrice: function () {
-  	return ' ~$' + Math.round((this.props.itinerary.miles)*.02);
+  	if (this.props.itinerary.miles) {
+  		return ' ~$' + Math.round((this.props.itinerary.miles)*.02);
+  	} else {
+  		return '';
+  	}
   },
 
   showNoStops: function(pair) {
@@ -176,21 +180,22 @@ let ResultItem = React.createClass({
 				<span className="extra priority"></span>		
 			</div>		
 					
-			{/* include IF ff miles */}
-			<div className="ff-value">		
+			
+			
+			{ (this.props.itinerary.miles > 0 ?
+			 <div className="ff-value">		
 				<span className="how-many">
 					{/* engineer - 
-					    please abbreviate any round thousand miles as NK
+					    need logic to abbreviate any round thousand miles as NK
 					    for example, 10,000 as "10K"
 					 */}
 					{this.props.itinerary.miles} Miles
 				</span>		
 				
-				{/* number of miles x $.02 
-				    '~$' + (miles.value.rounded)  *.02 - then round this off to nearest $ amount
-				*/}		
 				<span className="value">{this.showMilesPrice()}</span>		
-			</div>		
+			</div>
+			: null	
+      )}
 			
 		</div>{/* ends itinerary value bar */}
 

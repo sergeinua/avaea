@@ -884,7 +884,10 @@ footer.app-copy a.social:visited {
 	color: #14ca60;
 }
 
-.itinerary .benefit .savings .value {
+.itinerary .benefits .section-ti,
+.itinerary .benefit .savings .value,
+.itinerary .benefit.extras .value,
+.itinerary .benefit.total .value {
 	color: #18ba48;
 }
 
@@ -1184,7 +1187,7 @@ form.booking div.error,
 }
 
 chrome,
-.results-wrapper {
+.search-result {
 	background: #fafafa;
 }
 
@@ -1301,7 +1304,7 @@ form.booking .hint,
 .mybucket .list-group-item.disabled > div.text,
 .itinerary .duration,
 .itinerary .provider,
-.itinerary .ff-miles.none .count {
+.itinerary .miles.none .value {
 	color: #a2a2a2;
 }
 
@@ -2626,7 +2629,8 @@ td[data-action*="selectDay"] {
 /* flights */
 
 .touch .flights {
-	padding-bottom: 70px;
+	margin-bottom: -80px;
+	padding-bottom: 120px;
 }
 
 .results-wrapper {
@@ -2786,7 +2790,7 @@ td[data-action*="selectDay"] {
 	padding: 4px 12px 3px 12px;
 }
 
-.itinerary .extras {
+.itinerary-value-bar .extras {
 	text-align: left;
 	display: inline-block;
 	width: 65%;
@@ -2876,6 +2880,7 @@ td[data-action*="selectDay"] {
 		left: -17px;
 		top: 5px;
 	border-radius: 50%;
+	z-index: 10;
 }
 
 .detail-itin .change-planes .direction:after {
@@ -2959,6 +2964,7 @@ td[data-action*="selectDay"] {
 	width: 45%;
 	position: relative;
 	background: url(/images/dot-leader.gif) left 11px repeat-x;
+	border-right: 1px solid #ffffff;
 }
 
 .benefit .sub-ti span {
@@ -2977,6 +2983,11 @@ td[data-action*="selectDay"] {
 
 .benefit.ff-miles .double {
 	height: auto;
+}
+
+.benefit.total {
+	font-family: 'Open-Sans-Bold';
+	text-transform: uppercase;
 }
 
 
