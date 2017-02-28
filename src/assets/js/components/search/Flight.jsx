@@ -18,7 +18,7 @@ let Flight = React.createClass({
           <div className="wrapper change-planes">
             <span className="direction">Change Planes</span>
             <span className="switch-loc">{ this.props.pair.stops[this.props.count - 1].code }</span>
-            <span className="duration">{ this.props.pair.stops[this.props.count - 1].duration }</span>
+            <span className="duration">Delay { this.props.pair.stops[this.props.count - 1].duration }</span>
           </div>
           :
          <div className="wrapper long-date">

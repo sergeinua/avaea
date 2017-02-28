@@ -10,43 +10,32 @@ let Citypairs = React.createClass({
       // spinner here
       return <div className="holder">
       		<div className="wrapper miles no-value">
-		    		 <span className="sub-ti">Miles</span>
-		    		 <span className="count">
+		    		 <span className="sub-ti"><span>Miles</span></span>
+		    		 <span className="value">
 		    		 	 <span className="icon-spinner"></span>
 		    	   </span>
 		    	 </div>
-		    	 <div className="wrapper program no-value">
-		        <span className="sub-ti">Program</span>
-		        <span className="program-name">
-		        	<span className="icon-spinner"></span>
-		        </span>
-	        </div>
+		    	 <div className="wrapper double program no-value">{/* animates IF there is a value */}</div>
 		   </div>     
         
     } else if (miles.value > 0) {
       // successful result
       return <div className="holder">
-    			<div className="wrapper miles">
-		        <span className="sub-ti">Miles</span>
-		        <span className="count">
-		        	{/* {miles.value} */}
-		        	<span className="icon-spinner"></span>
-		        </span>
+    			<div className="wrapper double miles">
+		        <span className="sub-ti"><span>Miles</span></span>
+		        <span className="value"><span>{miles.value}</span></span>
 	        </div>
-	        <div className="wrapper program">
-		        <span className="sub-ti">Program</span>
-		        <span className="program-name">
-			        {/* {miles.value} */}
-		        	<span className="icon-spinner"></span>
-		        </span>
+	        <div className="wrapper double program">
+		        <span className="sub-ti"><span>Program</span></span>
+		        <span className="value">{miles.name}</span>
 	        </div>
 	      </div>  
     }
     // 0 result or error
     return <div className="holder">
-    			<div className="wrapper miles none">
-		    		<span className="sub-ti">Miles</span>
-		    		<span className="count">None</span>
+    			<div className="wrapper double miles none">
+		    		<span className="sub-ti"><span>Miles</span></span>
+		    		<span className="value">None</span>
 		    	</div>
 		    </div>
   },
@@ -56,8 +45,7 @@ let Citypairs = React.createClass({
     if (refundType === false) {
       return <span className="icon-spinner"></span>
     } else {
-    	{/* return refundType; */}
-    	return <span className="icon-spinner"></span>
+    	return <span className="value">{refundType}</span>
     }
   },
 
@@ -94,9 +82,11 @@ let Citypairs = React.createClass({
 		      
 		      </div>{/* end ff miles */}
 		      
-		      <div className="benefit refundable">
-		        <span className="ti">Refund Type</span>
-		        <span className="copy">{this.showRefundType(this.props.refundType)}</span>
+		      <div className="benefit refundable single-story">
+		      	<div className="wrapper double">
+			        <span className="sub-ti"><span>Refund Type</span></span>
+			        <span className="value">{this.showRefundType(this.props.refundType)}</span>
+		        </div>
 		      </div>{/* end refundable */}
 		      
 		    </div>{/* end benefits */}

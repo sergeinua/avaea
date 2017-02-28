@@ -5,6 +5,7 @@
 /* syntax
    transition: all 0.1s ease-in-out;
 	 :not(.search-result)
+	 :not(:first-child) 
 */
 
 
@@ -802,7 +803,8 @@ button {
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
-.form-control {
+.form-control,
+.itinerary .detail-info .duration span {
 	color: #222222;
 }
 
@@ -2694,6 +2696,15 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
+.buy-button-itin:after {
+	content: '';
+	height: 50px;
+	width: 100px;
+	position: absolute;
+		top: -8px;
+		right: -12px;
+}
+
 .itinerary .provider {	
 	padding-left: 20px;
 	text-align: left;
@@ -2702,7 +2713,9 @@ td[data-action*="selectDay"] {
 
 .itinerary-info .departTime,
 .itinerary-info .arriveTime {		
-	padding-right: 5px;		
+	padding-right: 5px;
+	display: inline-block;		
+	width: 47px;
 }
 		
 .itinerary-info .arriveTime {		
@@ -2759,8 +2772,9 @@ td[data-action*="selectDay"] {
 .arr-connects span {
 	text-align: center;
 	display: inline-block;
-	width: 17px;
+	width: 16px;
 	position: relative;
+		left: 1px;
 }
 
 .itinerary-value-bar {
@@ -2879,8 +2893,7 @@ td[data-action*="selectDay"] {
 	position: relative;
 }
 
-.itinerary .detail-info span,
-.itinerary .switch-loc {
+.itinerary .detail-info span {
 	padding: 0 5px 0 0;
 }
 
@@ -2899,17 +2912,24 @@ td[data-action*="selectDay"] {
 	min-width: 60px;
 }
 
-.itinerary .change-planes .direction {
-	padding-right: 10px;
+.itinerary .change-planes .direction,
+.itinerary .switch-loc {
+	padding-right: 8px;
 }
 
 .itinerary .benefits {
 	margin-top: 8px;
+	padding-bottom: 5px;
 	border-top: 1px solid hsla(240,1%,49%,.25);
 }
 
-.benefit .icon-spinner {
-	top: 2px;
+.benefit .ti,
+.benefit.single-story .sub-ti {
+	text-transform: uppercase;
+}
+
+.benefit:not(:first-child) {
+	padding-top: 8px;
 }
 
 .benefit .icon-spinner:before {
@@ -2919,18 +2939,45 @@ td[data-action*="selectDay"] {
 	background-size: 15px;
 }
 
+.benefit .wrapper {
+	display: table;
+	width: 100%;
+}
+
+.benefit .double .sub-ti,
+.benefit .double .value {
+	text-align: left;
+	display: table-cell;
+	vertical-align: top;
+}
+
+.benefit .sub-ti {
+	width: 45%;
+	position: relative;
+	background: url(/images/dot-leader.gif) left 11px repeat-x;
+}
+
+.benefit .sub-ti span {
+	padding-right: 2px;
+	background: #ffffff;
+}
+
+.benefit .value {
+	width: 55%;
+}
+
+.benefit.ff-miles .program.no-value {
+	height: 0px;
+	transition: all 0.1s ease-in-out;
+}
+
+.benefit.ff-miles .program {
+	height: auto;
+}
+
 
 /* heredeb */
 
-.refundable .ti {
-	padding: 10px 0 0 0;
-}
-
-.detail-itin .icon-spinner:before {
-  height: 25px;
-	width: 25px;
-	background-size: 25px;
-}
 
 .touch .results #searchResultData {
   overflow: auto;
@@ -3752,7 +3799,8 @@ footer.app-copy .bottom a {
 		padding-left: 10px;		
 	}		
 			
-	.itinerary-info .departTime, .itinerary-info .arriveTime {		
+	.itinerary-info .departTime, 
+	.itinerary-info .arriveTime {		
     padding-right: 4px;		
 	}
 
