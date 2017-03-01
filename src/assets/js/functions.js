@@ -123,8 +123,6 @@ export let handleChangeTripSearchForm = (searchParams) => {
   let mNow = moment(0, "HH"),
       minDate = mNow.clone().startOf('day'),
       maxDate = mNow.clone().add(searchApiMaxDays - 1, 'days').endOf('day');
-  console.log('min', minDate);
-  console.log('max', maxDate);
 
   let mDep, mRet;
 
