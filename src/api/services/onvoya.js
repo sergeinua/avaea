@@ -109,7 +109,7 @@ let onvoya = {
                         colors: sails.config.log.colorOutput
                       }) : mess.data[i]);
                 }
-                customMessage = customMessage.replace(/(['])\d{16}(['])/ig, '$1XXXXXXXXXXXXXXXX$2');
+                customMessage = customMessage.replace(/(CardNumber:.*?['])\d{16}(['])/ig, '$1XXXXXXXXXXXXXXXX$2');
                 customMessage = customMessage.replace(/(CVV:.*?['])\d{3}(['])/ig, '$1XXX$2');
               }
               return customMessage;
