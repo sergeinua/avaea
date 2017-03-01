@@ -1,7 +1,19 @@
 exports.COUNTRIES = [
   {
     "value": "US",
-    "label": "United States"
+    "label": "- United States -"
+  },
+  {
+    "value": "CA",
+    "label": "- Canada -"
+  },
+  {
+    "value": "CN",
+    "label": "- China -"
+  },
+  {
+    "value": "IN",
+    "label": "- India -"
   },
   {
     "value": "AF",
