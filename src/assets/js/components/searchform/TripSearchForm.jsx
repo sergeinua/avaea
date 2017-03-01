@@ -285,6 +285,10 @@ const TripSearchForm = React.createClass({
 
         <div className="flight-date-info row">
 
+          {this.props.commonData.formErrors.returnDate
+          ? <div className="error-date">Return date must be after Departure date</div>
+          : null}
+
           <div id="flight-date-dep-open-calendar"
             className={'flight-date-info-item dep col-xs-6 open-calendar' + this.getErrorClass('.flight-date-info-item.dep')}
             onClick={this.showCalendar('dep')}>
@@ -311,11 +315,9 @@ const TripSearchForm = React.createClass({
           </div>
 
           { this.props.commonData.currentForm == 'round_trip' ?
-            <div id="flight-date-ret-open-calendar" className={
-              "flight-date-info-item ret col-xs-6 open-calendar" +
-              " " + this.getErrorClass('.flight-date-info-item.ret')
-            }
-                 onClick={this.showCalendar('ret')}>
+            <div id="flight-date-ret-open-calendar"
+              className={"flight-date-info-item ret col-xs-6 open-calendar" + " " + this.getErrorClass('.flight-date-info-item.ret')}
+              onClick={this.showCalendar('ret')}>
               <div className="row">
                 <div className="col-xs-12">
                   <div className="direction label-d">Return</div>
