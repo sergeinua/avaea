@@ -22,16 +22,13 @@ module.exports = {
       port: '11211',
       exptime: 60*30 // 30 minutes
     },
-    localhostPostgresqlServer: {
+    postgresql: {
       adapter: 'sails-postgresql',
       host: '127.0.0.1',
       user: 'avaea',
       password: 'avaea',
       database: 'avaea'
     }
-  },
-  models: {
-    connection: 'localhostPostgresqlServer'
   },
 
   /***************************************************************************

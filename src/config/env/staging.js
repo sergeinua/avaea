@@ -26,16 +26,13 @@ module.exports = {
       prefix: 'cache:',
       exptime: 60*30 // 30 minutes
     },
-    stagePostgresqlServer: {
+    postgresql: {
       adapter: 'sails-postgresql',
       host: '127.0.0.1',
       user: 'avaea',
       password: 'a1v2a3e4a5',
       database: 'avaea'
     }
-  },
-  models: {
-    connection: 'stagePostgresqlServer'
   },
   globals: {
     cacheStore: 'redis'

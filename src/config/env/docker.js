@@ -18,17 +18,13 @@ module.exports = {
    ***************************************************************************/
 
   connection: {
-    dockerPostgresqlServer: {
+    postgresql: {
       adapter: 'sails-postgresql',
       host: 'postgres',
       user: 'avaea',
       password: 'a1v2a3e4a5',
       database: 'avaea'
     }
-  },
-
-  models: {
-    connection: 'dockerPostgresqlServer'
   },
 
   /***************************************************************************

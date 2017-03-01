@@ -10,16 +10,13 @@ module.exports = {
       prefix: 'cache:',
       exptime: 60*30 // 30 minutes
     },
-    etPostgresqlServer: {
+    postgresql: {
       adapter: 'sails-postgresql',
       host: '127.0.0.1',
       user: 'avaea',
       password: 'avaea',
       database: 'avaea_db'
     }
-  },
-  models: {
-    connection: 'etPostgresqlServer'
   },
   globals: {
     cacheStore: 'redis'

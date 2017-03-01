@@ -17,10 +17,6 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'productionPostgresqlServer'
-  },
-
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
@@ -49,7 +45,7 @@ module.exports = {
     prefix: 'sess:'
   },
   connections: {
-    productionPostgresqlServer: {
+    postgresql: {
       adapter: 'sails-postgresql',
       host: 'db1',
       user: 'avaea',
