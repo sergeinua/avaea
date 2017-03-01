@@ -285,7 +285,7 @@ const TripSearchForm = React.createClass({
 
         <div className="flight-date-info row">
 
-          {this.props.commonData.formErrors.returnDate
+          {this.props.commonData.formErrors.returnDate && this.props.commonData.searchParams.returnDate
           ? <div className="error-date">Return date must be after Departure date</div>
           : null}
 
