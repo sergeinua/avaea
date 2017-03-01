@@ -105,12 +105,12 @@ module.exports = {
             );
           var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
           FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id)
-            .then(function (milesPrograms) {
+            .then((milesPrograms) => {
             ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors, milesPrograms}, function (error, body) {
               if (error) {
                 return res.json({error: error, body: body});
               }
-              var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+              var jdata = body;
               return res.json({itineraries: jdata});
             });
           });

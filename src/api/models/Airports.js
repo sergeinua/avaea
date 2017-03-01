@@ -204,7 +204,7 @@ module.exports = {
               "distance": 0
             }
           ],
-        tokens: row.city.toLowerCase().split(/\s+/).concat(row.name.toLowerCase().split(/\s+/).concat([row.iata_3code.toLowerCase()]))
+        tokens: (row.city||'').toLowerCase().split(/\s+/).concat((row.name||'').toLowerCase().split(/\s+/).concat([(row.iata_3code||'').toLowerCase()]))
       };
     }
   }
