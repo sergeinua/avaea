@@ -1347,8 +1347,8 @@ module.exports = {
         if (preferred_airlines.length == 0) { snowflake.preference.airline = 3 * Math.max(snowflake.preference.price, snowflake.preference.duration); }
 
         onvoya.log.info("Ranking based on price preference " + snowflake.preference.price +
-                                   ", duration preference " + snowflake.preference.duration +
-                                    ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: [" + preferred_airlines + "]");
+                                    ", duration preference " + snowflake.preference.duration +
+                                     ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: [" + preferred_airlines + "]");
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
