@@ -16,7 +16,7 @@ module.exports = {
     //res.header('Pragma', 'no-cache');
 
     // Trim left whitespaces
-    var _query = req.param('q', '').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
+    var _query = req.param('q', '').replace(/^\s*/,"");
     var _limit = parseInt(req.param('l', 8));
 
     Airports.getAirports(_query, _limit, function (err, result) {
