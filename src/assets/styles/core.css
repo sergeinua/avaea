@@ -8,6 +8,11 @@
 	 :not(:first-child) 
 */
 
+.itinerary-value-bar .extras,
+.itinerary .benefit.extras {
+	
+}
+
 
 .hide,
 .cue.info,
@@ -415,6 +420,7 @@ body:not(.touch) i.icon-mic:before {
 
 .desktop .booked-flight-unit .itinerary,
 .desktop .booking-flight-unit .itinerary {
+	margin: 0 auto 5px auto;
 	max-width: 500px;
 }
 
@@ -4106,6 +4112,12 @@ html[data-useragent*='Trident'] .flight-direction-form .row.clearfix {
 
 html[data-useragent*='Trident'] .multi-city-coming-soon {
 	height: 172px;
+}
+
+html[data-useragent*='Trident'] .flight-direction-form .col-xs-6 {		
+	margin: 0 auto;		
+	display: inline-block;		
+	width: 385px;		
 }
 
 html[data-useragent*='Trident'] #main_title .navbar-header:first-child {
