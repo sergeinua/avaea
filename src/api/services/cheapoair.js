@@ -332,15 +332,17 @@ class Mapper {
   }
 
   convertItineraries(data, callback) {
-    let itineraries = [];
-    if (!lodash.isArray(data['SegmentReference']['SegmentRefDetails'])) {
-      data['SegmentReference']['SegmentRefDetails'] = [data['SegmentReference']['SegmentRefDetails']];
+    let itineraries = [],
+      SegmentRefDetails = data['SegmentReference']['SegmentRefDetails'],
+      OutBoundOption = data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'];
+    if (!lodash.isArray(SegmentRefDetails)) {
+      SegmentRefDetails = [SegmentRefDetails];
     }
-    data['SegmentReference']['SegmentRefDetails'].forEach((item, indx) => {
-      if (!lodash.isArray(data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'])) {
-        data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'] = [data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption']];
-      }
-      let OutBoundOptions = data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'].find((outItem) => {
+    if (!lodash.isArray(OutBoundOption)) {
+      OutBoundOption= [OutBoundOption];
+    }
+    SegmentRefDetails.forEach((item, indx) => {
+      let OutBoundOptions = OutBoundOption.find((outItem) => {
         return outItem['segmentid'] === item['OutBoundOptionId']
       });
       lodash.assign(item,
