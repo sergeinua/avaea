@@ -4,7 +4,7 @@ module.exports.flightapis = {
   execReadEticketPeriod: 60*60*2, // 2 hours (in seconds) @IrinaKuznetsova 
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
-    baseEndPoint: 'http://api.trippro.com/api/v2',
+    baseEndPoint: 'https://onvoya.trippro.com/api/v2',
     clientId: 'CFP1017',
     providerInfo: {
       callTo: '+1 (877) 917-8453',

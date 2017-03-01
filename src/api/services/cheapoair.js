@@ -417,7 +417,7 @@ class Mapper {
       service: serviceName,
       price: parseFloat(itinerary['PTC_FareBreakdown'].Adult.TotalAdultFare).toFixed(2),
       fare: parseFloat(itinerary['PTC_FareBreakdown'].Adult.BaseFare).toFixed(2), // for transactions report
-      taxes: parseFloat(itinerary['PTC_FareBreakdown'].Adult.Taxes).toFixed(2), // for transactions report
+      taxes: parseFloat(itinerary['PTC_FareBreakdown'].Adult.TaxesandFees).toFixed(2), // for transactions report
       currency: currency,
       duration: '',
       durationMinutes: 0,
