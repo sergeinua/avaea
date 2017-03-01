@@ -119,18 +119,22 @@ export let handleChangeTripSearchForm = (searchParams) => {
   };
 
   let flightType = searchParams.flightType || 'round_trip';
-  let departureDate = searchParams.departureDate;
-  let moment_dp = moment(departureDate, "YYYY-MM-DD");
-  let returnDate = searchParams.returnDate;
-  let moment_rp = moment(returnDate, "YYYY-MM-DD");
 
-  let moment_now = moment();
+  let mNow = moment(0, "HH"),
+      minDate = mNow.clone().startOf('day'),
+      maxDate = mNow.clone().add(searchApiMaxDays - 1, 'days').endOf('day');
+  console.log('min', minDate);
+  console.log('max', maxDate);
+
+  let mDep, mRet;
+
   // Check depart date
-  if (moment_dp &&
+  if (!searchParams.departureDate ||
+    ((mDep = moment(searchParams.departureDate, "YYYY-MM-DD").startOf('day')) &&
     (
-      moment_dp.isBefore(moment_now, 'day') ||
-      moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
-    )
+      mDep.isBefore(minDate) ||
+      mDep.isAfter(maxDate)
+    ))
   ) {
     formErrors.departureDate = true;
     formErrors.isError = true;
@@ -138,23 +142,17 @@ export let handleChangeTripSearchForm = (searchParams) => {
 
   // Check return date
   if (flightType == 'round_trip') {
-    if (moment_rp && moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1) {
+    if (!searchParams.returnDate ||
+      ((mRet = moment(searchParams.returnDate, "YYYY-MM-DD").startOf('day')) &&
+      (
+        mRet.isBefore(minDate) ||
+        mRet.isAfter(maxDate) ||
+        mRet.isBefore(mDep, 'day')
+      ))
+    ) {
       formErrors.returnDate = true;
       formErrors.isError = true;
     }
-    if (!returnDate) {
-      formErrors.returnDate = true;
-      formErrors.isError = true;
-    }
-    if (moment_dp && moment_rp && moment_rp.isBefore(moment_dp, 'day')) {
-      formErrors.returnDate = true;
-      formErrors.isError = true;
-    }
-  }
-
-  if (!departureDate) {
-    formErrors.departureDate = true;
-    formErrors.isError = true;
   }
 
   // Check airports selection
@@ -299,7 +297,9 @@ export function setAirportData(target, data) {
 }
 
 export let getDefaultDateSearch = (defaultParams) => {
-  let mNow = moment().startOf('day');
+  let mNow = moment(0, "HH").startOf('day'),
+      minDate = mNow.clone(),
+      maxDate = mNow.clone().add(searchApiMaxDays - 1, 'days').endOf('day');
   let mDepTmp = mNow.clone().add(2, 'w');
   let mRetTmp = mNow.clone().add(4, 'w');
   let mFirstDateOfNextMonth = mNow.clone().add(1, 'M').startOf('month');
@@ -313,34 +313,26 @@ export let getDefaultDateSearch = (defaultParams) => {
   let mDep, mRet;
 
   // Check depart date
-  if (defaultParams.departureDate) {
-    if (
-      ((
-        mDep = moment(defaultParams.departureDate, "YYYY-MM-DD").startOf('day')
-      ) &&
-      (
-        // mDep.isBefore(mNow, 'day') ||
-        mDep.diff(mNow, 'days') >= searchApiMaxDays - 1
-      ))
-    ) {
-      defaultParams.departureDate = mDepTmp;
-    }
+  if (defaultParams.departureDate &&
+    ((mDep = moment(defaultParams.departureDate, "YYYY-MM-DD").startOf('day')) &&
+    (
+      mDep.isBefore(minDate) ||
+      mDep.isAfter(maxDate)
+    ))
+  ) {
+    defaultParams.departureDate = mDepTmp;
   }
 
-
   // Check return date
-  if (defaultParams.returnDate) {
-    if (
-      ((
-        mRet = moment(defaultParams.returnDate, "YYYY-MM-DD").startOf('day')
-      ) &&
-      (
-        // mRet.isBefore(mDep, 'day') ||
-        mRet.diff(mNow, 'days') >= searchApiMaxDays - 1
-      ))
-    ) {
-      defaultParams.returnDate = mRetTmp;
-    }
+  if (defaultParams.returnDate &&
+    ((mRet = moment(defaultParams.returnDate, "YYYY-MM-DD").startOf('day')) &&
+    (
+      mRet.isBefore(minDate) ||
+      mRet.isAfter(maxDate)/* ||
+      mRet.isBefore(mDep)*/
+    ))
+  ) {
+    defaultParams.returnDate = mRetTmp;
   }
 
   return defaultParams;
