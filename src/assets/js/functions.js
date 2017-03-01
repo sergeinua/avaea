@@ -299,44 +299,47 @@ export function setAirportData(target, data) {
 }
 
 export let getDefaultDateSearch = (defaultParams) => {
-  let moment_now = moment();
-  let tmpDefaultDepDate = moment().add(2, 'w');
-  let tmpDefaultRetDate = moment().add(4, 'w');
-  let nextFirstDateMonth = moment().add(1, 'M').startOf('month');
+  let mNow = moment().startOf('day');
+  let mDepTmp = mNow.clone().add(2, 'w');
+  let mRetTmp = mNow.clone().add(4, 'w');
+  let mFirstDateOfNextMonth = mNow.clone().add(1, 'M').startOf('month');
 
-  if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
-    tmpDefaultRetDate = moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-    tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
+  if (mFirstDateOfNextMonth.diff(mDepTmp, 'days') > mRetTmp.diff(mFirstDateOfNextMonth, 'days')) {
+    mRetTmp = mDepTmp.clone().endOf('month').format('YYYY-MM-DD');
   } else {
-    tmpDefaultDepDate = moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-    tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+    mDepTmp = mDepTmp.clone().startOf('month').format('YYYY-MM-DD');
   }
 
-  if (defaultParams.departureDate) {
-    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD");
+  let mDep, mRet;
 
-    // Check depart date
-    if (moment_dp &&
+  // Check depart date
+  if (defaultParams.departureDate) {
+    if (
+      ((
+        mDep = moment(defaultParams.departureDate, "YYYY-MM-DD").startOf('day')
+      ) &&
       (
-        moment_dp.isBefore(moment_now, 'day') ||
-        moment_dp.diff(moment_now, 'days') >= searchApiMaxDays - 1
-      )
+        // mDep.isBefore(mNow, 'day') ||
+        mDep.diff(mNow, 'days') >= searchApiMaxDays - 1
+      ))
     ) {
-      defaultParams.departureDate = tmpDefaultDepDate.format('YYYY-MM-DD');
+      defaultParams.departureDate = mDepTmp;
     }
   }
 
+
+  // Check return date
   if (defaultParams.returnDate) {
-    let moment_rp = moment(defaultParams.returnDate, "YYYY-MM-DD");
-    let moment_dp = moment(defaultParams.departureDate, "YYYY-MM-DD");
-    // Check return date
-    if (moment_rp &&
+    if (
+      ((
+        mRet = moment(defaultParams.returnDate, "YYYY-MM-DD").startOf('day')
+      ) &&
       (
-        moment_rp.diff(moment_now, 'days') >= searchApiMaxDays - 1 ||
-        moment_rp.isBefore(moment_dp, 'day')
-      )
+        // mRet.isBefore(mDep, 'day') ||
+        mRet.diff(mNow, 'days') >= searchApiMaxDays - 1
+      ))
     ) {
-      defaultParams.returnDate = tmpDefaultRetDate.format('YYYY-MM-DD');
+      defaultParams.returnDate = mRetTmp;
     }
   }
 
