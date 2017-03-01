@@ -258,7 +258,7 @@ class CheapoairClient {
           return callback(req, null);
         }
 
-        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:", util.inspect(req, {showHidden: true, depth: null}));
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -266,7 +266,7 @@ class CheapoairClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            onvoya.log.info(op + ' request time: %s, request=%s, response=%s', apiCallTimeHr, JSON.stringify(req), raw);
+            onvoya.log.info(op + ' request time: ' + apiCallTimeHr, 'request= ' + JSON.stringify(req), 'response= ' + raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }
@@ -333,7 +333,13 @@ class Mapper {
 
   convertItineraries(data, callback) {
     let itineraries = [];
+    if (!lodash.isArray(data['SegmentReference']['SegmentRefDetails'])) {
+      data['SegmentReference']['SegmentRefDetails'] = [data['SegmentReference']['SegmentRefDetails']];
+    }
     data['SegmentReference']['SegmentRefDetails'].forEach((item, indx) => {
+      if (!lodash.isArray(data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'])) {
+        data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'] = [data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption']];
+      }
       let OutBoundOptions = data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'].find((outItem) => {
         return outItem['segmentid'] === item['OutBoundOptionId']
       });

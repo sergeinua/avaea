@@ -24,6 +24,9 @@ module.exports = {
           if (!err && !_.isEmpty(itineraries)) {
             var rankMin = 0;
             var rankMax = 0;
+            if (!_.isArray(itineraries)) {
+              itineraries = [itineraries];
+            }
             _.each(itineraries, function (itinerary) {
               itinerary = JSON.parse(itinerary);
 
