@@ -266,7 +266,7 @@ class CheapoairClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            onvoya.log.info(util.format(op + ' request time: %s, request=%s, response=%s', apiCallTimeHr, JSON.stringify(req), raw));
+            onvoya.log.info(op + ' request time: ' + apiCallTimeHr, 'request= ' + JSON.stringify(req), 'response= ' + raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }
@@ -323,9 +323,9 @@ class Mapper {
         if (err) {
           onvoya.log.error(err);
         }
-        onvoya.log.info(util.format(serviceName + ': Map result data (%d itineraries) to our structure time: %s',
-          resArr.length, utils.timeLogGetHr(serviceName + '_prepare_result')
-        ));
+        onvoya.log.info(serviceName + ': Map result data (' + resArr.length + ' itineraries) to our structure time:',
+          utils.timeLogGetHr(serviceName + '_prepare_result')
+        );
         return callback(null, resArr);
       })
     })
@@ -665,7 +665,7 @@ module.exports = {
     onvoya.log.info(_api_name + ' started');
 
     let _cb = (err, result) => {
-      onvoya.log.info(util.format(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name)));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return callback(err, result);
     };
 
@@ -677,7 +677,7 @@ module.exports = {
         apiCallTime = utils.timeLogGet(op),
         apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
       if (apiCallTime > apiCallTimeWarn) {
-        params.session.time_log.push(util.format(_api_name + ' took %s to respond', apiCallTimeHr));
+        params.session.time_log.push(_api_name + ' took ' + apiCallTimeHr + ' to respond');
       }
 
       try {
@@ -723,7 +723,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(util.format(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name)));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -766,7 +766,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(util.format(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name)));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -804,7 +804,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(util.format(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name)));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -845,7 +845,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(util.format(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name)));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
