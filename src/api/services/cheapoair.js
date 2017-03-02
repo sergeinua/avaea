@@ -590,7 +590,7 @@ class Mapper {
         },
         duration: utils.minutesToDuration(this.jorneyTimeToMinutes(flight.FlightDuration)),
         durationMinutes: this.jorneyTimeToMinutes(flight.FlightDuration),
-        bookingClass: '', //flight.BookingClass,
+        bookingClass: flight.FlightClass.ClassType,
         cabinClass: mapReverseClass[flight.FlightCabin.CabinType],
         airline: flight.airlineName || flight.MarketingAirline.Code,
         airlineCode: flight.MarketingAirline.Code.toUpperCase(),
