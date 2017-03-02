@@ -69,7 +69,8 @@ let onvoya = {
   },
 
   initialize: function(done) {
-    let pattern = sails.config.log.timestamp?"%[[%d{ISO8601_WITH_TZ_OFFSET}][%-5p][%x{module}]%] %x{message}":"%[[%-5p] [%x{module}]%] %x{message}";
+    let pattern = (sails.config.log.timestamp?"[%d{ISO8601_WITH_TZ_OFFSET}]":"")+"[%-5p][%x{module}]";
+    pattern = (sails.config.log.colorOutput?"%["+pattern+"%]":pattern) + " %x{message}";
     // Draft for ONV-673
     // let pattern = sails.config.log.timestamp?"%[[%d{ISO8601}] [%-5p] [%x{user}] [%x{module}]%]\t%m%n":"%[[%-5p] [%x{user}] [%x{module}]%]\t%m%n";
     let config = {
@@ -91,11 +92,26 @@ let onvoya = {
             message: (mess) => {
               let customMessage = '';
               for (let i = 0; i < mess.data.length; i++) {
-                for (let k = 0; k < mess.data[i].length; k++) {
-                  customMessage = customMessage + ' ' + (typeof mess.data[i][k] == 'object' ? util.inspect(mess.data[i][k], { showHidden: true, depth: null, maxArrayLength:20, colors:true }):mess.data[i][k]);
+                if (_.isArray(mess.data[i])) {
+                  for (let k = 0; k < mess.data[i].length; k++) {
+                    customMessage = customMessage + ' ' + (typeof mess.data[i][k] == 'object' ? util.inspect(mess.data[i][k], {
+                          showHidden: true,
+                          depth: null,
+                          maxArrayLength: 20,
+                          colors: sails.config.log.colorOutput
+                        }) : mess.data[i][k]);
+                  }
+                } else {
+                  customMessage = customMessage + ' ' + (typeof mess.data[i] == 'object' ? util.inspect(mess.data[i], {
+                        showHidden: true,
+                        depth: null,
+                        maxArrayLength: 20,
+                        colors: sails.config.log.colorOutput
+                      }) : mess.data[i]);
                 }
+                customMessage = customMessage.replace(/(CardNumber.*?\D)\d{15,16}(\D)/ig, '$1XXXXXXXXXXXXXXXX$2');
+                customMessage = customMessage.replace(/((?:CVV|CVNumber).*?\D)\d{3}(\D)/ig, '$1XXX$2');
               }
-              // console.log(mess);
               return customMessage;
             }
           }

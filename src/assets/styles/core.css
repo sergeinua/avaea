@@ -1325,6 +1325,8 @@ a:focus,
 /* red */
 
 form label.required:before,
+form.booking .has-error label.hint,
+form.booking div.error,
 .warning,
 .remove-fieldset,
 .message.error {
@@ -1683,7 +1685,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* disabled */
 
-.its-me .hint,
+form.booking .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .dropmenu .choice.active,
@@ -5218,6 +5220,10 @@ html[data-useragent*='Trident'] .sort-button.open ul.dropdown-menu {
 
 html[data-useragent*='Trident'] .swiper-container {
 	height: 205px;
+}
+
+html[data-useragent*='Trident'] input[type="checkbox"] {
+  outline: none;
 }
 
 html[data-useragent*='Trident'] input {

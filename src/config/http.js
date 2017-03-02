@@ -36,6 +36,7 @@ module.exports.http = {
        //'startRequestTimer',
        'cookieParser',
        'session',
+       'refreshSessionCookie',
        'bodyParser',
        //'handleBodyParserError',
        'vanityURLsHandler',
@@ -55,6 +56,14 @@ module.exports.http = {
   *                                                                           *
   ****************************************************************************/
 
+     refreshSessionCookie: function(req, res, next) {
+       if (req.session) {
+         req.session._garbage = Date();
+         req.session.touch();
+       }
+       return next();
+     },
+
      vanityURLsHandler: function (req, res, next) {
         // skiping of socket requests
         if (req.isSocket) {
@@ -73,10 +82,10 @@ module.exports.http = {
             for (var i in result) {
               try {
                 let vanityURI = (''+url.parse(result[i].vanity_url).pathname).replace(/\/+$/, '');
-                onvoya.log.verbose('vanityURI from cache ', vanityURI, 'requestURI', requestURI);
+                onvoya.log.silly('vanityURI from cache ', vanityURI, 'requestURI', requestURI);
                 if (requestURI === vanityURI) {
                   req.session.vanityURL = result[i];
-                  onvoya.log.verbose('req.session.vanityURL added', result[i]);
+                  onvoya.log.silly('req.session.vanityURL added', result[i]);
                   break;
                 }
               } catch(ex) {}
