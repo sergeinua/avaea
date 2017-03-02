@@ -1392,7 +1392,6 @@ module.exports = {
         //onvoya.log.info("User profile:\n" + JSON.stringify(snowflake.profile,null,'  '));
         //onvoya.log.info("User bucket selections:\n" + JSON.stringify(snowflake.bucket_selections,null,'  '));
         onvoya.log.info("User bucket selections:\n" +
-          //"Total    : " + data.length                        + "\n" +
           "Price    : " + snowflake.bucket_selections.    price.length + "\n" +
           "Stops    : " + snowflake.bucket_selections.    stops.length + "\n" +
           "Airline  : " + snowflake.bucket_selections.  airline.length + "\n" +
