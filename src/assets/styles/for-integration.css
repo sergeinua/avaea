@@ -83,7 +83,90 @@
 
 
 
+/* booking form sign up div */
 
+.which-passenger {
+	margin-top: 20px;
+}
+
+form.booking label.hint,
+form.booking label.error {
+	font-size: 14px;
+	margin-top: 5px;
+}
+
+form.booking label.checkbox {
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+form.booking label.checkbox,
+form.booking label.checkbox span,
+form.booking label.checkbox input {
+	position: relative;
+}
+
+form.booking label.checkbox span {
+	left: 30px;
+}
+
+form.booking label.checkbox input {
+	left: 20px;
+}
+
+
+/* search dates error styles */
+
+
+.datepicker span.active.new.error,
+.datepicker span.active.old.error,
+.datepicker table td.day.active.new.error,
+.datepicker table td.day.active.old.error,
+.datepicker span.active.error,
+.bootstrap-datetimepicker-widget span.active.error:hover,
+.datepicker table td.active.error,
+.bootstrap-datetimepicker-widget table td.active.error:hover {
+  background-color: #ed2741;
+}
+
+.datepicker span.range.error:not(.disabled),
+.datepicker table td.day.range.error:not(.disabled) {
+  background-color: #ffffe4 !important;
+}
+
+.flight-date-info {
+  position: relative;
+}
+
+.error-date {
+  color: #ed2741;
+  padding: 20px;
+  display: inline-block;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 162px);
+  background: #ffffe4;
+  border-radius: 3px;
+  z-index: 10;
+}
+
+.flight-date-info-item:first-child {
+  border-right: 0px solid transparent;
+}
+
+.flight-date-info-item.dep {
+  border-right: 2px solid white;
+}
+
+/* iPhone 5 */
+@media (max-width: 321px) {
+
+  .error-date {
+    padding: 20px 10px;
+    left: calc(50% - 152px);
+  }
+
+}
 
 /* end for-integration.css */
 

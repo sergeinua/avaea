@@ -1,15 +1,17 @@
 import React from 'react';
+import * as ReactRedux from 'react-redux';
 import moment from 'moment';
+import { actionSetCommonVal } from '../../actions.js';
 import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
-import { observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
+import { clientStore, observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 
 // Vars
-var flashErrorTimeout = 2000;
+const flashErrorTimeout = 2000;
 
-var TripSearchForm = React.createClass({
+const TripSearchForm = React.createClass({
 
   getInitialState: function () {
     observeStore(storeGetCommonVal, 'formSubmitCount', this.handleSubmitForm);
@@ -34,8 +36,9 @@ var TripSearchForm = React.createClass({
     }
   },
 
-  showCalendar: function () {
+  showCalendar: function (calendarType) {
     return function () {
+      clientStore.dispatch(actionSetCommonVal('calendarType', calendarType));
       ActionsStore.changeForm('calendar');
     }.bind(this);
   },
@@ -48,27 +51,27 @@ var TripSearchForm = React.createClass({
         });
     }.bind(this);
   },
-  
+
   handleMeriHint: function () {
   	// FIXME - could be React
   	$('.meri-speaks ').fadeToggle('fast');
   	$('.meri-wrapper ').toggleClass('remove');
   	setCookie('showMeriHint', false);
   },
-  
+
   handleSubmitForm: function (submitCounter) {
     let _executeSubmit = function () {
-    	
+
       if (submitCounter && this.validateForm()) {
-      	
+
       	// FIXME - could be React
       	$("body").addClass('suppress-logo');
-      	
-        if (this.props.InitSearchFormData.currentForm != 'round_trip') {
+
+        if (this.props.commonData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
-        
-        let searchParams = JSON.stringify(this.props.InitSearchFormData.searchParams);
+
+        let searchParams = JSON.stringify(this.props.commonData.searchParams);
         // save search params to local storage on request
         localStorage.setItem('searchParams', searchParams);
         historyStrategy.push(
@@ -89,7 +92,7 @@ var TripSearchForm = React.createClass({
 
   setErrorElement: function (stateFieldName) {
     function createStateFieldsUpdate(state, propertyName, toUpdate) {
-      var newStateUpdate = {};
+      let newStateUpdate = {};
       newStateUpdate[propertyName] = {};
       Object.keys(state[propertyName]).forEach(function (oldProperty) {
         newStateUpdate[propertyName][oldProperty] = state[propertyName][oldProperty];
@@ -107,9 +110,9 @@ var TripSearchForm = React.createClass({
       );
     }
 
-    var self = this;
-    var removeFlashErrorCallback = function () {
-      var property = self.state[stateFieldName];
+    let self = this;
+    let removeFlashErrorCallback = function () {
+      let property = self.state[stateFieldName];
       if (self.isMounted() && property) {
         self.setState(createStateFieldsUpdate(self.state, stateFieldName, {isErrorFlash: false}));
       }
@@ -122,7 +125,7 @@ var TripSearchForm = React.createClass({
 
   // not used currently, maybe it should be removed.
   unsetErrorElement: function (stateFieldName) {
-    var property = this.state[stateFieldName];
+    let property = this.state[stateFieldName];
     if (property) {
       this.setState(
         createStateFieldsUpdate(this.state, stateFieldName, {isError: false, isErrorFlash: false})
@@ -133,8 +136,8 @@ var TripSearchForm = React.createClass({
   validateForm: function () {
     let _executeValidate = function () {
       let _isError = false;
-      let formErrors = this.props.InitSearchFormData.formErrors;
-      let searchParams = this.props.InitSearchFormData.searchParams;
+      let formErrors = this.props.commonData.formErrors;
+      let searchParams = this.props.commonData.searchParams;
 
       if (formErrors.isError) {
         _isError = true;
@@ -195,10 +198,10 @@ var TripSearchForm = React.createClass({
   },
 
   getErrorClass: function (propertyName) {
-    var resultClass = '';
-    var property = this.state[propertyName];
-    var errorElemClass = 'error-elem';
-    var errorFlashClass = 'error-flash';
+    let resultClass = '';
+    let property = this.state[propertyName];
+    let errorElemClass = 'error-elem';
+    let errorFlashClass = 'error-flash';
     if (!property) {
       console.log('Uninitialized search form state property found: "' + propertyName + '"')
     }
@@ -212,7 +215,7 @@ var TripSearchForm = React.createClass({
   },
 
   getButtonsDisabledClass: function () {
-    let formErrors = this.props.InitSearchFormData.formErrors;
+    let formErrors = this.props.commonData.formErrors;
     return formErrors.isError ? 'disabled ': '';
   },
 
@@ -236,34 +239,34 @@ var TripSearchForm = React.createClass({
         <div className="flight-direction">
 
           <div id="from-area"
-               className={"area from " + (this.props.InitSearchFormData.searchParams.DepartureLocationCode ? "sel" : "") + " " + this.getErrorClass('#from-area')}
+               className={"area from " + (this.props.commonData.searchParams.DepartureLocationCode ? "sel" : "") + " " + this.getErrorClass('#from-area')}
                onClick={this.handleAirportSearch('DepartureLocationCode')}>
             <div className="label-d">From</div>
-            {!this.props.InitSearchFormData.searchParams.DepartureLocationCode ?
+            {!this.props.commonData.searchParams.DepartureLocationCode ?
               <span className="plus">+</span>
               :
               <div className="location">
                 <span
-                  id="from-airport-selected" className="from-airport-selected">{this.props.InitSearchFormData.searchParams.DepartureLocationCode}</span>
+                  id="from-airport-selected" className="from-airport-selected">{this.props.commonData.searchParams.DepartureLocationCode}</span>
                 <div id="from-city-selected"
-                     className="city-name">{this.props.InitSearchFormData.searchParams.DepartureLocationCodeCity}</div>
+                     className="city-name">{this.props.commonData.searchParams.DepartureLocationCodeCity}</div>
               </div>
             }
           </div>{/* ends from area */}
 
           <div id="to-area"
-               className={"area to " + (this.props.InitSearchFormData.searchParams.ArrivalLocationCode ? "sel" : "") +
+               className={"area to " + (this.props.commonData.searchParams.ArrivalLocationCode ? "sel" : "") +
                " " + this.getErrorClass('#to-area')}
                onClick={this.handleAirportSearch('ArrivalLocationCode')}>
             <div className="label-d">To</div>
-            {!this.props.InitSearchFormData.searchParams.ArrivalLocationCode ?
+            {!this.props.commonData.searchParams.ArrivalLocationCode ?
               <span className="plus">+</span>
               :
               <div className="location">
                 <span
-                  id="to-airport-selected" className="to-airport-selected">{this.props.InitSearchFormData.searchParams.ArrivalLocationCode}</span>
+                  id="to-airport-selected" className="to-airport-selected">{this.props.commonData.searchParams.ArrivalLocationCode}</span>
                 <div id="to-city-selected"
-                     className="city-name">{this.props.InitSearchFormData.searchParams.ArrivalLocationCodeCity}</div>
+                     className="city-name">{this.props.commonData.searchParams.ArrivalLocationCodeCity}</div>
               </div>
             }
           </div>{/* ends to area */}
@@ -273,58 +276,58 @@ var TripSearchForm = React.createClass({
         <div className="flight-date">
 
           <div id="flight-date-dep-open-calendar"
-            className={['open-calendar dep ']  + [this.props.InitSearchFormData.currentForm == 'one_way' ? "one-way ":""] + [this.getErrorClass('.open-calendar.dep')]}  
-            onClick={this.showCalendar('dep')}>
+               className={['open-calendar dep ']  + [this.props.commonData.currentForm == 'one_way' ? "one-way ":""] + [this.getErrorClass('.open-calendar.dep')]}
+               onClick={this.showCalendar('dep')}>
             <div className="wrapper">
-                <div className="direction label-d">Depart</div>
-                <div id="search-form-depart-date"
-                  className="weekday label-d">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.departureDate)}</div>
-              </div>
-            {!this.props.InitSearchFormData.searchParams.departureDate ?
+              <div className="direction label-d">Depart</div>
+              <div id="search-form-depart-date"
+                   className="weekday label-d">{this.getDatePart('weekday', this.props.commonData.searchParams.departureDate)}</div>
+            </div>
+            {!this.props.commonData.searchParams.departureDate ?
               <div className="plus">+</div>
               :
               <div className="the-date">
-                <span>{this.getDatePart('date', this.props.InitSearchFormData.searchParams.departureDate)}</span>
-                <span> {this.getDatePart('month', this.props.InitSearchFormData.searchParams.departureDate)}</span>
+                <span>{this.getDatePart('date', this.props.commonData.searchParams.departureDate)}</span>
+                <span> {this.getDatePart('month', this.props.commonData.searchParams.departureDate)}</span>
               </div>
             }
 
           </div>
 
-          { this.props.InitSearchFormData.currentForm == 'round_trip' ?
-            <div id="flight-date-ret-open-calendar" className={
-              "open-calendar ret" +
-              " " + this.getErrorClass('.open-calendar.ret')
-            }
-                 onClick={this.showCalendar('ret')}>
-              <div className="wrapper">
-                  <div className="direction label-d">Return</div>
-                  <div id="search-form-return-date"
-                    className="weekday label-d">{this.getDatePart('weekday', this.props.InitSearchFormData.searchParams.returnDate)}</div>
-              </div>
-              {!this.props.InitSearchFormData.searchParams.returnDate ?
-                <div className="plus">+</div>
-                :
-                <div className="the-date">
-                  <span>{this.getDatePart('date', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-                  <span> {this.getDatePart('month', this.props.InitSearchFormData.searchParams.returnDate)}</span>
-                </div>
-              }
-
-            </div> : null
+        { this.props.commonData.currentForm == 'round_trip' ?
+          <div id="flight-date-ret-open-calendar" className={
+            "open-calendar ret" +
+            " " + this.getErrorClass('.open-calendar.ret')
           }
-        </div>
+               onClick={this.showCalendar('ret')}>
+            <div className="wrapper">
+              <div className="direction label-d">Return</div>
+              <div id="search-form-return-date"
+                   className="weekday label-d">{this.getDatePart('weekday', this.props.commonData.searchParams.returnDate)}</div>
+            </div>
+            {!this.props.commonData.searchParams.returnDate ?
+              <div className="plus">+</div>
+              :
+              <div className="the-date">
+                <span>{this.getDatePart('date', this.props.commonData.searchParams.returnDate)}</span>
+                <span> {this.getDatePart('month', this.props.commonData.searchParams.returnDate)}</span>
+              </div>
+            }
+
+          </div> : null
+        }
+      </div>
 
         <div className="search buttons duo">
-		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}> 
-		      
-		      { !getCookie('showMeriHint') ? 
+		      <div className={['meri-wrapper ']  + [ !getCookie('showMeriHint') ? '' : 'remove']}>
+
+		      { !getCookie('showMeriHint') ?
 	        	<div className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
 				        	{getUser().email ?
 				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
-				              : 
+				              :
 				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
 			            }
 			        	<div className="close-x" onClick={this.handleMeriHint}></div>
@@ -332,22 +335,22 @@ var TripSearchForm = React.createClass({
 			      </div>
 			      : null
         	}
-			      
-			    </div>  
-			    
-		      
-          <button id="search-form-all-flights-button" 
-          	type="submit" 
+
+			    </div>
+
+
+          <button id="search-form-all-flights-button"
+          	type="submit"
           	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
           	All Flights
           </button>
-           
+
           <button id="search-form-top-flights-button"
             type="submit"
             className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
           	Top Flights
           </button>
-	          	
+
         </div>
 
       </div>
@@ -355,4 +358,12 @@ var TripSearchForm = React.createClass({
   }
 });
 
-export default TripSearchForm;
+const mapStateCommon = function(store) {
+  return {
+    commonData: store.commonData,
+  };
+};
+
+const TripSearchFormContainer = ReactRedux.connect(mapStateCommon)(TripSearchForm);
+
+export default TripSearchFormContainer;

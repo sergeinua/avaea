@@ -4,13 +4,8 @@ import OrderPanelContainer from '../buy/OrderPanel.jsx';
 
 let OrderPage = React.createClass({
   componentWillMount: function () {
-    if (!getUser()) {
-      setCookie('redirectTo', this.props.location.pathname, {expires: 300});
-      window.location = '/login';
-    } else {
-      analytics.page(this.props.location.pathname);
-      ActionsStore.changeForm('order', false);
-    }
+    analytics.page(this.props.location.pathname);
+    ActionsStore.changeForm('order', false);
   },
 
   render: function () {

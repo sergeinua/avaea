@@ -10,17 +10,18 @@ import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
-const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 import PassengerItemContainer from './PassengerItem.jsx';
 import luhn from 'luhn';
 import { ActionsStore } from '../../functions.js';
+
+const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
 
   makeOrderData: function(incData) {
-    var fields_data = incData.fieldsData ? incData.fieldsData : {};
+    let fields_data = incData.fieldsData ? incData.fieldsData : {};
 
     return [
       {id:'FirstName', required: true, title: 'First Name', data: fields_data.FirstName || ''},
@@ -35,12 +36,13 @@ let OrderPanel = React.createClass({
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
+      {id:'email', required: true, title: 'Where should we send the Confirmation email?', placeholder: 'Email address', data: fields_data.email || ''}
     ];
   },
 
   makePassengerData: function(incData, index) {
 
-    var fields_data = incData ? incData : {};
+    let fields_data = incData ? incData : {};
 
     return [
       {
@@ -76,11 +78,11 @@ let OrderPanel = React.createClass({
         data: fields_data['passengers['+index+'].DateOfBirth'] || '',
         forcedUpdate: fields_data['passengers['+index+'].DateOfBirth'] || ''
       },
-      
+
       // engineer -- please hook up the logic to display seat or lap infant radio buttons
       // IF the birthdate is < 2 years from now
       // there is disabled logic in PassengerItem.jsx
-      
+
     ];
   },
 
@@ -108,6 +110,8 @@ let OrderPanel = React.createClass({
   execReq: function (event) {
     event.preventDefault();
     this.props.actionSetOrderVal('flashMsg', '');
+
+    this.props.actionSetOrderVal('formMsg', '');
 
     $.validator.addMethod("requiredAndTrim", function(value, element) {
       return !!value.trim();
@@ -142,7 +146,7 @@ let OrderPanel = React.createClass({
           validateUserNames: true
         },
         // engineer -- if there is error in validation, only the first radio input's label is receiving the "has-error" class
-        // please fix so each radio input's label is assigned the "has-error" class 
+        // please fix so each radio input's label is assigned the "has-error" class
         Gender: {
           required: true
         },
@@ -186,15 +190,20 @@ let OrderPanel = React.createClass({
           digits: true,
           minlength: 3,
           maxlength: 3
+        },
+        email: {
+          required: true,
+          email: true
         }
       },
       messages: {
-        FirstName: "First name contains some invalid characters or is too short",
-        LastName: "Last name contains some invalid characters or is too short",
+        FirstName: "Must not have be empty or have invalid characters",
+        LastName: "Must not have be empty or have invalid characters",
         ZipCode: "Please enter digits only",
-        CardNumber: "There seems to be a typo in credit card number",
+        CardNumber: "Please enter a valid credit card number",
         CVV: "Please enter 3 digits",
-        "passengers[1].phone": "Phone contains some invalid characters or has too few digits"
+        "passengers[1].phone": "Please enter a valid phone number",
+        email: "Please enter valid email address"
       },
       errorPlacement: function(error, element) {
         let _elem_name = element.attr('name');
@@ -246,18 +255,17 @@ let OrderPanel = React.createClass({
     $("#form_booking").validate(validationRules);
 
     if (!$("#form_booking").valid()) {
-      this.props.actionSetOrderVal('flashMsg',
-        'We have found some errors in your input. Please review the fields highlighted with red color below and make corrections.'
+      this.props.actionSetOrderVal('formMsg',
+        'Please correct the fields above.'
       );
-      window.scrollTo(0, 0);
       return;
     }
-    
+
   },
-  
+
   showCvvModal: function() {
       return  <span data-toggle="modal" data-target={"[data-id='modal-cvv-info']"}>
-      	<ModalCvvInfo /> 
+      	<ModalCvvInfo />
       	<div id="info-cue-cvv" className="info cue cvv"></div>
       </span>
   },
@@ -316,14 +324,14 @@ let OrderPanel = React.createClass({
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
-          	
+
           <form id="form_booking" className="booking">
 
         		<div className="confirmation persons-class-price">
               <div className="wrapper">
                 <div className="people">{ this.props.commonData.searchParams.passengers }</div>
                 <div className="class">{  serviceClass[this.props.commonData.searchParams.CabinClass] }</div>
-                {/* 
+                {/*
     	            engineer -- calculate total price: (N travellers) x (price for 1 adult ticket)
     	          */}
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
@@ -343,67 +351,68 @@ let OrderPanel = React.createClass({
             	<div className="page-ti billing">Billing</div>
 	            <div className="lil-italics">All fields are required</div>
 		            <div className="wrapper">
-		            
+
 		            {/* engineer -- populate all available data for Billing from user's profile  */}
-		            
+
 		            {this.makeOrderData(this.props.orderData).map(
 		                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
 		            )}
-		            
+
 		            {this.showCvvModal()}
-		            
+
 		            </div>{/* ENDS billing wrapper */}
 
 	            <div className="page-ti people">Travellers</div>
 	            <div className="passengers-wrapper">
 	            	{_passengers}
-	            
-	            
-	            
-            	{/* engineer -- 
+
+
+
+            	{/* engineer --
 			            		1) ajax check birthdate
-			            		2) include this div IF birthday is < 2 years OR 2-12 years OR > 65 years 
+			            		2) include this div IF birthday is < 2 years OR 2-12 years OR > 65 years
               */}
 	            <div className="passenger-type">
-		            {/* engineer -- 
+		            {/* engineer --
                             if <2 years, "Infant"
                             if 2-12 years, "Child"
                             if >65 years, "Senior"
                  */}
 	            	<span className="value">Infant</span>
 	            </div>
-	            
-	            
+
+
 	            </div>{/* ENDS travellers wrapper */}
 
 
 	            <div className="buttons">
-	
+                  <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
+
 		            {/* engineer -- create new logic for "continue" button
-		            	
+
 		            		1) add className "disabled" until required fields are valid
-		                2) refreshes and recalculates price, with adjustment for age 
+		                2) refreshes and recalculates price, with adjustment for age
 		                3) goes to a "confirmation" view of the form
 		                   --- this form is in OrderConfirmation.jsx but needs logic
-		                   --- On "confirmation" view, user can "edit" (return to this view with form fields) 
+		                   --- On "confirmation" view, user can "edit" (return to this view with form fields)
 		                       or complete purchase
 		                4) save to user's profile:
 		                   + First Name, Last Name
 		                   + All address info
-		                   
+
 		             */}
-		            
+
 		            {/* engineer -- make sure this uses the same validation method as the booking button below */}
 		            <button id="continue_order_button" className="big-button">
 		            	Continue
 		            </button>
-		            
-		            {/* engineer -- this is the old booking button 
+
+		            {/* engineer -- this is the old booking button
 			            <button id="booking_button" className="big-button" onClick={this.execReq}>
 		                {this.props.orderData.itineraryData.orderPrice}
 		              </button>
 		            */}
-		            
+
 	            </div>{/* ENDS buttons */}
 
             </div>{/* ENDS div.form */}
