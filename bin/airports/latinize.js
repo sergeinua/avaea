@@ -1,5 +1,7 @@
 #!/usr/bin/nodejs
 
+"use strict";
+
 const _COMMON   = require('./common');
 const _LATINIZE = require('latinize');
 
@@ -28,27 +30,41 @@ const pgclient           = _COMMON.get_connection(argv);
 const makePretend        = true;
 const fields_to_latinize = ['city','state','country'];
 
+function get_object_keys( o ) {
+  let result = [];
+  for( let k in o ) {
+    result.push(k);
+  }
+  return result;
+}
+
 asyncsCounter.sql_query(
   pgclient,
   "SELECT * FROM airports",
   function( result ) {
     result.rows.forEach(function( r ) {
-      var changed_values = [];
+      var changes = {};
       fields_to_latinize.forEach(function( e, ndx ) {
 	if( r.hasOwnProperty(e) ) {
+	  let latin_value = _LATINIZE(r[e]);
+	  if( latin_value!=r[e] ) {
+	    changes[e]                  = latin_value;
+	    if( !changes.hasOwnProperty('alternative_name') ) {
+	      changes['alternative_name'] = r.alternative_name ? [r.alternative_name] : [];
+	    }
+	    changes['alternative_name'].push(r[e]);
+	  }
 	}
       });
-      
-      if( r.hasOwnProperty('city') ) {
-	let latin_value = r['city'];
-	if( latin_value!=r['city'] ) {
-	  r['city'] = latin_value;
-	  changed_values.push('city');
-	}
+      let changes_keys = get_object_keys(changes);
+      if( changes_keys.length>0 ) {
+	// Since there is at least one key then there must ne 'alternative_name'
+	changes['alternative_name'] = changes['alternative_name'].join(' ');
+	console.log("UPDATE airports SET "+changes_keys.map(function(e,ndx) { return e+'='+_COMMON.escape_sql_value(changes[e],'string'); } ) .join(',')+" WHERE iata_3code='"+r['iata_3code']+"';")
       }
-      console.log(row.join(","));
     });
   }
 );
+
 asyncsCounter.wait();
 pgclient.end();
