@@ -258,7 +258,7 @@ class CheapoairClient {
           return callback(req, null);
         }
 
-        onvoya.log.info(op + ": (SOAP) request:\n", util.inspect(req, {showHidden: true, depth: null}));
+        onvoya.log.info(op + ": (SOAP) request:", util.inspect(req, {showHidden: true, depth: null}));
 
         return client[this.apiOptions[this.api].method](req, (err, result, raw) => {
           let _err = null, _res = null;
@@ -266,7 +266,7 @@ class CheapoairClient {
             let
               apiCallTime = utils.timeLogGet(op),
               apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
-            onvoya.log.info(op + ' request time: %s, request=%s, response=%s', apiCallTimeHr, JSON.stringify(req), raw);
+            onvoya.log.info(op + ' request time: ' + apiCallTimeHr, 'request= ' + JSON.stringify(req), 'response= ' + raw);
             if (err) {
               throw "(SOAP) An error occurs:\n" + err;
             }
@@ -323,8 +323,8 @@ class Mapper {
         if (err) {
           onvoya.log.error(err);
         }
-        onvoya.log.info(serviceName + ': Map result data (%d itineraries) to our structure time: %s',
-          resArr.length, utils.timeLogGetHr(serviceName + '_prepare_result')
+        onvoya.log.info(serviceName + ': Map result data (' + resArr.length + ' itineraries) to our structure time:',
+          utils.timeLogGetHr(serviceName + '_prepare_result')
         );
         return callback(null, resArr);
       })
@@ -332,9 +332,17 @@ class Mapper {
   }
 
   convertItineraries(data, callback) {
-    let itineraries = [];
-    data['SegmentReference']['SegmentRefDetails'].forEach((item, indx) => {
-      let OutBoundOptions = data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'].find((outItem) => {
+    let itineraries = [],
+      SegmentRefDetails = data['SegmentReference']['SegmentRefDetails'],
+      OutBoundOption = data['OriginDestinationOptions']['OutBoundOptions']['OutBoundOption'];
+    if (!lodash.isArray(SegmentRefDetails)) {
+      SegmentRefDetails = [SegmentRefDetails];
+    }
+    if (!lodash.isArray(OutBoundOption)) {
+      OutBoundOption= [OutBoundOption];
+    }
+    SegmentRefDetails.forEach((item, indx) => {
+      let OutBoundOptions = OutBoundOption.find((outItem) => {
         return outItem['segmentid'] === item['OutBoundOptionId']
       });
       lodash.assign(item,
@@ -417,7 +425,7 @@ class Mapper {
       service: serviceName,
       price: parseFloat(itinerary['PTC_FareBreakdown'].Adult.TotalAdultFare).toFixed(2),
       fare: parseFloat(itinerary['PTC_FareBreakdown'].Adult.BaseFare).toFixed(2), // for transactions report
-      taxes: parseFloat(itinerary['PTC_FareBreakdown'].Adult.Taxes).toFixed(2), // for transactions report
+      taxes: parseFloat(itinerary['PTC_FareBreakdown'].Adult.TaxesandFees).toFixed(2), // for transactions report
       currency: currency,
       duration: '',
       durationMinutes: 0,
@@ -582,7 +590,7 @@ class Mapper {
         },
         duration: utils.minutesToDuration(this.jorneyTimeToMinutes(flight.FlightDuration)),
         durationMinutes: this.jorneyTimeToMinutes(flight.FlightDuration),
-        bookingClass: '', //flight.BookingClass,
+        bookingClass: flight.FlightClass.ClassType,
         cabinClass: mapReverseClass[flight.FlightCabin.CabinType],
         airline: flight.airlineName || flight.MarketingAirline.Code,
         airlineCode: flight.MarketingAirline.Code.toUpperCase(),
@@ -657,7 +665,7 @@ module.exports = {
     onvoya.log.info(_api_name + ' started');
 
     let _cb = (err, result) => {
-      onvoya.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return callback(err, result);
     };
 
@@ -669,7 +677,7 @@ module.exports = {
         apiCallTime = utils.timeLogGet(op),
         apiCallTimeHr = utils.durationHr(apiCallTime, 'm', 's');
       if (apiCallTime > apiCallTimeWarn) {
-        params.session.time_log.push(_api_name + ' took %s to respond', apiCallTimeHr);
+        params.session.time_log.push(_api_name + ' took ' + apiCallTimeHr + ' to respond');
       }
 
       try {
@@ -715,7 +723,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -758,7 +766,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -796,7 +804,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
@@ -837,7 +845,7 @@ module.exports = {
 
     let _cb = callback;
     callback = function (errors, result) {
-      onvoya.log.info(_api_name + ' processing time: %s', utils.timeLogGetHr(_api_name));
+      onvoya.log.info(_api_name + ' processing time:', utils.timeLogGetHr(_api_name));
       return _cb(errors, result);
     };
 
