@@ -1362,11 +1362,11 @@ module.exports = {
           onvoya.log.info("User ID is undefined in profile.");
         } else {
           onvoya.log.info("Ranking for user " + snowflake.profile.user + " with the following bucket selections:\n" +
-            "Price    : " + snowflake.bucket_selections.    price.length + "\n" +
-            "Stops    : " + snowflake.bucket_selections.    stops.length + "\n" +
-            "Airline  : " + snowflake.bucket_selections.  airline.length + "\n" +
+            "Price    : " + snowflake.bucket_selections.price    .length + "\n" +
+            "Stops    : " + snowflake.bucket_selections.stops    .length + "\n" +
+            "Airline  : " + snowflake.bucket_selections.airline  .length + "\n" +
             "Departure: " + snowflake.bucket_selections.departure.length + "\n" +
-            "Arrival  : " + snowflake.bucket_selections.  arrival.length );
+            "Arrival  : " + snowflake.bucket_selections.arrival  .length );
           //onvoya.log.info("User snowflake:\n" + JSON.stringify(snowflake,null,'  '));
           //onvoya.log.info("User profile:\n" + JSON.stringify(snowflake.profile,null,'  '));
           //onvoya.log.info("User bucket selections:\n" + JSON.stringify(snowflake.bucket_selections,null,'  '));
