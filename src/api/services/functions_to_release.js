@@ -1,14 +1,24 @@
 module.exports = {
 
+    compute_milesValue: function (itins)
+    // adds a new field to the array of itineraries: milesValue
+    {
+        if (itins.length == 0) return; // If empty, then nothing needs to be done
+
+        for(var i=0; i<itins.length; i++) {
+          itins[i].milesValue = ( itins[i].hasOwnProperty('miles') ) ? ( 0.02*itins[i].miles ) : ( 0.0 ); // milesValue is $0.02 for each earned FF mile
+        }
+    }, // end of function compute_milesValue
+
     compute_priceRank: function (itins)
     // adds a new field to the array of itineraries: priceRank
     {
         if (itins.length == 0) return; // If empty, then nothing needs to be done
 
-        for(var i=0; i<itins.length; i++)
-        {
-            itins[i].priceRank = +itins[i].price; // convert string to float
-            if ( itins[i].hasOwnProperty('miles') ) itins[i].priceRank -= 0.02*itins[i].miles; // discount the price by $0.02 for each earned FF mile
+        if ( !itins[0].hasOwnProperty('milesValue') ) this.compute_milesValue(itins); // append milesValue field if needed
+
+        for(var i=0; i<itins.length; i++) {
+          itins[i].priceRank = +itins[i].price - itins[i].milesValue; // convert string to float
         }
     }, // end of function compute_priceRank
 
@@ -46,9 +56,8 @@ module.exports = {
 
         var Median_priceRank = this.median_priceRank(itins); // compute median in priceRank
 
-        for(var i=0; i<itins.length; i++)
-        {
-            itins[i].priceRank /= Median_priceRank;
+        for(var i=0; i<itins.length; i++) {
+          itins[i].priceRank /= Median_priceRank;
         }
     }, // end of function normalize_priceRank
 
