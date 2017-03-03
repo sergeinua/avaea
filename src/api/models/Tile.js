@@ -671,43 +671,30 @@ module.exports = {
               //var fs = require('fs');
               //fs.writeFile('/media/sf_Downloads/data.json',JSON.stringify(data,null,'  '),function(err){if(err) throw err;});
 
-              var     price_bucket_selections = [];
-              var     stops_bucket_selections = [];
-              var   airline_bucket_selections = [];
-              var departure_bucket_selections = [];
-              var   arrival_bucket_selections = [];
-
               for (var i = 0; i < data.length; i++) {
-                if (data[i].logInfo.tileName ==     'price_tile')     price_bucket_selections.push(data[i].logInfo.tileValue);
-                if (data[i].logInfo.tileName ==     'stops_tile')     stops_bucket_selections.push(data[i].logInfo.tileValue);
-                if (data[i].logInfo.tileName ==   'airline_tile')   airline_bucket_selections.push(data[i].logInfo.tileValue);
-                if (data[i].logInfo.tileName == 'departure_tile') departure_bucket_selections.push(data[i].logInfo.tileValue);
-                if (data[i].logInfo.tileName ==   'arrival_tile')   arrival_bucket_selections.push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==     'price_tile') snowflake.bucket_selections.price    .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==     'stops_tile') snowflake.bucket_selections.stops    .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==   'airline_tile') snowflake.bucket_selections.airline  .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName == 'departure_tile') snowflake.bucket_selections.departure.push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==   'arrival_tile') snowflake.bucket_selections.arrival  .push(data[i].logInfo.tileValue);
               }
 
-              snowflake.bucket_selections = { price     :      price_bucket_selections,
-                                              stops     :      stops_bucket_selections,
-                                              airline   :    airline_bucket_selections,
-                                              departure :  departure_bucket_selections,
-                                              arrival   :    arrival_bucket_selections
-                                             };
-
-              var max_bucket_selections = Math.max(price_bucket_selections.length, stops_bucket_selections.length, airline_bucket_selections.length);
+              var max_bucket_selections = Math.max(snowflake.bucket_selections.price.length, snowflake.bucket_selections.stops.length, snowflake.bucket_selections.airline.length);
               if ( max_bucket_selections == 0 ) {
                 onvoya.log.info('No relevant user bucket selections info found, using default snowflake.');
               } else {
-                snowflake.preference.price    = (   price_bucket_selections.length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections/  price_bucket_selections.length );
-                snowflake.preference.duration = (   stops_bucket_selections.length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections/  stops_bucket_selections.length );
-                snowflake.preference.airline  = ( airline_bucket_selections.length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections/airline_bucket_selections.length );
+                snowflake.preference.price    = ( snowflake.bucket_selections.price  .length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.price  .length );
+                snowflake.preference.duration = ( snowflake.bucket_selections.stops  .length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.stops  .length );
+                snowflake.preference.airline  = ( snowflake.bucket_selections.airline.length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.airline.length );
 
                 onvoya.log.info('===============================================');
-                onvoya.log.info("For user: " + snowflake.profile.user);
+                onvoya.log.info("Information found in the database for user: " + snowflake.profile.user);
                 onvoya.log.info("Total     bucket selections: " + data.length);
-                onvoya.log.info("Price     bucket selections: " +     price_bucket_selections.length);
-                onvoya.log.info("Stops     bucket selections: " +     stops_bucket_selections.length);
-                onvoya.log.info("Airline   bucket selections: " +   airline_bucket_selections.length);
-                onvoya.log.info("Departure bucket selections: " + departure_bucket_selections.length);
-                onvoya.log.info("Arrival   bucket selections: " +   arrival_bucket_selections.length);
+                onvoya.log.info("Price     bucket selections: " + snowflake.bucket_selections.price    .length);
+                onvoya.log.info("Stops     bucket selections: " + snowflake.bucket_selections.stops    .length);
+                onvoya.log.info("Airline   bucket selections: " + snowflake.bucket_selections.airline  .length);
+                onvoya.log.info("Departure bucket selections: " + snowflake.bucket_selections.departure.length);
+                onvoya.log.info("Arrival   bucket selections: " + snowflake.bucket_selections.arrival  .length);
                 onvoya.log.info('===============================================');
               }
             }

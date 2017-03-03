@@ -1329,7 +1329,8 @@ module.exports = {
         if (itins.length == 0) return; // If empty, then nothing to rank
         if (itins.length == 1) { // If just one itinerary, then ranking is easy
           itins[0].smartRank = 1;
-          itins[0].why_this = 'the cheapest, the shortest, the best trade-off';
+          itins[0].why_this = 'the cheapest, the shortest, the best overall';
+          onvoya.log.info("One itinerary found. Ranking is trivial. Returning the only itinerary.");
           return;
         }
 
@@ -1343,12 +1344,38 @@ module.exports = {
         if ( snowflake.preference.price    === undefined ) { snowflake.preference.price    = 1.0; } // default value is 1
         if ( snowflake.preference.duration === undefined ) { snowflake.preference.duration = 1.0; } // default value is 1
         if ( snowflake.preference.airline  === undefined ) { snowflake.preference.airline  = 1.0; } // default value is 1
+        if ( snowflake.preference.price    == 0 ) { snowflake.preference.price    = 1.0; } // default value is 1
+        if ( snowflake.preference.duration == 0 ) { snowflake.preference.duration = 1.0; } // default value is 1
+        if ( snowflake.preference.airline  == 0 ) { snowflake.preference.airline  = 1.0; } // default value is 1
 
         if (preferred_airlines.length == 0) { snowflake.preference.airline = 3 * Math.max(snowflake.preference.price, snowflake.preference.duration); }
 
-        onvoya.log.info("Ranking based on price preference " + snowflake.preference.price +
-                                    ", duration preference " + snowflake.preference.duration +
-                                     ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: [" + preferred_airlines + "]");
+        if (_.isUndefined(snowflake)) {
+          onvoya.log.info("User snowflake is undefined.");
+        } else if (_.isEmpty(snowflake)) {
+          onvoya.log.info("User snowflake is empty.");
+        } else if (_.isUndefined(snowflake.profile)) {
+          onvoya.log.info("User profile is undefined.");
+        } else if (_.isEmpty(snowflake.profile)) {
+          onvoya.log.info("User profile is empty.");
+        } else if (_.isUndefined(snowflake.profile.user)) {
+          onvoya.log.info("User ID is undefined in profile.");
+        } else {
+          onvoya.log.info("Ranking for user " + snowflake.profile.user + " with the following bucket selections:\n" +
+            "Price    : " + snowflake.bucket_selections.    price.length + "\n" +
+            "Stops    : " + snowflake.bucket_selections.    stops.length + "\n" +
+            "Airline  : " + snowflake.bucket_selections.  airline.length + "\n" +
+            "Departure: " + snowflake.bucket_selections.departure.length + "\n" +
+            "Arrival  : " + snowflake.bucket_selections.  arrival.length );
+          //onvoya.log.info("User snowflake:\n" + JSON.stringify(snowflake,null,'  '));
+          //onvoya.log.info("User profile:\n" + JSON.stringify(snowflake.profile,null,'  '));
+          //onvoya.log.info("User bucket selections:\n" + JSON.stringify(snowflake.bucket_selections,null,'  '));
+        }
+
+        onvoya.log.info("Ranking based on preference (price " + snowflake.preference.price +
+                                                ", duration " + snowflake.preference.duration +
+                                                 ", airline " + snowflake.preference.airline +
+                        "), while emphasizing the following airlines: [" + preferred_airlines + "]");
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
@@ -1356,22 +1383,16 @@ module.exports = {
         // appends best_airl_rank2 field if needed
         if ( !itins[0].hasOwnProperty('best_airl_rank2') ) this.append_1D_airline_rank2(itins, preferred_airlines, snowflake.preference.price, snowflake.preference.duration);
 
-        if ( snowflake.preference.price    == 0 ) return;
-        if ( snowflake.preference.duration == 0 ) return;
-        if ( snowflake.preference.airline  == 0 ) return;
-
-        var Median_duration = this.median_in_duration  (itins) + 1; //onvoya.log.info("Median_duration = " + Median_duration);
-        var Median_airline  = this.median_in_airl_rank2(itins) + 1; //onvoya.log.info("Median_airline = "  + Median_airline);
+        var Median_duration = this.median_in_duration  (itins) + 1;
+        var Median_airline  = this.median_in_airl_rank2(itins) + 1;
 
         // sort in 3D by linear combination of price, duration, and airline_rank2
         itins.sort( this.compare_in_3D_by_linear_combination_of_price_duration_airline2(snowflake.preference.price,
                                                                                         snowflake.preference.duration*Median_duration,
                                                                                         snowflake.preference.airline*Median_airline) );
 
-        // append the incremental smartRank, starting from 1
-        for (var i = 0; i < itins.length; i++) {
-          itins[i].smartRank = i+1;
-        }
+        // append the smartRank, starting from 1
+        for (var i = 0; i < itins.length; i++) { itins[i].smartRank = i+1; }
 
         // append explanations as to why each particular itin is recommended
         this.append_explanation_to_ranked_itins(itins);
@@ -1388,16 +1409,6 @@ module.exports = {
           onvoya.log.info("Returning the full set of flights (" + itins.length + " itins)");
         }
 
-        //onvoya.log.info("User snowflake:\n" + JSON.stringify(snowflake,null,'  '));
-        //onvoya.log.info("User profile:\n" + JSON.stringify(snowflake.profile,null,'  '));
-        //onvoya.log.info("User bucket selections:\n" + JSON.stringify(snowflake.bucket_selections,null,'  '));
-        onvoya.log.info("User bucket selections:\n" +
-          "Price    : " + snowflake.bucket_selections.    price.length + "\n" +
-          "Stops    : " + snowflake.bucket_selections.    stops.length + "\n" +
-          "Airline  : " + snowflake.bucket_selections.  airline.length + "\n" +
-          "Departure: " + snowflake.bucket_selections.departure.length + "\n" +
-          "Arrival  : " + snowflake.bucket_selections.  arrival.length );
-
         return;
 
     }, // end of function rank_itineraries_in_3D_by_price_duration_airline2
@@ -1413,7 +1424,7 @@ module.exports = {
           delete itins[i].why_this; // delete previous explanations
           if ( +itins[i].price           == lowest_price     ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the cheapest";
           if (  itins[i].durationMinutes == lowest_duration  ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the shortest";
-          if (  itins[i].smartRank       == lowest_smartRank ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the best trade-off";
+          if (  itins[i].smartRank       == lowest_smartRank ) itins[i].why_this = ( (itins[i].why_this ===undefined) ? ("") : (itins[i].why_this + ", ") ) + "the best overall";
         }
 
         return;
