@@ -637,11 +637,13 @@ module.exports = {
       }
 
       if (!_.isUndefined(snowflake.profile)) { // if profile is present
-        if (snowflake.profile != null) { // and is non-empty
-          if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) snowflake.top_flights_only = true; // return top flights only (the best half of the itins)
-          if (!_.isUndefined(snowflake.profile.preferred_airlines)) { // if some preferred airlines are specified
-            if (snowflake.profile.preferred_airlines.length > 0) {
-              snowflake.preference.airline = 6; // make airline preference as important as duration (but still less important, than price)
+        if (!_.isEmpty(snowflake.profile)) { // and is non-empty
+          if (snowflake.profile != null) { // and is non-null
+            if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) { snowflake.top_flights_only = true; }// return top flights only (the best half of the itins)
+            if (!_.isUndefined(snowflake.profile.preferred_airlines)) { // if some preferred airlines are specified
+              if (snowflake.profile.preferred_airlines.length > 0) {
+                snowflake.preference.airline = 6; // make airline preference as important as duration (but still less important, than price)
+              }
             }
           }
         }
@@ -734,12 +736,12 @@ module.exports = {
       });
 
       tmp.uniqPrice = _.uniq(tmp.itinerariesPrice, function(item) {
-        return Math.floor(item.price );
+        return Math.floor(item.price);
       });
 
       if (tmp.uniqPrice.length <= 4) { //  Igor Markov: When the number of different values does not exceed max possible num buckets, each value gets its own bucket
-        for (var counter = 0; counter < tmp.uniqPrice.length ; counter++) {
-          priceNameArr[counter] = Math.floor(tmp.uniqPrice[ counter ].price );
+        for (var counter = 0; counter < tmp.uniqPrice.length; counter++) {
+          priceNameArr[counter] = Math.floor(tmp.uniqPrice[counter].price);
         }
 
         for (var i = 0; i < priceNameArr.length; i++) {
@@ -751,11 +753,11 @@ module.exports = {
         }
       } else if (tmp.uniqPrice.length <= 8) { //  Igor Markov: When the number of different values is less than twice the number of buckets, we can pack up to two values per bucket
         tmp.priceNameArrTmp = [];
-        for (var counter = 0; counter < tmp.uniqPrice.length ; counter++) {
+        for (var counter = 0; counter < tmp.uniqPrice.length; counter++) {
           if (counter%2 == 0) {
-            priceNameArr.push( Math.floor(tmp.uniqPrice[ counter ].price) );
+            priceNameArr.push( Math.floor(tmp.uniqPrice[counter].price) );
           }
-          tmp.priceNameArrTmp[counter] = Math.floor(tmp.uniqPrice[ counter ].price);
+          tmp.priceNameArrTmp[counter] = Math.floor(tmp.uniqPrice[counter].price);
         }
 
         for (var i = 0, counter = 0; i < tmp.uniqPrice.length; i+=2, counter++) {
@@ -766,8 +768,8 @@ module.exports = {
           });
         }
       } else {
-        for (var counter = 0; counter < 4 ; counter++) {
-          priceNameArr[counter] = Math.floor(tmp.itinerariesPrice[ counter * N ].price);
+        for (var counter = 0; counter < 4; counter++) {
+          priceNameArr[counter] = Math.floor(tmp.itinerariesPrice[counter*N].price);
         }
 
         priceNameArr = _.uniq(priceNameArr);
