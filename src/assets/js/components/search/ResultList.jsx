@@ -74,6 +74,8 @@ let ResultList = React.createClass({
 		            </Iframe>
 		          </div>
 			      </div>
+			      
+			      {!(uaChrome && MacOS) ?
 			      <div id="wayfare-results-exit-unit" className="wayfare results exit">
 		          <div className="wrapper">
 		            <Iframe
@@ -88,8 +90,11 @@ let ResultList = React.createClass({
 		              position="relative">
 		            </Iframe>
 		          </div>
-	          </div>
+	          </div>: null
+			      }
+			      
           </div>
+          
         </span>
         :null
       }

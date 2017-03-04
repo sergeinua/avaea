@@ -9,7 +9,6 @@
 
 
 .hide,
-.cue.info,
 .device,
 .ie-fixer,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
@@ -627,6 +626,10 @@ body:not(.touch) i.icon-mic:before {
 
 .wayfare.search iframe {
 	height: 100px !important;
+}
+
+html[data-useragent*='Trident'] .wayfare.results.cross-sell {
+	display: none;
 }
 
 
@@ -2020,6 +2023,7 @@ strong.tt-highlight {
 .search.buttons .meri-wrapper {
 	margin: 40px auto -3px auto;
 	height: 20px;
+	opacity: 0;
 	transition: all .5s ease-out;
 	transition-delay: .5s;
 }
@@ -2035,9 +2039,10 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 
 .search.buttons .meri-wrapper.showing {
 	 height: 70px;
+	 opacity: 1;
 }
 
-.search-buttons .holder {
+.search.buttons .holder {
 	display: inline-block;
 	position: relative;
 }
@@ -2045,27 +2050,22 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 .search.buttons .info.cue {
 	cursor: pointer;
 	font-size: 18px;
-	line-height: 48px;
 	margin: 10px 0;
 	padding: 1px 3px;
-	height: 100%;
+	height: 50px;
 	width: 32px;
 	display: inline-block;
 	position: relative;
-		top: -2px;
-}
-
-.touch.android .search.buttons .info.cue {
-	top: -1px;
+	vertical-align: bottom;
 }
 
 .search.buttons .info.cue:before {
 	content: '';
-	height:26px;
+	height: 26px;
 	width: 26px;
 	display: inline-block;
 	position: relative;
-	 top: 6px;
+	 top: 10px;
 	 left: 0;
 	background: rgba(13, 200, 88, 1);
 	border-radius: 50%;
