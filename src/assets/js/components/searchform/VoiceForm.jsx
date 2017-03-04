@@ -208,7 +208,7 @@ var VoiceForm = React.createClass({
           _airportsPromises.push($.ajax({
             url: '/ac/airports',
             type: 'POST',
-            data: {q: $.trim(result[_k]), l: 1},
+            data: {q: $.trim(result[_k])},
             dataType: 'json'
           }));
         } else {

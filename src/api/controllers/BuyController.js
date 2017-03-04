@@ -29,26 +29,14 @@ module.exports = {
       });
     };
 
-    //FIXME in ONV-1012
-    if (!req.user) {
-      sails.log.info(utils.showError('Error.User.NotAuthorised'));
-      return res.ok({
-        error: true,
-        errorInfo: utils.showError('Error.User.NotAuthorised')
-      });
-    }
-
     let userId = utils.getUser(req);
 
-    Profile.findOneByUserId(userId).exec(function findOneCB(err, found) {
+    Profile.findOneByUserId(req.user?req.user.id:0).exec(function findOneCB(err, found) {
       if (err) {
-        sails.log.error(err);
-        return res.ok({
-          error: true,
-          errorInfo: utils.showError('Error.Passport.User.Profile.NotFound')
-        });
+        onvoya.log.error(err);
       }
 
+      onvoya.log.debug(found);
       if (found) {
         // map between form fields (mondee API fields) and DB profile fields
         let userData = {
@@ -70,8 +58,7 @@ module.exports = {
         // Set profile structure if data was not found
         if (!found) {
           found = {personal_info: {address: {}}}
-        }
-        else if (!found.address) {
+        } else if (!found.address) {
           found.address = {};
         }
         // Apply DB values if form fields is not defined yet
@@ -85,6 +72,11 @@ module.exports = {
             reqParams[prop] = found.personal_info.address[userAddress[prop]] || '';
           }
         }
+        if (!reqParams['email'] && req.user) {
+          reqParams['email'] = req.user.email;
+        }
+      } else {
+        onvoya.log.info("Can't find profile. Anonymous booking.");
       }
 
       let itinerary_id = req.param('itineraryId');
@@ -106,8 +98,9 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
-          let userId = utils.getUser(req);
-          itineraryPrediction.updateRank(userId, logData.itinerary.searchId, logData.itinerary.price);
+          if (req.user) {
+            itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
+          }
 
           UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
             User.publishCreate(userId);
@@ -131,7 +124,7 @@ module.exports = {
           );
         })
         .catch((error) => {
-          sails.log.error(error);
+          onvoya.log.error(error);
           return onIllegalResult();
         });
     });
@@ -142,14 +135,16 @@ module.exports = {
     let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
-    //FIXME in ONV-1012
-    if (!req.user) {
-      sails.log.info(utils.showError('Error.User.NotAuthorised'));
-      return res.ok({
-        error: true,
-        errorInfo: utils.showError('Error.User.NotAuthorised')
-      });
-    }
+    User.findOrCreate({email:reqParams['email']}, {email:reqParams['email']}).exec(function(err, user) {
+      if (err) {
+        onvoya.log.error(err);
+        return res.ok({
+          error: true,
+          errorInfo: utils.showError('Error.Search.Booking.Failed')
+        });
+      }
+      User.saveLandingPage(user.id, req);
+      onvoya.log.debug(user);
 
     qpromice.nfbind(cache.get)(cacheId)
       .then((resItinerary) => {
@@ -167,26 +162,12 @@ module.exports = {
           let years = sails.moment().diff(reqParams.DateOfBirth, 'years');
           reqParams.PaxType = (years >= 12 ? 'ADT' : (years > 2 ? 'CHD' : 'INF'));
         }
-        reqParams.user = req.user;
+        reqParams.user = user;
         reqParams.price = booking_itinerary.price;
 
         // Clone and modify params for booking API
-        let reqParamsApi = Object.assign({}, reqParams);
+        let reqParamsApi = lodash.cloneDeep(reqParams);
         reqParamsApi.booking_itinerary = booking_itinerary;
-        reqParamsApi.FirstName = reqParamsApi.FirstName.trim().replace(/[^a-z]/ig,''); // remains alphabet only
-        reqParamsApi.LastName = reqParamsApi.LastName.trim().replace(/[^a-z]/ig,'');
-        // Save modified api params also
-        reqParams.paramsApi = {
-          FirstName: reqParamsApi.FirstName,
-          LastName: reqParamsApi.LastName
-        };
-        if (Array.isArray(reqParamsApi.passengers)) {
-          for (let i=0; i < reqParamsApi.passengers.length; i++) {
-            // remains alphabet only
-            reqParamsApi.passengers[i].FirstName = reqParamsApi.passengers[i].FirstName.trim().replace(/[^a-z]/ig,'');
-            reqParamsApi.passengers[i].LastName = reqParamsApi.passengers[i].LastName.trim().replace(/[^a-z]/ig,'');
-          }
-        }
         // Important ! Remove credit cards data before parsing of the flight-booking
         delete reqParams.CardNumber;
         delete reqParams.ExpiryDate;
@@ -194,12 +175,12 @@ module.exports = {
 
         req.session.time_log = [];
         reqParamsApi.session = reqParams.session = req.session;
-        reqParamsApi.ip = req.ip;        
+        reqParamsApi.ip = utils.getIP(req);
 
         return global[booking_itinerary.service].flightBooking(Search.getCurrentSearchGuid() +'-'+ booking_itinerary.service, reqParamsApi, parseFlightBooking);
       })
       .catch((error) => {
-        sails.log.error(error);
+        onvoya.log.error(error);
 
         return res.ok({
           error: true,
@@ -215,16 +196,17 @@ module.exports = {
       });
 
       if (err) {
-        segmentio.track(req.user.id, 'Booking Failed', {error: err, params: _segmParams});
+        segmentio.track(user.id, 'Booking Failed', {error: err, params: _segmParams});
         return res.ok({
           error: true,
           flashMsg: req.__('Error.Search.Booking.Failed')
         });
       }
-      if( req.user ) {
-        segmentio.track(req.user.id, 'Booking Succeeded', {params: _segmParams, result: result});
+      if( user ) {
+        segmentio.track(user.id, 'Booking Succeeded', {params: _segmParams, result: result});
       }
-      sails.log.info("Itinerary booked successfully:", result);
+      onvoya.log.info("Itinerary booked successfully:", result);
+
       // Clear flash errors
       req.session.flash = '';
 
@@ -232,7 +214,7 @@ module.exports = {
       let _itinerary_data = _.cloneDeep(booking_itinerary);
       let tpl_vars = {};
 
-      FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id).then(function (milesPrograms) {
+      FFMPrograms.getMilesProgramsByUserId(user.id).then(function (milesPrograms) {
         qpromice.all(ReadEticket.procUserPrograms({itinerary_data: _itinerary_data, milesPrograms}))
           .then(function (programsResults) {
             let _programs_res = Object.assign(...programsResults);
@@ -253,34 +235,36 @@ module.exports = {
             return Mailer.makeMailTemplate(sails.config.email.tpl_ticket_confirm, tpl_vars);
           })
           .then(function (msgContent) {
-            return Mailer.sendMail({to: req.user.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
+            return Mailer.sendMail({to: reqParams.email, subject: 'Booking with reservation code '+tpl_vars.bookingRes.PNR}, msgContent);
           })
           .then(function () {
-            sails.log.info('Mail with booking confirmation was sent to '+ req.user.email);
+            onvoya.log.info('Mail with booking confirmation was sent to '+ reqParams.email);
           })
           .catch(function (error) {
-            sails.log.error('in booking sendMail chain:', error);
+            onvoya.log.error('in booking sendMail chain:', error);
           });
       });
 
       // Save result to DB
-      Booking.saveBooking(req.user, result, booking_itinerary, reqParams)
+      Booking.saveBooking(user, result, booking_itinerary, reqParams)
         .then(function (record) {
           return res.ok({bookingId: record.id_pub});
         })
         .catch(function (error) {
-          sails.log.error(error);
+          onvoya.log.error(error);
           return res.ok({
             error: true,
             flashMsg: req.__('Error.Search.Booking.Failed')
           });
         });
     };
+    });
+
   },
 
   booking: function (req, res) {
     if (! /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(req.param('bookingId'))) {
-      sails.log.error('Invalid bookingId format:', req.param('bookingId'));
+      onvoya.log.error('Invalid bookingId format:', req.param('bookingId'));
       return res.ok({
         error: true,
         errorInfo: utils.showError('Error.Search.Booking.NotFound')
@@ -289,13 +273,14 @@ module.exports = {
 
     // Sails work with ORM in case-insensitive mode only. In this case we need query method
     Booking.query(
-      `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 AND user_id=$2`, [req.param('bookingId'), req.user.id], function (err, dbResults) {
+      // `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 AND user_id=$2`, [req.param('bookingId'), req.user.id], function (err, dbResults) {
+      `SELECT * FROM ${Booking.tableName} WHERE id_pub=$1 `, [req.param('bookingId')], function (err, dbResults) {
         if (err) {
-          sails.log.error('Booking.query: '+ req.param('bookingId'), err);
+          onvoya.log.error('Booking.query: ' + req.param('bookingId'), err);
           return res.ok({error: true});
         }
         if (dbResults.rows.length == 0) {
-          sails.log.error('Could not find by bookingId:', req.param('bookingId'));
+          onvoya.log.error('Could not find by bookingId:', req.param('bookingId'));
           return res.ok({
             error: true,
             errorInfo: utils.showError('Error.Search.Booking.NotFound')

@@ -399,26 +399,26 @@ var mapItinerary = function(itinerary) {
 
 module.exports = {
   flightSearch: function(guid, params, callback) {
-    sails.log.info('Mystifly API call started');
+    onvoya.log.info('Mystifly API call started');
 
     utils.timeLog('mystifly');
 
     var wsdlUrl = getWsdlUrl();
-    sails.log.info('SOAP: Trying to connect to ' + wsdlUrl);
+    onvoya.log.info('SOAP: Trying to connect to ' + wsdlUrl);
     soap.createClient(wsdlUrl, function(err, client) {
       if (err) {
-        sails.log.error("SOAP: An error occurs:\n" + err);
+        onvoya.log.error("SOAP: An error occurs:\n" + err);
         return callback( err, [] );
       } else {
         var csRq = getCreateSessionRq();
         return client.CreateSession(csRq, function(err, session, raw, soapHeader) {
           if (err) {
-            sails.log.error(err);
+            onvoya.log.error(err);
             return callback( err, [] );
           } else {
             if (!session.CreateSessionResult.SessionStatus ||
                 session.CreateSessionResult.Errors.Error) {
-              sails.log.error(session.CreateSessionResult.Errors.Error);
+              onvoya.log.error(session.CreateSessionResult.Errors.Error);
               return callback( err, [] );
             }
             var req = getAirLowFareSearchRq(session.CreateSessionResult.SessionId, params.searchParams);
@@ -426,15 +426,15 @@ module.exports = {
               if (utils.timeLogGet('mystifly') > 7000) {
                 params.session.time_log.push(require('util').format('Mystifly took %ss to respond', (utils.timeLogGet('mystifly')/1000).toFixed(1)));
               }
-              sails.log.info('Mystifly AirLowFareSearch request time: %s', utils.timeLogGetHr('mystifly'));
+              onvoya.log.info('Mystifly AirLowFareSearch request time: ' + utils.timeLogGetHr('mystifly'));
               var resArr = [];
               if (err) {
-                sails.log.error(err);
+                onvoya.log.error(err);
                 return callback( err, [] );
               } else {
                 if (!result.AirLowFareSearchResult.Success ||
                   result.AirLowFareSearchResult.Errors.Error) {
-                  sails.log.error(result.AirLowFareSearchResult.Errors.Error);
+                  onvoya.log.error(result.AirLowFareSearchResult.Errors.Error);
                   return callback( err, [] );
                 }
                 if (result.AirLowFareSearchResult.PricedItineraries.PricedItinerary) {
@@ -455,9 +455,9 @@ module.exports = {
                     return doneCb(null);
                   }, function (err) {
                     if ( err ) {
-                      sails.log.error( err );
+                      onvoya.log.error( err );
                     }
-                    sails.log.info('Mystifly: Map result data (%d itineraries) to our structure time: %s', resArr.length, utils.timeLogGetHr('mystifly_prepare_result'));
+                    onvoya.log.info('Mystifly: Map result data ('+resArr.length+' itineraries) to our structure time: ' + utils.timeLogGetHr('mystifly_prepare_result'));
                     return callback( null, resArr );
                   });
                 }

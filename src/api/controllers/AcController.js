@@ -16,12 +16,12 @@ module.exports = {
     //res.header('Pragma', 'no-cache');
 
     // Trim left whitespaces
-    var _query = req.param('q', '').replace(/^\s*/,"").replace(/(\W)/g,"$1?");
+    var _query = req.param('q', '').replace(/^\s*/,"");
     var _limit = parseInt(req.param('l', 8));
 
     Airports.getAirports(_query, _limit, function (err, result) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
         return res.json([]);
       } else {
         return res.json(result)
@@ -58,7 +58,7 @@ module.exports = {
       sort: 'program_name'
     }).exec(function (err, found) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
       }
       if (found && found.length) {
         for (var i = 0; i < found.length; i++) {
@@ -105,12 +105,12 @@ module.exports = {
             );
           var resultParsedNoErrors = resultParsed.filter((itinerary) => itinerary !== false);
           FFMPrograms.getMilesProgramsByUserId(req.user && req.user.id)
-            .then(function (milesPrograms) {
+            .then((milesPrograms) => {
             ffmapi.milefy.Calculate({itineraries: resultParsedNoErrors, milesPrograms}, function (error, body) {
               if (error) {
                 return res.json({error: error, body: body});
               }
-              var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+              var jdata = body;
               return res.json({itineraries: jdata});
             });
           });
@@ -139,7 +139,7 @@ module.exports = {
       limit: 10
     }).exec(function (err, found) {
       if (err) {
-        sails.log.error(err);
+        onvoya.log.error(err);
       }
       if (found && found.length) {
         for (var i = 0; i < found.length; i++) {
@@ -191,19 +191,19 @@ module.exports = {
         params,
         function (err, result) {
           if (err) {
-            sails.log.error(err);
+            onvoya.log.error(err);
           } else {
             if (result.rows && result.rows.length && !_.isUndefined(result.rows[0].iata_3code)) {
                 send.airport = result.rows[0].iata_3code;
             } else {
-              sails.log.info('No location found for user IP', ip);
+              onvoya.log.info('No location found for user IP', ip);
             }
           }
           return res.json(send);
         }
       );
     } else {
-      sails.log.info('No location found for user IP', ip);
+      onvoya.log.info('No location found for user IP', ip);
       return res.json(send);
     }
   }

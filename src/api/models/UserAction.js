@@ -44,7 +44,7 @@ var UserAction = {
       }
       this.create(uaFields, function(err, record) {
         if (err) {
-          sails.log.error(err);
+          onvoya.log.error(err);
         }
         callback && callback();
       });
@@ -67,17 +67,17 @@ var UserAction = {
           };
           this.create(uaFields, (err, record) => {
             if (err) {
-              sails.log.error(err);
+              onvoya.log.error(err);
             }
-            sails.log.verbose('landing_page is saved', record);
+            onvoya.log.silly('landing_page is saved', record);
             // res.clearCookie('landing_page');
           });
         } else {
-          sails.log.verbose('found previous landing_page in actions', found.logInfo );
+          onvoya.log.silly('found previous landing_page in actions', found.logInfo );
         }
       });
     } else {
-      sails.log.verbose('don\'t have anonymous_id => must be first/incognito visit, saving landing page to cookies', landing_page );
+      onvoya.log.silly('don\'t have anonymous_id => must be first/incognito visit, saving landing page to cookies', landing_page );
       //don't have anonymous_id => must be first/incognito visit, saving landing page to cookies
       res.cookie('landing_page', landing_page);
     }

@@ -45,6 +45,7 @@ module.exports = function (req, res, next) {
     passport.session()(req, res, function () {
       // Make the user available throughout the frontend
       res.locals.user = req.user;
+      onvoya.userId = req.user?req.user.id:utils.getAnonymousUserId(req);
       next();
     });
   });

@@ -24,6 +24,7 @@ module.exports = {
   result: function (req, res) {
     utils.timeLog('search_result');
     var savedParams = {};
+    var profileFoundAsync = null;
     res.locals.searchId = null;
     if (req.param('s')) {
       try {
@@ -31,7 +32,7 @@ module.exports = {
         var atob = require('atob');
         savedParams = JSON.parse(atob(req.param('s')));
       } catch (e) {
-        sails.log.info('Unable restore search parameters from encoded string');
+        onvoya.log.info('Unable restore search parameters from encoded string');
       }
     }
     var voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
@@ -53,13 +54,16 @@ module.exports = {
 
     if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
       depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
+      params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
+      req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
     } else {
       if (!isNaN(Date.parse(req.param('departureDate')))) {
         depDate = sails.moment(req.param('departureDate'), 'YYYY-MM-DD').toDate();
+        params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
+        req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
       }
     }
-    params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
-    req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
+
     if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
       var retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
@@ -73,7 +77,7 @@ module.exports = {
     }
     var validationError = Search.validateSearchParams(params.searchParams);
     if ( validationError ) {
-      sails.log.info('Validation error. Input params are wrong', params.searchParams);
+      onvoya.log.info('Validation error. Input params are wrong', params.searchParams);
       return res.ok({
         errorInfo: utils.showError(validationError)
       }, 'search/result');
@@ -91,6 +95,9 @@ module.exports = {
       Profile.findOneByCriteria({user: req.user.id})
         .then(function (found) {
           var _airline_name = [];
+          if (found) {
+            profileFoundAsync = found;
+          }
           // Collect all airline names
           if (found && !_.isEmpty(found.preferred_airlines)) {
             found.preferred_airlines.forEach(function (curVal) {
@@ -121,15 +128,15 @@ module.exports = {
             });
         })
         .then(function (iata2codes) {
-          Tile.userPreferredAirlines = iata2codes;
-          sails.log.info("Preferred airlines: ", Tile.userPreferredAirlines);
+          profileFoundAsync.preferred_airlines_iata = iata2codes;
+          Tile.profileFoundAsync = profileFoundAsync;
         })
         .catch(function (error) {
-          Tile.userPreferredAirlines = [];
-          sails.log.info("Error was occurred. Preferred airlines not found: ");
+          Tile.profileFoundAsync = [];
+          onvoya.log.info("Error was occurred. Preferred airlines not found: ");
         });
     } else {
-      Tile.userPreferredAirlines = [];
+      Tile.profileFoundAsync = [];
     }
 //    var md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
@@ -150,7 +157,7 @@ module.exports = {
 
     var errStat = [];
     Search.getResult(params, function ( errRes, itineraries ) {
-      sails.log.info('Found itineraries: %d', itineraries.length);
+      onvoya.log.info('Found itineraries: %d', itineraries.length);
       if (errRes) {
         errStat.push(errRes);
       }
@@ -160,7 +167,7 @@ module.exports = {
         departure: (doneCb) => {
           Airports.findOne({iata_3code: params.searchParams.DepartureLocationCode}).exec((_err, _row) => {
             if (_err) {
-              sails.log.error(_err);
+              onvoya.log.error(_err);
               errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
@@ -173,7 +180,7 @@ module.exports = {
         arrival: (doneCb) => {
           Airports.findOne({iata_3code: params.searchParams.ArrivalLocationCode}).exec((_err, _row) => {
             if (_err) {
-              sails.log.error(_err);
+              onvoya.log.error(_err);
               errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
@@ -185,25 +192,25 @@ module.exports = {
         },
         iconSpriteMap: (doneCb) => {
           if (!itineraries.length) {
-            sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
+            onvoya.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
             return doneCb(null, {});
           }
           Airlines.makeIconSpriteMap(function (_err, _iconSpriteMap) {
             if (_err) {
-              sails.log.error(_err);
+              onvoya.log.error(_err);
               errStat.push(_err);
               // non-empty error will cause that the main callback is immediately called with the value of the error
               // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
               _err = null;
               _iconSpriteMap = {};
             }
-            sails.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
+            onvoya.log.info('Icon Sprite Map time: %s', utils.timeLogGetHr('sprite_map'));
             return doneCb(_err, _iconSpriteMap);
           });
         },
         tiles: (doneCb) => {
           if (!itineraries.length) {
-            sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
+            onvoya.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
             return doneCb(null, []);
           }
           var algorithm = sails.config.globals.bucketizationFunction;
@@ -222,11 +229,11 @@ module.exports = {
             .then(function (milesPrograms) {
               ffmapi.milefy.Calculate({itineraries, milesPrograms}, function (error, body) {
                 if (error) {
-                  sails.log.error(error);
+                  onvoya.log.error(error);
                   errStat.push(error);
                   error = null;
                 }
-                var jdata = (typeof body == 'object') ? body : JSON.parse(body);
+                var jdata = body;
                 let itineraryMilesInfosObject = {};
                 jdata.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
                   itineraryMilesInfosObject[id] = {
@@ -244,7 +251,7 @@ module.exports = {
 
                 return Tile[algorithm](itineraries, params.searchParams, function (_err, _itineraries, _tiles) {
                   if (_err) {
-                    sails.log.error(_err);
+                    onvoya.log.error(_err);
                     errStat.push(_err);
                     // non-empty error will cause that the main callback is immediately called with the value of the error
                     // but we want to be sure that all tasks are done before the main callback is called therefore set it to null here
@@ -254,7 +261,7 @@ module.exports = {
                     itineraries = _itineraries;
                     UserAction.saveAction(userId, 'order_tiles', _tiles);
                   }
-                  sails.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
+                  onvoya.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
                   return doneCb(_err, _tiles);
                 });
               });
@@ -267,7 +274,7 @@ module.exports = {
       }, (err, result) => {
         if (err) {
           // something went wrong in our parallel tasks therefore log this error and set default values of result
-          sails.log.error(err);
+          onvoya.log.error(err);
           result.departure = result.departure || {};
           result.arrival = result.arrival || {};
           result.iconSpriteMap = result.iconSpriteMap || {};
@@ -296,7 +303,7 @@ module.exports = {
         UserAction.saveAction(userId, 'search', itinerariesData, function () {
           User.publishCreate(userId);
         });
-        sails.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
+        onvoya.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
         var errType = '';
         // Parse error and define error type
         if (itinerariesData.error) {
