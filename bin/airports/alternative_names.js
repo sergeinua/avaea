@@ -1,6 +1,8 @@
 /////////////////////////////////////////////////////////////////
 // module globals
 /////////////////////////////////////////////////////////////////
+const _LATINIZE = require('latinize');
+
 const _ALTERNATIVE_NAMES = {
   'ADB' : 'Ephesus,Temple of Artemis,Library of Celsus',
   'AGR' : 'Taj Mahal,Tomb of Itimad ud Daulah,Jama Mosque,Agra Fort,Musamman Burj',
@@ -74,10 +76,23 @@ const _ALTERNATIVE_NAMES = {
 function AlternativeNames() {
 };
 AlternativeNames.prototype.run = function( argv, asyncsCounter, airports ) {
-  for( var iata_3code in airports ) {
-    if( _ALTERNATIVE_NAMES.hasOwnProperty(iata_3code.toUpperCase()) ) {
-      airports[iata_3code].alternative_name = _ALTERNATIVE_NAMES[iata_3code.toUpperCase()];
+  var latinize_value = function( a, key ) {
+    if( a.hasOwnProperty(key) {
+      var value = _LATINIZE(a[key]);
+      if( value!=a[key] ) {
+	a.alternative_name += ', '+value;
+	a[key] = value;
+      }
     }
+  }
+  for( var iata_3code in airports ) {
+    var a = airports[iata_3code];
+    if( _ALTERNATIVE_NAMES.hasOwnProperty(iata_3code.toUpperCase()) ) {
+      a.alternative_name = _ALTERNATIVE_NAMES[iata_3code.toUpperCase()];
+    }
+    latinize_value(a,'city');
+    latinize_value(a,'state');
+    latinize_value(a,'country');
   }
 };
 module.exports = AlternativeNames;
