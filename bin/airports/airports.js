@@ -24,8 +24,8 @@ if( argv.hasOwnProperty('help') ) {
       "                  Geolocation API will called for *each* found iats_3code.\n"+
       "--dump_to_table - if provided then the script will dump all found airports into that table and\n"+
       "                  WILL IGNORE --migrate_table argument.\n"+
-      "--migrate_table - if provided then the screipt will dump on STDOUT a set of SQL statement\n"+
-      "                  that update the give table with the data the script found. The default is\n"+
+      "--migrate_table - if provided then the script will dump on STDOUT a set of SQL statement\n"+
+      "                  that update the given table with the data the script found. The default is\n"+
       "                  'airports'\n",
     process.argv[1]);
   process.exit(0);
