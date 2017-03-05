@@ -11,6 +11,7 @@
 
 .hide,
 .cue.info,
+.brand-value-slogan,
 .device,
 .ie-fixer,
 .desktop .voice-search.navmenu.navmenu-default.navmenu-fixed-left.offcanvas,
@@ -1141,6 +1142,7 @@ gold {
 
 /* red */
 
+.itinerary .fees .value,
 form label.required:before,
 form.booking .has-error label.hint,
 form.booking div.error,
@@ -1319,7 +1321,7 @@ form.booking .hint,
 .itinerary .duration,
 .itinerary .provider,
 .itinerary .miles.none .value,
-.benefit.list .estimated {
+.itinerary .list .estimated {
 	color: #a2a2a2;
 }
 
@@ -2742,6 +2744,10 @@ td[data-action*="selectDay"] {
 	display: block;
 }
 
+.itinerary .provider span {
+	text-transform: capitalize;
+}
+
 .itinerary-info .departTime,
 .itinerary-info .arriveTime {		
 	padding-right: 5px;
@@ -2969,54 +2975,54 @@ td[data-action*="selectDay"] {
 	border-top: 1px solid hsla(240,1%,49%,.25);
 }
 
-.benefit.list .estimated {
+.itinerary .list .estimated {
 	font-family: 'Open-Sans-Italic';
 }
 
-.benefit:not(:first-child) {
+.itinerary .list .total {
 	padding-top: 8px;
 }
 
-.benefit .icon-spinner:before {
+.itinerary .list .icon-spinner:before {
 	height: 15px;
 	width: 15px;
   background: url(/images/spinner.svg) no-repeat;
 	background-size: 15px;
 }
 
-.benefit .wrapper,
-.benefit.list .ti {
+.itinerary .list .wrapper,
+.itinerary .list .ti {
 	display: table;
 	width: 100%;
 }
 
-.benefit .double .sub-ti,
-.benefit .double .value,
-.benefit.list .super,
-.benefit.list .estimated {
+.itinerary .list .double .sub-ti,
+.itinerary .list .double .value,
+.itinerary .list .super,
+.itinerary .list .estimated {
 	text-align: left;
 	display: table-cell;
 	vertical-align: top;
 }
 
-.benefit.list .super,
-.benefit .sub-ti {
+.itinerary .list .super,
+.itinerary .list .sub-ti {
 	width: 45%;
 }
 
-.benefit .sub-ti {
+.itinerary .list .sub-ti {
 	position: relative;
 	background: url(/images/dot-leader.gif) left 11px repeat-x;
 	border-right: 1px solid #ffffff;
 }
 
-.benefit .sub-ti span {
+.itinerary .list .sub-ti span {
 	padding-right: 2px;
 	background: #ffffff;
 }
 
-.benefit.list .estimated,
-.benefit .value {
+.itinerary .list .estimated,
+.itinerary .list .value {
 	width: 55%;
 }
 
@@ -3029,8 +3035,8 @@ td[data-action*="selectDay"] {
 	height: auto;
 }
 
-.benefit .ti .super,
-.benefit.total {
+.itinerary .list .ti .super,
+.itinerary .list .total {
 	font-family: 'Open-Sans-Bold';
 	text-transform: uppercase;
 }

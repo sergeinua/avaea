@@ -132,12 +132,7 @@ let ResultItem = React.createClass({
 	              title={ this.props.itinerary.citypairs[0].from.airline }>
 	        </span>
 	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-	        
-	        {/* engineer --
-	         		this is waiting for ONV-998
-	         		<span className="provider">via ProviderName</span>
-	        */}
-	        
+	        <span className="provider">via <span>{this.props.itinerary.service}</span></span>
 	        
         </div>
 	      <div className="wrapper buy-button" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>   

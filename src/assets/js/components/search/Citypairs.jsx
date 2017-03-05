@@ -10,7 +10,7 @@ let Citypairs = React.createClass({
       // spinner here
       return <div className="holder">
       		<div className="wrapper double miles no-value">
-		    		 <span className="sub-ti"><span>FF Miles</span></span>
+		    		 <span className="sub-ti"><span>Free FF Miles</span></span>
 		    		 <span className="value">
 		    		 	 <span className="icon-spinner"></span>
 		    	   </span>
@@ -23,7 +23,7 @@ let Citypairs = React.createClass({
       // successful result
       return <div className="holder">
     			<div className="wrapper double miles">
-		        <span className="sub-ti"><span>FF Miles</span></span>
+		        <span className="sub-ti"><span>Free FF Miles</span></span>
 		        <span className="value"><span>{miles.value}</span></span>
 	        </div>
 	        <div className="wrapper double program">
@@ -39,7 +39,7 @@ let Citypairs = React.createClass({
     // 0 result or error
     return <div className="holder">
     			<div className="wrapper double miles none">
-		    		<span className="sub-ti"><span>FF Miles</span></span>
+		    		<span className="sub-ti"><span>Free FF Miles</span></span>
 		    		<span className="value">None</span>
 		    	</div>
 		    </div>
@@ -74,8 +74,9 @@ let Citypairs = React.createClass({
 	      {/* end detail-itin */}
 	      
 	      
-	      <div className="summary benefits">
-	      	<div className="list benefit ff-miles">
+	      <div className="summary list benefits">
+	      	<div className="brand-value-slogan"><span>FareIQ</span></div>
+	      	<div className="benefit ff-miles">
 	      		<div className="ti">
 		      		<span className="super">Perks </span> 
 		      		<span className="estimated">Values are estimated</span>
@@ -86,9 +87,12 @@ let Citypairs = React.createClass({
 		      </div>{/* end ff miles */}
 		      
 		      
+		      {/* ---------------- NEAR FUTURE BENEFITS ------------- */}
+		      
 		      {/* these are for later as we add visibility to additional extras
 		          engineer --
 		      	  include "extras" div IF there is wireless OR free bag OR Priority boarding OR Lounge
+		      	  
 		       
 		      <div className="benefit extras">
 		      	
@@ -110,31 +114,82 @@ let Citypairs = React.createClass({
 	          </div>
 	        </div>
 	        */}
-		      
-	        {/* end extras */}
-	        
 	        
 	        {/* engineer --
 	      	  include "total" div IF there is >1 extra, including FF miles
+	      	  
 	         
 	        <div className="benefit total">
 		        <div className="wrapper double">
 			        <span className="sub-ti"><span>Estimated Perks</span></span>
-			        <span className="value"><span>$NNN</span></span>
+			        <span className="value"><span>$1,000,000</span></span>
 		        </div>
 	        </div>
-	        */}
 	        
-		      
-		      <div className="benefit refundable single-story">
-		      	<div className="wrapper double">
-			        <span className="sub-ti"><span>Refund Type</span></span>
-			        <span className="value">{this.showRefundType(this.props.refundType)}</span>
-		        </div>
-		      </div>{/* end refundable */}
-		      
-		    </div>
-		    {/* end benefits */}
+	        */}
+		    </div> {/* end benefits */}
+		    
+		    {/* ---------------- NEAR FUTURE FEES ------------- */}
+		    
+		    {/*
+		    <div className="summary list fees">
+      		<div className="ti">
+	      		<span className="super">Fees </span> 
+	      		<span className="estimated">Values are estimated</span>
+      		</div>
+      		
+	      */}
+		    
+	      {/* these are for later as we add visibility to additional extras
+	          engineer --
+	      	  include "extras" div IF there is wireless OR free bag OR Priority boarding OR Lounge
+	      	  
+	       
+	      <div className="fees extras">
+	      	
+    			<div className="wrapper double wireless">
+		        <span className="sub-ti"><span>Carry-on Bag</span></span>
+		        <span className="value"><span>$29</span></span>
+	        </div>
+	        <div className="wrapper double luggage">
+		        <span className="sub-ti"><span>Checked Bag</span></span>
+		        <span className="value">$30</span>
+	        </div>
+	        <div className="wrapper double priority">
+		        <span className="sub-ti"><span>Seat</span></span>
+		        <span className="value">$15</span>
+          </div>
+          <div className="wrapper double lounge">
+		        <span className="sub-ti"><span>Taxes</span></span>
+		        <span className="value">$90</span>
+          </div>
+        </div>
+        
+        */}
+        
+        {/* engineer --
+      	  include "total" div IF there is >1 extra, including FF miles
+      	 
+         
+        <div className="fees total">
+	        <div className="wrapper double">
+		        <span className="sub-ti"><span>Estimated Fees</span></span>
+		        <span className="value"><span>$25,000</span></span>
+	        </div>
+        </div>
+        
+	    </div>
+	    */}  
+      {/* end fees */}
+		    
+		    
+		    
+		    <div className="summary list refundable single-story">
+	      	<div className="wrapper double">
+		        <span className="sub-ti"><span>Refund Type</span></span>
+		        <span className="value">{this.showRefundType(this.props.refundType)}</span>
+	        </div>
+	      </div>{/* end refundable */}
 		    
 		    <div className={['summary price-disclosure'] + [this.props.miles.value > 0 ? ' ' : ' last']}>
 		    	Price shown is for one adult. 
