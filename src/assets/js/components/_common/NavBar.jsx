@@ -77,7 +77,7 @@ let NavBar = React.createClass({
 
   handleHomeLink: function () {
     if (!this.props.location) {
-    	window.location.assign('/search');
+      window.location.assign('/search');
     } else {
       historyStrategy.push('/search');
     }
@@ -120,7 +120,7 @@ let NavBar = React.createClass({
               {this.props.commonData.currentForm == 'calendar' || this.props.commonData.currentForm == 'voice_search' ? null:
                 <span>
                   <button type="button" className="navbar-toggle pull-left" data-toggle="offcanvas"
-                          data-target="#nav_slide_menu" data-canvas="body">
+                  data-target="#nav_slide_menu" data-canvas="body">
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
                     <span className="icon-bar"></span>
@@ -128,30 +128,36 @@ let NavBar = React.createClass({
                   <div className="navbar-brand" onClick={this.handleHomeLink}></div>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
-	                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
-	                      <div className="wrapper">
-		                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
-		                        <span className="flight-date">
-		                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
-							              </span>
-							              <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
-							              <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
-							              <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
-						              </div>
-	                      </div>
-                    </div>:null
-                  }
+                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
+                        <div className="wrapper">
+                          <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
+                          <span className="flight-date">
+		                  { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate ? '-' + moment(this.props.commonData.searchParams.returnDate).format('DD MMM') : '') }
+                          </span>
+                          <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
+                          <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
+                          <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
+                        </div>
+                      </div>
+                    </div>
+                  : null}
                 </span>
               }
-              {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way') && this.props.page != 'login') ?
-                  <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}><i className="icon-mic"></i></div>:null}
+              {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way')
+                && this.props.page != 'login') ?
+                <div id="voice_search" className="flight-type-item voice-search-button" onClick={this.handleVoice}>
+                  <i className="icon-mic"></i>
+                </div>
+              : null}
               {this.props.commonData.currentForm == 'voice_search' ?
-              <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div> : null
-              }
+                <div className="clear-textarea" id="clear_button" onClick={this.handleClearVoice}>Start over</div>
+              : null}
             </div>
 
             <div id="nav_slide_menu"
-              className={this.props.commonData.currentForm == 'voice_search' ? "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas" : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
+              className={this.props.commonData.currentForm == 'voice_search' ?
+              "voice-search navmenu navmenu-default navmenu-fixed-left offcanvas"
+              : "navmenu navmenu-default navmenu-fixed-left offcanvas"}
               role="navigation">
               <ul className="nav navbar-nav">
                 <li>{this.showLink("/about","About")}</li>
@@ -160,14 +166,14 @@ let NavBar = React.createClass({
                 <li>
                   {getUser().email ?
                     <a href="/logout" id='menu-link-logout'>Log out <b>{ getUser().email }</b></a>
-                    :
+                  :
                     <a href="/login" id='menu-link-login'>Log In</a>
                   }
                 </li>
               </ul>
             </div>
-          </div>:null
-        }
+          </div>
+        : null}
 
         {this.props.commonData.currentForm == 'airport-search' ?
           <div id="search_title" className="airport-search-panel">
@@ -177,29 +183,28 @@ let NavBar = React.createClass({
                 <button type="button" id="search_button_top" className="search_button_top_cancel" onClick={this.handleBackToSearch}>Cancel</button>
               </div>
             </div>
-          </div>:null
-        }
+          </div>
+        : null}
 
         {this.props.commonData.currentForm == 'calendar'?
           <div id="date_select" className="calendar-header">
             <div className="navbar-header">
               <div className="container-fluid">
                 <div className="row">
-                    <div className="info">
-                      <span className="dep"></span>
-                      {
-                        this.props.commonData.searchParams.flightType === 'round_trip' ?
-                        <span className="ret"></span>  : ''
-                      }
-                      </div>
-                    <button type="button" id="date_select_top" className="date_select-button small-button" onClick={this.handleCalendar}>Done</button>
+                  <div className="info">
+                    <span className="dep hidden"></span>
+                    {this.props.commonData.searchParams.flightType === 'round_trip' ?
+                      <span className="ret hidden"></span>
+                    : ''}
+                    </div>
+                  <button type="button" id="date_select_top" className="date_select-button small-button" onClick={this.handleCalendar}>Done</button>
                 </div>
               </div>
             </div>
-          </div>:null
-        }
+          </div>
+        : null}
 
-        {this.props.commonData.currentForm == 'order'?
+        {this.props.commonData.currentForm == 'order' ?
           <div className="booking-panel">
             <div className="navbar-header back-style">
               <div className="container-fluid">
@@ -208,8 +213,8 @@ let NavBar = React.createClass({
                 </div>
               </div>
             </div>
-          </div>:null
-        }
+          </div>
+        : null}
 
       </nav>
 

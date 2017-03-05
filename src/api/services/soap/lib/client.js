@@ -244,8 +244,8 @@ Client.prototype._invoke = function(method, args, location, callback, options, e
     }
   };
 
-  sails.log.info('SOAP client request:'); // ToDo remove this after tests
-  sails.log.info(self.lastRequest);       // ToDo remove this after tests
+  onvoya.log.info('SOAP client request:'); // ToDo remove this after tests
+  onvoya.log.info(self.lastRequest);       // ToDo remove this after tests
 
   req = self.httpClient.request(location, xml, function(err, response, body) {
     var result;
