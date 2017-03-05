@@ -15,6 +15,7 @@
 }
 
 .cue:before,
+.ff-miles.only-extra:after,
 .extras .extra:before,
 .glyphicon.glyphicon-chevron-left:before,
 .glyphicon.glyphicon-chevron-right:after,
@@ -261,6 +262,11 @@ footer a.instagram:after,
 .extra.wireless:before,
 .icon-extra-wireless:before {
   content: "\e938";
+}
+.ff-miles.only-extra:after,
+.extra.ff-miles:before,
+.icon-ff-miles:before {
+  content: "\e939";
 }
 
 /* end icons.css */

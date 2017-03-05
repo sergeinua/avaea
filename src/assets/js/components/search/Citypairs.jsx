@@ -10,7 +10,7 @@ let Citypairs = React.createClass({
       // spinner here
       return <div className="holder">
       		<div className="wrapper double miles no-value">
-		    		 <span className="sub-ti"><span>Miles</span></span>
+		    		 <span className="sub-ti"><span>FF Miles</span></span>
 		    		 <span className="value">
 		    		 	 <span className="icon-spinner"></span>
 		    	   </span>
@@ -23,7 +23,7 @@ let Citypairs = React.createClass({
       // successful result
       return <div className="holder">
     			<div className="wrapper double miles">
-		        <span className="sub-ti"><span>Miles</span></span>
+		        <span className="sub-ti"><span>FF Miles</span></span>
 		        <span className="value"><span>{miles.value}</span></span>
 	        </div>
 	        <div className="wrapper double program">
@@ -39,7 +39,7 @@ let Citypairs = React.createClass({
     // 0 result or error
     return <div className="holder">
     			<div className="wrapper double miles none">
-		    		<span className="sub-ti"><span>Miles</span></span>
+		    		<span className="sub-ti"><span>FF Miles</span></span>
 		    		<span className="value">None</span>
 		    	</div>
 		    </div>
@@ -75,22 +75,23 @@ let Citypairs = React.createClass({
 	      
 	      
 	      <div className="summary benefits">
-	      	<div className="benefit ff-miles">
-	      		<div className="ti">Frequent Flyer Miles</div>
+	      	<div className="list benefit ff-miles">
+	      		<div className="ti">
+		      		<span className="super">Perks </span> 
+		      		<span className="estimated">Values are estimated</span>
+	      		</div>
 	      		
 		      	{this.showFMiles(this.props.miles)}
 		      
 		      </div>{/* end ff miles */}
 		      
 		      
-		      
-		      {/* engineer --
+		      {/* these are for later as we add visibility to additional extras
+		          engineer --
 		      	  include "extras" div IF there is wireless OR free bag OR Priority boarding OR Lounge
-		      */}
+		       
 		      <div className="benefit extras">
-		      	<div className="ti">Extras</div>
 		      	
-		      	{/* include each IF it exists */}
 	    			<div className="wrapper double wireless">
 			        <span className="sub-ti"><span>Free Wireless</span></span>
 			        <span className="value"><span>$29</span></span>
@@ -100,25 +101,29 @@ let Citypairs = React.createClass({
 			        <span className="value">$30</span>
 		        </div>
 		        <div className="wrapper double priority">
-			        <span className="sub-ti"><span>Priority Boarding</span></span>
+			        <span className="sub-ti"><span>Free Priority Boarding</span></span>
 			        <span className="value">$15</span>
 	          </div>
 	          <div className="wrapper double lounge">
-			        <span className="sub-ti"><span>Lounge</span></span>
+			        <span className="sub-ti"><span>Free Lounge</span></span>
 			        <span className="value">$90</span>
 	          </div>
-	        </div>{/* end extras */}
+	        </div>
+	        */}
+		      
+	        {/* end extras */}
 	        
 	        
 	        {/* engineer --
 	      	  include "total" div IF there is >1 extra, including FF miles
-	        */}
+	         
 	        <div className="benefit total">
 		        <div className="wrapper double">
-			        <span className="sub-ti"><span>Total</span></span>
-			        <span className="value"><span>$1,000,000{/* put the real total of ff miles value + total extras value */}</span></span>
+			        <span className="sub-ti"><span>Estimated Perks</span></span>
+			        <span className="value"><span>$NNN</span></span>
 		        </div>
 	        </div>
+	        */}
 	        
 		      
 		      <div className="benefit refundable single-story">
@@ -131,7 +136,7 @@ let Citypairs = React.createClass({
 		    </div>
 		    {/* end benefits */}
 		    
-		    <div className="summary price-disclosure">
+		    <div className={['summary price-disclosure'] + [this.props.miles.value > 0 ? ' ' : ' last']}>
 		    	Price shown is for one adult. 
 		    </div>
 		    

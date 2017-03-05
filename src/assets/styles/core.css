@@ -8,11 +8,6 @@
 	 :not(:first-child) 
 */
 
-.itinerary-value-bar .extras,
-.itinerary .benefit.extras {
-	
-}
-
 
 .hide,
 .cue.info,
@@ -1147,7 +1142,7 @@ gold {
 /* red */
 
 form label.required:before,
-	form.booking .has-error label.hint,
+form.booking .has-error label.hint,
 form.booking div.error,
 form.booking .has-error label.hint,
 form.booking div.error,
@@ -1323,7 +1318,8 @@ form.booking .hint,
 .mybucket .list-group-item.disabled > div.text,
 .itinerary .duration,
 .itinerary .provider,
-.itinerary .miles.none .value {
+.itinerary .miles.none .value,
+.benefit.list .estimated {
 	color: #a2a2a2;
 }
 
@@ -2677,9 +2673,17 @@ td[data-action*="selectDay"] {
 	padding: 8px 12px 0 12px;
 }
 
+.itinerary .summary.last {
+	padding-bottom: 10px;
+}
+
 .itinerary .short-itin {
 	padding-top: 3px;
 	padding-left: 30px;
+}
+
+.itinerary .no-extras {
+	padding-bottom: 5px;
 }
 
 .itinerary .top-row {
@@ -2810,16 +2814,10 @@ td[data-action*="selectDay"] {
 }
 
 .itinerary-value-bar .extras {
-	text-align: left;
-	display: inline-block;
-	width: 65%;
-	position: relative;
-}
-
-.itinerary .ff-value {
 	text-align: right;
 	display: inline-block;
-	width: 35%;
+	width: 100%;
+	position: relative;
 }
 
 .extras .amount {
@@ -2838,6 +2836,11 @@ td[data-action*="selectDay"] {
 .extras .extra:before {
 	position: absolute;
 		top: 0;
+		left: 0;
+}
+
+.extras .extra.wireless:before {
+	top: 1px;
 }
 
 .extras .extra.lounge {
@@ -2847,8 +2850,23 @@ td[data-action*="selectDay"] {
 }
 
 .extras .extra.priority {
-	font-size: 18px;
-		top: -13px;
+	font-size: 20px;
+	width: 22px;
+		top: -15px;
+}
+
+.extras .ff-miles.only-extra {
+	padding-right: 20px;
+	display: inline-block;
+	position: relative;
+}
+
+.extras .ff-miles.only-extra:after {
+	font-size: 20px;
+	width: 25px;
+	position: absolute;
+		top: -2px;
+    right: -4px;
 }
 
 .itinerary .long-date .airline {
@@ -2951,9 +2969,8 @@ td[data-action*="selectDay"] {
 	border-top: 1px solid hsla(240,1%,49%,.25);
 }
 
-.benefit .ti,
-.benefit.single-story .sub-ti {
-	text-transform: uppercase;
+.benefit.list .estimated {
+	font-family: 'Open-Sans-Italic';
 }
 
 .benefit:not(:first-child) {
@@ -2967,20 +2984,27 @@ td[data-action*="selectDay"] {
 	background-size: 15px;
 }
 
-.benefit .wrapper {
+.benefit .wrapper,
+.benefit.list .ti {
 	display: table;
 	width: 100%;
 }
 
 .benefit .double .sub-ti,
-.benefit .double .value {
+.benefit .double .value,
+.benefit.list .super,
+.benefit.list .estimated {
 	text-align: left;
 	display: table-cell;
 	vertical-align: top;
 }
 
+.benefit.list .super,
 .benefit .sub-ti {
 	width: 45%;
+}
+
+.benefit .sub-ti {
 	position: relative;
 	background: url(/images/dot-leader.gif) left 11px repeat-x;
 	border-right: 1px solid #ffffff;
@@ -2991,6 +3015,7 @@ td[data-action*="selectDay"] {
 	background: #ffffff;
 }
 
+.benefit.list .estimated,
 .benefit .value {
 	width: 55%;
 }
@@ -3004,6 +3029,7 @@ td[data-action*="selectDay"] {
 	height: auto;
 }
 
+.benefit .ti .super,
 .benefit.total {
 	font-family: 'Open-Sans-Bold';
 	text-transform: uppercase;
@@ -4205,7 +4231,6 @@ html[data-useragent*='Trident'] input[type="checkbox"] {
 	line-height: 24px;
 	width: 90%;
 }
-
 
 
 

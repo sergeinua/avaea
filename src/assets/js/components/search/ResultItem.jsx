@@ -132,7 +132,12 @@ let ResultItem = React.createClass({
 	              title={ this.props.itinerary.citypairs[0].from.airline }>
 	        </span>
 	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-	        <span className="provider">via Travelocity{/* engineer - please populate with provider name */}</span>
+	        
+	        {/* engineer --
+	         		this is waiting for ONV-998
+	         		<span className="provider">via ProviderName</span>
+	        */}
+	        
 	        
         </div>
 	      <div className="wrapper buy-button" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>   
@@ -142,7 +147,7 @@ let ResultItem = React.createClass({
       </div>{/* ends top row */}
       
 
-      <div className="summary short-itin"  id={ this.props.itinerary.id }>
+      <div className={["summary short-itin"] + [!(this.props.itinerary.miles > 0)? " no-extras":""]} id={ this.props.itinerary.id }>
         { this.props.itinerary.citypairs.map(function (pair, i) {
         return <div className="itinerary-info" key={"itin-info-" +  i}>
           <span className="departTime">{pair.from.time}</span>
@@ -163,42 +168,42 @@ let ResultItem = React.createClass({
       : null
     )}
     
-    {/* engineer --
+    {/* engineer -- when we have a new extra
         include IF there are extras OR fF miles */}
+    { (this.props.itinerary.miles > 0 ?
+    <span>
     <div className="itinerary-value-bar">		
     
-      {/* include IF free wireless, bag, lounge or priority boarding */}
+      {/* include IF free wireless, bag, lounge, priority boarding or ff-miles */}
 			<div className="extras">
-				<span className="copy">Extras </span>
-				{/* populate with total value of free extras */}
-				<span className="amount">$56</span>		
 				
-				{/* include extra if it exists */}
+				{/* this is for later as we add visibility to additional extras
+				    wireless exposure for JetBlue is coming up
+				
+				<span className="copy">Perks </span>
+				<span className="amount">$NN </span>
+				 
 				<span className="extra wireless"></span>		
 				<span className="extra baggage"></span>	
 				<span className="extra lounge"></span>	
-				<span className="extra priority"></span>		
-			</div>		
+				<span className="extra priority"></span>
+				<span className="extra ff-miles"></span>
+				
+				*/}		
+				<span className="ff-miles only-extra">
 					
-			
-			
-			{ (this.props.itinerary.miles > 0 ?
-			 <div className="ff-value">		
-				<span className="how-many">
 					{/* engineer - 
 					    need logic to abbreviate any round thousand miles as NK
 					    for example, 10,000 as "10K"
 					 */}
-					{this.props.itinerary.miles} Miles
-				</span>		
-				
-				<span className="value">{this.showMilesPrice()}</span>		
-			</div>
-			: null	
-      )}
-			
+					<span className="how-many">{this.props.itinerary.miles} Miles </span>		
+					<span className="value">{this.showMilesPrice()} Value</span>		
+			</span>
+		</div>
 		</div>{/* ends itinerary value bar */}
-
+		</span>: null	
+    )}
+		
   </div>
     )
   }
