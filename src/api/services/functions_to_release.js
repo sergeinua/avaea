@@ -1342,7 +1342,7 @@ module.exports = {
           return;
         }
 
-        var preferred_airlines = '';
+        var preferred_airlines = [];
         if ( !( snowflake === undefined ) )
           if ( !( snowflake.profile === undefined ) )
             if ( !( snowflake.profile.preferred_airlines_iata === undefined ) )
@@ -1353,9 +1353,11 @@ module.exports = {
         if ( snowflake.preference.duration === undefined ) { snowflake.preference.duration = 1.0; } // default value is 1
         if ( snowflake.preference.airline  === undefined ) { snowflake.preference.airline  = 1.0; } // default value is 1
 
+        if (preferred_airlines.length == 0) { snowflake.preference.airline = 3 * Math.max(snowflake.preference.price, snowflake.preference.duration); }
+
         onvoya.log.info("Ranking based on price preference " + snowflake.preference.price +
-                                   ", duration preference " + snowflake.preference.duration +
-                                    ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: " + preferred_airlines);
+                                    ", duration preference " + snowflake.preference.duration +
+                                     ", airline preference " + snowflake.preference.airline + ", while emphasizing the following airlines: [" + preferred_airlines + "]");
 
         if ( !itins[0].hasOwnProperty('priceRank') ) this.compute_priceRank(itins); // append priceRank field if needed
         this.normalize_priceRank(itins);
