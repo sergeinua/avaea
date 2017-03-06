@@ -19,7 +19,6 @@
 .booking .long-wrapper,
 .booking-success .flight-unit .summary .col-xs-3.buy-button,
 .booking-success .col-xs-2.date,
-.dimmer .landscape,
 .touch > .copyright,
 .touch footer.app-copy,
 .meri-wrapper .meri-speaks {
@@ -4107,8 +4106,13 @@ footer.app-copy .bottom a {
 		min-height: 1px;
 	}
 
-	.flight-type-form {
+	.touch .flight-type-form {
 		padding-top: 5px;
+	}
+	
+	.touch .search.buttons .info.cue {
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 
 	.touch .flight-type-item:not(.voice-search-button) {
