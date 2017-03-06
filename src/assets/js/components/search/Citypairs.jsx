@@ -192,7 +192,7 @@ let Citypairs = React.createClass({
 	      </div>{/* end refundable */}
 		    
 		    <div className={['summary price-disclosure'] + [this.props.miles.value > 0 ? ' ' : ' last']}>
-		    	Price shown is for one adult. 
+		    	Price is for one adult. 
 		    </div>
 		    
 	    </span>

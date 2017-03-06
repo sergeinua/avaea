@@ -816,8 +816,7 @@ button {
 .bootstrap-datetimepicker-widget table td.old:not(.active),
 .bootstrap-datetimepicker-widget table td.new:not(.active),
 .panel-default > .panel-heading,
-.form-control,
-.itinerary .detail-info .duration span {
+.form-control {
 	color: #222222;
 }
 
@@ -2748,21 +2747,26 @@ td[data-action*="selectDay"] {
 	text-transform: capitalize;
 }
 
+
 .itinerary-info .departTime,
-.itinerary-info .arriveTime {		
+.itinerary-info .arriveTime,
+.desktop .detail-info .departTime, 
+.desktop .detail-info .arriveTime {
 	padding-right: 5px;
-	display: inline-block;		
+	display: inline-block;
 	width: 47px;
 }
 		
 .itinerary-info .arriveTime {		
 	padding-left: 5px;		
 }
-		
+
 .itinerary-info .departLoc,		
-.itinerary-info .arriveLoc {		
+.itinerary-info .arriveLoc,
+.desktop .detail-info .departLoc,
+.desktop .detail-info .arriveLoc {
 	text-align: center;		
-	display: inline-block;		
+	display: inline-block;
 	width: 40px;		
 }
 		
@@ -2789,7 +2793,6 @@ td[data-action*="selectDay"] {
 		top: -7px;
 		right: 0;
 }
-
 
 .arr-connects:before,
 .arr-connects:after {
@@ -2951,6 +2954,10 @@ td[data-action*="selectDay"] {
 
 .detail-info .arr-connects {
 	width: 15px;
+}
+
+.desktop .detail-info .arr-connects {
+	width: 25px;
 }
 
 .detail-info .arr-connects:before {
