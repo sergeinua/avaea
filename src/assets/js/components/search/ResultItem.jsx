@@ -1,7 +1,6 @@
 import React from 'react';
 import * as ReactRedux from 'react-redux';
 import Citypairs from './Citypairs.jsx';
-import ModalFlightInfo from './ModalFlightInfo.jsx';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
@@ -18,8 +17,9 @@ let ResultItem = React.createClass({
 
   componentDidMount: function () {
     if (this.state.fullinfo) {
-      this.getMilesInfo();
       this.getRefundType();
+    } else {
+    	this.getMilesInfo();
     }
   },
 
@@ -66,7 +66,8 @@ let ResultItem = React.createClass({
         console.error(error);
       });
   },
-
+  
+  
   toggleFullInfo: function () {
     var itineraryId = this.props.itinerary.id;
     return function() {
@@ -95,20 +96,18 @@ let ResultItem = React.createClass({
       return Math.round(this.props.itinerary.price) + ' ' +  this.props.itinerary.currency;
     }
   },
-
-  showThumbsUp: function() {
-    if (this.props.itinerary.smartRank <= 3 && this.props.itinerary.information && this.props.itinerary.information.length) {
-      return <span data-toggle="modal" data-target={'[data-id=' + this.props.itinerary.id + ']'}><ModalFlightInfo id={this.props.itinerary.id} info={this.props.itinerary}/>
-        {/* remove extras until we have real ones to show */}
-        {/* <span className="extras-flag"></span> */}
-      </span>
-    }
-    return null;
+  
+  showMilesPrice: function () {
+  	if (this.props.itinerary.miles) {
+  		return ' ~$' + Math.round((this.props.itinerary.miles)*.02);
+  	} else {
+  		return '';
+  	}
   },
 
   showNoStops: function(pair) {
     if (pair.noOfStops > 0) {
-      return <span className="arr-connects"><span className="connections">{pair.noOfStops}</span></span>
+      return <span className="arr-connects"><span>{pair.noOfStops}</span></span>
     }
     return <span className="arr-connects-none"></span>
   },
@@ -119,53 +118,42 @@ let ResultItem = React.createClass({
       historyStrategy.push('/order/' + itineraryId + '/' + (!!isSpecial));
     }.bind(this);
   },
-
+  
   render() {
     var showNoStops = this.showNoStops;
     return (
-      <div id={"container-" + this.props.itinerary.id} className={"col-xs-12 itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
+      <div id={"container-" + this.props.itinerary.id} className={"itinerary " + this.props.itinerary.filterClass} onClick={this.toggleFullInfo()}>
 
-    <div className="summary">
-      <div className="row title">
-        <div className="col-xs-12 itinerary-airline col-from-to">
-          <span className="itinerary-airline-icon"
-                style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.itinerary.citypairs[0].from.airlineCode] * 15 + "px"}}
-                alt={ this.props.itinerary.citypairs[0].from.airlineCode }
-                title={ this.props.itinerary.citypairs[0].from.airline }>
-          </span>
-          <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
-          {/* remove extras until we have real ones to show */}
-          {/* {this.showThumbsUp()} */}
-          <span className="static-price">{this.showPrice()}</span>
+      <div className="summary top-row">
+      	<div className="wrapper airline">
+	        <span className="airline-icon"
+	              style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.itinerary.citypairs[0].from.airlineCode] * 15 + "px"}}
+	              alt={ this.props.itinerary.citypairs[0].from.airlineCode }
+	              title={ this.props.itinerary.citypairs[0].from.airline }>
+	        </span>
+	        <span className="airline-text">{ this.props.itinerary.citypairs[0].from.airline }</span>
+	        <span className="provider">via <span>{this.props.itinerary.service}</span></span>
+	        
         </div>
+	      <div className="wrapper buy-button" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>   
+	      	<span className="price">{this.showPrice()}</span>
+	        <button id={"buy-button-" + this.props.itinerary.id } className="buy-button-itin">Buy</button>
+	      </div>
+      </div>{/* ends top row */}
+      
+
+      <div className={["summary short-itin"] + [!(this.props.itinerary.miles > 0)? " no-extras":""]} id={ this.props.itinerary.id }>
+        { this.props.itinerary.citypairs.map(function (pair, i) {
+        return <div className="itinerary-info" key={"itin-info-" +  i}>
+          <span className="departTime">{pair.from.time}</span>
+          <span className="departLoc">{pair.from.code}</span>
+          <span className="connections">{showNoStops(pair)}</span>
+          <span className="arriveTime">{ pair.to.time}</span>
+          <span className="arriveLoc">{ pair.to.code}</span>
+          <span className="duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></span>
+        </div>
+        }) }
       </div>
-
-      <div className="row">
-        <div className="col-xs-9"  id={ this.props.itinerary.id }>
-          { this.props.itinerary.citypairs.map(function (pair, i) {
-          return <div className="itinerary-info" key={"itin-info-" +  i}>
-            <div className="col-xs-3 departLoc">
-              {pair.from.time + ' ' + pair.from.code}</div>
-            <div className="col-xs-2 connections text-center">{showNoStops(pair)}</div>
-            <div className="col-xs-3 arriveLoc">{ pair.to.time + ' ' + pair.to.code }</div>
-            <div className="col-xs-3 duration" dangerouslySetInnerHTML={ createMarkup(pair.duration) }></div>
-          </div>
-          }) }
-        </div>
-
-        <div className="col-xs-3 buy-button">
-          <div className="btn-group text-nowrap buy-button-group">
-            <button id={"buy-button-" + this.props.itinerary.id } className="btn btn-sm btn-primary buy-button-price" onClick={this.handleBuyButton(this.props.itinerary.id, false)}>{this.showPrice()}</button>
-            <button type="button" className="btn btn-sm btn-primary dropdown-toggle buy-button-arrow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span className="caret"></span>
-            </button>
-            <ul className="dropdown-menu">
-              <li><a id={ "buy-cron-button-" + this.props.itinerary.id } href="#" onClick={this.handleBuyButton(this.props.itinerary.id, true)} className="our-dropdown text-center">or better</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
 
     { (this.state.fullinfo ?
       <Citypairs citypairs={this.props.itinerary.citypairs}
@@ -174,7 +162,43 @@ let ResultItem = React.createClass({
                  refundType={this.state.refundType} />
       : null
     )}
-
+    
+    {/* engineer -- when we have a new extra
+        include IF there are extras OR fF miles */}
+    { (this.props.itinerary.miles > 0 ?
+    <span>
+    <div className="itinerary-value-bar">		
+    
+      {/* include IF free wireless, bag, lounge, priority boarding or ff-miles */}
+			<div className="extras">
+				
+				{/* this is for later as we add visibility to additional extras
+				    wireless exposure for JetBlue is coming up
+				
+				<span className="copy">Perks </span>
+				<span className="amount">$NN </span>
+				 
+				<span className="extra wireless"></span>		
+				<span className="extra baggage"></span>	
+				<span className="extra lounge"></span>	
+				<span className="extra priority"></span>
+				<span className="extra ff-miles"></span>
+				
+				*/}		
+				<span className="ff-miles only-extra">
+					
+					{/* engineer - 
+					    need logic to abbreviate any round thousand miles as NK
+					    for example, 10,000 as "10K"
+					 */}
+					<span className="how-many">{this.props.itinerary.miles} Miles </span>		
+					<span className="value">{this.showMilesPrice()} Value</span>		
+			</span>
+		</div>
+		</div>{/* ends itinerary value bar */}
+		</span>: null	
+    )}
+		
   </div>
     )
   }
@@ -186,6 +210,7 @@ const mapStateCommon = function (store) {
     ffmiles: store.commonData.ffmiles,
   };
 };
+
 
 const ResultItemContainer = ReactRedux.connect(mapStateCommon)(ResultItem);
 
