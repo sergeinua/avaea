@@ -577,11 +577,12 @@ var genGridTransactionsReport = function(){
 
   // initialize datetimepickers
   $('#gridTransactionsReportStartDate').datetimepicker({
-    format: 'MM/DD/YYYY'
+    format: 'MM/DD/YYYY',
+    defaultDate: moment(new Date()).subtract(30, 'd').format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportEndDate').datetimepicker({
     format: 'MM/DD/YYYY',
-    useCurrent: false //Important! See issue #1075
+    defaultDate: moment(new Date()).format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportStartDate').on('dp.change', function (e) {
     $('#gridTransactionsReportStartDate').removeClass('has-error');
@@ -679,4 +680,7 @@ var genGridTransactionsReport = function(){
       {name: 'R', title: 'Referrer', type: 'text', width: 200, align: 'center', sorting: true, sorter: 'string'},
     ]
   });
+
+
+  $('#gridTransactionsReportGenerateReport').click();   // load the report for last 30 days
 };
