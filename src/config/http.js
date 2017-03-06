@@ -71,7 +71,7 @@ module.exports.http = {
         }
 
         // skiping of images, js, css, pdf ... files
-        if (req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php)(\?.+?)?$/)) {
+        if (req.url.match(/\.(?:jpg|jpeg|png|gif|svg|js|json|map|css|less|pdf|mp4|woff2|ttf|html|htm|php|ico)(\?.+?)?$/)) {
           return next();
         }
 
