@@ -1,3 +1,5 @@
+"use strict";
+
 /////////////////////////////////////////////////////////////////
 // module globals
 /////////////////////////////////////////////////////////////////
@@ -15,7 +17,7 @@ function AnnaAero() {
     ,'http://www.anna.aero/wp-content/uploads/american-airport-traffic-trends.xls'
   ];
 }
-AnnaAero.prototype.run = function( argv, asyncsCounter, airports ) {
+AnnaAero.prototype.run = function( asyncsCounter, airports ) {
   // The .csv files with information about airport passenger traffic are gotten from http://www.anna.aero/databases/
   //
   // Another option for figuring out which airports take and do not take passenger traffic is information about
@@ -27,60 +29,66 @@ AnnaAero.prototype.run = function( argv, asyncsCounter, airports ) {
   // the database.
   //
   // One other way to get airport passenger information is scraping pages like http://www.transtats.bts.gov/airports.asp?Airport=PWM
+  var airports  = {};
   this.urls.forEach(function( url ) {
-    if( argv.loglevel>0 ) {
-      console.log("AnnaAero: Reading %s",url);
-    }
+    _COMMON.log(0,"AnnaAero: Reading %s",url);
     var csvStream = _CSVPARSER({
       separator: ',',
       quite: '"',
       newline: '\n',
       headers: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
     });
-    var get_hash_index_by_value = function( h, v ) {
-      for ( k in h ) {
+    var get_hash_index_by_value = ( h, v ) => {
+      for ( let k in h ) {
         if ( h[k] == v ) {
           return k;
         }
       } 
     };
-    asyncsCounter.asyncs_to_finish++;
+    
     // ssconvert utuility comes with Ubuntu "gnumeric" package. If it is not installed then the following code
     // will produce an exception
+    asyncsCounter.asyncs_to_finish++;
     var child = _CHILD_PROCESS.spawn("/usr/bin/ssconvert",["--export-type=Gnumeric_stf:stf_csv",url,"fd://1"],{
       'stdio' : ['ignore','pipe','ignore']
     }).on('close',function( code ) {
-      if( argv.loglevel>0 ) {
-        console.log("AnnaAero: Process %j has finished with code %d",child.spawnargs,code);
-      }
+      _COMMON.log(0,"AnnaAero: Process %j has finished with code %d",child.spawnargs,code);
       asyncsCounter.finished_asyncs++;
     });	
+    asyncsCounter.wait();
+    
     var code_ndx     = undefined;
-    var pax_ndx_2015 = undefined;
-    var pax_ndx_2016 = undefined;  
+    var pax_ndx_2016 = undefined;
+    var pax_ndx_2017 = undefined;
     child.stdout.pipe(csvStream).on('data',function(data) {
-      if( code_ndx==undefined && (pax_ndx_2015==undefined || pax_ndx_2016==undefined) ) {
+      if( code_ndx==undefined && (pax_ndx_2016==undefined || pax_ndx_2017==undefined) ) {
         code_ndx      = get_hash_index_by_value(data,"Code");
-        pax_ndx_2015  = get_hash_index_by_value(data,"Pax 2015");
         pax_ndx_2016  = get_hash_index_by_value(data,"Pax 2016");
+        pax_ndx_2017  = get_hash_index_by_value(data,"Pax 2017");
+      }
+      else if( data.length<code_ndx || data.length<pax_ndx_2016 || data.length<pax_ndx_2017 ) {
+	_COMMON.log(2,"AnnaAero: malformatted line in %s?",url);
       }
       else {
-	var iata_3code = data[code_ndx].toUpperCase();
-	if( airports.hasOwnProperty(iata_3code) ) {
-	  var pax_2015   = pax_ndx_2015 ? Number(data[pax_ndx_2015]): 0;
-	  var pax_2016   = pax_ndx_2016 ? Number(data[pax_ndx_2016]) : 0;
-	  var pax        = (pax_2015>pax_2016) ? pax_2015 : pax_2016;
-	  if( iata_3code && pax ) {
-	    airports[iata_3code] = _COMMON.set_pax_in_airport_data(airports[iata_3code],pax);
+	let iata_3code = data[code_ndx].toUpperCase();
+	if( iata_3code.length==3 ) {
+	  let pax_2016   = pax_ndx_2016 ? Number(data[pax_ndx_2016]) : 0;
+	  let pax_2017   = pax_ndx_2017 ? Number(data[pax_ndx_2017]) : 0;
+	  let pax        = (pax_2016>pax_2017) ? pax_2016 : pax_2017;
+	  if( pax>0 ) {
+	    airports[iata_3code.toUpperCase()] = {
+	      'source'     : 'annaaero',
+	      'iata_3code' : iata_3code, 
+	      'pax'        : pax
+	    };
 	  }
 	}
 	else {
-	  if( argv.loglevel>2 ) {
-	    console.log("AnnaAero: Not adding PAX for an heretofore unknown airport '"+iata_3code+"'");
-	  }
+	  _COMMON.log(2,"AnnaAero: malformatted iata_3code '%s' in %s",iata_3code,url);
 	}
       }
     });
   });
+  _COMMON.merge_airports(airports);
 };
 module.exports = AnnaAero;
