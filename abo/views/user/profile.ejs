@@ -206,6 +206,7 @@ if (profile_fields.travel_with) {
             <label>Airline Name</label>
             <input type="text" name="preferred_airlines.airline_name_label[<%= iterator %>]" value="<%= preferred_airlines.airline_name %>" class="form-control input-sm abo-search-input airline-name" placeholder="Airline Name" autocomplete="off"/>
             <input type="hidden" name="preferred_airlines.airline_name[<%= iterator %>]" value="<%= preferred_airlines.airline_name %>"/>
+            <input type="hidden" name="preferred_airlines.airline_iata_2code[<%= iterator %>]" value="<%= preferred_airlines.airline_iata_2code %>"/>
           </div>
         <%
           iterator++

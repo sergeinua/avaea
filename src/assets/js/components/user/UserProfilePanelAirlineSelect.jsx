@@ -18,6 +18,7 @@ let UserProfilePanelAirlineSelect = React.createClass({
   handleChangeValue: function (incObj) {
     if (incObj) {
       clientStore.dispatch(actionSetPreferredAirlinesVal(this.props.blockNum, this.props.elemNum, 'airline_name', incObj.value));
+      clientStore.dispatch(actionSetPreferredAirlinesVal(this.props.blockNum, this.props.elemNum, 'airline_iata_2code', incObj.iata_2code));
       this.setState({airlineName: incObj.value}); // Need to setup result value by self
     }
   },

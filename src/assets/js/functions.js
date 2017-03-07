@@ -171,27 +171,7 @@ export let handleChangeTripSearchForm = (searchParams) => {
   clientStore.dispatch(actionSetCommonVal('formErrors', formErrors));
 };
 
-var isMobile = {
-  Android: function() {
-    return navigator.userAgent.match(/Android/i);
-  },
-  BlackBerry: function() {
-    return navigator.userAgent.match(/BlackBerry/i);
-  },
-  iOS: function() {
-    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-  },
-  Opera: function() {
-    return navigator.userAgent.match(/Opera Mini/i);
-  },
-  Windows: function() {
-    return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
-  },
-  any: function() {
-    return (typeof window.orientation !== 'undefined' // Deprecated legacy property. But remains for browser which support it
-    || isMobile.Android() || isMobile.iOS() || isMobile.Windows() || isMobile.Opera() || isMobile.BlackBerry());
-  }
-};
+// Deborah removed var isMobile - app is getting the identical function from ./legacyJquery.js
 
 
 /**

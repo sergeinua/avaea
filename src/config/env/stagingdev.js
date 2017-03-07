@@ -17,8 +17,26 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'stagePostgresqlServer'
+  connection: {
+    redisConf: {
+      host: 'localhost',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'a1v2a3e4a5',
+      database: 'avaea'
+    }
+  },
+  globals: {
+    cacheStore: 'redis'
   },
 
   /***************************************************************************
@@ -66,6 +84,14 @@ module.exports = {
           agy: "05600044"
         },
         trace: 'xmlava001'
+      }
+    },
+    cheapoair: {
+      security: {
+        WUID: 'ED88ED4D-3DE0-4B75-84C2-BDDD26FEB2EF',
+        User: 'xmlfeedTest@cheapoair.com',
+        Password: 'sky2@1@',
+        AffiliateCode: 'xmlfeedTest_fpwebbox'
       }
     }
   },

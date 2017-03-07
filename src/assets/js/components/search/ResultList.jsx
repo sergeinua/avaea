@@ -73,8 +73,28 @@ let ResultList = React.createClass({
 		              position="relative">
 		            </Iframe>
 		          </div>
-		        </div>
-		      </div>
+			      </div>
+			      
+			      {!(uaChrome && MacOS) ?
+			      <div id="wayfare-results-exit-unit" className="wayfare results exit">
+		          <div className="wrapper">
+		            <Iframe
+		              id="results-exit"
+		              name="results-exit"
+		              className="wayfare"
+		              url="../static/adds_results_exit.html"
+		              frameborder="0"
+		              scrolling="no"
+		              width="100%"
+		              height="10px"
+		              position="relative">
+		            </Iframe>
+		          </div>
+	          </div>: null
+			      }
+			      
+          </div>
+          
         </span>
         :null
       }
