@@ -77,6 +77,7 @@ module.exports = {
           found[i] = {
             value: found[i].name,
             label: found[i].name +' ('+ found[i].iata_2code +')',
+            iata_2code: found[i].iata_2code
           }
         }
         return res.json(found);
