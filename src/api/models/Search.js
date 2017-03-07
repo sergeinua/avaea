@@ -42,6 +42,14 @@ module.exports = {
       tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
     }
 
+    let tmpDefaultPassengers = {
+      adult: 1,
+      senior: 0,
+      child: 0,
+      lapInfant: 0,
+      seatInfant: 0
+    };
+
     return {
       DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
       ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
@@ -50,7 +58,7 @@ module.exports = {
       CabinClass                : !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
       departureDate             : _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
       returnDate                : _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers                : _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
+      passengers                : !_.isEmpty(req.session.passengers) && _.isObject(req.session.passengers) ? req.session.passengers : tmpDefaultPassengers,
       flightType                : !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
   },
@@ -61,6 +69,9 @@ module.exports = {
     let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY", true);
     let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY", true);
     let moment_now = sails.moment();
+    let _adults = parseInt(searchParams.passengers.adult) + parseInt(searchParams.passengers.senior),
+        _infants = parseInt(searchParams.passengers.seatInfant) + parseInt(searchParams.passengers.lapInfant),
+        _children = parseInt(searchParams.passengers.child);
 
     // Check depart date
     if (moment_dp.isValid() &&
@@ -107,12 +118,16 @@ module.exports = {
       _Error = 'Error.Search.Validation.LocationCode.Same';
     }
 
-    if (!searchParams.passengers) {
-      _Error = 'Error.Search.Validation.Passengers.Empty';
-    }
+    if (searchParams.passengers) {
+      if (!(_adults > 0 || (_children > 0 && _infants == 0))) {
+        _Error = 'Error.Search.Validation.Passengers.Empty';
+      }
 
-    if (searchParams.passengers < 1 || searchParams.passengers > 4 ) {
-      _Error = 'Error.Search.Validation.Passengers.OutOfRange';
+      if (((_adults + _children) < 1) || ((_adults + _children + _infants) > 4)) {
+        _Error = 'Error.Search.Validation.Passengers.OutOfRange';
+      }
+    } else {
+      _Error = 'Error.Search.Validation.Passengers.Empty';
     }
 
     if (!searchParams.CabinClass || !Search.serviceClass[searchParams.CabinClass]) {
@@ -122,9 +137,9 @@ module.exports = {
   },
 
   getCurrentSearchGuid: function () {
-    var d = new Date().getTime();
+    let d = new Date().getTime();
     this.uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = (d + Math.random()*16)%16 | 0;
+      let r = (d + Math.random()*16)%16 | 0;
       d = Math.floor(d/16);
       return (c=='x' ? r : (r&0x3|0x8)).toString(16);
     });
@@ -135,16 +150,16 @@ module.exports = {
 
   //cache results functionality
   cache: function(searchId, row) {
-    var searchResultKeys = [];
-    var searchId = 'search_' + searchId.replace(/\W+/g, '_');
+    let searchResultKeys = [];
+    searchId = 'search_' + searchId.replace(/\W+/g, '_');
     async.map(row.result.result, (itinerary, doneCb) => {
-      var id = 'itinerary_' + itinerary.id.replace(/\W+/g, '_');
+      let id = 'itinerary_' + itinerary.id.replace(/\W+/g, '_');
       itinerary.searchId = searchId;
       searchResultKeys.push(id);
       cache.store(id, itinerary);
       return doneCb(null);
     }, (err) => {
-      var searchData = {
+      let searchData = {
         ranges: {
           priceRange: row.result.priceRange,
           durationRange: row.result.durationRange
@@ -316,13 +331,13 @@ module.exports = {
   },
 
   getStatistics: function (itineraries) {
-    var airportsStatistic = [];
+    let airportsStatistic = [];
     itineraries.forEach(function (item) {
       if (!item.citypairs) return;
       item.citypairs.forEach(function (_it) {
         if (_.isArray(_it.path) && _it.path.length) {
           _it.path.forEach(function (path) {
-            var indxCode = _.findIndex(airportsStatistic, {code: path});
+            let indxCode = _.findIndex(airportsStatistic, {code: path});
             if (indxCode == -1) {
               airportsStatistic.push({code: path, count: 1});
             } else {
@@ -333,14 +348,14 @@ module.exports = {
       });
     });
 
-    var searchServicesData = {},
+    let searchServicesData = {},
       searchServices = _.uniq(_.map(itineraries, function (item) {
         return item.service;
       }));
 
     if (searchServices.length) {
       searchServicesData = _.map(searchServices, function (item) {
-        var _tmpFilter = _.filter(itineraries, {service: item}) || [];
+        let _tmpFilter = _.filter(itineraries, {service: item}) || [];
         return {
           name: item,
           count: _tmpFilter.length,
@@ -357,11 +372,11 @@ module.exports = {
   },
 
   getRefundType: function (params, callback) {
-    var guid = this.getCurrentSearchGuid();
-    var done = false;
-    var res = '';
-    var errorResult = (error, text) => {
-      var errors = {
+    let guid = this.getCurrentSearchGuid();
+    let done = false;
+    let res = '';
+    let errorResult = (error, text) => {
+      let errors = {
         'timeout': 'APIs does not respond over 30s',
         'api': text || 'Undefined API error',
         'not_found': 'Cancelations were not found in Fare Rules'
@@ -391,9 +406,9 @@ module.exports = {
           }
         } else {
           if (result.SubSection && result.SubSection.Text) {
-            var m = result.SubSection.Text.match(/\s*CANCELLATIONS\s+([\s\S]*?)\.\s+/);
+            let m = result.SubSection.Text.match(/\s*CANCELLATIONS\s+([\s\S]*?)\.\s+/);
             if (m && m[1]) {
-              var _part = m[1].replace(/\r?\n+/g, '').replace(/\s+/g, ' ').trim();
+              let _part = m[1].replace(/\r?\n+/g, '').replace(/\s+/g, ' ').trim();
               if (!_part) {
                 return errorResult('not_found');
               }

@@ -17,15 +17,23 @@ class MondeeClient {
         method: 'FlightSearch',
         request: (req, params) => {
           // minimum requirements for search request
+          let _paxDetails = {}, adt, chd, inf;
+          if ((adt = parseInt(params.passengers.adult) + parseInt(params.passengers.senior)) && adt > 0) {
+            _paxDetails.NoOfAdults = adt;
+          };
+          if ((chd = parseInt(params.passengers.child)) && chd > 0) {
+            _paxDetails.NoOfChildren = chd;
+          };
+          if ((inf = parseInt(params.passengers.seatInfant) + parseInt(params.passengers.lapInfant)) && inf > 0) {
+            _paxDetails.NoOfInfants = inf;
+          };
           req.FlightSearchRequest = {
             OriginDestination: [{
               DepartureLocationCode: params.DepartureLocationCode,
               DepartureTime: params.departureDate,
               ArrivalLocationCode: params.ArrivalLocationCode
             }],
-            PaxDetails: {
-              NoOfAdults: params.passengers
-            },
+            PaxDetails: _paxDetails,
             CurrencyInfo: {
               CurrencyCode: currency
             }

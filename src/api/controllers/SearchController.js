@@ -8,7 +8,7 @@
 /* global sails */
 /* global FFMPrograms */
 /* global ffmapi */
-var util = require('util');
+const util = require('util');
 /**
  * SearchController
  *
@@ -23,35 +23,41 @@ module.exports = {
    */
   result: function (req, res) {
     utils.timeLog('search_result');
-    var savedParams = {};
-    var profileFoundAsync = null;
+    let savedParams = {};
+    let profileFoundAsync = null;
     res.locals.searchId = null;
     if (req.param('s')) {
       try {
         res.locals.searchId = req.param('s');
-        var atob = require('atob');
+        let atob = require('atob');
         savedParams = JSON.parse(atob(req.param('s')));
       } catch (e) {
         onvoya.log.info('Unable restore search parameters from encoded string');
       }
     }
-    var voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
+    let tmpDefaultPassengers = {
+      adult: parseInt(req.param('adult', 1)),
+      senior: parseInt(req.param('senior', 0)),
+      child: parseInt(req.param('child', 0)),
+      lapInfant: parseInt(req.param('lapInfant', 0)),
+      seatInfant: parseInt(req.param('seatInfant', 0))
+    };
+    let voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
       params = {
         user: req.user,
         session: req.session,
         searchParams: {
-          DepartureLocationCode: !_.isUndefined(savedParams.DepartureLocationCode)?savedParams.DepartureLocationCode:req.param('DepartureLocationCode').trim().toUpperCase(),
-          ArrivalLocationCode: !_.isUndefined(savedParams.ArrivalLocationCode)?savedParams.ArrivalLocationCode:req.param('ArrivalLocationCode').trim().toUpperCase(),
-          CabinClass: !_.isUndefined(savedParams.CabinClass)?savedParams.CabinClass:req.param('CabinClass').toUpperCase(),
-          passengers: !_.isUndefined(savedParams.passengers)?savedParams.passengers:req.param('passengers', 1),
-          topSearchOnly: !_.isUndefined(savedParams.topSearchOnly)?savedParams.topSearchOnly:req.param('topSearchOnly', 0),
-          flightType: !_.isUndefined(savedParams.flightType)?savedParams.flightType:req.param('flightType', 'round_trip').trim().toLowerCase(),
+          DepartureLocationCode: !_.isUndefined(savedParams.DepartureLocationCode) ? savedParams.DepartureLocationCode : req.param('DepartureLocationCode').trim().toUpperCase(),
+          ArrivalLocationCode: !_.isUndefined(savedParams.ArrivalLocationCode) ? savedParams.ArrivalLocationCode : req.param('ArrivalLocationCode').trim().toUpperCase(),
+          CabinClass: !_.isUndefined(savedParams.CabinClass) ? savedParams.CabinClass : req.param('CabinClass').toUpperCase(),
+          passengers: !_.isEmpty(savedParams.passengers) && _.isObject(savedParams.passengers) ? savedParams.passengers : tmpDefaultPassengers,
+          topSearchOnly: !_.isUndefined(savedParams.topSearchOnly) ? savedParams.topSearchOnly : req.param('topSearchOnly', 0),
+          flightType: !_.isUndefined(savedParams.flightType) ? savedParams.flightType : req.param('flightType', 'round_trip').trim().toLowerCase(),
           returnDate: '',
           voiceSearchQuery: (voiceSearchQuery && _.isObject(voiceSearchQuery)) ? JSON.parse(voiceSearchQuery) : ''
         }
       },
       depDate = new Date();
-
     if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
       depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
       params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
@@ -65,17 +71,17 @@ module.exports = {
     }
 
     if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
-      var retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
+      let retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
       req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
     } else {
       if (!isNaN(Date.parse(req.param('returnDate')))) {
-        var retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
+        let retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
         params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
     }
-    var validationError = Search.validateSearchParams(params.searchParams);
+    let validationError = Search.validateSearchParams(params.searchParams);
     if ( validationError ) {
       onvoya.log.info('Validation error. Input params are wrong', params.searchParams);
       return res.ok({
@@ -94,7 +100,7 @@ module.exports = {
     if (req.user && req.user.id) {
       Profile.findOneByCriteria({user: req.user.id})
         .then(function (found) {
-          var _airline_name = [];
+          let _airline_name = [];
           if (found) {
             profileFoundAsync = found;
           }
@@ -110,7 +116,7 @@ module.exports = {
           }
         })
         .then(function (airline_names) {
-          var _iata2codes = [];
+          let _iata2codes = [];
           // Fetch iata_2codes by airline names for ranking
           return Airlines.findByCriteria({name: airline_names})
             .then(function (records) {
@@ -138,7 +144,7 @@ module.exports = {
     } else {
       Tile.profileFoundAsync = [];
     }
-//    var md5 = require("blueimp-md5").md5;
+//    let md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_hash = params.searchParams.CabinClass;
     req.session.search_params_raw  = params.searchParams;
@@ -155,7 +161,7 @@ module.exports = {
     Tile.tiles = _.clone(Tile.default_tiles, true);
     // tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
-    var errStat = [];
+    let errStat = [];
     Search.getResult(params, function ( errRes, itineraries ) {
       onvoya.log.info('Found itineraries: %d', itineraries.length);
       if (errRes) {
@@ -213,7 +219,7 @@ module.exports = {
             onvoya.log.info('Tiles time: %s', utils.timeLogGetHr('tiles_data'));
             return doneCb(null, []);
           }
-          var algorithm = sails.config.globals.bucketizationFunction;
+          let algorithm = sails.config.globals.bucketizationFunction;
 
           if (!_.isString(algorithm) || typeof Tile[algorithm] != 'function') {
             algorithm = 'getTilesData';
@@ -233,7 +239,7 @@ module.exports = {
                   errStat.push(error);
                   error = null;
                 }
-                var jdata = body;
+                let jdata = body;
                 let itineraryMilesInfosObject = {};
                 jdata.forEach(({id, ffmiles: {miles, ProgramCodeName} = {}}) => {
                   itineraryMilesInfosObject[id] = {
@@ -281,9 +287,9 @@ module.exports = {
           result.tiles = result.tiles || [];
         }
         // Define max filter items
-        var max_filter_items = 0;
-        for (var key in result.tiles) {
-          var cur_tile_items = 0;
+        let max_filter_items = 0;
+        for (let key in result.tiles) {
+          let cur_tile_items = 0;
           result.tiles[key].filters.forEach(function (filter) {
             if (parseInt(filter.count) > 0) {
               cur_tile_items++;
@@ -292,7 +298,7 @@ module.exports = {
           max_filter_items = cur_tile_items > max_filter_items ? cur_tile_items : max_filter_items;
         }
 
-        var itinerariesData = _.merge({
+        let itinerariesData = _.merge({
           searchUuid    : itineraries.guid,
           searchParams  : params.searchParams,
           countAll      : itineraries.length,
@@ -304,7 +310,7 @@ module.exports = {
           User.publishCreate(userId);
         });
         onvoya.log.info('Search result processing total time: %s', utils.timeLogGetHr('search_result'));
-        var errType = '';
+        let errType = '';
         // Parse error and define error type
         if (itinerariesData.error) {
           errType = 'Error.Search.Generic';

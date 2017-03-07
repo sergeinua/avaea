@@ -108,6 +108,12 @@ let NavBar = React.createClass({
     setCookie('redirectTo', '/profile', {expires: 300});
   },
 
+  getPassengersCount: function () {
+    return parseInt(this.props.commonData.searchParams.passengers.adult) + parseInt(this.props.commonData.searchParams.passengers.senior) +
+      parseInt(this.props.commonData.searchParams.passengers.child) + parseInt(this.props.commonData.searchParams.passengers.seatInfant) +
+      parseInt(this.props.commonData.searchParams.passengers.lapInfant);
+  },
+
   render: function() {
     return (
       <nav className="navbar navbar-default navbar-fixed-top">
@@ -128,19 +134,19 @@ let NavBar = React.createClass({
                   <div className="navbar-brand" onClick={this.handleHomeLink}></div>
                   {this.props.commonData.currentForm == 'result'?
                     <div className="flight-info">
-                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
-                        <div className="wrapper">
-                          <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
-                          <span className="flight-date">
-		                  { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate ? '-' + moment(this.props.commonData.searchParams.returnDate).format('DD MMM') : '') }
-                          </span>
-                          <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
-                          <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
-                          <span className="passenger-count">{ this.props.commonData.searchParams.passengers }</span>
-                        </div>
-                      </div>
-                    </div>
-                  : null}
+	                      <div id="result-search-info-bar" className="result-search-info-bar" onClick={this.handleBackToSearchForm}>
+	                      <div className="wrapper">
+		                        <span className="requested-airports">{ this.props.commonData.searchParams.DepartureLocationCode + '-' +  this.props.commonData.searchParams.ArrivalLocationCode}</span>
+		                        <span className="flight-date">
+		                { moment(this.props.commonData.searchParams.departureDate).format('DD MMM') + (this.props.commonData.searchParams.returnDate?'-'+moment(this.props.commonData.searchParams.returnDate).format('DD MMM'):'') }
+							              </span>
+							              <span className="seating-class">{ serviceClass[this.props.commonData.searchParams.CabinClass] }</span>
+							              <span className="flight-type">{ this.flightTypeName[this.props.commonData.searchParams.flightType] }</span>
+							              <span className="passenger-count">{ this.getPassengersCount() }</span>
+						              </div>
+	                      </div>
+                    </div>:null
+                  }
                 </span>
               }
               {((this.props.commonData.currentForm == 'round_trip' || this.props.commonData.currentForm == 'one_way')

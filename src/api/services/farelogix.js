@@ -151,7 +151,7 @@ const getPNRFlights = function(params, numberInParty) {
 
 const getTravelers = function (passengers) {
   let template = '' +
-    '<Traveler AssociationID="T<%=index%>" Type="<%=type%>">\
+    '<Traveler AssociationID="<%=pref%><%=index%>" Type="<%=type%>">\
       <TravelerName>\
         <Surname><%=lastName%></Surname>\
         <GivenName><%=firstName%></GivenName>\
@@ -160,18 +160,32 @@ const getTravelers = function (passengers) {
       </TravelerName>\
     </Traveler>\
     ';
-  let travelers = [];
-  for (let i=0; i<passengers.length; i++) {
-    let d_birth = sails.moment(passengers[i].DateOfBirth);
-    let paxType = 'ADT',
-      age = sails.moment().diff(d_birth, 'years');
-    if (age < 2) {
-      // less than 2
-      paxType = 'INS'; // Infant occupying seat
-    }
-    else if (age < 12) {
-      // between and including 2 and 11
-      paxType = 'CHD';
+  let travelers = [],
+      _passQuan = parseInt(passengers.adult) + parseInt(passengers.senior) + parseInt(passengers.child)
+      + parseInt(passengers.seatInfant) + parseInt(passengers.lapInfant);
+  for (let i=0; i<_passQuan; i++) {
+    let d_birth = sails.moment(passengers[i].DateOfBirth),
+        paxType = null,
+        age = sails.moment().diff(d_birth, 'years'),
+        paxPref = null;
+    switch (true) {
+      case (age < 2):
+        paxType = 'INF';
+        paxPref = 'TI';
+        break;
+      case (age >= 2 && age <= 12 ):
+        paxType = 'CHD';
+        paxPref = 'TC';
+        break;
+      case (age > 65):
+        paxType = 'SRC';
+        paxPref = 'TS';
+        break;
+      case (age > 12 && age <= 65):
+      default:
+        paxType = 'ADT';
+        paxPref = 'TA';
+        break;
     }
 
     travelers.push(ejs.render(template, {
@@ -180,7 +194,8 @@ const getTravelers = function (passengers) {
       firstName: passengers[i].FirstName,
       birthday: d_birth.format('YYYY-MM-DD'),
       gender: passengers[i].Gender,
-      index: i
+      index: i,
+      pref: paxPref
     }));
   }
   return travelers.join('');
@@ -188,27 +203,65 @@ const getTravelers = function (passengers) {
 
 const farelogixRqGetters = {
   getAirAvailabilityRq: function (guid, params) {
+    let _adults = parseInt(params.passengers.adult),
+        _seniors = parseInt(params.passengers.senior),
+        _infants = parseInt(params.passengers.seatInfant) + parseInt(params.passengers.lapInfant),
+        _children = parseInt(params.passengers.child),
+        _passQuan = _adults + _seniors + _infants +_children;
     let template = '' +
       '<AirAvailabilityRQ TransactionIdentifier="<%-guid%>">\
         <%-destinations%>\
         <NumberInParty><%=passengers%></NumberInParty>\
-        <% for (var i=1; i<=passengers; i++) { %><TravelerIDs PaxType="ADT" AssociationID="T<%=i%>"/><% } %>\
+        <% if (adult > 0) { %>\
+          <% for (var i=1; i<=adult; i++) { %><TravelerIDs PaxType="ADT" AssociationID="TA<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (senior > 0) { %>\
+          <% for (var i=1; i<=senior; i++) { %><TravelerIDs PaxType="SRC" AssociationID="TS<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (infant > 0) { %>\
+          <% for (var i=1; i<=infant; i++) { %><TravelerIDs PaxType="INF" AssociationID="TI<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (children > 0) { %>\
+          <% for (var i=1; i<=children; i++) { %><TravelerIDs PaxType="CHD" AssociationID="TC<%=i%>"/><% } %>\
+        <% } %>\
       </AirAvailabilityRQ>';
     let req = getFullRq(ejs.render(template, {
       guid: guid,
       destinations: getSearchDestinations(params),
-      passengers: params.passengers
+      passengers: _passQuan,
+      adult: _adults,
+      senior: _seniors,
+      infant: _infants,
+      children: _children
     }));
     return req;
   },
 
   getFareSearchRq: function (guid, params) {
     // be careful with BrandedFareSupport attribute, another value will lead to changing response structure
+    let _adults = parseInt(params.passengers.adult),
+        _seniors = parseInt(params.passengers.senior),
+        _infants = parseInt(params.passengers.seatInfant) + parseInt(params.passengers.lapInfant),
+        _children = parseInt(params.passengers.child);
     let template = '' +
       '<FareSearchRQ BrandedFareSupport="N" TransactionIdentifier="<%-guid%>">\
         <%-destinations%>\
-        <TravelerInfo Type="ADT"><%=passengers%></TravelerInfo>\
-        <% for (var i=1; i<=passengers; i++) { %><TravelerIDs PaxType="ADT" AssociationID="T<%=i%>"/><% } %>\
+        <% if (adult > 0) { %>\
+          <TravelerInfo Type="ADT"><%=adult%></TravelerInfo>\
+          <% for (var i=1; i<=adult; i++) { %><TravelerIDs PaxType="ADT" AssociationID="TA<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (senior > 0) { %>\
+          <TravelerInfo Type="SRC"><%=senior%></TravelerInfo>\
+          <% for (var i=1; i<=senior; i++) { %><TravelerIDs PaxType="SRC" AssociationID="TS<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (infant > 0) { %>\
+          <TravelerInfo Type="INF"><%=infant%></TravelerInfo>\
+          <% for (var i=1; i<=infant; i++) { %><TravelerIDs PaxType="INF" AssociationID="TI<%=i%>"/><% } %>\
+        <% } %>\
+        <% if (children > 0) { %>\
+          <TravelerInfo Type="CHD"><%=children%></TravelerInfo>\
+          <% for (var i=1; i<=children; i++) { %><TravelerIDs PaxType="CHD" AssociationID="TC<%=i%>"/><% } %>\
+        <% } %>\
         <PricingInfo FareType="BOTH" NoBreak="Y">\
           <PricingCurrency><%=currency%></PricingCurrency>\
         </PricingInfo>\
@@ -216,7 +269,10 @@ const farelogixRqGetters = {
     let req = getFullRq(ejs.render(template, {
       guid: guid,
       destinations: getSearchDestinations(params),
-      passengers: params.passengers,
+      adult: _adults,
+      senior: _seniors,
+      infant: _infants,
+      children: _children,
       currency: currency
     }));
     return req;

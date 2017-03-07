@@ -75,11 +75,11 @@ class CheapoairClient {
         request: (req, params) => {
           req.flightSearchRequest_ = {
             TypeOfTrip: getTypeOfTrip(params.flightType),
-            Adults: params.passengers,
-            Child: 0,
-            Seniors: 0,
-            InfantInLap: 0,
-            InfantOnSeat: 0,
+            Adults: params.passengers.adult,
+            Child: params.passengers.child,
+            Seniors: params.passengers.senior,
+            InfantInLap: params.passengers.lapInfant,
+            InfantOnSeat: params.passengers.seatInfant,
             Youths: 0,
             "SearchAlternateDates": false,
             "AirLinePreferences": null,

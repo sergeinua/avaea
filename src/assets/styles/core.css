@@ -1298,7 +1298,10 @@ a:focus,
 
 .count .add,
 .count .subtract {
-	background: #cceefa;
+  background: #cceefa;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
 }
 
 
@@ -1420,11 +1423,12 @@ form.booking div.error,
 	color: #777777;
 }
 
-.passenger-chooser .age,
+.passenger-chooser .hint,
 .confirming .people .label-no-bs {
 	color: #aaaaaa;
 }
 
+.count .add.disabled,
 .count .subtract.disabled {
 	background: #e5e5e5;
 }
@@ -2059,7 +2063,7 @@ input[type="date"]:before {
 	margin-right: 8px;
 }
 
-.passenger-chooser .age {
+.passenger-chooser .hint {
 	font-size: 14px;
 		top: 2px;
 }

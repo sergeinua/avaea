@@ -18,6 +18,12 @@ rundev:
 rundevlocalhost:
 	@NODE_ENV=localhost sails_email__instance_name=localhost1_1 sails lift --localhost
 
+resetdb-dev:
+	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -m db-init -e dev && ./node_modules/db-migrate/bin/db-migrate up -e dev
+
+resetdb-localhost:
+	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -m db-init -e localhost && ./node_modules/db-migrate/bin/db-migrate up -e localhost
+
 migratedevup:
 	cd ../db-migration && ./node_modules/db-migrate/bin/db-migrate up -e dev
 
