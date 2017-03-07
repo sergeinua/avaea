@@ -3,10 +3,10 @@ import { ActionsStore, createMarkup } from '../../functions.js';
 import moment from 'moment';
 
 let Flight = React.createClass({
-
+	
   showNoStops: function(flight) {
     if (flight.noOfStops > 0) {
-      return <span className="hidden-xs small text-danger">{'+' + flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? ' stops' : ' stop')}</span>
+      return <span className="text-danger">{'+' + flight.noOfStops + (parseInt(flight.noOfStops) > 1 ? ' stops' : ' stop')}</span>
     }
     return null;
   },
@@ -15,47 +15,53 @@ let Flight = React.createClass({
     return (
       <div className="details">
         { this.props.count?
-          <div className="row switch-planes">
-            <div className="detail-col change-planes">Change planes</div>
-            <div className="switch-loc">{ this.props.pair.stops[this.props.count - 1].code }</div>
-            <div
-              className="wait-time">{ this.props.pair.stops[this.props.count - 1].duration }</div>
-          </div>:null
+          <div className="wrapper change-planes">
+            <span className="direction">Change Planes</span>
+            <span className="switch-loc">{ this.props.pair.stops[this.props.count - 1].code }</span>
+            <span className="duration">Delay { this.props.pair.stops[this.props.count - 1].duration }</span>
+          </div>
+          :
+         <div className="wrapper long-date">
+          <span className="direction">{ this.props.pair.direction }</span>
+        	<span className="date">{ moment(this.props.flight.from.date).format('dddd' + ', ' + 'MMMM DD') }</span>
+        </div>
         }
-
-        <div className="long-wrapper">
-          <div className="long-date">{ moment(this.props.flight.from.date).format('dddd' + ', ' + 'MMMM DD') }</div>
-          <div className="long-airline">{ this.props.flight.airline }</div>
+        
+        <div className="wrapper airline">
+        <span
+	        className="airline-icon"
+	        style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.flight.airlineCode] * 15 + "px"}}
+	        alt={ this.props.flight.airlineCode }
+	        title={ this.props.flight.airline }>
+	      </span> 
+	      <span className="airline-text">{ this.props.flight.airline }</span>
+	      <span className="airline-text">{this.props.flight.abbrNumber}</span>
+        
         </div>
 
-        <div className="row details info">
-          <div className="col-xs-3 text-nowrap notable-text detail-col flight-no">
-            <span
-              className="itinerary-airline-icon"
-              style={{backgroundPosition: "0 -" + ActionsStore.getIconSpriteMap()[this.props.flight.airlineCode] * 15 + "px"}}
-              alt={ this.props.flight.airlineCode }
-              title={ this.props.flight.airline }>
-            </span>
-            <span className="flightNumber">{this.props.flight.abbrNumber}</span>
-          </div>
-          <div className="col-xs-2 text-nowrap detail-col date">{ moment(this.props.flight.from.date).format('DD MMM') }</div>
-          <div className="col-xs-2 text-nowrap detail-col dest">{ this.props.flight.from.code + '-' + this.props.flight.to.code }</div>
-          <div className="col-xs-3 text-nowrap notable-text detail-col times">{ this.props.flight.from.time + '-' + this.props.flight.to.time }</div>
-          <div className="col-xs-2 text-nowrap detail-col length">
+        <div className="wrapper detail-info">
+
+          <span className="departTime">{ this.props.flight.from.time }</span>
+          <span className="departLoc">{ this.props.flight.from.code }</span>
+          <span className="arr-connects"></span>
+          <span className="arriveTime">{ this.props.flight.to.time }</span>
+          <span className="arriveLoc">{ this.props.flight.to.code }</span>
+          <span className="duration">
             <span dangerouslySetInnerHTML={ createMarkup(this.props.flight.duration) }></span>
             {this.showNoStops(this.props.flight)}
-          </div>
+          </span>
         </div>
         { this.props.flight.stops.map(function (stop, i) {
-        return  <div key={i} className="row stopovers">
-                  <div className="col-xs-5 text-nowrap detail-col stopover">Intermediate stop</div>
-                  <div className="col-xs-2 detail-col">{ stop.code }</div>
-                  <div className="col-xs-2 col-xs-offset-2 detail-col">{ stop.duration }</div>
+        return  <div key={i} className="stops">
+                  <div className="ti">Intermediate stop</div>
+                  <span>{ stop.code }</span>
+                  <span>{ stop.duration }</span>
                 </div>
       })}
       </div>
     )
   }
 });
+
 
 export default Flight;

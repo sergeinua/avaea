@@ -25,7 +25,7 @@ module.exports = {
 
   findOneByUserId: function (id) {
     var profile = this.findOne({user:id});
-    
+
     if(typeof profile !== 'undefined'){
       if(typeof profile.employer === 'undefined'){
         profile.employer = {
@@ -44,7 +44,7 @@ module.exports = {
           gender: '',
           date_of_birth: ''
         }];
-      }         
+      }
     }
     return profile;
   },
@@ -65,6 +65,7 @@ module.exports = {
       gender      : form['gender'],
       birthday    : form['birthday'],
       pax_type    : form['pax_type'],
+      phone       : form['phone'],
       address     : {
         street        : form['street'],
         city          : form['city'],
@@ -137,7 +138,8 @@ module.exports = {
       for (var i = 0; i < form['preferred_airlines.travel_type'].length; i++) {
         jsonStruct.preferred_airlines.push({
           travel_type: form['preferred_airlines.travel_type'][i],
-          airline_name: form['preferred_airlines.airline_name'][i]
+          airline_name: form['preferred_airlines.airline_name'][i],
+          airline_iata_2code: form['preferred_airlines.airline_iata_2code'][i]
         });
       }
     } else {
