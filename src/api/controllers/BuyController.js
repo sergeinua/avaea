@@ -138,6 +138,9 @@ module.exports = {
     let reqParams = req.allParams();
     let cacheId = 'itinerary_' + (reqParams.itineraryId || '').replace(/\W+/g, '_');
 
+    // add type of device (mobile/desktop)
+    reqParams.deviceType = utils.getDeviceType(req); // used in Transactions report
+
     User.findOrCreate({email:reqParams['email']}, {email:reqParams['email']}).exec(function(err, user) {
       if (err) {
         onvoya.log.error(err);

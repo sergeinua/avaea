@@ -73,6 +73,14 @@ module.exports = {
         },
         trace: 'xmlava001'
       }
+    },
+    cheapoair: {
+      security: {
+        WUID: 'ED88ED4D-3DE0-4B75-84C2-BDDD26FEB2EF',
+        User: 'xmlfeedTest@cheapoair.com',
+        Password: 'sky2@1@',
+        AffiliateCode: 'xmlfeedTest_fpwebbox'
+      }
     }
   },
 

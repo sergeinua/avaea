@@ -117,6 +117,8 @@ class CheapoairClient {
         method: 'BookFlightAvailibilty20',
         request: (req, params) => {
           let paxDetails = [];
+          params.FirstName = params.FirstName.replace(/[^a-z]/ig,'');
+          params.LastName = params.LastName.replace(/[^a-z]/ig,'');
           for (let i = 0; i < params.passengers.length; i++) {
             // Check input date
             let d_birth = sails.moment(params.passengers[i].DateOfBirth);
@@ -135,8 +137,8 @@ class CheapoairClient {
             }
             paxDetails.push({
               PaxType: paxType,
-              FirstName: params.passengers[i].FirstName,
-              LastName: params.passengers[i].LastName,
+              FirstName: params.passengers[i].FirstName.replace(/[^a-z]/ig,''),
+              LastName: params.passengers[i].LastName.replace(/[^a-z]/ig,''),
               Gender: getGender(params.passengers[i].Gender),
               BirthDate: params.passengers[i].DateOfBirth,
               Phone: ('' + params['passengers[1].phone']).replace(/[\s+]/g, '')
