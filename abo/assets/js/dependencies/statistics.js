@@ -24,7 +24,7 @@ var generateGridSearch = function (nameFilter, data) {
       }
     },
     fields: [
-      {name: 'createdAt', title: 'Date', type: 'date'},
+      {name: 'createdAt', title: 'Date', type: 'date', width: 120},
       {name: 'id', title: 'Id', type: 'number'},
       {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
       {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
@@ -49,7 +49,7 @@ var getRowGridSearch = function (row) {
 
   return {
     email: (row.user && row.user.email) ? row.user.email : '--na--',
-    createdAt: new Date(row.createdAt).toLocaleString(),
+    createdAt: moment(row.createdAt).format('MMM DD, YY h:mm:ss Z'),
     createdDt: moment(row.createdAt).format('MMM DD, YY'),
     createdTime: moment(row.createdAt).format('h:mm:ss Z'),
     id: row.id,
