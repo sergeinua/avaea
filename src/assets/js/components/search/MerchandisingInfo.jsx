@@ -30,7 +30,7 @@ let MerchandisingInfo = React.createClass({
     return (
       <ul className="merchandising">
         {this.state.information.map(function(info, i) {
-          return <li key={i}>{info.class ? <span className={"gicon " + info.class} title={info.name}></span>:<span>{info.name}</span>}</li>
+          return <li key={i}>{info.class ? <span className={"extra " + info.class} title={info.name}></span>:<span>{info.name}</span>}</li>
         })}
       </ul>
     )

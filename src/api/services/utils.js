@@ -195,5 +195,26 @@ module.exports = {
     onvoya.log.info('Found IP: %s', ip);
 
     return ip;
+  },
+
+  getDeviceType: function (req) {
+    let deviceType = 'desktop';
+
+    let headers = {};
+    _.each(req.headers, (value, key)=>{
+      headers[key.toLowerCase()] = value;
+    });
+
+    // recomendation of a browser type detection by mozilla.org
+    // https://developer.mozilla.org/en-US/docs/Web/HTTP/Browser_detection_using_the_user_agent
+    // we recommend looking for the string “Mobi” anywhere in the User Agent to detect a mobile device
+    if(headers['user-agent'] && /Mobi/gi.test(headers['user-agent'])){
+      deviceType = 'mobile';
+    }
+
+    onvoya.log.info('user-agent: %s', headers['user-agent']);
+    onvoya.log.info('deviceType: %s', deviceType);
+
+    return deviceType;
   }
 };
