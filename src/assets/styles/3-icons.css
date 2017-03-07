@@ -14,6 +14,7 @@
   font-style: normal;
 }
 
+.cue:after,
 .cue:before,
 .ff-miles.only-extra:after,
 .extras .extra:before,
@@ -243,7 +244,7 @@ footer a.instagram:after,
 .icon-social-instagram:before {
   content: "\e933";
 }
-.cue.info:before,
+.cue.info:after,
 .icon-info:before {
   content: "\e934";
 }

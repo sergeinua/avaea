@@ -21,9 +21,9 @@
 .booking-success .buy-button-itin,
 .buy-button-arrow,
 .booking-success .flight-unit .summary .buy-button,
-.dimmer .landscape,
 .touch > .copyright,
-.touch footer.app-copy {
+.touch footer.app-copy,
+.meri-wrapper .meri-speaks {
 	display: none;
 }
 
@@ -51,9 +51,15 @@ body,
   background-attachment: fixed;
 }
 
+.desktop,
+.desktop #spa-app {
+	min-width: 895px;
+}
+
 .desktop #spa-app {
 	min-height: 585px;
 }
+
 
 .desktop .login-holder {
 	margin: 80px auto 0 auto;
@@ -440,10 +446,6 @@ body:not(.touch) i.icon-mic:before {
 	display: none;
 }
 
-.desktop #spa-app {
-	min-width: 895px;
-}
-
 .desktop .search-result .results-wrapper {
 	margin-bottom: -12px;
 	padding: 10px 0 70px 20px;
@@ -495,6 +497,22 @@ body:not(.touch) i.icon-mic:before {
 	height: 470px;
 }
 
+.wayfare.search .ti.compare {
+	margin: 30px auto -30px auto;
+}
+
+.wayfare.search .holder {
+	height: 70px;
+	overflow: hidden;
+}
+
+.wayfare.search iframe {
+	height: 100px !important;
+}
+
+html[data-useragent*='Trident'] .wayfare.results.cross-sell {
+	display: none;
+}
 
 
 /* end wayfare */
@@ -679,7 +697,7 @@ button {
 	color: #ffffff;
 	font-size: 24px;
 	margin: 10px 5px;
-	padding: 13px 28px;
+	padding: 13px 27px;
 
 	/* bootstrap */
 	line-height: 1em;
@@ -687,9 +705,9 @@ button {
 	transition: all 0.1s ease-in-out;
 }
 
-.big-button,
-.big-button.secondary.disabled {
-	padding: 13px 28px;
+.big-button.secondary,
+.big-button.disabled {
+	padding: 12px 27px;
 }
 
 .big-button:hover,
@@ -698,7 +716,6 @@ button {
 }
 
 .big-button.secondary {
-	padding: 12px 27px;
 	background: #ffffff;
 }
 
@@ -780,18 +797,6 @@ button {
 	border-radius: 10px;
 }
 
-.meri-speaks .bubble:after {
-	content: '';
-	display: block;
-	width: 15px;
-	height: 15px;
-	position: absolute;
-		bottom: -8px;
-		left: calc(73% - 7px);
-	background: #eef7fc;
-	transform: rotate(-45deg);
-}
-
 .meri-speaks .close-x {
 	font-size: 16px;
 	padding: 12px 15px;
@@ -851,7 +856,8 @@ button {
 .tap-plus,
 .flight-additional-info .text-picker,
 .flight-direction-item.error-flash,
-legend {
+legend,
+.wayfare.search .ti {
 	color: #052767;
 }
 
@@ -918,6 +924,10 @@ footer.app-copy a.social:visited {
 .meri-speaks .bubble:after {
 	border-top: 0px solid transparent;
 	border-right: 0px solid transparent; 
+}
+
+.search.buttons .info.cue {
+	background: rgba(13, 200, 88, .5);
 }
 
 
@@ -1344,6 +1354,10 @@ form.booking .hint,
 :-ms-input-placeholder,
 ::-ms-input-placeholder {
 	color: #a2a2a2 !important;
+}
+
+.search.buttons .info.cue.disabled {
+	background: #a2a2a2;
 }
 
 .label-d {
@@ -1928,16 +1942,76 @@ strong.tt-highlight {
 	left: calc(50% - 165px);
 }
 
+.desktop .search.buttons .meri-speaks {
+	max-width: 360px;
+	left: calc(50% - 180px);
+}
+
 .search.buttons .meri-wrapper {
-	margin: 8px auto -3px auto;
-	height: 96px;
+	margin: 40px auto -3px auto;
+	height: 20px;
+	opacity: 0;
 	transition: all .5s ease-out;
 	transition-delay: .5s;
 }
 
-.search.buttons .meri-wrapper.remove {
-	 height: 40px;
+body:not(.touch) .search.buttons .meri-wrapper {
+	margin-top: 8px;
+	height: 0px;
 }
+
+body:not(.touch) .search.buttons .meri-wrapper.showing {
+	height: 90px;
+}
+
+.search.buttons .meri-wrapper.showing {
+	 height: 70px;
+	 opacity: 1;
+}
+
+.search.buttons .holder {
+	display: inline-block;
+	position: relative;
+}
+
+.search.buttons .info.cue {
+	cursor: pointer;
+	font-size: 18px;
+	margin: 10px 0;
+	padding: 1px 3px;
+	height: 50px;
+	width: 32px;
+	display: inline-block;
+	position: relative;
+	vertical-align: bottom;
+}
+
+.search.buttons .info.cue:before {
+	content: '';
+	height: 26px;
+	width: 26px;
+	display: inline-block;
+	position: relative;
+	 top: 10px;
+	 left: 0;
+	background: rgba(13, 200, 88, 1);
+	border-radius: 50%;
+}
+
+.search.buttons .info.cue:after {
+	color: #ffffff;
+	display: inline-block;
+	position: absolute;
+		top: 15px;
+		left: 7px;
+}
+
+.search.buttons .info.cue.disabled:before {
+	background: rgba(255, 255, 255, .4);
+}
+
+
+/* heredeb */
 
 
 /* calendar */
@@ -2005,6 +2079,8 @@ td[data-action*="selectDay"] {
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-left:before,
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-right:before {
 	font-size: 16px;
+	position: absolute;
+    top: -18px;
 }
 
 .datepicker table td.today:before {
@@ -3613,6 +3689,7 @@ footer.app-copy .bottom a {
 
 
 @media (min-width: 767px) {
+	
 
 	.touch .navbar-brand {
 		display: block;
@@ -3621,6 +3698,7 @@ footer.app-copy .bottom a {
 	.touch .navbar-brand {
 		left: 12px;
 	}
+	
 
 }
 
@@ -3643,20 +3721,32 @@ footer.app-copy .bottom a {
 
 @media (max-width: 776px) {
 
+	
+	/*
+	--- has to stay wide for Wayfare ad min-width ---
+	--- keep in case we don't use Wayfare ---
+	
 	body:not(.touch) .navbar-brand {
 		background: url('/images/logo-onvoya-app-2x.png') -45px 5px no-repeat;
-		background-size: 185px;
+		background-size: 188px;
 	}
+	
+	*/
 
 }
 
 @media (max-width: 695px) {
+	
+	/*
+	--- has to stay wide for Wayfare ad min-width ---
+	--- keep in case we don't use Wayfare ---
 
 	body:not(.touch) .navbar-brand {
 		width: 45px;
 		background: url(/images/logo-onvoya-app-2x.png) 0 5px no-repeat;
-		background-size: 185px;
+		background-size: 188px;
 	}
+	*/
 
 }
 
@@ -3664,24 +3754,25 @@ footer.app-copy .bottom a {
 @media (max-width: 675px) {
 
 
-	footer .left,
-	footer .right {
+	.touch footer .left,
+	.touch footer .right {
     display: block;
     width: 100%;
     float: none;
 	}
-
-	footer .holder {
+	
+	.touch footer .holder {
 		text-align: center;
 	}
 
-	footer .right {
+	.touch footer .right {
     margin: 15px 0 15px 0;
 	}
 
-	footer .left nav {
+	.touch footer .left nav {
 		text-align: center;
 	}
+	
 
 }
 
@@ -3727,6 +3818,16 @@ footer.app-copy .bottom a {
 	
 }
 
+@media (max-width: 390px) {
+	
+	.search.buttons .big-button,
+	.search.buttons .big-button.disabled {
+		padding-left: 19px;
+		padding-right: 19px;
+	}
+	
+}
+
 /* android */
 @media (max-width: 360px) {
 	
@@ -3756,10 +3857,6 @@ footer.app-copy .bottom a {
 		padding-left: 20px;
 	}
 
-	.booking-success .notable-area .refundable {
-		margin-left: 40px;
-	}
-
 	.navbar-toggle .icon-bar {
 		width: 18px;
 	}
@@ -3783,14 +3880,15 @@ footer.app-copy .bottom a {
 		bottom: 5px;
 	}
 	
-	.big-button,
-	.big-button.secondary {
-		padding-left: 20px;
-		padding-right: 20px;
+	.search.buttons .meri-wrapper {
+		margin-top: 30px;
+		height: 0px;
 	}
 	
-	.search.buttons .meri-wrapper {
-		height: 88px;
+	.search.buttons .big-button,
+	.search.buttons .big-button.disabled {
+		padding-left: 11px;
+		padding-right: 12px;
 	}
 	
 	.search.buttons .meri-speaks {
@@ -3878,8 +3976,13 @@ footer.app-copy .bottom a {
 		min-height: 1px;
 	}
 
-	.flight-type-form {
+	.touch .flight-type-form {
 		padding-top: 5px;
+	}
+	
+	.touch .search.buttons .info.cue {
+		margin-top: 0px;
+		margin-bottom: 0px;
 	}
 
 	.touch .flight-type-item:not(.voice-search-button) {
@@ -4014,14 +4117,6 @@ footer.app-copy .bottom a {
 	.touch .sort-button .dropdown-menu {
 		left: 220px;
 		right: auto;
-	}
-
-	.touch .booking-success .flight-unit  .notable-area {
-		margin-right: -3%;
-	}
-
-	.touch .booking-success .notable-area .col-xs-3.direction {
-		width: 12%;
 	}
 
 	.touch .booking-success .confirm-code {
