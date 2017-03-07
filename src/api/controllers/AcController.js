@@ -145,6 +145,7 @@ module.exports = {
         for (var i = 0; i < found.length; i++) {
           found[i] = {
             value: found[i].name,
+            iata_2code: found[i].iata_2code,
             label: found[i].name +' ('+ found[i].iata_2code +')',
           }
         }

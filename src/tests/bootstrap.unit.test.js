@@ -32,8 +32,11 @@ before(function(done) {
     hooks: {
       session: false,
       grunt: false
-    },    
-    connections:{
+    },
+    connections: {
+      testMemoryDb: {
+        adapter   : 'sails-memory'
+      },
       memcacheConf: {
         host: 'localhost',
         port: '11211',
@@ -47,7 +50,7 @@ before(function(done) {
         pass: '',
         prefix: 'cache:',
         exptime: 60*30 // 30 minutes
-      }      
+      }
     },
     globals: {
       //cacheStore: 'redis', //<redis|memcache>

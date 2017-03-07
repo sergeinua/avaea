@@ -2079,8 +2079,6 @@ td[data-action*="selectDay"] {
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-left:before,
 .bootstrap-datetimepicker-widget .glyphicon.glyphicon-chevron-right:before {
 	font-size: 16px;
-	position: absolute;
-    top: -18px;
 }
 
 .datepicker table td.today:before {

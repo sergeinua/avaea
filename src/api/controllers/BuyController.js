@@ -98,6 +98,9 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
+          logData.itinerary.price = parseFloat(logData.itinerary.price);
+          logData.itinerary.fare = parseFloat(logData.itinerary.fare);
+
           if (req.user) {
             itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
           }
@@ -156,6 +159,9 @@ module.exports = {
           return Promise.reject('cacheId "' + cacheId + '" not found by booking_proc action');
         }
         booking_itinerary = JSON.parse(resItinerary);
+
+        booking_itinerary.price = parseFloat(booking_itinerary.price);
+        booking_itinerary.fare = parseFloat(booking_itinerary.fare);
 
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
         if (typeof reqParams.DateOfBirth == 'object') {
