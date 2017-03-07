@@ -24,7 +24,7 @@ let ResultList = React.createClass({
             adWasShowed = true;
             ad = <span key="ad">
                 {itin}
-                <div id="wayfare-results-comparison" className="col-xs-12 itinerary wayfare results comparison-unit">
+                <div id="wayfare-results-comparison" className="itinerary wayfare results comparison-unit">
                   <Iframe id="c7aed39b" name="mc79eba9" className="wayfare" url="/static/adds_results_result.html"
                           frameborder="0" scrolling="no" width="100%" height="100%" position="relative"></Iframe>
                 </div>
