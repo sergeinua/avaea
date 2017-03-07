@@ -1,5 +1,5 @@
 import { clientStore } from 'reducers.js';
-import { actionSetCommonVal, actionMergeCommonVal, actionUpdateCommonByVal } from 'actions.js';
+import { actionSetCommonVal, actionMergeCommonVal, actionUpdateCommonByVal, actionSetUser } from 'actions.js';
 import ClientApi from 'components/_common/api.js';
 import moment from 'moment';
 
@@ -317,7 +317,14 @@ export let getDefaultDateSearch = (defaultParams) => {
 };
 
 export function getUser() {
-  return InitData.user || false;
+  ClientApi.reqPost('/user/get')
+    .then((msg) => {
+      return clientStore.dispatch(actionSetUser(msg.user));
+    })
+    .catch((error) => {
+      console.log(error);
+      return clientStore.dispatch(actionSetUser(false));
+    });
 }
 
 export function fixStorageAvailability() {

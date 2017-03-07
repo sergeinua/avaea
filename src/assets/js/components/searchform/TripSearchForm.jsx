@@ -5,7 +5,7 @@ import ClassChooser from './ClassChooser.jsx';
 import PassengerChooser from './PassengerChooser.jsx';
 import Iframe from 'react-iframe';
 import { actionSetCommonVal } from '../../actions.js';
-import { ActionsStore, getUser, setCookie, getCookie } from '../../functions.js';
+import { ActionsStore } from '../../functions.js';
 import { clientStore, observeStore, storeGetCommonVal, observeUnsubscribers } from '../../reducers.js';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
@@ -56,15 +56,15 @@ const TripSearchForm = React.createClass({
   },
 
   handleMeriHint: function () {
-  	// FIXME - could be React
-  	
-  	if ( $('.meri-wrapper').hasClass('showing')) {
-  		$('.meri-speaks ').fadeToggle('fast');
-  	} else {
-	  	$('.meri-speaks ').delay(1000).fadeToggle('fast');
-	  }
-  	
-  	$('.meri-wrapper ').toggleClass('showing');
+    // FIXME - could be React
+
+    if ( $('.meri-wrapper').hasClass('showing')) {
+      $('.meri-speaks ').fadeToggle('fast');
+    } else {
+      $('.meri-speaks ').delay(1000).fadeToggle('fast');
+    }
+
+    $('.meri-wrapper ').toggleClass('showing');
   },
 
   handleSubmitForm: function (submitCounter) {
@@ -353,57 +353,57 @@ const TripSearchForm = React.createClass({
         </div>
 
         <div className="search buttons duo">
-		      <div className='meri-wrapper'> 
-		      
-	        	<div id="meri-speaks-searchform" className="meri-speaks">
-			      	<div className="bubble">
-			        	We remove worst flights and factor FF miles.
-				        	{getUser().email ?
-				        			<span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
-				              :
-				              <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
-			            }
-			        	<div id="meri-speaks-close-x" className="close-x" onClick={this.handleMeriHint}></div>
-			      	</div>
-			      </div>
-			      
-			    </div>  
-			    
-			    <div className="holder">
-	          <button id="search-form-all-flights-button" 
-	          	type="submit" 
-	          	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
-	          	All Flights
-	          </button>
-          
-	          <button id="search-form-top-flights-button"
-	            type="submit"
-	            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
-	          	Top Flights
-	          </button>
-	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>	
+          <div className='meri-wrapper'>
+
+            <div id="meri-speaks-searchform" className="meri-speaks">
+              <div className="bubble">
+                We remove worst flights and factor FF miles.
+                  {this.props.user ?
+                      <span className="logged-in"> We also give your <a href="/profile" id='link-profile'>preferred airlines</a> priority.</span>
+                      :
+                      <span className="logged-out"> <a href="/login" id='link-profile'>Log in</a> to set and factor preferred airlines.</span>
+                  }
+                <div id="meri-speaks-close-x" className="close-x" onClick={this.handleMeriHint}></div>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="holder">
+            <button id="search-form-all-flights-button"
+              type="submit"
+              className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
+              All Flights
+            </button>
+
+            <button id="search-form-top-flights-button"
+              type="submit"
+              className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
+              Top Flights
+            </button>
+            <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>
           </div>
         </div>
-        
+
         {!uaMobile ?
- 	         <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
- 	     			<div className="ti compare">Compare our results</div>
-      			<div className="holder">
-              <Iframe 
-              	id="c7aed39b" 
-              	name="mc79eba9" 
-              	className="wayfare" 
-              	url="/static/adds_search_buttons.html"
-                frameborder="0" 
-                scrolling="no" 
+           <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
+            <div className="ti compare">Compare our results</div>
+            <div className="holder">
+              <Iframe
+                id="c7aed39b"
+                name="mc79eba9"
+                className="wayfare"
+                url="/static/adds_search_buttons.html"
+                frameborder="0"
+                scrolling="no"
                 width="100%"
                 position="relative">
               </Iframe>
- 	          </div>
- 	         </div>
- 	         : null
- 	       }
-        
+            </div>
+           </div>
+           : null
+         }
+
       </div>
     )
   }
@@ -412,6 +412,7 @@ const TripSearchForm = React.createClass({
 const mapStateCommon = function(store) {
   return {
     commonData: store.commonData,
+    user: store.userData,
   };
 };
 

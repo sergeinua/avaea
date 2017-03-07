@@ -1,9 +1,8 @@
 import React from 'react';
 import StaticNews from '../news/News.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
-var NewsPage = React.createClass({
+let NewsPage = React.createClass({
 
   getInitialState: function () {
     return {
@@ -22,7 +21,7 @@ var NewsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticNews user={getUser()||{}}/>
+            <StaticNews/>
         }
       </div>
     )

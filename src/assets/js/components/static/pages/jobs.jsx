@@ -1,7 +1,6 @@
 import React from 'react';
 import StaticJobs from '../jobs/Jobs.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
 let JobsPage = React.createClass({
 
@@ -22,7 +21,7 @@ let JobsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticJobs user={getUser()||{}}/>
+            <StaticJobs/>
         }
       </div>
     )
