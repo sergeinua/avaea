@@ -372,7 +372,7 @@ var genGridVanityURLs = function () {
     css: 'cell-ellipsis',
 
     inserting: false,
-    editing: true,
+    editing: false,
     deleting: true,
     sorting: true,
     paging: false,
@@ -430,6 +430,8 @@ var genGridVanityURLs = function () {
         return d.promise();
       },
     },
+    rowClick: function(args) {},
+    rowDoubleClick: function(args) {},
     fields: [
       { name: 'id', css: 'hidden', width: 0 },
       { name: 'vanity_url', title: 'Vanity URL', type: 'text', width: 300, align: 'left',
@@ -460,6 +462,20 @@ var genGridVanityURLs = function () {
             grid.jsGrid('fieldOption', 'destination_url', 'insertTemplate', insertTemplateDestinationURL);
             grid.jsGrid('option', 'inserting', true);
           });
+        },
+        itemTemplate: function(value, item) {
+          //var template = this.__proto__.itemTemplate.call(this, value, item); //the default buttons
+          var ph = $('<div/>');
+          $('<input class="jsgrid-button jsgrid-edit-button" type="button" title="Edit"/>').off().on('click', function(){
+            console.log('edit', item);
+            $('#gridVanityURLs .grid').jsGrid('option', 'editing', true);
+            $('#gridVanityURLs .grid').jsGrid("editItem", item);
+          }).appendTo(ph);
+          $('<input class="jsgrid-button jsgrid-delete-button" type="button" title="Delete"/>').off().on('click', function(){
+            $('#gridVanityURLs .grid').jsGrid("deleteItem", item);
+          }).appendTo(ph);
+
+          return ph;
         },
         insertTemplate: function(){
           var ph = $('<div/>');
@@ -508,7 +524,6 @@ var genGridVanityURLs = function () {
         editTemplate: function(value, item){
           var ph = $('<div/>');
           $('<input type="button" title="Save" class="jsgrid-button jsgrid-update-button"/>').off('click').on('click', function(){
-
             var tr = $($(this).parents('tr').get(0)),
                 entryFieldVanityURL = tr.find('.entryFieldVanityURL'),
                 vanityURLHost = entryFieldVanityURL.data('host') || '',
@@ -536,11 +551,13 @@ var genGridVanityURLs = function () {
             item['destination_url'] = entryFieldDestinationURL.val();
 
             $('#gridVanityURLs .grid').jsGrid('updateItem', item).done(function() {
+                $('#gridVanityURLs .grid').jsGrid('option', 'editing', false);
                 console.log('item: ', item,' update completed');
             });
           }).appendTo(ph);
           $('<input type="button" title="Cancel" class="jsgrid-button jsgrid-cancel-button"/>').off('click').on('click', function(){
-            $('#gridVanityURLs .grid').jsGrid("cancelEdit");
+            $('#gridVanityURLs .grid').jsGrid('option', 'editing', false);
+            $('#gridVanityURLs .grid').jsGrid('cancelEdit');
           }).appendTo(ph);
           return ph;
         }
@@ -560,11 +577,12 @@ var genGridTransactionsReport = function(){
 
   // initialize datetimepickers
   $('#gridTransactionsReportStartDate').datetimepicker({
-    format: 'MM/DD/YYYY'
+    format: 'MM/DD/YYYY',
+    defaultDate: moment(new Date()).subtract(30, 'd').format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportEndDate').datetimepicker({
     format: 'MM/DD/YYYY',
-    useCurrent: false //Important! See issue #1075
+    defaultDate: moment(new Date()).format('MM/DD/YYYY')
   });
   $('#gridTransactionsReportStartDate').on('dp.change', function (e) {
     $('#gridTransactionsReportStartDate').removeClass('has-error');
@@ -662,4 +680,7 @@ var genGridTransactionsReport = function(){
       {name: 'R', title: 'Referrer', type: 'text', width: 200, align: 'center', sorting: true, sorter: 'string'},
     ]
   });
+
+
+  $('#gridTransactionsReportGenerateReport').click();   // load the report for last 30 days
 };

@@ -31,10 +31,6 @@ let Booking = React.createClass({
   render: function () {
     let _mailto = this.props.orderData.replyTo.match(/(.*)<(.+)>/);
 
-    // FIXME - had to hide logo for devices only when "flight-info" div is
-    // showing in nav bar - this restores it
-    $("body").removeClass('suppress-logo');
-
     return (
       <div className="booking-success">
 

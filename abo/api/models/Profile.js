@@ -25,7 +25,7 @@ module.exports = {
 
   findOneByUserId: function (id) {
     var profile = this.findOne({user:id});
-    
+
     if(typeof profile !== 'undefined'){
       if(typeof profile.employer === 'undefined'){
         profile.employer = {
@@ -44,7 +44,7 @@ module.exports = {
           gender: '',
           date_of_birth: ''
         }];
-      }         
+      }
     }
     return profile;
   },
@@ -65,6 +65,7 @@ module.exports = {
       gender      : form['gender'],
       birthday    : form['birthday'],
       pax_type    : form['pax_type'],
+      phone       : form['phone'],
       address     : {
         street        : form['street'],
         city          : form['city'],

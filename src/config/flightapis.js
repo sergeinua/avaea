@@ -1,7 +1,7 @@
 /* global sails */
 module.exports.flightapis = {
   searchApiMaxDays: 330,
-  execReadEticketPeriod: 60*60*2, // 2 hours (in seconds) @IrinaKuznetsova 
+  execReadEticketPeriod: 60*60*2, // 2 hours (in seconds) @IrinaKuznetsova
   mondee: {
     commonNamespace: 'http://trippro.com/webservices/common/v2',
     baseEndPoint: 'https://onvoya.trippro.com/api/v2',
@@ -57,7 +57,6 @@ module.exports.flightapis = {
   cheapoair: {
     commonNamespace: 'http://FpwebBox.Fareportal.com/Gateway.asmx',
     baseEndPoint: 'http://fpwebbox.fareportal.com/gateway.asmx',
-    flightSearch: 'SearchFlightAvailability34',
     security: {
       WUID: 'ED88ED4D-3DE0-4B75-84C2-BDDD26FEB2EF',
       User: 'xmlfeedTest@cheapoair.com',
