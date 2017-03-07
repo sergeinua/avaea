@@ -72,9 +72,6 @@ const TripSearchForm = React.createClass({
 
       if (submitCounter && this.validateForm()) {
 
-      	// FIXME - could be React
-      	$("body").addClass('suppress-logo');
-
         if (this.props.commonData.currentForm != 'round_trip') {
           ActionsStore.setFormValue('returnDate', '');
         }
