@@ -57,7 +57,7 @@ module.exports = {
           voiceSearchQuery: (voiceSearchQuery && _.isObject(voiceSearchQuery)) ? JSON.parse(voiceSearchQuery) : ''
         }
       },
-      depDate = new Date();
+      depDate = new Date(), retDate;
     if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
       depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
       params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
@@ -71,12 +71,12 @@ module.exports = {
     }
 
     if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
-      let retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
+      retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
       params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
       req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
     } else {
       if (!isNaN(Date.parse(req.param('returnDate')))) {
-        let retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
+        retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
         params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
         req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
       }
@@ -319,23 +319,23 @@ module.exports = {
         }
 
         return res.ok({
-          // user: req.user || false,
-          title: title,
-          tiles: result.tiles,
-          max_filter_items: max_filter_items,
-          searchParams: {
-            DepartureLocationCode: params.searchParams.DepartureLocationCode,
-            ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
-            departureDate: sails.moment(depDate).format('DD MMM'),
-            returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
-            CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
-            passengers: params.searchParams.passengers,
-            topSearchOnly: params.searchParams.topSearchOnly,
-            flightType: params.searchParams.flightType
-          },
-          searchResult: itineraries,
-          iconSpriteMap: result.iconSpriteMap,
-          errorInfo: errType ? utils.showError(errType) : false
+            // user: req.user || false,
+            title: title,
+            tiles: result.tiles,
+            max_filter_items: max_filter_items,
+            searchParams: {
+              DepartureLocationCode: params.searchParams.DepartureLocationCode,
+              ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
+              departureDate: sails.moment(depDate).format('DD MMM'),
+              returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
+              CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
+              passengers: params.searchParams.passengers,
+              topSearchOnly: params.searchParams.topSearchOnly,
+              flightType: params.searchParams.flightType
+            },
+            searchResult: itineraries,
+            iconSpriteMap: result.iconSpriteMap,
+            errorInfo: errType ? utils.showError(errType) : false
         }, 'search/result');
       });
     });
