@@ -38,9 +38,9 @@ let Validations = {
       return item;
     });
     if (countryCode) {
-      return postalCodes.validate(val, countryCode);
+      return !val || postalCodes.validate(val, countryCode);
     }
-    return false;
+    return !val;
   }
 };
 
