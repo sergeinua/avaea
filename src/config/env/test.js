@@ -1,8 +1,25 @@
 module.exports = {
 
-
-  models: {
-    connection: 'etPostgresqlServer'
+  connection: {
+    redisConf: {
+      host: 'localhost',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'avaea',
+      database: 'avaea_db'
+    }
+  },
+  globals: {
+    cacheStore: 'redis'
   },
 
 
