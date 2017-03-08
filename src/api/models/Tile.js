@@ -458,6 +458,7 @@ module.exports = {
               if ( index === -1 ) {
                 tileArr['Airline'].filters.push({
                   title: flight.airline,
+                  iata_2code: flight.airlineCode,
                   id: 'airline_tile_' + flight.airline.replace(/\W+/g, '_'),
                   count : 1
                 });
@@ -989,6 +990,7 @@ module.exports = {
               if ( index === -1 ) {
                 tileArr['Airline'].filters.push({
                   title: flight.airline,
+                  iata_2code: flight.airlineCode,
                   id: 'airline_tile_' + flight.airline.replace(/\W+/g, '_'),
                   count : 1
                 });

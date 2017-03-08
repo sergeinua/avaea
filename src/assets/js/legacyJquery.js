@@ -23,9 +23,6 @@ export let isMobile = {
   }
 };
 
-// Deborah removed landscape function
-// in order to control landscape view with responsive CSS
-
 /**
  * Possible types
  * on_tile_choice | on_itinerary_purchase etc...

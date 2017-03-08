@@ -17,8 +17,14 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'dockerPostgresqlServer'
+  connection: {
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: 'postgres',
+      user: 'avaea',
+      password: 'a1v2a3e4a5',
+      database: 'avaea'
+    }
   },
 
   /***************************************************************************

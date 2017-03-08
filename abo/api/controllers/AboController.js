@@ -203,7 +203,7 @@ module.exports = {
             // - Total - booking.itinerary_data, key "price"
             K: parseFloat(itinerary.price || '0.00').toFixed(2),
             // - TransactionStatus,
-            L: 'Paid',
+            L: (booking.status_eticket === 2)? 'eticket': '',
             // - Method of Payment (CardType) - get value from the booking request,
             M: request.CardType,
             // - TaxCountry - get value from the booking request,
@@ -213,7 +213,7 @@ module.exports = {
             // TaxZip - get value from the booking request,
             P: request.ZipCode,
             // Device: '',
-            Q: '',
+            Q: request.deviceType || '',
             // Referrer: '',
             R: user.landing_page || ''
           }

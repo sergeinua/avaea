@@ -18,7 +18,7 @@ module.exports = {
       }
       // store data in cache
       cache.store(vanityURLsCacheKey, result);
-      onvoya.log.silly('vanity URLs loaded to the cache');
+      onvoya.log.silly('Vanity URLs have been loaded into the cache');
     });
   },
 
@@ -27,8 +27,23 @@ module.exports = {
 
     cache.get(vanityURLsCacheKey, (err, result)=>{
       if (err) {
-        onvoya.log.error(err);
-        deferred.reject(err);
+
+        // loads VanityURLs from database and updates cache
+        VanityURLs.find().exec((err, result)=>{
+          if (err) {
+            onvoya.log.error(err); // can't load data from database
+            deferred.reject(err);
+          }
+          if (typeof result === 'undefined') {
+            result = [];
+          }
+          // store data in cache
+          cache.store(vanityURLsCacheKey, result);
+          onvoya.log.silly('Vanity URLs have been loaded into the cache');
+
+          deferred.resolve(result);
+        });
+
       } else {
         deferred.resolve(JSON.parse(result));
       }

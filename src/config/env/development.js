@@ -17,8 +17,28 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'etPostgresqlServer'
+  connections: {
+    redisConf: {
+      host: 'localhost',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
+    memcacheConf: {
+      host: 'localhost',
+      port: '11211',
+      exptime: 60*30 // 30 minutes
+    },
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'avaea',
+      database: 'avaea_db'
+    }
   },
 
   /***************************************************************************
@@ -72,6 +92,14 @@ module.exports = {
           agy: "05600044"
         },
         trace: 'xmlava001'
+      }
+    },
+    cheapoair: {
+      security: {
+        WUID: 'ED88ED4D-3DE0-4B75-84C2-BDDD26FEB2EF',
+        User: 'xmlfeedTest@cheapoair.com',
+        Password: 'sky2@1@',
+        AffiliateCode: 'xmlfeedTest_fpwebbox'
       }
     }
   },
