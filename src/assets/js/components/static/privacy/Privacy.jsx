@@ -152,7 +152,7 @@ let StaticPrivacy = React.createClass({
 
 
       	<div className="copy intro">
-	      	OnVoya uses the information you provide or that we collect to to develop, operate, maintain, enhance,
+	      	OnVoya uses the information you provide or that we collect to develop, operate, maintain, enhance,
 	      	and provide the Service, to develop new products and services, and to customize and target content
 	      	that may be more interesting, relevant or useful to you, including advertisements, and for other
 	      	administrative purposes. Here are some examples of how we may use the information you provide
