@@ -6,7 +6,8 @@ module.exports = {
         if (itins.length == 0) return; // If empty, then nothing needs to be done
 
         for(var i=0; i<itins.length; i++) {
-          itins[i].milesValue = ( itins[i].hasOwnProperty('miles') ) ? ( 0.02*itins[i].miles ) : ( 0.0 ); // milesValue is $0.02 for each earned FF mile
+          if (!itins[i].hasOwnProperty('miles')) itins[i].miles = 0.0;
+          itins[i].milesValue = 0.02*itins[i].miles; // milesValue is $0.02 for each earned FF mile
         }
     }, // end of function compute_milesValue
 
@@ -173,7 +174,7 @@ module.exports = {
       return Math.log(Math.floor(number)) * Math.LOG10E + 1 | 0; // for positive numbers
     }, // end of function number_of_digits
 
-    one_itin_to_string: function (prefix,itin,price_digits)
+    one_itin_to_string: function (prefix,itin,price_digits,miles_digits,value_digits,duration_digits,airlinerank_digits,smartrank_digits)
     // price_digits --- number of digits in the rounded-down price.
     {
         if (itin === undefined) return ''; // If undefined, then return empty sting
@@ -181,20 +182,22 @@ module.exports = {
         var d = this.parseTime(itin.citypairs[0].from.time);
 
         var price_str      = "$" + this.num2str(Number(itin.price).toFixed(2),price_digits+3);
-        var priceRank_str  = (itin.priceRank      ===undefined)?(""):(" (" + itin.priceRank.toFixed(10) + ")" );
-        var miles_str      = (itin.miles          ===undefined)?(""):(", earning " + itin.miles + " mi" );
+        var miles_str      = (itin.miles          ===undefined)?(""):(", earning " + this.num2str(itin.miles,miles_digits) + " mi" );
+        var milesValue_str = (itin.milesValue     ===undefined)?(""):(" ($" + this.num2str(itin.milesValue.toFixed(2),value_digits+3) + " value)" );
+        var priceRank_str  = (itin.priceRank      ===undefined)?(""):(" [" + itin.priceRank.toFixed(8) + "]" );
+        var duration_str   = ", " + this.num2str(itin.durationMinutes,duration_digits) + " mins";
         var dep_rank_str   = (itin.best_dep_rank  ===undefined)?(""):(" with dep_rank " + itin.best_dep_rank);
         var air_line_str   = (itin.air_line       ===undefined)?(""):(" on " + itin.air_line);
         var airl_rank_str  = (itin.best_airl_rank ===undefined)?(""):(" with airl_rank "  + itin.best_airl_rank);
-        var airl_rank2_str = (itin.best_airl_rank2===undefined)?(""):(" with airl_rank2 " + itin.best_airl_rank2);
-        var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
+        var airl_rank2_str = (itin.best_airl_rank2===undefined)?(""):(" [" + this.num2str(itin.best_airl_rank2,airlinerank_digits) + "]");
+        var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = " + this.num2str(itin.smartRank,smartrank_digits));
+        //var smartRank_str  = (itin.smartRank      ===undefined)?(""):(", smartRank = "  + itin.smartRank );
         var why_this_str   = (itin.why_this       ===undefined)?(""):(", " + itin.why_this );
 
-        return ( prefix + price_str + priceRank_str + miles_str
-                        + ", " + itin.durationMinutes + " mins"
+        return ( prefix + price_str + miles_str + milesValue_str + priceRank_str + duration_str
                         + ", departs " + itin.citypairs[0].from.time
                         //+ " (" + d.getHours() + ":" + ('0'+d.getMinutes()).slice(-2) + ")"
-                        + " (" + itin.depatureMinutes + " mins)"
+                        //+ " (" + itin.depatureMinutes + " mins)"
                         + dep_rank_str
                         + air_line_str
                         + airl_rank_str
@@ -210,10 +213,16 @@ module.exports = {
         if (itins.length == 1) return this.one_itin_to_string("Itinerary : ", itins[0]);
         var result = "";
         var N = this.number_of_digits(itins.length);
-        var P = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return +it.price; }))); // convert string to float
+        var P = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return +it.price          ; }))); // convert string to float
+        var M = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return  it.miles          ; })));
+        var V = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return  it.milesValue     ; })));
+        var D = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return  it.durationMinutes; })));
+        var A = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return  it.best_airl_rank2; })));
+        var S = this.number_of_digits(Math.max.apply(null,itins.map(function(it) { return  it.smartRank      ; })));
 
-        for(var i=0; i < itins.length; i++) {
-          result += ("\n" + this.one_itin_to_string("Itinerary " + this.num2str(i,N) + " of " + itins.length + ": ", itins[i], P));
+        for(var i=0; i < itins.length; i++)
+        {
+            result += "\n" + this.one_itin_to_string("Itinerary " + this.num2str(i,N) + " of " + itins.length + ": ", itins[i], P, M, V, D, A, S);
         }
         return result;
     }, // end of function many_itins_to_string
@@ -222,6 +231,13 @@ module.exports = {
     {
         onvoya.log.info(this.many_itins_to_string(itins));
     }, // end of function print_many_itineraries
+
+    print_search_query: function (query)
+    {
+        onvoya.log.info("Search Query: " + query.DepartureLocationCode + ((query.returnDate)?("<->"):("->")) + query.ArrivalLocationCode + ", "
+                                         + query.departureDate + ((query.returnDate)?("-" + query.returnDate):("")) + ", "
+                                         + query.passengers + " " + query.CabinClass + ", " + ((query.topSearchOnly)?("top"):("all")) + " flights");
+    }, // end of function print_search_query
 
     compare_price: function (a, b) // price is a string
     {
@@ -1333,7 +1349,7 @@ module.exports = {
 
     }, // end of function append_1D_airline_rank2
 
-    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake)
+    rank_itineraries_in_3D_by_price_duration_airline2: function (itins, snowflake, query)
     {
         if (itins.length == 0) return; // If empty, then nothing to rank
         if (itins.length == 1) { // If just one itinerary, then ranking is easy
@@ -1342,6 +1358,8 @@ module.exports = {
           onvoya.log.info("One itinerary found. Ranking is trivial. Returning the only itinerary.");
           return;
         }
+
+        this.print_search_query(query);
 
         var preferred_airlines = [];
         if ( !( snowflake === undefined ) )

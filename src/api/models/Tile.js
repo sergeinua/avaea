@@ -703,7 +703,7 @@ module.exports = {
         }
       }
 
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, params); // rank and prune in-place
 
       break;
     default:
