@@ -416,7 +416,7 @@ module.exports = {
           }
         }
 
-        if (params.returnDate) {
+        if (params.returnDate) { // round trip
           var lastElement = itinerary.citypairs.length - 1;
           if (itinerary.citypairs[lastElement].from.quarter) {
             index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
@@ -945,7 +945,7 @@ module.exports = {
           }
         }
 
-        if (params.returnDate) {
+        if (params.returnDate) { // round trip
           var lastElement = itinerary.citypairs.length - 1;
           if (itinerary.citypairs[lastElement].from.quarter) {
             index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
