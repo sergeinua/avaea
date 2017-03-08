@@ -1325,6 +1325,7 @@ textarea {
 
 .its-me .hint,
 form.booking .hint,
+.booking .agree,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .itinerary .duration,
@@ -3160,10 +3161,9 @@ td[data-action*="selectDay"] {
 }
 
 .booking .confirmation {
-	font-family: 'Open-Sans-Light';
 	font-size: 20px;
 	text-align: center;
-	padding: 15px; 
+	padding: 10px; 
 }
 
 .booking .confirmation:after {
@@ -3178,13 +3178,29 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking .confirmation div {
+.booking .confirmation .holder {
 	padding-right: 20px;
 	display: inline-block;
 }
 
-.booking .confirmation div:last-child {
-	padding-right: 0;
+.booking .confirmation .holder .copy {
+	font-size: 14px;
+	line-height: 14px;
+	padding-top: 5px;
+	display: block;
+}
+
+.booking .confirmation .holder:last-child {
+	padding-right: 5px;
+}
+
+.booking .agree {
+	font-size: 13px;
+	padding-bottom: 5px;
+}
+
+.booking .agree a {
+	text-decoration: underline;
 }
 
 .which-passenger {

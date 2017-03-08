@@ -339,9 +339,18 @@ let OrderPanel = React.createClass({
 
             <div className="confirmation persons-class-price">
               <div className="wrapper">
-                <div className="people">{ this.props.commonData.searchParams.passengers }</div>
-                <div className="class">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</div>
-                <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+              	<div className="holder people">
+              		<span className="copy">People</span>
+                	<span className="value">{ this.props.commonData.searchParams.passengers }</span>
+                </div>
+                <div className="holder class">
+                	<span className="copy">Seat Class</span>
+                	<span className="value">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</span>
+                </div>	
+                <div className="holder price">	
+                	<span className="copy">Price (each)</span>
+                	<span className="value">{this.props.orderData.itineraryData.orderPrice}</span>
+                </div>
               </div>
             </div>
             <div className="flight-unit">
@@ -377,8 +386,9 @@ let OrderPanel = React.createClass({
 
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
+              <div className="agree">By purchasing you agree to our <a href="/terms" target="_blank">Terms</a></div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
-                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+                {this.props.specialOrder ? 'Submit' : 'Buy' }
               </button>
             </div>
 
