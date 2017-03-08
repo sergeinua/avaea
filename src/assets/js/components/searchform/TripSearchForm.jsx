@@ -373,13 +373,13 @@ const TripSearchForm = React.createClass({
 	          <button id="search-form-all-flights-button" 
 	          	type="submit" 
 	          	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
-	          	All Flights
+	          	Show All
 	          </button>
           
 	          <button id="search-form-top-flights-button"
 	            type="submit"
 	            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
-	          	Top Flights
+	          	Show Best
 	          </button>
 	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>	
           </div>
