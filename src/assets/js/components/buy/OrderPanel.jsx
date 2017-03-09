@@ -125,8 +125,20 @@ let OrderPanel = React.createClass({
       return /^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/.test(value) && value.replace(/[^0-9]/g,'').length >= 10;
     });
 
+    let cvvCountRX = /^\d{3}$/;
+    let ccCountRX = /^\d{16}$/;
+    if (typeof this.props.orderData.fieldsData.CardType !== 'undefined'
+      && this.props.orderData.fieldsData.CardType == 'AX') {
+      cvvCountRX = /^\d{4}$/;
+      ccCountRX = /^\d{15}$/;
+    }
+
+    $.validator.addMethod("cvvCount", function(value, element) {
+      return cvvCountRX.test(value);
+    });
+
     $.validator.addMethod("luhnChecksum", function( value, element ) {
-      return luhn.validate(value);
+      return ccCountRX.test(value) && luhn.validate(value);
     });
 
     let countryCode = '';
@@ -183,7 +195,7 @@ let OrderPanel = React.createClass({
           required: true,
           digits: true,
           luhnChecksum : true,
-          minlength: 16,
+          minlength: 15,
           maxlength: 16
         },
         ExpiryDate: {
@@ -194,8 +206,7 @@ let OrderPanel = React.createClass({
         CVV: {
           required: true,
           digits: true,
-          minlength: 3,
-          maxlength: 3
+          cvvCount: true
         },
         email: {
           required: true,
