@@ -56,7 +56,7 @@ let OrderPanelElementState = React.createClass({
 
 const mapStateOrder = function(store) {
   let code = '';
-  if (typeof store.orderData.fieldsData['Country'] !== 'undefined') {
+  if (store.orderData && store.orderData.fieldsData && typeof store.orderData.fieldsData['Country'] !== 'undefined') {
     code = store.orderData.fieldsData['Country'];
   }
   return {
