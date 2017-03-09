@@ -115,7 +115,7 @@ const Calendar = React.createClass({
       picker.datetimepicker({
         inline: true,
         format: "YYYY-MM-DD",
-        minDate: curMoment.clone().startOf('day'),
+        minDate: calendarType == 'ret' ? this.props.searchParams.departureDate : curMoment.clone().startOf('day'),
         maxDate: curMoment.clone().add(searchApiMaxDays - 1, 'days').endOf('day')
       });
       // extends "clear" datepicker method, adding possibility to clear range
@@ -195,6 +195,7 @@ const Calendar = React.createClass({
     };
     // filter dates
     dates = getDefaultDateSearch(dates);
+
     if (!dates.departureDate) {
       dates.departureDate = dates.returnDate;
     }

@@ -32,7 +32,7 @@ module.exports = {
     let page = (!req.url || req.url.trim() == '/') ? '/search' : req.url;
 
     const params = Search.getDefault(req);
-    
+
     params.DepartureLocationCode = req.param('From', params.DepartureLocationCode);
     params.ArrivalLocationCode = req.param('To', params.ArrivalLocationCode);
     params.CabinClass = req.param('Class', params.CabinClass);
