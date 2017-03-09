@@ -7,7 +7,9 @@ let lodash = require('lodash');
 * @docs        :: http://sailsjs.org/#!documentation/models
 */
 
+
 module.exports = {
+  dateFormat: 'YYYY-MM-DD',
 
   attributes: {
     hash: {
@@ -30,36 +32,47 @@ module.exports = {
     if (_.isEmpty(req.session)) {
       req.session = {};
     }
-    let tmpDefaultDepDate = sails.moment().add(2, 'w');
-    let tmpDefaultRetDate = sails.moment().add(4, 'w');
-    let nextFirstDateMonth = sails.moment().add(1, 'M').startOf('month');
 
-    if (nextFirstDateMonth.diff(tmpDefaultDepDate, 'days') > tmpDefaultRetDate.diff(nextFirstDateMonth, 'days')) {
-      tmpDefaultRetDate = sails.moment(tmpDefaultDepDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultRetDate = tmpDefaultRetDate.endOf('month');
-    } else {
-      tmpDefaultDepDate = sails.moment(tmpDefaultRetDate.format('YYYY-MM-DD'), 'YYYY-MM-DD');
-      tmpDefaultDepDate = tmpDefaultDepDate.startOf('month');
+    const today = sails.moment(Date.now()).startOf('day');
+    let useSessionDate = false;
+    let departureDate = sails.moment().add(2, 'w');
+    let returnDate = sails.moment().add((14 + 10), 'd');
+
+    let sessionDate;
+    if (!_.isEmpty(req.session.departureDate) &&
+      (sessionDate = sails.moment(req.session.departureDate)).isValid() &&
+      sessionDate.diff(today) >= 0
+    ) {
+      departureDate = sessionDate;
+      useSessionDate = true;
+    }
+
+    if (useSessionDate &&
+      !_.isEmpty(req.session.returnDate) &&
+      (sessionDate = sails.moment(req.session.returnDate)).isValid() &&
+      sessionDate.diff(today) >= 0
+    ) {
+      returnDate = sessionDate;
     }
 
     return {
-      DepartureLocationCode     : !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
-      ArrivalLocationCode       : !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
-      DepartureLocationCodeCity : !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
-      ArrivalLocationCodeCity   : !_.isString(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
-      CabinClass                : !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
-      departureDate             : _.isEmpty(req.session.departureDate) ? tmpDefaultDepDate.format('YYYY-MM-DD') : req.session.departureDate,
-      returnDate                : _.isEmpty(req.session.returnDate) ? tmpDefaultRetDate.format('YYYY-MM-DD') : req.session.returnDate,
-      passengers                : _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
-      flightType                : !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
+      DepartureLocationCode: !_.isString(req.session.DepartureLocationCode) ? '' : req.session.DepartureLocationCode,
+      ArrivalLocationCode: !_.isString(req.session.ArrivalLocationCode) ? '' : req.session.ArrivalLocationCode,
+      DepartureLocationCodeCity: !_.isString(req.session.DepartureLocationCodeCity) ? '' : req.session.DepartureLocationCodeCity,
+      ArrivalLocationCodeCity: !_.isString(req.session.ArrivalLocationCodeCity) ? '' : req.session.ArrivalLocationCodeCity,
+      CabinClass: !_.isString(req.session.CabinClass) ? 'E' : req.session.CabinClass,
+      departureDate: departureDate.format(this.dateFormat),
+      returnDate: returnDate.format(this.dateFormat),
+      passengers: _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
+      flightType: !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
   },
 
   validateSearchParams: function (searchParams) {
     let _Error = false;
     let searchApiMaxDays = sails.config.flightapis.searchApiMaxDays;
-    let moment_dp = sails.moment(searchParams.departureDate, "DD/MM/YYYY", true);
-    let moment_rp = sails.moment(searchParams.returnDate, "DD/MM/YYYY", true);
+    let moment_dp = sails.moment(searchParams.departureDate, this.dateFormat, true);
+    let moment_rp = sails.moment(searchParams.returnDate, this.dateFormat, true);
     let moment_now = sails.moment();
 
     // Check depart date
