@@ -80,6 +80,10 @@ let OrderPanel = React.createClass({
       }
     ];
   },
+  
+  handleTermsLink: function () {
+  	historyStrategy.push('/booking/' + resData.bookingId);
+  },
 
   getOrder: function() {
     return ClientApi.reqPost('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
@@ -386,7 +390,9 @@ let OrderPanel = React.createClass({
 
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
-              <div className="agree">By purchasing you agree to our <a href="/terms" target="_blank">Terms</a></div>
+              <div className="agree">
+              	By purchasing you agree to our <a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>Terms</a>
+              </div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
                 {this.props.specialOrder ? 'Submit' : 'Buy' }
               </button>

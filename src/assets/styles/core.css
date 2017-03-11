@@ -4230,6 +4230,11 @@ nav {
 	.desktop .tt-menu {
 		margin-top: 65px;
 	}
+	
+	.arr-asc:before,
+	.arr-desc:before {
+		right: -18px;
+	}
 
 }
 
