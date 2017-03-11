@@ -32,7 +32,8 @@ var confFields = {
   },
   preferred_airlines: {
     travel_type: "",
-    airline_name: ""
+    airline_name: "",
+    airline_iata_2code: ""
   },
   miles_programs: {
     program_name: "",

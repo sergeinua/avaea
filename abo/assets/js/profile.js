@@ -11,6 +11,10 @@ $(document).ready(function(){
       _this.parent().find('input').val(''); // clear all fields after changing of program
     }
 
+    if (_this.hasClass('airline-name')) {
+      _this.parent().find('[name*="airline_iata_2code"]').val(activeLi.data('iata'));
+    }
+
     var arc = _this.data('arc');
     if(('' + arc).length > 0){
       _this.val(arc); // restore data from archive
@@ -27,7 +31,6 @@ $(document).ready(function(){
     $(this).data('arc', $(this).val());
   })
   .on('keyup', '.abo-search-input', function(event){
-    
     var _this = $(this), q = _this.val();
 
     if(event.keyCode === 40){ //pressed arrow down
@@ -81,12 +84,13 @@ $(document).ready(function(){
               
               for(var i = 0; i < airlines.length; i++){
                 var airline = airlines[i];
-                
+
                 $('<li/>')
                     .addClass('list-group-item')
                     .data('num', i)
                     .data('value', airline.value)
                     .data('label', airline.label)
+                    .data('iata', airline.iata_2code)
                     .text(airline.label).css({cursor: 'pointer'})
                     .off()
                     .on('click', function(){_this.data('arc', '').blur();})
@@ -223,7 +227,9 @@ $('.addPreferredAirlines').click(function(event){
         $(this).parents('.preferred_airlines').remove();
     });
     clone.find('input[type=radio]').attr('name', 'preferred_airlines.travel_type['+iterator+']').removeProp('checked');
-    clone.find('input[type=text]').attr('name', 'preferred_airlines.airline_name['+iterator+']').val('');
+    clone.find('input[type=text]').attr('name', 'preferred_airlines.airline_name_label['+iterator+']').val('');
+    clone.find('input[type=hidden][name*="preferred_airlines.airline_name"]').attr('name', 'preferred_airlines.airline_name['+iterator+']').val('');
+    clone.find('input[type=hidden][name*="preferred_airlines.airline_iata_2code"]').attr('name', 'preferred_airlines.airline_iata_2code['+iterator+']').val('');
     clone.find('hr').removeClass('hidden');
     
     // appends the clone to the parent element 

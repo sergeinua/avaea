@@ -98,6 +98,9 @@ module.exports = {
           };
           lodash.assignIn(logData.itinerary, {RefundType: ''});
 
+          logData.itinerary.price = parseFloat(logData.itinerary.price);
+          logData.itinerary.fare = parseFloat(logData.itinerary.fare);
+
           if (req.user) {
             itineraryPrediction.updateRank(req.user.id, logData.itinerary.searchId, logData.itinerary.price);
           }
@@ -157,6 +160,9 @@ module.exports = {
         }
         booking_itinerary = JSON.parse(resItinerary);
 
+        booking_itinerary.price = parseFloat(booking_itinerary.price);
+        booking_itinerary.fare = parseFloat(booking_itinerary.fare);
+
         // Convert birthday date to the booking format. The sails returns date DB attribute as Date() object
         if (typeof reqParams.DateOfBirth == 'object') {
           reqParams.DateOfBirth = sails.moment(reqParams.DateOfBirth).format('YYYY-MM-DD');
@@ -167,7 +173,8 @@ module.exports = {
         }
         reqParams.user = user;
         reqParams.price = booking_itinerary.price;
-
+        //fix for mondee http://prnt.sc/ehrcdh
+        reqParams.ZipCode = (''+reqParams.ZipCode).replace(/\W|_/g, '');
         // Clone and modify params for booking API
         let reqParamsApi = lodash.cloneDeep(reqParams);
         reqParamsApi.booking_itinerary = booking_itinerary;

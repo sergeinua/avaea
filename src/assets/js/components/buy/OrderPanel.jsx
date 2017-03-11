@@ -12,10 +12,12 @@ import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 import PassengerItemContainer from './PassengerItem.jsx';
 import luhn from 'luhn';
+import postalCodes from 'postcode-validator';
 import { ActionsStore } from '../../functions.js';
+import OrderPanelElementCountry from './OrderPanelElementCountry';
+import OrderPanelElementState from './OrderPanelElementState';
 
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
-const COUNTRIES = require('../../fixtures/countries');
 const STATES = require('../../fixtures/countryStates');
 
 let OrderPanel = React.createClass({
@@ -127,6 +129,17 @@ let OrderPanel = React.createClass({
       return luhn.validate(value);
     });
 
+    let countryCode = '';
+    if (typeof this.props.orderData.fieldsData.Country !== 'undefined') {
+      countryCode = this.props.orderData.fieldsData.Country;
+    }
+    $.validator.addMethod("postalCode", function( value, element ) {
+      if (countryCode) {
+        return postalCodes.validate(value, countryCode);
+      }
+      return false;
+    });
+
     /**
      * Client validation during booking of itinerary
      */
@@ -161,7 +174,7 @@ let OrderPanel = React.createClass({
         },
         ZipCode: {
           requiredAndTrim: true,
-          digits: true
+          postalCode: true
         },
         CardType: {
           required: true
@@ -192,7 +205,7 @@ let OrderPanel = React.createClass({
       messages: {
         FirstName: "Must not have be empty or have invalid characters",
         LastName: "Must not have be empty or have invalid characters",
-        ZipCode: "Please enter digits only",
+        ZipCode: "Please enter valid zip code",
         CardNumber: "Please enter a valid credit card number",
         CVV: "Please enter 3 digits",
         "passengers[1].phone": "Please enter a valid phone number",
@@ -329,23 +342,6 @@ let OrderPanel = React.createClass({
         )} index={i} orderData={this.props.orderData} key={'pass'+i}/>);
       }
 
-      let c = {}, s = {};
-      COUNTRIES.COUNTRIES.map(function(item, index) {
-        c[item.value] = item.label;
-        return item;
-      });
-      if (STATES.STATES[this.props.orderData.fieldsData.Country]) {
-        STATES.STATES[this.props.orderData.fieldsData.Country].map(function (item, index) {
-          s[item.value] = item.label;
-          return item;
-        });
-      } else {
-        s = {};
-      }
-      this.props.orderData.profileStructure.Country = c;
-      this.props.orderData.profileStructure.State = s;
-      // console.log(this.props.orderData.profileStructure);
-
       return (
         <span>
           <SearchBanner id="bookingModal" text="Booking your trip!"/>
@@ -372,7 +368,20 @@ let OrderPanel = React.createClass({
 
             <div className="page-ti billing">Billing</div>
             {this.makeOrderData(this.props.orderData).map(
-                  (item, index) => <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item} key={'elem-' + index} panelType="fields"/>
+              (item, index) => {
+                let elem;
+                if (item.id === "Country") {
+                  elem = <OrderPanelElementCountry profileStructure={this.props.orderData.profileStructure} item={item}
+                          key={index} elemNum={index} panelType="fields"/>;
+                } else if (item.id === "State") {
+                  elem = <OrderPanelElementState profileStructure={this.props.orderData.profileStructure} item={item}
+                          key={index} elemNum={index} panelType="fields"/>;
+                } else {
+                  elem = <OrderPanelElement profileStructure={this.props.orderData.profileStructure} item={item}
+                          key={index} elemNum={index} panelType="fields"/>
+                }
+                return elem;
+              }
             )}
 
             <div className="page-ti people">Travellers</div>
