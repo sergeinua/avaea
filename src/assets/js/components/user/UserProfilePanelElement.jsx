@@ -7,11 +7,11 @@ const mapDispatchPanelElem = (dispatch, ownProps) => {
   return {
     handleChangeValue: (event) => {
       if (ownProps.panelType && ownProps.panelType === 'notifyContact') {
-        dispatch(actionSetPersonalNotifyVal(ownProps.elemNum, event.target.value))
+        dispatch(actionSetPersonalNotifyVal(ownProps.elemNum, event.target.value));
       } else {
-        dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value))
+        dispatch(actionSetPersonalVal(ownProps.elemNum, event.target.value));
       }
-      validateField(ownProps, event.target.value)
+      validateField(ownProps, event.target.value);
     }
   }
 };
