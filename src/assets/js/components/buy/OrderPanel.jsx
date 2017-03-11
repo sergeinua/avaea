@@ -38,7 +38,7 @@ let OrderPanel = React.createClass({
       {id:'CardNumber', required: true, type: 'number', title: 'Card Number', data: ''},
       {id:'ExpiryDate', required: true, title: 'Expiration Date', placeholder: 'MM/YYYY', data: ''},
       {id:'CVV', required: true, title: 'CVV', data: ''},
-      {id:'email', required: true, title: 'Where should we send the Confirmation email?', placeholder: 'Email address', data: fields_data.email || ''}
+      {id:'email', required: true, title: 'Where should we send the confirmation email?', placeholder: 'Email address', data: fields_data.email || ''}
     ];
   },
 
@@ -331,7 +331,6 @@ let OrderPanel = React.createClass({
     	            engineer -- calculate total price: (N travellers) x (price for 1 adult ticket)
     	          */}
                 <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
-                <div className="copy">Preliminary price for each traveller</div>
               </div>
             </div>
             <div className="flight-unit">

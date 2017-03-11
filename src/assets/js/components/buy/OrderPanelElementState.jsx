@@ -37,13 +37,13 @@ let OrderPanelElementState = React.createClass({
 
   render: function() {
     let stateList = STATES.STATES[this.props.countryCode];
-    return <div>
+    return <div className="dropmenu-wrapper">
       <label className={this.props.item.required ? "required" : ""}>{this.props.item.title}</label>
       <Select
         name={this.props.item.id}
         id={'profilePersonal-' + this.props.item.id}
         value={this.state.stateCode}
-        className="form-control input-sm profile-state"
+        className="dropmenu State profile-state"
         placeholder={this.props.item.placeholder ? this.props.item.placeholder : this.props.item.title}
         options={stateList}
         clearable={false}

@@ -2073,6 +2073,11 @@ form.booking .hint,
 	line-height: 20px;
 }
 
+.count .add:not(.disabled),
+.count .subtract:not(.disabled) {
+	cursor: pointer;
+}
+
 .count.holder span {
 	 position: absolute;
 }
@@ -3794,7 +3799,7 @@ td[data-action*="selectDay"] {
 	line-height: 48px;
 	height: 32px;
 	position: absolute;
-		bottom: 30px;
+		bottom: 67px;
 		right: -4px;
 }
 
@@ -3871,7 +3876,7 @@ td[data-action*="selectDay"] {
 }
 
 .booking:not(.confirming) .passenger-type {
-	margin: -8px 0 30px 0;
+	margin: 10px 0 30px 0;
 }
 
 .booking:not(.confirming) .passenger-type .value {
