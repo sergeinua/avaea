@@ -416,7 +416,7 @@ module.exports = {
           }
         }
 
-        if (params.returnDate) {
+        if (params.returnDate) { // round trip
           var lastElement = itinerary.citypairs.length - 1;
           if (itinerary.citypairs[lastElement].from.quarter) {
             index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
@@ -628,18 +628,24 @@ module.exports = {
 
       // assemble the crude snowflake
       var snowflake = {
-        profile    : Tile.profileFoundAsync,
-        preference : { price    :  1, // most important
-                       duration :  6, // less important
-                       airline  : 20  // least important
-                     },
-        top_flights_only : false // return  full un-prunned set of itins
+        profile           : Tile.profileFoundAsync,
+        preference        : { price    :  1, // most important
+                              duration :  6, // less important
+                              airline  : 20  // least important
+                            },
+        bucket_selections : { price     : [],
+                              stops     : [],
+                              airline   : [],
+                              departure : [],
+                              arrival   : []
+                            },
+        top_flights_only  : false // return full un-prunned set of itins
       }
 
       if (!_.isUndefined(snowflake.profile)) { // if profile is present
         if (!_.isEmpty(snowflake.profile)) { // and is non-empty
           if (snowflake.profile != null) { // and is non-null
-            if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) { snowflake.top_flights_only = true; }// return top flights only (the best half of the itins)
+            if (!_.isUndefined(params.topSearchOnly) && params.topSearchOnly == 1) { snowflake.top_flights_only = true; } // return top flights only (the best half of the itins)
             if (!_.isUndefined(snowflake.profile.preferred_airlines)) { // if some preferred airlines are specified
               if (snowflake.profile.preferred_airlines.length > 0) {
                 snowflake.preference.airline = 6; // make airline preference as important as duration (but still less important, than price)
@@ -649,7 +655,56 @@ module.exports = {
         }
       }
 
-      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake); // rank and prune in-place
+      if (!_.isUndefined(snowflake.profile)) { // if profile is present
+        if (!_.isEmpty(snowflake.profile)) { // and is non-empty
+          UserAction.find({
+            where: {
+              //limit: 10,
+              user_id: snowflake.profile.user,
+              actionType: 'on_tile_choice'
+            },
+            sort: 'id ASC'
+          }).exec(function (err, data) {
+            if (err) {
+              onvoya.log.info('No user bucket selections info found, using default snowflake. Message: ', err);
+            } else if (data && data.length > 0) {
+              //onvoya.log.info(JSON.stringify(data,null,'  '));
+              //var fs = require('fs');
+              //fs.writeFile('/media/sf_Downloads/data.json',JSON.stringify(data,null,'  '),function(err){if(err) throw err;});
+
+              for (var i = 0; i < data.length; i++) {
+                if (data[i].logInfo.tileName ==     'price_tile') snowflake.bucket_selections.price    .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==     'stops_tile') snowflake.bucket_selections.stops    .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==   'airline_tile') snowflake.bucket_selections.airline  .push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName == 'departure_tile') snowflake.bucket_selections.departure.push(data[i].logInfo.tileValue);
+                if (data[i].logInfo.tileName ==   'arrival_tile') snowflake.bucket_selections.arrival  .push(data[i].logInfo.tileValue);
+              }
+
+              var max_bucket_selections = Math.max(snowflake.bucket_selections.price.length, snowflake.bucket_selections.stops.length, snowflake.bucket_selections.airline.length);
+              if ( max_bucket_selections == 0 ) {
+                onvoya.log.info('No relevant user bucket selections info found, using default snowflake.');
+              } else {
+                snowflake.preference.price    = ( snowflake.bucket_selections.price  .length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.price  .length );
+                snowflake.preference.duration = ( snowflake.bucket_selections.stops  .length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.stops  .length );
+                snowflake.preference.airline  = ( snowflake.bucket_selections.airline.length == 0 ) ? ( max_bucket_selections*3 ) : ( max_bucket_selections / snowflake.bucket_selections.airline.length );
+
+                onvoya.log.info('===============================================');
+                onvoya.log.info("Information found in the database for user: " + snowflake.profile.user);
+                onvoya.log.info("Total     bucket selections: " + data.length);
+                onvoya.log.info("Price     bucket selections: " + snowflake.bucket_selections.price    .length);
+                onvoya.log.info("Stops     bucket selections: " + snowflake.bucket_selections.stops    .length);
+                onvoya.log.info("Airline   bucket selections: " + snowflake.bucket_selections.airline  .length);
+                onvoya.log.info("Departure bucket selections: " + snowflake.bucket_selections.departure.length);
+                onvoya.log.info("Arrival   bucket selections: " + snowflake.bucket_selections.arrival  .length);
+                onvoya.log.info('===============================================');
+              }
+            }
+          });
+        }
+      }
+
+      cicstanford.rank_itineraries_in_3D_by_price_duration_airline2(itineraries, snowflake, params); // rank and prune in-place
+
       break;
     default:
       // do nothing
@@ -890,7 +945,7 @@ module.exports = {
           }
         }
 
-        if (params.returnDate) {
+        if (params.returnDate) { // round trip
           var lastElement = itinerary.citypairs.length - 1;
           if (itinerary.citypairs[lastElement].from.quarter) {
             index = _.findIndex(tileArr['destinationDeparture'].filters, {title: timeArr[itinerary.citypairs[lastElement].from.quarter - 1]});
@@ -1028,7 +1083,7 @@ module.exports = {
         delete itinerary.informationTmp;
 
 
-        if (currentNum >= Tile.itineraryPredictedRank['rankMin'] &&  currentNum <= Tile.itineraryPredictedRank['rankMax']) {
+        if (currentNum >= Tile.itineraryPredictedRank['rankMin'] && currentNum <= Tile.itineraryPredictedRank['rankMax']) {
           filterClass = filterClass + ' recommended';
         }
         currentNum++;

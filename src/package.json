@@ -47,6 +47,7 @@
     "passport-google-oauth": "^0.2.0",
     "passport-http-bearer": "^1.0.1",
     "passport-twitter": "^1.0.3",
+    "postcode-validator": "^1.2.0",
     "promise-polyfill": "^6.0.2",
     "purifycss-webpack-plugin": "^2.0.3",
     "q": "^1.4.1",

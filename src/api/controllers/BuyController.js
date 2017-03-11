@@ -173,7 +173,8 @@ module.exports = {
         }
         reqParams.user = user;
         reqParams.price = booking_itinerary.price;
-
+        //fix for mondee http://prnt.sc/ehrcdh
+        reqParams.ZipCode = (''+reqParams.ZipCode).replace(/\W|_/g, '');
         // Clone and modify params for booking API
         let reqParamsApi = lodash.cloneDeep(reqParams);
         reqParamsApi.booking_itinerary = booking_itinerary;
