@@ -76,7 +76,16 @@ let UserProfile = React.createClass({
       {id:'personal_info.address.street', title: 'Address', data: profile_fields.personal_info.address.street || ''},
       {id:'personal_info.address.city', title: 'City', data: profile_fields.personal_info.address.city || ''},
       {id:'personal_info.address.state', title: 'State', data: profile_fields.personal_info.address.state || ''},
-      {id:'personal_info.address.zip_code', title: 'Zip Code', data: profile_fields.personal_info.address.zip_code || ''}
+      {id:'personal_info.address.zip_code', title: 'Zip Code', data: profile_fields.personal_info.address.zip_code || '',
+        validator: {
+          name: ['postalCode'],
+          errorMsg: {
+            'phone': 'Please enter a valid Zip Code'
+          },
+          errorClass: 'has-error'
+        },
+        validated: []
+      }
     ];
 
     this.profileData.notifyContact = [
@@ -86,7 +95,7 @@ let UserProfile = React.createClass({
 
     this.profileData.preferredAirlines = [
       {id:'preferred_airlines', title: 'Preferred Airlines', data: profile_fields.preferred_airlines || []}
-    ]
+    ];
 
     this.profileData.programs = [
       {id:'miles_programs', title: 'Airlines Frequent Flier Miles Programs', data: profile_fields.miles_programs || []},
@@ -124,8 +133,8 @@ let UserProfile = React.createClass({
   },
 
   execUpdate: function () {
-    let _isValid = validateFormPersonal(this.props.profileData.personal)
-    this.setState({isValid: _isValid})
+    let _isValid = validateFormPersonal(this.props.profileData.personal);
+    this.setState({isValid: _isValid});
     if (_isValid) {
       this.props.loadProfileSuccess({});
       this.postProfile()
@@ -139,7 +148,7 @@ let UserProfile = React.createClass({
   },
 
   onChangeForm: function() {
-    this.setState({isValid: true})
+    this.setState({isValid: true});
   },
 
   componentDidMount: function() {
