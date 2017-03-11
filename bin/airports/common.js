@@ -115,16 +115,6 @@ module.exports = {
       });
     return pgclient;
   },
-  set_pax_in_airport_data : ( data, pax ) => {
-    if( !data ) {
-      // looks like the data for this airport has never been set
-      return {'pax':Number(pax)};
-    }
-    var current_pax = data.hasOwnProperty('pax') ? data.pax : 0;
-    pax = Number(pax);
-    data.pax = current_pax<pax ? pax : current_pax;
-    return data;
-  },
   escape_sql_value : ( v, desired_type ) => {
     return ((v==null) || (v==undefined) || (v=="\\N") || (v=='')) ? "NULL" :
       (desired_type=='number') ? Number(v) :
@@ -149,10 +139,10 @@ module.exports = {
   },
   merge_airports : function( src ) {
     for( let iata_3code in this.airports ) {
+      let dst_a = this.airports[iata_3code];
       if( src.hasOwnProperty(iata_3code) ) {
-	let a     = this.airports[iata_3code];
 	let src_a = src[iata_3code];
-	for( let k in a ) {
+	for( let k in dst_a ) {
 	  if( k=='source' ) {
 	    // special case
 	    continue;
@@ -161,31 +151,31 @@ module.exports = {
 	    if( src_a[k]===undefined ) {
 	      // do not update with undefined value
 	    }
-	    else if( a[k]==src_a[k] ) {
+	    else if( dst_a[k]==src_a[k] ) {
 	      // the values are already equal, nothing to update
 	    }
-	    else if( typeof(a[k])=='object' ) {
+	    else if( typeof(dst_a[k])=='object' ) {
 	      // Just stick the value from the new source into existing object
-	      a[k][src_a.source] = src_a[k];
+	      dst_a[k][src_a.source] = src_a[k];
 	    }
 	    else {
 	      // See http://es6-features.org/#ComputedPropertyNames
-	      a[k] = {
-		[a.source]     : a[k],
+	      dst_a[k] = {
+		[dst_a.source] : dst_a[k],
 		[src_a.source] : src_a[k]
 	      };
 	    }
 	  }
 	  else {
-	    this.log(2,"Property '"+k+"' of "+a.source+" airport '"+iata_3code+"' with value '"+a[k]+"' was not found in "+src_a.source+" airport");
+	    this.log(2,"Property '"+k+"' of "+dst_a.source+" airport '"+iata_3code+"' with value '"+dst_a[k]+"' was not found in "+src_a.source+" airport");
 	  }
 	}
 	for( let k in src_a ) {
-	  if( a.hasOwnProperty(k) ) {
+	  if( dst_a.hasOwnProperty(k) ) {
 	    // Then we must have merged it above
 	  }
 	  else {
-	    a[k] = {
+	    dst_a[k] = {
 	      [src_a.source] : src_a[k]
 	    }
 	  }

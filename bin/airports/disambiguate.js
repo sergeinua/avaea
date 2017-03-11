@@ -78,7 +78,7 @@ Disambiguate.prototype.run = function() {
 	    // Let's see if all the values are really the same
 	    let first_key = keys.shift();
 	    if( keys.findIndex(function(e) { return a[k][e]!=this; },a[k][first_key])>=0 ) {
-	      _COMMON.log(1,"Disambiguate: property '"+k+"' of airport '"+iata_3code+"' has many different elements (%j), keys.length=%d, choosing the first one",a[k],keys.length);
+	      _COMMON.log(1,"Disambiguate: property '"+k+"' of airport '"+iata_3code+"' has many different elements (%j), keys.length=%d, choosing the first one",a[k],keys.length+1);
 	      a[k] = a[k][keys[0]];
 	    }
 	    else {

@@ -9,17 +9,16 @@ const _COMMON = require('./common');
 /////////////////////////////////////////////////////////////////
 if( _COMMON.argv.hasOwnProperty('help') ) {
   console.log(
-    "USAGE: %s [--loglevel=loglevel] [--database=avaea] [--user=avaea] [--password=] [--table=] [--geotable=] [--dump_to_table=] [--migrate_table=airports]\n"+
+    "USAGE: %s [--loglevel=loglevel] [--database=avaea] [--user=avaea] [--password=] [--table=] [--geolocate_all] [--dump_to_table=] [--migrate_table=airports]\n"+
       "--loglevel      - defines verbosity.\n"+
       "--database      - database to connect to on localhost. Default is 'avaea'\n"+
       "--user          - name of the user to connect to the database as. Default is 'avaea'\n"+
       "--password      - password of the user to connect to the database as. Default is ''\n"+
       "--table         - where to read the initial set of airports from\n"+
-      "--geotable      - if provided then should point to a table in the database defined above\n"+
-      "                  containing columns iata_3code, state and state_short. In this case module\n"+
-      "                  googleapis won't be called for those values of iata_3code that are in that\n"+
-      "                  table. This saves on Google API quota. If not provided or empty then Google\n"+
-      "                  Geolocation API will called for *each* found iats_3code.\n"+
+      "--geolocate_all - if provided then Google Geolocation API will be called EVEN for airports that\n"+
+      "                  we already know the getlocations for. By default this API gets called only for\n"+
+      "                  airports that we do not not city and state of because this saves on Google API\n"+
+      "                  daily quota\n"+
       "--dump_to_table - if provided then the script will dump all found airports into that table and\n"+
       "                  WILL IGNORE --migrate_table argument.\n"+
       "--migrate_table - if provided then the script will dump on STDOUT a set of SQL statement\n"+
@@ -39,7 +38,7 @@ var modules       = [
   // becomes a hash indexed by the source of the property value (see merge_airports)
   ,'./openflights' // has to be the first because it has getlocations
   ,'./annaaero'
-  ,'./googleapis'
+  ,'./geolocate'
   ,'./alternative_names'
   ,'./spreadsheet'
   ,'./wikipedia'
