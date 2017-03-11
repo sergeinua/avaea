@@ -246,9 +246,9 @@ module.exports = {
           });
 
         })
-        .then(filtered => {
+        .then(filteredResults => {
           try {
-            return callback(null, filtered);
+            return callback(null, filteredResults);
           } catch (e) {
             // avoid double callback call on errors
             return;
@@ -257,7 +257,7 @@ module.exports = {
         .catch(e => {
           onvoya.log.error('Error 30K api:', e);
           return callback(e, []);
-        })
+        });
     },
 
     /**
