@@ -17,57 +17,6 @@
    booking info cue uses wayfare info cue */
 
 
-.info.cue.cvv,
-.search.buttons .info.cue {
-	cursor: pointer;
-	font-size: 18px;
-	line-height: 48px;
-	padding: 1px 3px;
-	width: 32px;
-	display: inline-block;
-	
-}
-
-.search.buttons .info.cue {
-	margin: 10px 0;
-	height: 100%;
-	position: relative;
-		top: -2px;
-}
-
-.info.cue.cvv {
-	height: 32px;
-	position: absolute;
-		bottom: 30px;
-		right: -4px;
-}
-
-.touch.android info.cue.cvv,
-.touch.android .search.buttons .info.cue {
-	top: -1px;
-}
-
-.info.cue.cvv:before,
-.search.buttons .info.cue:before {
-	content: '';
-	height:26px;
-	width: 26px;
-	display: inline-block;
-	position: relative;
-	 top: 6px;
-	 left: 0;
-	background: rgba(13, 200, 88, 1);
-	border-radius: 50%;
-}
-
-.info.cue.cvv:after,
-.search.buttons .info.cue:after {
-	color: #ffffff;
-	display: inline-block;
-	position: absolute;
-		top: 15px;
-		left: 7px;
-}
 
 
 
@@ -85,58 +34,7 @@
 
 
 
-/* search dates error styles */
 
-
-.datepicker span.active.new.error,
-.datepicker span.active.old.error,
-.datepicker table td.day.active.new.error,
-.datepicker table td.day.active.old.error,
-.datepicker span.active.error,
-.bootstrap-datetimepicker-widget span.active.error:hover,
-.datepicker table td.active.error,
-.bootstrap-datetimepicker-widget table td.active.error:hover {
-  background-color: #ed2741;
-}
-
-.datepicker span.range.error:not(.disabled),
-.datepicker table td.day.range.error:not(.disabled) {
-  background-color: #ffffe4 !important;
-}
-
-.flight-date-info {
-  position: relative;
-}
-
-.error-date {
-  color: #ed2741;
-  padding: 20px;
-  display: inline-block;
-  position: absolute;
-  top: -50px;
-  left: calc(50% - 162px);
-  background: #ffffe4;
-  border-radius: 3px;
-  z-index: 10;
-}
-
-.flight-date-info-item:first-child {
-  border-right: 0px solid transparent;
-}
-
-.flight-date-info-item.dep {
-  border-right: 2px solid white;
-}
-
-/* iPhone 5 */
-@media (max-width: 321px) {
-
-  .error-date {
-    padding: 20px 10px;
-    left: calc(50% - 152px);
-  }
-
-}
 
 /* end for-integration.css */
 

@@ -1,5 +1,5 @@
 /* ---------------
-   onvoya core.css - 899 merging
+   onvoya core.css - 899 
 	 --------------- */
 
 /* syntax
@@ -896,6 +896,38 @@ button {
 	box-shadow: 0 1px 0 #f2f2f2;
 }
 
+.info.cue.cvv,
+.search.buttons .info.cue {
+	cursor: pointer;
+	font-size: 18px;
+	padding: 1px 3px;
+	width: 32px;
+	display: inline-block;
+}
+
+.info.cue.cvv:before,
+.search.buttons .info.cue:before {
+	content: '';
+	height:26px;
+	width: 26px;
+	display: inline-block;
+	position: relative;
+	 top: 6px;
+	 left: 0;
+	background: rgba(13, 200, 88, 1);
+	border-radius: 50%;
+}
+
+.info.cue.cvv:after,
+.search.buttons .info.cue:after {
+	color: #ffffff;
+	display: inline-block;
+	position: absolute;
+		top: 15px;
+		left: 7px;
+}
+
+
 /* colors */
 
 .navbar-default {
@@ -931,8 +963,6 @@ button {
 .navbar-default .navbar-offcanvas,
 .flight-direction,
 .touch .result-search-info-bar,
-.flight-type-form,
-.flight-direction-form,
 .multi-city-coming-soon {
 	background: #052767;
 }
@@ -1177,10 +1207,6 @@ a:focus,
 
 /* partial blue */
 
-.flight-date-info-item {
-    background: #deeef7;
-}
-
 .panel-default > .panel-heading:hover,
 .panel-default > .panel-heading:focus {
 	background-color: #deeef7;
@@ -1270,8 +1296,20 @@ form.booking .has-error label.hint,
 form.booking div.error,
 .warning,
 .remove-fieldset,
-.message.error {
+.message.error,
+.error-date {
 	color: #ed2741;
+}
+
+.datepicker span.active.new.error,
+.datepicker span.active.old.error,
+.datepicker table td.day.active.new.error,
+.datepicker table td.day.active.old.error,
+.datepicker span.active.error,
+.bootstrap-datetimepicker-widget span.active.error:hover,
+.datepicker table td.active.error,
+.bootstrap-datetimepicker-widget table td.active.error:hover {
+  background-color: #ed2741;
 }
 
 .warning {
@@ -1302,12 +1340,15 @@ form.booking div.error,
 .has-error .form-control,
 .highlight,
 .error-flash,
-.has-error input {
-	background: #ffffe0;
+.has-error input,
+.error-date {
+	background: #ffffe4;
 }
 
-.dropmenu-wrapper.has-error {
-	background-color: #ffffe0 !important;
+.dropmenu-wrapper.has-error,
+.datepicker span.range.error:not(.disabled),
+.datepicker table td.day.range.error:not(.disabled) {
+  background-color: #ffffe4 !important;
 }
 
 .form label.error,
@@ -2237,6 +2278,7 @@ strong.tt-highlight {
 
 .flight-date {
 	text-align: center;
+	position: relative;
 }
 
 .open-calendar {
@@ -2278,6 +2320,16 @@ strong.tt-highlight {
 
 .open-calendar.sel .direction {
 	padding-right: 8px;
+}
+
+.error-date {
+  padding: 20px;
+  display: inline-block;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 162px);
+  border-radius: 3px;
+  z-index: 10;
 }
 
 
@@ -2410,13 +2462,8 @@ body:not(.touch) .search.buttons .meri-wrapper.showing {
 }
 
 .search.buttons .info.cue {
-	cursor: pointer;
-	font-size: 18px;
 	margin: 10px 0;
-	padding: 1px 3px;
 	height: 50px;
-	width: 32px;
-	display: inline-block;
 	position: relative;
 	vertical-align: bottom;
 }
@@ -3743,6 +3790,14 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
+.info.cue.cvv {
+	line-height: 48px;
+	height: 32px;
+	position: absolute;
+		bottom: 30px;
+		right: -4px;
+}
+
 .modal.cvv-info .modal-body {
 	height: 300px;
 	background: url('/images/cvv.svg') center no-repeat;
@@ -4644,11 +4699,11 @@ footer.app-copy .bottom a {
 	.dropmenu.passenger-chooser {
 		right: -5px;
 	}
-
-	.flight-direction-form {
-		padding-top: 0;
-		padding-bottom: 10px;
-	}
+	
+	.error-date {
+    padding: 20px 10px;
+    left: calc(50% - 152px);
+  }
 
 	.touch .search.buttons {
 		bottom: 5px;
@@ -4765,10 +4820,6 @@ footer.app-copy .bottom a {
 	
 	.touch .navbar.searchform-top {
 		min-height: 1px;
-	}
-
-	.touch .flight-type-form {
-		padding-top: 5px;
 	}
 	
 	.touch .search.buttons .info.cue {
@@ -4888,7 +4939,6 @@ footer.app-copy .bottom a {
 	 	margin-bottom: 0;
 	}
 
-
 	.touch .booking .ti {
 		margin-top: -10px;
     margin-bottom: -10px;
@@ -4906,7 +4956,6 @@ footer.app-copy .bottom a {
 	.touch .booking-success .confirm-code {
 		padding-right: 40px;
 	}
-
 
 }
 
