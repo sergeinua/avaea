@@ -42,9 +42,6 @@ var SearchFormPage = React.createClass({
     $('.modal-backdrop').remove();
     $('body').removeClass('modal-open');
     
-    // FIXME - convert to React, controls when logo should show in navbar
-    $('body').removeClass('suppress-logo');
-    
     actionSetCommonVal('searchParams', getDefaultDateSearch(this.props.commonData.searchParams));
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },

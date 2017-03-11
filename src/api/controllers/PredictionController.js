@@ -75,6 +75,9 @@ module.exports = {
             itinerary : JSON.parse(result)
           };
 
+          logData.itinerary.price = parseFloat(logData.itinerary.price);
+          logData.itinerary.fare = parseFloat(logData.itinerary.fare);
+
           let userId = utils.getUser(req);
           UserAction.saveAction(userId, 'on_itinerary_purchase', logData, function () {
             User.publishCreate(userId);
