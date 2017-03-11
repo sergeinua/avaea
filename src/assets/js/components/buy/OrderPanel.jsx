@@ -82,10 +82,6 @@ let OrderPanel = React.createClass({
     ];
   },
   
-  handleTermsLink: function () {
-  	historyStrategy.push('/booking/' + resData.bookingId);
-  },
-
   getOrder: function() {
     return ClientApi.reqPost('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
   },
