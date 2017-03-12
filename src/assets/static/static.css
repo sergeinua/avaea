@@ -140,18 +140,7 @@ header.static li.active a:visited {
 	color: #00a9e7;
 }
 
-.rdr-MonthAndYear-button i:after {
-	color: #0081c9;
-}
-
-.rdr-Day.is-selected,
-.rdr-Day.is-selected.is-inRange,
-.rdr-Day.is-selected:hover,
-.rdr-Day.is-selected.is-inRange:hover {
-	background: #0081c9 !important;
-}
-
-/* light blue bg */
+/* light blue */
 
 .team.second,
 .static .about.compare {
@@ -160,12 +149,6 @@ header.static li.active a:visited {
 
 .team .person .image {
 	background: #eff0f4;
-}
-
-.rdr-Day.is-inRange,
-.rdr-Day.is-inRange:hover,
-.rdr-MonthAndYear-button {
-	background: #deeef7 !important;
 }
 
 

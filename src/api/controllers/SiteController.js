@@ -17,16 +17,12 @@ module.exports = {
 
     UserAction.saveFirstVisit(req, res);
 
-    if (req.session) {
-      if (req.session.vanityURL) {  // do redirect if used vanity URL
-        // getting of destination URL from vanityURL
-        let destinationURL = req.session.vanityURL.destination_url;
-        delete req.session.vanityURL;
-        onvoya.log.verbose('vanityURL redirected to', destinationURL);
-        return res.redirect(destinationURL); //redirect to
-      } else {
-        VanityURLsService.updateCache();
-      }
+    if (req.session && req.session.vanityURL) {  // do redirect if used vanity URL
+      // getting of destination URL from vanityURL
+      let destinationURL = req.session.vanityURL.destination_url;
+      delete req.session.vanityURL;
+      onvoya.log.verbose('vanityURL redirected to', destinationURL);
+      return res.redirect(destinationURL); //redirect to
     }
 
     if (req.url.match(/(profile)/) && (!req.session.authenticated || !req.user)) {

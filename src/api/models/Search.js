@@ -253,15 +253,16 @@ module.exports = {
           let _filteredItins = {};
           results.forEach((provItins) => {
             provItins.forEach((itin) => {
-              //DEMO-850 Stop showing AA flights
-              let isAA = false;
+              // DEMO-850 and DEMO-1185
+              let should_hide_the_fare  = false;
+	      let hidded_airlines_codes = ['AA','AF','DL','EK','KL','VS'];
               itin.citypairs.map(function(pair) {
                 pair.flights.map(function(flight) {
-                  isAA = isAA || (flight.airlineCode == "AA");
+                  should_hide_the_fare = should_hide_the_fare || hidded_airlines_codes.includes(flight.airlineCode);
                 });
               });
               // save itinerary with lowest price in filter
-              if (!isAA && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
+              if (!should_hide_the_fare && (!_filteredItins[itin.key] || (_filteredItins[itin.key].price > itin.price))) {
                 _filteredItins[itin.key] = itin;
               }
             });

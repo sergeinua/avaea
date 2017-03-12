@@ -236,7 +236,8 @@ module.exports = {
               ffmapi.milefy.Calculate({itineraries, milesPrograms}, function (error, body) {
                 if (error) {
                   onvoya.log.error(error);
-                  errStat.push(error);
+                  // Do not push to errStat, cause this error is not a critical
+                  // errStat.push(error);
                   error = null;
                 }
                 let jdata = body;

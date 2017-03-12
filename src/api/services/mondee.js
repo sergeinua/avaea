@@ -3,6 +3,7 @@
 /* global utils */
 const util = require('util');
 const lodash = require('lodash');
+const uuid = require('uuid');
 
 const serviceName = require('path').basename(module.filename, '.js');
 const currency = 'USD';
@@ -134,7 +135,7 @@ class MondeeClient {
             RecordLocator: params.pnr,
             OtherInfo: {
               RequestedIP: params.ip,
-              TransactionId: new Date().getTime()
+              TransactionId: params.transactionId
             }
           };
           return req;
@@ -555,93 +556,92 @@ module.exports = {
 
     onvoya.log.info(_api_name + ' started');
 
-    return new MondeeClient(api).getResponse(guid, params, function(err, result) {
-
-      let bookingResult = result;
-
-      if(!err) { // do request ticket PNR
-
-        onvoya.log.debug(result);
-
-        let attempt = 0; // count of attempts of TicketPNR requests
-
-        let doTicketPNR = function() {
-          let api = 'ticketPnr',
-            _api_name = serviceName + '.' + api;
-
-          onvoya.log.info(_api_name + ' started');
-
-          return new MondeeClient(api).getResponse(guid, {pnr: bookingResult.PNR, ip: params.ip}, calbackTicketPNR);
-        };
-
-        let calbackTicketPNR = function(err, result) {
-          // return result = { Remarks:
-          //   [ { StatusCode: 'WA',
-          //       MessageNumber: 'TI004',
-          //       MessageText: 'CREDIT CARD DENIAL' } ] }
-          // or err = Getting error while ticket the pnr, please try again
-
-          //Status Code: INFO (Successful Ticketing)
-          //Message:
-            // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
-
-          //Status Code: WA  (Failure Ticketing)
-          //Messages:
-            // TICKETING PROCESS FAILED
-            // CREDIT CARD DENIAL
-            // ERROR IDENTIFYING PNR INFO
-            // ERROR IDENTIFYING FOP IN THE PNR
-
-          if(!err && result && result.Remarks){
-            for(let i in result.Remarks){
-              let remark = result.Remarks[i];
-              if(remark.StatusCode === 'WA'){
-                err = remark.MessageText;
-                break;
-              }
-            }
-          }
-
-          onvoya.log.debug(result);
-          if( err ) {
-            onvoya.log.error(err);
-            if( (process.env.NODE_ENV!='production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
-              return callback(0,bookingResult ||{});
-            }
-            else if( ++attempt<=3 ) {
-              const seconds_per_attempt = 3;
-              onvoya.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
-              setTimeout(doTicketPNR,attempt*seconds_per_attempt*1000);
-            }
-            else {
-              return callback(err, bookingResult || {});
-            }
-          }
-          else {
-            return callback(err, bookingResult || {});
-          }
-        };
-        return doTicketPNR();
-      }
-      else {
+    return new MondeeClient(api).getResponse(guid, params, function(err, bookingResult) {
+      if(err) {
         onvoya.log.error(err);
         return callback(err, bookingResult);
       }
+      else{
+        // the ticket PNR request initializes a charging of credit card on Mondee side
+        // use random uuid as transaction id
+        return mondee.ticketPnr(guid, { pnr: bookingResult.PNR, ip: params.ip, transactionId: uuid.v4()  }, function(err, ticketPnrResult){
+          // forget about an error and move ahead if used test CC
+          if( (process.env.NODE_ENV != 'production') && (['4111111111111111','4444333322221111'].indexOf(params.CardNumber)>=0) ) {
+            err = '';
+          }
+          return callback(err, bookingResult);
+        });
+      }
     });
   },
-  ticketPnr: {
-    url: 'ticketPnr',
-    method: 'TicketPnr',
-    request: (req, params) => {
-      req.TicketPnrRequest = {
-        RecordLocator: params.pnr,
-        OtherInfo: {
-          RequestedIP: params.ip,
-          TransactionId: new Date().getTime()
+  /**
+   * Itinerary booking
+   *
+   * @param {string} guid Own request id
+   * @param {object} params contain values {pnr: 'string', ip: 'string'}
+   * @param {function} callback
+   */
+  ticketPnr: function(guid, params, callback){
+    let
+      api = 'ticketPnr',
+      _api_name = serviceName + '.' + api;
+
+    onvoya.log.info(_api_name + ' started');
+
+    let attempt = 0; // count of attempts of TicketPNR requests
+
+    let doTicketPNR = function() {
+      return new MondeeClient(api).getResponse(guid, params, calbackTicketPNR);
+    };
+
+    let calbackTicketPNR = function(err, result) {
+      // return result = { Remarks:
+      //   [ { StatusCode: 'WA',
+      //       MessageNumber: 'TI004',
+      //       MessageText: 'CREDIT CARD DENIAL' } ] }
+      // or err = Getting error while ticket the pnr, please try again
+
+      //Status Code: INFO (Successful Ticketing)
+      //Message:
+        // CREDIT CARD VALIDITY CONFIRMED. TICKETING PROCESS INITIATED
+
+      //Status Code: WA  (Failure Ticketing)
+      //Messages:
+        // TICKETING PROCESS FAILED
+        // CREDIT CARD DENIAL
+        // ERROR IDENTIFYING PNR INFO
+        // ERROR IDENTIFYING FOP IN THE PNR
+
+      if(!err && result && result.Remarks){
+        for(let i in result.Remarks){
+          let remark = result.Remarks[i];
+          if(remark.StatusCode === 'WA'){
+            err = remark.MessageText;
+            break;
+          }
         }
-      };
-      return req;
-    }
+      }
+      onvoya.log.debug(result);
+
+      if( err ) {
+        onvoya.log.error(err);
+
+        if( ++attempt <= 3 ) {
+          const seconds_per_attempt = 3;
+          onvoya.log.info('Attempt #'+attempt+': waiting for '+(attempt*seconds_per_attempt)+' seconds');
+
+          setTimeout(doTicketPNR, attempt*seconds_per_attempt*1000);
+        }
+        else {
+          return callback(err, result || {});
+        }
+      }
+      else {
+        return callback(err, result || {});
+      }
+    };
+
+    return doTicketPNR();
   },
   /**
    * Read e-ticker after booking

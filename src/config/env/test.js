@@ -1,8 +1,25 @@
 module.exports = {
 
-
-  models: {
-    connection: 'etPostgresqlServer'
+  connection: {
+    redisConf: {
+      host: 'localhost',
+      port: 6379,
+      ttl: 600,
+      db: 0,
+      pass: '',
+      prefix: 'cache:',
+      exptime: 60*30 // 30 minutes
+    },
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: '127.0.0.1',
+      user: 'avaea',
+      password: 'avaea',
+      database: 'avaea_db'
+    }
+  },
+  globals: {
+    cacheStore: 'redis'
   },
 
 
@@ -21,7 +38,7 @@ module.exports = {
     database: 'avaea',
     port: 5432
   },
-flightapis: {
+  flightapis: {
 //    mondee: {
 //      baseEndPoint: 'http://localhost:23456/api/v2'/*, // 'http://sandbox.trippro.com/api/v2',
 //      clientId: 'CFS1017' // CFS login is not actual, CFP login is now used for both PROD and STAGE Mondee API*/
@@ -41,9 +58,16 @@ flightapis: {
         },
         trace: 'xmlava001'
       }
+    },
+    cheapoair: {
+      security: {
+        WUID: 'ED88ED4D-3DE0-4B75-84C2-BDDD26FEB2EF',
+        User: 'xmlfeedTest@cheapoair.com',
+        Password: 'sky2@1@',
+        AffiliateCode: 'xmlfeedTest_fpwebbox'
+      }
     }
   },
-
 
 
   hookTimeout: 512000,

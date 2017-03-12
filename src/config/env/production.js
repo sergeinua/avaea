@@ -17,10 +17,6 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  models: {
-    connection: 'productionPostgresqlServer'
-  },
-
   /***************************************************************************
    * Set the port in the production environment to 80                        *
    ***************************************************************************/
@@ -49,6 +45,13 @@ module.exports = {
     prefix: 'sess:'
   },
   connections: {
+    postgresql: {
+      adapter: 'sails-postgresql',
+      host: 'db1',
+      user: 'avaea',
+      password: 'a1v2a3e4a5',
+      database: 'avaea'
+    },
     redisConf: {
       host: 'rediscache.5suwap.0001.usw2.cache.amazonaws.com',
       port: 6379,
@@ -58,6 +61,9 @@ module.exports = {
       prefix: 'cache:',
       exptime: 60*30 // 30 minutes
     },
+  },
+  globals: {
+    cacheStore: 'redis'
   },
   hookTimeout: 60000,
   segmentio_key: 'oFl2tXWI9epbfKgbTEvJsuBDfdE1h1Q2',

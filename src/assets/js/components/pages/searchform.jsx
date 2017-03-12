@@ -27,9 +27,6 @@ var SearchFormPage = React.createClass({
   componentWillMount: function () {
     analytics.page(this.props.location.pathname);
 
-    // FIXME - convert to React, controls when logo should show in navbar
-    $('body').removeClass('suppress-logo');
-
     clientStore.dispatch(actionSetCommonVal('searchParams', getDefaultDateSearch(this.props.commonData.searchParams)));
     ActionsStore.changeForm(this.props.commonData.searchParams.flightType);
   },
