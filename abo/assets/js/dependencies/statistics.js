@@ -48,7 +48,7 @@ var getRowGridSearch = function (row) {
   };
 
   return {
-    email: (row.user && row.user.email) ? row.user.email : '--na--',
+    email: (row.user_id && row.user_id.email)? row.user_id.email: '--na--',
     createdAt: moment(row.createdAt).format('MMM DD, YY h:mm:ss Z'),
     createdDt: moment(row.createdAt).format('MMM DD, YY'),
     createdTime: moment(row.createdAt).format('h:mm:ss Z'),
@@ -111,7 +111,7 @@ var generateGridUsersStat = function () {
       }
     },
     fields: [
-      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 80, align: "center"},
+      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 100, align: "center"},
       {name: 'email', title: 'Email', type: 'text', width: 150, align: "center"},
       {name: 'createdDt', title: 'Date', type: 'date', width: 90, align: "center"},
       {name: 'createdTime', title: 'Time', type: 'date', width: 120, align: "center"},
@@ -177,7 +177,7 @@ var genGridUsersStatVoiceSearch = function () {
     },
     fields: [
       {name: 'id', title: 'ID', type: 'number', sorter: "number", width: 50, align: "center"},
-      {name: 'email', title: 'User', type: 'text', width: 100, align: "center"},
+      {name: 'email', title: 'User', type: 'text', width: 200, align: "center"},
       {name: 'createdDt', title: 'Date', type: 'date', width: 70, align: "center"},
       {name: 'createdTime', title: 'Time', type: 'date', width: 70, align: "center"},
       {name: 'voiceQueryVS', title: 'Voice Query Text', width: 200, type: 'text', align: "left"},
