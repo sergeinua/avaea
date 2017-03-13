@@ -9,6 +9,7 @@ let lodash = require('lodash');
 
 
 module.exports = {
+  requestDateFormat: 'DD/MM/YYYY',
   dateFormat: 'YYYY-MM-DD',
 
   attributes: {
@@ -66,6 +67,12 @@ module.exports = {
       passengers: _.isUndefined(req.session.passengers) ? '1' : req.session.passengers,
       flightType: !_.isString(req.session.flightType) ? 'round_trip' : req.session.flightType.toLowerCase()
     };
+  },
+
+  mutateDateToRequestFormat: function(date, currentFormat) {
+    let tmpDate;
+    return date && (tmpDate = sails.moment(date, (currentFormat || this.dateFormat))).isValid() ?
+      tmpDate.format(this.requestDateFormat) : '';
   },
 
   validateSearchParams: function (searchParams) {
