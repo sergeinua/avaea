@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import * as ReactRedux from 'react-redux';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
@@ -55,15 +56,23 @@ const TripSearchForm = React.createClass({
     }.bind(this);
   },
 
+  componentWillUpdate(nextProps, nextState) {
+    if(nextProps.commonData.searchParams.flightType == 'round_trip' && !nextProps.commonData.searchParams.returnDate) {
+      nextProps.commonData.searchParams.returnDate = moment(nextProps.commonData.searchParams.departureDate, 'YYYY-MM-DD').add(10, 'days').format('YYYY-MM-DD');
+      nextProps.commonData.formErrors.returnDate = false;
+      nextProps.commonData.formErrors.isError = !_.some(nextProps.commonData.formErrors, (item, key) => key != 'isError' && !item);
+    }
+  },
+
   handleMeriHint: function () {
   	// FIXME - could be React
-  	
+
   	if ( $('.meri-wrapper').hasClass('showing')) {
   		$('.meri-speaks ').fadeToggle('fast');
   	} else {
 	  	$('.meri-speaks ').delay(1000).fadeToggle('fast');
 	  }
-  	
+
   	$('.meri-wrapper ').toggleClass('showing');
   },
 
@@ -353,8 +362,8 @@ const TripSearchForm = React.createClass({
         </div>
 
         <div className="search buttons duo">
-		      <div className='meri-wrapper'> 
-		      
+		      <div className='meri-wrapper'>
+
 	        	<div id="meri-speaks-searchform" className="meri-speaks">
 			      	<div className="bubble">
 			        	We remove worst flights and factor FF miles.
@@ -366,36 +375,36 @@ const TripSearchForm = React.createClass({
 			        	<div id="meri-speaks-close-x" className="close-x" onClick={this.handleMeriHint}></div>
 			      	</div>
 			      </div>
-			      
-			    </div>  
-			    
+
+			    </div>
+
 			    <div className="holder">
-	          <button id="search-form-all-flights-button" 
-	          	type="submit" 
+	          <button id="search-form-all-flights-button"
+	          	type="submit"
 	          	className={ "big-button search-button secondary " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(0)}>
 	          	Show All
 	          </button>
-          
+
 	          <button id="search-form-top-flights-button"
 	            type="submit"
 	            className={"big-button search-top-button " + this.getButtonsDisabledClass()} onClick={this.submitSearchForm(1)}>
 	          	Show Best
 	          </button>
-	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>	
+	          <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>
           </div>
         </div>
-        
+
         {!uaMobile ?
  	         <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
  	     			<div className="ti compare">Compare our results</div>
       			<div className="holder">
-              <Iframe 
-              	id="c7aed39b" 
-              	name="mc79eba9" 
-              	className="wayfare" 
+              <Iframe
+              	id="c7aed39b"
+              	name="mc79eba9"
+              	className="wayfare"
               	url="/static/adds_search_buttons.html"
-                frameborder="0" 
-                scrolling="no" 
+                frameborder="0"
+                scrolling="no"
                 width="100%"
                 position="relative">
               </Iframe>
@@ -403,7 +412,7 @@ const TripSearchForm = React.createClass({
  	         </div>
  	         : null
  	       }
-        
+
       </div>
     )
   }
