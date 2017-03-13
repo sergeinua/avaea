@@ -13,3 +13,4 @@ src/assets/rev.txt
 abo/assets/rev.txt
 
 .project
+yarn.lock
