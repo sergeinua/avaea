@@ -36,10 +36,11 @@ module.exports = {
       }
     }
 
-    const voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
-      depDate = !_.isUndefined(savedParams.departureDate) ? savedParams.departureDate : req.param('departureDate', sails.moment(new Date()).format(Search.dateFormat)),
-      retDate = !_.isUndefined(savedParams.returnDate) ? savedParams.returnDate : req.param('returnDate', ''),
-      params = {
+    const voiceSearchQuery = req.param('voiceSearchQuery', '').trim();
+    const depDate = !_.isUndefined(savedParams.departureDate) ? savedParams.departureDate : req.param('departureDate', sails.moment(new Date()).format(Search.dateFormat));
+    let retDate = !_.isUndefined(savedParams.returnDate) ? savedParams.returnDate : req.param('returnDate', '');
+
+    const params = {
         user: req.user,
         session: req.session,
         searchParams: {
@@ -305,8 +306,8 @@ module.exports = {
           searchParams: {
             DepartureLocationCode: params.searchParams.DepartureLocationCode,
             ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
-            departureDate: sails.moment(depDate).format('DD MMM'),
-            returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
+            departureDate: sails.moment(depDate, Search.dateFormat).format('DD MMM'),
+            returnDate: (retDate && (retDate = sails.moment(retDate, Search.dateFormat)).isValid()) ?  retDate.format('DD MMM') : '',
             CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
             passengers: params.searchParams.passengers,
             topSearchOnly: params.searchParams.topSearchOnly,
