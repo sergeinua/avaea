@@ -24,7 +24,7 @@ var generateGridSearch = function (nameFilter, data) {
       }
     },
     fields: [
-      {name: 'createdAt', title: 'Date', type: 'date'},
+      {name: 'createdAt', title: 'Date', type: 'date', width: 120},
       {name: 'id', title: 'Id', type: 'number'},
       {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true},
       {name: 'ArrivalLocationCode', title: 'To', type: 'text'},
@@ -49,9 +49,9 @@ var getRowGridSearch = function (row) {
 
   return {
     email: (row.user && row.user.email) ? row.user.email : '--na--',
-    createdAt: new Date(row.createdAt).toLocaleString(),
-    createdDt: new Date(row.createdAt).toLocaleString("en-US", {month: 'short', day: '2-digit', year: '2-digit'}),
-    createdTime: new Date(row.createdAt).toLocaleString("en-US", {hour: '2-digit', minute: '2-digit', second: '2-digit'}),
+    createdAt: moment(row.createdAt).format('MMM DD, YY h:mm:ss Z'),
+    createdDt: moment(row.createdAt).format('MMM DD, YY'),
+    createdTime: moment(row.createdAt).format('h:mm:ss Z'),
     id: row.id,
     DepartureLocationCode: row.logInfo.searchParams.DepartureLocationCode || '-- na --',
     ArrivalLocationCode: row.logInfo.searchParams.ArrivalLocationCode || '-- na --',
@@ -111,10 +111,10 @@ var generateGridUsersStat = function () {
       }
     },
     fields: [
-      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 100, align: "center"},
-      {name: 'email', title: 'Email', type: 'text', width: 100, align: "center"},
-      {name: 'createdDt', title: 'Date', type: 'date', width: 100, align: "center"},
-      {name: 'createdTime', title: 'Time', type: 'date', width: 100, align: "center"},
+      {name: 'id', title: 'Id', type: 'number', sorter: "number", width: 80, align: "center"},
+      {name: 'email', title: 'Email', type: 'text', width: 150, align: "center"},
+      {name: 'createdDt', title: 'Date', type: 'date', width: 90, align: "center"},
+      {name: 'createdTime', title: 'Time', type: 'date', width: 120, align: "center"},
       {name: 'DepartureLocationCode', title: 'From', type: 'text', autosearch: true, width: 100, align: "center"},
       {name: 'ArrivalLocationCode', title: 'To', type: 'text', width: 100, align: "center"},
       {name: 'departureDate', title: 'Departing', type: 'date', width: 100, align: "center"},
