@@ -406,7 +406,7 @@ let OrderPanel = React.createClass({
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <div className="agree">
-                <span>By purchasing you agree to our </span>
+                <span className="hint">By purchasing you agree to our </span>
 
                 {!uaMobile ?
 
@@ -416,7 +416,7 @@ let OrderPanel = React.createClass({
 
                   :
 
-                    <span data-toggle="modal" data-target="TermsModal">
+                    <span data-toggle="modal" data-target="TermsModal" className="modal-trigger">
                       <a onClick={this.showTerms}>Terms</a>
                       <TermsModal />
                     </span>

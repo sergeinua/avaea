@@ -18,7 +18,7 @@ let TermsModal = React.createClass({
                 <div className="close-x" onClick={this.closeModal}></div>
                 <div className="title">Terms</div>
               </div>
-
+              
               <div className="modal-body">
 
                   <div className="terms-holder">

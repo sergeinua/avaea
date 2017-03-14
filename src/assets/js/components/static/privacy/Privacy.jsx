@@ -109,7 +109,7 @@ let StaticPrivacy = React.createClass({
 	      	app such as your IP address, the pages of the service you view, or details regarding the searches you
 	      	run on the Service, such as what you are searching for, the date and time when you initiated a search,
 	      	and the location from which you initiated the search. We collect and may use this information to
-	      	to make your search and search results "smarter" and more efficient. We may also
+	      	make your search and search results "smarter" and more efficient. We may also
 	      	use it to understand and analyze the aggregate or "big picture" usage trends and preferences of our users.
       	</li>
 
