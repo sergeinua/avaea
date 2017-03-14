@@ -273,5 +273,8 @@ footer a.instagram:after,
 .icon-ff-miles:before {
   content: "\e939";
 }
+.icon-account-outline:before {
+  content: "\e93a";
+}
 
 /* end icons.css */
