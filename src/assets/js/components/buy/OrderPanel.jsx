@@ -4,7 +4,7 @@ import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
 import ResultItemContainer from '../search/ResultItem.jsx';
-import OrderSpecialModal from './OrderSpecialModal.jsx';
+import TermsModal from './TermsModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
@@ -245,7 +245,7 @@ let OrderPanel = React.createClass({
         }
       }
     };
-
+    
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
       validationRules.rules["passengers["+i+"].FirstName"] = {
         validateUserNames: true
@@ -307,7 +307,7 @@ let OrderPanel = React.createClass({
         $("#bookingModal").modal('hide');
       });
   },
-
+  
   componentWillMount: function () {
     this.props.loadSuccess({});
   },
@@ -399,7 +399,22 @@ let OrderPanel = React.createClass({
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <div className="agree">
-              	By purchasing you agree to our <a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>Terms</a>
+              	<span>By purchasing you agree to our </span>
+              	
+              	{!uaMobile ?
+              
+              			<a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>
+              				Terms
+              			</a>
+              
+              		: 
+              			
+              			<span data-toggle="modal" data-target="TermsModal">
+              				<a href="#">Terms</a>
+              			</span>
+                    
+              	}
+
               </div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
                 {this.props.specialOrder ? 'Submit' : 'Buy' }
@@ -409,9 +424,7 @@ let OrderPanel = React.createClass({
             </div>{/* ends div.form */}
           </div>
         </form>
-          {this.props.specialOrder ?
-            <OrderSpecialModal />:null
-          }
+ 
         </span>
 
       );
