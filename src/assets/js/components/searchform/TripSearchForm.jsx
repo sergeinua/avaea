@@ -385,7 +385,7 @@ const TripSearchForm = React.createClass({
           </div>
         </div>
         
-        {!uaMobile ?
+        {!(uaMobile) && !(uaChrome) ?
  	         <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
  	     			<div className="ti compare">Compare our results</div>
       			<div className="holder">
