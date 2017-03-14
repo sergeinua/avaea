@@ -81,7 +81,7 @@ let OrderPanel = React.createClass({
       }
     ];
   },
-  
+
   getOrder: function() {
     return ClientApi.reqPost('/order?itineraryId='+ encodeURIComponent(this.props.itineraryId));
   },
@@ -245,7 +245,7 @@ let OrderPanel = React.createClass({
         }
       }
     };
-    
+
     for (let i = 1; i <= this.props.commonData.searchParams.passengers; i++) {
       validationRules.rules["passengers["+i+"].FirstName"] = {
         validateUserNames: true
@@ -307,7 +307,14 @@ let OrderPanel = React.createClass({
         $("#bookingModal").modal('hide');
       });
   },
-  
+
+  showTerms: function () {
+    $('#TermsModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    });
+  },
+
   componentWillMount: function () {
     this.props.loadSuccess({});
   },
@@ -358,8 +365,8 @@ let OrderPanel = React.createClass({
                 <div className="holder class">
                 	<span className="copy">Seat Class</span>
                 	<span className="value">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</span>
-                </div>	
-                <div className="holder price">	
+                </div>
+                <div className="holder price">
                 	<span className="copy">Price (each)</span>
                 	<span className="value">{this.props.orderData.itineraryData.orderPrice}</span>
                 </div>
@@ -399,21 +406,22 @@ let OrderPanel = React.createClass({
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
               <div className="agree">
-              	<span>By purchasing you agree to our </span>
-              	
-              	{!uaMobile ?
-              
-              			<a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>
-              				Terms
-              			</a>
-              
-              		: 
-              			
-              			<span data-toggle="modal" data-target="TermsModal">
-              				<a href="#">Terms</a>
-              			</span>
-                    
-              	}
+                <span>By purchasing you agree to our </span>
+
+                {!uaMobile ?
+
+                    <a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>
+                      Terms
+                    </a>
+
+                  :
+
+                    <span data-toggle="modal" data-target="TermsModal">
+                      <a onClick={this.showTerms}>Terms</a>
+                      <TermsModal />
+                    </span>
+
+                }
 
               </div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
@@ -424,9 +432,6 @@ let OrderPanel = React.createClass({
             </div>{/* ends div.form */}
           </div>
         </form>
- 
-        <TermsModal /> 
- 
         </span>
 
       );
