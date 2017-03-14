@@ -252,8 +252,8 @@ $(document).ready(function () {
             //}
           }
 
-          var date = new Date(data.createdAt).toLocaleString();
-
+          var date = moment(data.createdAt).format('MM/DD/YYYY');//new Date(data.createdAt).toLocaleString();
+          var time = moment(data.createdAt).format('h:mm:ss Z');
           var _indxData = dataGrid.findIndex(function (item) {
             return item.id == data.id;
           });
@@ -265,7 +265,7 @@ $(document).ready(function () {
           }
 
           $('#log_actions').append($('<tr class="' + data.actionType + ' alert ' + colorClass + ' user_id_'
-          + data.user + '"><td>' + date + '</td><td>' + data.id + '</td><td>' + action + '</td><td>' + JSON.stringify(data.logInfo) + '</td></tr>'));
+          + data.user + '"><td nowrap>' + date + '<br>' + time + '</td><td>' + data.id + '</td><td>' + action + '</td><td>' + JSON.stringify(data.logInfo) + '</td></tr>'));
         });
 
         checkedFilters();
