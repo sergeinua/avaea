@@ -203,8 +203,8 @@ let OrderPanel = React.createClass({
         }
       },
       messages: {
-        FirstName: "Must not have be empty or have invalid characters",
-        LastName: "Must not have be empty or have invalid characters",
+        FirstName: "The value is empty or has invalid characters",
+        LastName: "The value is empty or has invalid characters",
         ZipCode: "Please enter valid zip code",
         CardNumber: "Please enter a valid credit card number",
         CVV: "Please enter 3 digits",
