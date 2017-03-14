@@ -1112,19 +1112,19 @@ function get_avaea_parser_tests() {
                             "SFO",
                             "JFK",
                             get_future_date(3,12), // Mar 12
-                            get_future_date(3,17), // Mar 17
+                            get_future_date(3,17, get_future_date(3,12)), // Mar 17
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Easter, back on Tax Day",
                             "SFO",
                             "JFK",
                             get_future_date(4,16), // Mar 12
-                            get_future_date(4,18), // Mar 17
+                            get_future_date(4,18, get_future_date(4,16)), // Mar 17
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Passover, back on Cinco de Mayo",
                             "SFO",
                             "JFK",
                             get_future_date(4,11), // Apr 11
-                            get_future_date(5,5), // May 5
+                            get_future_date(5,5, get_future_date(4,11)), // May 5
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Memorial Day, back on Labor Day",
                             "SFO",
@@ -1142,7 +1142,7 @@ function get_avaea_parser_tests() {
                             "SFO",
                             "JFK",
                             get_future_date(10,12), // Oct 12
-                            get_future_date(10,31), // Oct 31
+                            get_future_date(10,31, get_future_date(10,12)), // Oct 31
                             "1"),
     new AvaeaTextParserTest("from SFO to JFK on Black Friday, back on Cyber Monday",
                             "SFO",
