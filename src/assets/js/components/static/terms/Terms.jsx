@@ -230,7 +230,7 @@ let StaticTerms = React.createClass({
 
       	<div className="sub-copy">
 	      	If you have any problems using the OnVoya service, we're sorry! Our customer support representatives at 
-	      	<strong>support@OnVoya.com</strong> are ready to assist you. To help resolve your issue, the customer service 
+	      	<strong> support@OnVoya.com</strong> are ready to assist you. To help resolve your issue, the customer service 
 	      	representative who's assisting you may log in to the OnVoya service under your username, but only with 
 	      	your permission and only for the duration of the customer service session. Customer service representatives 
 	      	don't know your account password, and you don't need to provide it in order for them to help you.

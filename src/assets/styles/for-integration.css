@@ -16,7 +16,15 @@
 /* add the top class
    booking info cue uses wayfare info cue */
 
-
+/* add just the classname to dropmenu .close-x */
+.modal-content .close-x {
+	font-size: 18px;
+	padding: 20px;
+	position: absolute;
+		right: 0px;
+		top: 0px;
+ 	z-index: 2;
+}
 
 
 
