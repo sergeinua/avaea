@@ -200,7 +200,8 @@ const Calendar = React.createClass({
       dates.departureDate = dates.returnDate;
     }
     if (!dates.returnDate) {
-      dates.returnDate = moment(dates.departureDate, 'YYYY-MM-DD').add(10, 'days').startOf('day');
+      dates.returnDate = moment.min(moment(dates.departureDate, 'YYYY-MM-DD').add(10, 'days').startOf('day'),
+        moment(0, "HH").add(searchApiMaxDays-1, 'days').startOf('day'));
     }
     // init date picker values id at least departureDate is defined
     if (dates.departureDate) {

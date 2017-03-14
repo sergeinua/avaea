@@ -56,14 +56,6 @@ const TripSearchForm = React.createClass({
     }.bind(this);
   },
 
-  componentWillUpdate(nextProps, nextState) {
-    if(nextProps.commonData.searchParams.flightType == 'round_trip' && !nextProps.commonData.searchParams.returnDate) {
-      nextProps.commonData.searchParams.returnDate = moment(nextProps.commonData.searchParams.departureDate, 'YYYY-MM-DD').add(10, 'days').format('YYYY-MM-DD');
-      nextProps.commonData.formErrors.returnDate = false;
-      nextProps.commonData.formErrors.isError = !_.some(nextProps.commonData.formErrors, (item, key) => key != 'isError' && !item);
-    }
-  },
-
   handleMeriHint: function () {
   	// FIXME - could be React
 
