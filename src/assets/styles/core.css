@@ -817,6 +817,7 @@ button {
   box-shadow: none;
 }
 
+.modal.terms-modal a,
 .mycustomtab,
 .mybucket .badge,
 .notable-area .refundable.row .label-d,
@@ -2311,6 +2312,12 @@ td[data-action*="selectDay"] {
 	margin-right: 0;
 }
 
+.modal.terms-modal a,
+.modal.terms-modal a u {
+	 text-decoration: none;
+	 pointer-events: none;
+}
+
 /* privacy, terms  */
 
 .textly {
@@ -3270,7 +3277,7 @@ td[data-action*="selectDay"] {
 	padding-bottom: 5px;
 }
 
-.booking .agree a {
+.booking .agree + a {
 	text-decoration: underline;
 }
 
