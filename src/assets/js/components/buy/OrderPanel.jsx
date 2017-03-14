@@ -16,6 +16,7 @@ import postalCodes from 'postcode-validator';
 import { ActionsStore } from '../../functions.js';
 import OrderPanelElementCountry from './OrderPanelElementCountry';
 import OrderPanelElementState from './OrderPanelElementState';
+import moment from 'moment';
 
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 const STATES = require('../../fixtures/countryStates');
@@ -119,6 +120,15 @@ let OrderPanel = React.createClass({
       return !!value.trim();
     });
 
+    $.validator.addMethod("checkExpDate", function(value, element) {
+      if (/^(0[1-9]|1[12])[\\/](20[1-9]\d)$/.test(value)) {
+        let expDate = moment(value, 'MM/YYYY').endOf('month');
+        let now = moment.utc();
+        return expDate.isAfter(now);
+      }
+      return false;
+    });
+
     $.validator.addMethod("validateUserNames", function(value, element) {
       value = value.trim();
       return (value.length > 1) && /^[a-z\-']+$/i.test(value);
@@ -195,6 +205,7 @@ let OrderPanel = React.createClass({
         },
         ExpiryDate: {
           requiredAndTrim: true,
+          checkExpDate: true,
           minlength: 7,
           maxlength: 7
         },
@@ -210,10 +221,11 @@ let OrderPanel = React.createClass({
         }
       },
       messages: {
-        FirstName: "Must not have be empty or have invalid characters",
-        LastName: "Must not have be empty or have invalid characters",
+        FirstName: "The value is empty or has invalid characters",
+        LastName: "The value is empty or has invalid characters",
         ZipCode: "Please enter valid zip code",
         CardNumber: "Please enter a valid credit card number",
+        ExpiryDate: "Please enter a valid expiration date",
         CVV: "Please enter 3 digits",
         "passengers[1].phone": "Please enter a valid phone number",
         email: "Please enter valid email address"

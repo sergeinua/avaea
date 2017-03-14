@@ -55,7 +55,7 @@ module.exports = {
     UserAction.find({
       where: {id: {'>':req.param('lastUpdated', 0)}},
       sort : 'id ASC'
-    }).exec(function (err, found) {
+    }).populate('user_id').exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
             userActions: _.takeRight(found,10)
@@ -83,7 +83,7 @@ module.exports = {
         user_id: userId
       },
       sort : 'id ASC'
-    }).exec(function (err, found) {
+    }).populate('user_id').exec(function (err, found) {
       if (!err && found.length) {
         return res.json({
             userActions: _.takeRight(found, 30)

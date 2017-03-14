@@ -75,7 +75,7 @@ let ResultList = React.createClass({
 		          </div>
 			      </div>
 			      
-			      {!(uaChrome && MacOS) ?
+			      {!(uaChrome) ?
 			      <div id="wayfare-results-exit-unit" className="wayfare results exit">
 		          <div className="wrapper">
 		            <Iframe

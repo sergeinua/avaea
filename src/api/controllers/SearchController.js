@@ -35,6 +35,10 @@ module.exports = {
         onvoya.log.info('Unable restore search parameters from encoded string');
       }
     }
+
+    const voiceSearchQuery = req.param('voiceSearchQuery', '').trim();
+    const depDate = !_.isUndefined(savedParams.departureDate) ? savedParams.departureDate : req.param('departureDate', sails.moment(new Date()).format(Search.dateFormat));
+    let retDate = !_.isUndefined(savedParams.returnDate) ? savedParams.returnDate : req.param('returnDate', '');
     let tmpDefaultPassengers = {
       adult: parseInt(req.param('adult', 1)),
       senior: parseInt(req.param('senior', 0)),
@@ -42,8 +46,8 @@ module.exports = {
       lapInfant: parseInt(req.param('lapInfant', 0)),
       seatInfant: parseInt(req.param('seatInfant', 0))
     };
-    let voiceSearchQuery = req.param('voiceSearchQuery', '').trim(),
-      params = {
+
+    const params = {
         user: req.user,
         session: req.session,
         searchParams: {
@@ -53,36 +57,18 @@ module.exports = {
           passengers: !_.isEmpty(savedParams.passengers) && _.isObject(savedParams.passengers) ? savedParams.passengers : tmpDefaultPassengers,
           topSearchOnly: !_.isUndefined(savedParams.topSearchOnly) ? savedParams.topSearchOnly : req.param('topSearchOnly', 0),
           flightType: !_.isUndefined(savedParams.flightType) ? savedParams.flightType : req.param('flightType', 'round_trip').trim().toLowerCase(),
-          returnDate: '',
+          departureDate: depDate,
+          returnDate: retDate,
           voiceSearchQuery: (voiceSearchQuery && _.isObject(voiceSearchQuery)) ? JSON.parse(voiceSearchQuery) : ''
         }
-      },
-      depDate = new Date(), retDate;
-    if (!_.isEmpty(savedParams.departureDate) && !isNaN(Date.parse(savedParams.departureDate))) {
-      depDate = sails.moment(savedParams.departureDate, 'YYYY-MM-DD').toDate();
-      params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
-      req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
-    } else {
-      if (!isNaN(Date.parse(req.param('departureDate')))) {
-        depDate = sails.moment(req.param('departureDate'), 'YYYY-MM-DD').toDate();
-        params.searchParams.departureDate = sails.moment(depDate).format('DD/MM/YYYY');
-        req.session.departureDate = sails.moment(depDate).format('YYYY-MM-DD');
-      }
-    }
+      };
 
-    if (!_.isEmpty(savedParams.returnDate) && !isNaN(Date.parse(savedParams.returnDate))) {
-      retDate = sails.moment(savedParams.returnDate, 'YYYY-MM-DD').toDate();
-      params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
-      req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
-    } else {
-      if (!isNaN(Date.parse(req.param('returnDate')))) {
-        retDate = sails.moment(req.param('returnDate'), 'YYYY-MM-DD').toDate();
-        params.searchParams.returnDate = sails.moment(retDate).format('DD/MM/YYYY');
-        req.session.returnDate = sails.moment(retDate).format('YYYY-MM-DD');
-      }
-    }
-    let validationError = Search.validateSearchParams(params.searchParams);
-    if ( validationError ) {
+    const validationError = Search.validateSearchParams(params.searchParams);
+
+    params.searchParams.departureDate = Search.mutateDateToRequestFormat(params.searchParams.departureDate);
+    params.searchParams.returnDate = Search.mutateDateToRequestFormat(params.searchParams.returnDate);
+
+    if (validationError) {
       onvoya.log.info('Validation error. Input params are wrong', params.searchParams);
       return res.ok({
         errorInfo: utils.showError(validationError)
@@ -94,7 +80,7 @@ module.exports = {
       segmentio.track(userId, 'Keyboard Search', {Search: params});
     }
 
-    title = params.searchParams.DepartureLocationCode +'-'+ params.searchParams.ArrivalLocationCode;
+    const title = `${params.searchParams.DepartureLocationCode}-${params.searchParams.ArrivalLocationCode}`;
     iPrediction.getUserRank(userId, params.searchParams);
 
     if (req.user && req.user.id) {
@@ -147,7 +133,7 @@ module.exports = {
 //    let md5 = require("blueimp-md5").md5;
 //    req.session.search_params_hash = md5(params.DepartureLocationCode+params.ArrivalLocationCode+params.CabinClass);
     req.session.search_params_hash = params.searchParams.CabinClass;
-    req.session.search_params_raw  = params.searchParams;
+    req.session.search_params_raw = params.searchParams;
     req.session.time_log = [];
     // Remember as previous user request for search/index view
     req.session.DepartureLocationCode = params.searchParams.DepartureLocationCode;
@@ -162,7 +148,7 @@ module.exports = {
     // tPrediction.getUserTiles(req.user.id, req.session.search_params_hash);
 
     let errStat = [];
-    Search.getResult(params, function ( errRes, itineraries ) {
+    Search.getResult(params, function (errRes, itineraries) {
       onvoya.log.info('Found itineraries: %d', itineraries.length);
       if (errRes) {
         errStat.push(errRes);
@@ -272,11 +258,11 @@ module.exports = {
                   return doneCb(_err, _tiles);
                 });
               });
-            })
+            });
             // .catch(function (err) {
             //   // skipped, cause "FFMPrograms.getMilesProgramsByUserId" always resolves successfully
             // })
-              ;
+
         }
       }, (err, result) => {
         if (err) {
@@ -320,23 +306,23 @@ module.exports = {
         }
 
         return res.ok({
-            // user: req.user || false,
-            title: title,
-            tiles: result.tiles,
-            max_filter_items: max_filter_items,
-            searchParams: {
-              DepartureLocationCode: params.searchParams.DepartureLocationCode,
-              ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
-              departureDate: sails.moment(depDate).format('DD MMM'),
-              returnDate: (retDate) ? sails.moment(retDate).format('DD MMM') : '',
-              CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
-              passengers: params.searchParams.passengers,
-              topSearchOnly: params.searchParams.topSearchOnly,
-              flightType: params.searchParams.flightType
-            },
-            searchResult: itineraries,
-            iconSpriteMap: result.iconSpriteMap,
-            errorInfo: errType ? utils.showError(errType) : false
+          // user: req.user || false,
+          title: title,
+          tiles: result.tiles,
+          max_filter_items: max_filter_items,
+          searchParams: {
+            DepartureLocationCode: params.searchParams.DepartureLocationCode,
+            ArrivalLocationCode: params.searchParams.ArrivalLocationCode,
+            departureDate: sails.moment(depDate, Search.dateFormat).format('DD MMM'),
+            returnDate: (retDate && (retDate = sails.moment(retDate, Search.dateFormat)).isValid()) ?  retDate.format('DD MMM') : '',
+            CabinClass: Search.serviceClass[params.searchParams.CabinClass] + ((params.searchParams.CabinClass == 'F') ? ' class' : ''),
+            passengers: params.searchParams.passengers,
+            topSearchOnly: params.searchParams.topSearchOnly,
+            flightType: params.searchParams.flightType
+          },
+          searchResult: itineraries,
+          iconSpriteMap: result.iconSpriteMap,
+          errorInfo: errType ? utils.showError(errType) : false
         }, 'search/result');
       });
     });

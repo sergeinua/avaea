@@ -31,7 +31,7 @@ module.exports = {
     }
     let page = (!req.url || req.url.trim() == '/') ? '/search' : req.url;
 
-    let params = Search.getDefault(req);
+    const params = Search.getDefault(req);
     let passParams = {
       adult: parseInt(req.param('adult', 1)),
       senior: parseInt(req.param('senior', 0)),
@@ -39,33 +39,27 @@ module.exports = {
       lapInfant: parseInt(req.param('lapInfant', 0)),
       seatInfant: parseInt(req.param('seatInfant', 0))
     };
-    //map parameters to our structure
-    params = {
-      DepartureLocationCode : req.param('From', ''),   // departure airport code
-      ArrivalLocationCode   : req.param('To', ''),     // destination airport code
-      CabinClass            : req.param('Class', 'E'), // booking class, if any
-      departureDate         : req.param('Departure'),  // departure date)
-      returnDate            : req.param('Return'),     // return date, if any
-      passengers            : passParams,              // passengers, if any
-      // FIXME: add this parameter when ONV-953 is ready
-      // referrer              : req.param('Ref', ''),    // a referrer name; could be a name of a partner, or ad campaign
-      // FIXME: add this parameter when ONV-938 is ready
-      //req.param('kids') // number of kids, if any
-    };
 
-    let departureDate = sails.moment(params.departureDate, 'YYYY-MM-DD', true);
-    let returnDate = sails.moment(params.returnDate, 'YYYY-MM-DD', true);
+    params.DepartureLocationCode = req.param('From', params.DepartureLocationCode);
+    params.ArrivalLocationCode = req.param('To', params.ArrivalLocationCode);
+    params.CabinClass = req.param('Class', params.CabinClass);
+    params.departureDate = req.param('Departure', params.departureDate);
+    params.returnDate = req.param('Return', params.returnDate);
+    params.passengers = passParams;
 
-    params.departureDate = departureDate.isValid() ? departureDate.format('DD/MM/YYYY') : params.departureDate;
-    params.returnDate = returnDate.isValid() ? returnDate.format('DD/MM/YYYY') : params.returnDate;
+    // FIXME: add this parameter when ONV-953 is ready
+    //params.referrer = req.param('Ref', params.referrer);
 
+    // FIXME: add this parameter when ONV-938 is ready
+    //params.kids = req.param('Kids', params.kids);
+
+    params.departureDate = sails.moment(params.departureDate, Search.dateFormat, true).isValid() ? params.departureDate : '';
+    params.returnDate = sails.moment(params.returnDate, Search.dateFormat, true).isValid() ? params.returnDate : '';
     params.flightType = params.returnDate ? 'round_trip' : 'one_way';
+
     let error = Search.validateSearchParams(params);
 
     if ((req.params == 'search'  && !error) || (req.params == 'result' && !req.param('s'))) {
-      params.departureDate = departureDate.isValid() ? departureDate.format('YYYY-MM-DD') : '';
-      params.returnDate = returnDate.isValid() ? returnDate.format('YYYY-MM-DD') : '';
-
       onvoya.log.verbose('Found deeplinking parameters for search form/result');
 
       async.parallel({
@@ -118,7 +112,7 @@ module.exports = {
           serviceClass: Search.serviceClass,
           head_title: 'Search for flights with OnVoya Agent',
           page: page,
-          defaultSearch: Search.getDefault(req)
+          defaultSearch: params
         },
         'site/index'
       );
