@@ -425,6 +425,8 @@ let OrderPanel = React.createClass({
           </div>
         </form>
  
+        <TermsModal /> 
+ 
         </span>
 
       );
