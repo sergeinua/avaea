@@ -109,7 +109,7 @@ let StaticPrivacy = React.createClass({
 	      	app such as your IP address, the pages of the service you view, or details regarding the searches you
 	      	run on the Service, such as what you are searching for, the date and time when you initiated a search,
 	      	and the location from which you initiated the search. We collect and may use this information to
-	      	to make your search and search results "smarter" and more efficient. We may also
+	      	make your search and search results "smarter" and more efficient. We may also
 	      	use it to understand and analyze the aggregate or "big picture" usage trends and preferences of our users.
       	</li>
 
@@ -152,7 +152,7 @@ let StaticPrivacy = React.createClass({
 
 
       	<div className="copy intro">
-	      	OnVoya uses the information you provide or that we collect to to develop, operate, maintain, enhance,
+	      	OnVoya uses the information you provide or that we collect to develop, operate, maintain, enhance,
 	      	and provide the Service, to develop new products and services, and to customize and target content
 	      	that may be more interesting, relevant or useful to you, including advertisements, and for other
 	      	administrative purposes. Here are some examples of how we may use the information you provide
