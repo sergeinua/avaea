@@ -789,50 +789,11 @@ video {
 	margin-bottom: 120px;
 }
 
-/* privacy, terms */
 
-.textly {
-	text-align: left;
-	margin: 0 15%;
-	padding-bottom: 130px;
-}
+/* privacy, terms
+	 moved to core.css 
+	 so modals can use */
 
-.textly h1 {
-	text-align: center;
-	margin: 50px 20px 8px 20px;
-}
-
-.textly .updated {
-	font-size: 16px;
-	text-align: center;
-	margin-bottom: 20px;
-}
-
-.textly .intro {
-	font-family: 'Open-Sans-Light';
-	font-size: 16px;
-	line-height: 24px;
-	margin-bottom: 20px;
-}
-
-.textly .subti {
-	font-size: 16px;
-	font-family: 'Open-Sans-Semibold';
-	margin: 15px 0;
-}
-
-.textly strong {
-	font-family: 'Open-Sans-Bold';
-}
-
-.textly ul {
-	margin: 15px 0 15px 15px;
-}
-
-.textly li,
-.textly .sub-copy {
-	margin: 8px 0;
-}
 
 /* contact */
 

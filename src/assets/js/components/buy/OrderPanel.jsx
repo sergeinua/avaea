@@ -4,7 +4,7 @@ import ClientApi from '../_common/api.js';
 import DisplayAlert from '../_common/DisplayAlert.jsx';
 import SearchBanner from '../searchform/SearchBanner.jsx';
 import ResultItemContainer from '../search/ResultItem.jsx';
-import OrderSpecialModal from './OrderSpecialModal.jsx';
+import TermsModal from './TermsModal.jsx';
 import OrderPanelElement from './OrderPanelElement.jsx';
 import Loader from '../_common/Loader.jsx';
 import {actionLoadOrderSuccess, actionLoadOrderFailed, actionSetOrderVal} from '../../actions.js';
@@ -16,6 +16,7 @@ import postalCodes from 'postcode-validator';
 import { ActionsStore } from '../../functions.js';
 import OrderPanelElementCountry from './OrderPanelElementCountry';
 import OrderPanelElementState from './OrderPanelElementState';
+import moment from 'moment';
 
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
 const STATES = require('../../fixtures/countryStates');
@@ -112,6 +113,15 @@ let OrderPanel = React.createClass({
       return !!value.trim();
     });
 
+    $.validator.addMethod("checkExpDate", function(value, element) {
+      if (/^(0[1-9]|1[12])[\\/](20[1-9]\d)$/.test(value)) {
+        let expDate = moment(value, 'MM/YYYY').endOf('month');
+        let now = moment.utc();
+        return expDate.isAfter(now);
+      }
+      return false;
+    });
+
     $.validator.addMethod("validateUserNames", function(value, element) {
       value = value.trim();
       return (value.length > 1) && /^[a-z\-']+$/i.test(value);
@@ -188,6 +198,7 @@ let OrderPanel = React.createClass({
         },
         ExpiryDate: {
           requiredAndTrim: true,
+          checkExpDate: true,
           minlength: 7,
           maxlength: 7
         },
@@ -203,10 +214,11 @@ let OrderPanel = React.createClass({
         }
       },
       messages: {
-        FirstName: "Must not have be empty or have invalid characters",
-        LastName: "Must not have be empty or have invalid characters",
+        FirstName: "The value is empty or has invalid characters",
+        LastName: "The value is empty or has invalid characters",
         ZipCode: "Please enter valid zip code",
         CardNumber: "Please enter a valid credit card number",
+        ExpiryDate: "Please enter a valid expiration date",
         CVV: "Please enter 3 digits",
         "passengers[1].phone": "Please enter a valid phone number",
         email: "Please enter valid email address"
@@ -308,6 +320,13 @@ let OrderPanel = React.createClass({
       });
   },
 
+  showTerms: function () {
+    $('#TermsModal').modal({
+      backdrop: 'static',
+      keyboard: false
+    });
+  },
+
   componentWillMount: function () {
     this.props.loadSuccess({});
   },
@@ -351,9 +370,18 @@ let OrderPanel = React.createClass({
 
             <div className="confirmation persons-class-price">
               <div className="wrapper">
-                <div className="people">{ this.props.commonData.searchParams.passengers }</div>
-                <div className="class">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</div>
-                <div className="price">{this.props.orderData.itineraryData.orderPrice}</div>
+              	<div className="holder people">
+              		<span className="copy">People</span>
+                	<span className="value">{ this.props.commonData.searchParams.passengers }</span>
+                </div>
+                <div className="holder class">
+                	<span className="copy">Seat Class</span>
+                	<span className="value">{ ActionsStore.defineCabinClass(this.props.orderData.itineraryData) }</span>
+                </div>
+                <div className="holder price">
+                	<span className="copy">Price (each)</span>
+                	<span className="value">{this.props.orderData.itineraryData.orderPrice}</span>
+                </div>
               </div>
             </div>
             <div className="flight-unit">
@@ -389,17 +417,33 @@ let OrderPanel = React.createClass({
 
             <div className="buttons">
               <div className={this.props.orderData.formMsg ? "error" : ""} role="alert">{this.props.orderData.formMsg}</div>
+              <div className="agree">
+                <span className="hint">By purchasing you agree to our </span>
+
+                {!uaMobile ?
+
+                    <a href="#" onClick={(e)=>{window.open("/terms", '_blank');e.preventDefault();return false;}} id='booking-link-terms'>
+                      Terms
+                    </a>
+
+                  :
+
+                    <span data-toggle="modal" data-target="TermsModal" className="modal-trigger">
+                      <a onClick={this.showTerms}>Terms</a>
+                      <TermsModal />
+                    </span>
+
+                }
+
+              </div>
               <button id="booking_button" className="big-button" onClick={this.execReq}>
-                {this.props.specialOrder ? 'Submit' : this.props.orderData.itineraryData.orderPrice}
+                {this.props.specialOrder ? 'Submit' : 'Buy' }
               </button>
             </div>
 
             </div>{/* ends div.form */}
           </div>
         </form>
-          {this.props.specialOrder ?
-            <OrderSpecialModal />:null
-          }
         </span>
 
       );

@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import * as ReactRedux from 'react-redux';
 import moment from 'moment';
 import ClassChooser from './ClassChooser.jsx';
@@ -384,8 +385,7 @@ const TripSearchForm = React.createClass({
             <div id="info-cue" className={"info cue " + this.getButtonsDisabledClass()} onClick={this.handleMeriHint}></div>
           </div>
         </div>
-
-        {!uaMobile ?
+        {!(uaMobile) && !(uaChrome) ?
            <div id="wayfare-search-comparison" className="wayfare search comparison-unit">
             <div className="ti compare">Compare our results</div>
             <div className="holder">

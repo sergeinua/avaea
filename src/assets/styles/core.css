@@ -23,7 +23,9 @@
 .booking-success .flight-unit .summary .buy-button,
 .touch > .copyright,
 .touch footer.app-copy,
-.meri-wrapper .meri-speaks {
+.meri-wrapper .meri-speaks,
+.terms-modal .content.terms h1,
+.terms-modal .updated {
 	display: none;
 }
 
@@ -815,6 +817,7 @@ button {
   box-shadow: none;
 }
 
+.modal.terms-modal a,
 .mycustomtab,
 .mybucket .badge,
 .notable-area .refundable.row .label-d,
@@ -1325,6 +1328,7 @@ textarea {
 
 .its-me .hint,
 form.booking .hint,
+.booking .agree .hint,
 .tertiary-button.disabled:before,
 .mybucket .list-group-item.disabled > div.text,
 .itinerary .duration,
@@ -2257,12 +2261,10 @@ td[data-action*="selectDay"] {
 	width: 40px;
 }
 
-
 .searchingModal .spinner-holder,
 .bookingModal .spinner-holder {
 	margin: 20px auto 20px auto;
 }
-
 
 .icon-spinner {
 	text-align: center;
@@ -2282,7 +2284,84 @@ td[data-action*="selectDay"] {
 	background-size: 40px;
 }
 
+/* privacy, terms in the modal */
 
+.modal.terms-modal {
+	top: 45px;
+	border-radius: 3px;
+}
+
+.modal.terms-modal .title-bar {
+	border-bottom: 4px solid #ffffff;
+	box-shadow: 0px 5px 10px #ffffff;
+	z-index: 5;
+}
+
+.modal.terms-modal .modal-body {
+	padding-top: 20px;
+	height: 78vh;
+	overflow-y: auto;
+}
+
+.modal-content .content {
+	display: block;
+}
+
+.modal-content .textly {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.modal.terms-modal a,
+.modal.terms-modal a u {
+	 text-decoration: none;
+	 pointer-events: none;
+}
+
+/* privacy, terms  */
+
+.textly {
+	text-align: left;
+	margin: 0 15%;
+	padding-bottom: 130px;
+}
+
+.textly h1 {
+	text-align: center;
+	margin: 50px 20px 8px 20px;
+}
+
+.textly .updated {
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.textly .intro {
+	font-family: 'Open-Sans-Light';
+	font-size: 16px;
+	line-height: 24px;
+	margin-bottom: 20px;
+}
+
+.textly .subti {
+	font-size: 16px;
+	font-family: 'Open-Sans-Semibold';
+	margin: 15px 0;
+}
+
+.textly strong {
+	font-family: 'Open-Sans-Bold';
+}
+
+.textly ul {
+	margin: 15px 0 15px 15px;
+}
+
+.textly li,
+.textly .sub-copy {
+	margin: 8px 0;
+}
 
 
 /* ------- results ------- */
@@ -3160,10 +3239,9 @@ td[data-action*="selectDay"] {
 }
 
 .booking .confirmation {
-	font-family: 'Open-Sans-Light';
 	font-size: 20px;
 	text-align: center;
-	padding: 15px; 
+	padding: 10px; 
 }
 
 .booking .confirmation:after {
@@ -3178,13 +3256,29 @@ td[data-action*="selectDay"] {
 	display: inline-block;
 }
 
-.booking .confirmation div {
+.booking .confirmation .holder {
 	padding-right: 20px;
 	display: inline-block;
 }
 
-.booking .confirmation div:last-child {
-	padding-right: 0;
+.booking .confirmation .holder .copy {
+	font-size: 14px;
+	line-height: 14px;
+	padding-top: 5px;
+	display: block;
+}
+
+.booking .confirmation .holder:last-child {
+	padding-right: 5px;
+}
+
+.booking .agree {
+	font-size: 13px;
+	padding-bottom: 5px;
+}
+
+.booking .agree + a {
+	text-decoration: underline;
 }
 
 .which-passenger {
@@ -4213,6 +4307,11 @@ nav {
 
 	.desktop .tt-menu {
 		margin-top: 65px;
+	}
+	
+	.arr-asc:before,
+	.arr-desc:before {
+		right: -18px;
 	}
 
 }
