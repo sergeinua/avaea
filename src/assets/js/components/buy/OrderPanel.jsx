@@ -230,7 +230,7 @@ let OrderPanel = React.createClass({
         ZipCode: "Please enter valid zip code",
         CardNumber: "Please enter a valid credit card number",
         ExpiryDate: "Please enter a valid expiration date",
-        CVV: "Please enter 3 digits",
+        CVV: "Please enter a valid CVV number",
         "passengers[1].phone": "Please enter a valid phone number",
         email: "Please enter valid email address"
       },
