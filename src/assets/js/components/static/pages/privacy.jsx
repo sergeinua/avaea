@@ -1,7 +1,6 @@
 import React from 'react';
 import StaticPrivacy from '../privacy/Privacy.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
 let PrivacyPage = React.createClass({
 
@@ -22,7 +21,7 @@ let PrivacyPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticPrivacy user={getUser()||{}}/>
+            <StaticPrivacy/>
         }
       </div>
     )

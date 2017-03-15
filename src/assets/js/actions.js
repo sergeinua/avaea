@@ -19,6 +19,9 @@ export const actionTypesCommon = {
   MERGE_COMMON_VAL: 'MERGE_COMMON_VAL',
   UPDATE_COMMON_BY_VAL: 'UPDATE_COMMON_BY_VAL',
 };
+export const actionTypesUser = {
+  SET_USER: 'SET_USER'
+};
 
 //// Profile
 export function actionLoadProfileSuccess (data) {
@@ -111,6 +114,13 @@ export function actionLoadOrderFailed (data) {
   return {
     type: actionTypesOrder.LOAD_ORDER_FAILED,
     payload: result
+  }
+}
+
+export function actionSetUser (user) {
+  return {
+    type: actionTypesUser.SET_USER,
+    user: user
   }
 }
 
