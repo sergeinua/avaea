@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import * as ReactRedux from 'react-redux';
-import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import { ActionsStore, setCookie } from '../../functions.js';
 import { finalizeValues } from '../searchform/Calendar.jsx';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
@@ -93,7 +93,7 @@ let NavBar = React.createClass({
   },
 
   showLinkProfile: function (to, text) {
-    if (!getUser()) {
+    if (!this.props.user) {
       return <a id='menu-link-profile' href='/login' onClick={this.saveProfileRedirect}>{text}</a>
     } else {
       if (!this.props.location) {
@@ -164,8 +164,8 @@ let NavBar = React.createClass({
                 <li>{this.showLink("/search","Search")}</li>
                 <li>{this.showLinkProfile("/profile", "Profile")}</li>
                 <li>
-                  {getUser().email ?
-                    <a href="/logout" id='menu-link-logout'>Log out <b>{ getUser().email }</b></a>
+                  {this.props.user.email ?
+                    <a href="/logout" id='menu-link-logout'>Log out <b>{ this.props.user.email }</b></a>
                   :
                     <a href="/login" id='menu-link-login'>Log In</a>
                   }
@@ -225,6 +225,7 @@ let NavBar = React.createClass({
 const mapStateCommon = function(store) {
   return {
     commonData: store.commonData,
+    user: store.userData,
   };
 };
 

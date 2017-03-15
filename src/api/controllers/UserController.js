@@ -174,5 +174,10 @@ module.exports = {
       }
 
     });
+  },
+
+  get: function (req, res) {
+    let userEmail = req.user? {email: req.user.email} : false;
+    return res.json({user: userEmail});
   }
 };

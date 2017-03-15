@@ -1,7 +1,6 @@
 import React from 'react';
 import StaticTerms from '../terms/Terms.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
 let TermsPage = React.createClass({
 
@@ -22,7 +21,7 @@ let TermsPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticTerms user={getUser()||{}}/>
+            <StaticTerms/>
         }
       </div>
     )
