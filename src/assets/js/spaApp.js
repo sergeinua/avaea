@@ -28,8 +28,8 @@ import ResultPageContainer from 'components/pages/result.jsx';
 import OrderPage from 'components/pages/order.jsx';
 import BookingPage from 'components/pages/booking.jsx';
 
-import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch, fixStorageAvailability } from './functions.js';
-import { actionSetCommonVal } from './actions.js';
+import { unfocusFormForIos, ActionsStore, handleChangeTripSearchForm, confTripSearchForms, getDefaultDateSearch, fixStorageAvailability, getUser } from './functions.js';
+import { actionSetCommonVal, actionSetUser } from './actions.js';
 import { isMobile } from './legacyJquery.js';
 
 //load all of Bootstrap's jQuery plugins onto the jQuery object.
@@ -49,8 +49,7 @@ $(document).ready(function() {
 
   fixStorageAvailability();
   if (document.getElementById('spa-app')) {
-
-
+    setInterval(getUser, 30000);
     if ( InitData.page ) {
       historyStrategy.push(InitData.page);
     }
@@ -81,6 +80,9 @@ $(document).ready(function() {
     }
 
     Promise.resolve( clientStore.dispatch(actionSetCommonVal('searchParams', _localSearchParams)) )
+      .then(function () {
+        return clientStore.dispatch(actionSetUser(InitData.user || false));
+      })
       .then(function () {
         render((
           <ReactRedux.Provider store={clientStore}>

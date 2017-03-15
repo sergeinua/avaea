@@ -1,7 +1,6 @@
 import React from 'react';
 import StaticUnsupported from '../unsupported/Unsupported.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
 let UnsupportedPage = React.createClass({
 
@@ -18,7 +17,7 @@ let UnsupportedPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticUnsupported user={getUser()||{}}/>
+            <StaticUnsupported/>
         }
       </div>
     )
