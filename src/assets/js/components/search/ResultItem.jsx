@@ -4,7 +4,7 @@ import Citypairs from './Citypairs.jsx';
 import { browserHistory, hashHistory } from 'react-router';
 import { supportsHistory } from 'history/lib/DOMUtils';
 const historyStrategy = supportsHistory() ? browserHistory : hashHistory;
-import { ActionsStore, logAction, createMarkup, getUser, setCookie } from '../../functions.js';
+import { ActionsStore, logAction, createMarkup } from '../../functions.js';
 import ClientApi from '../_common/api.js';
 
 let ResultItem = React.createClass({

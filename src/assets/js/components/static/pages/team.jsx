@@ -1,7 +1,6 @@
 import React from 'react';
 import StaticTeam from '../team/Team.jsx';
 import Loader from '../../_common/Loader.jsx';
-import { getUser } from '../../../functions.js';
 
 let TeamPage = React.createClass({
 
@@ -22,7 +21,7 @@ let TeamPage = React.createClass({
           this.state.isLoading === true ?
             <Loader/>
             :
-            <StaticTeam user={getUser()||{}}/>
+            <StaticTeam/>
         }
       </div>
     )

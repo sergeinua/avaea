@@ -1,5 +1,5 @@
 import React from 'react';
-import { ActionsStore, getUser, setCookie } from '../../functions.js';
+import { ActionsStore } from '../../functions.js';
 import OrderPanelContainer from '../buy/OrderPanel.jsx';
 
 let OrderPage = React.createClass({

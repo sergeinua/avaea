@@ -1,6 +1,6 @@
 import * as Redux from 'redux';
 import * as Immutable from 'immutable';
-import { actionTypesCommon, actionTypesProfile, actionTypesOrder } from './actions.js';
+import { actionTypesCommon, actionTypesProfile, actionTypesOrder, actionTypesUser } from './actions.js';
 
 export const storeInitialState = {
   commonData: {
@@ -21,7 +21,8 @@ export const storeInitialState = {
     formSubmitCount: 0,
   },
   profileData: {},
-  orderData: {}
+  orderData: {},
+  userData: false
 };
 
 export const storeGetCommonVal = (curState, fieldName) => {
@@ -130,11 +131,21 @@ function commonReducer(curState = storeInitialState.commonData, action) {
   }
 }
 
+function userReducer(curState = storeInitialState.userData, action) {
+  switch (action.type) {
+    case actionTypesUser.SET_USER:
+      return action.user;
+    default:
+      return curState;
+  }
+}
+
 // Combine application reducers
 const appReducers = Redux.combineReducers({
   commonData: commonReducer,
   profileData: profileReducer,
   orderData: orderReducer,
+  userData: userReducer,
 });
 
 export let clientStore;
